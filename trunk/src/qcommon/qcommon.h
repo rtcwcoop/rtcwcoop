@@ -289,9 +289,13 @@ PROTOCOL
 //#define MASTER_SERVER_NAME	"master.quake3arena.com"
 //#define	AUTHORIZE_SERVER_NAME	"authorize.quake3arena.com"
 //----(SA)	yes, these are bogus addresses.  I'm guessing these will be set to a machine at Activision or id eventually
-#define UPDATE_SERVER_NAME      "update.gmistudios.com"
-#define MASTER_SERVER_NAME      "master.gmistudios.com"
-#define AUTHORIZE_SERVER_NAME   "authorize.gmistudios.com"
+//#define UPDATE_SERVER_NAME      "update.gmistudios.com"
+//#define MASTER_SERVER_NAME      "master.gmistudios.com"
+//#define AUTHORIZE_SERVER_NAME   "authorize.gmistudios.com"
+
+#define UPDATE_SERVER_NAME      "localhost"
+#define MASTER_SERVER_NAME      "localhost"
+#define AUTHORIZE_SERVER_NAME   "localhost"
 
 #define PORT_MASTER         27950
 #define PORT_UPDATE         27951

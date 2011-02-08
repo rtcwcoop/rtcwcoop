@@ -39,7 +39,7 @@ uiStatic_t uis;
 qboolean m_entersound;              // after a frame, so caching won't disrupt the sound
 
 // these are here so the functions in q_shared.c can link
-#if !defined( UI_HARD_LINKED ) || defined( __MACOS__ )
+#if !defined( UI_HARD_LINKED ) || defined( MACOS_X )
 
 void QDECL Com_Error( int level, const char *error, ... ) {
 	va_list argptr;

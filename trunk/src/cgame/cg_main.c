@@ -583,7 +583,7 @@ void QDECL CG_Error( const char *msg, ... ) {
 }
 
 // TTimo: was commented out for Mac, guarding
-#if !defined( CGAME_HARD_LINKED ) || defined( __MACOS__ )
+#if !defined(CGAME_HARD_LINKED) || defined( MACOS_X )
 // this is only here so the functions in q_shared.c and bg_*.c can link (FIXME)
 
 void QDECL Com_Error( int level, const char *error, ... ) {

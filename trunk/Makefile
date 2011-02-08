@@ -283,6 +283,7 @@ ifeq ($(PLATFORM),darwin)
     BASE_CFLAGS += -mstackrealign
   endif
 
+#  BASE_CFLAGS += -fno-strict-aliasing -DMACOS_X -D__MACOS__ -fno-common -pipe
   BASE_CFLAGS += -fno-strict-aliasing -DMACOS_X -fno-common -pipe
   BASE_CFLAGS += -D_THREAD_SAFE=1
 
@@ -658,8 +659,6 @@ WOLFOBJ = \
   \
   $(B)/client/unzip.o \
   $(B)/client/vm.o \
-  $(B)/client/vm_interpreted.o \
-  $(B)/client/vm_x86.o \
   \
   $(B)/client/be_aas_bspq3.o \
   $(B)/client/be_aas_cluster.o \
@@ -838,8 +837,6 @@ WOLFDOBJ = \
   \
   $(B)/ded/unzip.o \
   $(B)/ded/vm.o \
-  $(B)/ded/vm_interpreted.o \
-  $(B)/ded/vm_x86.o \
   \
   $(B)/ded/be_aas_bspq3.o \
   $(B)/ded/be_aas_cluster.o \

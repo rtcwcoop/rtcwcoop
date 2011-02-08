@@ -380,6 +380,8 @@ vm_t *VM_Restart( vm_t *vm ) {
 		return vm;
 	}
 
+//fretn
+#if 0
 	// load the image
 	Com_Printf( "VM_Restart()\n", filename );
 	Com_sprintf( filename, sizeof( filename ), "vm/%s.qvm", vm->name );
@@ -426,6 +428,7 @@ vm_t *VM_Restart( vm_t *vm ) {
 	FS_FreeFile( header );
 
 	return vm;
+#endif // fretn
 }
 
 /*
@@ -500,10 +503,19 @@ vm_t *VM_Create( const char *module, int ( *systemCalls )(int *),
 		if ( vm->dllHandle ) {
 			return vm;
 		}
-
+//fretn
+#if 0
 		Com_Printf( "Failed to load dll, looking for qvm.\n" );
 		interpret = VMI_COMPILED;
 	}
+#else
+
+		Com_Printf( "Failed to load dll\n" );
+                return NULL;
+        }
+#endif
+//fretn
+#if 0 
 
 	// load the image
 	Com_sprintf( filename, sizeof( filename ), "vm/%s.qvm", vm->name );
@@ -577,6 +589,7 @@ vm_t *VM_Create( const char *module, int ( *systemCalls )(int *),
 	Com_Printf( "%s loaded in %d bytes on the hunk\n", module, remaining - Hunk_MemoryRemaining() );
 
 	return vm;
+#endif //fretn
 }
 
 
@@ -722,11 +735,16 @@ int QDECL VM_Call( vm_t *vm, int callnum, ... ) {
 							( &callnum )[4], ( &callnum )[5], ( &callnum )[6], ( &callnum )[7],
 							( &callnum )[8],  ( &callnum )[9],  ( &callnum )[10],  ( &callnum )[11],  ( &callnum )[12] );
 #endif
+//fretn
+#if 0
 	} else if ( vm->compiled ) {
 		r = VM_CallCompiled( vm, &callnum );
 	} else {
 		r = VM_CallInterpreted( vm, &callnum );
 	}
+#else
+        }
+#endif
 
 	if ( oldVM != NULL ) { // bk001220 - assert(currentVM!=NULL) for oldVM==NULL
 		currentVM = oldVM;
