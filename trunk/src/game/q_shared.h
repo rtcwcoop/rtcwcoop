@@ -61,6 +61,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #ifdef _WIN32
 
+#define CPUSTRING   "win-x86"
+
 #pragma warning(disable : 4018) // signed/unsigned mismatch
 #pragma warning(disable : 4032)
 #pragma warning(disable : 4051)
