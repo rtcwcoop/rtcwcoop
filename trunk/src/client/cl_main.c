@@ -1769,6 +1769,7 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 
 	// challenge from the server we are connecting to
 	if ( !Q_stricmp( c, "challengeResponse" ) ) {
+                Com_Printf("fretn: challengeResponse\n");
 		if ( cls.state != CA_CONNECTING ) {
 			Com_Printf( "Unwanted challenge response received.  Ignored.\n" );
 		} else {
@@ -1787,6 +1788,7 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 
 	// server connection
 	if ( !Q_stricmp( c, "connectResponse" ) ) {
+                Com_Printf("fretn: connectResponse\n");
 		if ( cls.state >= CA_CONNECTED ) {
 			Com_Printf( "Dup connect received.  Ignored.\n" );
 			return;
@@ -1854,6 +1856,7 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 
 	// echo request from server
 	if ( !Q_stricmp( c, "getserversResponse\\" ) ) {
+                Com_Printf("fretn: getserversResponse\n");
 		CL_ServersResponsePacket( from, msg );
 		return;
 	}

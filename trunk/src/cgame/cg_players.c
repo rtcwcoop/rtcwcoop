@@ -1301,6 +1301,7 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 			CG_ResetPlayerEntity( &cg_entities[i] );
 		}
 	}
+        CG_Prinf("fretn: jeja we zijn ier ol\n");
 }
 
 /*
@@ -1427,7 +1428,7 @@ static void CG_SetDeferredClientInfo( clientInfo_t *ci ) {
 	}
 
 	// we should never get here...
-	CG_Printf( "CG_SetDeferredClientInfo: no valid clients!\n" );
+	Com_Printf( "CG_SetDeferredClientInfo: no valid clients!\n" );
 
 	CG_LoadClientInfo( ci );
 }

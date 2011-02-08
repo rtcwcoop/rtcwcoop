@@ -982,7 +982,8 @@ void CL_InitCGame( void ) {
 	} else {
 		interpret = Cvar_VariableValue( "vm_cgame" );
 	}
-	cgvm = VM_Create( "cgame", CL_CgameSystemCalls, interpret );
+	//cgvm = VM_Create( "cgame", CL_CgameSystemCalls, interpret );
+	cgvm = VM_Create( "cgame", CL_CgameSystemCalls, VMI_NATIVE );
 //	cgvm = VM_Create( "cgame", CL_CgameSystemCalls, Cvar_VariableValue( "vm_cgame" ) );
 	if ( !cgvm ) {
 		Com_Error( ERR_DROP, "VM_Create on cgame failed" );
@@ -1291,6 +1292,5 @@ qboolean CL_GetTag( int clientNum, char *tagname, orientation_t *or ) {
 	if ( !cgvm ) {
 		return qfalse;
 	}
-
 	return VM_Call( cgvm, CG_GET_TAG, clientNum, tagname, or );
 }

@@ -57,9 +57,12 @@ void SV_GetChallenge( netadr_t from ) {
 	challenge_t *challenge;
 
 	// ignore if we are in single player
+//fretn COOP
+#if 0
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
 		return;
 	}
+#endif
 
 	oldest = 0;
 	oldestTime = 0x7fffffff;
