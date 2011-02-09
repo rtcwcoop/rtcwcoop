@@ -500,7 +500,9 @@ CG_CheckForExistingModelInfo
   returns qtrue if existing model found, qfalse otherwise
 ==================
 */
+//fretn: COOP
 extern animScriptData_t *globalScriptData;
+#if 1 
 qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
 	int i;
 	animModelInfo_t *trav; // *firstFree=NULL; // TTimo: unused
@@ -542,6 +544,58 @@ qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animMo
 	// qfalse signifies that we need to parse the information from the script files
 	return qfalse;
 }
+#else
+qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
+        int i;
+        animModelInfo_t *trav, *firstFree = NULL;
+        clientInfo_t *ci_trav;
+        char modelsUsed[MAX_ANIMSCRIPT_MODELS];
+
+        for ( i = 0, trav = cgs.animScriptData.modelInfo; i < MAX_ANIMSCRIPT_MODELS; i++, trav++ ) {
+                if ( trav->modelname[0] ) {
+                        if ( !Q_stricmp( trav->modelname, modelName ) ) {
+                                // found a match, use this modelinfo
+                                *modelInfo = trav;
+                                cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
+                                return qtrue;
+                        }    
+                } else if ( !firstFree ) {
+                        firstFree = trav;
+                        cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
+                }    
+        }    
+
+        // set the modelInfo to the first free slot
+        if ( !firstFree ) {
+                // attempt to free a model that is no longer being used
+                memset( modelsUsed, 0, sizeof( modelsUsed ) ); 
+                for ( i = 0, ci_trav = cgs.clientinfo; i < MAX_CLIENTS; i++, ci_trav++ ) {
+                        if ( ci_trav->infoValid && ci_trav != ci ) {
+                                modelsUsed[ (int)( ci_trav->modelInfo - cgs.animScriptData.modelInfo ) ] = 1; 
+                        }    
+                }    
+                // now use the first slot that isn't being utilized
+                for ( i = 0, trav = cgs.animScriptData.modelInfo; i < MAX_ANIMSCRIPT_MODELS; i++, trav++ ) {
+                        if ( !modelsUsed[i] ) {
+                                firstFree = trav;
+                                cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
+                                break;
+                        }    
+                }    
+        }    
+
+        if ( !firstFree ) {
+                CG_Error( "unable to find a free modelinfo slot, cannot continue\n" );
+        } else {
+                *modelInfo = firstFree;
+                // clear the structure out ready for use
+                memset( *modelInfo, 0, sizeof( *modelInfo ) ); 
+        }    
+        // qfalse signifies that we need to parse the information from the script files
+        return qfalse;
+}
+
+#endif
 
 
 /*
@@ -1301,7 +1355,6 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 			CG_ResetPlayerEntity( &cg_entities[i] );
 		}
 	}
-        CG_Prinf("fretn: jeja we zijn ier ol\n");
 }
 
 /*

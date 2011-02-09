@@ -739,6 +739,8 @@ int CL_CgameSystemCalls( int *args ) {
 		return 0;
 
 	case CG_SENDMOVESPEEDSTOGAME:
+                // fretn: FIXME
+                // doesn't work for COOP mode
 		SV_SendMoveSpeedsToGame( args[1], VMA( 2 ) );
 		return 0;
 
@@ -844,6 +846,8 @@ int CL_CgameSystemCalls( int *args ) {
 		// - NERVE - SMF
 
 	case CG_GETMODELINFO:
+                // fretn: FIXME
+                // doesn't work for COOP mode
 		return SV_GetModelInfo( args[1], VMA( 2 ), VMA( 3 ) );
 
 	default:
