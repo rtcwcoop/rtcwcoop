@@ -323,7 +323,8 @@ CG_ParseAnimationFiles
 ======================
 */
 
-#if 0   // RF, this entire function not used anymore, since we now grab all this stuff from the server
+// fretn: enabled for COOP
+#if 1   // RF, this entire function not used anymore, since we now grab all this stuff from the server
 
 static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci, int client ) {
 	char text[100000];
@@ -502,7 +503,7 @@ CG_CheckForExistingModelInfo
 */
 //fretn: COOP
 extern animScriptData_t *globalScriptData;
-#if 1 
+#if 0 
 qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
 	int i;
 	animModelInfo_t *trav; // *firstFree=NULL; // TTimo: unused
@@ -571,7 +572,7 @@ qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animMo
                 memset( modelsUsed, 0, sizeof( modelsUsed ) ); 
                 for ( i = 0, ci_trav = cgs.clientinfo; i < MAX_CLIENTS; i++, ci_trav++ ) {
                         if ( ci_trav->infoValid && ci_trav != ci ) {
-                                modelsUsed[ (int)( ci_trav->modelInfo - cgs.animScriptData.modelInfo ) ] = 1; 
+                                modelsUsed[ (int)( ci_trav->modelInfo - *cgs.animScriptData.modelInfo ) ] = 1; 
                         }    
                 }    
                 // now use the first slot that isn't being utilized
@@ -733,12 +734,13 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 
 	// look for this model in the list of models already opened
 	if ( !CG_CheckForExistingModelInfo( ci, (char *)modelName, &ci->modelInfo ) ) {
-/*
+
+                // fretn: enabled for COOP mode
 		if ( !CG_ParseAnimationFiles( modelName, ci, ci->clientNum ) ) {
 			Com_Printf( "Failed to load animation file %s\n", filename );
 			return qfalse;
 		}
-*/
+
 		// special case, only cache certain shaders/models for certain characters
 		if ( !Q_strcasecmp( (char *)modelName, "zombie" ) ) {
 			cgs.media.zombieSpiritWallShader = trap_R_RegisterShader( "zombieDeathWindTrail" );

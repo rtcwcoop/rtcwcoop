@@ -355,8 +355,8 @@ void Sys_Error( const char *error, ... )
 	va_end (argptr);
 
         // fretn
-	//CL_Shutdown( string );
-	CL_Shutdown();
+	CL_Shutdown( string );
+	//CL_Shutdown();
 	Sys_ErrorDialog( string );
 
 	Sys_Exit( 3 );
@@ -560,8 +560,8 @@ void Sys_SigHandler( int signal )
 		signalcaught = qtrue;
 #ifndef DEDICATED
                 // fretn
-		//CL_Shutdown( va( "Received signal %d", signal ) );
-		CL_Shutdown();
+		CL_Shutdown( va( "Received signal %d", signal ) );
+		//CL_Shutdown();
 #endif
 		SV_Shutdown( va( "Received signal %d", signal ) );
 	}

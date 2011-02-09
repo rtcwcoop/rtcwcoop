@@ -2634,10 +2634,10 @@ CL_Shutdown
 
 ===============
 */
-void CL_Shutdown( void ) {
+void CL_Shutdown( char *finalmsg ) {
 	static qboolean recursive = qfalse;
 
-	Com_Printf( "----- CL_Shutdown -----\n" );
+	Com_Printf( "----- CL_Shutdown -----: %s\n", finalmsg );
 
 	if ( recursive ) {
 		printf( "recursive shutdown\n" );

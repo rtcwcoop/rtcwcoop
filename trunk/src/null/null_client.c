@@ -33,7 +33,7 @@ cvar_t *cl_shownet;
 // TTimo: win32 dedicated
 cvar_t  *cl_language;
 
-void CL_Shutdown( void ) {
+void CL_Shutdown( char *finalmsg ) {
 }
 
 void CL_Init( void ) {

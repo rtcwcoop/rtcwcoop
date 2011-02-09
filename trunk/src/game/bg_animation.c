@@ -391,6 +391,7 @@ int BG_AnimationIndexForString( char *string, int client ) {
 			return i;
 		}
 	}
+
 	// no match found
 	BG_AnimParseError( "BG_AnimationIndexForString: unknown index '%s' for model '%s'", string, modelInfo->modelname );
 	return -1;  // shutup compiler
