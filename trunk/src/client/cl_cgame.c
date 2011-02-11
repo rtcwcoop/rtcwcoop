@@ -1209,7 +1209,10 @@ void CL_SetCGameTime( void ) {
 			// do nothing?
 			CL_FirstSnapshot();
 		} else {
-			Com_Error( ERR_DROP, "cl.snap.serverTime < cl.oldFrameServerTime" );
+                        //fretn - testing .. if a second player joins the game an error is dropped after a while ..
+			CL_FirstSnapshot();
+			Com_Printf( "ERROR_DROP: cl.snap.serverTime < cl.oldFrameServerTime\n" );
+			//Com_Error( ERR_DROP, "cl.snap.serverTime < cl.oldFrameServerTime" );
 		}
 	}
 	cl.oldFrameServerTime = cl.snap.serverTime;
