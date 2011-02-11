@@ -1799,6 +1799,12 @@ void ClientSpawn( gentity_t *ent ) {
 	if ( g_gametype.integer == GT_WOLF ) {
 		SetWolfSpawnWeapons( client ); // JPW NERVE -- increases stats[STAT_MAX_HEALTH] based on # of medics in game
 	}
+
+        // fretn - give the player some basic stuff
+	if ( g_gametype.integer == GT_SINGLE_PLAYER)
+        {
+                SetWolfSpawnWeapons( client ); 
+	}
 	// dhm - end
 
 	// Note to Ryan:
