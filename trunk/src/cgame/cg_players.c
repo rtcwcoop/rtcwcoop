@@ -503,7 +503,60 @@ CG_CheckForExistingModelInfo
 */
 //fretn: COOP
 extern animScriptData_t *globalScriptData;
-#if 0 
+#if 1 
+// this version is from wolfsp
+
+/*
+==================
+G_CheckForExistingModelInfo
+
+  If this player model has already been parsed, then use the existing information.
+  Otherwise, set the modelInfo pointer to the first free slot.
+
+  returns qtrue if existing model found, qfalse otherwise
+==================
+*/
+qboolean CG_CheckForExistingModelInfo2( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
+        int i;
+        animModelInfo_t *trav;
+
+        for ( i = 0; i < MAX_ANIMSCRIPT_MODELS; i++ ) {
+                trav = cgs.animScriptData.modelInfo[i];
+                if ( trav && trav->modelname[0] ) {
+                        if ( !Q_stricmp( trav->modelname, modelName ) ) {
+                                // found a match, use this modelinfo
+                                *modelInfo = trav;
+                                cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
+                                return qtrue;
+                        }    
+                } else {
+                        cgs.animScriptData.modelInfo[i] = malloc( sizeof( animModelInfo_t ) ); 
+                        *modelInfo = cgs.animScriptData.modelInfo[i];
+                        // clear the structure out ready for use
+                        memset( *modelInfo, 0, sizeof( **modelInfo ) ); 
+                        cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
+                        return qfalse;
+                }    
+        }    
+
+        CG_Error( "unable to find a free modelinfo slot, cannot continue\n" );
+        // qfalse signifies that we need to parse the information from the script files
+        return qfalse;
+}
+
+//fretn
+qboolean CG_GetModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
+
+        if ( !CG_CheckForExistingModelInfo2( ci, modelName, modelInfo ) ) {
+                ci->modelInfo = *modelInfo;
+                if ( !CG_ParseAnimationFiles( modelName, ci, ci->clientNum ) ) {
+                        CG_Error( "Failed to load animation scripts for model %s\n", modelName );
+                }    
+        }    
+
+        return qtrue;
+}
+
 qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
 	int i;
 	animModelInfo_t *trav; // *firstFree=NULL; // TTimo: unused
@@ -524,7 +577,9 @@ qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animMo
 			// if we fell down to here, then we have found a free slot
 
 			// request it from the server (game module)
-			if ( trap_GetModelInfo( ci->clientNum, modelName, &cgs.animScriptData.modelInfo[i] ) ) {
+                        // fretn COOP: we should implement the serverside function overhere
+			//if ( trap_GetModelInfo( ci->clientNum, modelName, &cgs.animScriptData.modelInfo[i] ) ) {
+			if ( CG_GetModelInfo( ci, modelName, &cgs.animScriptData.modelInfo[i] ) ) {
 
 				// success
 				cgs.animScriptData.clientModels[ci->clientNum] = i + 1;
@@ -546,6 +601,7 @@ qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animMo
 	return qfalse;
 }
 #else
+// this version is from wolfmp
 qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
         int i;
         animModelInfo_t *trav, *firstFree = NULL;
@@ -735,11 +791,12 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 	// look for this model in the list of models already opened
 	if ( !CG_CheckForExistingModelInfo( ci, (char *)modelName, &ci->modelInfo ) ) {
 
-                // fretn: enabled for COOP mode
+                /*
 		if ( !CG_ParseAnimationFiles( modelName, ci, ci->clientNum ) ) {
 			Com_Printf( "Failed to load animation file %s\n", filename );
 			return qfalse;
 		}
+                */
 
 		// special case, only cache certain shaders/models for certain characters
 		if ( !Q_strcasecmp( (char *)modelName, "zombie" ) ) {
