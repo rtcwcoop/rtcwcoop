@@ -59,15 +59,15 @@ endif
 export ARCH
 
 ifneq ($(PLATFORM),$(COMPILE_PLATFORM))
-  CROSS_COspILING=1
+  CROSS_COMPILING=1
 else
-  CROSS_COspILING=0
+  CROSS_COMPILING=0
 
   ifneq ($(ARCH),$(COMPILE_ARCH))
-    CROSS_COspILING=1
+    CROSS_COMPILING=1
   endif
 endif
-export CROSS_COspILING
+export CROSS_COMPILING
 
 ifndef COPYDIR
 COPYDIR="/usr/local/games/wolfenstein"
@@ -119,10 +119,11 @@ NDIR=$(MOUNT_DIR)/null
 UIDIR=$(MOUNT_DIR)/ui
 JPDIR=$(MOUNT_DIR)/jpeg-6
 ZDIR=$(MOUNT_DIR)/zlib
+SPLINESDIR=$(MOUNT_DIR)/splines
 LOKISETUPDIR=misc/setup
 SDLHDIR=$(MOUNT_DIR)/SDL12
 LIBSDIR=$(MOUNT_DIR)/libs
-TEspDIR=/tsp
+TEMPDIR=/tmp
 
 bin_path=$(shell which $(1) 2> /dev/null)
 
