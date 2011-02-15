@@ -1,25 +1,25 @@
 /*
 ===========================================================================
 
-Return to Castle Wolfenstein single player GPL Source Code
+Wolfenstein: Enemy Territory GPL Source Code
 Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Wolfenstein: Enemy Territory GPL Source Code (Wolf ET Source Code).  
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
+Wolf ET Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
+Wolf ET Source Code is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code.  If not, see <http://www.gnu.org/licenses/>.
+along with Wolf ET Source Code.  If not, see <http://www.gnu.org/licenses/>.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code.  If not, please request a copy in writing from id Software at the address below.
+In addition, the Wolf: ET Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Wolf ET Source Code.  If not, please request a copy in writing from id Software at the address below.
 
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
@@ -34,9 +34,17 @@ If you have questions concerning this license or the applicable additional terms
 #include <stdio.h>
 #include <stdarg.h>
 
+#if __MACOS__
+// LBO 2/1/05. Apple's system headers define these as macros. D'oh!
+#undef tolower
+#undef toupper
+#endif
+
 #ifdef _WIN32
+#ifndef __GNUC__
 #pragma warning(disable : 4244) // 'conversion' conversion from 'type1' to 'type2', possible loss of data
 #pragma warning(disable : 4710) // function 'blah' not inlined
+#endif
 #endif
 
 static const int STR_ALLOC_GRAN = 20;
@@ -447,9 +455,11 @@ void idStr::snprintf
 }
 
 #ifdef _WIN32
+#ifndef __GNUC__
 #pragma warning(disable : 4189) // local variable is initialized but not referenced
 #endif
-
+#endif
+#if 0
 /*
 =================
 TestStringClass
@@ -479,9 +489,7 @@ void TestStringClass
 	i = c.length();                 // i == 4
 
 	const char *s1 = a.c_str(); // s1 == "\0"
-	s1 = NULL;
 	const char *s2 = c.c_str(); // s2 == "test\0"
-	s2 = NULL;
 
 	t = new idStr();                        // t->len == 0, t->data == "\0"
 	delete t;                           // t == ?
@@ -565,7 +573,11 @@ void TestStringClass
 	a[1] = '1';                 // a.data = "t1st", b.data = "test"
 }
 
+#endif
+
 #ifdef _WIN32
+#ifndef __GNUC__
 #pragma warning(default : 4189) // local variable is initialized but not referenced
 #pragma warning(disable : 4514) // unreferenced inline function has been removed
+#endif
 #endif

@@ -1,32 +1,36 @@
 /*
 ===========================================================================
 
-Return to Castle Wolfenstein single player GPL Source Code
+Wolfenstein: Enemy Territory GPL Source Code
 Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Wolfenstein: Enemy Territory GPL Source Code (Wolf ET Source Code).  
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
+Wolf ET Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
+Wolf ET Source Code is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code.  If not, see <http://www.gnu.org/licenses/>.
+along with Wolf ET Source Code.  If not, see <http://www.gnu.org/licenses/>.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code.  If not, please request a copy in writing from id Software at the address below.
+In addition, the Wolf: ET Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Wolf ET Source Code.  If not, please request a copy in writing from id Software at the address below.
 
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 ===========================================================================
 */
 
-#include "q_splineshared.h"
+
+//#include "stdafx.h"
+//#include "qe3.h"
+
+#include "q_splineshared.h"  //DAJ was q_shared.h conflicted with qcommon
 #include "splines.h"
 
 extern "C" {
@@ -549,7 +553,12 @@ bool idCameraDef::getCameraInfo( long time, idVec3 &origin, idVec3 &direction, f
 				getActiveTarget()->start( startTime + events[i]->getTime() );
 				//Com_Printf("Triggered event switch to target: %s\n",events[i]->getParam());
 			} else if ( events[i]->getType() == idCameraEvent::EVENT_TRIGGER ) {
-				// empty!
+				//idEntity *ent = NULL;
+				//ent = level.FindTarget( ent, events[i]->getParam());
+				//if (ent) {
+				//	ent->signal( SIG_TRIGGER );
+				//	ent->ProcessEvent( &EV_Activate, world );
+				//}
 			} else if ( events[i]->getType() == idCameraEvent::EVENT_FOV ) {
 				memset( buff, 0, sizeof( buff ) );
 				strcpy( buff, events[i]->getParam() );
@@ -597,7 +606,18 @@ bool idCameraDef::getCameraInfo( long time, idVec3 &origin, idVec3 &direction, f
 
 	int numTargets = targetPositions.Num();
 	if ( numTargets == 0 ) {
-		// empty!
+/*
+		// follow the path
+		if (cameraSpline.getActiveSegment() < count - 1) {
+			temp = *cameraSpline.splinePoints[cameraSpline.getActiveSegment()+1];
+			if (temp == origin) {
+				int index = cameraSpline.getActiveSegment() + 2;
+				while (temp == origin && index < count - 1) {
+					temp = *cameraSpline.splinePoints[index++];
+				}
+			}
+		}
+*/
 	} else {
 		temp = *getActiveTarget()->getPosition( time );
 	}
@@ -629,7 +649,7 @@ void idCameraDef::buildCamera() {
 	idList<int> targets;
 
 	totalTime = baseTime;
-	cameraPosition->setTime( totalTime * 1000 );
+	cameraPosition->setTime( (int)( totalTime * 1000 ) );
 	// we have a base time layout for the path and the target path
 	// now we need to layer on any wait or speed changes
 	for ( i = 0; i < events.Num(); i++ ) {
@@ -688,7 +708,7 @@ void idCameraDef::buildCamera() {
 				speed -= steps;
 				startTime += loopTime;
 			}
-			cameraPosition->addVelocity( events[i]->getTime(), atof( events[i]->getParam() ) * 1000, 0 );
+			cameraPosition->addVelocity( events[i]->getTime(), (int)( atof( events[i]->getParam() ) * 1000 ), 0 );
 
 			startTime = ( long int )( events[i]->getTime() + atof( events[i]->getParam() ) * 1000 );
 			long endTime = startTime + 1000;
@@ -1365,7 +1385,7 @@ const idVec3 *idSplinePosition::getPosition( long t ) {
 	//FIXME: calc distances on spline build
 	idVec3 temp;
 	int count = target.numSegments();
-	// TTimo fixed MSVCism
+	// TTimo fixed MSVCism: for(int i = 1; ...
 	int i;
 	for ( i = 1; i < count; i++ ) {
 		temp = *target.getSegmentPoint( i - 1 );

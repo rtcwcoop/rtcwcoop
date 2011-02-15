@@ -119,7 +119,7 @@ NDIR=$(MOUNT_DIR)/null
 UIDIR=$(MOUNT_DIR)/ui
 JPDIR=$(MOUNT_DIR)/jpeg-6
 ZDIR=$(MOUNT_DIR)/zlib
-SPLINESDIR=$(MOUNT_DIR)/splines
+SPLDIR=$(MOUNT_DIR)/splines
 LOKISETUPDIR=misc/setup
 SDLHDIR=$(MOUNT_DIR)/SDL12
 LIBSDIR=$(MOUNT_DIR)/libs
@@ -237,7 +237,7 @@ ifeq ($(PLATFORM),linux)
   SHLIBLDFLAGS=-shared $(LDFLAGS)
 
   THREAD_LIBS=-lpthread
-  LIBS=-ldl -lm 
+  LIBS=-ldl -lm -lsupc++
 
   CLIENT_LIBS=$(SDL_LIBS) -lGL
 
@@ -260,7 +260,7 @@ else # ifeq Linux
 #############################################################################
 
 ifeq ($(PLATFORM),darwin)
-  LIBS = -framework Cocoa
+  LIBS = -framework Cocoa -lsupc++
   CLIENT_LIBS=
   OPTIMIZEVM=
   
@@ -360,7 +360,7 @@ ifeq ($(PLATFORM),mingw32)
 
   BINEXT=.exe
 
-  LIBS= -lws2_32 -lwinmm -lpsapi
+  LIBS= -lws2_32 -lwinmm -lpsapi -lsupc++
   CLIENT_LDFLAGS = -mwindows
   CLIENT_LIBS = -lgdi32 -lole32 -lopengl32
 
@@ -515,6 +515,10 @@ $(echo_cmd) "WINDRES $<"
 $(Q)$(WINDRES) -i $< -o $@
 endef
 
+define DO_SPLINE_CXX
+$(echo_cmd) "SPLINE_CXX $<"
+$(Q)$(CXX) $(NOTSHLIBCFLAGS) $(CFLAGS) $(CLIENT_CFLAGS) $(OPTIMIZE) -o $@ -c $<
+endef
 
 #############################################################################
 # MAIN TARGETS
@@ -599,6 +603,7 @@ makedirs:
 	@if [ ! -d $(BUILD_DIR) ];then $(MKDIR) $(BUILD_DIR);fi
 	@if [ ! -d $(B) ];then $(MKDIR) $(B);fi
 	@if [ ! -d $(B)/client ];then $(MKDIR) $(B)/client;fi
+	@if [ ! -d $(B)/splines ];then $(MKDIR) $(B)/splines;fi
 	@if [ ! -d $(B)/ded ];then $(MKDIR) $(B)/ded;fi
 	@if [ ! -d $(B)/main ];then $(MKDIR) $(B)/main;fi
 	@if [ ! -d $(B)/main/cgame ];then $(MKDIR) $(B)/main/cgame;fi
@@ -750,6 +755,14 @@ WOLFOBJ = \
   $(B)/client/tr_sky.o \
   $(B)/client/tr_surface.o \
   $(B)/client/tr_world.o \
+  \
+  $(B)/splines/math_angles.o \
+  $(B)/splines/math_matrix.o \
+  $(B)/splines/math_quaternion.o \
+  $(B)/splines/math_vector.o \
+  $(B)/splines/q_parse.o \
+  $(B)/splines/splines.o \
+  $(B)/splines/util_str.o \
   \
   $(B)/client/sdl_gamma.o \
   $(B)/client/sdl_input.o \
@@ -1076,6 +1089,9 @@ $(B)/client/%.o: $(SYSDIR)/%.m
 
 $(B)/client/%.o: $(SYSDIR)/%.rc
 	$(DO_WINDRES)
+
+$(B)/splines/%.o: $(SPLDIR)/%.cpp
+	$(DO_SPLINE_CXX)
 
 # fretn
 $(B)/client/q_math.o: $(GDIR)/q_math.c
