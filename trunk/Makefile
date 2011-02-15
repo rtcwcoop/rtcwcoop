@@ -360,9 +360,9 @@ ifeq ($(PLATFORM),mingw32)
 
   BINEXT=.exe
 
-  LIBS= -lws2_32 -lwinmm -lpsapi -lsupc++
+  LIBS= -lws2_32 -lwinmm -lpsapi
   CLIENT_LDFLAGS = -mwindows
-  CLIENT_LIBS = -lgdi32 -lole32 -lopengl32
+  CLIENT_LIBS = -lgdi32 -lole32 -lopengl32 -lstdc++
 
   ifeq ($(ARCH),x86)
     # build 32bit
