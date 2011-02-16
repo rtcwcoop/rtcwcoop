@@ -97,8 +97,14 @@ ifndef USE_LOCAL_HEADERS
 USE_LOCAL_HEADERS=1
 endif
 
-ifndef DEBUG_CFLAGS
-DEBUG_CFLAGS=-g -O0 -ggdb
+ifeq ($(COMPILE_PLATFORM),mingw32)
+  ifndef DEBUG_CFLAGS
+    DEBUG_CFLAGS=-g -O0 -ggdb -gstabs
+  endif
+else
+  ifndef DEBUG_CFLAGS
+    DEBUG_CFLAGS=-g -O0 -ggdb
+  endif
 endif
 
 #############################################################################
@@ -329,7 +335,8 @@ ifeq ($(PLATFORM),mingw32)
     WINDRES=windres
   endif
 
-  BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit -Wstrict-prototypes \
+  #BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit -Wstrict-prototypes 
+  BASE_CFLAGS = -fno-strict-aliasing -Wimplicit \
     -DUSE_ICON -DC_ONLY
   CLIENT_CFLAGS =
   SERVER_CFLAGS =

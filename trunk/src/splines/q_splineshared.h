@@ -1,25 +1,25 @@
 /*
 ===========================================================================
 
-Wolfenstein: Enemy Territory GPL Source Code
+Return to Castle Wolfenstein single player GPL Source Code
 Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
 
-This file is part of the Wolfenstein: Enemy Territory GPL Source Code (Wolf ET Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
 
-Wolf ET Source Code is free software: you can redistribute it and/or modify
+RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Wolf ET Source Code is distributed in the hope that it will be useful,
+RTCW SP Source Code is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Wolf ET Source Code.  If not, see <http://www.gnu.org/licenses/>.
+along with RTCW SP Source Code.  If not, see <http://www.gnu.org/licenses/>.
 
-In addition, the Wolf: ET Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Wolf ET Source Code.  If not, please request a copy in writing from id Software at the address below.
+In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code.  If not, please request a copy in writing from id Software at the address below.
 
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
@@ -36,13 +36,13 @@ If you have questions concerning this license or the applicable additional terms
 
 // A user mod should never modify this file
 
-#define Q3_VERSION      "ET"
+#define Q3_VERSION      "DOOM 0.01"
 
 // alignment macros for SIMD
 #define ALIGN_ON
 #define ALIGN_OFF
 
-#if defined _WIN32 && !defined __GNUC__
+#ifdef _WIN32
 
 #pragma warning(disable : 4018) // signed/unsigned mismatch
 #pragma warning(disable : 4032)
@@ -81,8 +81,9 @@ If you have questions concerning this license or the applicable additional terms
 
 #endif
 
-// use MSVC inline asm version of C functions
-#if defined _M_IX86
+
+// this is the define for determining if we have an asm version of a C function
+#if ( defined _M_IX86 || defined __i386__ ) && !defined __sun__  && !defined __LCC__
 #define id386   1
 #else
 #define id386   0
@@ -118,6 +119,45 @@ If you have questions concerning this license or the applicable additional terms
 
 
 #define PATH_SEP '\\'
+
+#endif
+
+//======================= MAC OS X SERVER DEFINES =====================
+
+#if defined( __MACH__ ) && defined( __APPLE__ )
+
+#define MAC_STATIC
+
+#ifdef __ppc__
+#define CPUSTRING   "MacOSXS-ppc"
+#elif defined __i386__
+#define CPUSTRING   "MacOSXS-i386"
+#else
+#define CPUSTRING   "MacOSXS-other"
+#endif
+
+#define PATH_SEP    '/'
+
+#define GAME_HARD_LINKED
+#define CGAME_HARD_LINKED
+#define UI_HARD_LINKED
+#define _alloca alloca
+
+#undef ALIGN_ON
+#undef ALIGN_OFF
+#define ALIGN_ON        # pragma align( 16 )
+#define ALIGN_OFF       # pragma align()
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void *osxAllocateMemory( long size );
+void osxFreeMemory( void *pointer );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 
@@ -226,9 +266,7 @@ typedef enum {
 #define MAX_QPATH           64      // max length of a quake game pathname
 #define MAX_OSPATH          128     // max length of a filesystem pathname
 
-// rain - increased to 36 to match MAX_NETNAME, fixes #13 - UI stuff breaks
-// with very long names
-#define MAX_NAME_LENGTH     36      // max length of a client name
+#define MAX_NAME_LENGTH     32      // max length of a client name
 
 // paramters for command buffer stuffing
 typedef enum {
@@ -278,8 +316,6 @@ typedef enum {
 #define UI_INVERSE      0x00002000
 #define UI_PULSE        0x00004000
 
-#define Q_COLOR_ESCAPE  '^'
-#define Q_IsColorString( p )  ( p && *( p ) == Q_COLOR_ESCAPE && *( ( p ) + 1 ) && *( ( p ) + 1 ) != Q_COLOR_ESCAPE )
 
 /*
 ==============================================================
@@ -349,6 +385,9 @@ extern idVec4 colorWhite;
 extern idVec4 colorLtGrey;
 extern idVec4 colorMdGrey;
 extern idVec4 colorDkGrey;
+
+#define Q_COLOR_ESCAPE  '^'
+#define Q_IsColorString( p )  ( p && *( p ) == Q_COLOR_ESCAPE && *( ( p ) + 1 ) && *( ( p ) + 1 ) != Q_COLOR_ESCAPE )
 
 #define COLOR_BLACK     '0'
 #define COLOR_RED       '1'
@@ -609,12 +648,8 @@ int Q_PrintStrlen( const char *string );
 // removes color sequences from string
 char *Q_CleanStr( char *string );
 
-#define _vsnprintf use_Q_vsnprintf
-#define vsnprintf use_Q_vsnprintf
-extern int Q_vsnprintf( char *dest, int size, const char *fmt, va_list argptr );
-
-//int			Com_Filter( const char *filter, const char *name, int casesensitive );
-//const char *Com_StringContains( const char *str1, const char *str2, int casesensitive );
+int         Com_Filter( const char *filter, const char *name, int casesensitive );
+const char *Com_StringContains( const char *str1, const char *str2, int casesensitive );
 
 
 //=============================================
@@ -738,6 +773,22 @@ void QDECL Com_DPrintf( const char *msg, ... );
 }
 #endif
 
+
+typedef struct {
+	qboolean frameMemory;
+	int currentElements;
+	int maxElements;            // will reallocate and move when exceeded
+	void    **elements;
+} growList_t;
+
+// you don't need to init the growlist if you don't mind it growing and moving
+// the list as it expands
+void        Com_InitGrowList( growList_t *list, int maxElements );
+int         Com_AddToGrowList( growList_t *list, void *data );
+void        *Com_GrowListElement( const growList_t *list, int index );
+int         Com_IndexForGrowListElement( const growList_t *list, const void *element );
+
+
 //
 // key / value info strings
 //
@@ -762,3 +813,4 @@ void Info_NextPair( const char *( *s ), char key[MAX_INFO_KEY], char value[MAX_I
 #endif  // __cplusplus
 
 #endif  // __Q_SHARED_H
+

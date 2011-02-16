@@ -1,25 +1,25 @@
 /*
 ===========================================================================
 
-Wolfenstein: Enemy Territory GPL Source Code
+Return to Castle Wolfenstein single player GPL Source Code
 Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
 
-This file is part of the Wolfenstein: Enemy Territory GPL Source Code (Wolf ET Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
 
-Wolf ET Source Code is free software: you can redistribute it and/or modify
+RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Wolf ET Source Code is distributed in the hope that it will be useful,
+RTCW SP Source Code is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Wolf ET Source Code.  If not, see <http://www.gnu.org/licenses/>.
+along with RTCW SP Source Code.  If not, see <http://www.gnu.org/licenses/>.
 
-In addition, the Wolf: ET Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Wolf ET Source Code.  If not, please request a copy in writing from id Software at the address below.
+In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code.  If not, please request a copy in writing from id Software at the address below.
 
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
@@ -31,9 +31,9 @@ If you have questions concerning this license or the applicable additional terms
 
 extern "C" {
 #ifdef Q3RADIANT
-#include "../qgl.h"
+  #include "../qgl.h"
 #else
-#include "../renderer/qgl.h"
+  #include "../renderer/qgl.h"
 #endif
 }
 #include "util_list.h"
@@ -525,7 +525,6 @@ virtual void addPoint( const float x, const float y, const float z ) {
 
 ~idFixedPosition() {
 }
-
 virtual const idVec3 *getPosition( long t ) {
 	return &pos;
 }
@@ -665,13 +664,7 @@ virtual void start( long t ) {
 	calcVelocity( target.totalDistance() );
 }
 
-//virtual const idVec3 *getPosition(long t) {
-//	return target.getPosition(t);
-//}
 virtual const idVec3 *getPosition( long t );
-
-
-//virtual const idVec3 *getPosition(long t) const {
 
 void addControlPoint( idVec3 &v ) {
 	target.addPoint( v );
@@ -759,7 +752,7 @@ float getFOV( long t ) {
 	return fov;
 }
 
-void start( long t ) {      //DAJ was returning int
+void start( long t ) {
 	startTime = t;
 }
 
@@ -927,10 +920,6 @@ void save( const char *filename );
 
 void buildCamera();
 
-//idSplineList *getcameraPosition() {
-//	return &cameraPosition;
-//}
-
 static idCameraPosition *newFromType( idCameraPosition::positionType t ) {
 	switch ( t ) {
 	case idCameraPosition::FIXED: return new idFixedPosition();
@@ -1031,29 +1020,6 @@ void draw( bool editMode ) {
 	}
 }
 
-/*
-	int numSegments() {
-		if (cameraEdit) {
-			return cameraPosition.numSegments();
-		}
-		return getTargetSpline()->numSegments();
-	}
-
-	int getActiveSegment() {
-		if (cameraEdit) {
-			return cameraPosition.getActiveSegment();
-		}
-		return getTargetSpline()->getActiveSegment();
-	}
-
-	void setActiveSegment(int i) {
-		if (cameraEdit) {
-			cameraPosition.setActiveSegment(i);
-		} else {
-			getTargetSpline()->setActiveSegment(i);
-		}
-	}
-*/
 int numPoints() {
 	if ( cameraEdit ) {
 		return cameraPosition->numPoints();
