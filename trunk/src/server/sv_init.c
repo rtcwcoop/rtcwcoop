@@ -899,6 +899,8 @@ void SV_Init( void ) {
 	Cvar_Get( "fraglimit", "20", CVAR_SERVERINFO );
 	Cvar_Get( "timelimit", "0", CVAR_SERVERINFO );
 	sv_gametype = Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH );
+        // fretn
+	sv_coop= Cvar_Get( "g_coop", "0", CVAR_SERVERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
 	sv_gameskill = Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );

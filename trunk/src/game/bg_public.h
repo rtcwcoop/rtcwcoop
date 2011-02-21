@@ -210,6 +210,11 @@ typedef enum {
 	GT_MAX_GAME_TYPE
 } gametype_t;
 
+typedef enum {
+        GV_COOP,
+        GV_NOT_SO_COOP
+} gamevariation_t;
+
 // Rafael gameskill
 typedef enum {
 	GSKILL_EASY,

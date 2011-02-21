@@ -1082,6 +1082,8 @@ extern gentity_t       *g_camEnt;
 #define FOFS( x ) ( (int)&( ( (gentity_t *)0 )->x ) )
 
 extern vmCvar_t g_gametype;
+//fretn
+extern vmCvar_t g_coop;
 
 // Rafael gameskill
 extern vmCvar_t g_gameskill;

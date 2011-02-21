@@ -54,6 +54,8 @@ cvar_t  *sv_maxRate;
 cvar_t  *sv_minPing;
 cvar_t  *sv_maxPing;
 cvar_t  *sv_gametype;
+//fretn
+cvar_t  *sv_coop;
 cvar_t  *sv_pure;
 cvar_t  *sv_floodProtect;
 cvar_t  *sv_allowAnonymous;
@@ -417,6 +419,8 @@ void SVC_Info( netadr_t from ) {
 	Info_SetValueForKey( infostring, "sv_maxclients",
 						 va( "%i", sv_maxclients->integer - sv_privateClients->integer ) );
 	Info_SetValueForKey( infostring, "gametype", va( "%i", sv_gametype->integer ) );
+        //fretn
+	Info_SetValueForKey( infostring, "coop", va( "%i", sv_coop->integer ) );
 	Info_SetValueForKey( infostring, "pure", va( "%i", sv_pure->integer ) );
 
 	if ( sv_minPing->integer ) {

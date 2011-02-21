@@ -53,6 +53,8 @@ extern int bg_pmove_gameskill_integer;
 // done
 
 vmCvar_t g_gametype;
+//fretn
+vmCvar_t g_coop;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
@@ -152,6 +154,7 @@ cvarTable_t gameCvarTable[] = {
 
 	// latched vars
 	{ &g_gametype, "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },
+	{ &g_coop, "g_coop", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },
 
 	// Rafael gameskill
 	{ &g_gameskill, "g_gameskill", "2", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // (SA) new default '2' (was '1')
