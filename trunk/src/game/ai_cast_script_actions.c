@@ -612,6 +612,20 @@ qboolean AICast_ScriptAction_Trigger( cast_state_t *cs, char *params ) {
 	char *pString, *token;
 	int oldId;
 
+        // fretn - if we are playing an coop game we need to skip the cutscenes, so
+        // hardcode the triggers and skip them !
+        
+        // or we can place this in a text file we will parse, but thats for later !
+
+        if (trap_Cvar_VariableIntegerValue("g_coop"))
+        {
+                // dam
+                if (!strcmp("checker2 plane_cine1", params))
+                {
+                        return qfalse;
+                }
+        } 
+
 	// get the cast name
 	pString = params;
 	token = COM_ParseExt( &pString, qfalse );

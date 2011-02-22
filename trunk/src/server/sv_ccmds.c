@@ -240,6 +240,7 @@ static void SV_Map_f( void ) {
 
 	// force latched values to get set
 	Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH );
+	Cvar_Get( "g_coop", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
 	Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );
@@ -248,7 +249,6 @@ static void SV_Map_f( void ) {
 	Cvar_SetValue( "g_episode", 0 ); //----(SA) added
 
 	cmd = Cmd_Argv( 0 );
-        // TODO: add cmd: coopmap
 	if ( Q_stricmpn( cmd, "sp", 2 ) == 0 ) {
 		Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
 		Cvar_SetValue( "g_doWarmup", 0 );
@@ -261,6 +261,19 @@ static void SV_Map_f( void ) {
 		} else {
 			cheat = qfalse;
 		}
+	} else if ( Q_stricmpn( cmd, "coop", 4 ) == 0 ) {
+		Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
+		Cvar_SetValue( "g_coop", GV_COOP );
+		Cvar_SetValue( "g_doWarmup", 0 );
+		// may not set sv_maxclients directly, always set latched
+		Cvar_SetLatched( "sv_maxclients", "32" ); // Ridah, modified this
+		cmd += 4;
+		killBots = qtrue;
+		if ( !Q_stricmp( cmd, "devmap" ) ) {
+			cheat = qtrue;
+		} else {
+			cheat = qfalse;
+                }
 	} else {
 		if ( !Q_stricmp( cmd, "devmap" ) ) {
 			cheat = qtrue;
@@ -930,6 +943,8 @@ void SV_AddOperatorCommands( void ) {
 	Cmd_AddCommand( "map_restart", SV_MapRestart_f );
 	Cmd_AddCommand( "sectorlist", SV_SectorList_f );
 	Cmd_AddCommand( "spmap", SV_Map_f );
+	Cmd_AddCommand( "coopmap", SV_Map_f );
+	Cmd_AddCommand( "coopdevmap", SV_Map_f );
 #ifndef WOLF_SP_DEMO
 	Cmd_AddCommand( "map", SV_Map_f );
 	Cmd_AddCommand( "devmap", SV_Map_f );

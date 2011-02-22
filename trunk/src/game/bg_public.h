@@ -211,7 +211,7 @@ typedef enum {
 } gametype_t;
 
 typedef enum {
-        GV_COOP,
+        GV_COOP = 1,
         GV_NOT_SO_COOP
 } gamevariation_t;
 

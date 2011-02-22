@@ -639,7 +639,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 	// Ridah, enforce maxclients in single player, so there is enough room for AI characters
 	{
-		static cvar_t   *g_gametype, *bot_enable;
+		static cvar_t   *g_gametype, *bot_enable, *g_coop;
 
 		// Rafael gameskill
 		static cvar_t   *g_gameskill;
@@ -651,6 +651,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 		if ( !g_gametype ) {
 			g_gametype = Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
+		}
+		if ( !g_coop ) {
+			g_coop = Cvar_Get( "g_coop", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
 		}
 		if ( !bot_enable ) {
 			bot_enable = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
