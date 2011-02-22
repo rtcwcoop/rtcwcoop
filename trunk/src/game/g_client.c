@@ -645,7 +645,9 @@ void respawn( gentity_t *ent ) {
 	gentity_t   *tent;
 
 	// Ridah, if single player, reload the last saved game for this player
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+        // fretn: no map_restart for coop games ?
+        // todo: spawn near our friends !
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer) {
 
 //		if (reloading || saveGamePending) {
 		if ( g_reloading.integer || saveGamePending ) {
