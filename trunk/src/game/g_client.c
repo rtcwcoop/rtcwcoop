@@ -1803,7 +1803,7 @@ void ClientSpawn( gentity_t *ent ) {
 	}
 
         // fretn - give the player some basic stuff
-	if ( g_gametype.integer == GT_SINGLE_PLAYER)
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer)
         {
                 SetWolfSpawnWeapons( client ); 
 	}
