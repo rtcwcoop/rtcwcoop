@@ -522,7 +522,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
         // fretn: don't print this in coop play, we just respawn
         // mission should fail if we both die
-	if ( g_gametype.integer == GT_SINGLE_PLAYER !g_coop.integer) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer) {
 		trap_SendServerCommand( -1, "mu_play sound/music/l_failed_1.wav 0\n" );
 		trap_SetConfigstring( CS_MUSIC_QUEUE, "" );  // clear queue so it'll be quiet after hit
 		trap_SendServerCommand( -1, "cp missionfail0" );
