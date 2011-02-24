@@ -528,13 +528,10 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 	} else if ( !Q_stricmp( c,"getinfo" ) ) {
 		SVC_Info( from );
 	} else if ( !Q_stricmp( c,"getchallenge" ) ) {
-                Com_Printf("fretn: getchallenge\n");
 		SV_GetChallenge( from );
 	} else if ( !Q_stricmp( c,"connect" ) ) {
-                Com_Printf("fretn: connect\n");
 		SV_DirectConnect( from );
 	} else if ( !Q_stricmp( c,"ipAuthorize" ) ) {
-                Com_Printf("fretn: ipAuthorize\n");
 		SV_AuthorizeIpPacket( from );
 	} else if ( !Q_stricmp( c, "rcon" ) ) {
 		SVC_RemoteCommand( from, msg );
