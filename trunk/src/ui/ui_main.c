@@ -4674,8 +4674,13 @@ static void UI_RunMenuScript( char **args ) {
 
 			//----(SA)	added
 		} else if ( Q_stricmp( name, "playerstart" ) == 0 ) {
-			trap_Cmd_ExecuteText( EXEC_APPEND, "fade 0 0 0 0 3\n" );    // fade screen up
-			trap_Cvar_Set( "g_playerstart", "1" );                 // set cvar which will trigger "playerstart" in script
+                        if ( trap_Cvar_VariableValue( "g_coop" ) ) {
+			        trap_Cmd_ExecuteText( EXEC_APPEND, "fade 0 0 0 0 3\n" );    // fade screen up
+                                trap_Cmd_ExecuteText( EXEC_APPEND, "playerstart\n" );
+                        } else {
+			        trap_Cmd_ExecuteText( EXEC_APPEND, "fade 0 0 0 0 3\n" );    // fade screen up
+			        trap_Cvar_Set( "g_playerstart", "1" );                 // set cvar which will trigger "playerstart" in script
+                        }
 			Menus_CloseAll();
 			//----(SA)	end
 

@@ -81,6 +81,32 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 												  string ) );
 }
 
+/*
+==================
+Cmd_PlayerStart_f
+
+Starts the coop game
+==================
+*/
+void Cmd_PlayerStart_f( gentity_t *ent ) {
+        gentity_t *player;
+
+        if ( !g_coop.integer )
+                return;
+
+        player = AICast_FindEntityForName( "player" );
+        if ( player ) {
+                char filename[MAX_QPATH];
+                char mapname[MAX_QPATH];
+
+                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
+
+                // now let it think
+                AICast_CastScriptThink();
+
+                //trap_Cvar_Set( "cg_norender", "0" );  // camera has started, render 'on'
+        }            
+}
 
 /*
 ==================
@@ -2082,6 +2108,10 @@ void ClientCommand( int clientNum ) {
 		Cmd_Score_f( ent );
 		return;
 	}
+        if ( Q_stricmp( cmd, "playerstart" ) == 0 ) {
+                Cmd_PlayerStart_f( ent );
+                return;
+        }
 
 //----(SA)	added
 	if ( Q_stricmp( cmd, "fogswitch" ) == 0 ) {

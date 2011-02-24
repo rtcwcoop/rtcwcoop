@@ -334,6 +334,11 @@ static void CG_Fade_f( void ) {
 	CG_Fade( r, g, b, a, cg.time, duration );
 }
 
+static void CG_PlayerStart_f( void ) {
+        trap_SendClientCommand( "playerstart" );
+	trap_Cvar_Set( "cg_norender", "0" );
+}
+
 // TTimo unused
 /*
 // NERVE - SMF
@@ -454,6 +459,7 @@ static consoleCommand_t commands[] = {
 	{ "loaddeferred", CG_LoadDeferredPlayers },  // spelling fixed (SA)
 	{ "camera", CG_Camera_f },   // duffy
 	{ "fade", CG_Fade_f },   // duffy
+        { "playerstart", CG_PlayerStart_f },
 
 	// NERVE - SMF
 	{ "mp_QuickMessage", CG_QuickMessage_f },
