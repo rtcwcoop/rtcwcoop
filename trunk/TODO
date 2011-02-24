@@ -1,0 +1,15 @@
+COOP
+ - crosshairnames like in mp
+ - fix playerstart
+ - fix spawning (always close to your friends: or better, give the players an option to drop a spawnpoint)
+ - class based (medic and lt ?)
+ - all multiplayer weapons ? (artillery, same panzerfaust, airstrike, syringe, medpacks)
+ - change mp40, thompson spreadScale to the ones in mp
+ - grenades same as in mp
+ - skip cutscenes
+ - voice chats
+
+NOT_SO_COOP
+ - same as above
+ - with scoreboard at the end
+ - options to annoy each other, but no teamkills 
