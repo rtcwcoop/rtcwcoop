@@ -82,6 +82,7 @@ typedef struct {
 	int gameClientSize;                 // will be > sizeof(playerState_t) due to game private data
 
 	int restartTime;
+        int time;
 } server_t;
 
 
@@ -172,6 +173,7 @@ typedef struct client_s {
 	int snapshotMsec;                   // requests a snapshot every snapshotMsec unless rate choked
 	int pureAuthentic;
 	netchan_t netchan;
+        int oldServerTime;
 } client_t;
 
 //=============================================================================

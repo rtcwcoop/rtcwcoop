@@ -785,7 +785,7 @@ void SV_Frame( int msec ) {
 	sv.timeResidual += msec;
 
 	if ( !com_dedicated->integer ) {
-		SV_BotFrame( svs.time + sv.timeResidual );
+		SV_BotFrame( sv.time + sv.timeResidual );
 	}
 
 	if ( com_dedicated->integer && sv.timeResidual < frameMsec ) {
@@ -811,7 +811,7 @@ void SV_Frame( int msec ) {
 		return;
 	}
 
-	if ( sv.restartTime && svs.time >= sv.restartTime ) {
+	if ( sv.restartTime && sv.time >= sv.restartTime ) {
 		sv.restartTime = 0;
 		Cbuf_AddText( "map_restart 0\n" );
 		return;
@@ -837,16 +837,17 @@ void SV_Frame( int msec ) {
 	SV_CalcPings();
 
 	if ( com_dedicated->integer ) {
-		SV_BotFrame( svs.time );
+		SV_BotFrame( sv.time );
 	}
 
 	// run the game simulation in chunks
 	while ( sv.timeResidual >= frameMsec ) {
 		sv.timeResidual -= frameMsec;
 		svs.time += frameMsec;
+		sv.time += frameMsec;
 
 		// let everything in the world think and move
-		VM_Call( gvm, GAME_RUN_FRAME, svs.time );
+		VM_Call( gvm, GAME_RUN_FRAME, sv.time );
 	}
 
 	if ( com_speeds->integer ) {

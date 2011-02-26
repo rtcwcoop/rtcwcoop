@@ -1206,9 +1206,10 @@ void CL_SetCGameTime( void ) {
 			CL_FirstSnapshot();
 		} else {
                         //fretn - testing .. if a second player joins the game an error is dropped after a while ..
-			CL_FirstSnapshot();
-			Com_Printf( "ERROR_DROP: cl.snap.serverTime < cl.oldFrameServerTime\n" );
-			//Com_Error( ERR_DROP, "cl.snap.serverTime < cl.oldFrameServerTime" );
+                        //I think this is solved by adding sv.time from ioq3
+			//CL_FirstSnapshot();
+			//Com_Printf( "ERROR_DROP: cl.snap.serverTime < cl.oldFrameServerTime\n" );
+			Com_Error( ERR_DROP, "cl.snap.serverTime < cl.oldFrameServerTime" );
 		}
 	}
 	cl.oldFrameServerTime = cl.snap.serverTime;

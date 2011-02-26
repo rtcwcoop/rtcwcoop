@@ -1452,6 +1452,15 @@ void SV_ExecuteClientMessage( client_t *cl, msg_t *msg ) {
 	// RF, kill any reliableCommands that have been acknowledged
 	SV_FreeAcknowledgedReliableCommands( cl );
 
+        // fretn - from ioquake3
+        // this client has acknowledged the new gamestate so it's
+        // safe to start sending it the real time again
+        if( cl->oldServerTime && serverId == sv.serverId ){
+                Com_DPrintf( "%s acknowledged gamestate\n", cl->name );
+                cl->oldServerTime = 0; 
+        }    
+
+
 	// read optional clientCommand strings
 	do {
 		c = MSG_ReadByte( msg );
