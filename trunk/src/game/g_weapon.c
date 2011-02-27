@@ -1127,6 +1127,115 @@ gentity_t *weapon_crowbar_throw( gentity_t *ent ) {
 	return m;
 }
 
+gentity_t *weapon_grenadelauncher_fire_coop( gentity_t *ent, int grenType ) {
+        gentity_t   *m, *te; // JPW NERVE
+        trace_t tr;
+        vec3_t viewpos;
+        float upangle = 0, pitch;               //      start with level throwing and adjust based on angle
+        vec3_t tosspos;
+        qboolean underhand = qtrue;
+
+        pitch = ent->s.apos.trBase[0];
+
+        // JPW NERVE -- smoke grenades always overhand
+        if ( pitch >= 0 ) {
+                forward[2] += 0.5f;
+                // Used later in underhand boost
+                pitch = 1.3f;
+        } else {
+                pitch = -pitch;
+                pitch = min( pitch, 30 );
+                pitch /= 30.f;
+                pitch = 1 - pitch;
+                forward[2] += ( pitch * 0.5f );
+
+                // Used later in underhand boost
+                pitch *= 0.3f;
+                pitch += 1.f;
+        }
+
+        VectorNormalizeFast( forward );         //      make sure forward is normalized
+
+        upangle = -( ent->s.apos.trBase[0] ); //        this will give between  -90 / 90
+        upangle = min( upangle, 50 );
+        upangle = max( upangle, -50 );        //        now clamped to  -50 / 50        (don't allow firing straight up/down)
+        upangle = upangle / 100.0f;           //                                   -0.5 / 0.5
+        upangle += 0.5f;                    //                              0.0 / 1.0
+
+        if ( upangle < .1 ) {
+                upangle = .1;
+        }
+
+        // pineapples are not thrown as far as mashers
+        if ( grenType == WP_GRENADE_LAUNCHER ) {
+                upangle *= 900;
+        } else if ( grenType == WP_GRENADE_PINEAPPLE ) {
+                upangle *= 900;
+        } else if ( grenType == WP_GRENADE_SMOKE ) {
+                upangle *= 900;
+        } else { // WP_DYNAMITE
+                upangle *= 400;
+        }
+
+        VectorCopy( muzzleEffect, tosspos );
+
+        if ( underhand ) {
+                // move a little bit more away from the player (so underhand tosses don't get caught on nearby lips)
+                VectorMA( muzzleEffect, 8, forward, tosspos );
+                tosspos[2] -= 8;    // lower origin for the underhand throw
+                upangle *= pitch;
+                SnapVector( tosspos );
+        }
+
+        VectorScale( forward, upangle, forward );
+        // check for valid start spot (so you don't throw through or get stuck in a wall)
+        VectorCopy( ent->s.pos.trBase, viewpos );
+        viewpos[2] += ent->client->ps.viewheight;
+
+        if ( grenType == WP_DYNAMITE ) {
+                trap_Trace( &tr, viewpos, tv( -12.f, -12.f, 0.f ), tv( 12.f, 12.f, 20.f ), tosspos, ent->s.number, MASK_MISSILESHOT );
+        } else {
+                trap_Trace( &tr, viewpos, tv( -4.f, -4.f, 0.f ), tv( 4.f, 4.f, 6.f ), tosspos, ent->s.number, MASK_MISSILESHOT );
+        }
+
+        if ( tr.fraction < 1 ) {   // oops, bad launch spot
+                VectorCopy( tr.endpos, tosspos );
+                SnapVectorTowards( tosspos, viewpos );
+        }
+
+        m = fire_grenade( ent, tosspos, forward, grenType );
+
+        m->damage = 0;  // Ridah, grenade's don't explode on contact
+        m->splashDamage *= s_quadFactor;
+
+        // JPW NERVE
+        if ( grenType == WP_GRENADE_SMOKE ) {
+
+                if ( ent->client->sess.sessionTeam == TEAM_RED ) { // store team so we can generate red or blue smoke
+                        m->s.otherEntityNum2 = 1;
+                } else {
+                        m->s.otherEntityNum2 = 0;
+                }
+                m->nextthink = level.time + 4000;
+                m->think = weapon_callAirStrike;
+
+                te = G_TempEntity( m->s.pos.trBase, EV_GLOBAL_SOUND );
+                te->s.eventParm = G_SoundIndex( "sound/multiplayer/airstrike_01.wav" );
+                te->r.svFlags |= SVF_BROADCAST | SVF_USE_CURRENT_ORIGIN;
+        }
+        // jpw
+
+        //----(SA)      adjust for movement of character.  TODO: Probably comment in later, but only for forward/back not strafing
+        //VectorAdd( m->s.pos.trDelta, ent->client->ps.velocity, m->s.pos.trDelta );    // "real" physics
+
+        // let the AI know which grenade it has fired
+        ent->grenadeFired = m->s.number;
+
+        // Ridah, return the grenade so we can do some prediction before deciding if we really want to throw it or not
+        return m;
+}
+
+
 gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 	gentity_t   *m, *te; // JPW NERVE
 	float upangle = 0;                  //	start with level throwing and adjust based on angle
@@ -1850,7 +1959,10 @@ void FireWeapon( gentity_t *ent ) {
 		if ( ent->s.weapon == WP_DYNAMITE ) {
 			ent->client->ps.classWeaponTime = level.time; // JPW NERVE
 		}
-		weapon_grenadelauncher_fire( ent, ent->s.weapon );
+                if ( g_coop.integer )
+		        weapon_grenadelauncher_fire_coop( ent, ent->s.weapon );
+                else
+		        weapon_grenadelauncher_fire( ent, ent->s.weapon );
 		break;
 	case WP_FLAMETHROWER:
 		// RF, this is done client-side only now

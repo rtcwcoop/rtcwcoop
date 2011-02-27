@@ -58,7 +58,7 @@ void SV_GetChallenge( netadr_t from ) {
 
 	// ignore if we are in single player
         //fretn COOP
-	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER && !Cvar_VariableValue( "g_coop.integer") ) {
+	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER && Cvar_VariableValue( "g_coop") == 0 ) {
 		return;
 	}
 
