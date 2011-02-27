@@ -1376,6 +1376,7 @@ void ClientUserinfoChanged( int clientNum ) {
 	client->ps.torsoAnim = 0;
 
 	// DHM - Nerve :: Forcibly set both model and skin for multiplayer.
+        //fretn
 	if ( g_gametype.integer == GT_WOLF ) {
 
 		// To communicate it to cgame
