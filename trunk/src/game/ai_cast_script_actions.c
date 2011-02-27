@@ -620,7 +620,9 @@ qboolean AICast_ScriptAction_Trigger( cast_state_t *cs, char *params ) {
         if (trap_Cvar_VariableIntegerValue("g_coop"))
         {
                 // dam
-                if (!strcmp("checker2 plane_cine1", params))
+                if (!strcmp("checker2 plane_cine1", params) || 
+                // boss1
+                !strcmp("player cam2", params))
                 {
                         return qfalse;
                 }
