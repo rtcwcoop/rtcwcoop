@@ -1859,7 +1859,11 @@ void ClientSpawn( gentity_t *ent ) {
 	if ( ent->client->sess.sessionTeam == TEAM_SPECTATOR ) {
 
 	} else {
-		G_KillBox( ent );
+                // fretn - don't kill our coop friends !
+                // disabled again: the player is stuck in the other one ..
+                //if ( !g_coop.integer )
+		        G_KillBox( ent );
+
 		trap_LinkEntity( ent );
 
 		// force the base weapon up
