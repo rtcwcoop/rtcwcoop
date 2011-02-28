@@ -1,0 +1,7 @@
+#labels howto,coop
+#How to start a coop game
+
+= Introduction =
+
+computer 1: start game with /coopmap <mapname>
+computer 2: type /connect <ip> , once you see the introduction screen type /playerstart
