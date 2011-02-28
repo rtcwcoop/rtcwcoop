@@ -4,3 +4,9 @@
 computer 1: start game with /coopmap *mapname*
 
 computer 2: type /connect *ip*, once you see the introduction screen type /playerstart
+
+= Details =
+
+If you want to enable cheats, use /coopdevmap
+
+Don't join the game while a camera is running :) (I'm working on this)
