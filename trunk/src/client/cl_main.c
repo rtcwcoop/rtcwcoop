@@ -312,8 +312,9 @@ void CL_Record_f( void ) {
 	}
 
 	if ( !Cvar_VariableValue( "g_synchronousClients" ) ) {
-		Com_Printf( "The server must have 'g_synchronousClients 1' set for demos\n" );
-		return;
+		//Com_Printf( "The server must have 'g_synchronousClients 1' set for demos\n" );
+                Com_Printf( S_COLOR_YELLOW "WARNING: You should set 'g_synchronousClients 1' for smoother demo recording\n" );
+		//return;
 	}
 
 	if ( Cmd_Argc() == 2 ) {
