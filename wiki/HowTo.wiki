@@ -19,4 +19,5 @@ Starting a game on windows doesn't work, I'm looking on this, so basicly the ser
 = Starting a dedicated server under Mac OS X = 
 
 Open Terminal.app and switch to your RTCW installation folder
+
 type: ./wolfsp.app/Contents/MacOS/wolfspded.ub +coopmap tram
