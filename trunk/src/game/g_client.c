@@ -1671,7 +1671,6 @@ void ClientSpawn( gentity_t *ent ) {
 		ent->client->ps.teamNum = ent->aiTeam;
 		AICast_ScriptParse( AICast_GetCastState( ent->s.number ) );
 		// done.
-
 		if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
 			spawnPoint = SelectSpectatorSpawnPoint(
 				spawn_origin, spawn_angles );
@@ -1682,6 +1681,9 @@ void ClientSpawn( gentity_t *ent ) {
 				spawn_origin, spawn_angles );
 		} else {
 			do {
+                                // fretn
+                                // TODO: select coop spawnpoint here
+
 				// the first spawn should be at a good looking spot
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {
 					client->pers.initialSpawn = qtrue;

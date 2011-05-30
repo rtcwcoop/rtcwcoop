@@ -450,12 +450,13 @@ qboolean CG_DrawScoreboard( void ) {
 		return qfalse;
 	}
 
+        // fretn
 	// still need to see 'mission failed' message in SP
-	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_DEAD ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_DEAD && !cg_coop.integer) {
 		return qfalse;
 	}
 
-	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_INTERMISSION && !cg_coop.integer) {
 		cg.deferredPlayerLoading = 0;
 		return qfalse;
 	}
@@ -575,7 +576,11 @@ qboolean CG_DrawScoreboard( void ) {
 		//
 		y = CG_TeamScoreboard( x, y, TEAM_FREE, fade );
 		y = CG_TeamScoreboard( x, y, TEAM_SPECTATOR, fade );
-	}
+
+        // fretn
+	} else if ( cgs.gametype == GT_SINGLE_PLAYER && cg_coop.integer) {   //----(SA) modified
+		CG_DrawBigString( 30, 50, "COOP SCORES", 1.0 );
+        }
 
 	// load any models that have been deferred
 	if ( ++cg.deferredPlayerLoading > 1 ) {
