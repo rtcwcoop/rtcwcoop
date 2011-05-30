@@ -43,6 +43,17 @@ unset PPC_LDFLAGS
 unset X86_SDK
 unset X86_CFLAGS
 unset X86_LDFLAGS
+if [ -d /Developer/SDKs/MacOSX10.6.sdk ]; then
+        PPC_SDK=/Developer/SDKs/MacOSX10.6.sdk
+        PPC_CFLAGS="-arch ppc -isysroot /Developer/SDKs/MacOSX10.6.sdk \
+                        -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+        PPC_LDFLAGS=" -mmacosx-version-min=10.6"
+
+        X86_SDK=/Developer/SDKs/MacOSX10.6.sdk
+        X86_CFLAGS="-arch i386 -isysroot /Developer/SDKs/MacOSX10.6.sdk \
+                        -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+        X86_LDFLAGS=" -mmacosx-version-min=10.6"
+fi
 if [ -d /Developer/SDKs/MacOSX10.5.sdk ]; then
 	PPC_SDK=/Developer/SDKs/MacOSX10.5.sdk
 	PPC_CFLAGS="-arch ppc -isysroot /Developer/SDKs/MacOSX10.5.sdk \
