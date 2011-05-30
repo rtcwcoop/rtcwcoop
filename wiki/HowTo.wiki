@@ -10,3 +10,6 @@ computer 2: type /connect *ip*, once you see the introduction screen type /playe
 If you want to enable cheats, use /coopdevmap
 
 Don't join the game while a camera is running :) (I'm working on this)
+
+Use a dedicated server or strange things will happen.
+Starting a game on windows doesn't work, I'm looking on this, so basicly the server needs to be an OS X or linux machine
