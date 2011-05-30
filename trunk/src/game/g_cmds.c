@@ -43,21 +43,33 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 	int numSorted;
 	int scoreFlags;
 
+        int counter = 0;
+
 	// send the latest information on all clients
 	string[0] = 0;
 	stringlength = 0;
 	scoreFlags = 0;
+
 
 	// don't send more than 32 scores (FIXME?)
 	numSorted = level.numConnectedClients;
 	if ( numSorted > 32 ) {
 		numSorted = 32;
 	}
-
+/*
+        for ( i = 0; i < g_maxclients.integer; i++ ) 
+                player = &g_entities[i];
+                if ( !player->inuse ) 
+*/
 	for ( i = 0 ; i < numSorted ; i++ ) {
 		int ping;
+//fretn
 
 		cl = &level.clients[level.sortedClients[i]];
+                
+                // fretn - coop, don't send the score of the AI
+                if (g_entities[level.sortedClients[i]].r.svFlags & SVF_CASTAI)
+                        continue;
 
 		if ( cl->pers.connected == CON_CONNECTING ) {
 			ping = -1;
@@ -74,9 +86,11 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 		}
 		strcpy( string + stringlength, entry );
 		stringlength += j;
+
+                counter ++;
 	}
 
-	trap_SendServerCommand( ent - g_entities, va( "scores %i %i %i%s", i,
+	trap_SendServerCommand( ent - g_entities, va( "scores %i %i %i%s", counter,
 												  level.teamScores[TEAM_RED], level.teamScores[TEAM_BLUE],
 												  string ) );
 }

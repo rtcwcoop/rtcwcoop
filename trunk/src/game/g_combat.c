@@ -46,14 +46,13 @@ void AddScore( gentity_t *ent, int score ) {
 	if ( !ent->client ) {
 		return;
 	}
-	// no scoring during pre-match warmup
 	if ( level.warmupTime ) {
 		return;
 	}
 
 	// Ridah, no scoring during single player
 	// DHM - Nerve :: fix typo
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER  && !g_coop.integer) {
 		return;
 	}
 	// done.
@@ -403,10 +402,13 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		if ( attacker == self || OnSameTeam( self, attacker ) ) {
 			AddScore( attacker, -1 );
 		} else {
-			AddScore( attacker, 1 );
+                        if (g_coop.integer)
+			        AddScore( attacker, -2 );
+                        else
+			        AddScore( attacker, 1 );
 
 			// Ridah, not in single player
-			if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+			if ( g_gametype.integer != GT_SINGLE_PLAYER && !g_coop.integer) {
 				// done.
 				if ( meansOfDeath == MOD_GAUNTLET ) {
 					attacker->client->ps.persistant[PERS_GAUNTLET_FRAG_COUNT]++;

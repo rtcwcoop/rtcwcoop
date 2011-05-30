@@ -175,6 +175,18 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		killer = ENTITYNUM_WORLD;
 	}
 
+        if (g_coop.integer)
+        {
+            if ( attacker && attacker->client ) {
+                    if ( attacker == self || OnSameTeam( self, attacker ) ) {
+                            AddScore( attacker, -1 );
+                    } else {
+                            AddScore( attacker, 1 ); 
+                    }
+            }
+        }
+
+
 	// record the sighting (FIXME: silent weapons shouldn't do this, but the AI should react in some way)
 	if ( attacker->client ) {
 		AICast_UpdateVisibility( self, attacker, qtrue, qtrue );

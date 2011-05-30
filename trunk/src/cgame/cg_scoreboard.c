@@ -580,6 +580,15 @@ qboolean CG_DrawScoreboard( void ) {
         // fretn
 	} else if ( cgs.gametype == GT_SINGLE_PLAYER && cg_coop.integer) {   //----(SA) modified
 		CG_DrawBigString( 30, 50, "COOP SCORES", 1.0 );
+		y = CG_TeamScoreboard( x, y, TEAM_FREE, fade );
+
+				s = va( "%s place with %i",
+						CG_PlaceString( cg.snap->ps.persistant[PERS_RANK] + 1 ),
+						cg.snap->ps.persistant[PERS_SCORE] );
+				w = CG_DrawStrlen( s ) * BIGCHAR_WIDTH;
+				x = ( SCREEN_WIDTH - w ) / 2;
+				y = 60;
+				CG_DrawBigString( x, y, s, fade );
         }
 
 	// load any models that have been deferred
