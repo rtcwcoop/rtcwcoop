@@ -1,6 +1,8 @@
 #labels howto,coop
 = Introduction =
 
+(don't forget to put your pk3 files into your main folder)
+
 computer 1: start game with /coopmap *mapname*
 
 computer 2: type /connect *ip*, once you see the introduction screen type /playerstart
@@ -13,3 +15,8 @@ Don't join the game while a camera is running :) (I'm working on this)
 
 Use a dedicated server or strange things will happen.
 Starting a game on windows doesn't work, I'm looking on this, so basicly the server needs to be an OS X or linux machine
+
+= Starting a dedicated server under Mac OS X = 
+
+Open Terminal.app and switch to your RTCW installation folder
+type: ./wolfsp.app/Contents/MacOS/wolfspded.ub +coopmap tram
