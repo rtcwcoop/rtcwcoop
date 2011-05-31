@@ -21,3 +21,7 @@ Starting a game on windows doesn't work, I'm looking on this, so basicly the ser
 Open Terminal.app and switch to your RTCW installation folder
 
 type: ./wolfsp.app/Contents/MacOS/wolfspded.ub +coopmap tram
+
+= Console =
+
+use shift-escape to open the console
