@@ -269,6 +269,7 @@ ifeq ($(PLATFORM),darwin)
   LIBS = -framework Cocoa -lsupc++
   CLIENT_LIBS=
   OPTIMIZEVM=
+  CC=gcc-4.2
   
   #BASE_CFLAGS = -Wall -Wimplicit -Wstrict-prototypes
   BASE_CFLAGS = -Wall -Wimplicit -DC_ONLY -m32
