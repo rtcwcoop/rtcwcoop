@@ -4475,7 +4475,7 @@ static void UI_RunMenuScript( char **args ) {
 			trap_Cvar_Set( "ui_singlePlayerActive", "0" );
 			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
 			trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 8, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
-			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; map %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
+			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
 			skill = trap_Cvar_VariableValue( "g_spSkill" );
 			// set max clients based on spots
 			clients = 0;
