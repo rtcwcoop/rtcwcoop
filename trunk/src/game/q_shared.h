@@ -84,6 +84,11 @@ If you have questions concerning this license or the applicable additional terms
 #pragma warning(disable : 4702) // unreachable code
 #pragma warning(disable : 4711) // selected for automatic inline expansion
 #pragma warning(disable : 4220) // varargs matches remaining parameters
+
+
+// fretn
+#pragma warning(disable: 4996) // strcpy
+#pragma warning(disable: 4005) // macro redifinition
 #endif
 
 #if defined( ppc ) || defined( __ppc ) || defined( __ppc__ ) || defined( __POWERPC__ )

@@ -42,14 +42,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 static char homePath[ MAX_OSPATH ] = { 0 };
 
 //fretn
-//#ifdef __WIN64__
+#ifdef __WIN64__
+
 void Sys_SnapVector( float *v )
 {
         v[0] = rint(v[0]);
         v[1] = rint(v[1]);
         v[2] = rint(v[2]);
 }
-//#endif
+#endif
 
 /*
 ================
@@ -131,7 +132,8 @@ int Sys_Milliseconds (void)
 	return sys_curtime;
 }
 
-#ifndef __GNUC__ //see snapvectora.s
+#ifndef __GNUC__ //see snapvectora.sf
+
 /*
 ================
 Sys_SnapVector
@@ -157,6 +159,7 @@ void Sys_SnapVector( float *v )
 	__asm	fistp	i;
 	*v = i;
 }
+
 #endif
 
 /*
@@ -763,7 +766,8 @@ char* Sys_GetDLLName( const char *name ) {
 #if defined __i386__
         return va( "%si386.dll", name );
 #else
-#error Unknown arch
+//#error Unknown arch
+return va( "%sx86.dll", name );
 #endif
 }
 
