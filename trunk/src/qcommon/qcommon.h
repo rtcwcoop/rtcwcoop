@@ -282,7 +282,7 @@ PROTOCOL
 
 #define PROTOCOL_VERSION    49  // TA value
 //#define	PROTOCOL_VERSION	43	// (SA) bump this up
-
+#define GAMENAME_STRING "wolfcoop"
 
 //----(SA)	heh, whoops.  we've been talking to id servers since we got a connection...
 //#define	UPDATE_SERVER_NAME	"update.quake3arena.com"
@@ -294,7 +294,6 @@ PROTOCOL
 //#define AUTHORIZE_SERVER_NAME   "authorize.gmistudios.com"
 
 #define UPDATE_SERVER_NAME      "localhost"
-#define MASTER_SERVER_NAME      "localhost"
 #define MASTER_SERVER_NAME      "dpmaster.deathmask.net"
 #define AUTHORIZE_SERVER_NAME   "localhost"
 

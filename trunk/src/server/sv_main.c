@@ -422,6 +422,7 @@ void SVC_Info( netadr_t from ) {
         //fretn
 	Info_SetValueForKey( infostring, "coop", va( "%i", sv_coop->integer ) );
 	Info_SetValueForKey( infostring, "pure", va( "%i", sv_pure->integer ) );
+        Info_SetValueForKey( infostring, "gamename", GAMENAME_STRING );
 
 	if ( sv_minPing->integer ) {
 		Info_SetValueForKey( infostring, "minPing", va( "%i", sv_minPing->integer ) );

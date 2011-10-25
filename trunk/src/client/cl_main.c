@@ -1854,7 +1854,8 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 	}
 
 	// echo request from server
-	if ( !Q_stricmp( c, "getserversResponse\\" ) ) {
+	//if ( !Q_stricmp( c, "getserversResponse\\" ) ) {
+        if ( !Q_strncmp( c, "getserversResponse", 18 ) ) {
 		CL_ServersResponsePacket( from, msg );
 		return;
 	}
