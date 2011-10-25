@@ -63,7 +63,7 @@ WARNING: in order to build a binary with maximum compatibility you must
          MacOSX10.4u SDK installed from the Xcode 
          install disk Packages folder."
 fi
-sleep 3
+#sleep 3
 
 if [ ! -d $DESTDIR ]; then
 	mkdir -p $DESTDIR
