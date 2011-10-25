@@ -1799,7 +1799,8 @@ static void UI_DrawPlayerModel( rectDef_t *rect ) {
 }
 
 static void UI_DrawNetSource( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
-	if ( ui_netSource.integer < 0 || ui_netSource.integer > uiInfo.numGameTypes ) {
+	//if ( ui_netSource.integer < 0 || ui_netSource.integer > uiInfo.numGameTypes ) {
+	if ( ui_netSource.integer < 0 || ui_netSource.integer > numNetSources ) {
 		ui_netSource.integer = 0;
 	}
 	Text_Paint( rect->x, rect->y, font, scale, color, va( "Source: %s", netSources[ui_netSource.integer] ), 0, 0, textStyle );
@@ -4472,9 +4473,9 @@ static void UI_RunMenuScript( char **args ) {
 			float skill;
 			trap_Cvar_Set( "cg_thirdPerson", "0" );
 			trap_Cvar_Set( "cg_cameraOrbit", "0" );
-			trap_Cvar_Set( "ui_singlePlayerActive", "0" );
-			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
-			trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 8, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
+			//trap_Cvar_Set( "ui_singlePlayerActive", "0" );
+			//trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
+			//trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 8, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
 			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
 			skill = trap_Cvar_VariableValue( "g_spSkill" );
 			// set max clients based on spots
