@@ -295,6 +295,7 @@ PROTOCOL
 
 #define UPDATE_SERVER_NAME      "localhost"
 #define MASTER_SERVER_NAME      "localhost"
+#define MASTER_SERVER_NAME      "dpmaster.deathmask.net"
 #define AUTHORIZE_SERVER_NAME   "localhost"
 
 #define PORT_MASTER         27950
