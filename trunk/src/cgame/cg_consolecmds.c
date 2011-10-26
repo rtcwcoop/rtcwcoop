@@ -312,7 +312,6 @@ void CG_StopCamera( void ) {
 static void CG_Camera_f( void ) {
 	char name[MAX_QPATH];
 	trap_Argv( 1, name, sizeof( name ) );
-
 	CG_StartCamera( name, qfalse );
 }
 

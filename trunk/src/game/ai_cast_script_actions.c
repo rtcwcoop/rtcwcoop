@@ -2687,9 +2687,10 @@ qboolean ScriptStartCam( cast_state_t *cs, char *params, qboolean black ) {
 
 	// turn off noclient flag
 	ent->r.svFlags &= ~SVF_NOCLIENT;
-
 	// issue a start camera command to the client
-	trap_SendServerCommand( cs->entityNum, va( "startCam %s %d", token, (int)black ) );
+	//trap_SendServerCommand( cs->entityNum, va( "startCam %s %d", token, (int)black ) );
+        // fretn: cameras for all connected clients
+	trap_SendServerCommand( -1, va( "startCam %s %d", token, (int)black ) );
 
 	return qtrue;
 }
