@@ -1799,11 +1799,14 @@ static void UI_DrawPlayerModel( rectDef_t *rect ) {
 }
 
 static void UI_DrawNetSource( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
-	//if ( ui_netSource.integer < 0 || ui_netSource.integer > uiInfo.numGameTypes ) {
-	if ( ui_netSource.integer < 0 || ui_netSource.integer > numNetSources ) {
+	////if ( ui_netSource.integer < 0 || ui_netSource.integer > uiInfo.numGameTypes ) {
+	//if ( ui_netSource.integer < 0 || ui_netSource.integer > numNetSources ) {
+	//	ui_netSource.integer = 0;
+	if ( ui_netSource.integer < 0 || ui_netSource.integer > numNetSources /*uiInfo.numGameTypes*/ ) {        // NERVE - SMF - possible bug
 		ui_netSource.integer = 0;
 	}
 	Text_Paint( rect->x, rect->y, font, scale, color, va( "Source: %s", netSources[ui_netSource.integer] ), 0, 0, textStyle );
+	
 }
 
 static void UI_DrawNetMapPreview( rectDef_t *rect, float scale, vec4_t color ) {
@@ -2240,9 +2243,9 @@ static int UI_OwnerDrawWidth( int ownerDraw, int font, float scale ) {
 		}
 		break;
 	case UI_SERVERREFRESHDATE:
-#ifdef MISSIONPACK
+//#ifdef MISSIONPACK
 		s = UI_Cvar_VariableString( va( "ui_lastServerRefresh_%i", ui_netSource.integer ) );
-#endif  // #ifdef MISSIONPACK
+//#endif  // #ifdef MISSIONPACK
 		break;
 	default:
 		break;
@@ -3118,7 +3121,7 @@ static qboolean UI_TeamMember_HandleKey( int flags, float *special, int key, qbo
 }
 
 static qboolean UI_NetSource_HandleKey( int flags, float *special, int key ) {
-#ifdef MISSIONPACK
+//#ifdef MISSIONPACK
 	if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_ENTER || key == K_KP_ENTER ) {
 
 		if ( key == K_MOUSE2 ) {
@@ -3140,7 +3143,7 @@ static qboolean UI_NetSource_HandleKey( int flags, float *special, int key ) {
 		trap_Cvar_Set( "ui_netSource", va( "%d", ui_netSource.integer ) );
 		return qtrue;
 	}
-#endif  // #ifdef MISSIONPACK
+//#endif	// #ifdef MISSIONPACK
 	return qfalse;
 }
 
@@ -3378,11 +3381,11 @@ UI_ServersQsortCompare
 =================
 */
 static int QDECL UI_ServersQsortCompare( const void *arg1, const void *arg2 ) {
-#ifdef MISSIONPACK
+//#ifdef MISSIONPACK
 	return trap_LAN_CompareServers( ui_netSource.integer, uiInfo.serverStatus.sortKey, uiInfo.serverStatus.sortDir, *(int*)arg1, *(int*)arg2 );
-#else
-	return qfalse;
-#endif  // #ifdef MISSIONPACK
+//#else
+//	return qfalse;
+//#endif	// #ifdef MISSIONPACK
 }
 
 
@@ -4709,7 +4712,7 @@ static void UI_RunMenuScript( char **args ) {
 				uiInfo.nextFindPlayerRefresh = 0;
 				UI_BuildServerDisplayList( qtrue );
 			} else {
-				Menus_CloseByName( "joinserver" );
+				Menus_CloseByName( "multi" );
 				Menus_OpenByName( "main" );
 			}
 			//#endif
@@ -4726,8 +4729,8 @@ static void UI_RunMenuScript( char **args ) {
 			UI_BuildServerDisplayList( qtrue );
 			UI_FeederSelection( FEEDER_SERVERS, 0 );
 		} else if ( Q_stricmp( name, "ServerStatus" ) == 0 ) {
-			trap_LAN_GetServerAddressString( ui_netSource.integer, uiInfo.serverStatus.displayServers[uiInfo.serverStatus.currentServer], uiInfo.serverStatusAddress, sizeof( uiInfo.serverStatusAddress ) );
-			UI_BuildServerStatus( qtrue );
+				trap_LAN_GetServerAddressString( ui_netSource.integer, uiInfo.serverStatus.displayServers[uiInfo.serverStatus.currentServer], uiInfo.serverStatusAddress, sizeof( uiInfo.serverStatusAddress ) );
+				UI_BuildServerStatus( qtrue );
 		} else if ( Q_stricmp( name, "FoundPlayerServerStatus" ) == 0 ) {
 			Q_strncpyz( uiInfo.serverStatusAddress, uiInfo.foundPlayerServerAddresses[uiInfo.currentFoundPlayerServer], sizeof( uiInfo.serverStatusAddress ) );
 			UI_BuildServerStatus( qtrue );
@@ -5135,7 +5138,7 @@ UI_BuildServerDisplayList
 */
 static void UI_BuildServerDisplayList( qboolean force ) {
 	//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
-	int i, count, clients, maxClients, ping, game, len, visible;
+	int i, count, clients, maxClients, ping, game, len, visible, friendlyFire, tourney, maxlives, punkbuster, antilag;
 	char info[MAX_STRING_CHARS];
 	//qboolean startRefresh = qtrue;// TTimo: unused
 	static int numinvisible;
@@ -5213,15 +5216,76 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 					continue;
 				}
 			}
-			/*			// NERVE - SMF - comment out for now, not recognizing "gametype" properly
-			if (uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum != -1) {
-			game = atoi(Info_ValueForKey(info, "gametype"));
-			if (game != uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum) {
-			trap_LAN_MarkServerVisible(ui_netSource.integer, i, qfalse);
-			continue;
+
+/*
+			// NERVE - SMF - friendly fire parsing
+			if ( ui_browserShowFriendlyFire.integer ) {
+				friendlyFire = atoi( Info_ValueForKey( info, "friendlyFire" ) );
+
+				if ( friendlyFire && ui_browserShowFriendlyFire.integer == 2 ) {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				} else if ( !friendlyFire && ui_browserShowFriendlyFire.integer == 1 )   {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				}
 			}
+*/
+/*
+			// NERVE - SMF - maxlives parsing
+			if ( ui_browserShowMaxlives.integer == 0 ) {
+				maxlives = atoi( Info_ValueForKey( info, "maxlives" ) );
+				if ( maxlives ) {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				}
 			}
-			*/
+*/
+/*
+			// NERVE - SMF - tourney parsing
+			if ( ui_browserShowTourney.integer == 0 ) {
+				tourney = atoi( Info_ValueForKey( info, "tourney" ) );
+				if ( tourney ) {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				}
+			}
+*/
+/*
+			// DHM - Nerve - PunkBuster parsing
+			if ( ui_browserShowPunkBuster.integer ) {
+				punkbuster = atoi( Info_ValueForKey( info, "punkbuster" ) );
+
+				if ( punkbuster && ui_browserShowPunkBuster.integer == 2 ) {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				} else if ( !punkbuster && ui_browserShowPunkBuster.integer == 1 )   {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				}
+			}
+*/
+/*
+			if ( ui_browserShowAntilag.integer ) {
+				antilag = atoi( Info_ValueForKey( info, "g_antilag" ) );
+
+				if ( antilag && ui_browserShowAntilag.integer == 2 ) {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				} else if ( !antilag && ui_browserShowAntilag.integer == 1 )   {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				}
+			}
+*/
+
+			if ( uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum != -1 ) {
+				game = atoi( Info_ValueForKey( info, "gametype" ) );
+				if ( game != uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum ) {
+					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					continue;
+				}
+			}
 
 			if ( ui_serverFilterType.integer > 0 ) {
 				if ( Q_stricmp( Info_ValueForKey( info, "game" ), serverFilters[ui_serverFilterType.integer].basedir ) != 0 ) {
@@ -5687,11 +5751,9 @@ static int UI_GetIndexFromSelection( int actual ) {
 }
 
 static void UI_UpdatePendingPings() {
-	//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
 	trap_LAN_ResetPings( ui_netSource.integer );
 	uiInfo.serverStatus.refreshActive = qtrue;
 	uiInfo.serverStatus.refreshtime = uiInfo.uiDC.realTime + 1000;
-	//#endif	// #ifdef MISSIONPACK
 }
 
 // NERVE - SMF
@@ -5794,7 +5856,9 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 					return Info_ValueForKey( info, "addr" );
 				} else {
 					if ( ui_netSource.integer == AS_LOCAL ) {
-						Com_sprintf( hostname, sizeof( hostname ), "%s [%s]", Info_ValueForKey( info, "hostname" ), netnames[atoi( Info_ValueForKey( info, "nettype" ) )] );
+						Com_sprintf( hostname, sizeof( hostname ), "%s [%s]",
+									 Info_ValueForKey( info, "hostname" ),
+									 netnames[atoi( Info_ValueForKey( info, "nettype" ) )] );
 						return hostname;
 					} else {
 						return Info_ValueForKey( info, "hostname" );
