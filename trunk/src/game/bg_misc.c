@@ -976,8 +976,8 @@ model="models/weapons2/luger/luger.md3"
 		"sound/misc/w_pkup.wav",
 		{   "models/weapons2/luger/luger.md3",
 			"models/weapons2/luger/v_luger.md3",
-			"models/weapons2/luger/pu_luger.md3",
-			0, 0 },
+			0, 0,
+			"models/weapons2/luger/ss_luger.md3"},
 
 		"icons/iconw_luger_1",   // icon
 		"icons/ammo2",           // ammo icon
