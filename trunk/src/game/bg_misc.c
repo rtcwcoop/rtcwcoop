@@ -1132,15 +1132,15 @@ model="models/weapons2/garand/garand.md3"
 			0, 0 },
 
 		"icons/iconw_garand_1",  // icon
-		"icons/ammo3",           // ammo icon
-		"",                      // pickup			//----(SA)	modified so it can no longer be given individually
-		50,
+		"icons/ammo10",              // ammo icon
+		"Snooper Rifle",             // pickup		//----(SA)	modified
+		20,
 		IT_WEAPON,
 		WP_GARAND,
 		WP_GARAND,
 		WP_GARAND,
-		"",                      // precache
-		"",                      // sounds
+		"",                          // precache
+		"",                          // sounds
 		{0,0,0,0}
 	},
 
