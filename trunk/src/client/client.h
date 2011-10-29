@@ -257,6 +257,12 @@ typedef struct {
 	int ping;
 	qboolean visible;
 	int allowAnonymous;
+	int friendlyFire;               // NERVE - SMF
+	int maxlives;                   // NERVE - SMF
+	int tourney;                    // NERVE - SMF
+	int punkbuster;                 // DHM - Nerve
+	int antilag;         // TTimo
+	char gameName[MAX_NAME_LENGTH];         // Arnout
 } serverInfo_t;
 
 typedef struct {

@@ -2114,8 +2114,10 @@ void Com_Init( char *commandLine ) {
 
 	// skip the q3config.cfg if "safe" is on the command line
 	if ( !Com_SafeMode() ) {
-		Cbuf_AddText( "exec wolfconfig.cfg\n" );
-	}
+
+// GISKARD: WOLFCONFIG.CFG FILE RENAMED TO COOPCONFIG.CFG
+		Cbuf_AddText( "exec coopconfig.cfg\n" );
+		}
 
 	Cbuf_AddText( "exec autoexec.cfg\n" );
 
@@ -2291,7 +2293,8 @@ void Com_WriteConfiguration( void ) {
 	}
 	cvar_modifiedFlags &= ~CVAR_ARCHIVE;
 
-	Com_WriteConfigToFile( "wolfconfig.cfg" );
+// GISKARD: WOLFCONFIG.CFG FILE RENAMED TO COOPCONFIG.CFG
+	Com_WriteConfigToFile( "coopconfig.cfg" );
 
 	// bk001119 - tentative "not needed for dedicated"
 #ifndef DEDICATED

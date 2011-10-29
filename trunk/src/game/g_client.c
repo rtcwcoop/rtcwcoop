@@ -842,8 +842,8 @@ void SetWolfSpawnWeapons( gclient_t *client ) {
 		client->ps.ammoclip[BG_FindClipForWeapon( WP_DYNAMITE )] = 1;
 	}
 
-	// Lieutenant gets binoculars
-	if ( pc == PC_LT ) {
+	// Soldier gets binoculars
+	if ( pc == PC_SOLDIER ) {
 		client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 /* no grenades for balance JPW NERVE
 		COM_BitSet( client->ps.weapons, WP_GRENADE_LAUNCHER );
@@ -860,6 +860,7 @@ void SetWolfSpawnWeapons( gclient_t *client ) {
 		client->ps.ammo[WP_MEDIC_HEAL] = 1;
 		client->ps.ammo[WP_GRENADE_SMOKE] = 1;
 	}
+/*	// GISKARD: PISTOL REMOVED FROM THE STARTING ARSENAL
 
 	// Everyone gets a pistol
 	switch ( client->sess.sessionTeam ) { // JPW NERVE was playerPistol
@@ -877,6 +878,8 @@ void SetWolfSpawnWeapons( gclient_t *client ) {
 		client->ps.weapon = WP_COLT;
 		break;
 	}
+*/
+/*	// GISKARD: GRENADES REMOVED FROM THE STARTING ARSENAL
 
 	// Everyone except Medic and LT get some grenades
 	if ( ( pc != PC_LT ) && ( pc != PC_MEDIC ) ) { // JPW NERVE
@@ -900,6 +903,9 @@ void SetWolfSpawnWeapons( gclient_t *client ) {
 			break;
 		}
 	}
+
+*/
+/*	// GISKARD: 2-HANDED WEAPON REMOVED FROM THE STARTING ARSENAL
 
 	// Soldiers and Lieutenants get a 2-handed weapon
 	if ( pc == PC_SOLDIER || pc == PC_LT ) {
@@ -1037,6 +1043,8 @@ void SetWolfSpawnWeapons( gclient_t *client ) {
 			client->ps.weapon = WP_THOMPSON;
 		}
 	}
+*/
+
 // JPW NERVE -- medics on each team make cumulative health bonus -- this gets overridden for "revived" players
 // count up # of medics on team
 	for ( i = 0; i < level.maxclients; i++ ) {

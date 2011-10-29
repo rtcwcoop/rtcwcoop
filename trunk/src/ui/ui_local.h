@@ -128,6 +128,11 @@ extern vmCvar_t ui_browserGameType;
 extern vmCvar_t ui_browserSortKey;
 extern vmCvar_t ui_browserShowFull;
 extern vmCvar_t ui_browserShowEmpty;
+extern vmCvar_t ui_browserShowFriendlyFire;
+extern vmCvar_t ui_browserShowMaxlives;
+extern vmCvar_t ui_browserShowTourney;
+extern vmCvar_t ui_browserShowPunkBuster;
+extern vmCvar_t ui_browserShowAntilag;
 
 extern vmCvar_t ui_serverStatusTimeOut;
 // -NERVE - SMF

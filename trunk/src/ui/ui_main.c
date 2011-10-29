@@ -63,9 +63,9 @@ static const int numSkillLevels = sizeof( skillLevels ) / sizeof( const char* );
 
 static const char *netSources[] = {
 	"Local",
-	"Mplayer",
+//	"Mplayer",
 	"Internet",
-	"Favorites"
+//	"Favorites"
 };
 static const int numNetSources = sizeof( netSources ) / sizeof( const char* );
 
