@@ -919,10 +919,11 @@ model="models/weapons2/knife/knife.md3"
 	{
 		"weapon_knife",
 		"sound/misc/w_pkup.wav",
-		{   "models/weapons2/knife/knife.md3",
-			"models/weapons2/knife/v_knife.md3",
-			"models/weapons2/knife/pu_knife.md3",
-			0, 0 },
+		{   "models/multiplayer/knife/knife.md3",
+			"models/multiplayer/knife/v_knife.md3",
+			0,
+			"models/multiplayer/knife/v_knife_axis.md3",
+			0},
 
 		"icons/iconw_knife_1",   // icon
 		"icons/ammo2",           // ammo icon
