@@ -3108,7 +3108,9 @@ void CL_GlobalServers_f( void ) {
 	// -1 is used to distinguish a "no response"
 
 	if ( cls.masterNum == 1 ) {
-		NET_StringToAdr( "wolfmaster.idsoftware.com", &to );
+		//NET_StringToAdr( "wolfmaster.idsoftware.com", &to );
+                // fretn - idsoftware master is dead ?
+		NET_StringToAdr( "dpmaster.deathmask.net", &to );
 		cls.nummplayerservers = -1;
 		cls.pingUpdateSource = AS_MPLAYER;
 	} else {
