@@ -806,8 +806,38 @@ void SetWolfSkin( gclient_t *client, char *model ) {
 	}
 }
 
+// fretn - set weapons when player spawns in coop
+// in the map dam, the player gets all the weapons, bug !
+void SetCoopSpawnWeapons( gclient_t *client ) {
+
+	int pc = client->sess.playerType;
+	client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
+
+        // zero out all ammo counts
+	memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) );
+
+	// Communicate it to cgame
+	client->ps.stats[STAT_PLAYER_CLASS] = pc;
+
+	// Abuse teamNum to store player class as well (can't see stats for all clients in cgame)
+	client->ps.teamNum = pc;
+
+	// All players start with a knife (not OR-ing so that it clears previous weapons)
+	client->ps.weapons[0] = 0;
+	client->ps.weapons[1] = 0;
+	COM_BitSet( client->ps.weapons, WP_KNIFE );
+
+	client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1;
+	client->ps.weapon = WP_KNIFE;
+	client->ps.weaponstate = WEAPON_READY;
+
+        // give all the players a binocular
+	client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
+}
+
 void SetWolfSpawnWeapons( gclient_t *client ) {
 
+#if 0
 	int pc = client->sess.playerType;
 	int starthealth = 100,i,numMedics = 0;   // JPW NERVE
 
@@ -1074,9 +1104,9 @@ void SetWolfSpawnWeapons( gclient_t *client ) {
 		}
 	}
 // jpw
+#endif
 }
 // dhm - end
-
 
 /*
 ===========
@@ -1809,15 +1839,17 @@ void ClientSpawn( gentity_t *ent ) {
 	client->ps.clientNum = index;
 
 	// DHM - Nerve :: Add appropriate weapons
+        /*
 	if ( g_gametype.integer == GT_WOLF ) {
 		SetWolfSpawnWeapons( client ); // JPW NERVE -- increases stats[STAT_MAX_HEALTH] based on # of medics in game
 	}
+        */
 
         // fretn - give the player some basic stuff
 	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer)
         {
                 if ( !Q_stricmp( ent->classname, "player" ) ) 
-                        SetWolfSpawnWeapons( client ); 
+                        SetCoopSpawnWeapons( client ); 
 	}
 	// dhm - end
 
