@@ -620,12 +620,15 @@ qboolean AICast_ScriptAction_Trigger( cast_state_t *cs, char *params ) {
         if (trap_Cvar_VariableIntegerValue("g_coop"))
         {
                 // dam
+                // fretn - not needed at the moment, giskard is modifying the map scripts
+                /*
                 if (!strcmp("checker2 plane_cine1", params) || 
                 // boss1
                 !strcmp("player cam2", params))
                 {
                         return qfalse;
                 }
+                /*
         } 
 
 	// get the cast name
