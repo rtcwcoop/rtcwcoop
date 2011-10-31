@@ -628,7 +628,7 @@ qboolean AICast_ScriptAction_Trigger( cast_state_t *cs, char *params ) {
                 {
                         return qfalse;
                 }
-                /*
+                */
         } 
 
 	// get the cast name
