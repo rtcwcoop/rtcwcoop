@@ -16,3 +16,10 @@ The respawn will automatically array only for the putted weapons and ammos, not 
 3. Other:
 ---------
 - it would be cool to make a custom key to throw grenade (if we have) like in the newer games. During the throwing the player cannot use his weapon, he puts away his actual weapon, plays the grenade-throwing animation, an finally he puts back the actual weapon in his hand.
+- make bigger coverage for the grenades and other explosions. Now if you stay from 2-3 meters from an explosion, you won't be hurted. (I think the minimum valu is 8-9 meters)
+
+
+
+Gameplay
+========
+- remove any pause function from the game. (now, if you hit ESC the game pausing and you can see the ingame menu)
