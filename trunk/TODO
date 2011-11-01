@@ -23,3 +23,10 @@ The respawn will automatically array only for the putted weapons and ammos, not 
 Gameplay
 ========
 - remove any pause function from the game. (now, if you hit ESC the game pausing and you can see the ingame menu)
+- using the "g_maxlives" command in the game. If a player losts his all lives, he can be only a spectator. If every player losts his all of lives, than MISSION FAILED!
+- need to attach a "restart map" automatically, when the MISSON FAILED.
+
+
+Graphic, Engine
+===============
+- on map Tram after the player killed and respawn, the map losts the skybox and fog effect.
