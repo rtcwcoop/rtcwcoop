@@ -1,14 +1,18 @@
-COOP
- - crosshairnames like in mp
- - fix spawning (always close to your friends: or better, give the players an option to drop a spawnpoint)
- - class based (medic and lt ?)
- - all multiplayer weapons ? (artillery, same panzerfaust, airstrike, syringe, medpacks)
- - change mp40, thompson spreadScale to the ones in mp
- - grenades same as in mp
- - skip cutscenes
- - voice chats
+Weapons & Ammos
+===============
 
-NOT_SO_COOP
- - same as above
- - with scoreboard at the end
- - options to annoy each other, but no teamkills 
+1. Respawn. Need some new ConVars:
+----------------------------------
+- to enable the respawning of weapons,
+- to enable the respawning of ammos.
+The respawn will automatically array only for the putted weapons and ammos, not for the dropped. I will insert these options into the createserver tabs.
+- a convar, which give the time of the respawn in sec. (the default is 15)
+
+2. Weapon & Ammo drop:
+----------------------
+- need a key to drop the actual weapon,
+- need a key to drop the ammo from the actual weapon. when dropping, spawns the actual clip model.
+
+3. Other:
+---------
+- it would be cool to make a custom key to throw grenade (if we have) like in the newer games. During the throwing the player cannot use his weapon, he puts away his actual weapon, plays the grenade-throwing animation, an finally he puts back the actual weapon in his hand.
