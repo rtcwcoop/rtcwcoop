@@ -55,6 +55,7 @@ extern int bg_pmove_gameskill_integer;
 vmCvar_t g_gametype;
 //fretn
 vmCvar_t g_coop;
+vmCvar_t g_skipcutscenes;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
@@ -171,7 +172,8 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_soldierChargeTime, "g_soldierChargeTime", "20000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 // jpw
 
-
+        //fretn
+	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },

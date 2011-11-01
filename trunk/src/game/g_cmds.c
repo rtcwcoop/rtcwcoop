@@ -110,15 +110,10 @@ void Cmd_PlayerStart_f( gentity_t *ent ) {
 
         player = AICast_FindEntityForName( "player" );
         if ( player ) {
-                char filename[MAX_QPATH];
-                char mapname[MAX_QPATH];
-
                 AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
 
                 // now let it think
                 AICast_CastScriptThink();
-
-                //trap_Cvar_Set( "cg_norender", "0" );  // camera has started, render 'on'
         }            
 }
 
@@ -1270,6 +1265,10 @@ void Cmd_StartCamera_f( gentity_t *ent ) {
 	ent->client->cameraPortal = g_camEnt;
 	ent->client->ps.eFlags |= EF_VIEWING_CAMERA;
 	ent->s.eFlags |= EF_VIEWING_CAMERA;
+
+//fretn
+        if (g_coop.integer && g_skipcutscenes.integer)
+                AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
 
 // (SA) trying this in client to avoid 1 frame of player drawing
 //	ent->client->ps.eFlags |= EF_NODRAW;
