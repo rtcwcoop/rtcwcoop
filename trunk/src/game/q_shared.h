@@ -89,6 +89,7 @@ If you have questions concerning this license or the applicable additional terms
 // fretn
 #pragma warning(disable: 4996) // strcpy
 #pragma warning(disable: 4005) // macro redifinition
+#pragma warning(disable: 4133)
 #endif
 
 #if defined( ppc ) || defined( __ppc ) || defined( __ppc__ ) || defined( __POWERPC__ )
