@@ -933,13 +933,13 @@ void ClientThink_real( gentity_t *ent ) {
 	// also update weapon recharge time
 	// JPW drop button drops secondary weapon so new one can be picked up
 	// TTimo explicit braces to avoid ambiguous 'else'
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		if ( ucmd->wbuttons & WBUTTON_DROP ) {
 			if ( !client->dropWeaponTime ) {
 				client->dropWeaponTime = 1; // just latch it for now
-				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) || ( client->ps.stats[STAT_PLAYER_CLASS] == PC_LT ) ) {
-					for ( i = 0; i < MAX_WEAPS_IN_BANK_MP; i++ ) {
-						weapon = weapBanksMultiPlayer[3][i];
+				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) ) {
+					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
+						weapon = weapBanks[3][i];
 						if ( COM_BitCheck( client->ps.weapons,weapon ) ) {
 
 							item = BG_FindItemForWeapon( weapon );

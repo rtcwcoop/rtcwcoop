@@ -52,34 +52,7 @@ static qboolean CG_WeaponHasAmmo( int i );
 
 static int maxWeapBanks = MAX_WEAP_BANKS, maxWeapsInBank = MAX_WEAPS_IN_BANK; // JPW NERVE
 
-int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
-	// bank
-	{0,                     0,                      0           },  //	0 (empty)
 
-	{WP_KNIFE,              0,                      0           },  //	1
-	{WP_LUGER,              WP_COLT,                0           },  //	2	// WP_AKIMBO
-	{WP_MP40,               WP_THOMPSON,            WP_STEN     },  //	3
-	{WP_MAUSER,             WP_GARAND,              0           },  //	4
-	{WP_FG42,               0,                      0           },  //	5
-	{WP_GRENADE_LAUNCHER,   WP_GRENADE_PINEAPPLE,   WP_DYNAMITE },  //	6
-	{WP_PANZERFAUST,        0,                      0           },  //	7
-	{WP_VENOM,              0,                      0           },  //	8
-	{WP_FLAMETHROWER,       0,                      0           },  //	9
-	{WP_TESLA,              0,                      0           }   //	10
-};
-/*
-// JPW NERVE -- in mutiplayer, characters get knife/special on button 1, pistols on 2, 2-handed on 3
-int weapBanksMultiPlayer[MAX_WEAP_BANKS_MP][MAX_WEAPS_IN_BANK_MP] = {
-	{0,                     0,                      0,          0,          0,          0,              0,          0           },  // empty bank '0'
-	{WP_KNIFE,              0,                      0,          0,          0,          0,              0,          0           },
-	{WP_LUGER,              WP_COLT,                0,          0,          0,          0,              0,          0           },
-	{WP_MP40,               WP_THOMPSON,            WP_STEN,    WP_MAUSER,  WP_GARAND,  WP_PANZERFAUST, WP_VENOM,   WP_FLAMETHROWER     },
-	{WP_GRENADE_LAUNCHER,   WP_GRENADE_PINEAPPLE,   0,          0,          0,          0,              0,          0,          },
-	{WP_CLASS_SPECIAL,      0,                      0,          0,          0,          0,              0,          0,          },
-	{WP_DYNAMITE,           0,                      0,          0,          0,          0,              0,          0           }
-};
-// jpw
-*/
 
 //----(SA)	end
 
@@ -3191,7 +3164,7 @@ void CG_DrawWeaponSelect( void ) {
 		// primary fire
 // JPW NERVE
 		if ( cg_gameType.integer == GT_WOLF ) {
-			drawweap = weapBanksMultiPlayer[curweapbank][i];
+			drawweap = weapBanks[curweapbank][i];
 		} else {
 // jpw
 			drawweap = weapBanks[curweapbank][i];
@@ -3286,7 +3259,7 @@ void CG_DrawWeaponSelect( void ) {
 
 // JPW NERVE
 		if ( cg_gameType.integer == GT_WOLF ) {
-			drawweap = getAltWeapon( weapBanksMultiPlayer[curweapbank][i] );
+			drawweap = getAltWeapon( weapBanks[curweapbank][i] );
 		} else {
 // jpw
 			drawweap = getAltWeapon( weapBanks[curweapbank][i] );
@@ -3295,7 +3268,7 @@ void CG_DrawWeaponSelect( void ) {
 		// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
 // JPW NERVE
 		if ( cg_gameType.integer == GT_WOLF ) {
-			if ( drawweap == weapBanksMultiPlayer[curweapbank][i] ) {
+			if ( drawweap == weapBanks[curweapbank][i] ) {
 				drawweap = 0;
 			}
 		} else {
@@ -3462,12 +3435,12 @@ int CG_WeaponIndex( int weapnum, int *bank, int *cycle ) {
 			}
 // JPW NERVE
 			else {
-				if ( !weapBanksMultiPlayer[bnk][cyc] ) {
+				if ( !weapBanks[bnk][cyc] ) {
 					break;
 				}
 
 				// found the current weapon
-				if ( weapBanksMultiPlayer[bnk][cyc] == weapnum ) {
+				if ( weapBanks[bnk][cyc] == weapnum ) {
 					if ( bank ) {
 						*bank = bnk;
 					}
@@ -3511,10 +3484,10 @@ static int getNextWeapInBank( int bank, int cycle ) {
 	}
 // JPW NERVE
 	else {
-		if ( weapBanksMultiPlayer[bank][cycle] ) {     // return next weapon in bank if there is one
-			return weapBanksMultiPlayer[bank][cycle];
+		if ( weapBanks[bank][cycle] ) {     // return next weapon in bank if there is one
+			return weapBanks[bank][cycle];
 		} else {                            // return first in bank
-			return weapBanksMultiPlayer[bank][0];
+			return weapBanks[bank][0];
 		}
 	}
 // jpw
@@ -3556,14 +3529,14 @@ static int getPrevWeapInBank( int bank, int cycle ) {
 		}
 		return weapBanks[bank][cycle];
 	} else {
-		while ( !weapBanksMultiPlayer[bank][cycle] ) {
+		while ( !weapBanks[bank][cycle] ) {
 			cycle--;
 
 			if ( cycle < 0 ) {
 				cycle = maxWeapsInBank - 1;
 			}
 		}
-		return weapBanksMultiPlayer[bank][cycle];
+		return weapBanks[bank][cycle];
 	}
 }
 
@@ -3602,10 +3575,10 @@ static int getNextBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 	}
 // JPW NERVE
 	else {
-		if ( sameBankPosition && weapBanksMultiPlayer[bank][cycle] ) {
-			return weapBanksMultiPlayer[bank][cycle];
+		if ( sameBankPosition && weapBanks[bank][cycle] ) {
+			return weapBanks[bank][cycle];
 		} else {
-			return weapBanksMultiPlayer[bank][0];
+			return weapBanks[bank][0];
 		}
 	}
 // jpw
@@ -3647,13 +3620,13 @@ static int getPrevBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 	}
 // JPW NERVE
 	else {
-		if ( sameBankPosition && weapBanksMultiPlayer[bank][cycle] ) {
-			return weapBanksMultiPlayer[bank][cycle];
+		if ( sameBankPosition && weapBanks[bank][cycle] ) {
+			return weapBanks[bank][cycle];
 		} else
 		{   // find highest weap in bank
 			for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
-				if ( weapBanksMultiPlayer[bank][i] ) {
-					return weapBanksMultiPlayer[bank][i];
+				if ( weapBanks[bank][i] ) {
+					return weapBanks[bank][i];
 				}
 			}
 
@@ -4388,7 +4361,7 @@ void CG_WeaponBank_f( void ) {
 		}
 // JPW NERVE
 		else {
-			num = weapBanksMultiPlayer[bank][0];
+			num = weapBanks[bank][0];
 		}
 // jpw
 		cycle -= 1;   // cycle up to first weap

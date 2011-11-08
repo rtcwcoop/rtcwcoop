@@ -63,17 +63,23 @@ extern vmCvar_t g_gametype;
 #define DELAY_SHOULDER  50  // rl
 #define DELAY_THROW     250 // grenades, dynamite
 
-// JPW NERVE -- moved this from cg_weapons.c 'cause I need it for a droplist for weapondrop command (wbuttons & (1 << 6))
-// JPW NERVE -- in mutiplayer, characters get knife/special on button 1, pistols on 2, 2-handed on 3
-int weapBanksMultiPlayer[MAX_WEAP_BANKS_MP][MAX_WEAPS_IN_BANK_MP] = {
-	{0,                     0,                      0,          0,          0,          0,              0,          0           },  // empty bank '0'
-	{WP_KNIFE,              0,                      0,          0,          0,          0,              0,          0           },
-	{WP_LUGER,              WP_COLT,                0,          0,          0,          0,              0,          0           },
-	{WP_MP40,               WP_THOMPSON,            WP_STEN,    WP_MAUSER,  WP_GARAND,  WP_PANZERFAUST, WP_VENOM,   WP_FLAMETHROWER     },
-	{WP_GRENADE_LAUNCHER,   WP_GRENADE_PINEAPPLE,   0,          0,          0,          0,              0,          0,          },
-	{WP_DYNAMITE,           0,						0,			0,          0,          0,              0,          0           }
+int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
+	// bank
+	{0,                     0,                      0           },  //	0 (empty)
+
+	{WP_KNIFE,              0,                      0           },  //	1
+	{WP_LUGER,              WP_COLT,                0           },  //	2	// WP_AKIMBO
+	{WP_MP40,               WP_THOMPSON,            WP_STEN     },  //	3
+	{WP_MAUSER,             WP_GARAND,              0           },  //	4
+	{WP_FG42,               0,                      0           },  //	5
+	{WP_GRENADE_LAUNCHER,   WP_GRENADE_PINEAPPLE,   WP_DYNAMITE },  //	6
+	{WP_PANZERFAUST,        0,                      0           },  //	7
+	{WP_VENOM,              0,                      0           },  //	8
+	{WP_FLAMETHROWER,       0,                      0           },  //	9
+	{WP_TESLA,              0,                      0           }   //	10
 };
-// jpw
+
+extern int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK];
 
 // [0] = maxammo		-	max player ammo carrying capacity.
 // [1] = uses			-	how many 'rounds' it takes/costs to fire one cycle.
