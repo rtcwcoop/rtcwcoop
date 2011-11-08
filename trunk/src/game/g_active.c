@@ -939,7 +939,7 @@ void ClientThink_real( gentity_t *ent ) {
 				client->dropWeaponTime = 1; // just latch it for now
 				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) ) {
 					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
-						weapon = weapBanks[3][i];
+						weapon = weapBanks[3][i];								// GISKARD: Drop of weapons!
 						if ( COM_BitCheck( client->ps.weapons,weapon ) ) {
 
 							item = BG_FindItemForWeapon( weapon );
@@ -969,14 +969,14 @@ void ClientThink_real( gentity_t *ent ) {
 							ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
 							COM_BitClear( client->ps.weapons,weapon );
 
-							if ( weapon == WP_MAUSER ) {
-								COM_BitClear( client->ps.weapons,WP_SNIPERRIFLE );
-							}
+//							if ( weapon == WP_MAUSER ) {
+//								COM_BitClear( client->ps.weapons,WP_SNIPERRIFLE );
+//							}
 
 							// Clear out empty weapon, change to next best weapon
 							G_AddEvent( ent, EV_NOAMMO, 0 );
 
-							i = MAX_WEAPS_IN_BANK_MP;
+							i = MAX_WEAPS_IN_BANK;
 							// show_bug.cgi?id=568
 							if ( client->ps.weapon == weapon ) {
 								client->ps.weapon = 0;

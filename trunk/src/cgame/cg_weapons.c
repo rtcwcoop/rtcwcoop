@@ -52,8 +52,6 @@ static qboolean CG_WeaponHasAmmo( int i );
 
 static int maxWeapBanks = MAX_WEAP_BANKS, maxWeapsInBank = MAX_WEAPS_IN_BANK; // JPW NERVE
 
-
-
 //----(SA)	end
 
 
