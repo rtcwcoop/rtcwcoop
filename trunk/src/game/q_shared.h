@@ -1337,6 +1337,7 @@ typedef struct playerState_s {
 #define WBUTTON_RELOAD      8
 #define WBUTTON_LEANLEFT    16
 #define WBUTTON_LEANRIGHT   32
+#define WBUTTON_DROP        64 // JPW NERVE
 
 // unused
 #define WBUTTON_EXTRA6      64

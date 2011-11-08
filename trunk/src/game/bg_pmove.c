@@ -2123,12 +2123,14 @@ static void PM_BeginWeaponChange( int oldweapon, int newweapon, qboolean reload 
 
 	BG_AnimScriptEvent( pm->ps, ANIM_ET_DROPWEAPON, qfalse, qfalse );
 
-	if ( reload ) {
+	pm->ps->weaponstate = WEAPON_DROPPING;
+
+/*	if ( reload ) {
 		pm->ps->weaponstate = WEAPON_DROPPING_TORELOAD;
 	} else {
 		pm->ps->weaponstate = WEAPON_DROPPING;
 	}
-
+*/
 	switchtime = 250;   // dropping/raising usually takes 1/4 sec.
 	// sometimes different switch times for alt weapons
 	switch ( oldweapon ) {

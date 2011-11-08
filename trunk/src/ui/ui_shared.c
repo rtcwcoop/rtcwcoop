@@ -3549,6 +3549,7 @@ static bind_t g_bindings[] =
 //	{"help",			K_F1,           -1, -1, -1},
 	{"+leanleft",        -1,             -1, -1, -1},
 	{"+leanright",       -1,             -1, -1, -1},
+	{"+dropweapon",  -1,             -1, -1, -1},			// GISKARD: drop weapon
 	{"kill",         -1,             -1, -1, -1}
 };
 

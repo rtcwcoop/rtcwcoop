@@ -600,6 +600,9 @@ typedef enum {
 
 } weapon_t;
 
+// JPW NERVE moved from cg_weapons (now used in g_active) for drop command, actual array in bg_misc.c
+extern int weapBanksMultiPlayer[MAX_WEAP_BANKS_MP][MAX_WEAPS_IN_BANK_MP];
+// jpw
 
 typedef struct ammotable_s {
 	int maxammo;            //

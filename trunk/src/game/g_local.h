@@ -590,6 +590,7 @@ struct gclient_s {
 	gentity_t   *cameraPortal;              // grapple hook if out
 	vec3_t cameraOrigin;
 
+	int dropWeaponTime;         // JPW NERVE last time a weapon was dropped
 	int limboDropWeapon;         // JPW NERVE weapon to drop in limbo
 	int deployQueueNumber;         // JPW NERVE player order in reinforcement FIFO queue
 	int sniperRifleFiredTime;         // JPW NERVE last time a sniper rifle was fired (for muzzle flip effects)

@@ -67,7 +67,7 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 	{WP_FLAMETHROWER,       0,                      0           },  //	9
 	{WP_TESLA,              0,                      0           }   //	10
 };
-
+/*
 // JPW NERVE -- in mutiplayer, characters get knife/special on button 1, pistols on 2, 2-handed on 3
 int weapBanksMultiPlayer[MAX_WEAP_BANKS_MP][MAX_WEAPS_IN_BANK_MP] = {
 	{0,                     0,                      0,          0,          0,          0,              0,          0           },  // empty bank '0'
@@ -79,6 +79,7 @@ int weapBanksMultiPlayer[MAX_WEAP_BANKS_MP][MAX_WEAPS_IN_BANK_MP] = {
 	{WP_DYNAMITE,           0,                      0,          0,          0,          0,              0,          0           }
 };
 // jpw
+*/
 
 //----(SA)	end
 

@@ -257,6 +257,9 @@ void IN_LeanLeftUp( void )    { IN_KeyUp( &kb[KB_WBUTTONS4] );  }
 void IN_LeanRightDown( void ) { IN_KeyDown( &kb[KB_WBUTTONS5] );    }   //----(SA)	lean right
 void IN_LeanRightUp( void )   { IN_KeyUp( &kb[KB_WBUTTONS5] );  }
 
+void IN_MP_DropWeaponDown( void ) {IN_KeyDown( &kb[KB_WBUTTONS6] );}
+void IN_MP_DropWeaponUp( void ) {IN_KeyUp( &kb[KB_WBUTTONS6] );}
+
 // unused
 void IN_Wbutton6Down( void )  { IN_KeyDown( &kb[KB_WBUTTONS6] );    }
 void IN_Wbutton6Up( void )    { IN_KeyUp( &kb[KB_WBUTTONS6] );  }
@@ -1010,6 +1013,10 @@ void CL_InitInput( void ) {
 	Cmd_AddCommand( "-leanleft", IN_LeanLeftUp );
 	Cmd_AddCommand( "+leanright",    IN_LeanRightDown );
 	Cmd_AddCommand( "-leanright",    IN_LeanRightUp );
+	
+	Cmd_AddCommand( "+dropweapon",   IN_MP_DropWeaponDown );  // JPW NERVE drop two-handed weapon
+	Cmd_AddCommand( "-dropweapon",   IN_MP_DropWeaponUp );
+	
 	Cmd_AddCommand( "+wbutton6", IN_Wbutton6Down );   //
 	Cmd_AddCommand( "-wbutton6", IN_Wbutton6Up );
 	Cmd_AddCommand( "+wbutton7", IN_Wbutton7Down );   //
