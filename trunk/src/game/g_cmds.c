@@ -109,12 +109,13 @@ void Cmd_PlayerStart_f( gentity_t *ent ) {
                 return;
 
         player = AICast_FindEntityForName( "player" );
-        if ( player ) {
-                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
+        //if ( player ) {
+                trap_Cvar_Set( "g_playerstart", "1" ); 
+                //AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
 
                 // now let it think
-                AICast_CastScriptThink();
-        }            
+                //AICast_CastScriptThink();
+        //}            
 }
 
 /*

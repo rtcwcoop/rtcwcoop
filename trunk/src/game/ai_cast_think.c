@@ -476,7 +476,9 @@ void AICast_Think( int client, float thinktime ) {
 	}
 	//
 	// update bounding box
-	AIChar_SetBBox( ent, cs, qtrue );
+	//AIChar_SetBBox( ent, cs, qtrue );
+        // fretn: a dedicated server can't use the trap_GetTag functions, this function does
+	AIChar_SetBBox( ent, cs, qfalse );
 	//
 	// set/disable these each frame as required
 	//ent->r.svFlags |= SVF_BROADCAST;
@@ -793,7 +795,7 @@ AICast_StartFrame
 void CopyToBodyQue( gentity_t *ent );
 
 void AICast_StartFrame( int time ) {
-	int i, elapsed, count, clCount;
+	int i, j, elapsed, count, clCount;
 	cast_state_t    *cs;
 	int castcount;
 	static int lasttime, lastthink;
@@ -856,11 +858,19 @@ void AICast_StartFrame( int time ) {
 	// update the player's area, only update if it's valid
 	for ( i = 0; i < 2; i++ ) {
 		trap_AAS_SetCurrentWorld( i );
-		castcount = BotPointAreaNum( g_entities[0].s.pos.trBase );
-		if ( castcount ) {
-			caststates[0].lastValidAreaNum[i] = castcount;
-			caststates[0].lastValidAreaTime[i] = level.time;
-		}
+                // fretn
+                for ( j = 0; j < level.maxclients; j++ ) {
+                        // if AI, continue;
+                        if ( caststates[j].bs )
+                                continue;
+
+                        castcount = BotPointAreaNum( g_entities[j].s.pos.trBase );
+                        if ( castcount ) {
+                                caststates[j].lastValidAreaNum[i] = castcount;
+                                caststates[j].lastValidAreaTime[i] = level.time;
+                        }
+                }
+                // fretn
 	}
 	//
 	count = 0;

@@ -1529,7 +1529,7 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	gclient_t   *client;
 	char userinfo[MAX_INFO_STRING];
 	gentity_t   *ent;
-
+        
 	ent = &g_entities[ clientNum ];
 
 	trap_GetUserinfo( clientNum, userinfo, sizeof( userinfo ) );

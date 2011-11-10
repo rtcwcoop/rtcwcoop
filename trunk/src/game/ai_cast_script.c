@@ -370,8 +370,8 @@ void AICast_ScriptLoad( void ) {
 
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 
+        G_Printf("Loading: %s\n", filename);
 	// make sure we clear out the temporary scriptname
-	trap_Cvar_Set( "ai_scriptName", "" );
 
 	if ( len < 0 ) {
 		return;

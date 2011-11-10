@@ -620,8 +620,9 @@ void AICast_SightUpdate( int numchecks ) {
 		trap_AAS_SetCurrentWorld( cs->aasWorldIndex );
 
 		for (   destcount = 0, dest = 0, destent = g_entities;
-				//dest < aicast_maxclients && destcount < level.numPlayingClients;
-				destent == g_entities;  // only check the player
+                                // fretn - check all players
+				dest < aicast_maxclients && destcount < level.numPlayingClients;
+				//destent == g_entities;  // only check the player
 				dest++, destent++ )
 		{
 			if ( !destent->inuse ) {

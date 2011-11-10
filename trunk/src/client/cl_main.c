@@ -1860,7 +1860,7 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		return;
 	}
 
-	Com_DPrintf( "Unknown connectionless packet command.\n" );
+	Com_DPrintf( "Unknown connectionless packet command. %s\n", c );
 }
 
 
@@ -2752,6 +2752,9 @@ void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
 
 	infoString = MSG_ReadString( msg );
 
+        //fretn
+        Com_DPrintf("ServerInfoPacket: %s\n", infoString);
+
 	// if this isn't the correct protocol version, ignore it
 	prot = atoi( Info_ValueForKey( infoString, "protocol" ) );
 	if ( prot != PROTOCOL_VERSION ) {
@@ -2836,6 +2839,7 @@ void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
 	cls.localServers[i].allowAnonymous = 0;
 
 	Q_strncpyz( info, MSG_ReadString( msg ), MAX_INFO_STRING );
+
 	if ( strlen( info ) ) {
 		if ( info[strlen( info ) - 1] != '\n' ) {
 			strncat( info, "\n", sizeof( info ) );

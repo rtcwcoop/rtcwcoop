@@ -584,6 +584,9 @@ static void SV_BuildClientSnapshot( client_t *client ) {
 	entityNumbers.numSnapshotEntities = 0;
 	memset( frame->areabits, 0, sizeof( frame->areabits ) );
 
+        //fretn
+        frame->num_entities = 0;
+
 	clent = client->gentity;
 	if ( !clent || client->state == CS_ZOMBIE ) {
 		return;

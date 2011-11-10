@@ -1054,6 +1054,7 @@ void G_UpdateCvars( void ) {
 
 						saveGamePending = qtrue;    // set this temporarily so we dont actually run the script just yet
 						AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
+                                                // fretn
 						saveGamePending = qfalse;   // set it back
 
 						// save the "autosave\\<mapname>" savegame, which is taken before any cameras have been played
@@ -1192,11 +1193,11 @@ extern void trap_Cvar_Reset( const char *var_name );
 void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	int i;
 
-	if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
+	//if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
 		G_Printf( "------- Game Initialization -------\n" );
 		G_Printf( "gamename: %s\n", GAMEVERSION );
 		G_Printf( "gamedate: %s\n", __DATE__ );
-	}
+	//}
 
 	srand( randomSeed );
 

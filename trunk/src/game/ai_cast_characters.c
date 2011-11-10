@@ -1048,7 +1048,9 @@ int AIChar_GetPainLocation( gentity_t *ent, vec3_t point ) {
 
 	// first make sure the client is able to retrieve tag information
 	if ( !trap_GetTag( ent->s.number, painTagNames[0], &or ) ) {
-		return 0;
+                // fretn - dedicated servers always return tag_chest ?
+		return 1;
+		//return 0;
 	}
 
 	// find a correct animation to play, based on the body orientation at previous frame
