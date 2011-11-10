@@ -933,7 +933,7 @@ void ClientThink_real( gentity_t *ent ) {
 	// also update weapon recharge time
 	// JPW drop button drops secondary weapon so new one can be picked up
 	// TTimo explicit braces to avoid ambiguous 'else'
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer ) {
 		if ( ucmd->wbuttons & WBUTTON_DROP ) {
 			if ( !client->dropWeaponTime ) {
 				client->dropWeaponTime = 1; // just latch it for now
@@ -966,7 +966,9 @@ void ClientThink_real( gentity_t *ent ) {
 							trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
 							VectorCopy( tr.endpos, org );
 
-							ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
+                                                        // fretn : the mp code accepts a clientnum for this function, sp not, need to port it ?
+							//ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
+							ent2 = LaunchItem( item, org, velocity );
 							COM_BitClear( client->ps.weapons,weapon );
 
 //							if ( weapon == WP_MAUSER ) {
