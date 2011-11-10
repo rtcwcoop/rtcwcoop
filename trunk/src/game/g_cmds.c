@@ -2048,6 +2048,59 @@ void Cmd_EntityCount_f( gentity_t *ent ) {
 	}
 }
 
+void Cmd_DropAmmo_f ( gentity_t *ent )
+{
+        gclient_t *client;
+        gentity_t *ent2;
+        gitem_t *item;
+        vec3_t angles, velocity, offset, mins, maxs, org;
+        int     ammo_in_clip;
+        trace_t tr;
+        int weapon;
+        
+        if (!ent->client)
+        {
+                G_Printf("Cmd_DropAmmo_f: No client\n");
+                return;
+        }
+        client = ent->client;
+        weapon = client->ps.weapon;
+
+        ammo_in_clip = client->ps.ammoclip[BG_FindClipForWeapon( client->ps.weapon )];
+
+        item = BG_FindItemForWeapon( weapon );
+        VectorCopy( client->ps.viewangles, angles );
+
+                              // clamp pitch
+        if ( angles[PITCH] < -30 ) {
+                angles[PITCH] = -30;
+        } else if ( angles[PITCH] > 30 ) {
+                angles[PITCH] = 30;
+        }
+
+        AngleVectors( angles, velocity, NULL, NULL );
+        VectorScale( velocity, 64, offset );
+        offset[2] += client->ps.viewheight / 2;
+        VectorScale( velocity, 75, velocity );
+        velocity[2] += 50 + random() * 35;
+
+        VectorAdd( client->ps.origin,offset,org );
+
+        VectorSet( mins, -ITEM_RADIUS, -ITEM_RADIUS, 0 );
+        VectorSet( maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS );
+
+        trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
+        VectorCopy( tr.endpos, org );
+
+        ent2 = LaunchItem( item, org, velocity );
+
+        ent2->count = ammo_in_clip;
+        ent2->item->quantity = ammo_in_clip;
+        
+        client->ps.ammoclip[BG_FindClipForWeapon( weapon )] -= ammo_in_clip;
+        G_AddEvent( ent, EV_EMPTYCLIP, 0 );
+
+}
 // NERVE - SMF
 /*
 ============
@@ -2185,6 +2238,8 @@ void ClientCommand( int clientNum ) {
 		Cmd_EntityCount_f( ent );
 	} else if ( Q_stricmp( cmd, "setspawnpt" ) == 0 )  {
 		Cmd_SetSpawnPoint_f( ent );
+        } else if ( Q_stricmp( cmd, "dropammo" ) == 0 ) {
+                Cmd_DropAmmo_f( ent );
 	} else {
 		trap_SendServerCommand( clientNum, va( "print \"unknown cmd %s\n\"", cmd ) );
 	}
