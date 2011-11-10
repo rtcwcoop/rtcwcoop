@@ -939,8 +939,10 @@ void ClientThink_real( gentity_t *ent ) {
 				client->dropWeaponTime = 1; // just latch it for now
 				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) ) {
 					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
-						weapon = weapBanks[3][i];								// GISKARD: Drop of weapons!
-						if ( COM_BitCheck( client->ps.weapons,weapon ) ) {
+                                                // drop the current weapon
+						weapon = client->ps.weapon;
+
+						if ( COM_BitCheck( client->ps.weapons,weapon ) && weapon != WP_KNIFE) {
 
 							item = BG_FindItemForWeapon( weapon );
 							VectorCopy( client->ps.viewangles, angles );
