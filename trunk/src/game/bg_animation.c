@@ -106,8 +106,11 @@ static animStringItem_t animEventTypesStr[] =
 	{"JUMP", -1},
 	{"JUMPBK", -1},
 	{"LAND", -1},
+// GISKARD: Drop weapon & ammo
 	{"DROPWEAPON", -1},
 	{"RAISEWEAPON", -1},
+	{"DROPAMMO", -1},
+	{"RAISEAMMO", -1},
 	{"CLIMBMOUNT", -1},
 	{"CLIMBDISMOUNT", -1},
 	{"RELOAD", -1},

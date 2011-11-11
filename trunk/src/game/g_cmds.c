@@ -2241,7 +2241,7 @@ void ClientCommand( int clientNum ) {
 		Cmd_EntityCount_f( ent );
 	} else if ( Q_stricmp( cmd, "setspawnpt" ) == 0 )  {
 		Cmd_SetSpawnPoint_f( ent );
-        } else if ( Q_stricmp( cmd, "dropammo" ) == 0 ) {
+	} else if ( Q_stricmp( cmd, "dropammo" ) == 0 ) {
                 Cmd_DropAmmo_f( ent );
 	} else {
 		trap_SendServerCommand( clientNum, va( "print \"unknown cmd %s\n\"", cmd ) );

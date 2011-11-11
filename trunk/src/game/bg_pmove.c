@@ -2122,7 +2122,6 @@ static void PM_BeginWeaponChange( int oldweapon, int newweapon, qboolean reload 
 	}
 
 	BG_AnimScriptEvent( pm->ps, ANIM_ET_DROPWEAPON, qfalse, qfalse );
-
 	pm->ps->weaponstate = WEAPON_DROPPING;
 
 /*	if ( reload ) {
