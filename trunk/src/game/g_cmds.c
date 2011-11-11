@@ -2059,11 +2059,14 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         int weapon;
         
         if (!ent->client)
-        {
-                G_Printf("Cmd_DropAmmo_f: No client\n");
                 return;
-        }
+
         client = ent->client;
+
+        // no ammo dropping while reloading
+        if (client->ps.weaponstate == WEAPON_RELOADING)
+                return;
+
         weapon = client->ps.weapon;
 
         ammo_in_clip = client->ps.ammoclip[BG_FindClipForWeapon( client->ps.weapon )];
@@ -2071,7 +2074,7 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         item = BG_FindItemForWeapon( weapon );
         VectorCopy( client->ps.viewangles, angles );
 
-                              // clamp pitch
+        // clamp pitch
         if ( angles[PITCH] < -30 ) {
                 angles[PITCH] = -30;
         } else if ( angles[PITCH] > 30 ) {
@@ -2097,8 +2100,8 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         ent2->count = ammo_in_clip;
         ent2->item->quantity = ammo_in_clip;
         
+        // remove ammo from clip
         client->ps.ammoclip[BG_FindClipForWeapon( weapon )] -= ammo_in_clip;
-        G_AddEvent( ent, EV_EMPTYCLIP, 0 );
 
 }
 // NERVE - SMF
