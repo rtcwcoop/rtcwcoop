@@ -260,12 +260,8 @@ void IN_LeanRightUp( void )   { IN_KeyUp( &kb[KB_WBUTTONS5] );  }
 // GISKARD: Drop weapon & ammo
 void IN_DropWeaponDown( void )	{IN_KeyDown( &kb[KB_WBUTTONS6] );}
 void IN_DropWeaponUp( void )	{IN_KeyUp( &kb[KB_WBUTTONS6] );}
-void IN_DropAmmoDown( void )	{IN_KeyDown( &kb[KB_WBUTTONS7] );}
-void IN_DropAmmoUp( void )		{IN_KeyUp( &kb[KB_WBUTTONS7] );}
 
 // unused
-void IN_Wbutton6Down( void )  { IN_KeyDown( &kb[KB_WBUTTONS6] );    }
-void IN_Wbutton6Up( void )    { IN_KeyUp( &kb[KB_WBUTTONS6] );  }
 void IN_Wbutton7Down( void )  { IN_KeyDown( &kb[KB_WBUTTONS7] );    }
 void IN_Wbutton7Up( void )    { IN_KeyUp( &kb[KB_WBUTTONS7] );  }
 
@@ -1020,11 +1016,7 @@ void CL_InitInput( void ) {
 // GISKARD: Drop weapon & ammo
 	Cmd_AddCommand( "+dropweapon",   IN_DropWeaponDown );
 	Cmd_AddCommand( "-dropweapon",   IN_DropWeaponUp );
-	Cmd_AddCommand( "+dropammo",     IN_DropAmmoDown );
-	Cmd_AddCommand( "-dropammo",     IN_DropAmmoUp );
 	
-	Cmd_AddCommand( "+wbutton6", IN_Wbutton6Down );   //
-	Cmd_AddCommand( "-wbutton6", IN_Wbutton6Up );
 	Cmd_AddCommand( "+wbutton7", IN_Wbutton7Down );   //
 	Cmd_AddCommand( "-wbutton7", IN_Wbutton7Up );
 //----(SA) end
