@@ -1908,8 +1908,8 @@ void ClientSpawn( gentity_t *ent ) {
 
 	} else {
                 // fretn - don't kill our coop friends !
-                // disabled again: the player is stuck in the other one ..
-                //if ( !g_coop.integer )
+                // FIXME: make sure players dont get stuck in each other
+                if ( !g_coop.integer )
 		        G_KillBox( ent );
 
 		trap_LinkEntity( ent );
