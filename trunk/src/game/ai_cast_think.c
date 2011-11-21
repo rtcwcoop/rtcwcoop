@@ -407,14 +407,15 @@ void AICast_UpdateInput( cast_state_t *cs, int time ) {
 		cs->actionFlags |= CASTACTION_WALK;
 	}
 
-#ifdef DEDICATED
         // fretn - on a dedicated server, the speed sometimes drops below zero
         // no idea why .. but this fixes it for now
         if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer)
+		{
             if (bi.speed < 0)
+			{
                 bi.speed = 62.66668;
-#endif
-
+			}
+		}
 	//
 	AICast_InputToUserCommand( cs, &bi, &cs->lastucmd, bs->cur_ps.delta_angles );
 	//
