@@ -406,6 +406,15 @@ void AICast_UpdateInput( cast_state_t *cs, int time ) {
 	if ( bi.speed <= ( 400.0 / 300.0 ) * ( cs->attributes[WALKING_SPEED] + ( cs->attributes[WALKING_SPEED] + 50 < cs->attributes[RUNNING_SPEED] ? 50 : -1 ) ) ) {
 		cs->actionFlags |= CASTACTION_WALK;
 	}
+
+#ifdef DEDICATED
+        // fretn - on a dedicated server, the speed sometimes drops below zero
+        // no idea why .. but this fixes it for now
+        if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer)
+            if (bi.speed < 0)
+                bi.speed = 62.66668;
+#endif
+
 	//
 	AICast_InputToUserCommand( cs, &bi, &cs->lastucmd, bs->cur_ps.delta_angles );
 	//
