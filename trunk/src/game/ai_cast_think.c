@@ -409,7 +409,7 @@ void AICast_UpdateInput( cast_state_t *cs, int time ) {
 
         // fretn - on a dedicated server, the speed sometimes drops below zero
         // no idea why .. but this fixes it for now
-        if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer)
+        if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer && g_dedicated.integer)
 		{
             if (bi.speed < 0)
 			{
