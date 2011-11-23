@@ -514,12 +514,14 @@ notVisible:
 		// DHM - Nerve :: not in multiplayer please
 		if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient ) {
 			if ( ent->r.eventTime == svs.time ) {
-				ent->s.eFlags |= EF_NODRAW;     // don't draw, just process event
+                                // fretn: this makes entities hidden on listenservers for connected players
+				//ent->s.eFlags |= EF_NODRAW;     // don't draw, just process event
 				SV_AddEntToSnapshot( svEnt, ent, eNums );
 			} else if ( ent->s.eType == ET_PLAYER ) {
 				// keep players around if they are alive and active (so sounds dont get messed up)
 				if ( !( ent->s.eFlags & EF_DEAD ) ) {
-					ent->s.eFlags |= EF_NODRAW;     // don't draw, just process events and sounds
+                                        // fretn: this makes entities hidden on listenservers for connected players
+					//ent->s.eFlags |= EF_NODRAW;     // don't draw, just process events and sounds
 					SV_AddEntToSnapshot( svEnt, ent, eNums );
 				}
 			}
