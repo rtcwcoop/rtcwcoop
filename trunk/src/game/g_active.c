@@ -872,6 +872,7 @@ void ClientThink_real( gentity_t *ent ) {
 		//	return;
 	}
 
+
 	//
 	// check for exiting intermission
 	//

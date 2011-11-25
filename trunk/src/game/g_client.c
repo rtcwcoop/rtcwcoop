@@ -1731,11 +1731,22 @@ void ClientSpawn( gentity_t *ent ) {
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {
 					client->pers.initialSpawn = qtrue;
 					spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
+                                        // fretn
+                                        ent->client->hasCoopSpawn = qfalse;
 				} else {
+                                        if (g_coop.integer)
+                                        {
+                                                // todo: select random spot from friends
+                                                VectorCopy(client->coopSpawnPointOrigin, spawn_origin);                      
+                                                VectorCopy(client->coopSpawnPointAngles, spawn_angles);                      
+                                        }
 					// don't spawn near existing origin if possible
-					spawnPoint = SelectSpawnPoint(
-						client->ps.origin,
-						spawn_origin, spawn_angles );
+                                        else
+                                        {
+					        spawnPoint = SelectSpawnPoint(
+						        client->ps.origin,
+						        spawn_origin, spawn_angles );
+                                        }
 				}
 
 				// Tim needs to prevent bots from spawning at the initial point
@@ -1936,8 +1947,9 @@ void ClientSpawn( gentity_t *ent ) {
 	if ( level.intermissiontime ) {
 		MoveClientToIntermission( ent );
 	} else {
-		// fire the targets of the spawn point
-		G_UseTargets( spawnPoint, ent );
+		// fire the targets of the spawn point : fretn - not in coop, messes up our respawn things, FIXME
+                if (!g_coop.integer)
+		        G_UseTargets( spawnPoint, ent );
 
 		// select the highest weapon number available, after any
 		// spawn given items have fired

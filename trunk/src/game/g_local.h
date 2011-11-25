@@ -598,6 +598,11 @@ struct gclient_s {
 	float sniperRifleMuzzlePitch;       // (SA) added
 
 	int saved_persistant[MAX_PERSISTANT];           // DHM - Nerve :: Save ps->persistant here during Limbo
+
+        // fretn
+        vec3_t coopSpawnPointOrigin;
+        vec3_t coopSpawnPointAngles;
+        qboolean hasCoopSpawn;
 };
 
 
@@ -729,6 +734,9 @@ typedef struct {
 
 	// RF, record last time we loaded, so we can hack around sighting issues on reload
 	int lastLoadTime;
+
+        // fretn: every x seconds save the current location of the players to use as a future spawnpoint
+        int lastSpawnSave;
 
 } level_locals_t;
 

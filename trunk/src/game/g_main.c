@@ -1210,6 +1210,8 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	// set some level globals
 	memset( &level, 0, sizeof( level ) );
 	level.time = levelTime;
+        // fretn
+        level.lastSpawnSave = levelTime;
 	level.startTime = levelTime;
 
 	level.numSecrets = 0;   //----(SA)	added
@@ -2405,6 +2407,7 @@ void G_RunFrame( int levelTime ) {
 	int i;
 	gentity_t   *ent;
 	int msec;
+        qboolean newSpawns = qfalse; // fretn
 //int start, end;
 
 	// if we are waiting for the level to restart, do nothing
@@ -2427,6 +2430,16 @@ void G_RunFrame( int levelTime ) {
 	// get any cvar changes
 	G_UpdateCvars();
 
+        // fretn
+        // check if we need to create new spawnpoints
+
+        // fretn
+
+        if (level.lastSpawnSave <= level.time)
+        {    
+                level.lastSpawnSave = level.time + 30000;
+                newSpawns = qtrue;
+        } 
 	//
 	// go through all allocated objects
 	//
@@ -2541,6 +2554,14 @@ void G_RunFrame( int levelTime ) {
 		}
 
 		if ( i < MAX_CLIENTS ) {
+                        // fretn
+                        if (newSpawns && !(ent->r.svFlags & SVF_CASTAI && !(ent->client->ps.eFlags & EF_DEAD)))
+                        {
+                                VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
+                                VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
+                                ent->client->hasCoopSpawn = qtrue;
+                                //G_Printf("New Spawnpoint saved\n");
+                        }
 			G_RunClient( ent );
 			continue;
 		}
