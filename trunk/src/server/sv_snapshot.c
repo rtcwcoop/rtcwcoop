@@ -512,16 +512,15 @@ notVisible:
 
 		// Ridah, if this entity has changed events, then send it regardless of whether we can see it or not
 		// DHM - Nerve :: not in multiplayer please
-		if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient ) {
+                // fretn: not in coop please (gives hidden players on listen server)
+		if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient && !sv_coop->integer) {
 			if ( ent->r.eventTime == svs.time ) {
-                                // fretn: this makes entities hidden on listenservers for connected players
-				//ent->s.eFlags |= EF_NODRAW;     // don't draw, just process event
+				ent->s.eFlags |= EF_NODRAW;     // don't draw, just process event
 				SV_AddEntToSnapshot( svEnt, ent, eNums );
 			} else if ( ent->s.eType == ET_PLAYER ) {
 				// keep players around if they are alive and active (so sounds dont get messed up)
 				if ( !( ent->s.eFlags & EF_DEAD ) ) {
-                                        // fretn: this makes entities hidden on listenservers for connected players
-					//ent->s.eFlags |= EF_NODRAW;     // don't draw, just process events and sounds
+					ent->s.eFlags |= EF_NODRAW;     // don't draw, just process events and sounds
 					SV_AddEntToSnapshot( svEnt, ent, eNums );
 				}
 			}
