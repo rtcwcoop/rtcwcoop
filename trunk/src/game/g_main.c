@@ -2156,7 +2156,8 @@ void CheckExitRules( void ) {
 		return;
 	}
 
-	if ( g_gametype.integer != GT_CTF && g_fraglimit.integer ) {
+        // fretn: no fraglimit in coop
+	if ( g_gametype.integer != GT_CTF && g_fraglimit.integer && !g_coop.integer) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );
