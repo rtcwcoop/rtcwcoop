@@ -1734,7 +1734,7 @@ void ClientSpawn( gentity_t *ent ) {
                                         // fretn
                                         ent->client->hasCoopSpawn = qfalse;
 				} else {
-                                        if (g_coop.integer)
+                                        if (g_coop.integer && ent->client->hasCoopSpawn)
                                         {
                                                 // todo: select random spot from friends
                                                 VectorCopy(client->coopSpawnPointOrigin, spawn_origin);                      
@@ -1947,7 +1947,7 @@ void ClientSpawn( gentity_t *ent ) {
 	if ( level.intermissiontime ) {
 		MoveClientToIntermission( ent );
 	} else {
-		// fire the targets of the spawn point : fretn - not in coop, messes up our respawn things, FIXME
+		// fire the targets of the spawn point
                 if (!g_coop.integer)
 		        G_UseTargets( spawnPoint, ent );
 
