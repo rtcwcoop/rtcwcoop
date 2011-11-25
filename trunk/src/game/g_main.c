@@ -142,6 +142,7 @@ vmCvar_t g_soldierChargeTime;
 // jpw
 
 vmCvar_t g_playerStart;         // set when the player enters the game
+vmCvar_t g_autospawn;
 
 cvarTable_t gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -178,6 +179,7 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_maxGameClients, "g_maxGameClients", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
+	{ &g_autospawn, "g_autospawn", "0", CVAR_ARCHIVE, 0, qfalse  },
 
 	// change anytime vars
 	{ &g_dmflags, "dmflags", "0", CVAR_SERVERINFO | CVAR_ARCHIVE, 0, qtrue  },
@@ -2431,14 +2433,12 @@ void G_RunFrame( int levelTime ) {
 	G_UpdateCvars();
 
         // fretn
-        // check if we need to create new spawnpoints
 
-        // fretn
-
-        if (level.lastSpawnSave <= level.time)
+        if (level.lastSpawnSave <= level.time && g_autospawn.integer)
         {    
                 level.lastSpawnSave = level.time + 30000;
                 newSpawns = qtrue;
+                trap_SendServerCommand( -1, va( "print \"Saved current position as next spawnpoint\n\"" ) );
         } 
 	//
 	// go through all allocated objects

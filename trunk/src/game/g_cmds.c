@@ -508,6 +508,36 @@ void Cmd_Notarget_f( gentity_t *ent ) {
 }
 
 
+void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
+        
+        if (!g_coop.integer)
+                return;
+
+        if ( ent->health <= 0 )
+                return;
+
+        if (g_autospawn.integer)
+        {
+                trap_SendServerCommand( ent - g_entities, va( "print \"Can't save spawnpoint, autosave is activated on the server\n\"" ) );
+                return;
+        }
+
+        if (ent->client->ps.lastcoopSpawnSaveTime <= level.time)
+        {
+
+                VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
+                VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
+                ent->client->hasCoopSpawn = qtrue;
+                trap_SendServerCommand( ent - g_entities, va( "print \"Saved current position as next spawnpoint\n\"" ) );
+                ent->client->ps.lastcoopSpawnSaveTime = level.time + 5000;
+        }
+        else
+        {
+                int seconds = (ent->client->ps.lastcoopSpawnSaveTime - level.time) / 1000;
+                trap_SendServerCommand( ent - g_entities, va( "print \"You must wait %d seconds before saving a new spawnpoint\n\"", seconds ) );
+        }
+}
+
 /*
 ==================
 Cmd_Noclip_f
@@ -2206,6 +2236,8 @@ void ClientCommand( int clientNum ) {
 		Cmd_Notarget_f( ent );
 	} else if ( Q_stricmp( cmd, "noclip" ) == 0 )  {
 		Cmd_Noclip_f( ent );
+	} else if ( Q_stricmp( cmd, "setcoopspawnpoint" ) == 0 )  {
+		Cmd_SetCoopSpawn_f( ent );
 	} else if ( Q_stricmp( cmd, "kill" ) == 0 )  {
 		Cmd_Kill_f( ent );
 	} else if ( Q_stricmp( cmd, "levelshot" ) == 0 )  {

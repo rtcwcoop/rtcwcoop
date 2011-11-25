@@ -1283,6 +1283,9 @@ typedef struct playerState_s {
 	int aimSpreadScale;         // 0 - 255 increases with angular movement
 	int lastFireTime;           // used by server to hold last firing frame briefly when randomly releasing trigger (AI)
 
+        // fretn
+        int lastcoopSpawnSaveTime;      // last time we saved a spawnpoint with a command
+
 	int quickGrenTime;
 
 	int leanStopDebounceTime;

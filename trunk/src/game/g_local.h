@@ -1093,6 +1093,7 @@ extern gentity_t       *g_camEnt;
 extern vmCvar_t g_gametype;
 //fretn
 extern vmCvar_t g_coop;
+extern vmCvar_t g_autospawn;
 extern vmCvar_t g_skipcutscenes;
 
 // Rafael gameskill
