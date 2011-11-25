@@ -776,7 +776,7 @@ WOLFOBJ = \
   $(B)/client/sdl_input.o \
   $(B)/client/sdl_snd.o \
   \
-  $(B)/client/con_passive.o \
+  $(B)/client/con_tty.o \
   $(B)/client/con_log.o \
   $(B)/client/sys_main.o
 
