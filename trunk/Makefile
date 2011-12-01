@@ -1264,7 +1264,7 @@ distclean: clean toolsclean
 	@rm -rf $(BUILD_DIR)
 
 installer: release
-@$(MAKE) VERSION=$(VERSION) -C $(LOKISETUPDIR) V=$(V)
+	@$(MAKE) VERSION=$(VERSION) -C $(LOKISETUPDIR) V=$(V)
 
 dist:
 	rm -rf wolfsp-$(VERSION)
