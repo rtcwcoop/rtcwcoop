@@ -7,6 +7,9 @@ computer 1: start game with /coopmap *mapname*
 
 computer 2: type /connect *ip*, once you see the introduction screen type /playerstart
 
+On windows you have to connect to the ip 127.0.0.1 if you want to connect to a local server.
+On Mac OS X its 0.0.0.0 that you need to connect to.
+
 = Details =
 
 If you want to enable cheats, use /coopdevmap
