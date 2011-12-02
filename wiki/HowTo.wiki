@@ -28,3 +28,8 @@ type: ./wolfsp.app/Contents/MacOS/wolfspded.ub +coopmap tram
 = Console =
 
 use shift-escape to open the console
+
+= PK3 Files =
+
+Copy all your wolfenstein pk3 files to the main folder of this game.
+Also copy our pk3 files (you can find them in other_files in the svn) to that same main folder.
