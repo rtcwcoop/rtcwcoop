@@ -263,6 +263,8 @@ typedef struct {
 	int punkbuster;                 // DHM - Nerve
 	int antilag;         // TTimo
 	char gameName[MAX_NAME_LENGTH];         // Arnout
+        int coop;
+        int gameskill;
 } serverInfo_t;
 
 typedef struct {

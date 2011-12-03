@@ -77,6 +77,13 @@ static const serverFilter_t serverFilters[] = {
 	{"Alliance", "alliance" },
 };
 
+static const char *coopGameTypes[] = {
+        "sp",
+        "Coop",
+        "NotSoCoop"
+};
+static int const numCoopGameTypes = sizeof( coopGameTypes ) / sizeof( const char* );
+
 static const char *teamArenaGameTypes[] = {
 	"FFA",
 	"TOURNAMENT",
@@ -5073,6 +5080,7 @@ static void UI_InsertServerIntoDisplayList( int num, int position ) {
 		uiInfo.serverStatus.displayServers[i] = uiInfo.serverStatus.displayServers[i - 1];
 	}
 	uiInfo.serverStatus.displayServers[position] = num;
+
 }
 
 /*
@@ -5190,6 +5198,8 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 		return;
 	}
 
+        
+
 	visible = qfalse;
 	for ( i = 0; i < count; i++ ) {
 		// if we already got info for this server
@@ -5205,7 +5215,6 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 
 			clients = atoi( Info_ValueForKey( info, "clients" ) );
 			uiInfo.serverStatus.numPlayersOnServers += clients;
-
 			if ( ui_browserShowEmpty.integer == 0 ) {
 				if ( clients == 0 ) {
 					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
@@ -5282,7 +5291,7 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 				}
 			}
 */
-
+/*
 			if ( uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum != -1 ) {
 				game = atoi( Info_ValueForKey( info, "gametype" ) );
 				if ( game != uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum ) {
@@ -5290,6 +5299,7 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 					continue;
 				}
 			}
+*/
 
 			if ( ui_serverFilterType.integer > 0 ) {
 				if ( Q_stricmp( Info_ValueForKey( info, "game" ), serverFilters[ui_serverFilterType.integer].basedir ) != 0 ) {
@@ -5843,7 +5853,7 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 		//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
 	} else if ( feederID == FEEDER_SERVERS ) {
 		if ( index >= 0 && index < uiInfo.serverStatus.numDisplayServers ) {
-			int ping, game;
+			int ping, game, coop;
 			if ( lastServerColumn != column || lastServerTime > uiInfo.uiDC.realTime + 5000 ) {
 				trap_LAN_GetServerInfo( ui_netSource.integer, uiInfo.serverStatus.displayServers[index], info, MAX_STRING_CHARS );
 				lastServerColumn = column;
@@ -5855,6 +5865,9 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 				// UI_UpdatePendingPings();
 			}
 			switch ( column ) {
+                        //fretn
+                        case SORT_SKILL:
+			        return Info_ValueForKey( info, "gameskill" );
 			case SORT_HOST:
 				if ( ping <= 0 ) {
 					return Info_ValueForKey( info, "addr" );
@@ -5874,8 +5887,13 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 				return clientBuff;
 			case SORT_GAME:
 				game = atoi( Info_ValueForKey( info, "gametype" ) );
+				coop = atoi( Info_ValueForKey( info, "coop" ) );
+                                
 				if ( game >= 0 && game < numTeamArenaGameTypes ) {
-					return teamArenaGameTypes[game];
+                                        if (coop > 0 && coop < numCoopGameTypes)
+					        return coopGameTypes[coop];
+                                        else 
+                                                return teamArenaGameTypes[game];
 				} else {
 					return "Unknown";
 				}

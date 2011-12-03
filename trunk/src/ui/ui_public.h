@@ -181,9 +181,11 @@ typedef enum {
 
 #define SORT_HOST           0
 #define SORT_MAP            1
-#define SORT_CLIENTS        2
-#define SORT_GAME           3
-#define SORT_PING           4
+// fretn
+#define SORT_SKILL          2
+#define SORT_CLIENTS        3
+#define SORT_GAME           4 
+#define SORT_PING           5 
 
 #define SORT_SAVENAME       0
 #define SORT_SAVETIME       1

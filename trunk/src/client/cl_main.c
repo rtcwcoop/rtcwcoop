@@ -1624,8 +1624,10 @@ void CL_InitServerInfo( serverInfo_t *server, serverAddress_t *address ) {
 	server->ping = -1;
 	server->game[0] = '\0';
 	server->gameType = 0;
+	server->coop = 0;
 	server->netType = 0;
 	server->allowAnonymous = 0;
+        server->gameskill = 0;
 }
 
 #define MAX_SERVERSPERPACKET    256
@@ -2704,6 +2706,9 @@ static void CL_SetServerInfo( serverInfo_t *server, const char *info, int ping )
 			server->minPing = atoi( Info_ValueForKey( info, "minping" ) );
 			server->maxPing = atoi( Info_ValueForKey( info, "maxping" ) );
 			server->allowAnonymous = atoi( Info_ValueForKey( info, "sv_allowAnonymous" ) );
+                        // fretn
+			server->coop = atoi( Info_ValueForKey( info, "coop" ) );
+			server->gameskill= atoi( Info_ValueForKey( info, "gameskill" ) );
 		}
 		server->ping = ping;
 	}
@@ -2835,8 +2840,10 @@ void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
 	cls.localServers[i].ping = -1;
 	cls.localServers[i].game[0] = '\0';
 	cls.localServers[i].gameType = 0;
+	cls.localServers[i].coop = 0;
 	cls.localServers[i].netType = from.type;
 	cls.localServers[i].allowAnonymous = 0;
+	cls.localServers[i].gameskill = 0;
 
 	Q_strncpyz( info, MSG_ReadString( msg ), MAX_INFO_STRING );
 

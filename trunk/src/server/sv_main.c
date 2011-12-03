@@ -341,7 +341,6 @@ void SVC_Status( netadr_t from ) {
 
 	// ignore if we are in single player
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER && !Cvar_VariableValue("g_coop") ) {
-                Com_Printf("SVC_Status: ignored\n");
 		return;
 	}
 
@@ -396,7 +395,6 @@ void SVC_Info( netadr_t from ) {
 
 	// ignore if we are in single player
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER && !Cvar_VariableValue("g_coop")) {
-                Com_Printf("SVC_Info: Ignored\n");
 		return;
 	}
 
