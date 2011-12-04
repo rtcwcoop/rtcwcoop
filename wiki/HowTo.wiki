@@ -33,3 +33,9 @@ use shift-escape to open the console
 
 Copy all your wolfenstein pk3 files to the main folder of this game.
 Also copy our pk3 files (you can find them in other_files in the svn) to that same main folder.
+
+= Cvars =
+
+g_autospawn 1 autosaves you spawnpoint every 30 seconds, if g_autospawn is set to 0 then you can
+save your spawn point with the command: setcoopspawnpoint, bind x setcoopspawnpoint to assign it to
+a button
