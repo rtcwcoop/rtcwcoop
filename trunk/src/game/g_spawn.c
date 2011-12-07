@@ -1180,13 +1180,12 @@ void G_SpawnEntitiesFromString( void ) {
 		G_SpawnGEntityFromSpawnVars();
 	}
 
+
         G_LoadEntsFile();
 
-//COM_BeginParseSession("G_ParseExtraSpawnVars");
         // fretn - parse extra ents
-        while ( G_ParseExtraSpawnVars() ) {
-		G_SpawnGEntityFromSpawnVars();
-        }
+        G_ParseExtraSpawnVars();
+        G_SpawnGEntityFromSpawnVars();
 
 	level.spawning = qfalse;            // any future calls to G_Spawn*() will be errors
 }
