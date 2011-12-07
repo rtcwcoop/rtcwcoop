@@ -910,6 +910,136 @@ level's entity strings into level.spawnVars[]
 This does not actually spawn an entity.
 ====================
 */
+
+char entsfiledata[MAX_TOKEN_CHARS];
+qboolean GetEntityToken( char *buffer, int size ) {
+        const char  *s;  
+
+        char *data;
+
+        data = level.extraEntsScript;
+
+        s = COM_Parse( &data );
+        Q_strncpyz( buffer, s, size );
+        //if ( !&entsfiledata || !s[0] ) {
+        if ( !s[0] ) {
+                return qfalse;
+        } else {
+                return qtrue;
+        }    
+}
+
+
+qboolean G_LoadEntsFile( void )
+{
+        // fretn
+        char filename[MAX_QPATH];
+        vmCvar_t mapname;
+        fileHandle_t f;
+        int len;
+        char        *token;
+
+        level.extraEntsScript = NULL;
+
+        // fretn
+        trap_Cvar_VariableStringBuffer( "g_scriptName", filename, sizeof( filename ) );
+        if ( strlen( filename ) > 0 ) {
+                trap_Cvar_Register( &mapname, "g_scriptName", "", CVAR_ROM );
+        } else {
+                trap_Cvar_Register( &mapname, "mapname", "", CVAR_SERVERINFO | CVAR_ROM );
+        }
+        Q_strncpyz( filename, "maps/", sizeof( filename ) );
+        Q_strcat( filename, sizeof( filename ), mapname.string );
+        Q_strcat( filename, sizeof( filename ), ".ents" );
+
+        len = trap_FS_FOpenFile( filename, &f, FS_READ );
+
+        if ( len < 0 ) {
+                G_Printf("Failed to load: %s\n", filename);
+                return qfalse;
+        }
+
+        G_Printf("Loading: %s\n", filename);
+
+        level.extraEntsScript = G_Alloc( len );
+        trap_FS_Read( level.extraEntsScript, len, f );
+        trap_FS_Read( entsfiledata, len, f );
+
+        trap_FS_FCloseFile( f );
+
+        return qtrue;
+}
+
+qboolean G_ParseExtraSpawnVars( void ) {
+        char _keyname[MAX_TOKEN_CHARS];
+        char *keyname;
+        //char com_token[MAX_TOKEN_CHARS];
+        char *com_token;
+        char *data;
+
+
+	level.numSpawnVars = 0;
+	level.numSpawnVarChars = 0;
+
+        data = level.extraEntsScript;
+
+        // parse the opening brace
+        com_token = COM_Parse( &data );
+        if ( !com_token[0] ) {
+                // end of spawn string
+                return qfalse;
+        }    
+        if ( com_token[0] == '}' ) {
+                return qfalse;
+        }
+        if ( com_token[0] != '{' ) {
+                G_Error( "G_ParseExtraSpawnVars: found %s when expecting {",com_token );
+        }    
+
+        // go through all the key / value pairs
+        while ( 1 ) {
+                // parse key
+                keyname = COM_Parse( &data );
+                if ( !keyname[0] ) {
+                //if ( !GetEntityToken( keyname, sizeof( keyname ) ) ) {
+                        //G_Error( "G_ParseExtraSpawnVars: EOF without closing brace" );
+                        return qfalse;
+                }    
+
+                //Com_Printf("keyname: %s ", keyname);
+                if ( keyname[0] == '}' || keyname[0] == '{' ) {
+                        continue;
+                }    
+
+                strcpy( _keyname, keyname );
+
+                // parse value
+                com_token = COM_Parse( &data );
+                //Com_Printf("keyname: %s ", keyname);
+                //Com_Printf("token %s\n", com_token);
+                if ( !com_token[0] ) {
+                //if ( !GetEntityToken( com_token, sizeof( com_token ) ) ) {
+                        G_Error( "G_ParseExtraSpawnVars: EOF without closing brace" );
+                }    
+
+                if ( com_token[0] == '}' ) {
+                        G_Error( "G_ParseExtraSpawnVars: closing brace without data" );
+                }    
+
+                //Com_Printf("%s %s\n", _keyname, com_token);
+                if ( level.numSpawnVars == MAX_SPAWN_VARS ) {
+                        G_Error( "G_ParseExtraSpawnVars: MAX_SPAWN_VARS" );
+                }    
+                level.spawnVars[ level.numSpawnVars ][0] = G_AddSpawnVarToken( _keyname );
+                level.spawnVars[ level.numSpawnVars ][1] = G_AddSpawnVarToken( com_token );
+                level.numSpawnVars++;
+        }
+
+
+        return qtrue;
+
+}
+
 qboolean G_ParseSpawnVars( void ) {
 	char keyname[MAX_TOKEN_CHARS];
 	char com_token[MAX_TOKEN_CHARS];
@@ -1049,6 +1179,14 @@ void G_SpawnEntitiesFromString( void ) {
 	while ( G_ParseSpawnVars() ) {
 		G_SpawnGEntityFromSpawnVars();
 	}
+
+        G_LoadEntsFile();
+
+//COM_BeginParseSession("G_ParseExtraSpawnVars");
+        // fretn - parse extra ents
+        while ( G_ParseExtraSpawnVars() ) {
+		G_SpawnGEntityFromSpawnVars();
+        }
 
 	level.spawning = qfalse;            // any future calls to G_Spawn*() will be errors
 }
