@@ -79,7 +79,7 @@ this is an example for the map tram
 }
 {
 "classname" "target_location"
-"message" "Axis Barracks"
+"message" "Generator"
 "origin" "3408 -240 984"
 }
 }}}
