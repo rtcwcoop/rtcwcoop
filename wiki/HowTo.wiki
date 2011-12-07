@@ -68,3 +68,18 @@ example: escape2.ents
 }
 }}}
 this will spawn a zombie in the map and it will attack the german soldiers.
+
+You can also make target_location entities so a location shows up in the coopoverlay on the HUD:
+this is an example for the map tram
+{{{
+{
+"classname" "target_location"
+"message" "Allied Spawn"
+"origin" "3292 1940 960"
+}
+{
+"classname" "target_location"
+"message" "Axis Barracks"
+"origin" "3408 -240 984"
+}
+}}}
