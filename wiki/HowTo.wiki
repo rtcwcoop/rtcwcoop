@@ -42,3 +42,26 @@ save your spawn point with the command: setcoopspawnpoint, bind x setcoopspawnpo
 a button
 == g_skipcutscenes ==
 set to 1 if you want to skip the cutscenes
+
+= Cmds =
++dropweapon drop your current weapon so your coop friend can pick it up
+dropammo drop your current ammo clip 
+
+= ents file support =
+
+if you put a file in the maps folder with the name: mapname.ents then this file will be loaded and all the entities will be spawned into the map.
+
+example: escape2.ents
+
+{
+"skin" "zombie/boss2"
+"classname" "ai_zombie"
+"angle" "240"
+"origin" "-1084 604 -260"
+"ainame" "nazi1337"
+"spawnflags" "0" 
+"targetname" "nazi1337"
+"head" "escape3"
+}
+
+this will spawn a zombie in the map and it will attack the german soldiers.
