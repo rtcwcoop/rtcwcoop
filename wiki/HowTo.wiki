@@ -55,7 +55,7 @@ dropammo drop your current ammo clip
 if you put a file in the maps folder with the name: mapname.ents then this file will be loaded and all the entities will be spawned into the map.
 
 example: escape2.ents
-
+{{{
 {
 "skin" "zombie/boss2"
 "classname" "ai_zombie"
@@ -66,5 +66,5 @@ example: escape2.ents
 "targetname" "nazi1337"
 "head" "escape3"
 }
-
+}}}
 this will spawn a zombie in the map and it will attack the german soldiers.
