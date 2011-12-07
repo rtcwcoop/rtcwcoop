@@ -877,6 +877,26 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 }
 
 
+void G_SpawnExtraGEntityFromSpawnVars( void ) {
+	int i;
+	gentity_t   *ent;
+
+	// get the next free entity
+	ent = G_Spawn();
+
+	for ( i = 0 ; i < level.numSpawnVars ; i++ ) {
+                G_ParseField( level.spawnVars[i][0], level.spawnVars[i][1], ent );
+
+                VectorCopy( ent->s.origin, ent->s.pos.trBase );
+                VectorCopy( ent->s.origin, ent->r.currentOrigin );
+
+       }
+        // if we didn't get a classname, don't bother spawning anything
+        if ( !G_CallSpawn( ent ) ) {
+                G_FreeEntity( ent );
+        }
+}
+
 
 /*
 ====================
@@ -973,7 +993,7 @@ qboolean G_LoadEntsFile( void )
 qboolean G_ParseExtraSpawnVars( void ) {
         char _keyname[MAX_TOKEN_CHARS];
         char *keyname;
-        //char com_token[MAX_TOKEN_CHARS];
+        char _com_token[MAX_TOKEN_CHARS];
         char *com_token;
         char *data;
 
@@ -1001,13 +1021,17 @@ qboolean G_ParseExtraSpawnVars( void ) {
                 // parse key
                 keyname = COM_Parse( &data );
                 if ( !keyname[0] ) {
-                //if ( !GetEntityToken( keyname, sizeof( keyname ) ) ) {
-                        //G_Error( "G_ParseExtraSpawnVars: EOF without closing brace" );
                         return qfalse;
                 }    
 
-                //Com_Printf("keyname: %s ", keyname);
-                if ( keyname[0] == '}' || keyname[0] == '{' ) {
+                if ( keyname[0] == '}' ) {
+                        G_SpawnExtraGEntityFromSpawnVars();
+                        continue;
+                }    
+
+                if ( keyname[0] == '{' ) {
+	                level.numSpawnVars = 0;
+	                level.numSpawnVarChars = 0;
                         continue;
                 }    
 
@@ -1015,10 +1039,7 @@ qboolean G_ParseExtraSpawnVars( void ) {
 
                 // parse value
                 com_token = COM_Parse( &data );
-                //Com_Printf("keyname: %s ", keyname);
-                //Com_Printf("token %s\n", com_token);
                 if ( !com_token[0] ) {
-                //if ( !GetEntityToken( com_token, sizeof( com_token ) ) ) {
                         G_Error( "G_ParseExtraSpawnVars: EOF without closing brace" );
                 }    
 
@@ -1026,13 +1047,14 @@ qboolean G_ParseExtraSpawnVars( void ) {
                         G_Error( "G_ParseExtraSpawnVars: closing brace without data" );
                 }    
 
-                //Com_Printf("%s %s\n", _keyname, com_token);
+                strcpy( _com_token, com_token);
                 if ( level.numSpawnVars == MAX_SPAWN_VARS ) {
                         G_Error( "G_ParseExtraSpawnVars: MAX_SPAWN_VARS" );
                 }    
                 level.spawnVars[ level.numSpawnVars ][0] = G_AddSpawnVarToken( _keyname );
-                level.spawnVars[ level.numSpawnVars ][1] = G_AddSpawnVarToken( com_token );
+                level.spawnVars[ level.numSpawnVars ][1] = G_AddSpawnVarToken( _com_token );
                 level.numSpawnVars++;
+
         }
 
 
@@ -1184,8 +1206,10 @@ void G_SpawnEntitiesFromString( void ) {
         G_LoadEntsFile();
 
         // fretn - parse extra ents
+    //    while (G_ParseExtraSpawnVars()) {
+     //   G_SpawnExtraGEntityFromSpawnVars();
+      //  }
         G_ParseExtraSpawnVars();
-        G_SpawnGEntityFromSpawnVars();
 
 	level.spawning = qfalse;            // any future calls to G_Spawn*() will be errors
 }

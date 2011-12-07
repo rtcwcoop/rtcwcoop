@@ -1019,7 +1019,7 @@ static float CG_DrawTimer( float y ) {
 
 /*
 =================
-CG_DrawTeamOverlay
+CG_DrawCoopOverlay
 =================
 */
 
@@ -1030,7 +1030,7 @@ int numSortedTeamPlayers;
 #define TEAM_OVERLAY_MAXNAME_WIDTH  16
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  20
 
-static float CG_DrawTeamOverlay( float y ) {
+static float CG_DrawCoopOverlay( float y ) {
 	int x, w, h, xx;
 	int i, j, len;
 	const char *p;
@@ -1040,15 +1040,16 @@ static float CG_DrawTeamOverlay( float y ) {
 	char st[16];
 	clientInfo_t *ci;
 
-	if ( !cg_drawTeamOverlay.integer ) {
-		return y;
-	}
-
+//	if ( !cg_drawTeamOverlay.integer ) {
+//		return y;
+//	}
+/*
 	if ( cg.snap->ps.persistant[PERS_TEAM] != TEAM_RED &&
 		 cg.snap->ps.persistant[PERS_TEAM] != TEAM_BLUE ) {
 		return y; // Not on any team
 
 	}
+*/
 	plyrs = 0;
 
 	// max player name width
@@ -1119,14 +1120,14 @@ static float CG_DrawTeamOverlay( float y ) {
 		hcolor[2] = 1;
 		hcolor[3] = 0.33;
 	}
-	trap_R_SetColor( hcolor );
-	CG_DrawPic( x, y, w, h, cgs.media.teamStatusBar );
-	trap_R_SetColor( NULL );
+	//trap_R_SetColor( hcolor );
+	//CG_DrawPic( x, y, w, h, cgs.media.teamStatusBar );
+	//trap_R_SetColor( NULL );
 
 
 	for ( i = 0; i < numSortedTeamPlayers; i++ ) {
 		ci = cgs.clientinfo + sortedTeamPlayers[i];
-		if ( ci->infoValid && ci->team == cg.snap->ps.persistant[PERS_TEAM] ) {
+		if ( ci->infoValid && ci->team == cg.snap->ps.persistant[PERS_TEAM]) {
 
 			hcolor[0] = hcolor[1] = hcolor[2] = hcolor[3] = 1.0;
 
@@ -1137,6 +1138,7 @@ static float CG_DrawTeamOverlay( float y ) {
 							  TINYCHAR_WIDTH, TINYCHAR_HEIGHT, TEAM_OVERLAY_MAXNAME_WIDTH );
 
 			if ( lwidth ) {
+                                //Com_Printf("fretn: %d\n", ci->isAi);
 				p = CG_ConfigString( CS_LOCATIONS + ci->location );
 				if ( !p || !*p ) {
 					p = "unknown";
@@ -1155,7 +1157,8 @@ static float CG_DrawTeamOverlay( float y ) {
 
 			CG_ColorForHealth( hcolor );
 
-			Com_sprintf( st, sizeof( st ), "%3i %3i", ci->health,  ci->armor );
+			//Com_sprintf( st, sizeof( st ), "%3i %3i", ci->health,  ci->armor );
+			Com_sprintf( st, sizeof( st ), "%3i", ci->health );
 
 			xx = x + TINYCHAR_WIDTH * 3 +
 				 TINYCHAR_WIDTH * pwidth + TINYCHAR_WIDTH * lwidth;
@@ -1170,6 +1173,7 @@ static float CG_DrawTeamOverlay( float y ) {
 			CG_DrawPic( xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
 						cg_weapons[ci->curWeapon].weaponIcon[0] );
 
+/*
 			// Draw powerup icons
 			xx = x;
 			for ( j = 0; j < PW_NUM_POWERUPS; j++ ) {
@@ -1185,6 +1189,7 @@ static float CG_DrawTeamOverlay( float y ) {
 					} // jpw
 				}
 			}
+*/
 
 			y += TINYCHAR_HEIGHT;
 		}
@@ -1205,9 +1210,14 @@ static void CG_DrawUpperRight( void ) {
 
 	y = 0;
 
-	if ( cgs.gametype >= GT_TEAM ) {
-		y = CG_DrawTeamOverlay( y );
-	}
+	//if ( cgs.gametype >= GT_TEAM ) {
+        //{
+//		y = CG_DrawTeamOverlay( y );
+//	}
+        if ( cg_coop.integer && cgs.gametype == GT_SINGLE_PLAYER )
+        {
+		y = CG_DrawCoopOverlay( y );
+        }
 	if ( cg_drawSnapshot.integer ) {
 		y = CG_DrawSnapshot( y );
 	}

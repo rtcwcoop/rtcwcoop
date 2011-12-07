@@ -609,6 +609,7 @@ void target_location_linkup( gentity_t *ent ) {
 
 	trap_SetConfigstring( CS_LOCATIONS, "unknown" );
 
+
 	for ( i = 0, ent = g_entities, n = 1;
 		  i < level.num_entities;
 		  i++, ent++ ) {

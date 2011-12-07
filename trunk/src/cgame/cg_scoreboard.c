@@ -28,7 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 
 // cg_scoreboard -- draw the scoreboard on top of the game screen
 #include "cg_local.h"
-
+#include "../ui/ui_shared.h"
 
 #define SCOREBOARD_WIDTH    ( 31 * BIGCHAR_WIDTH )
 
@@ -431,6 +431,95 @@ int WM_ScoreboardOverlay( int x, int y, float fade ) {
 }
 // -NERVE - SMF
 
+// fretn
+void CG_DrawCoopScoreboard( void )
+{
+        int i, y, v, j;
+        float *color;   // faded color based on cursor hint drawing
+        float color2[4] = {0, 0, 0, 1}; 
+        const char *str;
+        char *mstats, *token;
+
+        #define MAX_STATS_VARS  64
+        int vars[MAX_STATS_VARS];
+        char *formatStr = NULL; // TTimo: init
+        int varIndex = 0;     // TTimo: init
+
+        if ( cg_paused.integer ) { 
+                // no draw if any menu's are up  (or otherwise paused)
+                return;
+        }   
+
+        //color = CG_FadeColor( cg.cursorHintTime, cg.cursorHintFade );
+        color = colorWhite;
+	/*if ( cg.showScores || cg.predictedPlayerState.pm_type == PM_DEAD ||
+		 cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
+		fade = 1.0;
+		fadeColor = colorWhite;
+	} else {
+		fadeColor = CG_FadeColor( cg.scoreFadeTime, FADE_TIME );
+
+		if ( !fadeColor ) {
+			// next time scoreboard comes up, don't print killer
+			cg.deferredPlayerLoading = 0;
+			cg.killerName[0] = 0;
+			return qfalse;
+		}
+		fade = *fadeColor;
+	}
+*/
+
+        if ( !color ) { // currently faded out, don't draw
+                return;
+        }   
+
+        // check for fade up
+        //if ( cg.time < ( cg.exitStatsTime + cg.exitStatsFade ) ) { 
+        //        color[3] = (float)( cg.time - cg.exitStatsTime ) / (float)cg.exitStatsFade;
+        //}   
+
+        color2[3] = color[3];
+
+
+        // background
+        color2[3] *= 0.6f;
+        CG_FilledBar( 150, 104, 340, 230, color2, NULL, NULL, 1.0f, 0 );
+
+        color2[0] = color2[1] = color2[2] = 0.3f;
+        color2[3] *= 0.6f;
+
+        // border
+        CG_FilledBar( 148, 104, 2, 230, color2, NULL, NULL, 1.0f, 0 );    // left
+        CG_FilledBar( 490, 104, 2, 230, color2, NULL, NULL, 1.0f, 0 );    // right
+        CG_FilledBar( 148, 102, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // top
+        CG_FilledBar( 148, 334, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // bot
+
+
+        // text boxes
+        color2[0] = color2[1] = color2[2] = 0.4f;
+        for ( i = 0; i < 5; i++ ) {
+                CG_FilledBar( 170, 154 + ( 28 * i ), 300, 20, color2, NULL, NULL, 1.0f, 0 );
+        }
+
+
+        // green title
+        color2[0] = color2[2] = 0;
+        color2[1] = 0.3f;
+        CG_FilledBar( 150, 104, 340, 20, color2, NULL, NULL, 1.0f, 0 );
+
+        color2[0] = color2[1] = color2[2] = 0.2f;
+
+        // title
+        color2[0] = color2[1] = color2[2] = 1;
+        color2[3] = color[3];
+//      CG_Text_Paint(280, 120, 2, 0.25f, color2, va("%s", CG_translateString("end_title")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+        //----(SA)      scale change per MK
+        CG_Text_Paint( 280, 120, 2, 0.313f, color2, va("scores"), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+
+        color2[0] = color2[1] = color2[2] = 1;
+}
+
+
 /*
 =================
 CG_DrawScoreboard
@@ -579,16 +668,24 @@ qboolean CG_DrawScoreboard( void ) {
 
         // fretn
 	} else if ( cgs.gametype == GT_SINGLE_PLAYER && cg_coop.integer) {   //----(SA) modified
-		CG_DrawBigString( 30, 50, "COOP SCORES", 1.0 );
-		y = CG_TeamScoreboard( x, y, TEAM_FREE, fade );
+                /*cg.cursorHintTime = cg.time;
+                cg.cursorHintFade = cg_hintFadeTime.integer;
+                cg.exitStatsFade = 250;     // fade /up/ time
+                if ( !cg.exitStatsTime ) {
+                        cg.exitStatsTime = cg.time;
+                } 
+                */
+                CG_DrawCoopScoreboard();
+		//CG_DrawBigString( 30, 50, "COOP SCORES", 1.0 );
+		//y = CG_TeamScoreboard( x, y, TEAM_FREE, fade );
 
-				s = va( "%s place with %i",
+		/*		s = va( "%s place with %i",
 						CG_PlaceString( cg.snap->ps.persistant[PERS_RANK] + 1 ),
 						cg.snap->ps.persistant[PERS_SCORE] );
 				w = CG_DrawStrlen( s ) * BIGCHAR_WIDTH;
 				x = ( SCREEN_WIDTH - w ) / 2;
 				y = 60;
-				CG_DrawBigString( x, y, s, fade );
+				CG_DrawBigString( x, y, s, fade );*/
         }
 
 	// load any models that have been deferred

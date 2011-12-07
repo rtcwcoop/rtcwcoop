@@ -796,6 +796,7 @@ void TeamplayInfoMessage( gentity_t *ent ) {
 				a = 0;
 			}
 
+
 			Com_sprintf( entry, sizeof( entry ),
 						 " %i %i %i %i %i %i",
 						 level.sortedClients[i], player->client->pers.teamState.location, h, a,
@@ -823,9 +824,10 @@ void CheckTeamStatus( void ) {
 
 		for ( i = 0; i < g_maxclients.integer; i++ ) {
 			ent = g_entities + i;
-			if ( ent->inuse &&
+	/*		if ( ent->inuse &&
 				 ( ent->client->sess.sessionTeam == TEAM_RED ||
-				   ent->client->sess.sessionTeam == TEAM_BLUE ) ) {
+				   ent->client->sess.sessionTeam == TEAM_BLUE ) ) {*/
+                        if ( ent->inuse && !(ent->r.svFlags & SVF_CASTAI) ) {
 				loc = Team_GetLocation( ent );
 				if ( loc ) {
 					ent->client->pers.teamState.location = loc->health;

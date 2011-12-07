@@ -27,6 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #include "g_local.h"
+#include "g_coop.h"
 
 // g_client.c -- client functions that don't happen every frame
 
@@ -806,39 +807,6 @@ void SetWolfSkin( gclient_t *client, char *model ) {
 	}
 }
 
-// fretn - set weapons when player spawns in coop
-// in the map dam, the player gets all the weapons, bug !
-void SetCoopSpawnWeapons( gclient_t *client ) {
-
-	int pc = client->sess.playerType;
-	client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
-
-    // zero out all ammo counts
-	memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) );
-
-	// Communicate it to cgame
-	client->ps.stats[STAT_PLAYER_CLASS] = pc;
-
-	// Abuse teamNum to store player class as well (can't see stats for all clients in cgame)
-	client->ps.teamNum = pc;
-
-	// All players start with a knife (not OR-ing so that it clears previous weapons)
-	client->ps.weapons[0] = 0;
-	client->ps.weapons[1] = 0;
-
-	COM_BitSet( client->ps.weapons, WP_KNIFE );
-	client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1;
-	client->ps.weapon = WP_KNIFE;
-	
-	COM_BitSet( client->ps.weapons, WP_LUGER );
-	client->ps.ammoclip[BG_FindClipForWeapon( WP_LUGER )] += 8;
-	client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] += 24;
-	client->ps.weapon = WP_LUGER;
-	client->ps.weaponstate = WEAPON_READY;
-
-	// give all the players a binocular
-	client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
-}
 
 void SetWolfSpawnWeapons( gclient_t *client ) {
 
@@ -1725,7 +1693,6 @@ void ClientSpawn( gentity_t *ent ) {
 		} else {
 			do {
                                 // fretn
-                                // TODO: select coop spawnpoint here
 
 				// the first spawn should be at a good looking spot
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {

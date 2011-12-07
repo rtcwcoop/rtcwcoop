@@ -1009,6 +1009,7 @@ WOLFGOBJ_ = \
   $(B)/main/game/g_client.o \
   $(B)/main/game/g_cmds.o \
   $(B)/main/game/g_combat.o \
+  $(B)/main/game/g_coop.o \
   $(B)/main/game/g_items.o \
   $(B)/main/game/g_mem.o \
   $(B)/main/game/g_misc.o \

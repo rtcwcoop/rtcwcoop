@@ -115,6 +115,31 @@ static void CG_ParseTeamInfo( void ) {
 
 
 /*
+=================
+CG_ParseCoopInfo
+
+=================
+*/
+static void CG_ParseCoopInfo( void ) {
+	int i;
+	int client;
+
+	numSortedTeamPlayers = atoi( CG_Argv( 1 ) );
+
+	for ( i = 0 ; i < numSortedTeamPlayers ; i++ ) {
+		client = atoi( CG_Argv( i * 6 + 2 ) );
+
+		sortedTeamPlayers[i] = client;
+
+		cgs.clientinfo[ client ].location = atoi( CG_Argv( i * 6 + 3 ) );
+		cgs.clientinfo[ client ].health = atoi( CG_Argv( i * 6 + 4 ) );
+		cgs.clientinfo[ client ].armor = atoi( CG_Argv( i * 6 + 5 ) );
+		cgs.clientinfo[ client ].curWeapon = atoi( CG_Argv( i * 6 + 6 ) );
+		cgs.clientinfo[ client ].powerups = atoi( CG_Argv( i * 6 + 7 ) );
+	}
+}
+
+/*
 ================
 CG_ParseServerinfo
 
@@ -905,6 +930,11 @@ static void CG_ServerCommand( void ) {
 		CG_ParseTeamInfo();
 		return;
 	}
+
+        if ( !strcmp( cmd, "coopinfo" ) ) {
+                CG_ParseCoopInfo();
+                return;
+        }
 
 	if ( !strcmp( cmd, "map_restart" ) ) {
 		CG_MapRestart();

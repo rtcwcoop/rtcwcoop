@@ -30,6 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 
 
 #include "g_local.h"
+#include "g_coop.h"
 
 level_locals_t level;
 
@@ -2590,8 +2591,12 @@ void G_RunFrame( int levelTime ) {
 	// see if it is time to end the level
 	CheckExitRules();
 
-	// update to team status?
-	CheckTeamStatus();
+        // fretn
+        if (g_coop.integer && g_gametype.integer == GT_SINGLE_PLAYER)
+                CheckCoopStatus();
+        else
+	        CheckTeamStatus(); // update to team status?
+
 
 	// cancel vote if timed out
 	CheckVote();
