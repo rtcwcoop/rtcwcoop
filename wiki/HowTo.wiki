@@ -17,6 +17,7 @@ If you want to enable cheats, use /coopdevmap
 Don't join the game while a camera is running :) (I'm working on this)
 
 Use a dedicated server or strange things will happen.
+
 Starting a game on windows doesn't work, I'm looking on this, so basicly the server needs to be an OS X or linux machine
 
 = Starting a dedicated server under Mac OS X = 
@@ -40,11 +41,13 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 g_autospawn 1 autosaves you spawnpoint every 30 seconds, if g_autospawn is set to 0 then you can
 save your spawn point with the command: setcoopspawnpoint, bind x setcoopspawnpoint to assign it to
 a button
+
 == g_skipcutscenes ==
 set to 1 if you want to skip the cutscenes
 
 = Cmds =
 +dropweapon drop your current weapon so your coop friend can pick it up
+
 dropammo drop your current ammo clip 
 
 = ents file support =
