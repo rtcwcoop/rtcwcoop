@@ -50,11 +50,12 @@ Set to 1 to see playerweapon, playername and health
 
 Set to 2 to see playerweapon, playername, location and health
 
-The playerweapon is just one character, K (knife), P (pistol), S (submachinegun), E (explosive), R (rifle), H (heavy weapon)
-it looks like this: 
+The playerweapon is just one character, K (knife), P (pistol), S (submachinegun), E (explosive), R (rifle), H (heavy weapon), and everything together looks like this: 
 {{{
 [P] fretn Axis Generator 100
 }}}
+see also this screenshot:
+http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
 
 = Cmds =
 +dropweapon drop your current weapon so your coop friend can pick it up
