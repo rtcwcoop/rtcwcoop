@@ -417,6 +417,66 @@ static void CG_LimboMessage_f( void ) {
 }
 // -NERVE - SMF
 
+/*
+===================
+CG_DumpLocation_f
+
+Dump a target_location definition to a file
+===================
+*/
+static void CG_DumpLocation_f( void ) { 
+        char locfilename[MAX_QPATH];
+        char locname[MAX_STRING_CHARS];
+        char *extptr, *buffptr;
+        fileHandle_t f;
+
+        // Check for argument
+        if ( trap_Argc() < 2 ) { 
+                CG_Printf( "Usage: dumploc <locationname>\n" );
+                return;
+        }   
+        trap_Args( locname, sizeof( locname ) );
+
+        // Open locations file
+        Q_strncpyz( locfilename, cgs.mapname, sizeof( locfilename ) );
+        extptr = locfilename + strlen( locfilename ) - 4;
+        if ( extptr < locfilename || Q_stricmp( extptr, ".bsp" ) ) { 
+                CG_Printf( "Unable to dump, unknown map name?\n" );
+                return;
+        }   
+        Q_strncpyz( extptr, ".loc", 5 );
+        trap_FS_FOpenFile( locfilename, &f, FS_APPEND_SYNC );
+        if ( !f ) { 
+                CG_Printf( "Failed to open '%s' for writing.\n", locfilename );
+                return;
+        }   
+
+        // Strip bad characters out
+        for ( buffptr = locname; *buffptr; buffptr++ )
+        {
+                if ( *buffptr == '\n' ) {
+                        *buffptr = ' ';
+                } else if ( *buffptr == '"' ) {
+                        *buffptr = '\'';
+                }
+        }
+        // Kill any trailing space as well
+        if ( *( buffptr - 1 ) == ' ' ) {
+                *( buffptr - 1 ) = 0;
+        }
+
+        // Build the entity definition
+        buffptr = va(   "{\n\"classname\" \"target_location\"\n\"origin\" \"%i %i %i\"\n\"message\" \"%s\"\n}\n\n",
+                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], locname );
+
+        // And write out/acknowledge
+        trap_FS_Write( buffptr, strlen( buffptr ), f );
+        trap_FS_FCloseFile( f );
+        CG_Printf( "Entity dumped to '%s' (%i %i %i).\n", locfilename,
+                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
+}
+
+
 typedef struct {
 	char    *cmd;
 	void ( *function )( void );
@@ -464,8 +524,9 @@ static consoleCommand_t commands[] = {
 	{ "mp_QuickMessage", CG_QuickMessage_f },
 	{ "OpenLimboMenu", CG_OpenLimbo_f },
 	{ "CloseLimboMenu", CG_CloseLimbo_f },
-	{ "LimboMessage", CG_LimboMessage_f }
+	{ "LimboMessage", CG_LimboMessage_f },
 	// -NERVE - SMF
+        { "dumploc", CG_DumpLocation_f }
 };
 
 
