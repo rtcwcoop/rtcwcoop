@@ -61,6 +61,10 @@ http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
 
 dropammo drop your current ammo clip 
 
+dumploc <location name>
+
+writes the target_location entity data to a .loc file in the main folder, copy the text to the .ents file to use the target_location in the game
+
 = ents file support =
 
 if you put a file in the maps folder with the name: mapname.ents then this file will be loaded and all the entities will be spawned into the map.
