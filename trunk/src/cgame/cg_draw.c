@@ -1016,12 +1016,13 @@ static float CG_DrawTimer( float y ) {
 	return y + BIGCHAR_HEIGHT + 4;
 }
 
-
 /*
 =================
 CG_DrawCoopOverlay
 =================
 */
+
+int maxCharsBeforeOverlay;
 
 // set in CG_ParseTeamInfo
 int sortedTeamPlayers[TEAM_MAXOVERLAY];
@@ -1031,173 +1032,207 @@ int numSortedTeamPlayers;
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  20
 
 static float CG_DrawCoopOverlay( float y ) {
-	int x, w, h, xx;
-	int i, j, len;
-	const char *p;
-	vec4_t hcolor;
-	int pwidth, lwidth;
-	int plyrs;
-	char st[16];
-	clientInfo_t *ci;
+        int x, w, h, xx;
+        int i, len; 
+        const char *p;
+        vec4_t hcolor;
+        int pwidth, lwidth;
+        int plyrs;
+        char st[16];
+        clientInfo_t *ci; 
+        // NERVE - SMF
+        char classType[2] = { 0, 0 }; 
+        int val; 
+        vec4_t deathcolor, damagecolor;      // JPW NERVE
+        float       *pcolor;
+        // -NERVE - SMF
 
-	if ( !cg_drawTeamOverlay.integer ) {
-		return y;
-	}
-/*
-	if ( cg.snap->ps.persistant[PERS_TEAM] != TEAM_RED &&
-		 cg.snap->ps.persistant[PERS_TEAM] != TEAM_BLUE ) {
-		return y; // Not on any team
+        deathcolor[0] = 1; 
+        deathcolor[1] = 0; 
+        deathcolor[2] = 0; 
+        deathcolor[3] = cg_hudAlpha.value;
+        damagecolor[0] = 1; 
+        damagecolor[1] = 1; 
+        damagecolor[2] = 0; 
+        damagecolor[3] = cg_hudAlpha.value;
+        maxCharsBeforeOverlay = 80;
 
-	}
-*/
-	plyrs = 0;
+        if ( !cg_drawTeamOverlay.integer ) {
+                return y;
+        }
 
-	// max player name width
-	pwidth = 0;
-	for ( i = 0; i < numSortedTeamPlayers; i++ ) {
-		ci = cgs.clientinfo + sortedTeamPlayers[i];
-		if ( ci->infoValid && ci->team == cg.snap->ps.persistant[PERS_TEAM] ) {
-			plyrs++;
-			len = CG_DrawStrlen( cgs.clientinfo[i].name );
-			if ( len > pwidth ) {
-				pwidth = len;
-			}
-		}
-	}
+        plyrs = 0;
 
-	if ( !plyrs ) {
-		return y;
-	}
+        // max player name width
+        pwidth = 0;
+        for ( i = 0; i < numSortedTeamPlayers; i++ ) {
+                ci = cgs.clientinfo + sortedTeamPlayers[i];
+                if ( ci->infoValid && ci->team == cg.snap->ps.persistant[PERS_TEAM] ) {
+                        plyrs++;
+                        len = CG_DrawStrlen( ci->name );
+                        if ( len > pwidth ) {
+                                pwidth = len;
+                        }
+                }
+        }
 
-	if ( pwidth > TEAM_OVERLAY_MAXNAME_WIDTH ) {
-		pwidth = TEAM_OVERLAY_MAXNAME_WIDTH;
-	}
+        if ( !plyrs ) {
+                return y;
+        }
 
-#if 0
-	// max location name width
-	lwidth = 0;
-	for ( i = 0; i < numSortedTeamPlayers; i++ ) {
-		ci = cgs.clientinfo + sortedTeamPlayers[i];
-		if ( ci->infoValid &&
-			 ci->team == cg.snap->ps.persistant[PERS_TEAM] &&
-			 CG_ConfigString( CS_LOCATIONS + ci->location ) ) {
-			len = CG_DrawStrlen( CG_ConfigString( CS_LOCATIONS + ci->location ) );
-			if ( len > lwidth ) {
-				lwidth = len;
-			}
-		}
-	}
+        if ( pwidth > TEAM_OVERLAY_MAXNAME_WIDTH ) {
+                pwidth = TEAM_OVERLAY_MAXNAME_WIDTH;
+        }
+
+#if 1 
+        // max location name width
+        lwidth = 0;
+        if ( cg_drawTeamOverlay.integer > 1 ) {
+                for ( i = 0; i < numSortedTeamPlayers; i++ ) {
+                        ci = cgs.clientinfo + sortedTeamPlayers[i];
+                        if ( ci->infoValid &&
+                                 ci->team == cg.snap->ps.persistant[PERS_TEAM] &&
+                                 CG_ConfigString( CS_LOCATIONS + ci->location ) ) {
+                                len = CG_DrawStrlen( CG_ConfigString( CS_LOCATIONS + ci->location ) );
+                                if ( len > lwidth ) {
+                                        lwidth = len;
+                                }
+                        }
+                }
+        }
 #else
-	// max location name width
-	lwidth = 0;
-	for ( i = 1; i < MAX_LOCATIONS; i++ ) {
-		p = CG_ConfigString( CS_LOCATIONS + i );
-		if ( p && *p ) {
-			len = CG_DrawStrlen( p );
-			if ( len > lwidth ) {
-				lwidth = len;
-			}
-		}
-	}
+        // max location name width
+        lwidth = 0;
+        for ( i = 1; i < MAX_LOCATIONS; i++ ) {
+                p = CG_ConfigString( CS_LOCATIONS + i );
+                if ( p && *p ) {
+                        len = CG_DrawStrlen( p );
+                        if ( len > lwidth ) {
+                                lwidth = len;
+                        }
+                }
+        }
 #endif
 
-	if ( lwidth > TEAM_OVERLAY_MAXLOCATION_WIDTH ) {
-		lwidth = TEAM_OVERLAY_MAXLOCATION_WIDTH;
-	}
+        if ( lwidth > TEAM_OVERLAY_MAXLOCATION_WIDTH ) {
+                lwidth = TEAM_OVERLAY_MAXLOCATION_WIDTH;
+        }
 
-	w = ( pwidth + lwidth + 4 + 7 ) * TINYCHAR_WIDTH;
-	x = 640 - w - 32;
-	h = plyrs * TINYCHAR_HEIGHT;
+        if ( cg_drawTeamOverlay.integer > 1 ) {
+                w = ( pwidth + lwidth + 3 + 7 ) * TINYCHAR_WIDTH; // JPW NERVE was +4+7
+        } else {
+                w = ( pwidth + lwidth + 8 ) * TINYCHAR_WIDTH; // JPW NERVE was +4+7
 
-	if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_RED ) {
-		hcolor[0] = 1;
-		hcolor[1] = 0;
-		hcolor[2] = 0;
-		hcolor[3] = 0.33;
-	} else { // if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_BLUE )
-		hcolor[0] = 0;
-		hcolor[1] = 0;
-		hcolor[2] = 1;
-		hcolor[3] = 0.33;
-	}
-	//trap_R_SetColor( hcolor );
-	//CG_DrawPic( x, y, w, h, cgs.media.teamStatusBar );
-	//trap_R_SetColor( NULL );
+        }
+        x = 640 - w - 4; // JPW was -32
+        h = plyrs * TINYCHAR_HEIGHT;
+
+        // DHM - Nerve :: Set the max characters that can be printed before the left edge
+        maxCharsBeforeOverlay = ( x / TINYCHAR_WIDTH ) - 1;
+
+        hcolor[0] = 0.25f;
+        hcolor[1] = 0.25f;
+        hcolor[2] = 0.5f;
+        hcolor[3] = 0.25f * cg_hudAlpha.value;
+
+        CG_FillRect( x,y,w,h,hcolor );
+        VectorSet( hcolor, 0.4f, 0.4f, 0.4f );
+        hcolor[3] = cg_hudAlpha.value;
+        CG_DrawRect( x - 1, y, w + 2, h + 2, 1, hcolor );
 
 
-	for ( i = 0; i < numSortedTeamPlayers; i++ ) {
-		ci = cgs.clientinfo + sortedTeamPlayers[i];
-		if ( ci->infoValid && ci->team == cg.snap->ps.persistant[PERS_TEAM]) {
+        for ( i = 0; i < numSortedTeamPlayers; i++ ) {
+                ci = cgs.clientinfo + sortedTeamPlayers[i];
+                if ( ci->infoValid && ci->team == cg.snap->ps.persistant[PERS_TEAM] ) {
 
-			hcolor[0] = hcolor[1] = hcolor[2] = hcolor[3] = 1.0;
+                        // NERVE - SMF
+                        // determine class type
+                        //val = cg_entities[ ci->clientNum ].currentState.teamNum;
+                        val = ci->curWeapon;
+                        
+                        if ( val == WP_KNIFE ) {
+                                classType[0] = 'K'; // knife
+                        } else if ( val == WP_LUGER || val == WP_COLT || val == WP_AKIMBO || val == WP_SILENCER ) {
+                                classType[0] = 'P'; // pistol
+                        } else if ( val == WP_THOMPSON || val == WP_MP40 || val == WP_STEN ) {
+                                classType[0] = 'S'; // smg
+                        } else if ( val == WP_GRENADE_LAUNCHER || val == WP_GRENADE_PINEAPPLE || val == WP_DYNAMITE ) {
+                                classType[0] = 'E'; // explosive
+                        } else if ( val == WP_MAUSER || val == WP_GARAND || val == WP_SNIPERRIFLE || val == WP_SNOOPERSCOPE || val == WP_FG42SCOPE || val == WP_FG42 || val == WP_SNIPER ) {
+                                classType[0] = 'R'; // rifle
+                        } else if ( val == WP_PANZERFAUST || val == WP_VENOM || val == WP_FLAMETHROWER || val == WP_TESLA ) {
+                                classType[0] = 'H'; // heavy weapon
+                        } else {
+                                classType[0] = 'X'; // ERROR !
+                        }
 
-			xx = x + TINYCHAR_WIDTH;
+                        Com_sprintf( st, sizeof( st ), "%s", classType );
 
-			CG_DrawStringExt( xx, y,
-							  ci->name, hcolor, qfalse, qfalse,
-							  TINYCHAR_WIDTH, TINYCHAR_HEIGHT, TEAM_OVERLAY_MAXNAME_WIDTH );
+                        xx = x + TINYCHAR_WIDTH;
 
-			if ( lwidth ) {
-                                //Com_Printf("fretn: %d\n", ci->isAi);
-				p = CG_ConfigString( CS_LOCATIONS + ci->location );
-				if ( !p || !*p ) {
-					p = "unknown";
-				}
-				len = CG_DrawStrlen( p );
-				if ( len > lwidth ) {
-					len = lwidth;
-				}
+                        hcolor[0] = hcolor[1] = 1.0;
+                        hcolor[2] = 0.0;
+                        hcolor[3] = cg_hudAlpha.value;
 
-				xx = x + TINYCHAR_WIDTH * 2 + TINYCHAR_WIDTH * pwidth +
-					 ( ( lwidth / 2 - len / 2 ) * TINYCHAR_WIDTH );
-				CG_DrawStringExt( xx, y,
-								  p, hcolor, qfalse, qfalse, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-								  TEAM_OVERLAY_MAXLOCATION_WIDTH );
-			}
+                        CG_DrawStringExt( xx, y,
+                                                          st, hcolor, qtrue, qfalse,
+                                                          TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 1 );
 
-			CG_ColorForHealth( hcolor );
+                        hcolor[0] = hcolor[1] = hcolor[2] = 1.0;
+                        hcolor[3] = cg_hudAlpha.value;
 
-			//Com_sprintf( st, sizeof( st ), "%3i %3i", ci->health,  ci->armor );
-			Com_sprintf( st, sizeof( st ), "%3i", ci->health );
+                        xx = x + 3 * TINYCHAR_WIDTH;
 
-			xx = x + TINYCHAR_WIDTH * 3 +
-				 TINYCHAR_WIDTH * pwidth + TINYCHAR_WIDTH * lwidth;
+                        // JPW NERVE
+                        if ( ci->health > 80 ) {
+                                pcolor = hcolor;
+                        } else if ( ci->health > 0 ) {
+                                pcolor = damagecolor;
+                        } else {
+                                pcolor = deathcolor;
+                        }
+                        // jpw
 
-			CG_DrawStringExt( xx, y,
-							  st, hcolor, qfalse, qfalse,
-							  TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 0 );
+                        CG_DrawStringExt( xx, y,
+                                                          ci->name, pcolor, qtrue, qfalse,
+                                                          TINYCHAR_WIDTH, TINYCHAR_HEIGHT, TEAM_OVERLAY_MAXNAME_WIDTH );
 
-			// draw weapon icon
-			xx += TINYCHAR_WIDTH * 3;
+                        if ( lwidth ) {
+                                p = CG_ConfigString( CS_LOCATIONS + ci->location );
+                                if ( !p || !*p ) {
+                                        p = "unknown";
+                                }
+                                //p = CG_TranslateString( p );
+                                len = CG_DrawStrlen( p );
+                                if ( len > lwidth ) {
+                                        len = lwidth;
+                                }
 
-			CG_DrawPic( xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-						cg_weapons[ci->curWeapon].weaponIcon[0] );
+                                xx = x + TINYCHAR_WIDTH * 5 + TINYCHAR_WIDTH * pwidth +
+                                         ( ( lwidth / 2 - len / 2 ) * TINYCHAR_WIDTH );
+                                CG_DrawStringExt( xx, y,
+                                                                  p, hcolor, qfalse, qfalse, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
+                                                                  TEAM_OVERLAY_MAXLOCATION_WIDTH );
+                        }
 
-/*
-			// Draw powerup icons
-			xx = x;
-			for ( j = 0; j < PW_NUM_POWERUPS; j++ ) {
-				if ( ci->powerups & ( 1 << j ) ) {
-					gitem_t *item;
+                        Com_sprintf( st, sizeof( st ), "%3i", ci->health ); // JPW NERVE pulled class stuff since it's at top now
 
-					item = BG_FindItemForPowerup( j );
+                        if ( cg_drawTeamOverlay.integer > 1 ) {
+                                xx = x + TINYCHAR_WIDTH * 6 + TINYCHAR_WIDTH * pwidth + TINYCHAR_WIDTH * lwidth;
+                        } else {
+                                xx = x + TINYCHAR_WIDTH * 4 + TINYCHAR_WIDTH * pwidth + TINYCHAR_WIDTH * lwidth;
+                        }
 
-					if ( item != NULL ) { // JPW NERVE added for invulnerability powerup at beginning of map
-						CG_DrawPic( xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-									trap_R_RegisterShader( item->icon ) );
-						xx -= TINYCHAR_WIDTH;
-					} // jpw
-				}
-			}
-*/
+                        CG_DrawStringExt( xx, y,
+                                                          st, pcolor, qfalse, qfalse,
+                                                          TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 3 );
 
-			y += TINYCHAR_HEIGHT;
-		}
-	}
+                        y += TINYCHAR_HEIGHT;
+                }
+        }
 
-	return y;
+        return y;
 }
-
 
 /*
 =====================
