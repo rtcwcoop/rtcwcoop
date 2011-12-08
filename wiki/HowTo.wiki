@@ -22,23 +22,22 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 = Cvars =
 
 == g_autospawn ==
-g_autospawn 1 autosaves you spawnpoint every 30 seconds, if g_autospawn is set to 0 then you can
-save your spawn point with the command: setcoopspawnpoint, bind x setcoopspawnpoint to assign it to
-a button
+ g_autospawn 1 autosaves you spawnpoint every 30 seconds, if g_autospawn is set to 0 then you can
+ save your spawn point with the command: setcoopspawnpoint, bind x setcoopspawnpoint to assign it to  a button
 
 == g_skipcutscenes ==
-set to 1 if you want to skip the cutscenes
+ set to 1 if you want to skip the cutscenes
 
 == cg_drawteamoverlay ==
-Set to 1 to see playerweapon, playername and health
+ Set to 1 to see playerweapon, playername and health
 
-Set to 2 to see playerweapon, playername, location and health
+ Set to 2 to see playerweapon, playername, location and health
 
-The playerweapon is just one character, K (knife), P (pistol), S (submachinegun), E (explosive), R (rifle), H (heavy weapon). 
+ The playerweapon is just one character, K (knife), P (pistol), S (submachinegun), E (explosive), R (rifle), H (heavy weapon). 
 
-See screenshot below:
+ See screenshot below:
 
-http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
+ http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
 
 = Cmds =
 ==+dropweapon==
@@ -48,19 +47,21 @@ http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
  drop your current ammo clip 
 
 ==dumploc==
-dumploc <location name>
+ dumploc <location name>
 
-writes the target_location entity data to a .loc file in the main folder, copy the text to the .ents file to use the target_location in the game
+ writes the target_location entity data to a .loc file in the main folder, copy the text to the .ents file to use the target_location in the game
 
 ==playerstart==
-Use this if you are stuck at the loading screen. (Happens when you connect to a non dedicated server)
+ Use this if you are stuck at the loading screen. (Happens when you connect to a non dedicated server)
 
 ==coopmap==
-Starts a coop game
+ Starts a coop game
 
-==coopdevmap
-starts a coop game with cheats enabled
+==coopdevmap==
+ starts a coop game with cheats enabled
 
+==setcoopspawnpoint==
+ sets current location as the next spawnpoint. Only works if g_autospawn is disabled on the server
 = ents file support =
 
 if you put a file in the maps folder with the name: mapname.ents then this file will be loaded and all the entities will be spawned into the map.
