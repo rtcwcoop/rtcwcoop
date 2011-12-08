@@ -1,4 +1,4 @@
-#labels howto,coop
+#labels howto,coop,cvars,cmds,readme
 = Introduction =
 
 (don't forget to put your pk3 files into your main folder)
