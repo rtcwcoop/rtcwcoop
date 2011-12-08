@@ -1040,9 +1040,9 @@ static float CG_DrawCoopOverlay( float y ) {
 	char st[16];
 	clientInfo_t *ci;
 
-//	if ( !cg_drawTeamOverlay.integer ) {
-//		return y;
-//	}
+	if ( !cg_drawTeamOverlay.integer ) {
+		return y;
+	}
 /*
 	if ( cg.snap->ps.persistant[PERS_TEAM] != TEAM_RED &&
 		 cg.snap->ps.persistant[PERS_TEAM] != TEAM_BLUE ) {
