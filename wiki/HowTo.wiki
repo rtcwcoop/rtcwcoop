@@ -93,4 +93,9 @@ this is an example for the map tram
 "message" "Generator"
 "origin" "3408 -240 984"
 }
+{
+"classname" "target_location"
+"message" "Tram entrance"
+"origin" "2576 208 1096"
+}
 }}}
