@@ -10,22 +10,6 @@ computer 2: type /connect *ip*, once you see the introduction screen type /playe
 On windows you have to connect to the ip 127.0.0.1 if you want to connect to a local server.
 On Mac OS X its 0.0.0.0 that you need to connect to.
 
-= Details =
-
-If you want to enable cheats, use /coopdevmap
-
-Don't join the game while a camera is running :) (I'm working on this)
-
-Use a dedicated server or strange things will happen.
-
-Starting a game on windows doesn't work, I'm looking on this, so basicly the server needs to be an OS X or linux machine
-
-= Starting a dedicated server under Mac OS X = 
-
-Open Terminal.app and switch to your RTCW installation folder
-
-type: ./wolfsp.app/Contents/MacOS/wolfspded.ub +coopmap tram
-
 = Console =
 
 use shift-escape to open the console
