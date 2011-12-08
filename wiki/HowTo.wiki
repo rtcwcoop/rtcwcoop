@@ -45,6 +45,11 @@ a button
 == g_skipcutscenes ==
 set to 1 if you want to skip the cutscenes
 
+== cg_drawteamoverlay ==
+Set to 1 to see playerweapon, playername and health
+
+Set to 2 to see playerweapon, playername, location and health
+
 = Cmds =
 +dropweapon drop your current weapon so your coop friend can pick it up
 
