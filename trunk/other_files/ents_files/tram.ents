@@ -1,0 +1,36 @@
+{
+"classname" "target_location"
+"origin" "3888 1920 1272"
+"message" "spawn"
+}
+
+{
+"classname" "target_location"
+"origin" "3465 1512 1312"
+"message" "axis room"
+}
+
+{
+"classname" "target_location"
+"origin" "3674 713 1176"
+"message" "tram entrance"
+}
+
+{
+"classname" "target_location"
+"origin" "3481 -78 1016"
+"message" "generator"
+}
+
+{
+"classname" "target_location"
+"origin" "2995 -308 1016"
+"message" "tram control panel"
+}
+
+{
+"classname" "target_location"
+"origin" "2637 -16 920"
+"message" "tram entrance"
+}
+
