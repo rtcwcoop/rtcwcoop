@@ -57,13 +57,25 @@ See screenshot below:
 http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
 
 = Cmds =
-+dropweapon drop your current weapon so your coop friend can pick it up
+==+dropweapon==
+ drop your current weapon so your coop friend can pick it up
 
-dropammo drop your current ammo clip 
+==dropammo==
+ drop your current ammo clip 
 
+==dumploc==
 dumploc <location name>
 
 writes the target_location entity data to a .loc file in the main folder, copy the text to the .ents file to use the target_location in the game
+
+==playerstart==
+Use this if you are stuck at the loading screen. (Happens when you connect to a non dedicated server)
+
+==coopmap==
+Starts a coop game
+
+==coopdevmap
+starts a coop game with cheats enabled
 
 = ents file support =
 
