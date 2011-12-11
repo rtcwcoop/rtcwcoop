@@ -340,7 +340,7 @@ static void SV_MapRestart_f( void ) {
 	if ( Cmd_Argc() > 1 ) {
 		delay = atoi( Cmd_Argv( 1 ) );
 	} else {
-		if ( sv_gametype->integer == GT_SINGLE_PLAYER ) { // (SA) no pause by default in sp
+		if ( sv_gametype->integer == GT_SINGLE_PLAYER && !sv_coop->integer ) { // (SA) no pause by default in sp
 			delay = 0;
 		} else {
 			delay = 5;

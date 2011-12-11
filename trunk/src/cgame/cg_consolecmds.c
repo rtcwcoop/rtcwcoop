@@ -419,6 +419,80 @@ static void CG_LimboMessage_f( void ) {
 
 /*
 ===================
+CG_DumpAiCast_f
+
+Dump a ai_zombie definition to a file
+===================
+*/
+static void CG_DumpAiCast_f( void ) { 
+        char aicastfilename[MAX_QPATH];
+        char ainame[MAX_STRING_CHARS];
+        char aitype[MAX_STRING_CHARS];
+        char *extptr, *buffptr;
+        fileHandle_t f;
+
+        // Check for argument
+        if ( trap_Argc() < 3 ) { 
+                CG_Printf( "Usage: dumpcast <type> <name>\n" );
+                return;
+        }   
+	trap_Argv( 1, aitype, sizeof( aitype ) );
+	trap_Argv( 2, ainame, sizeof( ainame ) );
+
+        // Open aicast file
+        Q_strncpyz( aicastfilename, cgs.mapname, sizeof( aicastfilename ) );
+        extptr = aicastfilename + strlen( aicastfilename ) - 4;
+        if ( extptr < aicastfilename || Q_stricmp( extptr, ".bsp" ) ) { 
+                CG_Printf( "Unable to dump, unknown map name?\n" );
+                return;
+        }   
+        Q_strncpyz( extptr, ".aic", 5 );
+        trap_FS_FOpenFile( aicastfilename, &f, FS_APPEND_SYNC );
+        if ( !f ) { 
+                CG_Printf( "Failed to open '%s' for writing.\n", aicastfilename );
+                return;
+        }   
+
+        // Strip bad characters out
+        for ( buffptr = ainame; *buffptr; buffptr++ )
+        {
+                if ( *buffptr == '\n' ) {
+                        *buffptr = ' ';
+                } else if ( *buffptr == '"' ) {
+                        *buffptr = '\'';
+                }
+        }
+        // Kill any trailing space as well
+        if ( *( buffptr - 1 ) == ' ' ) {
+                *( buffptr - 1 ) = 0;
+        }
+
+        // Strip bad characters out
+        for ( buffptr = aitype; *buffptr; buffptr++ )
+        {
+                if ( *buffptr == '\n' ) {
+                        *buffptr = ' ';
+                } else if ( *buffptr == '"' ) {
+                        *buffptr = '\'';
+                }
+        }
+        // Kill any trailing space as well
+        if ( *( buffptr - 1 ) == ' ' ) {
+                *( buffptr - 1 ) = 0;
+        }
+
+        // Build the entity definition
+        buffptr = va(   "{\n\"classname\" \"%s\"\n\"origin\" \"%i %i %i\"\n\"ainame\" \"%s\"\n\"angle\" \"%i\"\n}\n\n", aitype, (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], ainame, (int)cg.refdefViewAngles[YAW] );
+
+        // And write out/acknowledge
+        trap_FS_Write( buffptr, strlen( buffptr ), f );
+        trap_FS_FCloseFile( f );
+        CG_Printf( "Entity dumped to '%s' (%i %i %i).\n", aicastfilename,
+                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
+}
+
+/*
+===================
 CG_DumpLocation_f
 
 Dump a target_location definition to a file
@@ -526,7 +600,8 @@ static consoleCommand_t commands[] = {
 	{ "CloseLimboMenu", CG_CloseLimbo_f },
 	{ "LimboMessage", CG_LimboMessage_f },
 	// -NERVE - SMF
-        { "dumploc", CG_DumpLocation_f }
+        { "dumploc", CG_DumpLocation_f },
+        { "dumpaicast", CG_DumpAiCast_f }
 };
 
 
