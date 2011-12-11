@@ -518,7 +518,7 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
 
         if (g_autospawn.integer)
         {
-                trap_SendServerCommand( ent - g_entities, va( "print \"Can't save spawnpoint, autosave is activated on the server\n\"" ) );
+                trap_SendServerCommand( ent - g_entities, va( "cp \"Can't save spawnpoint, \nautosave is activated on the server\n\"" ) );
                 return;
         }
 
@@ -528,13 +528,13 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
                 VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
                 VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
                 ent->client->hasCoopSpawn = qtrue;
-                trap_SendServerCommand( ent - g_entities, va( "print \"Saved current position as next spawnpoint\n\"" ) );
+                trap_SendServerCommand( ent - g_entities, va( "cp \"Saved current position as \nnext spawnpoint\n\"" ) );
                 ent->client->ps.lastcoopSpawnSaveTime = level.time + 5000;
         }
         else
         {
                 int seconds = (ent->client->ps.lastcoopSpawnSaveTime - level.time) / 1000;
-                trap_SendServerCommand( ent - g_entities, va( "print \"You must wait %d seconds before saving a new spawnpoint\n\"", seconds ) );
+                trap_SendServerCommand( ent - g_entities, va( "cp \"You must wait %d seconds before saving \na new spawnpoint\n\"", seconds ) );
         }
 }
 
