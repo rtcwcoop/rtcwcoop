@@ -62,6 +62,11 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 
 ==setcoopspawnpoint==
  sets current location as the next spawnpoint. Only works if g_autospawn is disabled on the server
+
+==dumpaicast==
+ dumpaicast <classname> <ainame>
+ this writes for example an ai_soldier entity to a file .aic, copy the text from this file to mapname.ents to spawn a new aicast entity into the map, you can also script this new ai in the mapname.ai file
+
 = ents file support =
 
 if you put a file in the maps folder with the name: mapname.ents then this file will be loaded and all the entities will be spawned into the map.
