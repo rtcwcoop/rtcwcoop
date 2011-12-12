@@ -220,6 +220,8 @@ vmCvar_t cg_wolfparticles;
 vmCvar_t cg_gameType;
 //fretn
 vmCvar_t cg_coop;
+vmCvar_t cg_entityEditCounter;
+
 vmCvar_t cg_bloodTime;
 vmCvar_t cg_norender;
 vmCvar_t cg_skybox;
@@ -433,6 +435,8 @@ cvarTable_t cvarTable[] = {
 	{ &cg_gameType, "g_gametype", "0", 0 }, // communicated by systeminfo
         //fretn
 	{ &cg_coop, "g_coop", "0", 0 }, // communicated by systeminfo
+        { &cg_entityEditCounter, "cg_entityEditCounter", "0", CVAR_ARCHIVE | CVAR_ROM },
+
 	{ &cg_norender, "cg_norender", "1", 0 },  // only used during single player, to suppress rendering until the server is ready
 
 	{ &cg_gameSkill, "g_gameskill", "2", 0 }, // communicated by systeminfo	// (SA) new default '2' (was '1')
