@@ -419,12 +419,13 @@ static void CG_LimboMessage_f( void ) {
 
 /*
 ===================
-CG_DumpAiCast_f
+CG_DumpCastAi_f
 
 Dump a ai_zombie definition to a file
 ===================
 */
-static void CG_DumpAiCast_f( void ) { 
+// TODO: if <name> == auto then auto generate a name
+static void CG_DumpCastAi_f( void ) { 
         char aicastfilename[MAX_QPATH];
         char ainame[MAX_STRING_CHARS];
         char aitype[MAX_STRING_CHARS];
@@ -433,7 +434,7 @@ static void CG_DumpAiCast_f( void ) {
 
         // Check for argument
         if ( trap_Argc() < 3 ) { 
-                CG_Printf( "Usage: dumpcast <type> <name>\n" );
+                CG_Printf( "Usage: dumpcastai <type> <name>\n" );
                 return;
         }   
 	trap_Argv( 1, aitype, sizeof( aitype ) );
@@ -601,7 +602,7 @@ static consoleCommand_t commands[] = {
 	{ "LimboMessage", CG_LimboMessage_f },
 	// -NERVE - SMF
         { "dumploc", CG_DumpLocation_f },
-        { "dumpaicast", CG_DumpAiCast_f }
+        { "dumpcastai", CG_DumpCastAi_f }
 };
 
 
