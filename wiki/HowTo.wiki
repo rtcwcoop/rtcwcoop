@@ -1,11 +1,16 @@
 #labels howto,coop,cvars,cmds,readme
 = Introduction =
 
-(don't forget to put your pk3 files into your main folder)
+Put all the rtcw pk3 files in the main folder.
+Put the pk3 files found in the other_files dir (see svn) also into the main folder.
+
+You can start a server through the menus.
+Or by using the console:
 
 computer 1: start game with /coopmap *mapname*
 
-computer 2: type /connect *ip*, once you see the introduction screen type /playerstart
+computer 2: type /connect *ip*, once you see the introduction screen type /playerstart, or press the arrow 
+on the bottom right corner.
 
 On windows you have to connect to the ip 127.0.0.1 if you want to connect to a local server.
 On Mac OS X its 0.0.0.0 that you need to connect to.
