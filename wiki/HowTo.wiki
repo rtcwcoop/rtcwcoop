@@ -39,6 +39,10 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 
  http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
 
+== g_gameskill ==
+In a coop game the aim_accuracy and health of the aicast is raised by raising g_gameskill ( 0 - 2 ).
+In single player these are set in the mapname.ai script files for each aicast, the coop mode ignores these values in the scripts.
+
 = Cmds =
 ==+dropweapon==
  drop your current weapon so your coop friend can pick it up
