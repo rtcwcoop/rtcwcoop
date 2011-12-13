@@ -1976,6 +1976,17 @@ float AICast_GetAccuracy( int entnum ) {
 	cs = AICast_GetCastState( entnum );
 	// the more they stay in our sights, the more accurate we get
 	acc = cs->attributes[AIM_ACCURACY];
+        // fretn
+        if ( g_coop.integer )
+        {
+                if ( g_gameskill.integer == GSKILL_EASY )
+                        acc = 0.5;
+                else if ( g_gameskill.integer == GSKILL_MEDIUM )
+                        acc = 0.75;
+                else if ( g_gameskill.integer == GSKILL_HARD )
+                        acc = 1.0;
+
+        }
 
 	if ( AICAST_VARIABLE_ACC_ENABLED ) {
 		if ( cs->enemyNum >= 0 ) {

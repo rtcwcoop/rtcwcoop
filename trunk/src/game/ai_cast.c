@@ -429,6 +429,18 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
 	} else {
 		newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = cs->attributes[STARTING_HEALTH];
 	}
+
+        // fretn
+        if ( g_coop.integer )
+        {    
+                if ( g_gameskill.integer == GSKILL_EASY )
+                        newent->health = 75; 
+                else if ( g_gameskill.integer == GSKILL_MEDIUM )
+                        newent->health = 100;
+                else if ( g_gameskill.integer == GSKILL_HARD )
+                        newent->health = 125; 
+
+        } 
 	//
 	cs->weaponInfo = weaponInfo;
 	//

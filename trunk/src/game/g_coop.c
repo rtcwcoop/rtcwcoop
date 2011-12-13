@@ -10,7 +10,7 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         int pc = client->sess.playerType;
         client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
 
-    // zero out all ammo counts
+        // zero out all ammo counts
         memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) ); 
 
         // Communicate it to cgame
@@ -25,13 +25,22 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 
         COM_BitSet( client->ps.weapons, WP_KNIFE );
         client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1; 
-        client->ps.weapon = WP_KNIFE;
+        //client->ps.weapon = WP_KNIFE;
      
         COM_BitSet( client->ps.weapons, WP_LUGER );
         client->ps.ammoclip[BG_FindClipForWeapon( WP_LUGER )] += 8;
-        client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] += 24;
-        client->ps.weapon = WP_LUGER;
+
+        // fretn: luger and mp40 use the same ammo ..
+        //client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] += 24;
+        //client->ps.weapon = WP_LUGER;
         client->ps.weaponstate = WEAPON_READY;
+
+        // game is harder now, so give also an mp40
+        COM_BitSet( client->ps.weapons, WP_MP40 );
+        client->ps.ammoclip[BG_FindClipForWeapon( WP_MP40 )] += 32;
+        client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 64;
+        client->ps.weapon = WP_MP40;
+
 
         // give all the players a binocular
         client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
