@@ -73,11 +73,13 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
  sets current location as the next spawnpoint. Only works if g_autospawn is disabled on the server
 
 ==dumpaicast==
- dumpaicast [classname] [ainame]
+ dumpaicast classname ainame
 
  where classname is one of these: 
 
-{{{ai_soldier ai_american ai_zombie ai_warzombie ai_venom ai_loper ai_boss_helga ai_boss_heinrich ai_eliteguard ai_stimsoldier_dual ai_stimsoldier_rocket ai_stimsoldier_tesla ai_supersoldier ai_protosoldier ai_frogman ai_blackguard ai_partisan ai_civilian}}}
+{{{
+ai_soldier ai_american ai_zombie ai_warzombie ai_venom ai_loper ai_boss_helga ai_boss_heinrich ai_eliteguard ai_stimsoldier_dual ai_stimsoldier_rocket ai_stimsoldier_tesla ai_supersoldier ai_protosoldier ai_frogman ai_blackguard ai_partisan ai_civilian
+}}}
 
  this writes for example an ai_soldier entity to a file mapname.ents, copy the text from this file to mapname.ents to spawn a new aicast entity into the map, you can also script this new ai in the mapname.ai file
 
