@@ -74,7 +74,11 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 
 ==dumpaicast==
  dumpaicast <classname> <ainame>
- this writes for example an ai_soldier entity to a file .aic, copy the text from this file to mapname.ents to spawn a new aicast entity into the map, you can also script this new ai in the mapname.ai file
+ this writes for example an ai_soldier entity to a file mapname.ents, copy the text from this file to mapname.ents to spawn a new aicast entity into the map, you can also script this new ai in the mapname.ai file
+
+==dumpcoopspawnpoint==
+ This dumps a info_player_coop entity to the mapname.ents file
+ This entity is used as a spawnpoint for coop games. If there are multiple of this one, a random entity is chosen. Make sure if a player spawns on this place he triggers the ai scripts when he starts walking
 
 = ents file support =
 
