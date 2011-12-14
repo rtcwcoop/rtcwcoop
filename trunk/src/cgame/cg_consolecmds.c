@@ -539,7 +539,6 @@ CG_DumpLocation_f
 
 Dump a target_location definition to a file
 ===================
-TODO: dump it to the ents file
 */
 static void CG_DumpLocation_f( void ) { 
         char locfilename[MAX_QPATH];
@@ -561,7 +560,7 @@ static void CG_DumpLocation_f( void ) {
                 CG_Printf( "Unable to dump, unknown map name?\n" );
                 return;
         }   
-        Q_strncpyz( extptr, ".loc", 5 );
+        Q_strncpyz( extptr, ".ents", 6 );
         trap_FS_FOpenFile( locfilename, &f, FS_APPEND_SYNC );
         if ( !f ) { 
                 CG_Printf( "Failed to open '%s' for writing.\n", locfilename );
@@ -590,6 +589,43 @@ static void CG_DumpLocation_f( void ) {
         trap_FS_Write( buffptr, strlen( buffptr ), f );
         trap_FS_FCloseFile( f );
         CG_Printf( "Entity dumped to '%s' (%i %i %i).\n", locfilename,
+                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
+}
+
+/*
+===================
+CG_DumpCoopSpawnpoint_f
+
+Dump a info_player_coop definition to a file
+===================
+*/
+static void CG_DumpCoopSpawnpoint_f( void ) { 
+        char entsfilename[MAX_QPATH];
+        char *extptr, *buffptr;
+        fileHandle_t f;
+
+        // Open ents file
+        Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
+        extptr = entsfilename + strlen( entsfilename ) - 4;
+        if ( extptr < entsfilename || Q_stricmp( extptr, ".bsp" ) ) { 
+                CG_Printf( "Unable to dump, unknown map name?\n" );
+                return;
+        }   
+        Q_strncpyz( extptr, ".ents", 6 );
+        trap_FS_FOpenFile( entsfilename, &f, FS_APPEND_SYNC );
+        if ( !f ) { 
+                CG_Printf( "Failed to open '%s' for writing.\n", entsfilename );
+                return;
+        }   
+
+        // Build the entity definition
+        buffptr = va(   "{\n\"classname\" \"info_player_coop\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
+                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW]);
+
+        // And write out/acknowledge
+        trap_FS_Write( buffptr, strlen( buffptr ), f );
+        trap_FS_FCloseFile( f );
+        CG_Printf( "info_player_start dumped to '%s' (%i %i %i).\n", entsfilename,
                            (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
 }
 
@@ -644,7 +680,8 @@ static consoleCommand_t commands[] = {
 	{ "LimboMessage", CG_LimboMessage_f },
 	// -NERVE - SMF
         { "dumploc", CG_DumpLocation_f },
-        { "dumpcastai", CG_DumpCastAi_f }
+        { "dumpcastai", CG_DumpCastAi_f },
+        { "dumpcoopspawnpoint", CG_DumpCoopSpawnpoint_f }
 };
 
 

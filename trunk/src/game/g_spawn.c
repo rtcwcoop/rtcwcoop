@@ -201,6 +201,7 @@ typedef struct {
 } spawn_t;
 
 void SP_info_player_start( gentity_t *ent );
+void SP_info_player_coop( gentity_t *ent );
 void SP_info_player_deathmatch( gentity_t *ent );
 void SP_info_player_intermission( gentity_t *ent );
 void SP_info_firstplace( gentity_t *ent );
@@ -433,6 +434,7 @@ spawn_t spawns[] = {
 	// info entities don't do anything at all, but provide positional
 	// information for things controlled by other processes
 	{"info_player_start", SP_info_player_start},
+	{"info_player_coop", SP_info_player_coop},
 	{"info_player_deathmatch", SP_info_player_deathmatch},
 	{"info_player_intermission", SP_info_player_intermission},
 	{"info_null", SP_info_null},

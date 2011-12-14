@@ -77,6 +77,29 @@ void SP_info_player_start( gentity_t *ent ) {
 	SP_info_player_deathmatch( ent );
 }
 
+/*QUAKED info_player_coop (1 0 0) (-16 -16 -24) (16 16 32)
+spawnpoint for coop
+*/
+void SP_info_player_coop( gentity_t *ent ) {
+        int i;
+        vec3_t dir; 
+
+        G_SpawnInt( "nobots", "0", &i );
+        if ( i ) {
+                ent->flags |= FL_NO_BOTS;
+        }    
+        G_SpawnInt( "nohumans", "0", &i );
+        if ( i ) {
+                ent->flags |= FL_NO_HUMANS;
+        }    
+
+        ent->enemy = G_PickTarget( ent->target );
+        if ( ent->enemy ) {
+                VectorSubtract( ent->enemy->s.origin, ent->s.origin, dir );
+                vectoangles( dir, ent->s.angles );
+        }    
+}
+
 /*QUAKED info_player_intermission (1 0 1) (-16 -16 -24) (16 16 32)
 The intermission will be viewed from this point.  Target an info_notnull for the view direction.
 */
@@ -1697,7 +1720,12 @@ void ClientSpawn( gentity_t *ent ) {
 				// the first spawn should be at a good looking spot
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {
 					client->pers.initialSpawn = qtrue;
-					spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
+					spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
+                                        if (!spawnPoint)
+                                        {
+                                                G_Printf("No coop spawnpoints found\n");
+					        spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
+                                        }
                                         // fretn
                                         ent->client->hasCoopSpawn = qfalse;
 				} else {
