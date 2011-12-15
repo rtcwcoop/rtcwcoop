@@ -180,11 +180,18 @@ gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
         if ( !count ) { // no spots that won't telefrag
                 spot = G_Find( NULL, FOFS( classname ), "info_player_coop" );
 
-                VectorCopy( spot->s.origin, origin );
-                origin[2] += 9;
-                VectorCopy( spot->s.angles, angles );
+                if (spot)
+                {
+                        VectorCopy( spot->s.origin, origin );
+                        origin[2] += 9;
+                        VectorCopy( spot->s.angles, angles );
 
-                return spot;
+                        return spot;
+                }
+                else
+                {
+                        return NULL;
+                }
         }    
 
         selection = rand() % count;
