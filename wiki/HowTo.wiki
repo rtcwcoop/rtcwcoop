@@ -85,7 +85,7 @@ ai_soldier ai_american ai_zombie ai_warzombie ai_venom ai_loper ai_boss_helga ai
 
 ==dumpcoopspawnpoint==
  This dumps a info_player_coop entity to the mapname.ents file
- This entity is used as a spawnpoint for coop games. If there are multiple of this one, a random entity is chosen. Make sure if a player spawns on this place he triggers the ai scripts when he starts walking
+ This entity is used as an initial spawnpoint for coop games. If there are multiple of this one, a random entity is chosen. Make sure if a player spawns on this place he triggers the ai scripts when he starts walking
 
 = ents file support =
 
