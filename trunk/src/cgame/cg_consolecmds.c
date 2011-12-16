@@ -625,7 +625,7 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
         // And write out/acknowledge
         trap_FS_Write( buffptr, strlen( buffptr ), f );
         trap_FS_FCloseFile( f );
-        CG_Printf( "info_player_start dumped to '%s' (%i %i %i).\n", entsfilename,
+        CG_Printf( "info_player_coop dumped to '%s' (%i %i %i).\n", entsfilename,
                            (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
 }
 

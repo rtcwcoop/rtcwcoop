@@ -1,0 +1,54 @@
+{
+"classname" "info_player_coop"
+"origin" "1654 1677 -759"
+"angle" "-69"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1836 1675 -757"
+"angle" "-112"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1750 1677 -759"
+"angle" "-91"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1749 1604 -759"
+"angle" "-91"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1650 1605 -759"
+"angle" "-91"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1836 1603 -759"
+"angle" "-91"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1835 1511 -758"
+"angle" "-91"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1749 1512 -759"
+"angle" "-91"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "1656 1514 -759"
+"angle" "-91"
+}
+
