@@ -70,15 +70,15 @@ void CoopInfoMessage( gentity_t *ent ) {
                         if ( h < 0 ) {
                                 h = 0; 
                         }    
+
                         if ( a < 0 ) {
                                 a = 0; 
                         }    
-
                         // what do we want: clientnum, health, weapon, current amount of ammo
                         Com_sprintf( entry, sizeof( entry ),
-                                                 " %i %i %i %i %i %i",
+                                                 " %i %i %i %i %i %i %i",
                                                  level.sortedClients[i], player->client->pers.teamState.location, h, a,
-                                                 player->client->ps.weapon, player->s.powerups );
+                                                 player->client->ps.weapon, player->client->ps.ammoclip[BG_FindClipForWeapon( player->client->ps.weapon )], player->client->ps.ammo[BG_FindAmmoForWeapon( player->client->ps.weapon )]);
                         j = strlen( entry );
                         if ( stringlength + j > sizeof( string ) ) {
                                 break;

@@ -1249,8 +1249,7 @@ static void CG_DrawUpperRight( void ) {
         //{
 //		y = CG_DrawTeamOverlay( y );
 //	}
-        if ( cg_coop.integer && cgs.gametype == GT_SINGLE_PLAYER )
-        {
+        if ( cg_coop.integer && cgs.gametype == GT_SINGLE_PLAYER ) {
 		y = CG_DrawCoopOverlay( y );
         }
 	if ( cg_drawSnapshot.integer ) {
@@ -2419,7 +2418,7 @@ static void CG_ScanForCrosshairEntity( void ) {
 	int content;
 
 	// DHM - Nerve :: We want this in multiplayer
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER && !cg_coop.integer ) {
 		return; //----(SA)	don't use any scanning at the moment.
 
 	}
@@ -2531,6 +2530,137 @@ void CG_CheckForCursorHints( void ) {
 CG_DrawCrosshairNames
 =====================
 */
+
+static void CG_DrawCoopCrosshairNames( void ) {
+        float       *color;
+        char        *name;
+        float w;
+        // NERVE - SMF
+        const char  *s, *playerClass;
+        int playerHealth, val; 
+        vec4_t c;
+        float barFrac;
+        int armor;
+        // -NERVE - SMF
+
+        if ( cg_drawCrosshair.integer < 0 ) {
+                return;
+        }    
+        if ( !cg_drawCrosshairNames.integer ) {
+                return;
+        }    
+        if ( cg.renderingThirdPerson ) {
+                return;
+        }    
+
+        // Ridah
+        if ( cg_gameType.integer == GT_SINGLE_PLAYER && !cg_coop.integer) {
+                return;
+        }    
+        // done.
+
+        // scan the known entities to see if the crosshair is sighted on one
+        CG_ScanForCrosshairEntity();
+
+        // draw the name of the player being looked at
+        color = CG_FadeColor( cg.crosshairClientTime, 1000 );
+
+        if ( !color ) {
+                trap_R_SetColor( NULL );
+                return;
+        }
+
+        // NERVE - SMF
+        if ( cg.crosshairClientNum > MAX_CLIENTS ) {
+                return;
+        }
+
+        // we only want to see players on our team
+        if ( cgs.clientinfo[cg.snap->ps.clientNum].team != TEAM_SPECTATOR
+                 && cgs.clientinfo[ cg.crosshairClientNum ].team != cgs.clientinfo[cg.snap->ps.clientNum].team ) {
+                return;
+        }
+
+        playerHealth = cgs.clientinfo[ cg.crosshairClientNum ].health;
+        
+        if (playerHealth <= 0)
+                return;
+
+        val = cgs.clientinfo[ cg.crosshairClientNum ].curWeapon;
+/*
+        if ( val == WP_KNIFE ) {
+                playerClass = "K"; // knife
+        } else if ( val == WP_LUGER || val == WP_COLT || val == WP_AKIMBO || val == WP_SILENCER ) {
+                playerClass = "P"; // pistol
+        } else if ( val == WP_THOMPSON || val == WP_MP40 || val == WP_STEN ) {
+                playerClass = "S"; // smg
+        } else if ( val == WP_GRENADE_LAUNCHER || val == WP_GRENADE_PINEAPPLE || val == WP_DYNAMITE ) {
+                playerClass = "E"; // explosive
+        } else if ( val == WP_MAUSER || val == WP_GARAND || val == WP_SNIPERRIFLE || val == WP_SNOOPERSCOPE || val == WP_FG42SCOPE || val == WP_FG42 || val == WP_SNIPER ) {
+                playerClass = "R"; // rifle
+        } else if ( val == WP_PANZERFAUST || val == WP_VENOM || val == WP_FLAMETHROWER || val == WP_TESLA ) {
+                playerClass = "H"; // heavy weapon
+        } else {
+                playerClass = "X"; // ERROR !
+        }    
+
+*/
+        name = cgs.clientinfo[ cg.crosshairClientNum ].name;
+        armor = cgs.clientinfo[ cg.crosshairClientNum ].armor;
+
+        //s = va( "[%s] %s", CG_TranslateString( playerClass ), name );
+        //s = va( "[%s] %s", playerClass, name );
+        if (val == WP_KNIFE)
+                s = va( "%s", name );
+        else if (val == WP_GRENADE_LAUNCHER || val == WP_GRENADE_PINEAPPLE || val == WP_DYNAMITE || val == WP_FLAMETHROWER || val == WP_TESLA)
+                s = va( "[%d] %s", cgs.clientinfo[ cg.crosshairClientNum ].ammoClip, name );
+        else
+                s = va( "[%d/%d] %s", cgs.clientinfo[ cg.crosshairClientNum ].ammoClip, cgs.clientinfo[ cg.crosshairClientNum ].ammo, name );
+
+
+        //s = va( "[%d]%s",armor , name );
+        if ( !s ) {
+                return;
+        }
+        w = CG_DrawStrlen( s ) * SMALLCHAR_WIDTH;
+
+        // draw the name and class
+        CG_DrawSmallStringColor( 320 - w / 2, 170, s, color );
+
+        // health bar
+        barFrac = (float)playerHealth / 100;
+
+        if ( barFrac > 1.0 ) {
+                barFrac = 1.0;
+        } else if ( barFrac < 0 ) {
+                barFrac = 0;
+        }
+
+        c[0] = 1.0f;
+        c[1] = c[2] = barFrac;
+        c[3] = 0.25 + barFrac * 0.5 * color[3];
+
+        CG_FilledBar( 320 - w / 2, 190, 110, 10, c, NULL, NULL, barFrac, 16 );
+
+
+        // health bar
+        barFrac = (float)armor / 100;
+
+        if ( barFrac > 1.0 ) {
+                barFrac = 1.0;
+        } else if ( barFrac < 0 ) {
+                barFrac = 0;
+        }
+
+        c[0] = 1.0f;
+        c[1] = c[2] = barFrac;
+        c[3] = 0.25 + barFrac * 0.5 * color[3];
+
+        CG_FilledBar( 320 - w / 2, 205, 110, 10, c, NULL, NULL, barFrac, 16 );
+
+        trap_R_SetColor( NULL );
+}
+
 static void CG_DrawCrosshairNames( void ) {
 	float       *color;
 	vec4_t teamColor;           // NERVE - SMF
@@ -2548,7 +2678,7 @@ static void CG_DrawCrosshairNames( void ) {
 	}
 
 	// Ridah
-	if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
+	if ( cg_gameType.integer == GT_SINGLE_PLAYER && !cg_coop.integer) {
 		return;
 	}
 	// done.
@@ -2577,7 +2707,7 @@ static void CG_DrawCrosshairNames( void ) {
 	// -NERVE - SMF
 
 	name = cgs.clientinfo[ cg.crosshairClientNum ].name;
-	w = CG_DrawStrlen( va( "Axis: %s", name ) ) * BIGCHAR_WIDTH;
+	w = CG_DrawStrlen( va( "%s", name ) ) * BIGCHAR_WIDTH;
 //	CG_DrawBigString( 320 - w / 2, 170, name, color[3] * 0.5 );
 
 	// NERVE - SMF
@@ -2588,7 +2718,9 @@ static void CG_DrawCrosshairNames( void ) {
 		} else if ( ( cgs.clientinfo[ cg.crosshairClientNum ].team == TEAM_BLUE ) &&
 					( cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_BLUE ) ) { // JPW NERVE -- so's we can't find snipers for free
 			CG_DrawBigStringColor( 320 - w / 2, 170, va( "Ally: %s", name ), teamColor );
-		}
+		} else {
+			CG_DrawBigStringColor( 320 - w / 2, 170, va( "%s", name ), teamColor );
+                }
 	}
 	// -NERVE - SMF
 
@@ -2792,7 +2924,7 @@ static void CG_DrawWarmup( void ) {
 	int cw;
 	const char  *s;
 
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER && !cg_coop.integer) {
 		return;     // (SA) don't bother with this stuff in sp
 	}
 
@@ -3431,7 +3563,7 @@ static void CG_Draw2D( void ) {
 //			CG_DrawStatusBar();
 			CG_DrawAmmoWarning();
 			CG_DrawDynamiteStatus();
-			CG_DrawCrosshairNames();
+			CG_DrawCoopCrosshairNames();
 			CG_DrawWeaponSelect();
 			CG_DrawHoldableSelect();
 			CG_DrawPickupItem();

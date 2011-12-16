@@ -127,15 +127,16 @@ static void CG_ParseCoopInfo( void ) {
 	numSortedTeamPlayers = atoi( CG_Argv( 1 ) );
 
 	for ( i = 0 ; i < numSortedTeamPlayers ; i++ ) {
-		client = atoi( CG_Argv( i * 6 + 2 ) );
+		client = atoi( CG_Argv( i * 7 + 2 ) );
 
 		sortedTeamPlayers[i] = client;
 
-		cgs.clientinfo[ client ].location = atoi( CG_Argv( i * 6 + 3 ) );
-		cgs.clientinfo[ client ].health = atoi( CG_Argv( i * 6 + 4 ) );
-		cgs.clientinfo[ client ].armor = atoi( CG_Argv( i * 6 + 5 ) );
-		cgs.clientinfo[ client ].curWeapon = atoi( CG_Argv( i * 6 + 6 ) );
-		cgs.clientinfo[ client ].powerups = atoi( CG_Argv( i * 6 + 7 ) );
+		cgs.clientinfo[ client ].location = atoi( CG_Argv( i * 7 + 3 ) );
+		cgs.clientinfo[ client ].health = atoi( CG_Argv( i * 7 + 4 ) );
+		cgs.clientinfo[ client ].armor = atoi( CG_Argv( i * 7 + 5 ) );
+		cgs.clientinfo[ client ].curWeapon = atoi( CG_Argv( i * 7 + 6 ) );
+		cgs.clientinfo[ client ].ammoClip = atoi( CG_Argv( i * 7 + 7 ) );
+		cgs.clientinfo[ client ].ammo = atoi( CG_Argv( i * 7 + 8 ) );
 	}
 }
 

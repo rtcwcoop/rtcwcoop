@@ -555,10 +555,21 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 		}
 
 		// check for friendly.
-		if ( traceEnt->aiTeam == AITEAM_ALLIES || traceEnt->aiTeam == AITEAM_NEUTRAL ) {
-			hintType = HINT_PLYR_FRIEND;
-			hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
-		}
+                if (!g_coop.integer)
+                {
+                        if ( traceEnt->aiTeam == AITEAM_ALLIES || traceEnt->aiTeam == AITEAM_NEUTRAL ) {
+                                hintType = HINT_PLYR_FRIEND;
+                                hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
+                        }
+                } else {
+                        if ( traceEnt->aiTeam == AITEAM_ALLIES || traceEnt->aiTeam == AITEAM_NEUTRAL ) {
+                                if ( traceEnt->r.svFlags & SVF_CASTAI) 
+                                {
+                                        hintType = HINT_PLYR_FRIEND;
+                                        hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
+                                }
+                        }
+                }
 
 
 		// DHM - Nerve

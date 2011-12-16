@@ -554,13 +554,14 @@ typedef struct {
 	int score;                      // updated by score servercmds
 	int location;                   // location index for team mode
 	int health;                     // you only get this info about your teammates
-	int armor;
 	int curWeapon;
+        int powerups;
+        int armor;
+        int ammoClip;
+        int ammo;
 
 	int handicap;
 	int wins, losses;               // in tourney mode
-
-	int powerups;                   // so can display quad/flag status
 
 	int breathPuffTime;
 
