@@ -19,6 +19,8 @@ BASE_OBJ="
 	build/release-darwin-i386/$BASEDIR/qagamei386.dylib
 "
 
+sh create_pk3.sh
+
 cd `dirname $0`
 if [ ! -f Makefile ]; then
 	echo "This script must be run from the wolfsp build directory"
@@ -128,4 +130,5 @@ lipo -create -o $DESTDIR/$APPBUNDLE/Contents/MacOS/$BINARY $BIN_OBJ
 lipo -create -o $DESTDIR/$APPBUNDLE/Contents/MacOS/$DEDBIN $BIN_DEDOBJ
 cp $BASE_OBJ $DESTDIR/$APPBUNDLE/Contents/MacOS/$BASEDIR/
 cp src/libs/macosx/*.dylib $DESTDIR/$APPBUNDLE/Contents/MacOS/
+
 
