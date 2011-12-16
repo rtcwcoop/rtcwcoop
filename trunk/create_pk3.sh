@@ -4,8 +4,8 @@ cd media
 zip -R $PAKFILE models/players/coop/* maps/* scripts/* ui/*
 
 if [ "`uname`" = "Darwin" ]; then
-        mv $PAKFILE ~/Library/Application\ Support/Wolfenstein/main/
+        cp $PAKFILE ~/Library/Application\ Support/Wolfenstein/main/
 fi
 if [ "`uname`" = "Linux" ]; then
-        mv $PAKFILE ~/.wolf/main
+        cp $PAKFILE ~/.wolf/main
 fi
