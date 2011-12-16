@@ -1,5 +1,4 @@
-#include "ui_mp/menudef.h"
-#include "ui_mp/menudef.h"
+#include "ui/menudef.h"
 
 #define ORIGIN_WINDOW1		136 -15
 #define ORIGIN_WINDOW2		136 15
