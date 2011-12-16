@@ -1,0 +1,156 @@
+{
+map			"escape1"
+longname		"01 - Escape!"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"escape2"
+longname		"02 - Castle Keep"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"tram"
+longname		"03 - Tram Ride"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"village1"
+longname		"04 - Village"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"crypt1"
+longname		"05 - Catacombs"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"crypt2"
+longname		"06 - Crypt"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"church"
+longname		"07 - The Defiled Church"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"boss1"
+longname		"08 - Tomb"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"forest"
+longname		"09 - Forest Compound"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"rocket"
+longname		"10 - Rocket Base"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"baseout"
+longname		"11 - Radar Installation"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"assault"
+longname		"12 - Air Base Assault"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"sfm"
+longname		"13 - Kugelstadt"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"factory"
+longname		"14 - The Bombed Factory"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"trainyard"
+longname		"15 - The Trainyards"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"swf"
+longname		"16 - Secret Weapons Facility"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"norway"
+longname		"17 - Ice Station Norway"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"xlabs"
+longname		"18 - X-Labs"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"boss2"
+longname		"19 - Super Soldier"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"dam"
+longname		"20 - Bramburg Dam"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"village2"
+longname		"21 - Paderborn Village"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"chateau"
+longname		"22 - Chateau Schufstaffel"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"dark"
+longname		"23 - Unhallowed Ground"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"dig"
+longname		"24 - The Dig"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"castle"
+longname		"25 - Return to Castle Wolfenstein"
+g_gametype		"coop1 coop2"
+}
+
+{
+map			"end"
+longname		"26 - Heinrich"
+g_gametype		"coop1 coop2"
+}
+

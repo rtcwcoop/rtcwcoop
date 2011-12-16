@@ -1,0 +1,40 @@
+//
+//Chad's second scripting attempt.  :)
+//First Room
+//
+// // DO NOT EDIT WITHOUT SPEAKING TO CHAD.  I DON'T CARE WHO YOU ARE.
+//
+
+counter1
+{
+	trigger action2
+	{
+		alertentity bust1
+		wait 500
+		alertentity bust2
+		wait 1000
+		alertentity bust3
+	}
+}
+
+rock1
+{
+	trigger rockfall
+	{
+		gotomarker fall1 3000 accel
+		faceangles 540 540 540 gototime
+		trigger proto1 avoidfall
+	}
+}
+
+rock2
+{
+//	trigger rockfall
+//	{
+//		gotomarker fall2 300 accel wait
+//		faceangles -45 20 0 750
+//	}
+}
+
+
+

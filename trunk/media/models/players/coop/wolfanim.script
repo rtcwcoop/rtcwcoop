@@ -1,0 +1,1148 @@
+
+//==========================================================================
+//
+// Character Animation Script     M U L T I P L A Y E R
+//
+// This defines the animations and events that might occur at different times
+// for this character. State changes, and random behaviour during idle/alert
+// states will look here for default behaviour, if that character doesn't have
+// something specific in their scripts for that level.
+//
+//==========================================================================
+// DEFINES
+//
+// These can be used to simplify the scripting, by defining replacement strings
+
+DEFINES
+
+// weapons
+set weapons pistols = SP5 Pistol AND luger AND colt AND Dual Colts
+set weapons machineguns = mp40 AND thompson AND sten AND flamethrower AND fg42 paratroop rifle AND fg42 scope AND venom AND tesla gun 
+set weapons rifles = mauser rifle AND sniper scope AND snooper rifle
+set weapons throwables = dynamite weapon AND pineapple AND grenade
+
+set weapons one_handed_weapons = SP5 Pistol AND luger AND colt
+set weapons two_handed_weapons = mp40 AND thompson AND sten AND mauser rifle AND sniper scope AND snooper rifle AND flamethrower AND panzerfaust AND venom AND tesla gun AND fg42 paratroop rifle AND fg42 scope
+
+
+// movetypes
+set movetype moving = walk AND walkcr AND walkcrbk AND walkbk AND run AND runbk AND straferight AND strafeleft
+set movetype crouching = idlecr AND walkcr AND walkcrbk
+set movetype backstep = walkbk AND runbk AND walkcrbk
+
+
+
+
+
+//==========================================================================
+// ANIMATIONS
+//
+//	NOTE: scripts are chosen by first-come-first-serve basis. The first match
+//	found is the one used.
+//
+// format:
+//
+// state <state description>
+// {
+//		<movement type>
+//		{
+//			[DEFAULT / <condition type> [<condition value>], ...]
+//			{
+//				<both/legs/torso> <animation> [sound <filename>]
+//				<both/legs/torso> <animation> [sound <filename>]
+//				...
+//			}
+//		}
+//	}
+//
+//	legend:
+//
+//	<state description>: relaxed, alert, combat
+//
+//	<movement type>: idle, idlecr, walk, walkbk, walkcr, walkcrbk, run, runbk, straferight, strafeleft, turnright, turnleft
+//
+//	<condition type>: weapons, position, enemy_weapon, underwater, mounted, movetype, underhand, leaning
+//
+//	<condition value>:
+//
+//		weapons: <see weapon pickup names>
+//		position: behind, infront, right, left
+//		enemy_weapon: <see weapon pickup names>
+//		underwater: <no values>
+//		mounted: mg42
+//		movetype: <see movement types>
+//		underhand: <no values>
+//		leaning: right, left
+//
+
+ANIMATIONS
+
+STATE RELAXED
+{
+	
+}
+
+STATE ALERT
+{
+
+}	
+
+STATE COMBAT
+{
+	idle
+	{
+		mounted mg42, firing
+		{
+			both firing_mg42
+		}
+		mounted mg42
+		{
+			both stand_mg42
+		}
+		weapons none
+		{
+			both stand_knife
+		}
+		weapons throwables
+		{
+			both stand_grenade
+		}
+		weapons knife
+		{
+			both stand_knife
+		}
+		weapons pistols, firing
+		{
+			legs firing_pistolB_1 torso stand_pistolB
+			legs firing_pistolB_2 torso stand_pistolB
+		}
+		weapons pistols
+		{
+			both stand_pistolB
+		}
+		weapons rifles, firing
+		{
+			legs firing_rifle torso stand_rifle
+		}
+		weapons mauser rifle
+		{
+			both stand_rifle
+		}
+		weapons sniper scope
+		{
+			both stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both stand_rifle
+		}
+		weapons panzerfaust, firing
+		{
+			both stand_rifle
+		}
+		weapons panzerfaust
+		{
+			both stand_rifle
+		}
+		weapons machineguns, firing
+		{
+			legs firing_machinegun torso stand_machinegun
+		}
+		weapons machineguns
+		{
+			both stand_machinegun
+		}
+	}
+	idlecr
+	{
+		weapons none
+		{	
+			legs alert_crchidle_1h torso relaxed_idle_no
+		}
+		weapons knife
+		{
+			legs alert_crchidle_1h torso stand_knife
+		}
+		weapons one_handed_weapons
+		{
+			legs alert_crchidle_1h torso stand_pistolB
+		}
+		weapons mauser rifle
+		{
+			both alert_crchidle_srifle
+		}
+		weapons sniper scope
+		{
+			legs alert_crchidle_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_crchidle_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_crchidle_srifle
+		}
+		weapons two_handed_weapons
+		{
+			legs alert_crchidle_2h torso stand_machinegun 
+		}
+		weapons throwables
+		{
+			legs alert_crchidle_1h torso stand_grenade
+		}
+		default
+		{
+			both alert_crchidle_1h
+		}
+	}
+	walk
+	{
+		weapons none
+		{
+			both relaxed_walk_1h_1
+		}
+		weapons throwables
+		{
+			both relaxed_walk_1h_1
+		}
+		weapons one_handed_weapons
+		{
+			legs relaxed_walk_1h_1 torso stand_pistolB 
+		}
+		weapons mauser rifle
+		{
+			legs relaxed_walk_1h_1 torso stand_srifle
+		}
+		weapons sniper scope
+		{
+			legs relaxed_walk_1h_1 torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			legs relaxed_walk_1h_1 torso stand_srifle
+		}
+		weapons panzerfaust
+		{
+			legs relaxed_walk_1h_1 torso stand_srifle
+		}
+		weapons two_handed_weapons
+		{
+			legs relaxed_walk_1h_1 torso stand_machinegun 
+		}
+		default
+		{
+			both relaxed_walk_1h_1
+		}
+	}
+	walkbk
+	{
+		weapons none
+		{
+			both alert_bk_1h
+		}
+		weapons one_handed_weapons
+		{
+			legs alert_bk_1h torso stand_pistolb
+		}
+		weapons throwables
+		{
+			both alert_bk_1h
+		}
+		weapons mauser rifle
+		{
+			both alert_bk_srifle
+		}
+		weapons sniper scope
+		{
+			legs alert_bk_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_bk_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_bk_srifle
+		}
+		weapons two_handed_weapons
+		{
+			both alert_bk_2h
+		}
+		default
+		{
+			both alert_bk_1h
+		}
+	}
+	walkcr
+	{
+		weapons none
+		{
+			both alert_crch_1h
+		}
+		weapons one_handed_weapons
+		{
+			both alert_crch_1h
+		}
+		weapons throwables
+		{
+			both alert_crch_1h
+		}
+		weapons mauser rifle
+		{
+			both alert_crch_srifle
+		}
+		weapons sniper scope
+		{
+			legs alert_crch_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_crch_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_crch_srifle
+		}
+		weapons two_handed_weapons
+		{
+			both alert_crch_2h
+		}
+		default
+		{
+			both alert_crch_1h
+		}
+	}
+
+	walkcrbk
+	{
+		weapons none
+		{
+			both alert_crbk_1h
+		}
+		weapons one_handed_weapons
+		{
+			both alert_crbk_1h
+		}
+		weapons throwables
+		{
+			both alert_crbk_1h
+		}
+		weapons mauser rifle
+		{
+			both alert_crbk_srifle
+		}
+		weapons sniper scope
+		{
+			legs alert_crbk_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_crbk_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_crbk_srifle
+		}
+		weapons two_handed_weapons
+		{
+			both alert_crbk_2h
+		}
+		default
+		{
+			both alert_crbk_2h
+		}
+	}
+	run
+	{
+		weapons none
+		{
+			both alert_run_no
+		}
+		weapons throwables
+		{
+			both alert_run_no
+		}
+		weapons one_handed_weapons
+		{
+			legs alert_run_1h torso stand_pistolb
+		}
+		weapons mauser rifle
+		{
+			both alert_run_srifle
+		}
+		weapons sniper scope
+		{
+			legs alert_run_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_run_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_run_srifle
+		}
+		weapons two_handed_weapons
+		{
+			both alert_run_2h
+		}
+		default
+		{
+			both alert_run_1h
+		}
+	}
+	runbk
+	{
+		weapons none
+		{
+			both alert_bk_1h
+		}
+		weapons one_handed_weapons
+		{
+			legs alert_bk_1h torso stand_pistolb
+		}
+		weapons knife
+		{
+			both alert_bk_1h
+		}
+		weapons throwables
+		{
+			both alert_bk_1h
+		}
+		weapons mauser rifle
+		{
+			both alert_bk_srifle
+		}
+		weapons sniper scope
+		{
+			legs alert_bk_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_bk_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_bk_srifle
+		}
+		weapons two_handed_weapons
+		{
+			both alert_bk_2h
+		}
+		default
+		{
+			both alert_bk_2h
+		}
+	}
+	straferight
+	{
+		weapons none
+		{
+			both alert_run_no
+		}
+		weapons one_handed_weapons
+		{
+			legs alert_run_1h torso stand_pistolb
+		}
+		weapons throwables
+		{
+			both alert_run_no
+		}
+		weapons mauser rifle
+		{
+			both alert_run_srifle
+		}
+		weapons sniper scope
+		{
+			legs alert_run_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_run_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_run_srifle
+		}
+		weapons two_handed_weapons
+		{
+			both alert_run_2h 
+		}
+		default
+		{
+			both alert_run_1h 
+		}
+	}
+	strafeleft
+	{
+		weapons none
+		{
+			both alert_run_no
+		}
+		weapons one_handed_weapons
+		{
+			legs alert_run_1h torso stand_pistolb
+		}
+		weapons throwables
+		{
+			both alert_run_no
+		}
+		weapons mauser rifle
+		{
+			both alert_run_srifle
+		} 
+		weapons sniper scope
+		{
+			legs alert_run_2h torso stand_rifle
+		}
+		weapons snooper rifle
+		{
+			both alert_run_srifle
+		}
+		weapons panzerfaust
+		{
+			both alert_run_srifle
+		}
+		weapons two_handed_weapons
+		{
+			both alert_run_2h 
+		}
+		default
+		{
+			both alert_run_1h 
+		}
+	}
+	swim
+	{
+		weapons none
+		{
+			both swim_1h
+		}
+		weapons two_handed_weapons
+		{
+			both swim_2h
+		}
+		weapons one_handed_weapons
+		{
+			both swim_1h
+		}
+		default
+		{
+			both swim_1h
+		}
+	}
+	swimbk
+	{
+		weapons none
+		{
+			both swim_1h
+		}
+		weapons two_handed_weapons
+		{
+			both swim_2h
+		}
+		weapons one_handed_weapons
+		{
+			both swim_1h
+		}
+		default
+		{
+			both swim_1h
+		}
+	}
+	climbup
+	{
+		default
+		{
+			both climb_up
+		}
+	}
+	climbdown
+	{
+		default
+		{
+			both climb_down
+		}
+	}
+	turnright
+	{
+//JB 06/12/01
+//		weapons machineguns, movetype idlecr
+//		{
+//			legs turn_crch_machinegun_R
+//		}
+//		weapons machineguns, movetype idle
+//		{
+//			legs turn_machinegun_R
+//		}
+		
+	}
+	turnleft
+	{
+//JB 06/12/01
+//		weapons machineguns, movetype idlecr
+//		{
+//			legs turn_crch_machinegun_L
+//		}
+//		weapons machineguns, movetype idle
+//		{
+//			legs turn_machinegun_R
+//		}
+	}
+// DHM - 07/30/01  (even clients play #1, odd clients play #2)
+//	fallen
+//	{
+//		default
+//		{
+//			both wounded_idle_1
+//		}
+//	}
+}
+
+//==========================================================================
+// EVENTS
+//
+// format:
+//
+// <event description>
+// {
+//		[DEFAULT / <condition type> [<condition value>], ...]
+//		{
+//			<both/legs/torso> <animation> [sound <filename>]
+//			<both/legs/torso> <animation> [sound <filename>]
+//			...
+//		}
+// }
+//
+// legend:
+//
+// <event description>: death, pain, fireweapon, jump, jumpbk, land, dropweapon,
+//		raiseweapon, climbdismount, reload
+//
+//	NOTE: for gameplay anims (weapons firing, reload, etc) that show no legs movement
+//		only the torso should animation from here, leave the legs doing what their
+//		locomotive anims want them to do
+//
+
+EVENTS
+
+fireweapon
+{
+// MG42
+	mounted mg42
+	{
+		torso firing_mg42
+	}
+
+
+// PANZERFAUST 
+//jb-nerve added 7/24/01
+	weapons panzerfaust, movetype walk AND turnleft AND turnright AND idlecr AND idle AND crouching AND run AND swim AND backstep AND swimbk
+	{
+		torso firing_srifle
+	}
+	weapons panzerfaust 
+	{
+		torso firing_srifle
+	}
+// GRENADES
+	weapons throwables, movetype idle AND run AND walk AND straferight AND strafeleft AND backstep AND turnleft AND turnright AND idlecr
+	{
+		torso firing_grenadeB
+	}
+// KNIFE
+	weapons knife
+	{
+		torso firing_knifeA
+	}
+// PISTOLS
+	weapons pistols, movetype straferight AND strafeleft AND run AND swim AND backstep AND swimbk
+	{
+		torso firing_pistolB_1
+	}
+	weapons pistols, movetype walk AND turnleft AND turnright AND idlecr AND idle
+	{
+		torso firing_pistolB_1
+		torso firing_pistolB_2
+	}
+	weapons pistols, movetype walkcrbk AND crouching
+	{
+		torso firing_crbk_1h
+	}
+	weapons pistols
+	{
+		torso firing_pistolB_1
+		torso firing_pistolB_2
+	}
+// MACHINEGUNS
+	weapons machineguns, movetype straferight AND strafeleft AND run AND swim
+	{
+		torso alert_run_2h duration 50
+	}
+	weapons machineguns, movetype walk AND turnleft AND turnright AND idlecr
+	{
+		torso firing_machinegun duration 50
+	}
+	weapons machineguns, movetype walkcrbk AND crouching
+	{
+		torso firing_crbk_2h duration 50
+	}
+	weapons machineguns, movetype backstep AND swimbk
+	{
+		torso alert_bk_2h duration 50
+	}
+	weapons machineguns
+	{
+		torso firing_machinegun duration 50
+	}
+// MAUSER RIFLE
+	weapons mauser rifle, movetype walk AND turnleft AND turnright AND idlecr AND idle
+	{
+		torso firing_srifle
+	}
+	weapons mauser rifle, movetype crouching
+	{
+		torso firing_crch_srifle
+	}
+	weapons mauser rifle, movetype run AND swim
+	{
+		torso firing_run_srifle
+	}
+	weapons mauser rifle, movetype backstep AND swimbk
+	{
+		torso firing_bk_srifle
+	}
+	weapons mauser rifle 
+	{
+		torso firing_srifle
+	}
+// SNIPER SCOPE
+	weapons sniper scope, movetype walk AND turnleft AND turnright AND idlecr AND idle
+	{
+		torso firing_rifle
+	}
+	weapons sniper scope, movetype crouching
+	{
+		torso firing_crch_2h
+	}
+	weapons sniper scope, movetype run AND swim
+	{
+		torso alert_run_2h
+	}
+	weapons sniper scope, movetype backstep AND swimbk
+	{
+		torso firing_bk_2h
+	}
+	weapons sniper scope 
+	{
+		torso firing_rifle
+	}
+// SNOOPER RIFLE
+	weapons snooper rifle, movetype walk AND turnleft AND turnright AND idlecr AND idle
+	{
+		torso firing_srifle
+	}
+	weapons snooper rifle, movetype crouching
+	{
+		torso firing_crch_srifle
+	}
+	weapons snooper rifle, movetype run AND swim
+	{
+		torso firing_run_srifle
+	}
+	weapons snooper rifle, movetype backstep AND swimbk
+	{
+		torso firing_bk_srifle
+	}
+	weapons snooper rifle 
+	{
+		torso firing_srifle
+	}
+}
+
+raiseweapon
+{
+	weapons panzerfaust
+	{
+		torso raise_rifle
+	}
+	weapons knife
+	{
+		torso raise_knife
+	}
+	weapons pistols
+	{
+		torso raise_pistolA
+	}
+	weapons machineguns
+	{
+		torso raise_machinegun
+	}
+	weapons mauser rifle
+	{
+		torso raise_machinegun
+	}
+	weapons sniper scope
+	{
+		torso raise_sniper
+	}
+	weapons snooper rifle
+	{
+		torso raise_rifle
+	}
+	weapons throwables
+	{
+		torso raise_grenade
+	}
+}
+
+reload
+{
+	weapons panzerfaust
+	{
+		torso reload_rifle
+	}
+	weapons pistols, movetype idlecr
+	{
+		torso reload_pistol_cr
+	}
+	weapons pistols
+	{
+		torso reload_pistol
+	}
+	weapons dual colts
+	{
+		torso reload_pistol
+		torso reload_pistol
+	}
+	weapons machineguns, movetype idlecr 
+	{
+		torso reload_machinegun_cr
+	}
+	weapons machineguns
+	{
+		torso reload_machinegun
+	}
+	weapons mauser rifle
+	{
+		torso reload_machinegun
+	}
+	weapons sniper scope
+	{
+		torso reload_rifle
+	}
+	weapons snooper rifle
+	{
+		torso reload_machinegun
+	}
+}
+
+jump
+{
+	weapons none, movetype run
+	{
+		both jump_1step_1h
+	}
+	weapons none
+	{
+		both jump_nostep_1h
+	}
+	weapons one_handed_weapons, movetype run
+	{
+		both jump_1step_1h
+	}
+	weapons one_handed_weapons
+	{
+		both jump_nostep_1h
+	}
+	weapons rifles, movetype run
+	{
+		legs jump_1step_2h torso stand_rifle
+	}
+	weapons rifles
+	{
+		legs jump_nostep_1h torso stand_rifle
+	}	
+	weapons mauser rifle, movetype run
+	{
+		legs jump_1step_2h
+	}
+	weapons mauser rifle
+	{
+		legs jump_nostep_1h
+	}
+	weapons sniper scope, movetype run
+	{
+		legs jump_1step_2h torso stand_rifle
+	}
+	weapons sniper scope
+	{
+		legs jump_nostep_1h torso stand_rifle
+	}
+	weapons snooper rifle, movetype run
+	{
+		legs jump_1step_2h
+	}
+	weapons snooper rifle
+	{
+		legs jump_nostep_1h
+	}
+	weapons panzerfaust, movetype run
+	{
+		legs jump_1step_2h
+	}
+	weapons panzerfaust
+	{
+		legs jump_nostep_1h
+	}
+	weapons two_handed_weapons, movetype run
+	{
+		both jump_1step_2h
+	}
+	weapons two_handed_weapons
+	{
+		both jump_nostep_1h
+	}
+	default
+	{
+		both jump_1step_1h 
+	}
+}
+
+jumpbk
+{
+	weapons one_handed_weapons, movetype run
+	{
+		both jump_1step_1h
+	}
+	weapons one_handed_weapons
+	{
+		both jump_nostep_1h
+	}
+	weapons rifles, movetype run
+	{
+		legs jump_1step_2h torso stand_rifle
+	}
+	weapons rifles
+	{
+		legs jump_nostep_1h torso stand_rifle
+	}
+	weapons mauser rifle, movetype run
+	{
+		legs jump_1step_2h
+	}
+	weapons mauser rifle
+	{
+		legs jump_nostep_1h
+	}
+	weapons sniper scope, movetype run
+	{
+		legs jump_1step_2h torso stand_rifle
+	}
+	weapons sniper scope
+	{
+		legs jump_nostep_1h torso stand_rifle
+	}
+	weapons snooper rifle, movetype run
+	{
+		legs jump_1step_2h
+	}
+	weapons snooper rifle
+	{
+		legs jump_nostep_1h
+	}
+	weapons panzerfaust, movetype run
+	{
+		legs jump_1step_2h
+	}
+	weapons panzerfaust
+	{
+		legs jump_nostep_1h
+	}
+	weapons two_handed_weapons, movetype run
+	{
+		both jump_1step_2h
+	}
+	weapons two_handed_weapons
+	{
+		both jump_nostep_1h
+	}
+	default
+	{
+		both jump_1step_1h 
+	}
+}
+
+climbmount
+{
+	default
+	{
+		both climb_start
+	}
+}
+
+climbdismount
+{
+	default
+	{
+		both climb_dis
+	}
+}
+
+inform_friendly_of_enemy
+{
+	enemy_team allies
+	{
+		sound infantryInformFriendlyOfEnemyAllies1
+		sound infantryInformFriendlyOfEnemyAllies2
+		sound infantryInformFriendlyOfEnemyGeneral1
+		sound infantryInformFriendlyOfEnemyGeneral2
+		sound infantryInformFriendlyOfEnemyGeneral3
+	}
+
+	default
+	{
+		sound infantryInformFriendlyOfEnemyGeneral1
+		sound infantryInformFriendlyOfEnemyGeneral2
+		sound infantryInformFriendlyOfEnemyGeneral3
+	}
+}
+
+DEATH
+{
+	enemy_weapon knife, enemy_position behind
+	{
+		both death_machinegun_1
+	}
+
+	enemy_weapon machineguns
+	{
+		both death_machinegun_1
+	}
+
+	enemy_weapon rifles, impact_point head
+	{
+		both death_machinegun_1
+	}
+
+	enemy_weapon rifles, impact_point chest
+	{
+		both death_machinegun_1
+	}
+	enemy_weapon flamethrower
+	{
+		both death_machinegun_1
+	}
+
+	default
+	{
+		both death_machinegun_1
+		both death_gut
+	}
+}
+
+revive
+{
+	default
+	{
+		both revive
+	}
+}
+
+pain
+{
+	movetype crouching, impact_point head
+	{
+		both pain_cr_head
+	}
+	movetype crouching, impact_point shoulder_right
+	{
+		both pain_cr_shoulderR
+	}
+	movetype crouching, impact_point shoulder_left
+	{
+		both pain_cr_shoulderL
+	}
+	movetype crouching	// pick one at random if they failed
+	{
+		both pain_cr_head
+		both pain_cr_shoulderR
+		both pain_cr_shoulderL
+	}
+	enemy_weapon flamethrower
+	{
+		both pain_fire
+	}
+	stunned
+	{
+		both pain_daze
+	}
+	impact_point head
+	{
+		both pain_head
+	}
+	impact_point chest
+	{
+		both pain_chest
+	}
+	impact_point gut
+	{
+		both pain_gut
+	}
+	impact_point groin
+	{
+		both pain_groin
+	}
+	impact_point shoulder_right
+	{
+		both pain_shoulderR
+	}
+	impact_point shoulder_left
+	{
+		both pain_shoulderL
+	}
+	impact_point knee_right
+	{
+		both pain_kneeR
+	}
+	impact_point knee_left
+	{
+		both pain_kneeL
+	}
+	default
+	{
+		both pain_chest
+		both pain_gut
+		both pain_groin
+	}
+}
+
+
+//==========================================================================
+// CANNED_ANIMATIONS
+//
+//	These animations are played at random, momentarily cutting off the
+//	above "normal" animations.
+//
+//	format:
+//
+//	(see ANIMATION section above)
+//
+//canned_animations 
+
+//==========================================================================
+// STATECHANGES
+//
+// format:
+//
+// statechange <directionto> <state>
+// {
+//		[DEFAULT / <condition type> [<condition value>], ...]
+//		{
+//			<both/legs/torso> <animation> [sound <filename>]
+//			<both/legs/torso> <animation> [sound <filename>]
+//			...
+//		}
+// }
+//STATECHANGES

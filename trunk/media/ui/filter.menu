@@ -1,0 +1,201 @@
+#include "ui_mp/menudef.h"
+
+
+#define GLOBAL_TEXTSCALE1	0.25
+
+{
+\\ CREATE FAVORITE POPUP MENU \\
+menuDef {
+	name				"filter_popmenu"
+	visible				0
+	fullscreen			0
+	rect				204 174 235 258
+	focusColor			1 .75 0 1
+	style				1
+	border				1
+	popup
+	onESC				{ close filter_popmenu ; open multi_menu }
+
+	itemDef
+	{
+		name			window
+		group			grpControlbutton
+		rect			0 40 235 165
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.5 .5 .5 .5
+		forecolor		1 1 1 1
+		backcolor		.1 .1 .1 1
+		visible			1
+		decoration
+	}
+
+	itemDef 
+	{
+		name			window2
+		group			grpControlbutton
+		rect			2 42 231 20 
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.1 .1 .1 .2
+		forecolor		1 1 1 1
+		backcolor		.3 0.5 0.2 0.5
+		visible			1
+		decoration
+	}
+
+	itemDef {
+		name			window_title
+		text			"Filter Servers"
+		style			0
+		decoration
+		textscale		.3
+		rect			1 44 110 20
+		textalign		1
+		textalignx		117
+		textaligny		16
+		forecolor		1 1 1 1
+		visible			1
+	}
+
+	// ENTER NAME AND ADDRESS	//
+	itemDef {
+		name			nameEntry
+		group			grpControls
+		type			ITEM_TYPE_YESNO
+		text			"View Empty:"
+		cvar			"ui_browserShowEmpty"
+		rect			20 75 199 12
+		textalign		ITEM_ALIGN_RIGHT
+		textalignx		99
+		textaligny		10
+		textfont		UI_FONT_NORMAL
+		textscale		.25 		 
+		forecolor		1 1 1 1
+		style			WINDOW_STYLE_FILLED
+		backcolor		1 1 1 .07
+		visible			1
+	}
+
+	itemDef {
+		name			nameEntry
+		group			grpControls
+		type			ITEM_TYPE_YESNO
+		text			"View Full:"
+		cvar			"ui_browserShowFull"
+		rect			20 90 199 12
+		textalign		ITEM_ALIGN_RIGHT
+		textalignx		99
+		textaligny		10
+		textfont		UI_FONT_NORMAL
+		textscale		.25 		 
+		forecolor		1 1 1 1
+		style			WINDOW_STYLE_FILLED
+		backcolor		1 1 1 .07
+		visible			1
+	}
+
+	itemDef {
+		name			nameEntry
+		group			grpControls
+		type			ITEM_TYPE_MULTI
+		text			"Friendly Fire:"
+		cvar			"ui_browserShowFriendlyFire"
+		cvarFloatList	{ "Both" 0 "On" 1 "Off" 2 }
+		rect			20 105 199 12
+		textalign		ITEM_ALIGN_RIGHT
+		textalignx		99
+		textaligny		10
+		textfont		UI_FONT_NORMAL
+		textscale		.25 		 
+		forecolor		1 1 1 1
+		style			WINDOW_STYLE_FILLED
+		backcolor		1 1 1 .07
+		visible			1
+	}
+
+	itemDef {
+		name			nameEntry
+		group			grpControls
+		type			ITEM_TYPE_YESNO
+		text			"Show Maxlives:"
+		cvar			"ui_browserShowMaxlives"
+		rect			20 120 199 12
+		textalign		ITEM_ALIGN_RIGHT
+		textalignx		99
+		textaligny		10
+		textfont		UI_FONT_NORMAL
+		textscale		.25 		 
+		forecolor		1 1 1 1
+		style			WINDOW_STYLE_FILLED
+		backcolor		1 1 1 .07
+		visible			1
+	}
+
+	itemDef {
+		name			nameEntry
+		group			grpControls
+		type			ITEM_TYPE_YESNO
+		text			"Show Tourney:"
+		cvar			"ui_browserShowTourney"
+		rect			20 135 199 12
+		textalign		ITEM_ALIGN_RIGHT
+		textalignx		99
+		textaligny		10
+		textfont		UI_FONT_NORMAL
+		textscale		.25 		 
+		forecolor		1 1 1 1
+		style			WINDOW_STYLE_FILLED
+		backcolor		1 1 1 .07
+		visible			1
+	}
+
+	itemDef {
+		name			nameEntry
+		group			grpControls
+		type			ITEM_TYPE_MULTI
+		text			"Show Antilag:"
+		cvar			"ui_browserShowAntilag"
+		cvarFloatList	{ "Both" 0 "Yes" 1 "No" 2 }
+		rect			20 150 199 12
+		textalign		ITEM_ALIGN_RIGHT
+		textalignx		99
+		textaligny		10
+		textfont		UI_FONT_NORMAL
+		textscale		.25 		 
+		forecolor		1 1 1 1
+		style			WINDOW_STYLE_FILLED
+		backcolor		1 1 1 .07
+		visible			1
+	}
+	
+	itemDef {
+		name			yes
+		text			"Ok"
+		type			ITEM_TYPE_BUTTON
+		textfont		UI_FONT_NORMAL
+		textscale		GLOBAL_TEXTSCALE1
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.1 .1 .1 .25
+		rect			70 184 100 15
+		textalign		1
+		textalignx		51		// center
+		textaligny		11
+		backcolor		.3 .5 .2 .3
+		forecolor		1 1 1 1
+		visible			1
+
+		action {
+			play		"sound/misc/nomenu.wav" ;
+			close		filter_popmenu ;
+			open		multi_menu
+		}
+
+		mouseEnter	{ setitemcolor yes backcolor .1 .2 .37 1 }
+		mouseExit	{ setitemcolor yes backcolor .3 .5 .2 .3 }
+	}
+
+}
+}
+}
