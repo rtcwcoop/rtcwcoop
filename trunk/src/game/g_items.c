@@ -156,7 +156,7 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
 	}
 
 	// single player has no respawns	(SA)
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer ) {
 		if ( !( ent->spawnflags & 8 ) ) {
 			return RESPAWN_SP;
 		}
@@ -169,7 +169,7 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
 //======================================================================
 int Pickup_Key( gentity_t *ent, gentity_t *other ) {
 	other->client->ps.stats[STAT_KEYS] |= ( 1 << ent->item->giTag );
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer ) {
 		if ( !( ent->spawnflags & 8 ) ) {
 			return RESPAWN_SP;
 		}
@@ -257,7 +257,7 @@ int Pickup_Holdable( gentity_t *ent, gentity_t *other ) {
 
 	other->client->ps.stats[STAT_HOLDABLE_ITEM] |= ( 1 << ent->item->giTag );   //----(SA)	added
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer ) {
 		if ( !( ent->spawnflags & 8 ) ) {
 			return RESPAWN_SP;
 		}
@@ -388,7 +388,7 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 	Add_Ammo( other, ent->item->giTag, quantity, qfalse );   //----(SA)	modified
 
 	// single player has no respawns	(SA)
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer ) {
 		if ( !( ent->spawnflags & 8 ) ) {
 			return RESPAWN_SP;
 		}
@@ -474,7 +474,7 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 //		other->client->ps.ammo[BG_FindAmmoForWeapon(weapon)] = -1; // unlimited ammo
 
 	// single player has no respawns	(SA)
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer ) {
 		if ( !( ent->spawnflags & 8 ) ) {
 			return RESPAWN_SP;
 		}
@@ -534,7 +534,7 @@ int Pickup_Health( gentity_t *ent, gentity_t *other ) {
 	}
 
 	// single player has no respawns	(SA)
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer ) {
 		return RESPAWN_SP;
 	}
 
