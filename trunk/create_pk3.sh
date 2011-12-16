@@ -1,6 +1,7 @@
 #!/bin/bash
 PAKFILE=sp_pak_coop1.pk3
-cd media
+cd media/sp_pak_coop1
+
 zip -R $PAKFILE models/players/coop/* maps/* scripts/* ui/*
 
 if [ "`uname`" = "Darwin" ]; then
@@ -9,3 +10,5 @@ fi
 if [ "`uname`" = "Linux" ]; then
         cp $PAKFILE ~/.wolf/main
 fi
+
+mv $PAKFILE ../
