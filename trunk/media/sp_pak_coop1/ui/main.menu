@@ -1,0 +1,410 @@
+#include "ui/menudef.h"
+
+{
+	assetGlobalDef {
+		font "fonts/normal" 16			// font
+		smallFont "fonts/smallFont" 12		// font
+		bigFont "fonts/bigFont" 24		// font
+		cursor "ui/assets/3_cursor3"		// cursor	
+		gradientBar "ui/assets/gradientbar2.tga"// gradient bar
+		itemFocusSound "sound/misc/menu2.wav"	// sound for item getting focus (via keyboard or mouse )
+		fadeClamp 1.0				// sets the fadeup alpha
+		fadeCycle 1				// how often fade happens in milliseconds
+		fadeAmount 0.1				// amount to adjust alpha per cycle
+		
+		shadowColor 0.1 0.1 0.1 0.25		// shadow color
+		}
+							   
+
+
+
+
+menuDef {
+	name "main"
+//	background "menuback_cw"			// Spinning Circle Background
+	fullScreen MENU_TRUE				
+	rect 0 0 640 480				// Size and position of the menu
+	visible MENU_TRUE				// Visible on open
+	focusColor .9 .85 1 .8				// Menu focus color for text and items
+	soundloop ""
+					
+	onOpen { 
+		setitemcolor fadebox backcolor 0 0 0 1 ; 
+		playlooped "sound/music/l_theme.wav" ;
+		fadeout fadebox ;
+	 //  	play "sound/misc/tim_pump.wav" ; 
+		uiScript stopRefresh ;
+		}
+		
+	onESC { open quit_popmenu }
+	
+
+
+	itemDef {
+
+		name modelselection 				//Precache player model	
+		ownerdraw UI_PLAYERMODEL			//Ownerdraw for player models
+		rect 0 0 0 0 
+		style 1
+		decoration 
+		visible 1
+    		}
+
+
+
+
+
+
+
+	itemDef {
+		name backimage2					// backimage2
+		style WINDOW_STYLE_SHADER
+		rect 0 0 640 480
+		background "backimage2"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name testmodel_bj
+		type ITEM_TYPE_MODEL
+		rect 75 -80 800 800  
+		model_angle -120
+		asset_model "models/mapobjects/bjui/bjui_b.MD3"
+		model_animplay 0 200 0 20
+		model_fovx 66
+		model_fovy 60
+		visible 1
+		decoration
+		}
+
+		
+	itemDef {
+      	name video_over1					// video_over1
+      	style WINDOW_STYLE_SHADER
+      	rect 230 0 410 480
+ 	    	background "video_over1"
+      	visible 1
+		decoration
+    		}
+
+
+	itemDef {
+		name testmodel_aflag1
+		type ITEM_TYPE_MODEL
+		rect 150 0 800 600 
+		model_angle 90
+		model_origin 100 100 100
+		asset_model "models/mapobjects/flag/flag_americanui.MD3"
+		model_animplay 0 114 0 10
+		model_fovx 40
+		model_fovy 40
+		visible 1
+		decoration
+		}
+
+
+
+
+	itemDef {
+		name band2						// band2
+		style WINDOW_STYLE_SHADER
+		rect 360 20 128 640
+		background "band2"
+		visible 1
+		decoration
+		}
+	
+
+	itemDef {
+		name bands						// bands
+		style WINDOW_STYLE_SHADER
+		rect 200 -480 640 1024
+		background "bands"
+		visible 1
+		decoration
+		}
+
+
+	itemDef {
+		name backimage4					// left side image with black gradient  
+		style WINDOW_STYLE_SHADER
+		rect 0 0 343 480
+		background "backimage4"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name testmodel_nflag1
+		type ITEM_TYPE_MODEL
+		rect -350 -30 800 600 
+		model_angle -130
+		model_origin 100 100 100
+		asset_model "models/mapobjects/flag/flag_naziui.MD3"
+		model_animplay 0 114 0 10
+		model_fovx 40
+		model_fovy 40
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name BLACKGRAD					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name BLACKGRAD2					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 370 640 -128
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name FLAME					// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+	itemDef {
+		name testmodel_icon_burn
+		type ITEM_TYPE_MODEL
+		rect 140 266 360 326
+		model_angle 90
+		model_origin 0 0 0
+		asset_model "models/mapobjects/ui/icon_burn.MD3"
+		model_fovx 90
+		model_fovy 90
+		visible 1
+		decoration
+		}
+
+
+	itemDef {
+		name WOLFFLAMELOGO				// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+
+
+	itemDef {
+		name WOLFICON					// WOLFICON
+		style WINDOW_STYLE_SHADER
+		rect 220 380 200 100
+		background "WOLFICON"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 410 250 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 390 410 250 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+
+	itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+
+////////// GAMETYPE //////////////////////////////////////////////////////// 
+
+
+
+	itemDef {
+		name play
+		text "NEW GAME"
+		type 1
+		style 0	
+		textstyle 6
+		rect 120 140 73 14
+		textalign ITEM_ALIGN_LEFT
+		textscale .25	
+		textalignx 0
+		textaligny 14
+		forecolor .9 .9 .9 1
+		visible 1
+		textfont UI_FONT_NORMAL
+		mouseEnter {  fadein message_accept }
+		action { play "sound/misc/zap.wav" ; 
+		close main ; 
+		open play_menu }
+		}
+
+
+
+
+	itemDef {
+		name loadgame
+		text "LOAD GAME"
+		type 1
+		style 0
+		textstyle 6
+		rect 120 180 72 14
+		textalign ITEM_ALIGN_LEFT
+		textscale .25	
+		textalignx 0
+		textaligny 14
+		forecolor .9 .9 .9 .9
+		visible 1 
+		textfont UI_FONT_NORMAL
+		mouseEnter { fadein message_accept }
+		action {close main ; open load_menu ; play "sound/misc/zap.wav"; }
+    	}
+
+
+itemDef {
+      	name playselection
+      	text "COOPERATIVE GAME"
+		type 1
+		style 0	
+		textstyle 6
+		rect 120 220 137 14 
+		textalign ITEM_ALIGN_LEFT
+		textscale .25	
+		textalignx 0
+		textaligny 14
+		textfont UI_FONT_NORMAL
+		forecolor .9 .9 .9 1
+		visible 1  
+		mouseEnter {
+		fadein message_accept}
+    	action {
+			play "sound/misc/zap.wav" ;
+			close main ;
+ 			open multi_menu;
+		}
+    	}
+
+itemDef {
+		name options
+		text "OPTIONS"
+		type 1
+		style 0	
+		textstyle 6
+		rect 120 260 56 14 
+		textalign ITEM_ALIGN_LEFT
+		textscale .25	
+		textalignx 0
+		textaligny 14
+		forecolor .9 .9 .9 1
+		visible 1
+		textfont UI_FONT_NORMAL 
+		mouseEnter {fadein message_accept }
+		action {play "sound/misc/zap.wav" ; 
+		close main ; 
+		open setup_menu ;
+		open control_menu } 
+	}
+
+itemDef {
+	name credits
+	text "CREDITS"
+		type 1
+		style 0	
+		textstyle 6
+		rect 120 300 56 14
+		textalign ITEM_ALIGN_LEFT
+		textscale .25		
+		textalignx 0
+		textaligny 14
+		textfont UI_FONT_NORMAL
+		forecolor .99 .99 .99 .99
+		visible 1 
+		mouseEnter { fadein message_accept }
+		action {close main;
+		open credit } 
+	}
+
+itemDef {
+	name testing
+	text "TESTING"
+		type 1
+		style 0	
+		textstyle 6
+		rect 120 360 56 14
+		textalign ITEM_ALIGN_LEFT
+		textscale .25		
+		textalignx 0
+		textaligny 14
+		textfont UI_FONT_NORMAL
+		forecolor .99 .99 .99 .99
+		visible 1 
+		mouseEnter { fadein message_accept }
+		action {
+		open ingame_multiset } 
+	}
+	
+	
+itemDef {
+		name quit
+		text "QUIT"
+		type 1
+		style 0	
+		textstyle 6
+		rect 600 420 32 14
+		textalign ITEM_ALIGN_LEFT
+		textscale .25	
+		textalignx 0
+		textaligny 14
+		textfont UI_FONT_NORMAL
+		forecolor .6 .6 .6 .6
+		visible 1
+		action { play "sound/misc/nomenu.wav"; 
+		close main ;
+		open quitCredit  }
+		mouseEnter { setitemcolor yes backcolor .1 .37 .1 1 } 
+		mouseExit { setitemcolor yes backcolor .37 .1 .1 1 } 	
+	}
+
+itemDef {
+      	name fadebox					// Box for fading in menus
+      	style WINDOW_STYLE_FILLED
+ 		background "ui/assets/fadebox.tga"
+		forecolor 0 0 0 1
+		backcolor 0 0 0 1
+		rect 0 0 640 480
+      	visible 1 
+		decoration
+    	}
+
+}

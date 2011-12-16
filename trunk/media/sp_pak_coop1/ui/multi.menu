@@ -1,0 +1,2469 @@
+#include "ui/menudef.h"
+
+#define ORIGIN_WINDOW1		136 -15
+#define ORIGIN_WINDOW2		136 15
+#define HELP_ORIGIN			0 5
+
+{
+// MAIN WINDOW
+
+  menuDef {
+    	name "multi_menu"
+    	visible 0
+    	fullscreen 1
+    	rect 186 0 454 480	
+		focusColor .9 .9 .9 1
+    	style 1
+    	border 1
+		soundloop ""
+      	style WINDOW_STYLE_FILLED
+		forecolor 0 0 0 0
+		backcolor 0 0 0 0
+
+	onOpen {
+		setitemcolor fadebox backcolor 0 0 0 1 ; 
+		fadeout fadebox ;
+		hide back_alt ;
+		show back ;
+		show grpJoin ;
+		hide grpMultiSet ;
+		hide grpCreate ;
+		hide grpmessage
+	}
+
+	onEsc {
+		close multi_menu ;
+		open main
+	}
+
+// Start of Menu Background
+
+itemDef {
+      	name menu_select					// menu_select
+      	style WINDOW_STYLE_SHADER
+      	rect 0 0 640 480
+     	background "menu_select"
+      	visible 1
+		decoration
+    	}
+itemDef {
+		name band2							// band2
+		style WINDOW_STYLE_SHADER
+		rect 360 20 128 640
+    	background "band2"
+     	visible 1
+		decoration
+}
+itemDef {
+      	name bands							// bands
+      	style WINDOW_STYLE_SHADER
+      	rect 0 -480 640 1024
+     	background "bands"
+      	visible 1
+		decoration
+    	}
+itemDef {
+		name BLACKGRAD						// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+itemDef {
+		name BLACKGRAD2						// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 420 640 -128
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+itemDef {
+		name FLAME							// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+itemDef {
+		name WOLFFLAMELOGO					// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+itemDef {
+		name gold_line						// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+itemDef {
+		name gold_line						// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+	itemDef {
+		name WOLFICONBACK					// WOLFICONBACK
+		style WINDOW_STYLE_SHADER
+		rect 140 200 360 190
+		background "WOLFICONBACK"
+		visible 1
+		decoration
+		}
+// End of Menu Background
+
+// Start of Upper Menu
+
+	itemDef {
+		name			Join_Server
+		text			"SERVER LIST" 	
+		textfont		UI_FONT_NORMAL
+		bordercolor		1 1 1 1
+		style			0	
+		textstyle		6
+		rect			105 90 85 14 
+		textalign		0
+		textscale		.25		
+		textalignx		2
+		textaligny		12
+		forecolor		.9 .9 .9 .9
+		visible			1
+		action			{ play "sound/misc/kcaction.wav" ;
+			show		grpJoin
+			hide		grpMultiset
+			hide		grpCreate }	
+		mouseenter		{ show message_joinserver }
+		mouseexit		{ hide message_joinserver }
+		}
+	itemDef {
+		name			Multi_Setup	
+		text			"GAMEPLAY SETUP"
+		textfont		UI_FONT_NORMAL
+		type			1
+		style			0	
+		textstyle		6
+		rect			260 90 122 14 
+		textalign		0
+		textscale		.25		
+		textalignx		2
+		textaligny		12
+		forecolor		.9 .9 .9 .9
+		visible			1
+		action			{ play	"sound/misc/kcaction.wav" ;
+			hide		grpJoin
+			show		grpMultiset
+			hide		grpCreate }	
+		mouseenter		{ show message_multisetup }
+		mouseexit		{ hide message_multisetup }
+		}
+	itemDef {
+		name			create_server
+		text			"CREATE SERVER"
+		textfont		UI_FONT_NORMAL
+		type			1
+		style			0	
+		textstyle		6
+		rect			426 90 100 14 
+		textalign		0
+		textscale		.25		
+		textalignx		2
+		textaligny		12
+		forecolor		.9 .9 .9 .9
+		visible			1 
+		action			{ play "sound/misc/kcaction.wav" ;
+			uiScript loadArenas ;		 
+//			uiScript voteFlags open ;
+			hide		grpJoin
+			hide		grpMultiset
+			show		grpCreate }	
+		mouseenter		{ show message_create }
+		mouseexit		{ hide message_create }
+		}
+// End of Upper Menu
+
+// Start of Join Server Section
+
+	// Start of Join Server Border
+
+	itemDef 
+		{
+		name window
+		group grpJoin
+		rect 20 115 600 300	
+		style WINDOW_STYLE_FILLED
+		border 1
+		bordercolor .5 .5 .5 .5
+		forecolor 1 1 1 1
+		backcolor 0 0 0 .25
+		visible 1
+		decoration
+		}
+
+	// End of Join Server Border	
+	
+	//  UPPER BUTTONS  //
+	
+	
+			itemDef {
+			name refreshSource
+			group grpJoin
+			text "Get New List"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			style WINDOW_STYLE_FILLED	
+			//background "ui_mp/assets/button_red.tga"
+			border 1
+			bordercolor .1 .1 .1 .25
+			rect 70 125 105 15
+			textalign 1
+			textalignx 52		// center
+			textaligny 11
+			textfont	UI_FONT_NORMAL
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1 
+			mouseEnter { show message_refreshSOurce ; setitemcolor refreshSource backcolor .1 .2 .37 1 }
+			mouseExit { hide message_refreshSource ; setitemcolor refreshSource backcolor .3 .5 .2 .3 }
+			action { play "sound/misc/nomenu.wav" ; 
+			uiScript RefreshServers }	  	  
+				}
+
+
+		itemDef {
+			name refreshFilter
+			group grpJoin
+			text "Refresh List"
+			textscale .25
+			style WINDOW_STYLE_FILLED
+			textfont	UI_FONT_NORMAL
+			type ITEM_TYPE_BUTTON
+			border 1
+			bordercolor .1 .1 .1 .25
+			rect 70 150 105 15
+			textalign 1
+			textalignx 52		// center
+			textaligny 11
+			backcolor .3 .5 .2 .3 
+			forecolor 1 1 1 1
+			visible 1 
+			mouseEnter { show message_refreshFilter ; setitemcolor refreshFilter backcolor .1 .2 .37 1 }
+			mouseExit { hide message_refreshFilter ; setitemcolor refreshFilter backcolor .3 .5 .2 .3 }	  	  
+			action { play "sound/misc/nomenu.wav" ; 
+			uiScript RefreshFilter }	  	  
+				}
+
+		itemDef {
+			name			filterServers
+			group grpJoin
+			text			"Filter Servers"
+			type			ITEM_TYPE_BUTTON
+			textfont		UI_FONT_NORMAL
+			textscale		.25
+			style			WINDOW_STYLE_FILLED
+			border			1
+			bordercolor		.1 .1 .1 .25
+			rect			70 175 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1
+
+			action {
+				play "sound/misc/kcaction.wav" ; 
+				open filter_popmenu
+			}
+
+			mouseEnter		{ show message_filterServers ; setitemcolor filterServers backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_filterServers ; setitemcolor filterServers backcolor .3 .5 .2 .3 }
+				}
+				
+		itemDef {
+			name gametypefield
+			group grpJoin
+			style 0	
+			textfont UI_FONT_NORMAL
+			ownerdraw UI_NETSOURCE
+			rect 215 125 134 15 
+			textstyle 6
+			textalign ITEM_ALIGN_LEFT		
+			textalignx 0     
+			textaligny 14
+			textscale .25   
+			forecolor 1 1 1 1
+			visible 1 
+			action { play "sound/misc/kcaction.wav" }
+			mouseEnter { show message_source }
+			mouseExit { hide message_source }
+			}
+
+		itemDef {
+			name gametypefield
+			group grpJoin
+			style 0	
+			textstyle 6
+			text "Type:"
+			ownerdraw UI_JOINGAMETYPE
+			textfont	UI_FONT_NORMAL
+			rect 215 150 160 15
+			textalign ITEM_ALIGN_LEFT		
+			textalignx 0     
+			textaligny 14
+			textscale .25    
+			forecolor 1 1 1 1
+			border 0
+			bordercolor 0 0 0 0
+			visible 1 
+			action { play "sound/misc/kcaction.wav" }
+			mouseEnter { show message_typefilter }
+			mouseExit { hide message_typefilter }
+			}
+	
+		itemDef {
+			name dataratesetting
+			group grpJoin
+			type ITEM_TYPE_MULTI
+			text "Connection Type:"
+			cvar "rate"
+			cvarFloatList { "<=28.8k" 2500 "33.6k" 3000 "56k" 4000 "ISDN" 5000 "LAN/CABLE/xDSL" 25000  }
+			rect 215 175 220 15
+			textstyle 6
+			textalign ITEM_ALIGN_LEFT
+			textalignx 0
+			textaligny 14
+			textfont	UI_FONT_NORMAL
+			textscale .25
+			style WINDOW_STYLE_FILLED    
+			forecolor 1 1 1 1
+			visible 1 
+			action { uiScript update ui_setRate }
+			}
+
+			
+		itemDef {
+			name mappreview
+			group grpJoin
+			style 0	
+			ownerdraw UI_NETMAPCINEMATIC
+			textfont	UI_FONT_NORMAL
+			rect 472 118 100 80
+			border 1
+			bordercolor .1 .1 .1 .40
+			visible 1 
+			}
+
+		itemDef {
+			name mappreview
+			group grpJoin
+			style WINDOW_STYLE_FILLED	
+			rect 472 118 100 80 
+			border 1
+			bordercolor .1 .1 .1 .40
+			visible 1 
+			}
+
+			
+			
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 216 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .25
+			visible 1
+			decoration
+		  }
+
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 246 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .25
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 276 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .25
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 306 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .25
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 336 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .25
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 366 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .25
+			visible 1
+			decoration
+		  }
+
+	//	COLUMNS	//
+
+	
+		itemDef {
+			name serverColumn
+			group grpJoin
+			rect 20 215 169 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			//bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name mapColumn
+			group grpJoin
+			rect 188 215 197 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name skillColumn
+			group grpJoin
+			rect 384 215 37 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name playerColumn
+			group grpJoin
+			rect 420 215 65 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name typeColumn
+			group grpJoin
+			rect 484 215 84 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name pingColumn
+			group grpJoin
+			rect 567 215 36 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+
+			
+		 itemDef {
+			name serverlist
+			group grpJoin
+			rect 20 215 600 165
+			type ITEM_TYPE_LISTBOX
+			style WINDOW_STYLE_FILLED
+			elementwidth 120
+			elementheight 15
+			textfont	UI_FONT_NORMAL
+			border 1
+			bordercolor .5 .5 .5 .5
+			textalign 1
+			textalignx 0
+			textaligny -3
+			textscale .25	
+			elementtype LISTBOX_TEXT
+			feeder FEEDER_SERVERS		
+			forecolor 1 1 1 1
+			backcolor .5 .5 .5 .2
+			outlinecolor .7 .7 0 .25
+			visible 1
+			// 	numcols     xpos  xwitdth   textlen
+			columns 6       0     40        40
+							168	  40        40
+							364   5         10
+							400   20        10
+							467   20        20
+							544   20		20
+			doubleClick { uiScript JoinServer }
+			}
+
+	//	SORT TABS	//
+
+		itemDef {
+			name server
+			group grpJoin
+			text "Server Name"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .1 .1 .1 .25	
+			rect 20 200 169 15
+			textalign 1
+			textalignx 85		// center
+			textaligny 10
+			forecolor 1 1 1 1
+			backcolor .3 .5 .2 .3
+			visible 1 
+			action { play "sound/misc/nomenu.wav" ; 
+			uiScript ServerSort 0 ; 
+			setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
+			setitemcolor server backcolor .1 .2 .37 1 ; 
+			setitemcolor grpColumn backcolor 0 0 0 0 ; 
+			setitemcolor serverColumn backcolor 0 0 0.8 .25 }
+			mouseEnter { show message_sort ; setitemcolor serverColumn bordercolor 1 1 1 1 }
+			mouseExit { hide message_sort ; setitemcolor serverColumn bordercolor .5 .5 .5 .5 }  
+			}
+
+
+
+		itemDef {
+			name map
+			group grpJoin
+			type ITEM_TYPE_BUTTON
+			text "Map Name"
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED	
+			rect 188 200 197 15
+			textalign 1
+			textalignx 98		// center
+			textaligny 10
+			border 1
+			bordercolor .1 .1 .1 .25
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1 
+			action { play "sound/misc/nomenu.wav" ; 
+			uiScript ServerSort 1 ; 
+			setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
+			setitemcolor map backcolor .1 .2 .37 1 ; 
+			setitemcolor grpColumn backcolor 0 0 0 0 ; 
+			setitemcolor mapColumn backcolor 0 0 1 .25 }
+			mouseEnter { show message_sort ; setitemcolor mapColumn bordercolor 1 1 1 1 }
+			mouseExit { hide message_sort ; setitemcolor mapColumn bordercolor .5 .5 .5 .5 }	  	  
+			}
+
+		itemDef {
+			name Skill
+			group grpJoin
+			text "Skill"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .1 .1 .1 .25		
+			rect 384 200 37 15
+			textalign 1
+			textalignx 18		// center
+			textaligny 10
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1 
+			action { play "sound/misc/nomenu.wav" ; 
+				uiScript ServerSort 2 ;
+				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
+				setitemcolor Skill backcolor .1 .2 .37 1 ;  
+				setitemcolor grpColumn backcolor 0 0 0 0 ;
+				setitemcolor skillColumn backcolor 0 0 1 .25 }
+				mouseEnter { show message_sort ; setitemcolor skillColumn bordercolor 1 1 1 1 }
+				mouseExit { hide message_sort ; setitemcolor skillColumn bordercolor .5 .5 .5 .5 }	  
+			}
+
+		itemDef {
+			name Players
+			group grpJoin
+			text "Players"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			style WINDOW_STYLE_FILLED	
+			textfont	UI_FONT_NORMAL
+			rect 420 200 65 15
+			textalign 1
+			textalignx 32		// center
+			textaligny 10
+			border 1
+			bordercolor .1 .1 .1 .25
+			forecolor 1 1 1 1
+			backcolor .3 .5 .2 .3
+			visible 1 
+			action { play "sound/misc/nomenu.wav" ; 
+				uiScript ServerSort 3 ;
+				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
+				setitemcolor Players backcolor .1 .2 .37 1 ;  
+				setitemcolor grpColumn backcolor 0 0 0 0 ; 
+				setitemcolor playerColumn backcolor 0 0 1 .25 }
+				mouseEnter { show message_sort ; setitemcolor playerColumn bordercolor 1 1 1 1 }
+				mouseExit { hide message_sort ; setitemcolor playerColumn bordercolor .5 .5 .5 .5 }  	  
+			}
+
+
+		itemDef {
+			name Type
+			group grpJoin
+			text "Type"
+			textfont	UI_FONT_NORMAL
+			textscale .25
+			type ITEM_TYPE_BUTTON
+			style WINDOW_STYLE_FILLED	
+			rect 484 200 84 15
+			textalign 1
+			textalignx 42		// center
+			textaligny 10
+			border 1	
+			bordercolor .1 .1 .1 .25	
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1 
+			action { play "sound/misc/nomenu.wav" ; 
+				uiScript ServerSort 4 ;
+				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
+				setitemcolor Type backcolor .1 .2 .37 1 ;  
+				setitemcolor grpColumn backcolor 0 0 0 0 ; 
+				setitemcolor typeColumn backcolor 0 0 1 .25 }
+				mouseEnter { show message_sort ; setitemcolor typeColumn bordercolor 1 1 1 1 }
+				mouseExit { hide message_sort ; setitemcolor typeColumn bordercolor .5 .5 .5 .5 }	  	  
+			}
+
+
+		itemDef {
+			name Ping
+			group grpJoin
+			text "Ping"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .1 .1 .1 .25		
+			rect 567 200 36 15
+			textalign 1
+			textalignx 18		// center
+			textaligny 10
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1 
+			action { play "sound/misc/nomenu.wav" ; 
+				uiScript ServerSort 5 ;
+				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
+				setitemcolor Ping backcolor .1 .2 .37 1 ;  
+				setitemcolor grpColumn backcolor 0 0 0 0 ;
+				setitemcolor pingColumn backcolor 0 0 1 .25 }
+				mouseEnter { show message_sort ; setitemcolor pingColumn bordercolor 1 1 1 1 }
+				mouseExit { hide message_sort ; setitemcolor pingColumn bordercolor .5 .5 .5 .5 }	  
+			}
+
+
+		// 	BOTTON BUTTONS	//
+
+
+		itemDef {
+			name			password
+			text			"Password"
+			group			grpJoin
+			type			ITEM_TYPE_BUTTON
+			textscale		.25
+			style			WINDOW_STYLE_FILLED
+			border			1
+			textfont		UI_FONT_NORMAL
+			bordercolor		.1 .1 .1 .25
+			rect			70 385 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1
+			action {
+				play "sound/misc/kcaction.wav" ; 
+				open password_popmenu
+			}
+			mouseEnter		{ show message_password ; setitemcolor password backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_password ; setitemcolor password backcolor .3 .5 .2 .3 }
+				}
+
+		itemDef {
+			name			window_limbo_name
+			group			grpJoin
+			visible			1
+			rect			193 385 256 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			border			1
+			bordercolor		.5 .5 .5 .5
+			maxChars		32
+			maxpaintchars	18
+			text			"Player Name:"
+			cvar			"name"
+			textscale		.25
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			}
+
+		
+		itemDef {
+			name			serverinfo
+			text			"Server Info"
+			group			grpJoin
+			type			ITEM_TYPE_BUTTON
+			textscale		.25
+			style			WINDOW_STYLE_FILLED
+			border			1
+			textfont		UI_FONT_NORMAL
+			bordercolor		.1 .1 .1 .25
+			rect			467 385 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1
+			action			{
+			play "sound/misc/kcaction.wav" ; 
+			setcvar ui_serverBrowser 1 ; // 1: from server browser
+			open serverinfo_popmenu
+			}
+			mouseEnter		{ show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_serverinfo ; setitemcolor serverinfo backcolor .3 .5 .2 .3 }	 
+			}
+
+// End of Join Server Section
+
+// Start of Multiplayer Setup
+
+		// Multiplayer Setup Border
+
+			itemDef {
+				name window
+				group grpMultiSet
+				rect 100 115 443 300	
+				style WINDOW_STYLE_FILLED
+				border 1
+				bordercolor .5 .5 .5 .5
+				forecolor 1 1 1 1
+				backcolor 0 0 0 .25
+				visible 1
+				decoration
+				}
+
+		// Multiplayer Setup Title
+
+		//////// START OF COPY
+		
+			itemDef {
+				name window
+				group grpMultiSet
+				text "Multiplayer Options"
+				textalignx 160
+				textfont	UI_FONT_NORMAL
+				textaligny 13
+				textscale .25
+				rect 102 117 439 20	
+				style WINDOW_STYLE_FILLED
+				border 1
+				bordercolor .1 .1 .1 .2
+				forecolor 1 1 1 1
+				backcolor .3 0.5 0.2 .25
+				visible 1
+				decoration
+			}
+
+		//	Multiplayer Setup Menu	//
+
+		
+			itemDef {
+				name chat
+				group grpMultiSet
+				type ITEM_TYPE_BIND
+				text "Chat:"
+				cvar "messagemode"
+				rect 199 160 256 12
+				textfont	UI_FONT_NORMAL
+				textalign ITEM_ALIGN_RIGHT
+				textalignx 128
+				textaligny 10
+				textscale .25
+				style WINDOW_STYLE_FILLED
+				backcolor 1 1 1 .07           
+				forecolor 1 1 1 1
+				visible 1
+				mouseenter { show keyBindStatus }
+				mouseexit { hide keyBindStatus }
+				}
+					
+			itemDef {
+				name view
+				group grpMultiSet
+				type ITEM_TYPE_MULTI		
+				text "Chat Icon Time:"
+				rect 199 175 256 12
+				cvar "cg_voicespritetime"
+				cvarFloatList { "Short" 3000 "Normal" 6000 "Long" 12000 "Really Long" 24000 }
+				textalign ITEM_ALIGN_RIGHT
+				textalignx 128
+				textaligny 10
+				textscale .25    
+				textfont	UI_FONT_NORMAL
+				style WINDOW_STYLE_FILLED
+				backcolor 1 1 1 .07    
+				forecolor 1 1 1 1
+				visible 1
+				}
+				
+			itemDef {
+				name misc
+				group grpMultiSet
+				type ITEM_TYPE_BIND
+				text "Show Scores:"
+				cvar "+scores"
+				rect 199 190 256 12
+				textalign ITEM_ALIGN_RIGHT
+				textfont	UI_FONT_NORMAL
+				textalignx 128 
+				textaligny 10
+				textscale .25
+				style WINDOW_STYLE_FILLED
+				backcolor 1 1 1 .07                    
+				forecolor 1 1 1 1
+				visible 1 
+				mouseenter { show keyBindStatus }
+				mouseexit { hide keyBindStatus }
+				}
+
+			itemDef {
+				name dropweapon
+				group grpMultiSet
+				type ITEM_TYPE_BIND
+				text "Drop Weapon:"
+				cvar "+dropweapon"
+				rect 199 205 256 12
+				textfont	UI_FONT_NORMAL
+				textalign ITEM_ALIGN_RIGHT
+				textalignx 128
+				textaligny 10
+				textscale .25
+				style WINDOW_STYLE_FILLED
+				backcolor 1 1 1 .07           
+				forecolor 1 1 1 1
+				visible 1
+				mouseenter { show keyBindStatus }
+				mouseexit { hide keyBindStatus }
+				}
+
+			itemDef {
+				name dropammo
+				group grpMultiSet
+				type ITEM_TYPE_BIND
+				text "Drop Ammo:"
+				cvar "dropammo"
+				rect 199 220 256 12
+				textfont	UI_FONT_NORMAL
+				textalign ITEM_ALIGN_RIGHT
+				textalignx 128
+				textaligny 10
+				textscale .25
+				style WINDOW_STYLE_FILLED
+				backcolor 1 1 1 .07           
+				forecolor 1 1 1 1
+				visible 1
+				mouseenter { show keyBindStatus }
+				mouseexit { hide keyBindStatus }
+				}
+				
+			itemDef {
+				name other
+				group grpMultiSet
+				type ITEM_TYPE_MULTI
+				text "Net Data Rate:"
+				cvar "rate"
+				cvarFloatList { "<=28.8k" 2500 "33.6k" 3000 "56k" 4000 "ISDN" 5000 "LAN/CABLE/xDSL" 25000  }
+				rect 199 235 256 12
+				textalign ITEM_ALIGN_RIGHT
+				textalignx 128
+				textaligny 10
+				textfont	UI_FONT_NORMAL
+				textscale .25
+				style WINDOW_STYLE_FILLED
+				backcolor 1 1 1 .07 		  
+				forecolor 1 1 1 1
+				visible 1 
+				action { uiScript update ui_setRate }
+				}
+
+			itemDef {
+				name			allow_download
+				group			grpMultiSet
+				rect			199 250 256 12		
+				textfont		UI_FONT_NORMAL
+				type			ITEM_TYPE_MULTI
+				style			WINDOW_STYLE_FILLED
+				text			"Allow Downloads:"
+				cvar			"cl_allowdownload"
+				cvarFloatList	{ "Off" 0 "On" 1 }
+				textscale		.25
+				textalign		ITEM_ALIGN_RIGHT	
+				textalignx		128
+				textaligny		10
+				backcolor		1 1 1 .07 		  
+				forecolor		1 1 1 1
+				visible			1
+			}
+			
+						itemDef {
+				name			coop_nametags
+				group			grpMultiSet
+				rect			199 265 256 12		
+				textfont		UI_FONT_NORMAL
+				type			ITEM_TYPE_MULTI
+				style			WINDOW_STYLE_FILLED
+				text			"Nametags:"
+				cvar			"cl_nametag"
+				cvarFloatList	{ "Off" 0 "On" 1 }
+				textscale		.25
+				textalign		ITEM_ALIGN_RIGHT	
+				textalignx		128
+				textaligny		10
+				backcolor		1 1 1 .07 		  
+				forecolor		1 1 1 1
+				visible			1
+			}
+
+			//////// END OF COPY		
+				
+// End of Multiplayer Setup
+
+// Start of Create Server
+
+			// Start of Create Server Border
+
+				itemDef 
+					{
+					name window
+					group grpCreate
+					rect 20 115 600 300	
+					style WINDOW_STYLE_FILLED
+					border 1
+					bordercolor .5 .5 .5 .5
+					forecolor 1 1 1 1
+					backcolor 0 0 0 .25
+					visible 1
+					decoration
+					}
+			
+			// End of Create Server Border
+			
+			// Map selection
+
+				// Start of Video Window
+/*				
+				itemDef {
+					name mappreview
+					group grpCreate
+					style 0	
+					ownerdraw UI_STARTMAPCINEMATIC
+					rect 30 124 191 142
+					border 0
+					bordercolor .5 .5 .5 .5
+					visible 1
+					}
+
+				itemDef {
+					name mappreview
+					group grpCreate
+					style 0
+					style WINDOW_STYLE_FILLED
+					rect 28 123 192 142
+					border 1
+					bordercolor .5 .5 .5 .5
+					visible 1
+					}
+*/				
+				// End of Video Window
+				
+				// Start of bottom left map selection border image
+
+					itemDef {
+					name			window
+					group			grpCreate
+					text			"Map Selection"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		115
+					textaligny		14
+					textscale		.25
+					rect			28 120 230 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.1 .1 .1 .2
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}
+											
+				 itemDef {
+					name			maplist
+					group			grpCreate
+				//	rect			28 273 230 136
+					rect			28 143 230 264
+					type			ITEM_TYPE_LISTBOX
+					style			WINDOW_STYLE_FILLED
+					elementwidth	240
+					elementheight	20
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					elementtype		LISTBOX_TEXT
+					feeder			FEEDER_ALLMAPS
+					textstyle		6
+				//	textalign		3
+					textaligny		0
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		0 0 .5 0
+					outlinecolor	.1 .1 .7 .5
+					visible			1
+					columns			1 2 190 35
+					mouseEnter {
+						fadein message_arena ;		
+						}
+					mouseExit {
+						fadeout message_arena ; 
+						setitemcolor maplist bordercolor .5 .5 .5 .5 } 
+					}
+			
+				// End of bottom left map selection border image
+					
+			// Settings
+			
+				itemDef {
+					name			window
+					group			grpCreate
+					text			"Server Options"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 120 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.1 .1 .1 .2
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}
+
+				itemDef {
+					name			expert
+					group			grpCreate
+					textfont		UI_FONT_NORMAL
+					type			ITEM_TYPE_EDITFIELD
+					text			"Host Name:  "
+					cvar			"sv_hostname"
+					maxChars		16
+					maxPaintChars	32
+					rect			295 145 290 12
+			//		origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1 
+					mouseenter		{ show message_hostname }
+					mouseexit		{ hide message_hostname }
+					}
+
+				itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Game Type:  "
+					cvar			"g_GameType"
+					cvarfloatlist	{ "coop1" 0 "coop2" 1 }
+				//	ownerdraw		UI_NETGAMETYPE
+					rect			295 160 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145	
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1 
+					mouseenter		{ show message_game_type }
+					mouseexit		{ hide message_game_type }
+					}
+
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Dedicated:  "
+					// syntax for this is cvar name followed by a semicolan separated list of choices first choice equals 0
+					// dedicated is a special cvar in that as soon as it is set, the game goes to console only so the ui catches this one specifically
+					cvar			"ui_dedicated"
+					cvarFloatList		{ "Non-dedicated" 0 "yes, on LAN" 1 "yes, over Internet" 2 }
+					rect			295 175 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145	
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_dedicated }
+					mouseexit		{ hide message_dedicated }
+					}
+
+
+				itemDef {
+					name			expert
+					group			grpCreate
+					type			4
+					text			"Password:  "
+					textfont		UI_FONT_NORMAL
+					cvar			"g_password"
+					rect			295 190 290 12
+				//	origin			ORIGIN_WINDOW2
+					maxchars		25
+					maxpaintchars	10
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_password_create }
+					mouseexit		{ hide message_password_create } 
+					}
+
+				
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_YESNO
+					textfont		UI_FONT_NORMAL
+					text			"Friendly Fire:  "
+					cvar			"g_friendlyFire"
+					rect			295 205 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_friendly_fire }
+					mouseexit		{ hide message_friendly_fire }
+					}
+
+				itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_NUMERICFIELD
+					textfont		UI_FONT_NORMAL
+					text			"Maximum Players:  "
+					cvar			"sv_maxclients"
+					maxchars		3
+					rect			295 220 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1 
+					mouseenter		{ show message_maximum_players }
+					mouseexit		{ hide message_maximum_players }
+					}
+
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI	
+					textfont		UI_FONT_NORMAL
+					text			"Ingame Cutscenes:  "
+					cvar			"g_skipcutscenes"
+					cvarFloatList	{ "yes" 0 "no" 1 }
+					rect			295 235 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07 		  
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_cutscenes }
+					mouseexit		{ hide message_cutscenes }
+					}
+
+
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_NUMERICFIELD
+					textfont		UI_FONT_NORMAL
+					text			"Number of lives:  "
+				//	cvar			"g_maxLives"
+					cvar			"g_alliedmaxlives"
+					rect			295 250 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		6		
+					mouseenter		{ show message_max_lives }
+					mouseexit		{ hide message_max_lives }
+					}
+
+	
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Skill:  "
+					cvar			"g_gameskill"
+					cvarFloatList	{ "Don't hurt me!" 1 "Bring'em on!" 2 "I am Death incarnate!" 3 }
+					rect			295 265 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		6
+					mouseenter		{ show message_skill }
+					mouseexit		{ hide message_skill }
+					}
+					
+					
+				itemDef {
+					name			window
+					group			grpCreate
+					text			"Voting Options"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 300 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.1 .1 .1 .2
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}
+				
+				itemDef {
+					name				expert
+					group				grpCreate
+					type				ITEM_TYPE_YESNO
+					text				"Enable Voting:  "
+					cvar				"g_allowvote"
+					rect				295 325 290 12
+				//	origin				ORIGIN_WINDOW2
+					textfont			UI_FONT_NORMAL
+					style				WINDOW_STYLE_FILLED
+					textalign			ITEM_ALIGN_RIGHT
+					textalignx			145
+					textaligny			10
+					textscale			.25
+					backcolor			1 1 1 .07       
+					forecolor			1 1 1 1
+					visible				1 
+					mouseenter			{ show message_enable_voting }
+					mouseexit			{ hide message_enable_voting }
+					}
+				
+				itemDef {
+					name				voting_restart
+					group				grpCreate
+					type				ITEM_TYPE_YESNO
+					textfont			UI_FONT_NORMAL
+					text				"Restart Map:  "
+					cvar				"ui_voteRestart"
+					rect				295 340 290 12
+				//	origin				ORIGIN_WINDOW1
+					style				WINDOW_STYLE_FILLED
+					textalign			ITEM_ALIGN_RIGHT
+					textalignx			145
+					textaligny			10
+					textscale			.25
+					backcolor			1 1 1 .07
+					forecolor			1 1 1 1
+					visible				0
+					}
+
+				itemDef {
+					name				voting_nextmap
+					group				grpCreate
+					type				ITEM_TYPE_YESNO
+					textfont			UI_FONT_NORMAL
+					text				"Next Map:  "
+					cvar				"ui_voteNextMap"
+					rect				295 355 290 12
+				//	origin				ORIGIN_WINDOW1
+					style				WINDOW_STYLE_FILLED
+					textalign			ITEM_ALIGN_RIGHT
+					textalignx			145
+					textaligny			10
+					textscale			.25
+					backcolor			1 1 1 .07
+					forecolor			1 1 1 1
+					visible				0
+					}
+					
+				itemDef {
+					name				voting_map
+					group				grpCreate
+					type				ITEM_TYPE_YESNO
+					textfont			UI_FONT_NORMAL
+					text				"New Map:  "
+					cvar				"ui_voteMap"
+					rect				295 370 290 12
+				//	origin				ORIGIN_WINDOW1
+					style				WINDOW_STYLE_FILLED
+					textalign			ITEM_ALIGN_RIGHT
+					textalignx			145
+					textaligny			10
+					textscale			.25
+					backcolor			1 1 1 .07
+					forecolor			1 1 1 1
+					visible				0
+					}
+					
+				itemDef {
+					name				voting_kick
+					group				grpCreate
+					type				ITEM_TYPE_YESNO
+					textfont			UI_FONT_NORMAL
+					text				"Kick:  "
+					cvar				"ui_voteKick"
+					rect				295 385 290 12
+				//	origin				ORIGIN_WINDOW1
+					style				WINDOW_STYLE_FILLED
+					textalign			ITEM_ALIGN_RIGHT
+					textalignx			145
+					textaligny			10
+					textscale			.25
+					backcolor			1 1 1 .07
+					forecolor			1 1 1 1
+					visible				0
+					}
+
+				itemDef {
+					name				start
+					group				grpCreate
+					text				"START SERVER"
+					type				1
+					textfont			UI_FONT_NORMAL
+					style				0	
+					textstyle			6
+					rect				510 450 120 14 
+					textalign			0
+					textscale			.25		
+					textalignx			5
+					textaligny			12
+					forecolor			.9 .9 .9 .9
+					visible				1
+					//border			1
+					//bordercolor		1 1 1 1
+					mouseEnter {
+						show message_start ;
+						show start_alt ;
+						hide start }
+					action {
+						close multi_menu ;
+						uiScript StartServer
+					}	
+					}
+
+				itemDef {
+					name				start_alt
+					group				grpCreate
+					textfont			UI_FONT_NORMAL
+					text				"START SERVER"
+					type				1
+					style				0	
+					textstyle			6
+					rect				510 450 120 14 
+					textalign			0
+					textscale			.25		
+					textalignx			5
+					textaligny			12
+					forecolor			.6 .6 .6 .6
+					visible				1 
+					type				ITEM_TYPE_BUTTON
+					//border 1
+					//bordercolor 1 1 1 1
+					mouseExit {
+						hide message_start ;
+						hide start_alt ;
+						show start }
+					action {
+						close multi_menu ;
+						uiScript StartServer
+					}  	  
+					}
+
+// End of Create Server
+
+// Start of BACK and CONNECT Button
+
+
+		itemDef {
+			name gotobar
+			style 2
+			rect 0 445 640 20 
+			textscale 0.4
+			textalign 0		// center
+			textalignx 60        	// x alignment point for text
+			 // use it to offset left/right text from the edge 
+			 // or to center the text on a different point
+			textaligny 21        
+			style 2
+			border 4
+			bordercolor 0.5 0.5 0.5 0.0
+			bordersize 2
+			backcolor 0.5 0.5 .5 0.0
+			visible 1 
+			mouseEnter { setcolor backcolor .5 0.5 0.5 .5 }
+			mouseExit { setcolor backcolor .5 .5 .5 .0 }
+			decoration 
+			}
+
+		itemDef {
+			name back
+			text "MAIN MENU"
+			type 1
+			style 0	
+			textstyle 6
+			rect 30 450 90 14 
+			textalign 0
+			textfont UI_FONT_NORMAL
+			textscale .255		
+			textalignx 6
+			textaligny 12
+			forecolor .9 .9 .9 .9
+			visible 1
+			action {
+			close multi_menu ;
+			open main }
+
+			mouseEnter { 
+			hide back ;
+			show back_alt ;
+			show message_back
+			}
+			}
+
+		itemDef {
+			name back_alt
+			text "MAIN MENU"
+			type 1
+			style 0	
+			textstyle 6
+			rect 30 450 90 14 
+			textalign 0
+			textfont UI_FONT_NORMAL
+			textscale .255	
+			textalignx 6
+			textaligny 12
+			forecolor .6 .6 .6 .6
+			visible 1 
+			type ITEM_TYPE_BUTTON
+			action {
+			hide grpControls ;
+			close multi_menu ;
+			open main }
+	  
+			mouseExit {
+			hide back_alt ;
+			show back ;
+			hide message_back }	  
+			}
+
+
+		itemDef {
+			name connect
+			text "CONNECT"
+			group grpJoin
+			type 1
+			textfont	UI_FONT_NORMAL
+			style 0	
+			textstyle 6
+			rect 545 450 70 14 
+			textalign 0
+			textscale .25		
+			textalignx 5
+			textaligny 12
+			forecolor .9 .9 .9 .9
+			visible 1
+			//border 1
+			//bordercolor 1 1 1 1
+			
+			
+			mouseEnter {
+			hide connect ;
+			show connect_alt
+			show message_connect
+			}
+
+			action {
+			close multi_menu ;
+			uiScript JoinServer
+			}	
+			}
+
+		itemDef {
+			name connect_alt
+			text "CONNECT"
+			group grpJoin
+			type 1
+			style 0	
+			textstyle 6
+			rect 545 450 70 14 
+			textalign 0
+			textfont	UI_FONT_NORMAL
+			textscale .25		
+			textalignx 5
+			textaligny 12
+			forecolor .6 .6 .6 .6
+			visible 1 
+			type ITEM_TYPE_BUTTON
+			//border 1
+			//bordercolor 1 1 1 1
+
+			mouseExit {
+				hide connect_alt ;
+				show connect	;
+				hide message_connect
+			}
+
+			action {
+				hide grpControls ;
+				close multi_menu ;
+				uiScript JoinServer
+			}  	  
+			}
+
+// End of BACK and CONNECT Buttons
+
+//	MESSAGES
+
+itemDef {
+	name message_create
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Select to Create a Game Server"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_joinserver
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Select to Join a Game Server"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_multisetup
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Select to Change Multiplayer Options"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_nowork
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Selection Isn't Implemented"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_look
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Select to Edit View Controls"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_move
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Select to Edit Movement Controls"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_shoot
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Select to Edit Firing and Weapon Selection"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_misc
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Select to Edit Chat and Mouse Functions"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_system
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Edit System Settings"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_gameoptions
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Edit Game Options"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_cdkey
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Enter Encryption Key"
+//	text "disabled for show build"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_default
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Reset to Default Settings"
+//	text "disabled for show build"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_scores
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Clear High Scores to Zero"
+//	text "disabled for show build"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+
+itemDef {
+      	name fadebox
+      	style WINDOW_STYLE_FILLED
+ 	background "ui_mp/assets/fadebox.tga"
+	forecolor 0 0 0 1
+	backcolor 0 0 0 1
+	rect 0 0 640 480
+      	visible 1 
+	decoration
+    	}
+
+		
+	// Messages of Join Server
+	
+		itemDef {
+			name message_back
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textfont	UI_FONT_NORMAL
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Exit to Main Menu"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+
+		itemDef {
+			name message_connect
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textfont	UI_FONT_NORMAL
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Connect to the Selected Server"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_source
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Set Source"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+
+		itemDef {
+			name message_gamefilter
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Set to Filter for Specific Game Mods"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_typefilter
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Set to Filter for Specific Game Types"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+
+		itemDef {
+			name message_sort
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Sort Column"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_refreshSource
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Get Updated Server List from Current Source"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_refreshFilter
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Refresh All Currently Filtered Servers"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_addFavorite
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Add Selected Server to Favorites"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_delFavorite
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Delete Selected Server from Favorites"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_createFavorite
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			textfont	UI_FONT_NORMAL
+			text "Enter IP Address of Favorite Server"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_addfilter
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Enter Four Letter Filter and Description"
+			textfont	UI_FONT_NORMAL
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+		itemDef {
+			name message_password
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textfont	UI_FONT_NORMAL
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Enter Password for Protected Servers"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+
+		itemDef {
+			name message_serverinfo
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textfont	UI_FONT_NORMAL
+			textalign 1
+			textstyle 1
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Display Server Information"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+
+		itemDef {
+			name message_findplayer
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textfont	UI_FONT_NORMAL
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Search Current Server List for Friends"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+
+	// Messages of Create Server
+			
+			itemDef {
+				name message_gametype
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textfont	UI_FONT_NORMAL
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Set GameType"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_skill
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Select s Skill Level"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+			
+			itemDef {
+				name message_arena
+				textfont	UI_FONT_NORMAL
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Choose Your Map"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_clan
+				group grpmessage
+				textfont	UI_FONT_NORMAL
+				style 0 
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Click to toggle through clan list"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_slot
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textfont	UI_FONT_NORMAL
+			//	origin HELP_ORIGIN
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Click to toggle botnames, human, or closed slots"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_friendly_fire
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Yes: Can Damage Teammates, No: No Team Damage"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_dedicated
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "If set to Internet, Server is Broadcast over the Internet"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_hostname
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "The Name of the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_enable_voting
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Enable Votes to be Called In-Game"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_maximum_players
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "How Many Players can join the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_game_type
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Select the Game Mode for the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_require_password
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Only Those With the Proper Password Can Connect"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_punkbuster_server
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Server will use Punkbuster Anti-Cheating Technology"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+				
+			itemDef {
+				name message_password_create
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Set the Password Needed to Connect to the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+								
+			itemDef {
+				name message_allied_respawn
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "How Long the Allies Take to Deploy"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_max_lives
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Number of Deployments Per Player. 0 = unlimited"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_min_clients
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Number of Clients Needed to Join Before Automatic Match Start"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_pure_server
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Server Doesn't Allow Modifications"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_start
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Start your Server!"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+				
+			itemDef {
+				name message_cutscenes
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Do you want to watch the ingame cutscenes?"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+			
+}
+}
