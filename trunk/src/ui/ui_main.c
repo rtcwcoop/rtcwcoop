@@ -974,7 +974,9 @@ void UI_ParseMenu( const char *menuFile ) {
 	int handle;
 	pc_token_t token;
 
-	Com_Printf( "Parsing menu file:%s\n", menuFile );
+
+        if (DC->getCVarValue( "developer" ))
+	        Com_Printf( "Parsing menu file:%s\n", menuFile );
 
 	handle = trap_PC_LoadSource( menuFile );
 	if ( !handle ) {

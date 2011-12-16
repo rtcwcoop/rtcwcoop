@@ -2679,6 +2679,25 @@ static void FS_AddGameDirectory( const char *path, const char *dir ) {
 
 	qsort( sorted, numfiles, 4, paksort );
 
+        for ( i = 0 ; i < numfiles ; i++ ) {
+
+                if ( Q_strncmp( sorted[i],"sp_",3 ) && Q_strncmp( sorted[i], "pak0",4 ) ) { 
+
+                        pakfile = FS_BuildOSPath( path, dir, sorted[i] );
+                        if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
+                                continue;
+                        }    
+
+                        // store the game name for downloading
+                        strcpy( pak->pakGamename, dir );
+
+                        search = Z_Malloc( sizeof( searchpath_t ) ); 
+                        search->pack = pak; 
+                        search->next = fs_searchpaths;
+                        fs_searchpaths = search;
+                }    
+        }    
+
 	for ( i = 0 ; i < numfiles ; i++ ) {
 
 		if ( Q_strncmp( sorted[i],"mp_",3 ) ) { // (SA) SP mod -- exclude mp_*

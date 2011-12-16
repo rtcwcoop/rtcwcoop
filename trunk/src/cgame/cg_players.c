@@ -336,7 +336,10 @@ static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci,
 	Q_strncpyz( ci->modelInfo->modelname, modelname, sizeof( ci->modelInfo->modelname ) );
 
 	// load the cfg file
-	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
+        if (!strcmp(modelname, "multi"))
+        	Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.cfg");
+        else
+        	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		return qfalse;
@@ -360,7 +363,10 @@ static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci,
 	CG_CalcMoveSpeeds( ci );
 
 	// load the script file
-	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
+        if (!strcmp(modelname, "multi"))
+                Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.script");
+        else
+                Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		if ( ci->modelInfo->version > 1 ) {
@@ -1335,19 +1341,19 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 	// body, you will want to default the model back to a default and want the head to match)
 	//
 
-	if ( !CG_RegisterClientHeadname( ci, ci->modelName, ci->hSkinName ) ) {
-		if ( cg_buildScript.integer ) {
-			CG_Error( "CG_RegisterClientHeadname( %s, %s ) failed.  setting default", ci->modelName, ci->hSkinName );
-		}
+        if ( !CG_RegisterClientHeadname( ci, ci->modelName, ci->hSkinName ) ) {
+                if ( cg_buildScript.integer ) {
+                        CG_Error( "CG_RegisterClientHeadname( %s, %s ) failed.  setting default", ci->modelName, ci->hSkinName );
+                }
 
-		// fall back to default head
-		if ( !CG_RegisterClientHeadname( ci, ci->modelName, "default" ) ) {
-			headfail = 1;
-			if ( cg_buildScript.integer ) {
-				CG_Error( "head model/skin (%s/default) failed to register", ci->modelName );    //----(SA)
-			}
-		}
-	}
+                // fall back to default head
+                if ( !CG_RegisterClientHeadname( ci, ci->modelName, "default" ) ) {
+                        headfail = 1;
+                        if ( cg_buildScript.integer ) {
+                                CG_Error( "head model/skin (%s/default) failed to register", ci->modelName );    //----(SA)
+                        }
+                }
+        }
 
 	if ( headfail || !CG_RegisterClientModelname( ci, ci->modelName, ci->skinName ) ) {
 		if ( cg_buildScript.integer ) {
@@ -1367,15 +1373,27 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 			}
 		} else {
 			// go totally default
-			if ( !CG_RegisterClientModelname( ci, DEFAULT_MODEL, "default" ) ) {
-				CG_Error( "DEFAULT_MODEL (%s/default) failed to register", DEFAULT_MODEL );
-			}
+                        if (cg_coop.integer)
+                        {
+                                if ( !CG_RegisterClientModelname( ci, "multi", ci->skinName ) ) {
+                                        CG_Error( "DEFAULT_MODEL (multi/%s) failed to register", ci->skinName );
+                                }
 
-			// fall back to default head
-			if ( !CG_RegisterClientHeadname( ci, DEFAULT_MODEL, "default" ) ) {
-				CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
-			}
+                                // fall back to default head
+                                if ( !CG_RegisterClientHeadname( ci, "multi", ci->skinName ) ) {
+                                        CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
+                                }
+                        } else {
 
+                                if ( !CG_RegisterClientModelname( ci, DEFAULT_MODEL, "default" ) ) {
+                                        CG_Error( "DEFAULT_MODEL (%s/default) failed to register", DEFAULT_MODEL );
+                                }
+
+                                // fall back to default head
+                                if ( !CG_RegisterClientHeadname( ci, DEFAULT_MODEL, "default" ) ) {
+                                        CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
+                                }
+                        }
 		}
 
 	}

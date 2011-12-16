@@ -780,6 +780,14 @@ Forces a client's skin (for Wolfenstein teamplay)
 
 #define MULTIPLAYER_MODEL   "multi"
 
+void SetCoopSkin( gclient_t *client, char *model ) {
+
+        Q_strcat( model, MAX_QPATH, "blue" );
+
+        Q_strcat( model, MAX_QPATH, "soldier" );
+
+        Q_strcat( model, MAX_QPATH, "1" );
+}
 
 void SetWolfSkin( gclient_t *client, char *model ) {
 
@@ -1255,7 +1263,12 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 	Q_strncpyz( cl->modelInfo->modelname, modelname, sizeof( cl->modelInfo->modelname ) );
 
 	// load the cfg file
-	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
+        if (!strcmp(modelname, "multi"))
+        {
+	        Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.cfg" );
+        }
+        else
+	        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		G_Printf( "G_ParseAnimationFiles(): file '%s' not found\n", filename );       //----(SA)	added
@@ -1273,7 +1286,10 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 	BG_AnimParseAnimConfig( cl->modelInfo, filename, text );
 
 	// load the script file
-	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
+        if (!strcmp(modelname, "multi"))
+	        Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.script");
+        else
+                Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		if ( cl->modelInfo->version > 1 ) {
@@ -1424,6 +1440,17 @@ void ClientUserinfoChanged( int clientNum ) {
 		Q_strncpyz( head, "", MAX_QPATH );
 		SetWolfSkin( client, head );
 	}
+
+        if ( g_coop.integer &&  !(ent->r.svFlags & SVF_CASTAI))
+        {
+		Q_strncpyz( model, MULTIPLAYER_MODEL, MAX_QPATH );
+		Q_strcat( model, MAX_QPATH, "/" );
+
+		SetCoopSkin( client, model );
+
+		Q_strncpyz( head, "", MAX_QPATH );
+		SetCoopSkin( client, head );
+        }
 
 	// strip the skin name
 	Q_strncpyz( modelname, model, sizeof( modelname ) );

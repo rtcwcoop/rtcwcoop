@@ -404,6 +404,9 @@ static void CG_SoundLoadSoundFiles( void ) {
 	// parse the list
 	text = buffer;
 	numSounds = 0;
+        char buf[64];
+        int dev;
+
 	while ( 1 ) {
 		token = COM_ParseExt( &text, qtrue );
 		if ( !token[0] ) {
@@ -421,7 +424,11 @@ static void CG_SoundLoadSoundFiles( void ) {
 	for ( i = 0; i < numSounds; i++ )
 	{
 		Com_sprintf( filename, sizeof( filename ), "sound/scripts/%s", soundFiles[i] );
-		CG_Printf( "...loading '%s'\n", filename );
+                trap_Cvar_VariableStringBuffer( "developer", buf, sizeof( buf ) );
+                dev = atoi(buf);
+
+                if (dev == 1)
+		        CG_Printf( "...loading '%s'\n", filename );
 		len = trap_FS_FOpenFile( filename, &f, FS_READ );
 		if ( len <= 0 ) {
 			CG_Error( "Couldn't load %s", filename );
