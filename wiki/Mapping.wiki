@@ -1,0 +1,29 @@
+#Information for mappers
+
+= Introduction =
+
+New entities for mappers and other information for mappers.
+
+
+= Details =
+
+== New entities ==
+ info_player_coop: this entity is the initial spawn point for coop games, you can place multiple if you want
+ target_location: just like in the multiplayer, this entity is now supported.
+
+== Ents file support ==
+ If you want to modify existing maps, you can make a file: mapname.ents, here you can place entity data
+ example:
+{{{
+{
+"classname" "target_location"
+"origin" "2637 -16 920"
+"message" "Tram entrance"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "3826 1997 1272"
+"angle" "-88"
+}
+}}}
