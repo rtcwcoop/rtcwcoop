@@ -10,8 +10,9 @@ New entities for mappers and other information for mappers.
   * target_location: just like in the multiplayer, this entity is now supported.
 
 == Ents file support ==
- If you want to modify existing maps, you can make a file: mapname.ents, here you can place entity data
- example:
+ If you want to modify existing maps, you can make a file: mapname.ents (in the maps folder), here you can place entity data
+
+ example: tram.ents
 {{{
 {
 "classname" "target_location"
