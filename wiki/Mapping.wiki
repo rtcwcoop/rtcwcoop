@@ -1,5 +1,3 @@
-#Information for mappers
-
 = Introduction =
 
 New entities for mappers and other information for mappers.
