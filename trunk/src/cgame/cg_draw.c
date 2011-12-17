@@ -2643,20 +2643,22 @@ static void CG_DrawCoopCrosshairNames( void ) {
         CG_FilledBar( 320 - w / 2, 190, 110, 10, c, NULL, NULL, barFrac, 16 );
 
 
-        // health bar
-        barFrac = (float)armor / 100;
+        // armor bar
+        if (cg_drawCrosshairNames.integer == 2) {
+                barFrac = (float)armor / 100;
 
-        if ( barFrac > 1.0 ) {
-                barFrac = 1.0;
-        } else if ( barFrac < 0 ) {
-                barFrac = 0;
+                if ( barFrac > 1.0 ) {
+                        barFrac = 1.0;
+                } else if ( barFrac < 0 ) {
+                        barFrac = 0;
+                }
+
+                c[0] = 1.0f;
+                c[1] = c[2] = barFrac;
+                c[3] = 0.25 + barFrac * 0.5 * color[3];
+
+                CG_FilledBar( 320 - w / 2, 205, 110, 10, c, NULL, NULL, barFrac, 16 );
         }
-
-        c[0] = 1.0f;
-        c[1] = c[2] = barFrac;
-        c[3] = 0.25 + barFrac * 0.5 * color[3];
-
-        CG_FilledBar( 320 - w / 2, 205, 110, 10, c, NULL, NULL, barFrac, 16 );
 
         trap_R_SetColor( NULL );
 }
