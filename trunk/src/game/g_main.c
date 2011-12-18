@@ -2451,7 +2451,8 @@ void G_RunFrame( int levelTime ) {
         {    
                 level.lastSpawnSave = level.time + 30000;
                 newSpawns = qtrue;
-                trap_SendServerCommand( -1, va( "cp \"Saved current position as \nnext spawnpoint\n\"" ) );
+                //trap_SendServerCommand( -1, va( "cp \"Saved current position as \nthe next spawnpoint\n\"" ) );
+                trap_SendServerCommand( -1, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
         } 
 	//
 	// go through all allocated objects

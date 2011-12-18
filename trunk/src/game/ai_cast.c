@@ -306,6 +306,7 @@ void AICast_CheckLevelAttributes( cast_state_t *cs, gentity_t *ent, char **ppStr
 					break;
 				}
 				// set the attribute
+                                // fretn
 				cs->attributes[i] = atof( s );
 				break;
 			}
@@ -448,6 +449,17 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
                             newent->health *= 1.25;
                     else if ( g_gameskill.integer == GSKILL_HARD )
                             newent->health *= 1.5; 
+                }
+
+                if ( g_gameskill.integer == GSKILL_EASY ) {
+                        cs->attributes[AIM_SKILL] = 0.6;
+                        cs->attributes[ATTACK_SKILL] = 0.6;
+                } else if ( g_gameskill.integer == GSKILL_MEDIUM ) {
+                        cs->attributes[AIM_SKILL] = 0.75;
+                        cs->attributes[ATTACK_SKILL] = 0.75;
+                } else if ( g_gameskill.integer == GSKILL_HARD ) {
+                        cs->attributes[AIM_SKILL] = 1.0;
+                        cs->attributes[ATTACK_SKILL] = 1.0;
                 }
 
         } 
