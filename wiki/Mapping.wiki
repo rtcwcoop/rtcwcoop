@@ -26,3 +26,7 @@ New entities for mappers and other information for mappers.
 "angle" "-88"
 }
 }}}
+
+== .ai scripts ==
+ In a coop game, the following attributes are ignored: aim_accuracy, aim_skill, attack_skill and health
+ these are set based on the value of g_gameskill
