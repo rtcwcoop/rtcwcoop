@@ -2150,7 +2150,7 @@ void CheckExitRules( void ) {
 		return;
 	}
 
-	if ( g_timelimit.integer && !level.warmupTime ) {
+	if ( g_timelimit.integer && !level.warmupTime && !g_coop.integer ) {
 		if ( level.time - level.startTime >= g_timelimit.integer * 60000 ) {
 			// check for sudden death
 			// DHM - Nerve :: exclude GT_WOLF

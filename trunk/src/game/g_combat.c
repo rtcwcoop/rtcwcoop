@@ -1184,9 +1184,6 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	asave = CheckArmor( targ, take, dflags );
 	take -= asave;
 
-        if (g_coop.integer && g_gameskill.integer == GSKILL_MAX)
-                take /= 2;
-
 	if ( IsHeadShot( targ, attacker, dir, point, mod ) ) {
 		// JPW NERVE -- different headshot behavior in multiplayer
 		if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
