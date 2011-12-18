@@ -1984,6 +1984,8 @@ float AICast_GetAccuracy( int entnum ) {
                 else if ( g_gameskill.integer == GSKILL_MEDIUM )
                         acc = 0.75;
                 else if ( g_gameskill.integer == GSKILL_HARD )
+                        acc = 0.9;
+                else if ( g_gameskill.integer == GSKILL_MAX )
                         acc = 1.0;
 
         }

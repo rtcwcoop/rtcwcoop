@@ -437,11 +437,13 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
                 if ( newent->health < 125 )
                 {
                     if ( g_gameskill.integer == GSKILL_EASY )
-                            newent->health = 75; 
+                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 75; 
                     else if ( g_gameskill.integer == GSKILL_MEDIUM )
-                            newent->health = 100;
+                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 100;
                     else if ( g_gameskill.integer == GSKILL_HARD )
-                            newent->health = 125; 
+                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 125; 
+                    else if ( g_gameskill.integer == GSKILL_MAX )
+                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 225; 
                 }
                 else
                 {
@@ -449,6 +451,8 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
                             newent->health *= 1.25;
                     else if ( g_gameskill.integer == GSKILL_HARD )
                             newent->health *= 1.5; 
+                    else if ( g_gameskill.integer == GSKILL_MAX )
+                            newent->health *= 2; 
                 }
 
                 if ( g_gameskill.integer == GSKILL_EASY ) {
@@ -458,6 +462,9 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
                         cs->attributes[AIM_SKILL] = 0.75;
                         cs->attributes[ATTACK_SKILL] = 0.75;
                 } else if ( g_gameskill.integer == GSKILL_HARD ) {
+                        cs->attributes[AIM_SKILL] = 0.9;
+                        cs->attributes[ATTACK_SKILL] = 0.9;
+                } else if ( g_gameskill.integer == GSKILL_MAX ) {
                         cs->attributes[AIM_SKILL] = 1.0;
                         cs->attributes[ATTACK_SKILL] = 1.0;
                 }

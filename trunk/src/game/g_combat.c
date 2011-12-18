@@ -1184,6 +1184,8 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	asave = CheckArmor( targ, take, dflags );
 	take -= asave;
 
+        if (g_coop.integer && g_gameskill.integer == GSKILL_MAX)
+                take /= 2;
 
 	if ( IsHeadShot( targ, attacker, dir, point, mod ) ) {
 		// JPW NERVE -- different headshot behavior in multiplayer
@@ -1207,7 +1209,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 			take *= targ->headshotDamageScale;
 
 			// player only code
-			if ( !attacker->aiCharacter ) {
+			if ( !attacker->aiCharacter && !g_coop.integer) {
 				// (SA) id reqests one-shot kills for head shots on common humanoids
 
 				// (SA) except pistols.
