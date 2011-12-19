@@ -2119,7 +2119,7 @@ void ClientCommand( int clientNum ) {
 		Cmd_Notarget_f( ent );
 	} else if ( Q_stricmp( cmd, "noclip" ) == 0 )  {
 		Cmd_Noclip_f( ent );
-	} else if ( Q_stricmp( cmd, "setcoopspawnpoint" ) == 0 )  {
+	} else if ( Q_stricmp( cmd, "spawnpoint" ) == 0 )  {
 		Cmd_SetCoopSpawn_f( ent );
 	} else if ( Q_stricmp( cmd, "kill" ) == 0 )  {
 		Cmd_Kill_f( ent );
