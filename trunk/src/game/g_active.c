@@ -220,14 +220,7 @@ void P_WorldEffects( gentity_t *ent ) {
 				} else if ( ( ent->s.onFireEnd - level.time ) > FIRE_FLASH_TIME / 2 && rand() % 5000 < ( ent->s.onFireEnd - level.time ) ) { // as it fades out, also fade out damage rate
 					G_Damage( ent, attacker, attacker, NULL, NULL, 1, DAMAGE_NO_KNOCKBACK, MOD_FLAMETHROWER );
 				}
-			} // JPW NERVE
-			else { // JPW NERVE multiplayer flamethrower
-				if ( level.time < ent->s.onFireEnd ) { // flamethrower does total 80 pts damage in multiplayer
-					// (it's short range and hard to hit with)
-					G_Damage( ent, attacker, attacker, NULL, NULL, 2, DAMAGE_NO_KNOCKBACK, MOD_FLAMETHROWER );
-				}
 			}
-			// jpw
 		} else if ( ent->s.onFireEnd > level.time + 4000 ) {  // dead, so sto pthe flames soon
 			ent->s.onFireEnd = level.time + 4000;   // stop burning soon
 		}
@@ -482,7 +475,7 @@ void ClientTimerActions( gentity_t *ent, int msec ) {
 
 		// regenerate
 // JPW NERVE, split these completely
-		if ( g_gametype.integer != GT_WOLF ) {
+		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 			if ( client->ps.powerups[PW_REGEN] ) {
 				if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] ) {
 					ent->health += 15;
@@ -504,28 +497,7 @@ void ClientTimerActions( gentity_t *ent, int msec ) {
 				}
 			}
 		}
-// JPW NERVE
-		else { // GT_WOLF
-			if ( client->ps.powerups[PW_REGEN] ) {
-				if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] ) {
-					ent->health += 3;
-					if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.1 ) {
-						ent->health = client->ps.stats[STAT_MAX_HEALTH] * 1.1;
-					}
-				} else if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] * 1.12 ) {
-					ent->health += 2;
-					if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.12 ) {
-						ent->health = client->ps.stats[STAT_MAX_HEALTH] * 1.12;
-					}
-				}
-			} else {
-				// count down health when over max
-				if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] ) {
-					ent->health--;
-				}
-			}
-		}
-// jpw
+
 		// count down armor when over max
 		if ( client->ps.stats[STAT_ARMOR] > client->ps.stats[STAT_MAX_HEALTH] ) {
 			client->ps.stats[STAT_ARMOR]--;
@@ -1111,20 +1083,6 @@ void ClientThink_real( gentity_t *ent ) {
 	VectorCopy( client->ps.origin, client->oldOrigin );
 
 	// perform a pmove
-#ifdef MISSIONPACK
-	if ( level.intermissionQueued != 0 && g_singlePlayer.integer ) {
-		if ( level.time - level.intermissionQueued >= 1000  ) {
-			pm.cmd.buttons = 0;
-			pm.cmd.forwardmove = 0;
-			pm.cmd.rightmove = 0;
-			pm.cmd.upmove = 0;
-			if ( level.time - level.intermissionQueued >= 2000 && level.time - level.intermissionQueued <= 2500 ) {
-				trap_SendConsoleCommand( EXEC_APPEND, "centerview\n" );
-			}
-			ent->client->ps.pm_type = PM_SPINTERMISSION;
-		}
-	}
-#endif
 	monsterslick = Pmove( &pm );
 
 	if ( monsterslick && !( ent->flags & FL_NO_MONSTERSLICK ) ) {
@@ -1428,20 +1386,6 @@ void ClientThink_real( gentity_t *ent ) {
 		if ( client->ps.stats[STAT_HEALTH] <= 0 ) {
 			// wait for the attack button to be pressed
 			if ( level.time > client->respawnTime ) {
-				// forcerespawn is to prevent users from waiting out powerups
-				if ( ( g_gametype.integer != GT_SINGLE_PLAYER ) &&
-					 ( g_forcerespawn.integer > 0 ) &&
-					 ( ( level.time - client->respawnTime ) > g_forcerespawn.integer * 1000 )  &&
-					 ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE
-					// JPW NERVE
-					if ( g_gametype.integer >= GT_WOLF ) {
-						limbo( ent );
-					} else {
-						respawn( ent );
-					}
-					// jpw
-					return;
-				}
 
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
@@ -1451,13 +1395,7 @@ void ClientThink_real( gentity_t *ent ) {
 				// pressing attack or use is the normal respawn method
 				else if ( ( ucmd->buttons & ( BUTTON_ATTACK | BUTTON_USE_HOLDABLE ) ) &&
 						  ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE
-					// JPW NERVE
-					if ( g_gametype.integer >= GT_WOLF ) {
-						limbo( ent );
-					} else {
-						respawn( ent );
-					}
-					// jpw
+                                            respawn( ent );
 				}
 				// dhm - Nerve :: end
 			}

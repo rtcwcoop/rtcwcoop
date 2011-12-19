@@ -854,10 +854,6 @@ int BotAIStartFrame( int time ) {
 	static int botlib_residual;
 	static int lastbotthink_time;
 
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-		G_CheckBotSpawn();
-	}
-
 	trap_Cvar_Update( &bot_rocketjump );
 	trap_Cvar_Update( &bot_grapple );
 	trap_Cvar_Update( &bot_fastchat );
@@ -977,56 +973,6 @@ int BotAIStartFrame( int time ) {
 
 		BotAIRegularUpdate();
 
-	}
-
-	// Ridah, in single player, don't need bot's thinking
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-		return BLERR_NOERROR;
-	}
-
-	// execute scheduled bot AI
-	for ( i = 0; i < MAX_CLIENTS; i++ ) {
-		if ( !botstates[i] || !botstates[i]->inuse ) {
-			continue;
-		}
-		// Ridah
-		if ( g_entities[i].r.svFlags & SVF_CASTAI ) {
-			continue;
-		}
-		// done.
-		//
-		botstates[i]->botthink_residual += elapsed_time;
-		//
-		if ( botstates[i]->botthink_residual >= thinktime ) {
-			botstates[i]->botthink_residual -= thinktime;
-
-			if ( !trap_AAS_Initialized() ) {
-				return BLERR_NOERROR;
-			}
-
-			if ( g_entities[i].client->pers.connected == CON_CONNECTED ) {
-				BotAI( i, (float) thinktime / 1000 );
-			}
-		}
-	}
-
-
-	// execute bot user commands every frame
-	for ( i = 0; i < MAX_CLIENTS; i++ ) {
-		if ( !botstates[i] || !botstates[i]->inuse ) {
-			continue;
-		}
-		// Ridah
-		if ( g_entities[i].r.svFlags & SVF_CASTAI ) {
-			continue;
-		}
-		// done.
-		if ( g_entities[i].client->pers.connected != CON_CONNECTED ) {
-			continue;
-		}
-
-		BotUpdateInput( botstates[i], time );
-		trap_BotUserCommand( botstates[i]->client, &botstates[i]->lastucmd );
 	}
 
 	return BLERR_NOERROR;

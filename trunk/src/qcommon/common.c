@@ -29,6 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 // common.c -- misc functions used in client and server
 
 #include "../game/q_shared.h"
+#include "../sys/sys_local.h"
 #include "qcommon.h"
 #include <setjmp.h>
 

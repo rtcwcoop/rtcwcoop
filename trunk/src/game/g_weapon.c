@@ -578,7 +578,6 @@ void SnapVectorTowards( vec3_t v, vec3_t to ) {
 // KLUDGE/FIXME: also modded #defines below to become macros that call this fn for minimal impact elsewhere
 //
 int G_GetWeaponDamage( int weapon ) {
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		switch ( weapon ) {
 		case WP_LUGER:
 		case WP_SILENCER: return 6;
@@ -607,49 +606,10 @@ int G_GetWeaponDamage( int weapon ) {
 		case WP_SNIPER:
 		default:    return 1;
 		}
-	} else { // multiplayer damage
-		switch ( weapon ) {
-		case WP_LUGER:
-		case WP_SILENCER: return 14;
-		case WP_COLT: return 18;
-		case WP_AKIMBO: return 18;      //----(SA)	added
-		case WP_VENOM: return 20;
-		case WP_MP40: return 14;
-		case WP_THOMPSON: return 18;
-		case WP_STEN: return 14;
-		case WP_FG42SCOPE:
-		case WP_FG42: return 15;
-		case WP_MAUSER: return 25;
-		case WP_GARAND: return 25;
-		case WP_SNIPERRIFLE: return 80;
-		case WP_SNOOPERSCOPE: return 75;
-		case WP_NONE: return 0;
-		case WP_KNIFE: return 10;
-		case WP_GRENADE_SMOKE: return 100;
-		case WP_GRENADE_LAUNCHER: return 200;
-		case WP_GRENADE_PINEAPPLE: return 200;
-		case WP_DYNAMITE: return 600;
-		case WP_PANZERFAUST: return 400;
-		case WP_MORTAR: return 100;
-		case WP_FLAMETHROWER: return 1;
-		case WP_TESLA:
-		case WP_GAUNTLET:
-		case WP_SNIPER:
-		default:    return 1;
-		}
-	}
 }
-// JPW - this chunk appears to not be used, right?
-/*
-#define MACHINEGUN_SPREAD	200
-#define	MACHINEGUN_DAMAGE	G_GetWeaponDamage(WP_MACHINEGUN) // JPW
-#define	MACHINEGUN_TEAM_DAMAGE	G_GetWeaponDamage(WP_MACHINEGUN) // JPW		// wimpier MG in teamplay
-*/
-// jpw
 
 // RF, wrote this so we can dynamically switch between old and new values while testing g_userAim
 float G_GetWeaponSpread( int weapon ) {
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {   // JPW NERVE -- don't affect SP game
 		if ( g_userAim.integer ) {
 			// these should be higher since they become erratic if aiming is out
 			switch ( weapon ) {
@@ -686,24 +646,6 @@ float G_GetWeaponSpread( int weapon ) {
 			case WP_SNOOPERSCOPE:   return 10;
 			}
 		}
-	} else { // JPW NERVE but in multiplayer...  new spreads and don't look at g_userAim
-		switch ( weapon ) {
-		case WP_LUGER: return 600;
-		case WP_SILENCER: return 900;
-		case WP_COLT: return 800;
-		case WP_AKIMBO: return 800;         //----(SA)added
-		case WP_VENOM: return 600;
-		case WP_MP40: return 400;
-		case WP_FG42SCOPE:
-		case WP_FG42:   return 500;
-		case WP_THOMPSON: return 600;
-		case WP_STEN: return 200;
-		case WP_MAUSER: return 700;
-		case WP_GARAND: return 600;
-		case WP_SNIPERRIFLE: return 700;         // was 300
-		case WP_SNOOPERSCOPE: return 700;
-		}
-	}
 	G_Printf( "shouldn't ever get here (weapon %d)\n",weapon );
 	// jpw
 	return 0;   // shouldn't get here
@@ -952,10 +894,7 @@ void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start,
 	trap_Trace( &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT );
 //	trap_Trace (&tr, start, NULL, NULL, end, ENTITYNUM_NONE, MASK_SHOT);
 
-	// DHM - Nerve :: only in single player
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-		AICast_ProcessBullet( attacker, start, tr.endpos );
-	}
+        AICast_ProcessBullet( attacker, start, tr.endpos );
 
 	// bullet debugging using Q3A's railtrail
 	if ( g_debugBullets.integer & 1 ) {
@@ -1079,7 +1018,7 @@ void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start,
 
 			// Ridah, don't hurt team-mates
 			// DHM - Nerve :: Only in single player
-			if ( attacker->client && traceEnt->client && g_gametype.integer == GT_SINGLE_PLAYER && ( traceEnt->r.svFlags & SVF_CASTAI ) && ( attacker->r.svFlags & SVF_CASTAI ) && AICast_SameTeam( AICast_GetCastState( attacker->s.number ), traceEnt->s.number ) ) {
+			if ( attacker->client && traceEnt->client && ( traceEnt->r.svFlags & SVF_CASTAI ) && ( attacker->r.svFlags & SVF_CASTAI ) && AICast_SameTeam( AICast_GetCastState( attacker->s.number ), traceEnt->s.number ) ) {
 				// AI's don't hurt members of their own team
 				return;
 			}
@@ -1268,19 +1207,16 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 	if ( grenType == WP_GRENADE_LAUNCHER ) {
 		upangle *= 800;     //									    0.0 / 800.0
 	} else if ( grenType == WP_GRENADE_PINEAPPLE )                                {
-// JPW NERVE
 		if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
 			upangle *= 800;
 		} else {
-// jpw
+                        // coop ?
 			upangle *= 600;     //									    0.0 / 600.0
 		}
 	}
-// JPW NERVE
 	else if ( grenType == WP_GRENADE_SMOKE ) { // smoke grenades *really* get chucked
 		upangle *= 800;
 	}
-// jpw
 	else {      // WP_DYNAMITE
 		upangle *= 400;     //										0.0 / 100.0
 
@@ -1627,7 +1563,7 @@ void Weapon_LightningFire( gentity_t *ent ) {
 			if ( traceEnt->s.onFireEnd < level.time ) {
 				traceEnt->s.onFireStart = level.time;
 			}
-			if ( traceEnt->health <= 0 || !( traceEnt->r.svFlags & SVF_CASTAI ) || ( g_gametype.integer != GT_SINGLE_PLAYER ) ) {
+			if ( traceEnt->health <= 0 || !( traceEnt->r.svFlags & SVF_CASTAI ) ) {
 				if ( traceEnt->r.svFlags & SVF_CASTAI ) {
 					traceEnt->s.onFireEnd = level.time + 6000;
 				} else {
@@ -1969,9 +1905,7 @@ void FireWeapon( gentity_t *ent ) {
 		//Weapon_LightningFire( ent );
 		break;
 	case WP_TESLA:
-		if ( g_gametype.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
 			Tesla_Fire( ent );
-		}
 
 		// push the player back a bit
 		if ( !ent->aiCharacter ) {
@@ -2014,9 +1948,5 @@ void FireWeapon( gentity_t *ent ) {
 		break;
 	}
 
-	// Ridah
-	// DHM - Nerve :: Only in single player
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-		AICast_RecordWeaponFire( ent );
-	}
+	AICast_RecordWeaponFire( ent );
 }

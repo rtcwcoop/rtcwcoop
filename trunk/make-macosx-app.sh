@@ -1,22 +1,30 @@
 #!/bin/sh
-APPBUNDLE=wolfsp.app
-BINARY=wolfsp.ub
-DEDBIN=wolfspded.ub
+
+if [ "$1" = "release" ]; then
+        TARGET="release"
+        APPBUNDLE=wolfsp.app
+else
+        TARGET="debug"
+        APPBUNDLE=wolfsp_debug.app
+fi
+
+BINARY=wolfsp.i386
+DEDBIN=wolfspded.i386
 PKGINFO=APPLWOLFSP
 ICNS=misc/wolfsp.icns
-DESTDIR=build/release-darwin-ub
+DESTDIR=build/$TARGET-darwin-app
 BASEDIR=main
 
 BIN_OBJ="
-	build/release-darwin-i386/wolfsp.i386
+	build/$TARGET-darwin-i386/wolfsp.i386
 "
 BIN_DEDOBJ="
-	build/release-darwin-i386/wolfspded.i386
+	build/$TARGET-darwin-i386/wolfspded.i386
 "
 BASE_OBJ="
-	build/release-darwin-i386/$BASEDIR/cgamei386.dylib
-	build/release-darwin-i386/$BASEDIR/uii386.dylib
-	build/release-darwin-i386/$BASEDIR/qagamei386.dylib
+	build/$TARGET-darwin-i386/$BASEDIR/cgamei386.dylib
+	build/$TARGET-darwin-i386/$BASEDIR/uii386.dylib
+	build/$TARGET-darwin-i386/$BASEDIR/qagamei386.dylib
 "
 
 sh create_pk3.sh
@@ -74,11 +82,16 @@ fi
 # For parallel make on multicore boxes...
 NCPU=`sysctl -n hw.ncpu`
 
-# intel client and server
-if [ -d build/release-darwin-i386 ]; then
-	rm -r build/release-darwin-i386
+
+if [ "$1" = "release" ]; then
+        # intel client and server
+        if [ -d build/release-darwin-i386 ]; then
+                rm -r build/release-darwin-i386
+        fi
+        (ARCH=i386 CFLAGS=$X86_CFLAGS LDFLAGS=$X86_LDFLAGS make -j$NCPU release) || exit 1;
+else
+        (ARCH=i386 CFLAGS=$X86_CFLAGS LDFLAGS=$X86_LDFLAGS make -j$NCPU) || exit 1;
 fi
-(ARCH=i386 CFLAGS=$X86_CFLAGS LDFLAGS=$X86_LDFLAGS make -j$NCPU) || exit 1;
 
 echo "Creating .app bundle $DESTDIR/$APPBUNDLE"
 if [ ! -d $DESTDIR/$APPBUNDLE/Contents/MacOS/$BASEDIR ]; then

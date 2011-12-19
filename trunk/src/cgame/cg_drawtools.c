@@ -145,7 +145,7 @@ void CG_FilledBar( float x, float y, float w, float h, const float *startColorIn
 		if ( endColor ) {
 			endColor[3] *= cg_hudAlpha.value;
 		}
-		if ( backgroundcolor ) {
+		if ( backgroundcolor[0] ) {
 			backgroundcolor[3] *= cg_hudAlpha.value;
 		}
 	}
@@ -386,7 +386,7 @@ void CG_DrawStringExt( int x, int y, const char *string, const float *setColor,
 		color[0] = color[1] = color[2] = 0;
 		color[3] = setColor[3];
 		trap_R_SetColor( color );
-		s = string;
+		s = (unsigned char *)string;
 		xx = x;
 		cnt = 0;
 		while ( *s && cnt < maxChars ) {
@@ -402,7 +402,7 @@ void CG_DrawStringExt( int x, int y, const char *string, const float *setColor,
 	}
 
 	// draw the colored text
-	s = string;
+	s = (unsigned char *)string;
 	xx = x;
 	cnt = 0;
 	trap_R_SetColor( setColor );
@@ -449,7 +449,7 @@ void CG_DrawStringExt2( int x, int y, const char *string, const float *setColor,
 		color[0] = color[1] = color[2] = 0;
 		color[3] = setColor[3];
 		trap_R_SetColor( color );
-		s = string;
+		s = (unsigned char *)string;
 		xx = x;
 		cnt = 0;
 		while ( *s && cnt < maxChars ) {
@@ -465,7 +465,7 @@ void CG_DrawStringExt2( int x, int y, const char *string, const float *setColor,
 	}
 
 	// draw the colored text
-	s = string;
+	s = (unsigned char *)string;
 	xx = x;
 	cnt = 0;
 	trap_R_SetColor( setColor );
@@ -507,7 +507,7 @@ void CG_DrawStringExt3( int x, int y, const char *string, const float *setColor,
 		maxChars = 32767; // do them all!
 
 	}
-	s = string;
+	s = (unsigned char *)string;
 	xx = 0;
 
 	while ( *s ) {
@@ -517,7 +517,7 @@ void CG_DrawStringExt3( int x, int y, const char *string, const float *setColor,
 
 	x -= xx;
 
-	s = string;
+	s = (unsigned char *)string;
 	xx = x;
 
 	// draw the drop shadow
@@ -525,7 +525,7 @@ void CG_DrawStringExt3( int x, int y, const char *string, const float *setColor,
 		color[0] = color[1] = color[2] = 0;
 		color[3] = setColor[3];
 		trap_R_SetColor( color );
-		s = string;
+		s = (unsigned char *)string;
 		xx = x;
 		cnt = 0;
 		while ( *s && cnt < maxChars ) {
@@ -541,7 +541,7 @@ void CG_DrawStringExt3( int x, int y, const char *string, const float *setColor,
 	}
 
 	// draw the colored text
-	s = string;
+	s = (unsigned char *)string;
 	xx = x;
 	cnt = 0;
 	trap_R_SetColor( setColor );

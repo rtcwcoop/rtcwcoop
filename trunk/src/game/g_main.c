@@ -570,23 +570,6 @@ void G_CheckForCursorHints( gentity_t *ent ) {
                                 }
                         }
                 }
-
-
-		// DHM - Nerve
-		if ( g_gametype.integer == GT_WOLF ) {
-			if ( ps->stats[ STAT_PLAYER_CLASS ] == PC_MEDIC ) {
-				if ( traceEnt->client && traceEnt->client->ps.pm_type == PM_DEAD && !( traceEnt->client->ps.pm_flags & PMF_LIMBO ) ) {
-					hintDist    = CH_ACTIVATE_DIST;
-					hintType    = HINT_BUILD;
-					hintVal     = ( (float)traceEnt->client->medicHealAmt / 80.f ) * 255.f; // also send health to client for visualization
-					if ( hintVal > 255 ) {
-						hintVal = 255;
-					}
-				}
-			}
-		}
-		// dhm - Nerve
-
 	}
 	//
 	// OTHER ENTITIES
@@ -610,11 +593,7 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 				indirectHit = qtrue;
 
 				// DHM - Nerve :: Put this back in only in multiplayer
-				if ( g_gametype.integer == GT_WOLF && traceEnt->s.dmgFlags ) { // hint icon specified in entity
-					hintType = traceEnt->s.dmgFlags;
-					hintDist = CH_ACTIVATE_DIST;
-					checkEnt = 0;
-				} else {                      // use target for hint icon
+				if ( g_gametype.integer == GT_SINGLE_PLAYER ) { // hint icon specified in entity
 					checkEnt = G_Find( NULL, FOFS( targetname ), traceEnt->target );
 					if ( !checkEnt ) {     // no target found
 						hintType = HINT_BAD_USER;
@@ -664,23 +643,7 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 					}
 				}
 			} else if ( checkEnt->s.eType == ET_MG42 )      {
-				// DHM - Nerve :: Engineers can repair turrets
-				if ( g_gametype.integer == GT_WOLF ) {
-					hintDist = CH_ACTIVATE_DIST;
-					hintType = HINT_MG42;
-
-					if ( ps->stats[ STAT_PLAYER_CLASS ] == PC_ENGINEER ) {
-						if ( !traceEnt->takedamage ) {
-							hintType = HINT_BUILD;
-							hintVal = traceEnt->health;
-							if ( hintVal > 255 ) {
-								hintVal = 255;
-							}
-						}
-					}
-				}
-				// dhm - end
-				else {
+				if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 					if ( ent->s.weapon != WP_SNIPERRIFLE &&
 						 ent->s.weapon != WP_SNOOPERSCOPE &&
 						 ent->s.weapon != WP_FG42SCOPE ) {
@@ -781,23 +744,6 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 					hintType = HINT_CHAIR;
 				}
 			}
-
-			// DHM - Nerve :: Handle wolf multiplayer hints
-			if ( g_gametype.integer == GT_WOLF ) {
-
-				if ( checkEnt->s.eType == ET_MISSILE ) {
-					if ( ps->stats[ STAT_PLAYER_CLASS ] == PC_ENGINEER ) {
-						hintDist    = CH_ACTIVATE_DIST;
-						hintType    = HINT_BUILD;
-						hintVal     = checkEnt->health;     // also send health to client for visualization
-						if ( hintVal > 255 ) {
-							hintVal = 255;
-						}
-					}
-				}
-
-			}
-			// dhm - end
 
 			// hint icon specified in check entity (possibly an entity targeted by an invis_user) and appropriate contact was made, so hintType was set
 			// first try the checkent...
@@ -954,10 +900,6 @@ void G_FindTeams( void ) {
 			}
 		}
 	}
-
-	if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
-		G_Printf( "%i teams with %i entities\n", c, c2 );
-	}
 }
 
 
@@ -967,17 +909,6 @@ G_RemapTeamShaders
 ==============
 */
 void G_RemapTeamShaders() {
-#ifdef MISSIONPACK
-	char string[1024];
-	float f = level.time * 0.001;
-	Com_sprintf( string, sizeof( string ), "team_icon/%s_red", g_redteam.string );
-	AddRemap( "textures/ctf2/redteam01", string, f );
-	AddRemap( "textures/ctf2/redteam02", string, f );
-	Com_sprintf( string, sizeof( string ), "team_icon/%s_blue", g_blueteam.string );
-	AddRemap( "textures/ctf2/blueteam01", string, f );
-	AddRemap( "textures/ctf2/blueteam02", string, f );
-	trap_SetConfigstring( CS_SHADERSTATE, BuildShaderStateConfig() );
-#endif
 }
 
 
@@ -1245,28 +1176,6 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	level.animScriptData.soundIndex = G_SoundIndex;
 	level.animScriptData.playSound = G_AnimScriptSound;
 
-	if ( g_gametype.integer != GT_SINGLE_PLAYER && g_log.string[0] ) {
-		if ( g_logSync.integer ) {
-			trap_FS_FOpenFile( g_log.string, &level.logFile, FS_APPEND_SYNC );
-		} else {
-			trap_FS_FOpenFile( g_log.string, &level.logFile, FS_APPEND );
-		}
-		if ( !level.logFile ) {
-			G_Printf( "WARNING: Couldn't open logfile: %s\n", g_log.string );
-		} else {
-			char serverinfo[MAX_INFO_STRING];
-
-			trap_GetServerinfo( serverinfo, sizeof( serverinfo ) );
-
-			G_LogPrintf( "------------------------------------------------------------\n" );
-			G_LogPrintf( "InitGame: %s\n", serverinfo );
-		}
-	} else {
-		if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
-			G_Printf( "Not logging to disk.\n" );
-		}
-	}
-
 	G_InitWorldSession();
 
 	// initialize all entities for this game
@@ -1331,16 +1240,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	// general initialization
 	G_FindTeams();
 
-	// make sure we have flags for CTF, etc
-	if ( g_gametype.integer >= GT_TEAM ) {
-		G_CheckTeamItems();
-	}
-
 	SaveRegisteredItems();
-
-	if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
-		G_Printf( "-----------------------------------\n" );
-	}
 
 	if ( g_gametype.integer == GT_SINGLE_PLAYER || trap_Cvar_VariableIntegerValue( "com_buildScript" ) ) {
 		G_ModelIndex( SP_PODIUM_MODEL );
@@ -1366,9 +1266,7 @@ G_ShutdownGame
 =================
 */
 void G_ShutdownGame( int restart ) {
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-		G_Printf( "==== ShutdownGame ====\n" );
-	}
+        G_Printf( "==== ShutdownGame ====\n" );
 
 	if ( level.logFile ) {
 		G_LogPrintf( "ShutdownGame:\n" );
@@ -1660,19 +1558,7 @@ void CalculateRanks( void ) {
 		   sizeof( level.sortedClients[0] ), SortRanks );
 
 	// set the rank value for all clients that are connected and not spectators
-	if ( g_gametype.integer >= GT_TEAM ) {
-		// in team games, rank is just the order of the teams, 0=red, 1=blue, 2=tied
-		for ( i = 0;  i < level.numConnectedClients; i++ ) {
-			cl = &level.clients[ level.sortedClients[i] ];
-			if ( level.teamScores[TEAM_RED] == level.teamScores[TEAM_BLUE] ) {
-				cl->ps.persistant[PERS_RANK] = 2;
-			} else if ( level.teamScores[TEAM_RED] > level.teamScores[TEAM_BLUE] ) {
-				cl->ps.persistant[PERS_RANK] = 0;
-			} else {
-				cl->ps.persistant[PERS_RANK] = 1;
-			}
-		}
-	} else {
+	if (g_gametype.integer == GT_SINGLE_PLAYER) {
 		rank = -1;
 		score = 0;
 		for ( i = 0;  i < level.numPlayingClients; i++ ) {
@@ -1694,11 +1580,7 @@ void CalculateRanks( void ) {
 		}
 	}
 
-	// set the CS_SCORES1/2 configstrings, which will be visible to everyone
-	if ( g_gametype.integer >= GT_TEAM ) {
-		trap_SetConfigstring( CS_SCORES1, va( "%i", level.teamScores[TEAM_RED] ) );
-		trap_SetConfigstring( CS_SCORES2, va( "%i", level.teamScores[TEAM_BLUE] ) );
-	} else {
+	if (g_gametype.integer == GT_SINGLE_PLAYER) {
 		if ( level.numConnectedClients == 0 ) {
 			trap_SetConfigstring( CS_SCORES1, va( "%i", SCORE_NOT_PRESENT ) );
 			trap_SetConfigstring( CS_SCORES2, va( "%i", SCORE_NOT_PRESENT ) );
@@ -1823,11 +1705,6 @@ void BeginIntermission( void ) {
 		return;     // already active
 	}
 
-	// if in tournement mode, change the wins / losses
-	if ( g_gametype.integer == GT_TOURNAMENT ) {
-		AdjustTournamentScores();
-	}
-
 	level.intermissiontime = level.time;
 	FindIntermissionPoint();
 
@@ -1862,23 +1739,6 @@ or moved to a new level based on the "nextmap" cvar
 void ExitLevel( void ) {
 	int i;
 	gclient_t *cl;
-
-
-
-
-	// if we are running a tournement map, kick the loser to spectator status,
-	// which will automatically grab the next spectator and restart
-	if ( g_gametype.integer == GT_TOURNAMENT ) {
-		if ( !level.restarted ) {
-			RemoveTournamentLoser();
-			trap_SendConsoleCommand( EXEC_APPEND, "map_restart 0\n" );
-			level.restarted = qtrue;
-			level.changemap = NULL;
-			level.intermissiontime = 0;
-		}
-		return;
-	}
-
 
 	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
 	level.changemap = NULL;
@@ -1979,11 +1839,6 @@ void LogExit( const char *string ) {
 		numSorted = 32;
 	}
 
-	if ( g_gametype.integer >= GT_TEAM ) {
-		G_LogPrintf( "red:%i  blue:%i\n",
-					 level.teamScores[TEAM_RED], level.teamScores[TEAM_BLUE] );
-	}
-
 	for ( i = 0 ; i < numSorted ; i++ ) {
 		int ping;
 
@@ -2024,17 +1879,6 @@ void CheckIntermissionExit( void ) {
 	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		return;
 	}
-
-	// DHM - Nerve :: Flat 10 second timer until exit
-	if ( g_gametype.integer == GT_WOLF ) {
-		if ( level.time < level.intermissiontime + 10000 ) {
-			return;
-		}
-
-		ExitLevel();
-		return;
-	}
-	// dhm - end
 
 	// see which players are ready
 	ready = 0;
@@ -2113,10 +1957,6 @@ qboolean ScoreIsTied( void ) {
 		return qfalse;
 	}
 
-	if ( g_gametype.integer >= GT_TEAM ) {
-		return level.teamScores[TEAM_RED] == level.teamScores[TEAM_BLUE];
-	}
-
 	a = level.clients[level.sortedClients[0]].ps.persistant[PERS_SCORE];
 	b = level.clients[level.sortedClients[1]].ps.persistant[PERS_SCORE];
 
@@ -2154,10 +1994,10 @@ void CheckExitRules( void ) {
 		if ( level.time - level.startTime >= g_timelimit.integer * 60000 ) {
 			// check for sudden death
 			// DHM - Nerve :: exclude GT_WOLF
-			if ( g_gametype.integer != GT_WOLF && g_gametype.integer != GT_CTF && ScoreIsTied() ) {
+			//if ( g_gametype.integer != GT_WOLF && g_gametype.integer != GT_CTF && ScoreIsTied() ) {
 				// score is tied, so don't end the game
-				return;
-			}
+			//	return;
+			//}
 			trap_SendServerCommand( -1, "print \"Timelimit hit.\n\"" );
 			LogExit( "Timelimit hit." );
 			return;
@@ -2169,7 +2009,7 @@ void CheckExitRules( void ) {
 	}
 
         // fretn: no fraglimit in coop
-	if ( g_gametype.integer != GT_CTF && g_fraglimit.integer && !g_coop.integer) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_fraglimit.integer && !g_coop.integer) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );
@@ -2199,21 +2039,6 @@ void CheckExitRules( void ) {
 			}
 		}
 	}
-
-	if ( g_gametype.integer == GT_CTF && g_capturelimit.integer ) {
-
-		if ( level.teamScores[TEAM_RED] >= g_capturelimit.integer ) {
-			trap_SendServerCommand( -1, "print \"Red hit the capturelimit.\n\"" );
-			LogExit( "Capturelimit hit." );
-			return;
-		}
-
-		if ( level.teamScores[TEAM_BLUE] >= g_capturelimit.integer ) {
-			trap_SendServerCommand( -1, "print \"Blue hit the capturelimit.\n\"" );
-			LogExit( "Capturelimit hit." );
-			return;
-		}
-	}
 }
 
 
@@ -2225,69 +2050,6 @@ FUNCTIONS CALLED EVERY FRAME
 
 ========================================================================
 */
-
-
-/*
-=============
-CheckTournement
-
-Once a frame, check for changes in tournement player state
-=============
-*/
-void CheckTournement( void ) {
-	// check because we run 3 game frames before calling Connect and/or ClientBegin
-	// for clients on a map_restart
-	if ( g_gametype.integer != GT_TOURNAMENT ) {
-		return;
-	}
-	if ( level.numPlayingClients == 0 ) {
-		return;
-	}
-
-	// pull in a spectator if needed
-	if ( level.numPlayingClients < 2 ) {
-		AddTournamentPlayer();
-	}
-
-	// if we don't have two players, go back to "waiting for players"
-	if ( level.numPlayingClients != 2 ) {
-		if ( level.warmupTime != -1 ) {
-			level.warmupTime = -1;
-			trap_SetConfigstring( CS_WARMUP, va( "%i", level.warmupTime ) );
-			G_LogPrintf( "Warmup:\n" );
-		}
-		return;
-	}
-
-	if ( level.warmupTime == 0 ) {
-		return;
-	}
-
-	// if the warmup is changed at the console, restart it
-	if ( g_warmup.modificationCount != level.warmupModificationCount ) {
-		level.warmupModificationCount = g_warmup.modificationCount;
-		level.warmupTime = -1;
-	}
-
-	// if all players have arrived, start the countdown
-	if ( level.warmupTime < 0 ) {
-		if ( level.numPlayingClients == 2 ) {
-			// fudge by -1 to account for extra delays
-			level.warmupTime = level.time + ( g_warmup.integer - 1 ) * 1000;
-			trap_SetConfigstring( CS_WARMUP, va( "%i", level.warmupTime ) );
-		}
-		return;
-	}
-
-	// if the warmup time has counted down, restart
-	if ( level.time > level.warmupTime ) {
-		level.warmupTime += 10000;
-		trap_Cvar_Set( "g_restarted", "1" );
-		trap_SendConsoleCommand( EXEC_APPEND, "map_restart 0\n" );
-		level.restarted = qtrue;
-		return;
-	}
-}
 
 
 /*

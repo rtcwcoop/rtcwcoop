@@ -597,6 +597,8 @@ int     FS_LoadStack();
 
 int     FS_GetFileList(  const char *path, const char *extension, char *listbuf, int bufsize );
 int     FS_GetModList(  char *listbuf, int bufsize );
+char   *FS_BuildOSPath( const char *base, const char *game, const char *qpath );
+qboolean FS_CreatePath( char *OSPath );
 
 fileHandle_t    FS_FOpenFileWrite( const char *qpath );
 // will properly create any needed paths and deal with seperater character issues
@@ -712,6 +714,7 @@ typedef struct {
 
 void Field_Clear( field_t *edit );
 void Field_CompleteCommand( field_t *edit );
+void Field_AutoComplete( field_t *field );
 
 /*
 ==============================================================
@@ -1151,5 +1154,7 @@ extern huffman_t clientHuffTables;
 #define SV_DECODE_START     12
 #define CL_ENCODE_START     12
 #define CL_DECODE_START     4
+
+void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
 
 #endif // _QCOMMON_H_

@@ -381,21 +381,21 @@ static void CG_PickPlayer_f( void ) {
 */
 
 static void CG_QuickMessage_f( void ) {
-	if ( cgs.gametype != GT_WOLF ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;
 	}
 	trap_UI_Popup( "UIMENU_WM_QUICKMESSAGE" );
 }
 
 static void CG_OpenLimbo_f( void ) {
-	if ( cgs.gametype != GT_WOLF ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;
 	}
 	trap_UI_Popup( "UIMENU_WM_LIMBO" );
 }
 
 static void CG_CloseLimbo_f( void ) {
-	if ( cgs.gametype != GT_WOLF ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;
 	}
 	trap_UI_ClosePopup( "UIMENU_WM_LIMBO" );
@@ -404,7 +404,7 @@ static void CG_CloseLimbo_f( void ) {
 static void CG_LimboMessage_f( void ) {
 	char teamStr[80], classStr[80], weapStr[80];
 
-	if ( cgs.gametype != GT_WOLF ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;
 	}
 

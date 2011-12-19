@@ -2431,16 +2431,16 @@ void R_DeleteTextures( void ) {
 	// done.
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
-	if ( qglBindTexture ) {
-		if ( qglActiveTextureARB ) {
-			GL_SelectTexture( 1 );
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-			GL_SelectTexture( 0 );
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-		} else {
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-		}
-	}
+#ifdef qglBindTexture
+        if ( qglActiveTextureARB ) {
+                GL_SelectTexture( 1 );
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+                GL_SelectTexture( 0 );
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+        } else {
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+        }
+#endif
 }
 
 /*
@@ -3504,16 +3504,16 @@ void R_PurgeImage( image_t *image ) {
 	R_CacheImageFree( image );
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
-	if ( qglBindTexture ) {
-		if ( qglActiveTextureARB ) {
-			GL_SelectTexture( 1 );
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-			GL_SelectTexture( 0 );
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-		} else {
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-		}
-	}
+#ifdef qglBindTexture
+        if ( qglActiveTextureARB ) {
+                GL_SelectTexture( 1 );
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+                GL_SelectTexture( 0 );
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+        } else {
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+        }
+#endif
 }
 
 
@@ -3582,16 +3582,16 @@ void R_BackupImages( void ) {
 	tr.numImages = 0;
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
-	if ( qglBindTexture ) {
-		if ( qglActiveTextureARB ) {
-			GL_SelectTexture( 1 );
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-			GL_SelectTexture( 0 );
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-		} else {
-			qglBindTexture( GL_TEXTURE_2D, 0 );
-		}
-	}
+#ifdef qglBindTexture
+        if ( qglActiveTextureARB ) {
+                GL_SelectTexture( 1 );
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+                GL_SelectTexture( 0 );
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+        } else {
+                qglBindTexture( GL_TEXTURE_2D, 0 );
+        }
+#endif
 }
 
 /*

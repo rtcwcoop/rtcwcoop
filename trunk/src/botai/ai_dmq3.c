@@ -104,7 +104,7 @@ BotCTFCarryingFlag
 ==================
 */
 int BotCTFCarryingFlag( bot_state_t *bs ) {
-	if ( gametype != GT_CTF ) {
+	if ( gametype == GT_SINGLE_PLAYER ) {
 		return CTF_FLAG_NONE;
 	}
 
@@ -124,7 +124,7 @@ BotCTFTeam
 int BotCTFTeam( bot_state_t *bs ) {
 	char skin[128], *p;
 
-	if ( gametype != GT_CTF ) {
+	if ( gametype == GT_SINGLE_PLAYER ) {
 		return CTF_TEAM_NONE;
 	}
 	ClientSkin( bs->client, skin, sizeof( skin ) );
@@ -750,7 +750,7 @@ TeamPlayIsOn
 ==================
 */
 int TeamPlayIsOn( void ) {
-	return ( gametype == GT_TEAM || gametype == GT_CTF );
+	return qfalse;
 }
 
 /*
@@ -1252,8 +1252,6 @@ BotSameTeam
 ==================
 */
 int BotSameTeam( bot_state_t *bs, int entnum ) {
-	char info1[128], info2[128];
-
 	if ( bs->client < 0 || bs->client >= MAX_CLIENTS ) {
 		//BotAI_Print(PRT_ERROR, "BotSameTeam: client out of range\n");
 		return qfalse;
@@ -1261,14 +1259,6 @@ int BotSameTeam( bot_state_t *bs, int entnum ) {
 	if ( entnum < 0 || entnum >= MAX_CLIENTS ) {
 		//BotAI_Print(PRT_ERROR, "BotSameTeam: client out of range\n");
 		return qfalse;
-	}
-	if ( gametype == GT_TEAM || gametype == GT_CTF ) {
-		trap_GetConfigstring( CS_PLAYERS + bs->client, info1, sizeof( info1 ) );
-		trap_GetConfigstring( CS_PLAYERS + entnum, info2, sizeof( info2 ) );
-		//
-		if ( atoi( Info_ValueForKey( info1, "t" ) ) == atoi( Info_ValueForKey( info2, "t" ) ) ) {
-			return qtrue;
-		}
 	}
 	return qfalse;
 }
@@ -2118,7 +2108,7 @@ int BotEntityToActivate( int entitynum ) {
 		return 0;
 	}
 	trap_AAS_ValueForBSPEpairKey( ent, "classname", classname, sizeof( classname ) );
-	if ( !classname ) {
+	if ( !classname[0] ) {
 		BotAI_Print( PRT_ERROR, "BotEntityToActivate: entity with model %s has no classname\n", model );
 		return 0;
 	}
@@ -2754,7 +2744,7 @@ BotDeathmatchAI
 ==================
 */
 void BotDeathmatchAI( bot_state_t *bs, float thinktime ) {
-	char gender[144], name[144], buf[144];
+	char gender[144], name[144];
 	char userinfo[MAX_INFO_STRING];
 	int i;
 
@@ -2771,10 +2761,10 @@ void BotDeathmatchAI( bot_state_t *bs, float thinktime ) {
 		Info_SetValueForKey( userinfo, "sex", gender );
 		trap_SetUserinfo( bs->client, userinfo );
 		//set the team
-		if ( g_gametype.integer != GT_TOURNAMENT ) {
+		/*if ( g_gametype.integer != GT_TOURNAMENT ) {
 			Com_sprintf( buf, sizeof( buf ), "team %s", bs->settings.team );
 			trap_EA_Command( bs->client, buf );
-		}
+		}*/
 		//set the chat gender
 		if ( gender[0] == 'm' ) {
 			trap_BotSetChatGender( bs->cs, CHAT_GENDERMALE );
@@ -2805,7 +2795,7 @@ void BotDeathmatchAI( bot_state_t *bs, float thinktime ) {
 	//if not in the intermission and not in observer mode
 	if ( !BotIntermission( bs ) && !BotIsObserver( bs ) ) {
 		//do team AI
-		BotTeamAI( bs );
+		//BotTeamAI( bs );
 	}
 	//if the bot has no ai node
 	if ( !bs->ainode ) {
@@ -2865,14 +2855,6 @@ void BotSetupDeathmatchAI( void ) {
 	trap_Cvar_Register( &bot_nochat, "bot_nochat", "0", 0 );
 	trap_Cvar_Register( &bot_testrchat, "bot_testrchat", "0", 0 );
 	//
-	if ( gametype == GT_CTF ) {
-		if ( trap_BotGetLevelItemGoal( -1, "Red Flag", &ctf_redflag ) < 0 ) {
-			BotAI_Print( PRT_WARNING, "CTF without Red Flag\n" );
-		}
-		if ( trap_BotGetLevelItemGoal( -1, "Blue Flag", &ctf_blueflag ) < 0 ) {
-			BotAI_Print( PRT_WARNING, "CTF without Blue Flag\n" );
-		}
-	}
 
 	max_bspmodelindex = 0;
 	for ( ent = trap_AAS_NextBSPEntity( 0 ); ent; ent = trap_AAS_NextBSPEntity( ent ) ) {

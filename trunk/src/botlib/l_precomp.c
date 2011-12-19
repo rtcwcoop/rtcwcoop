@@ -722,7 +722,7 @@ int PC_ExpandBuiltinDefine( source_t *source, token_t *deftoken, define_t *defin
 	case BUILTIN_DATE:
 	{
 		t = time( NULL );
-		curtime = ctime( &t );
+		curtime = ctime( (const time_t *)&t );
 		strcpy( token->string, "\"" );
 		strncat( token->string, curtime + 4, 7 );
 		strncat( token->string + 7, curtime + 20, 4 );
@@ -737,7 +737,7 @@ int PC_ExpandBuiltinDefine( source_t *source, token_t *deftoken, define_t *defin
 	case BUILTIN_TIME:
 	{
 		t = time( NULL );
-		curtime = ctime( &t );
+		curtime = ctime( (const time_t *)&t );
 		strcpy( token->string, "\"" );
 		strncat( token->string, curtime + 11, 8 );
 		strcat( token->string, "\"" );

@@ -82,268 +82,6 @@ const char  *CG_PlaceString( int rank ) {
 	return str;
 }
 
-/*
-=============
-CG_Obituary
-=============
-*/
-static void CG_Obituary( entityState_t *ent ) {
-	int mod;
-	int target, attacker;
-	char        *message;
-	char        *message2;
-	const char  *targetInfo;
-	const char  *attackerInfo;
-	char targetName[32];
-	char attackerName[32];
-	gender_t gender;
-	clientInfo_t    *ci;
-
-	// Ridah, no obituaries in single player
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
-		return;
-	}
-
-	target = ent->otherEntityNum;
-	attacker = ent->otherEntityNum2;
-	mod = ent->eventParm;
-
-	if ( target < 0 || target >= MAX_CLIENTS ) {
-		CG_Error( "CG_Obituary: target out of range" );
-	}
-	ci = &cgs.clientinfo[target];
-
-	if ( attacker < 0 || attacker >= MAX_CLIENTS ) {
-		attacker = ENTITYNUM_WORLD;
-		attackerInfo = NULL;
-	} else {
-		attackerInfo = CG_ConfigString( CS_PLAYERS + attacker );
-	}
-
-	targetInfo = CG_ConfigString( CS_PLAYERS + target );
-	if ( !targetInfo ) {
-		return;
-	}
-	Q_strncpyz( targetName, Info_ValueForKey( targetInfo, "n" ), sizeof( targetName ) - 2 );
-	strcat( targetName, S_COLOR_WHITE );
-
-	message2 = "";
-
-	// check for single client messages
-
-	switch ( mod ) {
-	case MOD_SUICIDE:
-		message = "suicides";
-		break;
-	case MOD_FALLING:
-		message = "cratered";
-		break;
-	case MOD_CRUSH:
-		message = "was squished";
-		break;
-	case MOD_WATER:
-		message = "sank like a rock";
-		break;
-	case MOD_SLIME:
-		message = "melted";
-		break;
-	case MOD_LAVA:
-		message = "does a back flip into the lava";
-		break;
-	case MOD_TARGET_LASER:
-		message = "saw the light";
-		break;
-	case MOD_TRIGGER_HURT:
-		message = "was in the wrong place";
-		break;
-	default:
-		message = NULL;
-		break;
-	}
-
-	if ( attacker == target ) {
-		gender = ci->modelInfo->gender;
-		switch ( mod ) {
-		case MOD_GRENADE_SPLASH:
-			if ( gender == GENDER_FEMALE ) {
-				message = "tripped on her own grenade";
-			} else if ( gender == GENDER_NEUTER ) {
-				message = "tripped on its own grenade";
-			} else {
-				message = "tripped on his own grenade";
-			}
-			break;
-		case MOD_ROCKET_SPLASH:
-			if ( gender == GENDER_FEMALE ) {
-				message = "blew herself up";
-			} else if ( gender == GENDER_NEUTER ) {
-				message = "blew itself up";
-			} else {
-				message = "blew himself up";
-			}
-			break;
-		case MOD_BFG_SPLASH:
-			message = "should have used a smaller gun";
-			break;
-		case MOD_EXPLOSIVE:
-			message = "died in an explosion";
-			break;
-		default:
-			if ( gender == GENDER_FEMALE ) {
-				message = "killed herself";
-			} else if ( gender == GENDER_NEUTER ) {
-				message = "killed itself";
-			} else {
-				message = "killed himself";
-			}
-			break;
-		}
-	}
-
-	if ( message ) {
-		CG_Printf( "%s %s.\n", targetName, message );
-		return;
-	}
-
-	// check for kill messages from the current clientNum
-	if ( attacker == cg.snap->ps.clientNum ) {
-		char    *s;
-
-		if ( cgs.gametype < GT_TEAM ) {
-			s = va( "You fragged %s\n%s place with %i", targetName,
-					CG_PlaceString( cg.snap->ps.persistant[PERS_RANK] + 1 ),
-					cg.snap->ps.persistant[PERS_SCORE] );
-		} else {
-			s = va( "You fragged %s", targetName );
-		}
-		CG_CenterPrint( s, SCREEN_HEIGHT * 0.25, BIGCHAR_WIDTH );
-
-		// print the text message as well
-	}
-
-	// check for double client messages
-	if ( !attackerInfo ) {
-		attacker = ENTITYNUM_WORLD;
-		strcpy( attackerName, "noname" );
-	} else {
-		Q_strncpyz( attackerName, Info_ValueForKey( attackerInfo, "n" ), sizeof( attackerName ) - 2 );
-		strcat( attackerName, S_COLOR_WHITE );
-		// check for kill messages about the current clientNum
-		if ( target == cg.snap->ps.clientNum ) {
-			Q_strncpyz( cg.killerName, attackerName, sizeof( cg.killerName ) );
-		}
-	}
-
-	if ( attacker != ENTITYNUM_WORLD ) {
-		switch ( mod ) {
-
-			// TODO: put real text here.  these are just placeholders
-
-		case MOD_KNIFE_STEALTH:
-		case MOD_KNIFE:
-		case MOD_KNIFE2:
-			message = "was knifed by";
-			break;
-		case MOD_LUGER:
-			message = "was killed (luger) by";
-			break;
-		case MOD_COLT:
-			message = "was killed (colt) by";
-			break;
-		case MOD_MP40:
-			message = "was killed (mp40) by";
-			break;
-		case MOD_THOMPSON:
-			message = "was killed (thompson) by";
-			break;
-		case MOD_STEN:
-			message = "was killed (sten) by";
-			break;
-		case MOD_MAUSER:
-			message = "was killed (mauser) by";
-			break;
-		case MOD_SNIPERRIFLE:
-			message = "was killed (sniper) by";
-			break;
-		case MOD_GARAND:
-			message = "was killed (garand) by";
-			break;
-		case MOD_SNOOPERSCOPE:
-			message = "was killed (snooper) by";
-			break;
-		case MOD_AKIMBO:
-			message = "was killed (dual colts) by";
-			break;
-		case MOD_ROCKET_LAUNCHER:
-			message = "was killed (rl) by";
-			break;
-		case MOD_GRENADE_LAUNCHER:
-			message = "was killed (gren - gm) by";
-			break;
-		case MOD_VENOM:
-			message = "was killed (venom) by";
-			break;
-		case MOD_VENOM_FULL:
-			message = "was killed (venom shot) by";
-			break;
-		case MOD_FLAMETHROWER:
-			message = "was killed (flamethrower) by";
-			break;
-		case MOD_TESLA:
-			message = "was killed (tesla) by";
-			break;
-		case MOD_SPEARGUN:
-			message = "was killed (spear) by";
-			break;
-		case MOD_SPEARGUN_CO2:
-			message = "was killed (co2 spear) by";
-			break;
-		case MOD_GRENADE_PINEAPPLE:
-			message = "was killed (gren - am) by";
-			break;
-		case MOD_CROSS:
-			message = "was killed (cross) by";
-			break;
-// JPW NERVE
-		case MOD_AIRSTRIKE:
-			message = "stood under";
-			message2 = "'s air strike";
-			break;
-// jpw
-// (SA) leaving a sample of two part obit's
-//		case MOD_ROCKET:
-//			message = "ate";
-//			message2 = "'s rocket";
-//			break;
-//		case MOD_ROCKET_SPLASH:
-//			message = "almost dodged";
-//			message2 = "'s rocket";
-//			break;
-		default:
-			message = "was killed by";
-			break;
-		}
-
-		if ( message ) {
-			CG_Printf( "%s %s %s%s\n",
-					   targetName, message, attackerName, message2 );
-			return;
-		}
-	}
-
-	// we don't know what it was
-// JPW NERVE added mod check for machinegun (prolly mortar here too)
-	switch ( mod ) {
-	case MOD_MACHINEGUN:
-		CG_Printf( "%s was riddled by machinegun fire\n",targetName );
-		break;
-	default:
-		CG_Printf( "%s died.\n", targetName );
-		break;
-	}
-// jpw
-}
-
 //==========================================================================
 
 /*
@@ -1938,9 +1676,6 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 // JPW NERVE
 	case EV_SPINUP:
 		DEBUGNAME( "EV_SPINUP" );
-		if ( cg_gameType.integer != GT_SINGLE_PLAYER ) {
-			trap_S_StartSound( NULL, es->number, CHAN_AUTO, cg_weapons[es->weapon].spinupSound );
-		}
 		break;
 // jpw
 
@@ -1994,7 +1729,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 		// TTimo
 		// show_bug.cgi?id=417
-		if ( ( newweap ) && ( cgs.gametype != GT_WOLF ) ) {
+		if ( ( newweap ) && ( cgs.gametype == GT_SINGLE_PLAYER ) ) {
 			CG_FinishWeaponChange( es->weapon, newweap );
 		}
 
@@ -2394,7 +2129,8 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_OBITUARY:
 		DEBUGNAME( "EV_OBITUARY" );
-		CG_Obituary( es );
+                // fretn
+                // TODO for coop ?
 		break;
 
 		//

@@ -205,7 +205,7 @@ ifeq ($(PLATFORM),linux)
   #BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit -Wstrict-prototypes
   BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit \
     -pipe -DUSE_ICON -DC_ONLY -fno-common
-  CLIENT_CFLAGS = $(SDL_CFLAGS)
+  CLIENT_CFLAGS = $(SDL_CFLAGS) -Wno-write-strings
   SERVER_CFLAGS =
 
   OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
@@ -273,7 +273,7 @@ ifeq ($(PLATFORM),darwin)
   
   #BASE_CFLAGS = -Wall -Wimplicit -Wstrict-prototypes
   BASE_CFLAGS = -Wall -Wimplicit -DC_ONLY -m32
-  CLIENT_CFLAGS = 
+  CLIENT_CFLAGS = -Wno-write-strings
   SERVER_CFLAGS =
 
   ifeq ($(ARCH),ppc)

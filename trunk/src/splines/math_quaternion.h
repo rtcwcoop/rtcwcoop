@@ -160,11 +160,11 @@ inline quat_t& quat_t::operator*=( float a ) {
 }
 
 inline int operator==( quat_t a, quat_t b ) {
-	return ( ( a.x == b.x ) && ( a.y == b.y ) && ( a.z == b.z ) && ( a.w == b.w ) );
+	return ( ( ( a.x == b.x ) && ( a.y == b.y ) && ( a.z == b.z ) ) && ( a.w == b.w ) );
 }
 
 inline int operator!=( quat_t a, quat_t b ) {
-	return ( ( a.x != b.x ) || ( a.y != b.y ) || ( a.z != b.z ) && ( a.w != b.w ) );
+	return ( ( ( a.x != b.x ) || ( a.y != b.y ) || ( a.z != b.z ) ) && ( a.w != b.w ) );
 }
 
 inline float quat_t::Length( void ) {

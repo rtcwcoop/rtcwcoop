@@ -2229,12 +2229,6 @@ void mg42_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int d
 		gun->takedamage = qfalse;
 
 
-		// DHM - Nerve :: health is used in repairing later
-		if ( g_gametype.integer == GT_WOLF ) {
-			gun->health = 0;
-			self->health = 0;
-		}
-		// dhm - end
 	}
 
 	self->takedamage = qfalse;

@@ -1111,7 +1111,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 		strcpy( comppath, item->world_model[W_TP_MODEL] );  // not there, use the standard view hand
 
 	}
-	if ( ( !comppath || !cg_drawFPGun.integer ) &&     // then if it didn't find the 1st person one or you are set to not use one
+	if ( ( !comppath[0] || !cg_drawFPGun.integer ) &&     // then if it didn't find the 1st person one or you are set to not use one
 		 item->world_model[W_TP_MODEL] ) {
 		strcpy( comppath, item->world_model[W_TP_MODEL] );  // use the standard view hand
 
@@ -1471,27 +1471,10 @@ void CG_RegisterItemVisuals( int itemNum ) {
 	propellerModel = trap_R_RegisterModel( "models/mapobjects/vehicles/m109_prop.md3" );
 
 // JPW NERVE had to put this somewhere, this seems OK
-	if ( cg_gameType.integer != GT_WOLF ) {
+	if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
 		maxWeapBanks = MAX_WEAP_BANKS;
 		maxWeapsInBank = MAX_WEAPS_IN_BANK;
-	} else {
-		trap_R_RegisterModel( "models/mapobjects/vehicles/m109.md3" );
-		CG_RegisterWeapon( WP_GRENADE_SMOKE ); // register WP_CLASS_SPECIAL visuals here
-		CG_RegisterWeapon( WP_MEDIC_HEAL );
-		maxWeapBanks = MAX_WEAP_BANKS_MP;
-		maxWeapsInBank = MAX_WEAPS_IN_BANK_MP;
 	}
-// if player runs out of SMG ammunition, it shouldn't *also* deplete pistol ammunition.  If you change this, change
-// g_spawn.c as well
-	if ( cg_gameType.integer != GT_SINGLE_PLAYER ) {
-		item = BG_FindItem( "Thompson" );
-		item->giAmmoIndex = WP_THOMPSON;
-		item = BG_FindItem( "Sten" );
-		item->giAmmoIndex = WP_STEN;
-		item = BG_FindItem( "MP40" );
-		item->giAmmoIndex = WP_MP40;
-	}
-// jpw
 
 	//
 	// powerups have an accompanying ring or sphere
@@ -2165,11 +2148,6 @@ void CG_PlayerTeslaCoilFire( centity_t *cent, vec3_t flashorigin ) {
 		return;
 	}
 
-// JPW NERVE no tesla in multiplayer
-	if ( cg_gameType.integer != GT_SINGLE_PLAYER ) {
-		return;
-	}
-
 	//if (cent->currentState.number == cg.snap->ps.clientNum)
 	//	VectorCopy( cg.snap->ps.viewangles, viewAngles );
 	//else
@@ -2503,31 +2481,8 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 		return;
 	}
 
-	// DHM - Nerve :: Special case for WP_CLASS_SPECIAL
-	if ( cgs.gametype == GT_WOLF && weaponNum == WP_CLASS_SPECIAL ) {
-		switch ( cent->currentState.teamNum ) {
-		case PC_ENGINEER:
-			CG_RegisterWeapon( WP_CLASS_SPECIAL );
-			weapon = &cg_weapons[WP_CLASS_SPECIAL];
-			break;
-		case PC_MEDIC:
-			CG_RegisterWeapon( WP_MEDIC_HEAL );
-			weapon = &cg_weapons[WP_MEDIC_HEAL];
-			break;
-		case PC_LT:
-			CG_RegisterWeapon( WP_GRENADE_SMOKE );
-			weapon = &cg_weapons[WP_GRENADE_SMOKE];
-			break;
-		default:
-			CG_RegisterWeapon( weaponNum );
-			weapon = &cg_weapons[weaponNum];
-			break;
-		}
-	} else {
-		CG_RegisterWeapon( weaponNum );
-		weapon = &cg_weapons[weaponNum];
-	}
-	// dhm - end
+        CG_RegisterWeapon( weaponNum );
+        weapon = &cg_weapons[weaponNum];
 
 
 	if ( isPlayer ) {
@@ -3015,30 +2970,8 @@ void CG_AddViewWeapon( playerState_t *ps ) {
 	}
 
 	if ( ps->weapon > WP_NONE ) {
-		// DHM - Nerve :: handle WP_CLASS_SPECIAL for different classes
-		if ( cgs.gametype == GT_WOLF && ps->weapon == WP_CLASS_SPECIAL ) {
-			switch ( ps->stats[ STAT_PLAYER_CLASS ] ) {
-			case PC_ENGINEER:
-				CG_RegisterWeapon( WP_CLASS_SPECIAL );
-				weapon = &cg_weapons[ WP_CLASS_SPECIAL ];
-				break;
-			case PC_MEDIC:
-				CG_RegisterWeapon( WP_MEDIC_HEAL );
-				weapon = &cg_weapons[ WP_MEDIC_HEAL ];
-				break;
-			case PC_LT:
-				CG_RegisterWeapon( WP_GRENADE_SMOKE );
-				weapon = &cg_weapons[ WP_GRENADE_SMOKE ];
-				break;
-			default:
-				CG_RegisterWeapon( ps->weapon );
-				weapon = &cg_weapons[ ps->weapon ];
-				break;
-			}
-		} else {
-			CG_RegisterWeapon( ps->weapon );
-			weapon = &cg_weapons[ ps->weapon ];
-		}
+                CG_RegisterWeapon( ps->weapon );
+                weapon = &cg_weapons[ ps->weapon ];
 		// dhm - end
 
 		memset( &hand, 0, sizeof( hand ) );
@@ -3161,12 +3094,7 @@ void CG_DrawWeaponSelect( void ) {
 
 		// primary fire
 // JPW NERVE
-		if ( cg_gameType.integer == GT_WOLF ) {
-			drawweap = weapBanks[curweapbank][i];
-		} else {
-// jpw
-			drawweap = weapBanks[curweapbank][i];
-		}
+		drawweap = weapBanks[curweapbank][i];
 
 		realweap = drawweap;        // DHM - Nerve
 
@@ -3198,23 +3126,6 @@ void CG_DrawWeaponSelect( void ) {
 		if ( drawweap && ( bits[0] & ( 1 << drawweap ) ) ) {
 			// you've got it, draw it
 
-			// DHM - Nerve :: Special case for WP_CLASS_SPECIAL
-			if ( cgs.gametype == GT_WOLF && drawweap == WP_CLASS_SPECIAL ) {
-				switch ( cg.predictedPlayerState.stats[ STAT_PLAYER_CLASS ] ) {
-				case PC_ENGINEER:
-					drawweap = WP_CLASS_SPECIAL;
-					break;
-				case PC_MEDIC:
-					drawweap = WP_MEDIC_HEAL;
-					break;
-				case PC_LT:
-					drawweap = WP_GRENADE_SMOKE;
-					break;
-				default:
-					break;
-				}
-			}
-			// dhm - end
 
 			CG_RegisterWeapon( drawweap );
 
@@ -3256,48 +3167,17 @@ void CG_DrawWeaponSelect( void ) {
 		}
 
 // JPW NERVE
-		if ( cg_gameType.integer == GT_WOLF ) {
-			drawweap = getAltWeapon( weapBanks[curweapbank][i] );
-		} else {
-// jpw
-			drawweap = getAltWeapon( weapBanks[curweapbank][i] );
-		}
+		drawweap = getAltWeapon( weapBanks[curweapbank][i] );
 
 		// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
 // JPW NERVE
-		if ( cg_gameType.integer == GT_WOLF ) {
-			if ( drawweap == weapBanks[curweapbank][i] ) {
-				drawweap = 0;
-			}
-		} else {
-// jpw
-			if ( drawweap == weapBanks[curweapbank][i] ) {
-				drawweap = 0;
-			}
-		}
+                if ( drawweap == weapBanks[curweapbank][i] ) {
+                        drawweap = 0;
+                }
 
 		realweap = drawweap;        // DHM - Nerve
 
 		if ( drawweap && ( bits[0] & ( 1 << drawweap ) ) ) {
-			// you've got it, draw it
-			// DHM - Nerve :: Special case for WP_CLASS_SPECIAL
-			if ( cgs.gametype == GT_WOLF && drawweap == WP_CLASS_SPECIAL ) {
-				switch ( cg.predictedPlayerState.stats[ STAT_PLAYER_CLASS ] ) {
-				case PC_ENGINEER:
-					drawweap = WP_CLASS_SPECIAL;
-					break;
-				case PC_MEDIC:
-					drawweap = WP_MEDIC_HEAL;
-					break;
-				case PC_LT:
-					drawweap = WP_GRENADE_SMOKE;
-					break;
-				default:
-					break;
-				}
-			}
-			// dhm - end
-
 			CG_RegisterWeapon( drawweap );
 
 			// weapon icon
@@ -3415,7 +3295,7 @@ int CG_WeaponIndex( int weapnum, int *bank, int *cycle ) {
 		for ( cyc = 0; cyc < maxWeapsInBank; cyc++ ) {
 
 			// end of cycle, go to next bank
-			if ( cg_gameType.integer != GT_WOLF ) { // JPW NERVE
+			if ( cg_gameType.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
 				if ( !weapBanks[bnk][cyc] ) {
 					break;
 				}
@@ -3431,24 +3311,6 @@ int CG_WeaponIndex( int weapnum, int *bank, int *cycle ) {
 					return 1;
 				}
 			}
-// JPW NERVE
-			else {
-				if ( !weapBanks[bnk][cyc] ) {
-					break;
-				}
-
-				// found the current weapon
-				if ( weapBanks[bnk][cyc] == weapnum ) {
-					if ( bank ) {
-						*bank = bnk;
-					}
-					if ( cycle ) {
-						*cycle = cyc;
-					}
-					return 1;
-				}
-			}
-// jpw
 		}
 	}
 
@@ -3473,22 +3335,11 @@ static int getNextWeapInBank( int bank, int cycle ) {
 
 	cycle = cycle % maxWeapsInBank;
 
-	if ( cg_gameType.integer != GT_WOLF ) { // JPW NERVE
-		if ( weapBanks[bank][cycle] ) {    // return next weapon in bank if there is one
-			return weapBanks[bank][cycle];
-		} else {                            // return first in bank
-			return weapBanks[bank][0];
-		}
-	}
-// JPW NERVE
-	else {
-		if ( weapBanks[bank][cycle] ) {     // return next weapon in bank if there is one
-			return weapBanks[bank][cycle];
-		} else {                            // return first in bank
-			return weapBanks[bank][0];
-		}
-	}
-// jpw
+        if ( weapBanks[bank][cycle] ) {    // return next weapon in bank if there is one
+                return weapBanks[bank][cycle];
+        } else {                            // return first in bank
+                return weapBanks[bank][0];
+        }
 }
 
 static int getNextWeapInBankBynum( int weapnum ) {
@@ -3517,25 +3368,14 @@ static int getPrevWeapInBank( int bank, int cycle ) {
 	}
 
 
-	if ( cg_gameType.integer != GT_WOLF ) {
-		while ( !weapBanks[bank][cycle] ) {
-			cycle--;
+        while ( !weapBanks[bank][cycle] ) {
+                cycle--;
 
-			if ( cycle < 0 ) {
-				cycle = maxWeapsInBank - 1;
-			}
-		}
-		return weapBanks[bank][cycle];
-	} else {
-		while ( !weapBanks[bank][cycle] ) {
-			cycle--;
-
-			if ( cycle < 0 ) {
-				cycle = maxWeapsInBank - 1;
-			}
-		}
-		return weapBanks[bank][cycle];
-	}
+                if ( cycle < 0 ) {
+                        cycle = maxWeapsInBank - 1;
+                }
+        }
+        return weapBanks[bank][cycle];
 }
 
 
@@ -3564,22 +3404,11 @@ static int getNextBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 
 	bank = bank % maxWeapBanks;
 
-	if ( cg_gameType.integer != GT_WOLF ) { // JPW NERVE
-		if ( sameBankPosition && weapBanks[bank][cycle] ) {
-			return weapBanks[bank][cycle];
-		} else {
-			return weapBanks[bank][0];
-		}
-	}
-// JPW NERVE
-	else {
-		if ( sameBankPosition && weapBanks[bank][cycle] ) {
-			return weapBanks[bank][cycle];
-		} else {
-			return weapBanks[bank][0];
-		}
-	}
-// jpw
+        if ( sameBankPosition && weapBanks[bank][cycle] ) {
+                return weapBanks[bank][cycle];
+        } else {
+                return weapBanks[bank][0];
+        }
 }
 
 /*
@@ -3601,38 +3430,19 @@ static int getPrevBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 
 	bank = bank % maxWeapBanks;
 
-	if ( cg_gameType.integer != GT_WOLF ) { // JPW NERVE
-		if ( sameBankPosition && weapBanks[bank][cycle] ) {
-			return weapBanks[bank][cycle];
-		} else
-		{   // find highest weap in bank
-			for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
-				if ( weapBanks[bank][i] ) {
-					return weapBanks[bank][i];
-				}
-			}
+        if ( sameBankPosition && weapBanks[bank][cycle] ) {
+                return weapBanks[bank][cycle];
+        } else
+        {   // find highest weap in bank
+                for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
+                        if ( weapBanks[bank][i] ) {
+                                return weapBanks[bank][i];
+                        }
+                }
 
-			// if it gets to here, no valid weaps in this bank, go down another bank
-			return getPrevBankWeap( bank, cycle, sameBankPosition );
-		}
-	}
-// JPW NERVE
-	else {
-		if ( sameBankPosition && weapBanks[bank][cycle] ) {
-			return weapBanks[bank][cycle];
-		} else
-		{   // find highest weap in bank
-			for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
-				if ( weapBanks[bank][i] ) {
-					return weapBanks[bank][i];
-				}
-			}
-
-			// if it gets to here, no valid weaps in this bank, go down another bank
-			return getPrevBankWeap( bank, cycle, sameBankPosition );
-		}
-	}
-// jpw
+                // if it gets to here, no valid weaps in this bank, go down another bank
+                return getPrevBankWeap( bank, cycle, sameBankPosition );
+        }
 }
 
 /*
@@ -4354,14 +4164,9 @@ void CG_WeaponBank_f( void ) {
 	CG_WeaponIndex( curweap, &curbank, &curcycle );       // get bank/cycle of current weapon
 
 	if ( !cg.lastWeapSelInBank[bank] ) {
-		if ( cg_gameType.integer != GT_WOLF ) { // JPW NERVE
+		if ( cg_gameType.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
 			num = weapBanks[bank][0];
 		}
-// JPW NERVE
-		else {
-			num = weapBanks[bank][0];
-		}
-// jpw
 		cycle -= 1;   // cycle up to first weap
 	} else {
 		num = cg.lastWeapSelInBank[bank];
@@ -4407,16 +4212,6 @@ void CG_Weapon_f( void ) {
 	}
 
 	num = atoi( CG_Argv( 1 ) );
-
-// JPW NERVE
-// weapon bind should execute weaponbank instead -- for splitting out class weapons, per Id request
-	if ( cg_gameType.integer == GT_WOLF ) {
-		if ( num < maxWeapBanks ) {
-			CG_WeaponBank_f();
-		}
-		return;
-	}
-// jpw
 
 	cg.weaponSelectTime = cg.time;  // flash the current weapon icon
 
@@ -5149,9 +4944,6 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, in
 		// actually yeah.  meant that.  very rare.
 		if ( cg_gameType.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
 			r = rand() & 31;
-		} else {
-			r = ( rand() & 3 ) + 1; // JPW NERVE increased spark frequency so players can tell where rounds are coming from in MP
-
 		}
 		if ( r == 3 ) {
 			sfx = cgs.media.sfx_ric1;
@@ -5410,33 +5202,6 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 						  1400,             // duration
 						  7 + rand() % 2 ); // count
 		}
-// JPW NERVE
-		else {
-			for ( i = 0; i < 5; i++ ) {
-				for ( j = 0; j < 2; j++ )
-					sprOrg[j] = origin[j] + 96 * crandom();
-				sprOrg[2] = origin[2] + 32 * random();
-				sprVel[2] += rand() % 75;
-				CG_ParticleExplosion( "blacksmokeanimb", sprOrg, sprVel,
-									  3500 + rand() % 250,      // duration
-									  10,                       // startsize
-									  250 + rand() % 400 );     // endsize
-			}
-
-			VectorMA( origin, 16, dir, sprOrg );
-			VectorScale( dir, 100, sprVel );
-
-			// trying this one just for now just for variety
-			CG_ParticleExplosion( "explode1", sprOrg, sprVel,
-								  1200,         // duration
-								  9,            // startsize
-								  250 + rand() % 400 );     // endsize
-
-			CG_AddDebris( origin, dir,
-						  400 + random() * 300,         // speed
-						  1400,             // duration
-						  7 + rand() % 12 );    // count
-		}
 // jpw
 		break;
 
@@ -5547,25 +5312,6 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 						  // 15 + rand()%5 );	// count
 						  7 + rand() % 2 ); // count
 		}
-// JPW NERVE -- multiplayer explosions over the top due to large damage radiusesesizes
-		else {
-			CG_ParticleExplosion( "explode1", sprOrg, sprVel, 1600, 20, 200 + random() * 400 );
-
-			// NOTE: these must all have the same duration, so that we are less likely to use a wider range of images per scene
-			r = 2 + rand() % 3;
-			for ( i = 0; i < 4; i++ ) {
-				for ( j = 0; j < 3; j++ ) sprOrg[j] = origin[j] + 160 * crandom();
-				CG_ParticleExplosion( "explode1", sprOrg, sprVel, 1600, 40, 260 + rand() % 120 );
-			}
-
-			CG_AddDebris( origin, dir,
-						  400 + random() * 200, // speed
-						  rand() % 2000 + 1000, //350,	// duration
-						  // 15 + rand()%5 );	// count
-						  5 + rand() % 5 ); // count
-
-		}
-// jpw
 /*
 		// some sparks
 		CG_AddSparks( origin, dir,
@@ -6259,17 +6005,6 @@ void CG_ClientDamage( int entnum, int enemynum, int id ) {
 		CG_Error( "CG_ClientDamage: unknown damage type: %i\n", id );
 	}
 
-	// NERVE - SMF - clientDamage commands are now sent through usercmds for multiplayer
-	if ( cgs.gametype == GT_WOLF ) {
-		if ( entnum == cg.snap->ps.clientNum ) {
-			// NOTE: MAX_CLIENTS currently only needs 7 bits, the rest is for id tag
-			cg.cld = id << 7;
-			cg.cld |= enemynum;
-		}
-	}
-	// -NERVE - SMF
-	else {
-		trap_SendClientCommand( va( "cld %i %i %i", entnum, enemynum, id ) );
-	}
+	trap_SendClientCommand( va( "cld %i %i %i", entnum, enemynum, id ) );
 }
 

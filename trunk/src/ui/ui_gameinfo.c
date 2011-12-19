@@ -184,31 +184,13 @@ void UI_LoadArenas( void ) {
 		uiInfo.mapList[uiInfo.mapCount].typeBits = 0;
 
 		type = Info_ValueForKey( ui_arenaInfos[n], "type" );
+			
+                // fretn removed all the gametypes
+                uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
 		// if no type specified, it will be treated as "ffa"
-		if ( *type ) {
-			if ( strstr( type, "ffa" ) ) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_FFA );
-			}
-			if ( strstr( type, "tourney" ) ) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_TOURNAMENT );
-			}
-			if ( strstr( type, "ctf" ) ) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_CTF );
-			}
-#ifdef MISSIONPACK
-			if ( strstr( type, "oneflag" ) ) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_1FCTF );
-			}
-			if ( strstr( type, "overload" ) ) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_OBELISK );
-			}
-			if ( strstr( type, "harvester" ) ) {
-				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_HARVESTER );
-			}
-#endif  // #ifdef MISSIONPACK
-		} else {
-			uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_FFA );
-		}
+		//if ( *type ) {
+	        //		uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
+		//}
 
 		uiInfo.mapCount++;
 		if ( uiInfo.mapCount >= MAX_MAPS ) {

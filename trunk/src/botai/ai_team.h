@@ -35,6 +35,4 @@ If you have questions concerning this license or the applicable additional terms
  *
  *****************************************************************************/
 
-void BotTeamAI( bot_state_t *bs );
-
 

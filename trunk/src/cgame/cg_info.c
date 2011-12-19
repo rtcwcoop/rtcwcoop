@@ -76,7 +76,7 @@ CG_LoadingString
 ======================
 */
 void CG_LoadingString( const char *s ) {
-	Q_strncpyz( cg.infoScreenText, s, sizeof( cg.infoScreenText ) );
+	Q_strncpyz( (char *)cg.infoScreenText, s, sizeof( cg.infoScreenText ) );
 
 	if ( s && s[0] != 0 ) {
 		CG_Printf( va( "LOADING... %s\n",s ) );   //----(SA)	added so you can see from the console what's going on
@@ -529,22 +529,6 @@ void CG_DrawInformation( void ) {
 
 	// Ridah, in single player, cheats disabled, don't show unnecessary information
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
-
-		if ( 0 ) { // bar drawn in menu now
-			vec2_t xy = { 200, 468 };
-			vec2_t wh = { 240, 10 };
-
-			// show the percent complete bar
-			if ( expectedHunk > 0 ) {
-				percentDone = (float)( cg_hunkUsed.integer + cg_soundAdjust.integer ) / (float)( expectedHunk );
-				if ( percentDone > 0.97 ) {
-					percentDone = 0.97;
-				}
-
-				CG_HorizontalPercentBar( xy[0], xy[1], wh[0], wh[1], percentDone );
-			}
-		}
-
 		trap_UI_Popup( "briefing" );
 
 		trap_UpdateScreen();
@@ -610,26 +594,9 @@ void CG_DrawInformation( void ) {
 
 	// game type
 	switch ( cgs.gametype ) {
-	case GT_FFA:
-		s = "Free For All";
-		break;
 	case GT_SINGLE_PLAYER:
 		s = "Single Player";
 		break;
-	case GT_TOURNAMENT:
-		s = "Tournament";
-		break;
-	case GT_TEAM:
-		s = "Team Deathmatch";
-		break;
-	case GT_CTF:
-		s = "Capture The Flag";
-		break;
-// JPW NERVE
-	case GT_WOLF:
-		s = "Wolfenstein Multiplayer";
-		break;
-// jpw
 	default:
 		s = "Unknown Gametype";
 		break;
@@ -645,19 +612,10 @@ void CG_DrawInformation( void ) {
 		y += PROP_HEIGHT;
 	}
 
-	if ( cgs.gametype != GT_CTF && cgs.gametype != GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype != GT_SINGLE_PLAYER ) {
 		value = atoi( Info_ValueForKey( info, "fraglimit" ) );
 		if ( value ) {
 			UI_DrawProportionalString( 320, y, va( "fraglimit %i", value ),
-									   UI_CENTER | UI_SMALLFONT | UI_DROPSHADOW, colorWhite );
-			y += PROP_HEIGHT;
-		}
-	}
-
-	if ( cgs.gametype == GT_CTF ) {
-		value = atoi( Info_ValueForKey( info, "capturelimit" ) );
-		if ( value ) {
-			UI_DrawProportionalString( 320, y, va( "capturelimit %i", value ),
 									   UI_CENTER | UI_SMALLFONT | UI_DROPSHADOW, colorWhite );
 			y += PROP_HEIGHT;
 		}

@@ -798,7 +798,7 @@ BotMatch_GetFlag
 */
 void BotMatch_GetFlag( bot_state_t *bs, bot_match_t *match ) {
 	//if not in CTF mode
-	if ( gametype != GT_CTF || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
+	if ( gametype == GT_SINGLE_PLAYER || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
 		return;
 	}
 	//if not addressed to this bot
@@ -823,7 +823,7 @@ BotMatch_RushBase
 */
 void BotMatch_RushBase( bot_state_t *bs, bot_match_t *match ) {
 	//if not in CTF mode
-	if ( gametype != GT_CTF || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
+	if ( gametype == GT_SINGLE_PLAYER || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
 		return;
 	}
 	//if not addressed to this bot
@@ -850,7 +850,7 @@ BotMatch_ReturnFlag
 */
 void BotMatch_ReturnFlag( bot_state_t *bs, bot_match_t *match ) {
 	//if not in CTF mode
-	if ( gametype != GT_CTF ) {
+	if ( gametype == GT_SINGLE_PLAYER ) {
 		return;
 	}
 	//if not addressed to this bot
@@ -1269,7 +1269,7 @@ BotMatch_WhereAreYou
 */
 void BotMatch_WhereAreYou( bot_state_t *bs, bot_match_t *match ) {
 	float dist, bestdist;
-	int i, bestitem, redflagtt, blueflagtt, redtobluett;
+	int i, bestitem;
 	bot_goal_t goal;
 	char *nearbyitems[] = {
 		"Shotgun",
@@ -1310,20 +1310,7 @@ void BotMatch_WhereAreYou( bot_state_t *bs, bot_match_t *match ) {
 		}
 	}
 	if ( bestitem != -1 ) {
-		if ( gametype == GT_CTF ) {
-			redflagtt = trap_AAS_AreaTravelTimeToGoalArea( bs->areanum, bs->origin, ctf_redflag.areanum, TFL_DEFAULT );
-			blueflagtt = trap_AAS_AreaTravelTimeToGoalArea( bs->areanum, bs->origin, ctf_blueflag.areanum, TFL_DEFAULT );
-			redtobluett = trap_AAS_AreaTravelTimeToGoalArea( ctf_redflag.areanum, ctf_redflag.origin, ctf_blueflag.areanum, TFL_DEFAULT );
-			if ( redflagtt < ( redflagtt + blueflagtt ) * 0.4 ) {
-				BotAI_BotInitialChat( bs, "ctflocation", nearbyitems[bestitem], "red", NULL );
-			} else if ( blueflagtt < ( redflagtt + blueflagtt ) * 0.4 )       {
-				BotAI_BotInitialChat( bs, "ctflocation", nearbyitems[bestitem], "blue", NULL );
-			} else {
-				BotAI_BotInitialChat( bs, "location", nearbyitems[bestitem], NULL );
-			}
-		} else {
-			BotAI_BotInitialChat( bs, "location", nearbyitems[bestitem], NULL );
-		}
+                BotAI_BotInitialChat( bs, "location", nearbyitems[bestitem], NULL );
 		trap_BotEnterChat( bs->cs, bs->client, CHAT_TEAM );
 	}
 }

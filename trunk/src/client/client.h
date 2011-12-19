@@ -491,6 +491,7 @@ void CL_VerifyCode( void );
 
 float CL_KeyState( kbutton_t *key );
 char *Key_KeynumToString( int keynum, qboolean bTranslate );
+int Key_StringToKeynum( char *str );
 
 //
 // cl_parse.c

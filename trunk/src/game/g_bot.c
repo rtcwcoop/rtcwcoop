@@ -318,7 +318,6 @@ G_CheckMinimumPlayers
 */
 void G_CheckMinimumPlayers( void ) {
 	int minplayers;
-	int humanplayers, botplayers;
 	static int checkminimumplayers_time;
 
 	//only check once each 10 seconds
@@ -330,58 +329,6 @@ void G_CheckMinimumPlayers( void ) {
 	minplayers = bot_minplayers.integer;
 	if ( minplayers <= 0 ) {
 		return;
-	}
-
-	if ( g_gametype.integer >= GT_TEAM ) {
-		if ( minplayers >= g_maxclients.integer / 2 ) {
-			minplayers = ( g_maxclients.integer / 2 ) - 1;
-		}
-
-		humanplayers = G_CountHumanPlayers( TEAM_RED );
-		botplayers = G_CountBotPlayers( TEAM_RED );
-		//
-		if ( humanplayers + botplayers < minplayers ) {
-			G_AddRandomBot( TEAM_RED );
-		} else if ( humanplayers + botplayers > minplayers && botplayers ) {
-			G_RemoveRandomBot( TEAM_RED );
-		}
-		//
-		humanplayers = G_CountHumanPlayers( TEAM_BLUE );
-		botplayers = G_CountBotPlayers( TEAM_BLUE );
-		//
-		if ( humanplayers + botplayers < minplayers ) {
-			G_AddRandomBot( TEAM_BLUE );
-		} else if ( humanplayers + botplayers > minplayers && botplayers ) {
-			G_RemoveRandomBot( TEAM_BLUE );
-		}
-	} else if ( g_gametype.integer == GT_TOURNAMENT )     {
-		if ( minplayers >= g_maxclients.integer ) {
-			minplayers = g_maxclients.integer - 1;
-		}
-		humanplayers = G_CountHumanPlayers( -1 );
-		botplayers = G_CountBotPlayers( -1 );
-		//
-		if ( humanplayers + botplayers < minplayers ) {
-			G_AddRandomBot( TEAM_FREE );
-		} else if ( humanplayers + botplayers > minplayers && botplayers ) {
-			// try to remove spectators first
-			if ( !G_RemoveRandomBot( TEAM_SPECTATOR ) ) {
-				// just remove the bot that is playing
-				G_RemoveRandomBot( -1 );
-			}
-		}
-	} else if ( g_gametype.integer == GT_FFA )     {
-		if ( minplayers >= g_maxclients.integer ) {
-			minplayers = g_maxclients.integer - 1;
-		}
-		humanplayers = G_CountHumanPlayers( TEAM_FREE );
-		botplayers = G_CountBotPlayers( TEAM_FREE );
-		//
-		if ( humanplayers + botplayers < minplayers ) {
-			G_AddRandomBot( TEAM_FREE );
-		} else if ( humanplayers + botplayers > minplayers && botplayers ) {
-			G_RemoveRandomBot( TEAM_FREE );
-		}
 	}
 }
 
@@ -468,8 +415,6 @@ qboolean G_BotConnect( int clientNum, qboolean restart ) {
 
 	if ( restart && g_gametype.integer == GT_SINGLE_PLAYER ) {
 		g_entities[clientNum].botDelayBegin = qtrue;
-	} else {
-		g_entities[clientNum].botDelayBegin = qfalse;
 	}
 
 	return qtrue;
@@ -555,15 +500,7 @@ static void G_AddBot( const char *name, int skill, const char *team, int delay )
 
 	// initialize the bot settings
 	if ( !team || !*team ) {
-		if ( g_gametype.integer == GT_TEAM || g_gametype.integer == GT_CTF ) {
-			if ( PickTeam( clientNum ) == TEAM_RED ) {
-				team = "red";
-			} else {
-				team = "blue";
-			}
-		} else {
-			team = "red";
-		}
+		team = "red";
 	}
 	Info_SetValueForKey( userinfo, "characterfile", Info_ValueForKey( botinfo, "aifile" ) );
 	Info_SetValueForKey( userinfo, "skill", va( "%i", skill ) );

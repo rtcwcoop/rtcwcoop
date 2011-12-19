@@ -122,67 +122,7 @@ char *UI_Cvar_VariableString( const char *var_name ) {
 }
 
 
-#ifdef MISSIONPACK
-void UI_SetBestScores( postGameInfo_t *newInfo, qboolean postGame ) {
-	trap_Cvar_Set( "ui_scoreAccuracy",     va( "%i%%", newInfo->accuracy ) );
-	trap_Cvar_Set( "ui_scoreImpressives", va( "%i", newInfo->impressives ) );
-	trap_Cvar_Set( "ui_scoreExcellents",  va( "%i", newInfo->excellents ) );
-	trap_Cvar_Set( "ui_scoreDefends",             va( "%i", newInfo->defends ) );
-	trap_Cvar_Set( "ui_scoreAssists",             va( "%i", newInfo->assists ) );
-	trap_Cvar_Set( "ui_scoreGauntlets",       va( "%i", newInfo->gauntlets ) );
-	trap_Cvar_Set( "ui_scoreScore",               va( "%i", newInfo->score ) );
-	trap_Cvar_Set( "ui_scorePerfect",         va( "%i", newInfo->perfects ) );
-	trap_Cvar_Set( "ui_scoreTeam",                    va( "%i to %i", newInfo->redScore, newInfo->blueScore ) );
-	trap_Cvar_Set( "ui_scoreBase",                    va( "%i", newInfo->baseScore ) );
-	trap_Cvar_Set( "ui_scoreTimeBonus",       va( "%i", newInfo->timeBonus ) );
-	trap_Cvar_Set( "ui_scoreSkillBonus",      va( "%i", newInfo->skillBonus ) );
-	trap_Cvar_Set( "ui_scoreShutoutBonus",    va( "%i", newInfo->shutoutBonus ) );
-	trap_Cvar_Set( "ui_scoreTime",                    va( "%02i:%02i", newInfo->time / 60, newInfo->time % 60 ) );
-	trap_Cvar_Set( "ui_scoreCaptures",        va( "%i", newInfo->captures ) );
-	if ( postGame ) {
-		trap_Cvar_Set( "ui_scoreAccuracy2",     va( "%i%%", newInfo->accuracy ) );
-		trap_Cvar_Set( "ui_scoreImpressives2",    va( "%i", newInfo->impressives ) );
-		trap_Cvar_Set( "ui_scoreExcellents2",     va( "%i", newInfo->excellents ) );
-		trap_Cvar_Set( "ui_scoreDefends2",            va( "%i", newInfo->defends ) );
-		trap_Cvar_Set( "ui_scoreAssists2",            va( "%i", newInfo->assists ) );
-		trap_Cvar_Set( "ui_scoreGauntlets2",      va( "%i", newInfo->gauntlets ) );
-		trap_Cvar_Set( "ui_scoreScore2",              va( "%i", newInfo->score ) );
-		trap_Cvar_Set( "ui_scorePerfect2",            va( "%i", newInfo->perfects ) );
-		trap_Cvar_Set( "ui_scoreTeam2",                   va( "%i to %i", newInfo->redScore, newInfo->blueScore ) );
-		trap_Cvar_Set( "ui_scoreBase2",                   va( "%i", newInfo->baseScore ) );
-		trap_Cvar_Set( "ui_scoreTimeBonus2",      va( "%i", newInfo->timeBonus ) );
-		trap_Cvar_Set( "ui_scoreSkillBonus2",     va( "%i", newInfo->skillBonus ) );
-		trap_Cvar_Set( "ui_scoreShutoutBonus2",   va( "%i", newInfo->shutoutBonus ) );
-		trap_Cvar_Set( "ui_scoreTime2",                   va( "%02i:%02i", newInfo->time / 60, newInfo->time % 60 ) );
-		trap_Cvar_Set( "ui_scoreCaptures2",       va( "%i", newInfo->captures ) );
-	}
-}
-#endif  // #ifdef MISSIONPACK
-
 void UI_LoadBestScores( const char *map, int game ) {
-#ifdef MISSIONPACK
-	char fileName[MAX_QPATH];
-	fileHandle_t f;
-	postGameInfo_t newInfo;
-	memset( &newInfo, 0, sizeof( postGameInfo_t ) );
-	Com_sprintf( fileName, MAX_QPATH, "games/%s_%i.game", map, game );
-	if ( trap_FS_FOpenFile( fileName, &f, FS_READ ) >= 0 ) {
-		int size = 0;
-		trap_FS_Read( &size, sizeof( int ), f );
-		if ( size == sizeof( postGameInfo_t ) ) {
-			trap_FS_Read( &newInfo, sizeof( postGameInfo_t ), f );
-		}
-		trap_FS_FCloseFile( f );
-	}
-	UI_SetBestScores( &newInfo, qfalse );
-
-	Com_sprintf( fileName, MAX_QPATH, "demos/%s_%d.dm_%d", map, game, (int)trap_Cvar_VariableValue( "protocol" ) );
-	uiInfo.demoAvailable = qfalse;
-	if ( trap_FS_FOpenFile( fileName, &f, FS_READ ) >= 0 ) {
-		uiInfo.demoAvailable = qtrue;
-		trap_FS_FCloseFile( f );
-	}
-#endif  // #ifdef MISSIONPACK
 }
 
 /*
@@ -191,33 +131,6 @@ UI_ClearScores
 ===============
 */
 void UI_ClearScores() {
-#ifdef MISSIONPACK
-	char gameList[4096];
-	char *gameFile;
-	int i, len, count, size;
-	fileHandle_t f;
-	postGameInfo_t newInfo;
-
-	count = trap_FS_GetFileList( "games", "game", gameList, sizeof( gameList ) );
-
-	size = sizeof( postGameInfo_t );
-	memset( &newInfo, 0, size );
-
-	if ( count > 0 ) {
-		gameFile = gameList;
-		for ( i = 0; i < count; i++ ) {
-			len = strlen( gameFile );
-			if ( trap_FS_FOpenFile( va( "games/%s",gameFile ), &f, FS_WRITE ) >= 0 ) {
-				trap_FS_Write( &size, sizeof( int ), f );
-				trap_FS_Write( &newInfo, size, f );
-				trap_FS_FCloseFile( f );
-			}
-			gameFile += len + 1;
-		}
-	}
-
-	UI_SetBestScores( &newInfo, qfalse );
-#endif  // #ifdef MISSIONPACK
 
 }
 
@@ -233,100 +146,6 @@ UI_CalcPostGameStats
 =======================
 */
 static void UI_CalcPostGameStats() {
-#ifdef MISSIONPACK
-	char map[MAX_QPATH];
-	char fileName[MAX_QPATH];
-	char info[MAX_INFO_STRING];
-	fileHandle_t f;
-	int size, game, time, adjustedTime;
-	postGameInfo_t oldInfo;
-	postGameInfo_t newInfo;
-	qboolean newHigh = qfalse;
-
-	trap_GetConfigString( CS_SERVERINFO, info, sizeof( info ) );
-	Q_strncpyz( map, Info_ValueForKey( info, "mapname" ), sizeof( map ) );
-	game = atoi( Info_ValueForKey( info, "g_gametype" ) );
-
-	// compose file name
-	Com_sprintf( fileName, MAX_QPATH, "games/%s_%i.game", map, game );
-	// see if we have one already
-	memset( &oldInfo, 0, sizeof( postGameInfo_t ) );
-	if ( trap_FS_FOpenFile( fileName, &f, FS_READ ) >= 0 ) {
-		// if so load it
-		size = 0;
-		trap_FS_Read( &size, sizeof( int ), f );
-		if ( size == sizeof( postGameInfo_t ) ) {
-			trap_FS_Read( &oldInfo, sizeof( postGameInfo_t ), f );
-		}
-		trap_FS_FCloseFile( f );
-	}
-
-	newInfo.accuracy = atoi( UI_Argv( 3 ) );
-	newInfo.impressives = atoi( UI_Argv( 4 ) );
-	newInfo.excellents = atoi( UI_Argv( 5 ) );
-	newInfo.defends = atoi( UI_Argv( 6 ) );
-	newInfo.assists = atoi( UI_Argv( 7 ) );
-	newInfo.gauntlets = atoi( UI_Argv( 8 ) );
-	newInfo.baseScore = atoi( UI_Argv( 9 ) );
-	newInfo.perfects = atoi( UI_Argv( 10 ) );
-	newInfo.redScore = atoi( UI_Argv( 11 ) );
-	newInfo.blueScore = atoi( UI_Argv( 12 ) );
-	time = atoi( UI_Argv( 13 ) );
-	newInfo.captures = atoi( UI_Argv( 14 ) );
-
-	newInfo.time = ( time - trap_Cvar_VariableValue( "ui_matchStartTime" ) ) / 1000;
-	adjustedTime = uiInfo.mapList[ui_currentMap.integer].timeToBeat[game];
-	if ( newInfo.time < adjustedTime ) {
-		newInfo.timeBonus = ( adjustedTime - newInfo.time ) * 10;
-	} else {
-		newInfo.timeBonus = 0;
-	}
-
-	if ( newInfo.redScore > newInfo.blueScore && newInfo.blueScore <= 0 ) {
-		newInfo.shutoutBonus = 100;
-	} else {
-		newInfo.shutoutBonus = 0;
-	}
-
-	newInfo.skillBonus = trap_Cvar_VariableValue( "g_spSkill" );
-	if ( newInfo.skillBonus <= 0 ) {
-		newInfo.skillBonus = 1;
-	}
-	newInfo.score = newInfo.baseScore + newInfo.shutoutBonus + newInfo.timeBonus;
-	newInfo.score *= newInfo.skillBonus;
-
-	// see if the score is higher for this one
-	newHigh = ( newInfo.redScore > newInfo.blueScore && newInfo.score > oldInfo.score );
-
-	if  ( newHigh ) {
-		// if so write out the new one
-		uiInfo.newHighScoreTime = uiInfo.uiDC.realTime + 20000;
-		if ( trap_FS_FOpenFile( fileName, &f, FS_WRITE ) >= 0 ) {
-			size = sizeof( postGameInfo_t );
-			trap_FS_Write( &size, sizeof( int ), f );
-			trap_FS_Write( &newInfo, sizeof( postGameInfo_t ), f );
-			trap_FS_FCloseFile( f );
-		}
-	}
-
-	if ( newInfo.time < oldInfo.time ) {
-		uiInfo.newBestTime = uiInfo.uiDC.realTime + 20000;
-	}
-
-	// put back all the ui overrides
-	trap_Cvar_Set( "capturelimit", UI_Cvar_VariableString( "ui_saveCaptureLimit" ) );
-	trap_Cvar_Set( "fraglimit", UI_Cvar_VariableString( "ui_saveFragLimit" ) );
-	trap_Cvar_Set( "cg_drawTimer", UI_Cvar_VariableString( "ui_drawTimer" ) );
-	trap_Cvar_Set( "g_doWarmup", UI_Cvar_VariableString( "ui_doWarmup" ) );
-	trap_Cvar_Set( "g_Warmup", UI_Cvar_VariableString( "ui_Warmup" ) );
-	trap_Cvar_Set( "sv_pure", UI_Cvar_VariableString( "ui_pure" ) );
-	trap_Cvar_Set( "g_friendlyFire", UI_Cvar_VariableString( "ui_friendlyFire" ) );
-
-	UI_SetBestScores( &newInfo, qtrue );
-	UI_ShowPostGame( newHigh );
-
-#endif  // #ifdef MISSIONPACK
-
 }
 
 

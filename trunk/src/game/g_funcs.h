@@ -993,7 +993,6 @@ If you have questions concerning this license or the applicable additional terms
 {"CheckCvars", (byte *)CheckCvars},
 {"CheckReloadStatus", (byte *)CheckReloadStatus},
 {"CheckVote", (byte *)CheckVote},
-{"CheckTournement", (byte *)CheckTournement},
 {"CheckExitRules", (byte *)CheckExitRules},
 {"ScoreIsTied", (byte *)ScoreIsTied},
 {"CheckIntermissionExit", (byte *)CheckIntermissionExit},

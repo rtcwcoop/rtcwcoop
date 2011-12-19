@@ -1348,12 +1348,6 @@ int AINode_Seek_LTG( bot_state_t *bs ) {
 			return qfalse;
 		}
 	}
-#ifdef CTF
-	if ( gametype == GT_CTF ) {
-		//decide what to do in CTF mode
-		BotCTFSeekGoals( bs );
-	}
-#endif //CTF
 	   //get the current long term goal
 	if ( !BotLongTermGoal( bs, bs->tfl, qfalse, &goal ) ) {
 		return qtrue;
@@ -1828,11 +1822,6 @@ int AINode_Battle_Retreat( bot_state_t *bs ) {
 		}
 	}
 	//
-#ifdef CTF
-	if ( gametype == GT_CTF ) {
-		BotCTFRetreatGoals( bs );
-	}
-#endif //CTF
 	   //use holdable items
 	BotBattleUseItems( bs );
 	//get the current long term goal while retreating
@@ -1843,12 +1832,6 @@ int AINode_Battle_Retreat( bot_state_t *bs ) {
 	if ( bs->check_time < trap_AAS_Time() ) {
 		bs->check_time = trap_AAS_Time() + 1;
 		range = 150;
-#ifdef CTF
-		//if carrying a flag the bot shouldn't be distracted too much
-		if ( BotCTFCarryingFlag( bs ) ) {
-			range = 100;
-		}
-#endif //CTF
 	   //
 		if ( BotNearbyGoal( bs, bs->tfl, &goal, range ) ) {
 			trap_BotResetLastAvoidReach( bs->ms );

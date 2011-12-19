@@ -128,13 +128,13 @@ char *Sys_StripAppBundle( char *dir )
 	static char cwd[MAX_OSPATH];
 
 	Q_strncpyz(cwd, dir, sizeof(cwd));
-	if(strcmp(Sys_Basename(cwd), "MacOS"))
+	if(strcmp((char *)Sys_Basename(cwd), "MacOS"))
 		return dir;
 	Q_strncpyz(cwd, Sys_Dirname(cwd), sizeof(cwd));
-	if(strcmp(Sys_Basename(cwd), "Contents"))
+	if(strcmp((char *)Sys_Basename(cwd), "Contents"))
 		return dir;
 	Q_strncpyz(cwd, Sys_Dirname(cwd), sizeof(cwd));
-	if(!strstr(Sys_Basename(cwd), ".app"))
+	if(!strstr((char *)Sys_Basename(cwd), ".app"))
 		return dir;
 	Q_strncpyz(cwd, Sys_Dirname(cwd), sizeof(cwd));
 	return cwd;

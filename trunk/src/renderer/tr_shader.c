@@ -983,7 +983,7 @@ static qboolean ParseStage( shaderStage_t *stage, char **text ) {
 	}
 
 	// decide which agens we can skip
-	if ( stage->alphaGen == CGEN_IDENTITY ) {
+	if ( stage->alphaGen == (alphaGen_t)CGEN_IDENTITY ) {
 		if ( stage->rgbGen == CGEN_IDENTITY
 			 || stage->rgbGen == CGEN_LIGHTING_DIFFUSE ) {
 			stage->alphaGen = AGEN_SKIP;
@@ -1895,7 +1895,7 @@ static qboolean CollapseMultitexture( void ) {
 			return qfalse;
 		}
 	}
-	if ( stages[0].alphaGen == CGEN_WAVEFORM ) {
+	if ( stages[0].alphaGen == (alphaGen_t) CGEN_WAVEFORM ) {
 		if ( memcmp( &stages[0].alphaWave,
 					 &stages[1].alphaWave,
 					 sizeof( stages[0].alphaWave ) ) ) {

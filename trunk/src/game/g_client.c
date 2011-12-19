@@ -386,28 +386,6 @@ void CopyToBodyQue( gentity_t *ent ) {
 		body->s.events[i] = 0;
 	body->s.eventSequence = 0;
 
-	// DHM - Nerve
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-		// change the animation to the last-frame only, so the sequence
-		// doesn't repeat anew for the body
-		switch ( body->s.legsAnim & ~ANIM_TOGGLEBIT ) {
-		case BOTH_DEATH1:
-		case BOTH_DEAD1:
-			body->s.torsoAnim = body->s.legsAnim = BOTH_DEAD1;
-			break;
-		case BOTH_DEATH2:
-		case BOTH_DEAD2:
-			body->s.torsoAnim = body->s.legsAnim = BOTH_DEAD2;
-			break;
-		case BOTH_DEATH3:
-		case BOTH_DEAD3:
-		default:
-			body->s.torsoAnim = body->s.legsAnim = BOTH_DEAD3;
-			break;
-		}
-	}
-	// dhm
-
 	body->r.svFlags = ent->r.svFlags;
 	VectorCopy( ent->r.mins, body->r.mins );
 	VectorCopy( ent->r.maxs, body->r.maxs );
@@ -699,9 +677,9 @@ void respawn( gentity_t *ent ) {
 	ent->client->ps.pm_flags &= ~PMF_LIMBO; // JPW NERVE turns off limbo
 
 	// DHM - Nerve :: Already handled in 'limbo()'
-	if ( g_gametype.integer != GT_WOLF ) {
-		CopyToBodyQue( ent );
-	}
+	//if ( g_gametype.integer != GT_WOLF ) {
+		//CopyToBodyQue( ent );
+	//}
 
 	ClientSpawn( ent );
 
@@ -1425,21 +1403,6 @@ void ClientUserinfoChanged( int clientNum ) {
 	client->ps.legsAnim = 0;
 	client->ps.torsoAnim = 0;
 
-	// DHM - Nerve :: Forcibly set both model and skin for multiplayer.
-        //fretn
-	if ( g_gametype.integer == GT_WOLF ) {
-
-		// To communicate it to cgame
-		client->ps.stats[ STAT_PLAYER_CLASS ] = client->sess.playerType;
-
-		Q_strncpyz( model, MULTIPLAYER_MODEL, MAX_QPATH );
-		Q_strcat( model, MAX_QPATH, "/" );
-
-		SetWolfSkin( client, model );
-
-		Q_strncpyz( head, "", MAX_QPATH );
-		SetWolfSkin( client, head );
-	}
 
         if ( g_coop.integer &&  !(ent->r.svFlags & SVF_CASTAI))
         {
@@ -1466,9 +1429,6 @@ void ClientUserinfoChanged( int clientNum ) {
 		}
 	}
 
-	// team`
-	// DHM - Nerve :: Already took care of models and skins above
-	if ( g_gametype.integer != GT_WOLF ) {
 
 //----(SA) added this for head separation
 		// set head
@@ -1490,13 +1450,6 @@ void ClientUserinfoChanged( int clientNum ) {
 		default:
 			break;
 		}
-		if ( g_gametype.integer >= GT_TEAM && client->sess.sessionTeam == TEAM_SPECTATOR ) {
-			// don't ever use a default skin in teamplay, it would just waste memory
-			ForceClientSkin( client, model, "red" );
-		}
-
-	}
-	//dhm - end
 
 
 	// colors
@@ -1595,7 +1548,7 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	// don't do the "xxx connected" messages if they were caried over from previous level
 	if ( firstTime ) {
 		// Ridah
-		if ( !ent->r.svFlags & SVF_CASTAI ) {
+		if ( !(ent->r.svFlags & SVF_CASTAI) && g_coop.integer ) {
 			// done.
 			trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " connected\n\"", client->pers.netname ) );
 		}
@@ -1665,8 +1618,7 @@ void ClientBegin( int clientNum ) {
 	ClientSpawn( ent );
 
 	// Ridah, trigger a spawn event
-	// DHM - Nerve :: Only in single player
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && !( ent->r.svFlags & SVF_CASTAI ) ) {
+	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
 		AICast_ScriptEvent( AICast_GetCastState( clientNum ), "spawn", "" );
 	}
 
@@ -1675,13 +1627,11 @@ void ClientBegin( int clientNum ) {
 		tent = G_TempEntity( ent->client->ps.origin, EV_PLAYER_TELEPORT_IN );
 		tent->s.clientNum = ent->s.clientNum;
 
-		if ( g_gametype.integer != GT_TOURNAMENT ) {
-			// Ridah
-			if ( !ent->r.svFlags & SVF_CASTAI ) {
-				// done.
-				trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
-			}
-		}
+                // Ridah
+                if ( !(ent->r.svFlags & SVF_CASTAI) ) {
+                        // done.
+                        trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
+                }
 	}
 	G_LogPrintf( "ClientBegin: %i\n", clientNum );
 
@@ -1734,11 +1684,6 @@ void ClientSpawn( gentity_t *ent ) {
 		// done.
 		if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
 			spawnPoint = SelectSpectatorSpawnPoint(
-				spawn_origin, spawn_angles );
-		} else if ( g_gametype.integer >= GT_TEAM ) {
-			spawnPoint = SelectCTFSpawnPoint(
-				client->sess.sessionTeam,
-				client->pers.teamState.state,
 				spawn_origin, spawn_angles );
 		} else {
 			do {
@@ -2056,13 +2001,6 @@ void ClientDisconnect( int clientNum ) {
 		// Ridah
 	}
 	// done.
-
-	// if we are playing in tourney mode and losing, give a win to the other player
-	if ( g_gametype.integer == GT_TOURNAMENT && !level.intermissiontime
-		 && !level.warmupTime && level.sortedClients[1] == clientNum ) {
-		level.clients[ level.sortedClients[0] ].sess.wins++;
-		ClientUserinfoChanged( level.sortedClients[0] );
-	}
 
 	trap_UnlinkEntity( ent );
 	ent->s.modelindex = 0;

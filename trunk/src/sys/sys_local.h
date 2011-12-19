@@ -55,5 +55,12 @@ void Sys_SigHandler( int signal );
 void Sys_ErrorDialog( const char *error );
 void Sys_AnsiColorPrint( const char *msg );
 
+void Sys_SetEnv(const char *name, const char *value);
+const char *Sys_Dirname( char *path );
+const char *Sys_TempPath( void );
+char *Sys_ConsoleInput(void);
+qboolean Sys_GetPacket( netadr_t *net_from, msg_t *net_message );
+const char *Sys_Basename( char *path );
+
 int Sys_PID( void );
 qboolean Sys_PIDIsRunning( int pid );

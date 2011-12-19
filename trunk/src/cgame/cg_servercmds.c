@@ -82,9 +82,6 @@ static void CG_ParseScores( void ) {
 
 		cg.scores[i].team = cgs.clientinfo[cg.scores[i].client].team;
 	}
-#ifdef MISSIONPACK
-	CG_SetScoreSelection( NULL );
-#endif
 
 }
 
@@ -332,23 +329,10 @@ Called on load to set the initial values from configure strings
 ================
 */
 void CG_SetConfigValues( void ) {
-#ifdef MISSIONPACK
-	const char *s;
-#endif
 
 	cgs.scores1 = atoi( CG_ConfigString( CS_SCORES1 ) );
 	cgs.scores2 = atoi( CG_ConfigString( CS_SCORES2 ) );
 	cgs.levelStartTime = atoi( CG_ConfigString( CS_LEVEL_START_TIME ) );
-#ifdef MISSIONPACK
-	if ( cgs.gametype == GT_CTF ) {
-		s = CG_ConfigString( CS_FLAGSTATUS );
-		cgs.redflag = s[0] - '0';
-		cgs.blueflag = s[1] - '0';
-	} else if ( cgs.gametype == GT_1FCTF )    {
-		s = CG_ConfigString( CS_FLAGSTATUS );
-		cgs.flagStatus = s[0] - '0';
-	}
-#endif
 	cg.warmup = atoi( CG_ConfigString( CS_WARMUP ) );
 }
 
@@ -756,19 +740,6 @@ static void CG_MapRestart( void ) {
 	memset( cg.cameraShakeAngles, 0, sizeof( cg.cameraShakeAngles ) );
 	cg.rumbleScale = 0;
 
-	// play the "fight" sound if this is a restart without warmup
-//	if ( cg.warmup == 0 /* && cgs.gametype == GT_TOURNAMENT */) {
-//		trap_S_StartLocalSound( cgs.media.countFightSound, CHAN_ANNOUNCER );
-//		CG_CenterPrint( "FIGHT!", 120, GIANTCHAR_WIDTH*2 );
-//	}
-#ifdef MISSIONPACK
-	if ( cg_singlePlayerActive.integer ) {
-		trap_Cvar_Set( "ui_matchStartTime", va( "%i", cg.time ) );
-		if ( cg_recordSPDemo.integer && cg_recordSPDemoName.string && *cg_recordSPDemoName.string ) {
-			trap_SendConsoleCommand( va( "set g_synchronousclients 1 ; record %s \n", cg_recordSPDemoName.string ) );
-		}
-	}
-#endif
 	trap_Cvar_Set( "cg_thirdPerson", "0" );
 }
 
@@ -864,15 +835,6 @@ static void CG_ServerCommand( void ) {
 
 	if ( !strcmp( cmd, "print" ) ) {
 		CG_Printf( "%s", CG_Argv( 1 ) );
-#ifdef MISSIONPACK
-		cmd = CG_Argv( 1 );           // yes, this is obviously a hack, but so is the way we hear about
-									  // votes passing or failing
-		if ( !Q_stricmpn( cmd, "vote failed", 11 ) || !Q_stricmpn( cmd, "team vote failed", 16 ) ) {
-			trap_S_StartLocalSound( cgs.media.voteFailed, CHAN_ANNOUNCER );
-		} else if ( !Q_stricmpn( cmd, "vote passed", 11 ) || !Q_stricmpn( cmd, "team vote passed", 16 ) ) {
-			trap_S_StartLocalSound( cgs.media.votePassed, CHAN_ANNOUNCER );
-		}
-#endif
 		return;
 	}
 
@@ -978,7 +940,7 @@ static void CG_ServerCommand( void ) {
 		int fadeTime = 0;   // default to instant start
 
 		Q_strncpyz( text, CG_Argv( 2 ), MAX_SAY_TEXT );
-		if ( text && strlen( text ) ) {
+		if ( text[0] && strlen( text ) ) {
 			fadeTime = atoi( text );
 		}
 
@@ -990,7 +952,7 @@ static void CG_ServerCommand( void ) {
 		int fadeTime = 0;   // default to instant start
 
 		Q_strncpyz( text, CG_Argv( 2 ), MAX_SAY_TEXT );
-		if ( text && strlen( text ) ) {
+		if ( text[0] && strlen( text ) ) {
 			fadeTime = atoi( text );
 		}
 
@@ -1002,7 +964,7 @@ static void CG_ServerCommand( void ) {
 		int fadeTime = 0;   // default to instant stop
 
 		Q_strncpyz( text, CG_Argv( 1 ), MAX_SAY_TEXT );
-		if ( text && strlen( text ) ) {
+		if ( text[0] && strlen( text ) ) {
 			fadeTime = atoi( text );
 		}
 		trap_S_FadeBackgroundTrack( 0.0f, fadeTime, 0 );

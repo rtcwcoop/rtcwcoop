@@ -1361,12 +1361,7 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 		}
 
 		// fall back
-		if ( cgs.gametype >= GT_TEAM ) {
-			// keep skin name but set default model
-			if ( !CG_RegisterClientModelname( ci, DEFAULT_MODEL, ci->skinName ) ) {
-				CG_Error( "DEFAULT_MODEL / skin (%s/%s) failed to register", DEFAULT_MODEL, ci->skinName );
-			}
-		} else if ( cgs.gametype == GT_SINGLE_PLAYER && !headfail ) {
+		if ( cgs.gametype == GT_SINGLE_PLAYER && !headfail ) {
 			// try to keep the model but default the skin (so you can tell bad guys from good)
 			if ( !CG_RegisterClientModelname( ci, ci->modelName, "default" ) ) {
 				CG_Error( "DEFAULT_MODEL (%s/default) failed to register", ci->modelName );
@@ -1522,29 +1517,6 @@ static void CG_SetDeferredClientInfo( clientInfo_t *ci ) {
 	int i;
 	clientInfo_t    *match;
 
-	// if we are in teamplay, only grab a model if the skin is correct
-	if ( cgs.gametype >= GT_TEAM ) {
-		for ( i = 0 ; i < cgs.maxclients ; i++ ) {
-			match = &cgs.clientinfo[ i ];
-			if ( !match->infoValid ) {
-				continue;
-			}
-			if ( Q_stricmp( ci->skinName, match->skinName ) ) {
-				continue;
-			}
-			ci->deferred = qtrue;
-			CG_CopyClientInfoModel( match, ci );
-			return;
-		}
-
-		// load the full model, because we don't ever want to show
-		// an improper team skin.  This will cause a hitch for the first
-		// player, when the second enters.  Combat shouldn't be going on
-		// yet, so it shouldn't matter
-		CG_LoadClientInfo( ci );
-		return;
-	}
-
 	// find the first valid clientinfo and grab its stuff
 	for ( i = 0 ; i < cgs.maxclients ; i++ ) {
 		match = &cgs.clientinfo[ i ];
@@ -1647,32 +1619,6 @@ void CG_NewClientInfo( int clientNum ) {
 
 	// model
 	v = Info_ValueForKey( configstring, "model" );
-/* RF, disabled this, not needed anymore
-	if ( cg_forceModel.integer ) {
-		// forcemodel makes everyone use a single model
-		// to prevent load hitches
-		char modelStr[MAX_QPATH];
-		char *skin;
-
-		trap_Cvar_VariableStringBuffer( "model", modelStr, sizeof( modelStr ) );
-		if ( ( skin = strchr( modelStr, '/' ) ) == NULL) {
-			skin = "default";
-		} else {
-			*skin++ = 0;
-		}
-
-		Q_strncpyz( newInfo.skinName, skin, sizeof( newInfo.skinName ) );
-		Q_strncpyz( newInfo.modelName, modelStr, sizeof( newInfo.modelName ) );
-
-		if ( cgs.gametype >= GT_TEAM ) {
-			// keep skin name
-			slash = strchr( v, '/' );
-			if ( slash ) {
-				Q_strncpyz( newInfo.skinName, slash + 1, sizeof( newInfo.skinName ) );
-			}
-		}
-	} else {
-*/
 	Q_strncpyz( newInfo.modelName, v, sizeof( newInfo.modelName ) );
 
 	slash = strchr( newInfo.modelName, '/' );
@@ -1709,7 +1655,7 @@ void CG_NewClientInfo( int clientNum ) {
 		if ( forceDefer ) {
 			// keep whatever they had if it won't violate team skins
 			if ( ci->infoValid &&
-				 ( cgs.gametype < GT_TEAM || !Q_stricmp( newInfo.skinName, ci->skinName ) ) ) {
+				 (  !Q_stricmp( newInfo.skinName, ci->skinName ) ) ) {
 				CG_CopyClientInfoModel( ci, &newInfo );
 				newInfo.deferred = qtrue;
 			} else {
@@ -2969,14 +2915,6 @@ static void CG_PlayerSprites( centity_t *cent ) {
 	// DHM - Nerve :: If this client is a medic, draw a 'revive' icon over
 	//					dead players that are not in limbo yet.
 	team = cgs.clientinfo[ cent->currentState.clientNum ].team;
-	if ( cgs.gametype == GT_WOLF && ( cent->currentState.eFlags & EF_DEAD )
-		 && cent->currentState.number == cent->currentState.clientNum
-		 && cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_MEDIC
-		 && cg.snap->ps.persistant[PERS_TEAM] == team ) {
-
-//		CG_PlayerFloatSprite( cent, cgs.media.medicReviveShader, 8 );	//----(SA)	commented out from MP
-		return;
-	}
 
 	// DHM - Nerve :: not using, gives away position if chatting to coordinate attack
 //	if ( cent->currentState.eFlags & EF_TALK ) {
@@ -3001,8 +2939,8 @@ static void CG_PlayerSprites( centity_t *cent ) {
 //		CG_PlayerFloatSprite( cent, cgs.media.medalGauntlet, 48 );
 //		return;
 //	}
-// DHM - Nerve :: Not using friendly sprites in GT_WOLF
-	if ( cgs.gametype != GT_WOLF && cgs.gametype >= GT_TEAM &&
+        // fretn: draw friendly sprites in coop ?
+	if ( cgs.gametype != GT_SINGLE_PLAYER && cg_coop.integer &&
 		 !( cent->currentState.eFlags & EF_DEAD ) &&
 		 cg.snap->ps.persistant[PERS_TEAM] == team ) {
 

@@ -1914,7 +1914,6 @@ const char *CG_GetGameStatusText();
 const char *CG_GetKillerText();
 void CG_Draw3DModel( float x, float y, float w, float h, qhandle_t model, qhandle_t skin, vec3_t origin, vec3_t angles );
 void CG_Text_PaintChar( float x, float y, float width, float height, float scale, float s, float t, float s2, float t2, qhandle_t hShader );
-void CG_CheckOrderPending();
 const char *CG_GameTypeString();
 qboolean CG_YourTeamHasFlag();
 qboolean CG_OtherTeamHasFlag();
@@ -2195,7 +2194,6 @@ const char *CG_translateString( const char *str );
 // cg_scoreboard.c
 //
 qboolean CG_DrawScoreboard( void );
-void CG_DrawTourneyScoreboard( void );
 
 //
 // cg_consolecmds.c

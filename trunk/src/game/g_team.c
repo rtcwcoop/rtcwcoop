@@ -114,7 +114,7 @@ qboolean OnSameTeam( gentity_t *ent1, gentity_t *ent2 ) {
 		return qfalse;
 	}
 
-	if ( g_gametype.integer < GT_TEAM ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		return qfalse;
 	}
 
@@ -514,12 +514,6 @@ int Pickup_Team( gentity_t *ent, gentity_t *other ) {
 		return 0;
 	}
 
-// JPW NERVE -- set flag model in carrying entity if multiplayer and flagmodel is set
-	if ( g_gametype.integer == GT_WOLF ) {
-		other->s.otherEntityNum2 = ent->s.modelindex2;
-	}
-// jpw
-
 	return ( ( team == cl->sess.sessionTeam ) ?
 			 Team_TouchOurFlag : Team_TouchEnemyFlag )
 						( ent, other, team );
@@ -649,11 +643,6 @@ gentity_t *SelectRandomTeamSpawnPoint( int teamstate, team_t team ) {
 	gentity_t   *spots[MAX_TEAM_SPAWN_POINTS];
 	char        *classname;
 	qboolean initialSpawn = qfalse;     // DHM - Nerve
-	int i = 0,j;       // JPW NERVE
-	int closest;         // JPW NERVE
-	float shortest,tmp;       // JPW NERVE
-	vec3_t target;      // JPW NERVE
-	vec3_t farthest;      // JPW NERVE FIXME this is temp
 
 	if ( teamstate == TEAM_BEGIN ) {
 
@@ -684,13 +673,6 @@ gentity_t *SelectRandomTeamSpawnPoint( int teamstate, team_t team ) {
 		if ( SpotWouldTelefrag( spot ) ) {
 			continue;
 		}
-// JPW NERVE
-		if ( g_gametype.integer == GT_WOLF ) {
-			if ( !( spot->spawnflags & 2 )  && !initialSpawn ) {
-				continue;
-			}
-		}
-// jpw
 		spots[ count ] = spot;
 		if ( ++count == MAX_TEAM_SPAWN_POINTS ) {
 			break;
@@ -702,36 +684,12 @@ gentity_t *SelectRandomTeamSpawnPoint( int teamstate, team_t team ) {
 	}
 
 // JPW NERVE
-	if ( ( g_gametype.integer != GT_WOLF ) || ( !level.numspawntargets ) || initialSpawn ) { // no spawn targets or not wolf MP, do it the old way
+	if ( ( !level.numspawntargets ) || initialSpawn ) { // no spawn targets or not wolf MP, do it the old way
 		selection = rand() % count;
 		return spots[ selection ];
-	} else {
-		// FIXME: temporarily select target as farthest point from first team spawnpoint
-		// we'll want to replace this with the target coords pulled from the UI target selection
-		j = 0;
-		for ( j = 0; j < count; j++ ) {
-			if ( spots[j]->spawnflags & 1 ) { // only use spawnpoint if it's a permanent one
-				i = FindFarthestObjectiveIndex( spots[j]->s.origin );
-				j = count;
-			}
-		}
-		VectorCopy( level.spawntargets[i],farthest );
-		// end FIXME
-
-		// now that we've got farthest vector, figure closest spawnpoint to it
-		VectorSubtract( farthest,spots[0]->s.origin,target );
-		shortest = VectorLength( target );
-		closest = 0;
-		for ( i = 0; i < count; i++ ) {
-			VectorSubtract( farthest,spots[i]->s.origin,target );
-			tmp = VectorLength( target );
-			if ( ( spots[i]->spawnflags & 2 ) && ( tmp < shortest ) ) {
-				shortest = tmp;
-				closest = i;
-			}
-		}
-		return spots[closest];
 	}
+
+        return NULL;
 // jpw
 }
 

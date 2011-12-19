@@ -1421,31 +1421,6 @@ static animation_t grabberAnims[] = {
 	{"", 66, 1,  0,  1000 / 15,    1000 / 15 }   // (starting position)
 };
 
-//----(SA)	added
-// TTimo: unused
-/*
-static animation_t footlockerAnims[] = {
-	{"",	0,	1,	1,	1000/5,		1000/5	},	// (main idle)
-	{"",	0,	5,	5,	1000/5,		1000/5	},	// (lock rattle)
-	{"",	5,	6,	0,	1000/5,		1000/5	}	// (break open)
-};
-*/
-//----(SA)	end
-
-// DHM - Nerve :: capture and hold flag
-
-static animation_t multi_flagpoleAnims[] = {
-	{"", 0,      1,      0,      1000 / 15,    1000 / 15 },  // (no flags, idle)
-	{"", 0,      15,     0,      1000 / 15,    1000 / 15 },  // (nazi flag rising)
-	{"", 490,    15,     0,      1000 / 15,    1000 / 15 },  // (american flag rising)
-	{"", 20,     211,    211,    1000 / 15,    1000 / 15 },  // (nazi flag raised)
-	{"", 255,    211,    211,    1000 / 15,    1000 / 15 },  // (american flag raised)
-	{"", 235,    15,     0,      1000 / 15,    1000 / 15 },  // (nazi switching to american)
-	{"", 470,    15,     0,      1000 / 15,    1000 / 15 }   // (american switching to nazi)
-};
-
-// dhm - end
-
 extern void CG_RunLerpFrame( clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, float speedScale );
 
 /////
@@ -1531,21 +1506,6 @@ static void CG_Trap( centity_t *cent ) {
 
 	// initial setup.  set pointer to animation table and setup anim
 	if ( !cent->lerpFrame.oldFrameTime ) {
-
-		// DHM - Nerve :: teamNum specifies which set of animations to use (only 1 exists right now)
-		if ( cgs.gametype == GT_WOLF ) {
-			switch ( cent->currentState.teamNum ) {
-
-			case 1:
-				trapAnim = &multi_flagpoleAnims[0];
-//				lf->animation = &multi_flagpoleAnims[ cent->currentState.frame ];
-				break;
-			default:
-				// Keep what was set above
-				break;
-			}
-		}
-		// dhm - end
 
 		CG_NewAnim( cent, &cent->lerpFrame, trapAnim, cs->frame );
 	}

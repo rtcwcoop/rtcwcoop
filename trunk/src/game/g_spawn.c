@@ -709,7 +709,7 @@ qboolean G_CallSpawn( gentity_t *ent ) {
 		if ( !strcmp( item->classname, ent->classname ) ) {
 			// found it
 			// DHM - Nerve :: allow flags in GTWOLF
-			if ( item->giType == IT_TEAM && ( g_gametype.integer != GT_CTF && g_gametype.integer != GT_WOLF ) ) {
+			if ( item->giType == IT_TEAM && ( g_gametype.integer == GT_SINGLE_PLAYER ) ) {
 				return qfalse;
 			}
 			G_SpawnItem( ent, item );
@@ -853,13 +853,6 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 			G_FreeEntity( ent );
 			return;
 		}
-	}
-	if ( g_gametype.integer >= GT_TEAM ) {
-		G_SpawnInt( "notteam", "0", &i );
-		if ( i ) {
-			G_FreeEntity( ent );
-			return;
-		}
 	} else {
 		G_SpawnInt( "notfree", "0", &i );
 		if ( i ) {
@@ -959,7 +952,6 @@ qboolean G_LoadEntsFile( void )
         vmCvar_t mapname;
         fileHandle_t f;
         int len;
-        char        *token;
 
         level.extraEntsScript = NULL;
 
@@ -1124,7 +1116,6 @@ Every map should have exactly one worldspawn.
 */
 void SP_worldspawn( void ) {
 	char    *s;
-	gitem_t *item; // JPW NERVE
 
 	G_SpawnString( "classname", "", &s );
 	if ( Q_stricmp( s, "worldspawn" ) ) {
@@ -1158,24 +1149,6 @@ void SP_worldspawn( void ) {
 		trap_Cvar_Set( "g_restarted", "0" );
 		level.warmupTime = 0;
 	}
-
-// JPW NERVE change minigun overheat time for single player -- this array gets reloaded every time the server is reset,
-// so this is as good a place as any to do stuff like this
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-		ammoTable[WP_VENOM].maxHeat *= 0.25;
-		ammoTable[WP_DYNAMITE].uses = 0; // regens based on recharge time
-		// reset ammo for subs to be distinct for multiplayer (so running out of rifle ammo doesn't deplete sidearm)
-		// if player runs out of SMG ammunition, it shouldn't *also* deplete pistol ammunition.  If you change this, change
-		// g_spawn.c as well
-		item = BG_FindItem( "Thompson" );
-		item->giAmmoIndex = WP_THOMPSON;
-		item = BG_FindItem( "Sten" );
-		item->giAmmoIndex = WP_STEN;
-		item = BG_FindItem( "MP40" );
-		item->giAmmoIndex = WP_MP40;
-	}
-// jpw
-
 }
 
 

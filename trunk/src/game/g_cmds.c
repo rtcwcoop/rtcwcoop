@@ -383,14 +383,11 @@ void Cmd_Give_f( gentity_t *ent ) {
 	}
 
 	if ( give_all || Q_stricmpn( name, "armor", 5 ) == 0 ) {
-		if ( g_gametype.integer == GT_SINGLE_PLAYER ) { // JPW NERVE -- no armor in multiplayer
-			//----(SA)	modified
-			if ( amount ) {
-				ent->client->ps.stats[STAT_ARMOR] += amount;
-			} else {
-				ent->client->ps.stats[STAT_ARMOR] = 100;
-			}
-		} // jpw
+                if ( amount ) {
+                        ent->client->ps.stats[STAT_ARMOR] += amount;
+                } else {
+                        ent->client->ps.stats[STAT_ARMOR] = 100;
+                }
 		if ( !give_all ) {
 			return;
 		}
@@ -646,27 +643,12 @@ void SetTeam( gentity_t *ent, char *s ) {
 	} else if ( !Q_stricmp( s, "spectator" ) || !Q_stricmp( s, "s" ) ) {
 		team = TEAM_SPECTATOR;
 		specState = SPECTATOR_FREE;
-	} else if ( g_gametype.integer >= GT_TEAM ) {
-		// if running a team game, assign player to one of the teams
-		specState = SPECTATOR_NOT;
-		if ( !Q_stricmp( s, "red" ) || !Q_stricmp( s, "r" ) ) {
-			team = TEAM_RED;
-		} else if ( !Q_stricmp( s, "blue" ) || !Q_stricmp( s, "b" ) ) {
-			team = TEAM_BLUE;
-		} else {
-			// pick the team with the least number of players
-			team = PickTeam( clientNum );
-		}
 	} else {
 		// force them to spectators if there aren't any spots free
 		team = TEAM_FREE;
 	}
 
-	// override decision if limiting the players
-	if ( g_gametype.integer == GT_TOURNAMENT
-		 && level.numNonSpectatorClients >= 2 ) {
-		team = TEAM_SPECTATOR;
-	} else if ( g_maxGameClients.integer > 0 &&
+	if ( g_maxGameClients.integer > 0 &&
 				level.numNonSpectatorClients >= g_maxGameClients.integer ) {
 		team = TEAM_SPECTATOR;
 	}
@@ -750,9 +732,6 @@ to free floating spectator mode
 */
 void StopFollowing( gentity_t *ent ) {
 	ent->client->ps.persistant[ PERS_TEAM ] = TEAM_SPECTATOR;
-	if ( g_gametype.integer != GT_WOLF ) {          // NERVE - SMF - don't forcibly set this for multiplayer
-		ent->client->sess.sessionTeam = TEAM_SPECTATOR;
-	}
 	ent->client->sess.spectatorState = SPECTATOR_FREE;
 	ent->r.svFlags &= ~SVF_BOT;
 	ent->client->ps.clientNum = ent - g_entities;
@@ -766,7 +745,6 @@ Cmd_Team_f
 void Cmd_Team_f( gentity_t *ent ) {
 	int oldTeam;
 	char s[MAX_TOKEN_CHARS];
-	char ptype[4], weap[4], pistol[4], grenade[4], skinnum[4];
 
 	if ( trap_Argc() < 2 ) {
 		oldTeam = ent->client->sess.sessionTeam;
@@ -786,23 +764,6 @@ void Cmd_Team_f( gentity_t *ent ) {
 		}
 		return;
 	}
-
-	// if they are playing a tournement game, count as a loss
-	if ( g_gametype.integer == GT_TOURNAMENT && ent->client->sess.sessionTeam == TEAM_FREE ) {
-		ent->client->sess.losses++;
-	}
-
-	// DHM - Nerve
-	if ( g_gametype.integer == GT_WOLF ) {
-		trap_Argv( 2, ptype, sizeof( ptype ) );
-		trap_Argv( 3, weap, sizeof( weap ) );
-		trap_Argv( 4, pistol, sizeof( pistol ) );
-		trap_Argv( 5, grenade, sizeof( grenade ) );
-		trap_Argv( 6, skinnum, sizeof( skinnum ) );
-
-		SetWolfData( ent, ptype, weap, pistol, grenade, skinnum );
-	}
-	// dhm - end
 
 	trap_Argv( 1, s, sizeof( s ) );
 
@@ -842,11 +803,6 @@ void Cmd_Follow_f( gentity_t *ent ) {
 		return;
 	}
 
-	// if they are playing a tournement game, count as a loss
-	if ( g_gametype.integer == GT_TOURNAMENT && ent->client->sess.sessionTeam == TEAM_FREE ) {
-		ent->client->sess.losses++;
-	}
-
 	// first set them to spectator
 	if ( ent->client->sess.sessionTeam != TEAM_SPECTATOR ) {
 		SetTeam( ent, "spectator" );
@@ -865,10 +821,6 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 	int clientnum;
 	int original;
 
-	// if they are playing a tournement game, count as a loss
-	if ( g_gametype.integer == GT_TOURNAMENT && ent->client->sess.sessionTeam == TEAM_FREE ) {
-		ent->client->sess.losses++;
-	}
 	// first set them to spectator
 	if ( ( ent->client->sess.spectatorState == SPECTATOR_NOT ) && ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE for limbo state
 		SetTeam( ent, "spectator" );
@@ -945,12 +897,6 @@ void G_SayTo( gentity_t *ent, gentity_t *other, int mode, int color, const char 
 	if ( ( mode == SAY_TEAM || mode == SAY_LIMBO )  && !OnSameTeam( ent, other ) ) {
 		return;
 	}
-	// no chatting to players in tournements
-	if ( g_gametype.integer == GT_TOURNAMENT
-		 && other->client->sess.sessionTeam == TEAM_FREE
-		 && ent->client->sess.sessionTeam != TEAM_FREE ) {
-		return;
-	}
 
 	// NERVE - SMF
 	if ( mode == SAY_LIMBO ) {
@@ -974,7 +920,7 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	char text[MAX_SAY_TEXT];
 	char location[64];
 
-	if ( g_gametype.integer < GT_TEAM && mode == SAY_TEAM ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && mode == SAY_TEAM ) {
 		mode = SAY_ALL;
 	}
 
@@ -997,13 +943,7 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 		color = COLOR_CYAN;
 		break;
 	case SAY_TELL:
-		if ( target && g_gametype.integer >= GT_TEAM &&
-			 target->client->sess.sessionTeam == ent->client->sess.sessionTeam &&
-			 Team_GetLocationMsg( ent, location, sizeof( location ) ) ) {
-			Com_sprintf( name, sizeof( name ), "[%s%c%c] (%s): ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE, location );
-		} else {
-			Com_sprintf( name, sizeof( name ), "[%s%c%c]: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
-		}
+		Com_sprintf( name, sizeof( name ), "[%s%c%c]: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
 		color = COLOR_MAGENTA;
 		break;
 		// NERVE - SMF
@@ -1533,13 +1473,6 @@ void Cmd_Activate_f( gentity_t *ent ) {
 					gclient_t   *cl;
 					cl = &level.clients[ ent->s.clientNum ];
 
-					// DHM - Nerve :: only soldiers can use mg42
-					if ( g_gametype.integer == GT_WOLF ) {
-						if ( cl->ps.stats[ STAT_PLAYER_CLASS ] != PC_SOLDIER ) {
-							return;
-						}
-					}
-
 					// no mounting while using a scoped weap
 					switch ( cl->ps.weapon ) {
 					case WP_SNIPERRIFLE:
@@ -1857,41 +1790,18 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 
 	enemy = &g_entities[enemynum];
 
-	// NERVE - SMF - took this out, this is causing more problems than its helping
-	//  Either a new way has to be found, or this check needs to change.
-	// sanity check (also protect from cheaters)
-//	if (g_gametype.integer != GT_SINGLE_PLAYER && entnum != clent->s.number) {
-//		trap_DropClient( clent->s.number, "Dropped due to illegal ClientDamage command\n" );
-//		return;
-//	}
-	// -NERVE - SMF
-
-	// if the attacker can't see the target, then don't allow damage
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-		if ( !CanDamage( ent, enemy->client->ps.origin ) ) {
-			return; // don't allow damage
-		}
-	}
-
 	switch ( id ) {
 	case CLDMG_DEBRIS:
-		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-			G_Damage( ent, enemy, enemy, vec3_origin, vec3_origin, 3 + rand() % 3, DAMAGE_NO_KNOCKBACK, MOD_EXPLOSIVE );
-		}
+                G_Damage( ent, enemy, enemy, vec3_origin, vec3_origin, 3 + rand() % 3, DAMAGE_NO_KNOCKBACK, MOD_EXPLOSIVE );
 		break;
 	case CLDMG_SPIRIT:
-		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-			if ( enemy->aiCharacter == AICHAR_ZOMBIE ) {
-				G_Damage( ent, enemy, enemy, vec3_origin, vec3_origin, 6, DAMAGE_NO_KNOCKBACK, MOD_ZOMBIESPIRIT );
-			} else {
-				G_Damage( ent, enemy, enemy, vec3_origin, vec3_origin, 8 + rand() % 4, DAMAGE_NO_KNOCKBACK, MOD_ZOMBIESPIRIT );
-			}
+                if ( enemy->aiCharacter == AICHAR_ZOMBIE ) {
+                        G_Damage( ent, enemy, enemy, vec3_origin, vec3_origin, 6, DAMAGE_NO_KNOCKBACK, MOD_ZOMBIESPIRIT );
+                } else {
+                        G_Damage( ent, enemy, enemy, vec3_origin, vec3_origin, 8 + rand() % 4, DAMAGE_NO_KNOCKBACK, MOD_ZOMBIESPIRIT );
 		}
 		break;
 	case CLDMG_BOSS1LIGHTNING:
-		if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-			break;
-		}
 		if ( ent->takedamage ) {
 			VectorSubtract( ent->r.currentOrigin, enemy->r.currentOrigin, vec );
 			VectorNormalize( vec );
@@ -1899,20 +1809,6 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 		}
 		break;
 	case CLDMG_TESLA:
-		// do some cheat protection
-		if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-			if ( enemy->s.weapon != WP_TESLA ) {
-				break;
-			}
-			if ( !( enemy->client->buttons & BUTTON_ATTACK ) ) {
-				break;
-			}
-			//if ( AICast_GetCastState( enemy->s.number )->lastWeaponFiredWeaponNum != WP_TESLA )
-			//	break;
-			//if ( AICast_GetCastState( enemy->s.number )->lastWeaponFired < level.time - 400 )
-			//	break;
-		}
-
 		if (    ( ent->aiCharacter == AICHAR_PROTOSOLDIER ) ||
 				( ent->aiCharacter == AICHAR_SUPERSOLDIER ) ||
 				( ent->aiCharacter == AICHAR_LOPER ) ||
@@ -1931,19 +1827,6 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 		}
 		break;
 	case CLDMG_FLAMETHROWER:
-		// do some cheat protection
-		if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-			if ( enemy->s.weapon != WP_FLAMETHROWER ) {
-				break;
-			}
-//			if ( !(enemy->client->buttons & BUTTON_ATTACK) ) // JPW NERVE flames should be able to damage while puffs are active
-//				break;
-		} else {
-			// this is required for Zombie flame attack
-			//if ((enemy->aiCharacter == AICHAR_ZOMBIE) && !AICast_VisibleFromPos( enemy->r.currentOrigin, enemy->s.number, ent->r.currentOrigin, ent->s.number, qfalse ))
-			//	break;
-		}
-
 		if ( ent->takedamage && !AICast_NoFlameDamage( ent->s.number ) ) {
 			#define FLAME_THRESHOLD 50
 			int damage = 5;
@@ -1970,7 +1853,7 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 				if ( ent->s.onFireEnd < level.time ) {
 					ent->s.onFireStart = level.time;
 				}
-				if ( ent->health <= 0 || !( ent->r.svFlags & SVF_CASTAI ) || ( g_gametype.integer != GT_SINGLE_PLAYER ) ) {
+				if ( ent->health <= 0 || !( ent->r.svFlags & SVF_CASTAI ) ) {
 					if ( ent->r.svFlags & SVF_CASTAI ) {
 						ent->s.onFireEnd = level.time + 6000;
 					} else {
