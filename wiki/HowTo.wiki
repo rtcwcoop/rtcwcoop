@@ -30,7 +30,7 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 
 == g_autospawn ==
  g_autospawn 1 autosaves you spawnpoint every 30 seconds, if g_autospawn is set to 0 then you can
- save your spawn point with the command: setcoopspawnpoint, bind x setcoopspawnpoint to assign it to  a button
+ save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button
 
 == g_skipcutscenes ==
  set to 1 if you want to skip the cutscenes
@@ -75,7 +75,7 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 ==coopdevmap==
  starts a coop game with cheats enabled
 
-==setcoopspawnpoint==
+==spawnpoint==
  sets current location as the next spawnpoint. Only works if g_autospawn is disabled on the server
 
 ==dumpaicast==
