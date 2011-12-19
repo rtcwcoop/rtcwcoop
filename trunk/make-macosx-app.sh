@@ -27,7 +27,11 @@ BASE_OBJ="
 	build/$TARGET-darwin-i386/$BASEDIR/qagamei386.dylib
 "
 
-sh create_pk3.sh
+OUTPUT=`svn diff media/sp_pak_coop1/`
+
+if [ "$OUTPUT" != "" ]; then
+        sh create_pk3.sh
+fi
 
 cd `dirname $0`
 if [ ! -f Makefile ]; then
