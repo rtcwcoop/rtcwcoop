@@ -759,7 +759,7 @@ void CG_RequestMoveSpeed( const char *modelname ) {
 	}
 
 	// send it
-	CG_SendMoveSpeed( modelInfo->animations, modelInfo->numAnimations, (char *)modelname );
+       CG_SendMoveSpeed( modelInfo->animations, modelInfo->numAnimations, (char *)modelname );
 }
 
 /*

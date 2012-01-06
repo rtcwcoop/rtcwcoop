@@ -407,18 +407,6 @@ void AICast_UpdateInput( cast_state_t *cs, int time ) {
 		cs->actionFlags |= CASTACTION_WALK;
 	}
 
-        // fretn - on a dedicated server, the speed sometimes drops below zero
-        // no idea why .. but this fixes it for now
-        // update: for some reason, the movespeeds are wrong from the animations, see below
-        /*if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer && g_dedicated.integer)
-		{
-            if (bi.speed < 0)
-            {
-                bi.speed = 62.66668;
-            }
-        }
-        */
-	//
 	AICast_InputToUserCommand( cs, &bi, &cs->lastucmd, bs->cur_ps.delta_angles );
 	//
 	// check some Cast AI specific movement flags
@@ -652,27 +640,18 @@ void AICast_Think( int client, float thinktime ) {
 	if ( animIndex >= 0 ) {
 		anim = BG_GetAnimationForIndex( cs->entityNum, animIndex );
 		cs->attributes[WALKING_SPEED] = anim->moveSpeed;
-                // fretn - on a dedicated server the movespeeds are -1 :(
-                if (cs->attributes[WALKING_SPEED] < 0)
-                        cs->attributes[WALKING_SPEED] = 46;
 	}
 	// crouching
 	animIndex = BG_GetAnimScriptAnimation( cs->entityNum, ent->client->ps.aiState, ANIM_MT_WALKCR );
 	if ( animIndex >= 0 ) {
 		anim = BG_GetAnimationForIndex( cs->entityNum, animIndex );
 		cs->attributes[CROUCHING_SPEED] = anim->moveSpeed;
-                // fretn - on a dedicated server the movespeeds are -1 :(
-                if (cs->attributes[CROUCHING_SPEED] < 0)
-                        cs->attributes[CROUCHING_SPEED] = 117;
 	}
 	// running
 	animIndex = BG_GetAnimScriptAnimation( cs->entityNum, ent->client->ps.aiState, ANIM_MT_RUN );
 	if ( animIndex >= 0 ) {
 		anim = BG_GetAnimationForIndex( cs->entityNum, animIndex );
 		cs->attributes[RUNNING_SPEED] = anim->moveSpeed;
-                // fretn - on a dedicated server the movespeeds are -1 :(
-                if (cs->attributes[RUNNING_SPEED] < 0)
-                        cs->attributes[RUNNING_SPEED] = 131;
 	}
 	// update crouch speed scale
 	ent->client->ps.crouchSpeedScale = cs->attributes[CROUCHING_SPEED] / cs->attributes[RUNNING_SPEED];

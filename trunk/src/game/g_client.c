@@ -29,6 +29,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "g_local.h"
 #include "g_coop.h"
 
+// fretn
+void G_LoadAndParseMoveSpeeds(char *modelname );
+
 // g_client.c -- client functions that don't happen every frame
 
 // Ridah, new bounding box
@@ -1226,6 +1229,8 @@ qboolean G_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **model
 	return qtrue;
 }
 
+
+
 /*
 =============
 G_ParseAnimationFiles
@@ -1292,9 +1297,14 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 	BG_AnimParseAnimScript( cl->modelInfo, &level.animScriptData, cl->ps.clientNum, filename, text );
 
 	// ask the client to send us the movespeeds if available
+                // fretn
+/*
 	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_entities[0].client && g_entities[0].client->pers.connected == CON_CONNECTED ) {
 		trap_SendServerCommand( 0, va( "mvspd %s", modelname ) );
 	}
+*/
+
+        G_LoadAndParseMoveSpeeds(modelname);
 
 	return qtrue;
 }
@@ -2022,16 +2032,106 @@ void ClientDisconnect( int clientNum ) {
 
 /*
 ==================
-G_RetrieveMoveSpeedsFromClient
+G_LoadAndParseMoveSpeeds
 ==================
 */
-void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
+void G_LoadAndParseMoveSpeeds(char *modelname ) {
 	char *text_p, *token;
+        char filename[MAX_QPATH];
 	animation_t *anim;
 	animModelInfo_t *modelInfo;
+        int len;
+        fileHandle_t f;
+
+        Q_strncpyz( filename, "models/movespeeds/", sizeof( filename ) );
+        Q_strcat( filename, sizeof( filename ), va("%s.mvspd", modelname) );
+
+        len = trap_FS_FOpenFile( filename, &f, FS_READ );
+
+        if ( len < 0 ) {
+                G_Printf("G_LoadAndParseMoveSpeeds: no movespeeds for model '%s' available\n", modelname);
+                if (g_entities[0].client && g_entities[0].client->pers.connected == CON_CONNECTED) {
+                    G_Printf("The local client to sent them and they will be saved into %s.\nPlease add them to your pk3 folder.\n", filename);
+                }
+                return;
+        }
+
+        text_p = G_Alloc( len );
+        trap_FS_Read( text_p, len, f);
+        trap_FS_FCloseFile( f );
+
+	//text_p = text;
+
+	// get the model name
+	token = COM_Parse( &text_p );
+	if ( !token || !token[0] ) {
+		G_Error( "G_LoadAndParseMoveSpeeds: internal error" );
+	}
+
+	modelInfo = BG_ModelInfoForModelname( token );
+
+	if ( !modelInfo ) {
+		// ignore it
+		return;
+	}
+
+	while ( 1 ) {
+		token = COM_Parse( &text_p );
+		if ( !token || !token[0] ) {
+			break;
+		}
+
+		// this is a name
+		anim = BG_AnimationForString( token, modelInfo );
+		if ( anim->moveSpeed == 0 ) {
+			G_Error( "G_LoadAndParseMoveSpeeds: trying to set movespeed for non-moving animation" );
+		}
+
+		// get the movespeed
+		token = COM_Parse( &text_p );
+		if ( !token || !token[0] ) {
+			G_Error( "G_LoadAndParseMoveSpeeds: missing movespeed" );
+		}
+		anim->moveSpeed = atoi( token );
+
+		// get the stepgap
+		token = COM_Parse( &text_p );
+		if ( !token || !token[0] ) {
+			G_Error( "G_LoadAndParseMoveSpeeds: missing stepGap" );
+		}
+		anim->stepGap = atoi( token );
+	}
+}
+
+
+/*
+==================
+G_RetrieveMoveSpeedsFromClient
+==================
+fretn: A dedicated server doesn't has access to the renderer functions, so it fails
+when it tries to retrieve the movespeeds for the CASTAI's.
+
+To solve this problem we write out the movespeeds (once) to a file, so we
+can introdruce them to our pk3 files.
+
+When the server can't find the a modelname.mvspd file it requests the local client
+to generate such a file.
+
+So if you ever make a new model, you'll need to generate this file once through this
+function: just run a listen server, load your model in the game and let the game generate
+the file for you.
+*/
+
+void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
+	char *text_p, *token;
+        char filename[MAX_QPATH];
+	animation_t *anim;
+	animModelInfo_t *modelInfo;
+        int len; 
+        fileHandle_t f;
 
 	text_p = text;
-
+       
 	// get the model name
 	token = COM_Parse( &text_p );
 	if ( !token || !token[0] ) {
@@ -2039,6 +2139,24 @@ void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
 	}
 
 	modelInfo = BG_ModelInfoForModelname( token );
+
+        // fretn
+        Q_strncpyz( filename, "models/movespeeds/", sizeof( filename ) ); 
+        Q_strcat( filename, sizeof( filename ), va("%s.mvspd", token) );
+
+        len = trap_FS_FOpenFile( filename, &f, FS_READ );
+        trap_FS_FCloseFile( f );
+
+        if (len > 0) { // if the movespeeds file exists, we don't do anything
+                trap_FS_FCloseFile( f );
+                return;
+        }
+
+        // if it doesn't exist, write the file and continue;
+        G_Printf("Writing movespeeds to: %s\n", filename);
+        len = trap_FS_FOpenFile( filename, &f, FS_WRITE );
+        trap_FS_Write( text, strlen(text), f );
+        trap_FS_FCloseFile( f );
 
 	if ( !modelInfo ) {
 		// ignore it
