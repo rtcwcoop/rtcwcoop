@@ -386,6 +386,8 @@ static void CG_SoundLoadSoundFiles( void ) {
 	int numSounds;
 	int i, len;
 	char *token;
+        char buf[64];
+        int dev;
 
 	// scan for sound files
 	Com_sprintf( filename, MAX_QPATH, "sound/scripts/filelist.txt" );
@@ -404,8 +406,6 @@ static void CG_SoundLoadSoundFiles( void ) {
 	// parse the list
 	text = buffer;
 	numSounds = 0;
-        char buf[64];
-        int dev;
 
 	while ( 1 ) {
 		token = COM_ParseExt( &text, qtrue );
