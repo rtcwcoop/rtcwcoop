@@ -434,6 +434,9 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
         // fretn
         if ( g_coop.integer )
         {    
+// fretn - makes the game a bit harder, but its boring that way
+// what we really need are ai respawns
+#if 0
                 if ( newent->health < 125 )
                 {
                     if ( g_gameskill.integer == GSKILL_EASY )
@@ -454,6 +457,7 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
                     else if ( g_gameskill.integer == GSKILL_MAX )
                             newent->health *= 2; 
                 }
+#endif
 
                 if ( g_gameskill.integer == GSKILL_EASY ) {
                         cs->attributes[AIM_SKILL] = 0.6;
