@@ -1310,7 +1310,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Skill:  "
 					cvar			"g_gameskill"
-					cvarFloatList		{ "Bring'em on!" 1 "I am Death incarnate!" 2 "NIGHTMARE!" 3 }
+					cvarFloatList		{ "Don't hurt me!" 0 "Bring'em on!" 1 "I am Death incarnate!" 2 "NIGHTMARE!" 3 }
 					rect			295 265 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
