@@ -36,7 +36,7 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
  set to 1 if you want to skip the cutscenes
 
 == cg_drawcrosshairnames ==
- Set to 1 if you want to see info about your teamplayers: playername, armor, ammo, ammoclip and health, its like in the multiplayer.
+ Set to 1 if you want to see info about your teamplayers: playername, ammo, ammoclip and health, its like in the multiplayer.
  Set to 2 if you also want to see a bar that shows the armor, just like the health bar, but  below it
 
 == cg_drawteamoverlay ==
