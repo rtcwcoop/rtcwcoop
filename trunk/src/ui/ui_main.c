@@ -4259,7 +4259,8 @@ static void UI_RunMenuScript( char **args ) {
 
 			//----(SA)	added
 		} else if ( Q_stricmp( name, "playerstart" ) == 0 ) {
-                        if ( trap_Cvar_VariableValue( "g_coop" ) ) {
+                        //if ( trap_Cvar_VariableValue( "g_coop" ) ) {
+                        if ( trap_Cvar_VariableValue( "g_gametype" ) <= GT_COOP ) {
 			        trap_Cmd_ExecuteText( EXEC_APPEND, "fade 0 0 0 0 3\n" );    // fade screen up
                                 trap_Cmd_ExecuteText( EXEC_APPEND, "playerstart\n" );
                         } else {

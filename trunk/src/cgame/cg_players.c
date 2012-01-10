@@ -1361,14 +1361,14 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 		}
 
 		// fall back
-		if ( cgs.gametype == GT_SINGLE_PLAYER && !headfail ) {
+		if ( cgs.gametype <= GT_SINGLE_PLAYER && !headfail ) {
 			// try to keep the model but default the skin (so you can tell bad guys from good)
 			if ( !CG_RegisterClientModelname( ci, ci->modelName, "default" ) ) {
 				CG_Error( "DEFAULT_MODEL (%s/default) failed to register", ci->modelName );
 			}
 		} else {
 			// go totally default
-                        if (cg_coop.integer)
+                        if (cgs.gametype <= GT_COOP)
                         {
                                 if ( !CG_RegisterClientModelname( ci, "multi", ci->skinName ) ) {
                                         CG_Error( "DEFAULT_MODEL (multi/%s) failed to register", ci->skinName );
@@ -2380,7 +2380,7 @@ static void CG_AddPainTwitch( centity_t *cent, vec3_t torsoAngles ) {
 		return;
 	}
 
-	if ( cent->currentState.clientNum && cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cent->currentState.clientNum && cgs.gametype <= GT_SINGLE_PLAYER ) {
 		#define FADEIN_RATIO    0.25
 		#define FADEOUT_RATIO   ( 1.0 - FADEIN_RATIO )
 		f = (float)t / duration;
@@ -2940,7 +2940,7 @@ static void CG_PlayerSprites( centity_t *cent ) {
 //		return;
 //	}
         // fretn: draw friendly sprites in coop ?
-	if ( cgs.gametype != GT_SINGLE_PLAYER && cg_coop.integer &&
+	if ( cgs.gametype > GT_SINGLE_PLAYER && 
 		 !( cent->currentState.eFlags & EF_DEAD ) &&
 		 cg.snap->ps.persistant[PERS_TEAM] == team ) {
 

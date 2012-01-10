@@ -114,7 +114,7 @@ qboolean OnSameTeam( gentity_t *ent1, gentity_t *ent2 ) {
 		return qfalse;
 	}
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		return qfalse;
 	}
 

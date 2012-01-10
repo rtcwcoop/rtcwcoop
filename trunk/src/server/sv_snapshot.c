@@ -513,7 +513,8 @@ notVisible:
 		// Ridah, if this entity has changed events, then send it regardless of whether we can see it or not
 		// DHM - Nerve :: not in multiplayer please
                 // fretn: not in coop please (gives hidden players on listen server)
-		if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient && !sv_coop->integer) {
+		//if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient && !sv_coop->integer) {
+		if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient) {
 			if ( ent->r.eventTime == svs.time ) {
 				ent->s.eFlags |= EF_NODRAW;     // don't draw, just process event
 				SV_AddEntToSnapshot( svEnt, ent, eNums );

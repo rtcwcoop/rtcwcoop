@@ -709,7 +709,7 @@ qboolean G_CallSpawn( gentity_t *ent ) {
 		if ( !strcmp( item->classname, ent->classname ) ) {
 			// found it
 			// DHM - Nerve :: allow flags in GTWOLF
-			if ( item->giType == IT_TEAM && ( g_gametype.integer == GT_SINGLE_PLAYER ) ) {
+			if ( item->giType == IT_TEAM && ( g_gametype.integer <= GT_SINGLE_PLAYER ) ) {
 				return qfalse;
 			}
 			G_SpawnItem( ent, item );
@@ -847,7 +847,7 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 	}
 
 	// check for "notteam" / "notfree" flags
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		G_SpawnInt( "notsingle", "0", &i );
 		if ( i ) {
 			G_FreeEntity( ent );

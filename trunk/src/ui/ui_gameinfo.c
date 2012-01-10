@@ -186,6 +186,7 @@ void UI_LoadArenas( void ) {
 		type = Info_ValueForKey( ui_arenaInfos[n], "type" );
 			
                 // fretn removed all the gametypes
+                // IS THIS STILL USED ?
                 uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
 		// if no type specified, it will be treated as "ffa"
 		//if ( *type ) {

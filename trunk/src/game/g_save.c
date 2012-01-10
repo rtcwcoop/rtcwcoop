@@ -1124,9 +1124,6 @@ qboolean G_SaveGame( char *username ) {
 		return qtrue;
 	}
 
-        if ( g_coop.integer ) // no saving in coop
-                return qtrue;
-
 	G_DPrintf( "G_SaveGame '%s'\n", username );
 
 	// update the playtime

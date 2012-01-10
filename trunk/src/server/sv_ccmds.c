@@ -240,7 +240,6 @@ static void SV_Map_f( void ) {
 
 	// force latched values to get set
 	Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH );
-	Cvar_Get( "g_coop", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
 	Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );
@@ -262,8 +261,9 @@ static void SV_Map_f( void ) {
 			cheat = qfalse;
 		}
 	} else if ( Q_stricmpn( cmd, "coop", 4 ) == 0 ) {
-		Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
-		Cvar_SetValue( "g_coop", GV_COOP );
+		//Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
+		//Cvar_SetValue( "g_coop", GV_COOP );
+		Cvar_SetValue( "g_gametype", GT_COOP );
 		Cvar_SetValue( "g_doWarmup", 0 );
 		// may not set sv_maxclients directly, always set latched
 		Cvar_SetLatched( "sv_maxclients", "64" ); // Ridah, modified this
@@ -329,7 +329,7 @@ static void SV_MapRestart_f( void ) {
 	if ( Cmd_Argc() > 1 ) {
 		delay = atoi( Cmd_Argv( 1 ) );
 	} else {
-		if ( sv_gametype->integer == GT_SINGLE_PLAYER && !sv_coop->integer ) { // (SA) no pause by default in sp
+		if ( sv_gametype->integer == GT_SINGLE_PLAYER ) { // (SA) no pause by default in sp
 			delay = 0;
 		} else {
 			delay = 5;

@@ -137,11 +137,11 @@ qboolean CG_DrawScoreboard( void ) {
 
         // fretn
 	// still need to see 'mission failed' message in SP
-	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_DEAD && !cg_coop.integer) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_DEAD ) {
 		return qfalse;
 	}
 
-	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_INTERMISSION && !cg_coop.integer) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
 		cg.deferredPlayerLoading = 0;
 		return qfalse;
 	}
@@ -180,7 +180,7 @@ qboolean CG_DrawScoreboard( void ) {
 	// current rank
 
         // fretn
-	if ( cgs.gametype == GT_SINGLE_PLAYER && cg_coop.integer) {   //----(SA) modified
+	if ( cgs.gametype <= GT_COOP ) {   //----(SA) modified
                 /*cg.cursorHintTime = cg.time;
                 cg.cursorHintFade = cg_hintFadeTime.integer;
                 cg.exitStatsFade = 250;     // fade /up/ time

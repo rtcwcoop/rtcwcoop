@@ -639,7 +639,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 	// Ridah, enforce maxclients in single player, so there is enough room for AI characters
 	{
-		static cvar_t   *g_gametype, *bot_enable, *g_coop;
+		static cvar_t   *g_gametype, *bot_enable;
 
 		// Rafael gameskill
 		static cvar_t   *g_gameskill;
@@ -651,9 +651,6 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 		if ( !g_gametype ) {
 			g_gametype = Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
-		}
-		if ( !g_coop ) {
-			g_coop = Cvar_Get( "g_coop", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
 		}
 		if ( !bot_enable ) {
 			bot_enable = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
@@ -735,6 +732,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
         }   
 
 	// Ridah
+        // fretn - what about local clients ?
 	if ( sv_gametype->integer == GT_SINGLE_PLAYER ) {
 		SV_SetExpectedHunkUsage( va( "maps/%s.bsp", server ) );
 	} else {
@@ -912,8 +910,6 @@ void SV_Init( void ) {
 	Cvar_Get( "fraglimit", "20", CVAR_SERVERINFO );
 	Cvar_Get( "timelimit", "0", CVAR_SERVERINFO );
 	sv_gametype = Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH );
-        // fretn
-	sv_coop= Cvar_Get( "g_coop", "0", CVAR_SERVERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
 	sv_gameskill = Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );

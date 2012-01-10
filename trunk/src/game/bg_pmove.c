@@ -889,9 +889,9 @@ static void PM_WalkMove( void ) {
 			PM_AirMove();
 // JPW NERVE
 #if defined ( CGAMEDLL )
-			if ( cg_gameType.integer == GT_SINGLE_PLAYER )
+			if ( cg_gameType.integer <= GT_SINGLE_PLAYER )
 #elif defined ( GAMEDLL )
-			if ( g_gametype.integer == GT_SINGLE_PLAYER )
+			if ( g_gametype.integer <= GT_SINGLE_PLAYER )
 #endif
                         {
 				pm->ps->jumpTime = pm->cmd.serverTime;

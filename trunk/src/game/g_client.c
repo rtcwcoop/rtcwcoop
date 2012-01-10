@@ -449,7 +449,7 @@ void limbo( gentity_t *ent ) {
 	//int startclient = ent->client->sess.spectatorClient;
 	int startclient = ent->client->ps.clientNum;
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		G_Printf( "FIXME: limbo called from single player game.  Shouldn't see this\n" );
 		return;
 	}
@@ -511,7 +511,7 @@ void reinforce( gentity_t *ent ) {
 	gentity_t *spot;
 	gclient_t *rclient;
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		G_Printf( "FIXME: reinforce called from single player game.  Shouldn't see this\n" );
 		return;
 	}
@@ -652,7 +652,7 @@ void respawn( gentity_t *ent ) {
 	// Ridah, if single player, reload the last saved game for this player
         // fretn: no map_restart for coop games ?
         // todo: spawn near our friends !
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 
 //		if (reloading || saveGamePending) {
 		if ( g_reloading.integer || saveGamePending ) {
@@ -1414,7 +1414,7 @@ void ClientUserinfoChanged( int clientNum ) {
 	client->ps.torsoAnim = 0;
 
 
-        if ( g_coop.integer &&  !(ent->r.svFlags & SVF_CASTAI))
+        if ( g_gametype.integer <= GT_COOP &&  !(ent->r.svFlags & SVF_CASTAI))
         {
 		Q_strncpyz( model, MULTIPLAYER_MODEL, MAX_QPATH );
 		Q_strcat( model, MAX_QPATH, "/" );
@@ -1558,7 +1558,7 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	// don't do the "xxx connected" messages if they were caried over from previous level
 	if ( firstTime ) {
 		// Ridah
-		if ( !(ent->r.svFlags & SVF_CASTAI) && g_coop.integer ) {
+		if ( !(ent->r.svFlags & SVF_CASTAI) && g_gametype.integer <= GT_COOP ) {
 			// done.
 			trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " connected\n\"", client->pers.netname ) );
 		}
@@ -1711,7 +1711,7 @@ void ClientSpawn( gentity_t *ent ) {
                                         // fretn
                                         ent->client->hasCoopSpawn = qfalse;
 				} else {
-                                        if (g_coop.integer && ent->client->hasCoopSpawn)
+                                        if (g_gametype.integer <= GT_COOP && ent->client->hasCoopSpawn)
                                         {
                                                 // todo: select random spot from friends
                                                 VectorCopy(client->coopSpawnPointOrigin, spawn_origin);                      
@@ -1839,7 +1839,7 @@ void ClientSpawn( gentity_t *ent ) {
         */
 
         // fretn - give the player some basic stuff
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer)
+	if ( g_gametype.integer <= GT_COOP )
         {
                 if ( !Q_stricmp( ent->classname, "player" ) ) 
                         SetCoopSpawnWeapons( client ); 
@@ -1925,7 +1925,7 @@ void ClientSpawn( gentity_t *ent ) {
 		MoveClientToIntermission( ent );
 	} else {
 		// fire the targets of the spawn point
-                if (!g_coop.integer)
+                if (!g_gametype.integer >= GT_SINGLE_PLAYER)
 		        G_UseTargets( spawnPoint, ent );
 
 		// select the highest weapon number available, after any

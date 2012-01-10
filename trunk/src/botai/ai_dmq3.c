@@ -104,7 +104,7 @@ BotCTFCarryingFlag
 ==================
 */
 int BotCTFCarryingFlag( bot_state_t *bs ) {
-	if ( gametype == GT_SINGLE_PLAYER ) {
+	if ( gametype <= GT_SINGLE_PLAYER ) {
 		return CTF_FLAG_NONE;
 	}
 
@@ -124,7 +124,7 @@ BotCTFTeam
 int BotCTFTeam( bot_state_t *bs ) {
 	char skin[128], *p;
 
-	if ( gametype == GT_SINGLE_PLAYER ) {
+	if ( gametype <= GT_SINGLE_PLAYER ) {
 		return CTF_TEAM_NONE;
 	}
 	ClientSkin( bs->client, skin, sizeof( skin ) );

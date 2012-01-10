@@ -175,7 +175,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		killer = ENTITYNUM_WORLD;
 	}
 
-        if (g_coop.integer)
+        if (g_gametype.integer <= GT_COOP)
         {
             if ( attacker && attacker->client ) {
                     if ( attacker == self || OnSameTeam( self, attacker ) ) {

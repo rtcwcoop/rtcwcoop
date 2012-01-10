@@ -1237,6 +1237,8 @@ static void CG_DrawGameStatus( rectDef_t *rect, int font, float scale, vec4_t co
 const char *CG_GameTypeString() {
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return "Single Player";
+        } else if ( cgs.gametype == GT_COOP ) {
+		return "Cooperative";
 	} else {
 	        return "";
         }

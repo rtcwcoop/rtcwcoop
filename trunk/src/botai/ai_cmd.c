@@ -798,7 +798,7 @@ BotMatch_GetFlag
 */
 void BotMatch_GetFlag( bot_state_t *bs, bot_match_t *match ) {
 	//if not in CTF mode
-	if ( gametype == GT_SINGLE_PLAYER || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
+	if ( gametype <= GT_SINGLE_PLAYER || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
 		return;
 	}
 	//if not addressed to this bot
@@ -823,7 +823,7 @@ BotMatch_RushBase
 */
 void BotMatch_RushBase( bot_state_t *bs, bot_match_t *match ) {
 	//if not in CTF mode
-	if ( gametype == GT_SINGLE_PLAYER || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
+	if ( gametype <= GT_SINGLE_PLAYER || !ctf_redflag.areanum || !ctf_blueflag.areanum ) {
 		return;
 	}
 	//if not addressed to this bot
@@ -850,7 +850,7 @@ BotMatch_ReturnFlag
 */
 void BotMatch_ReturnFlag( bot_state_t *bs, bot_match_t *match ) {
 	//if not in CTF mode
-	if ( gametype == GT_SINGLE_PLAYER ) {
+	if ( gametype <= GT_SINGLE_PLAYER ) {
 		return;
 	}
 	//if not addressed to this bot

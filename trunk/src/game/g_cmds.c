@@ -105,7 +105,7 @@ Starts the coop game
 void Cmd_PlayerStart_f( gentity_t *ent ) {
         gentity_t *player;
 
-        if ( !g_coop.integer )
+        if ( g_gametype.integer > GT_COOP )
                 return;
 
         player = AICast_FindEntityForName( "player" );
@@ -507,7 +507,7 @@ void Cmd_Notarget_f( gentity_t *ent ) {
 
 void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         
-        if (!g_coop.integer)
+        if ( g_gametype.integer > GT_COOP )
                 return;
 
         if ( ent->health <= 0 )
@@ -920,7 +920,7 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	char text[MAX_SAY_TEXT];
 	char location[64];
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && mode == SAY_TEAM ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && mode == SAY_TEAM ) {
 		mode = SAY_ALL;
 	}
 
@@ -1238,7 +1238,7 @@ void Cmd_StartCamera_f( gentity_t *ent ) {
 	ent->s.eFlags |= EF_VIEWING_CAMERA;
 
 //fretn
-        if (g_coop.integer && g_skipcutscenes.integer)
+        if (g_gametype.integer <= GT_COOP && g_skipcutscenes.integer)
                 AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
 
 // (SA) trying this in client to avoid 1 frame of player drawing

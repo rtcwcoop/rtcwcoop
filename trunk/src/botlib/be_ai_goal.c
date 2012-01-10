@@ -88,8 +88,12 @@ typedef struct campspot_s
 
 //FIXME: these are game specific
 typedef enum {
-	GT_SINGLE_PLAYER,   // single player tournament
-
+        GT_COOP_SPEEDRUN,
+        // other coop variations should come before this one, because we will
+        // use g_gametype.integer <= GT_COOP
+        GT_COOP,
+        // coop games come before this
+	GT_SINGLE_PLAYER,
 	//-- team games go after this --
 
 	GT_MAX_GAME_TYPE
@@ -762,7 +766,7 @@ int BotGetLevelItemGoal( int index, char *name, bot_goal_t *goal ) {
 			continue;
 		}
 		//
-		if ( g_gametype == GT_SINGLE_PLAYER ) {
+		if ( g_gametype <= GT_SINGLE_PLAYER ) {
 			if ( li->notsingle ) {
 				continue;
 			}
@@ -1135,7 +1139,7 @@ int BotChooseLTGItem( int goalstate, vec3_t origin, int *inventory, int travelfl
 	//go through the items in the level
 	for ( li = levelitems; li; li = li->next )
 	{
-		if ( g_gametype == GT_SINGLE_PLAYER ) {
+		if ( g_gametype <= GT_SINGLE_PLAYER ) {
 			if ( li->notsingle ) {
 				continue;
 			}
@@ -1294,7 +1298,7 @@ int BotChooseNBGItem( int goalstate, vec3_t origin, int *inventory, int travelfl
 	//go through the items in the level
 	for ( li = levelitems; li; li = li->next )
 	{
-		if ( g_gametype == GT_SINGLE_PLAYER ) {
+		if ( g_gametype <= GT_SINGLE_PLAYER ) {
 			if ( li->notsingle ) {
 				continue;
 			}

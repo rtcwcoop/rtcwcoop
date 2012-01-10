@@ -309,7 +309,7 @@ void CG_PainEvent( centity_t *cent, int health, qboolean crouching ) {
 	float bestDist, dist;
 
 	// Rafael
-	if ( cent->currentState.aiChar && cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cent->currentState.aiChar && cgs.gametype <= GT_SINGLE_PLAYER ) {
 
 		if ( cent->pe.painTime > cg.time - 1000 ) {
 			oldPainAnim = cent->pe.painAnimTorso;
@@ -1729,7 +1729,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 		// TTimo
 		// show_bug.cgi?id=417
-		if ( ( newweap ) && ( cgs.gametype == GT_SINGLE_PLAYER ) ) {
+		if ( ( newweap ) && ( cgs.gametype <= GT_SINGLE_PLAYER ) ) {
 			CG_FinishWeaponChange( es->weapon, newweap );
 		}
 

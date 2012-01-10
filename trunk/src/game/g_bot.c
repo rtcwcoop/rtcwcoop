@@ -353,7 +353,7 @@ void G_CheckBotSpawn( void ) {
 		ClientBegin( botSpawnQueue[n].clientNum );
 		botSpawnQueue[n].spawnTime = 0;
 
-		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+		if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 			trap_GetUserinfo( botSpawnQueue[n].clientNum, userinfo, sizeof( userinfo ) );
 			PlayerIntroSound( Info_ValueForKey( userinfo, "model" ) );
 		}
@@ -413,7 +413,7 @@ qboolean G_BotConnect( int clientNum, qboolean restart ) {
 		return qfalse;
 	}
 
-	if ( restart && g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( restart && g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		g_entities[clientNum].botDelayBegin = qtrue;
 	}
 

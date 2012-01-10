@@ -901,7 +901,7 @@ int BotAIStartFrame( int time ) {
 		for ( i = 0; i < MAX_GENTITIES; i++ ) {
 
 			// Ridah, in single player, we only need client entity information
-			if ( g_gametype.integer == GT_SINGLE_PLAYER && i > level.maxclients ) {
+			if ( g_gametype.integer <= GT_SINGLE_PLAYER && i > level.maxclients ) {
 				break;
 			}
 

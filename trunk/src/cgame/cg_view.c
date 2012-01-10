@@ -1234,7 +1234,7 @@ void CG_DrawSkyBoxPortal( void ) {
 	}
 
 	// if they are waiting at the mission stats screen, show the stats
-	if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
+	if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) {
 		if ( strlen( cg_missionStats.string ) > 1 ) {
 			return;
 		}

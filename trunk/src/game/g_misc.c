@@ -1653,7 +1653,7 @@ void Fire_Lead( gentity_t *ent, gentity_t *activator, float spread, int damage )
 
 	trap_Trace( &tr, lead_muzzle, NULL, NULL, end, ent->s.number, MASK_SHOT );
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		AICast_ProcessBullet( activator, lead_muzzle, tr.endpos );
 	}
 
@@ -2426,7 +2426,7 @@ void SP_mg42( gentity_t *self ) {
 		self->accuracy = 1;
 	}
 // JPW NERVE
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer > GT_SINGLE_PLAYER ) {
 		if ( !self->damage ) {
 			self->damage = 25;
 		}

@@ -52,7 +52,7 @@ void AddScore( gentity_t *ent, int score ) {
 
 	// Ridah, no scoring during single player
 	// DHM - Nerve :: fix typo
-	if ( g_gametype.integer == GT_SINGLE_PLAYER  && !g_coop.integer) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		return;
 	}
 	// done.
@@ -137,7 +137,7 @@ void TossClientItems( gentity_t *self ) {
 		}
 	}
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {  // dropped items stay forever in SP
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {  // dropped items stay forever in SP
 		if ( drop ) {
 			drop->nextthink = 0;
 		}
@@ -394,7 +394,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		if ( attacker == self || OnSameTeam( self, attacker ) ) {
 			AddScore( attacker, -1 );
 		} else {
-                        if (g_coop.integer)
+                        if (g_gametype.integer <= GT_COOP)
 			        AddScore( attacker, -2 );
                         else
 			        AddScore( attacker, 1 );
@@ -411,7 +411,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	// if client is in a nodrop area, don't drop anything
 // JPW NERVE new drop behavior
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {   // only drop here in single player; in multiplayer, drop @ limbo
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {   // only drop here in single player; in multiplayer, drop @ limbo
 		contents = trap_PointContents( self->r.currentOrigin, -1 );
 		if ( !( contents & CONTENTS_NODROP ) ) {
 			TossClientItems( self );
@@ -440,7 +440,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	self->s.powerups = 0;
 // JPW NERVE -- only corpse in SP; in MP, need CONTENTS_BODY so medic can operate
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		self->r.contents = CONTENTS_CORPSE;
 		self->s.weapon = WP_NONE;
 	}
@@ -464,7 +464,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
         // fretn: don't print this in coop play, we just respawn
         // mission should fail if we both die
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_coop.integer) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		trap_SendServerCommand( -1, "mu_play sound/music/l_failed_1.wav 0\n" );
 		trap_SetConfigstring( CS_MUSIC_QUEUE, "" );  // clear queue so it'll be quiet after hit
 		trap_SendServerCommand( -1, "cp missionfail0" );
@@ -527,7 +527,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	trap_LinkEntity( self );
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		AICast_ScriptEvent( AICast_GetCastState( self->s.number ), "death", "" );
 	}
 }
@@ -848,7 +848,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	}
 
 //----(SA)	added
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && !targ->aiCharacter && targ->client && targ->client->cameraPortal ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && !targ->aiCharacter && targ->client && targ->client->cameraPortal ) {
 		// get out of damage in sp if in cutscene.
 		return;
 	}
@@ -874,7 +874,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		}
 	}
 
-	if ( ( g_gametype.integer == GT_SINGLE_PLAYER ) && !( targ->r.svFlags & SVF_CASTAI ) ) { // the player
+	if ( ( g_gametype.integer <= GT_SINGLE_PLAYER ) && !( targ->r.svFlags & SVF_CASTAI ) ) { // the player
 		switch ( mod )
 		{
 		case MOD_GRENADE:
@@ -1084,7 +1084,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 
 	// always give half damage if hurting self
 	// calculated after knockback, so rocket jumping works
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {     // JPW NERVE -- removed from multiplayer -- plays havoc with pfaust & demolition balancing
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {     // JPW NERVE -- removed from multiplayer -- plays havoc with pfaust & demolition balancing
 
 		qboolean dynamite = (qboolean)( mod == MOD_DYNAMITE || mod == MOD_DYNAMITE_SPLASH );
 
@@ -1113,7 +1113,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 
 	if ( IsHeadShot( targ, attacker, dir, point, mod ) ) {
 		// JPW NERVE -- different headshot behavior in multiplayer
-		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+		if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 			// by default, a headshot means damage x2
 			take *= 2;
 
@@ -1123,7 +1123,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 			take *= targ->headshotDamageScale;
 
 			// player only code
-			if ( !attacker->aiCharacter && !g_coop.integer) {
+			if ( !attacker->aiCharacter && g_gametype.integer > GT_COOP) {
 				// (SA) id reqests one-shot kills for head shots on common humanoids
 
 				// (SA) except pistols.

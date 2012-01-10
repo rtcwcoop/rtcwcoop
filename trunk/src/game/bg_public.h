@@ -197,17 +197,17 @@ typedef enum {
 #endif
 
 typedef enum {
-	GT_SINGLE_PLAYER,   // single player tournament
 
+        GT_COOP_SPEEDRUN,
+        // other coop variations should come before this one, because we will
+        // use g_gametype.integer <= GT_COOP
+        GT_COOP, 
+	//-- coop games come before this --
+	GT_SINGLE_PLAYER,
 	//-- team games go after this --
 
 	GT_MAX_GAME_TYPE
 } gametype_t;
-
-typedef enum {
-        GV_COOP = 1,
-        GV_NOT_SO_COOP
-} gamevariation_t;
 
 // Rafael gameskill
 typedef enum {

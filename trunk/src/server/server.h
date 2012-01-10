@@ -247,7 +247,6 @@ extern cvar_t  *sv_minPing;
 extern cvar_t  *sv_maxPing;
 extern cvar_t  *sv_gametype;
 //fretn
-extern cvar_t  *sv_coop;
 extern cvar_t  *sv_pure;
 extern cvar_t  *sv_floodProtect;
 extern cvar_t  *sv_allowAnonymous;

@@ -54,8 +54,6 @@ extern int bg_pmove_gameskill_integer;
 // done
 
 vmCvar_t g_gametype;
-//fretn
-vmCvar_t g_coop;
 vmCvar_t g_skipcutscenes;
 
 // Rafael gameskill
@@ -157,7 +155,6 @@ cvarTable_t gameCvarTable[] = {
 
 	// latched vars
 	{ &g_gametype, "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },
-	{ &g_coop, "g_coop", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },
 
 	// Rafael gameskill
 	{ &g_gameskill, "g_gameskill", "2", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // (SA) new default '2' (was '1')
@@ -555,7 +552,7 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 		}
 
 		// check for friendly.
-                if (!g_coop.integer)
+                if (g_gametype.integer > GT_COOP)
                 {
                         if ( traceEnt->aiTeam == AITEAM_ALLIES || traceEnt->aiTeam == AITEAM_NEUTRAL ) {
                                 hintType = HINT_PLYR_FRIEND;
@@ -593,7 +590,7 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 				indirectHit = qtrue;
 
 				// DHM - Nerve :: Put this back in only in multiplayer
-				if ( g_gametype.integer == GT_SINGLE_PLAYER ) { // hint icon specified in entity
+				if ( g_gametype.integer <= GT_SINGLE_PLAYER ) { // hint icon specified in entity
 					checkEnt = G_Find( NULL, FOFS( targetname ), traceEnt->target );
 					if ( !checkEnt ) {     // no target found
 						hintType = HINT_BAD_USER;
@@ -643,7 +640,7 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 					}
 				}
 			} else if ( checkEnt->s.eType == ET_MG42 )      {
-				if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+				if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 					if ( ent->s.weapon != WP_SNIPERRIFLE &&
 						 ent->s.weapon != WP_SNOOPERSCOPE &&
 						 ent->s.weapon != WP_FG42SCOPE ) {
@@ -1202,7 +1199,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 						 &level.clients[0].ps, sizeof( level.clients[0] ) );
 
 	// Ridah
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		char s[10];
 
 		// Ridah, initialize cast AI system
@@ -1242,7 +1239,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	SaveRegisteredItems();
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER || trap_Cvar_VariableIntegerValue( "com_buildScript" ) ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER || trap_Cvar_VariableIntegerValue( "com_buildScript" ) ) {
 		G_ModelIndex( SP_PODIUM_MODEL );
 		G_SoundIndex( "sound/player/gurp1.wav" );
 		G_SoundIndex( "sound/player/gurp2.wav" );
@@ -1275,7 +1272,7 @@ void G_ShutdownGame( int restart ) {
 	}
 
 	// RF, update the playtime
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		AICast_AgePlayTime( 0 );
 	}
 
@@ -1558,7 +1555,7 @@ void CalculateRanks( void ) {
 		   sizeof( level.sortedClients[0] ), SortRanks );
 
 	// set the rank value for all clients that are connected and not spectators
-	if (g_gametype.integer == GT_SINGLE_PLAYER) {
+	if (g_gametype.integer <= GT_SINGLE_PLAYER) {
 		rank = -1;
 		score = 0;
 		for ( i = 0;  i < level.numPlayingClients; i++ ) {
@@ -1574,13 +1571,13 @@ void CalculateRanks( void ) {
 				level.clients[ level.sortedClients[i] ].ps.persistant[PERS_RANK] = rank | RANK_TIED_FLAG;
 			}
 			score = newScore;
-			if ( g_gametype.integer == GT_SINGLE_PLAYER && level.numPlayingClients == 1 ) {
+			if ( g_gametype.integer <= GT_SINGLE_PLAYER && level.numPlayingClients == 1 ) {
 				level.clients[ level.sortedClients[i] ].ps.persistant[PERS_RANK] = rank | RANK_TIED_FLAG;
 			}
 		}
 	}
 
-	if (g_gametype.integer == GT_SINGLE_PLAYER) {
+	if (g_gametype.integer <= GT_SINGLE_PLAYER) {
 		if ( level.numConnectedClients == 0 ) {
 			trap_SetConfigstring( CS_SCORES1, va( "%i", SCORE_NOT_PRESENT ) );
 			trap_SetConfigstring( CS_SCORES2, va( "%i", SCORE_NOT_PRESENT ) );
@@ -1876,7 +1873,7 @@ void CheckIntermissionExit( void ) {
 	gclient_t   *cl;
 	int readyMask;
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		return;
 	}
 
@@ -1990,7 +1987,7 @@ void CheckExitRules( void ) {
 		return;
 	}
 
-	if ( g_timelimit.integer && !level.warmupTime && !g_coop.integer ) {
+	if ( g_timelimit.integer && !level.warmupTime && g_gametype.integer > GT_COOP ) {
 		if ( level.time - level.startTime >= g_timelimit.integer * 60000 ) {
 			// check for sudden death
 			// DHM - Nerve :: exclude GT_WOLF
@@ -2009,7 +2006,7 @@ void CheckExitRules( void ) {
 	}
 
         // fretn: no fraglimit in coop
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_fraglimit.integer && !g_coop.integer) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_fraglimit.integer ) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );
@@ -2366,7 +2363,7 @@ void G_RunFrame( int levelTime ) {
 	CheckExitRules();
 
         // fretn
-        if (g_coop.integer && g_gametype.integer == GT_SINGLE_PLAYER)
+        if (g_gametype.integer <= GT_COOP)
                 CheckCoopStatus();
         else
 	        CheckTeamStatus(); // update to team status?

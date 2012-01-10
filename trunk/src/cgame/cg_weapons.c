@@ -1471,7 +1471,7 @@ void CG_RegisterItemVisuals( int itemNum ) {
 	propellerModel = trap_R_RegisterModel( "models/mapobjects/vehicles/m109_prop.md3" );
 
 // JPW NERVE had to put this somewhere, this seems OK
-	if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
+	if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) {
 		maxWeapBanks = MAX_WEAP_BANKS;
 		maxWeapsInBank = MAX_WEAPS_IN_BANK;
 	}
@@ -2200,7 +2200,7 @@ void CG_PlayerTeslaCoilFire( centity_t *cent, vec3_t flashorigin ) {
 			}
 		}
 
-		if ( cgs.localServer && cgs.gametype == GT_SINGLE_PLAYER ) {
+		if ( cgs.localServer && cgs.gametype <= GT_SINGLE_PLAYER ) {
 			// check for AI's getting hurt (TODO: bot support?)
 			for ( ctrav = cg_entities, i = 0; i < cgs.maxclients && numEnemies < 16; ctrav++, i++ ) {
 				// RF, proto and supersoldier are invulnerable to tesla
@@ -3295,7 +3295,7 @@ int CG_WeaponIndex( int weapnum, int *bank, int *cycle ) {
 		for ( cyc = 0; cyc < maxWeapsInBank; cyc++ ) {
 
 			// end of cycle, go to next bank
-			if ( cg_gameType.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
+			if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
 				if ( !weapBanks[bnk][cyc] ) {
 					break;
 				}
@@ -4164,7 +4164,7 @@ void CG_WeaponBank_f( void ) {
 	CG_WeaponIndex( curweap, &curbank, &curcycle );       // get bank/cycle of current weapon
 
 	if ( !cg.lastWeapSelInBank[bank] ) {
-		if ( cg_gameType.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
+		if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
 			num = weapBanks[bank][0];
 		}
 		cycle -= 1;   // cycle up to first weap
@@ -4942,7 +4942,7 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, in
 	case WP_VENOM:
 
 		// actually yeah.  meant that.  very rare.
-		if ( cg_gameType.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
+		if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
 			r = rand() & 31;
 		}
 		if ( r == 3 ) {
@@ -5177,7 +5177,7 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 		shakeDur = 2800;
 		shakeRad = 8192;
 
-		if ( cg_gameType.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
+		if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
 			for ( i = 0; i < 5; i++ ) {
 				for ( j = 0; j < 3; j++ )
 					sprOrg[j] = origin[j] + 64 * dir[j] + 24 * crandom();
@@ -5286,7 +5286,7 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 		}
 
 // JPW NERVE
-		if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
+		if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) {
 			if ( weapon == VERYBIGEXPLOSION ) {
 				CG_ParticleExplosion( "explode1", sprOrg, sprVel, 1200, 20, 300 );
 			} else {

@@ -349,7 +349,7 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
 	char            **ppStr;
 	int j;
 
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) { // no cast AI in multiplayer
+	if ( g_gametype.integer > GT_SINGLE_PLAYER ) { // no cast AI in multiplayer
 		return NULL;
 	}
 	// are bots enabled?
@@ -432,7 +432,7 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
 	}
 
         // fretn
-        if ( g_coop.integer )
+        if ( g_gametype.integer <= GT_COOP )
         {    
 // fretn - makes the game a bit harder, but its boring that way
 // what we really need are ai respawns
@@ -925,7 +925,7 @@ qboolean AICast_NoFlameDamage( int entNum ) {
 	}
 
 	// DHM - Nerve :: Not in multiplayer
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer > GT_SINGLE_PLAYER ) {
 		return qfalse;
 	}
 
@@ -946,7 +946,7 @@ void AICast_SetFlameDamage( int entNum, qboolean status ) {
 	}
 
 	// DHM - Nerve :: Not in multiplayer
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer > GT_SINGLE_PLAYER ) {
 		return;
 	}
 

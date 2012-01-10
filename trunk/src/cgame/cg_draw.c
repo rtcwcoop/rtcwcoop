@@ -769,7 +769,7 @@ static void CG_DrawUpperRight( void ) {
 
 	y = 0;
 
-        if ( cg_coop.integer && cgs.gametype == GT_SINGLE_PLAYER ) {
+        if ( cgs.gametype <= GT_COOP ) {
 		y = CG_DrawCoopOverlay( y );
         }
 	if ( cg_drawSnapshot.integer ) {
@@ -1583,7 +1583,7 @@ static void CG_ScanForCrosshairEntity( void ) {
 	int content;
 
 	// DHM - Nerve :: We want this in multiplayer
-	if ( cgs.gametype == GT_SINGLE_PLAYER && !cg_coop.integer ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return; //----(SA)	don't use any scanning at the moment.
 
 	}
@@ -1701,7 +1701,7 @@ static void CG_DrawCoopCrosshairNames( void ) {
         char        *name;
         float w;
         // NERVE - SMF
-        const char  *s, *playerClass;
+        const char  *s;
         int playerHealth, val; 
         vec4_t c;
         float barFrac;
@@ -1719,7 +1719,7 @@ static void CG_DrawCoopCrosshairNames( void ) {
         }    
 
         // Ridah
-        if ( cg_gameType.integer == GT_SINGLE_PLAYER && !cg_coop.integer) {
+        if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
                 return;
         }    
         // done.
@@ -1845,7 +1845,7 @@ static void CG_DrawCrosshairNames( void ) {
 	}
 
 	// Ridah
-	if ( cg_gameType.integer == GT_SINGLE_PLAYER && !cg_coop.integer) {
+	if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
 		return;
 	}
 	// done.
@@ -1940,7 +1940,7 @@ CG_DrawIntermission
 =================
 */
 static void CG_DrawIntermission( void ) {
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype <= GT_SINGLE_PLAYER ) {
 		CG_DrawCenterString();
 		return;
 	}
@@ -2085,7 +2085,7 @@ static void CG_DrawWarmup( void ) {
 	int cw;
 	const char  *s;
 
-	if ( cgs.gametype == GT_SINGLE_PLAYER && !cg_coop.integer) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;     // (SA) don't bother with this stuff in sp
 	}
 
@@ -2236,7 +2236,7 @@ static void CG_DrawFlashZoomTransition( void ) {
 		return;
 	}
 
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) { // JPW NERVE
+	if ( cgs.gametype <= GT_SINGLE_PLAYER ) { // JPW NERVE
 		if ( cg.zoomedScope ) {
 			fadeTime = cg.zoomedScope;  //----(SA)
 		} else {
@@ -2869,7 +2869,7 @@ void CG_DrawActive( stereoFrame_t stereoView ) {
 	}
 
 	// if they are waiting at the mission stats screen, show the stats
-	if ( cg_gameType.integer == GT_SINGLE_PLAYER ) {
+	if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) {
 		if ( strlen( cg_missionStats.string ) > 1 ) {
 			trap_Cvar_Set( "com_expectedhunkusage", "-2" );
 			CG_DrawInformation();

@@ -214,7 +214,7 @@ void P_WorldEffects( gentity_t *ent ) {
 
 		if ( ent->health > 0 ) {
 			attacker = g_entities + ent->flameBurnEnt;
-			if ( g_gametype.integer == GT_SINGLE_PLAYER ) { // JPW NERVE
+			if ( g_gametype.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
 				if ( ent->r.svFlags & SVF_CASTAI ) {
 					G_Damage( ent, attacker, attacker, NULL, NULL, 2, DAMAGE_NO_KNOCKBACK, MOD_FLAMETHROWER );
 				} else if ( ( ent->s.onFireEnd - level.time ) > FIRE_FLASH_TIME / 2 && rand() % 5000 < ( ent->s.onFireEnd - level.time ) ) { // as it fades out, also fade out damage rate
@@ -475,7 +475,7 @@ void ClientTimerActions( gentity_t *ent, int msec ) {
 
 		// regenerate
 // JPW NERVE, split these completely
-		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+		if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 			if ( client->ps.powerups[PW_REGEN] ) {
 				if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] ) {
 					ent->health += 15;
@@ -678,7 +678,7 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 //----(SA)	end
 
 		default:
-			if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+			if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 				// RF, handle footstep sounds
 				if ( ent->client->ps.pm_flags & PMF_DUCKED ) { // no when crouching
 					break;
@@ -906,7 +906,7 @@ void ClientThink_real( gentity_t *ent ) {
 	// also update weapon recharge time
 	// JPW drop button drops secondary weapon so new one can be picked up
 	// TTimo explicit braces to avoid ambiguous 'else'
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_coop.integer ) {
+	if ( g_gametype.integer <= GT_COOP ) {
 		if ( ucmd->wbuttons & WBUTTON_DROP ) {
 			if ( !client->dropWeaponTime ) {
 				client->dropWeaponTime = 1; // just latch it for now
@@ -981,7 +981,7 @@ void ClientThink_real( gentity_t *ent ) {
 //	}
 
 	if (    !saveGamePending &&
-			( g_gametype.integer == GT_SINGLE_PLAYER ) &&
+			( g_gametype.integer <= GT_SINGLE_PLAYER ) &&
 			!( ent->r.svFlags & SVF_CASTAI ) ) {
 
 		trap_Cvar_Update( &g_missionStats );
@@ -1300,7 +1300,7 @@ void ClientThink_real( gentity_t *ent ) {
 
 	// Ridah, allow AI Cast's to evaluate results of their pmove's
 	// DHM - Nerve :: Don't do this in multiplayer
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		extern void AICast_EvaluatePmove( int clientnum, pmove_t *pm );
 		AICast_EvaluatePmove( ent->s.number, &pm );
 	}
@@ -1389,7 +1389,7 @@ void ClientThink_real( gentity_t *ent ) {
 
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
-				if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+				if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 					respawn( ent );
 				}
 				// pressing attack or use is the normal respawn method
@@ -1432,7 +1432,7 @@ void ClientThink( int clientNum ) {
 	}
 
 	// Ridah, let the AI think now
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && !( ent->r.svFlags & SVF_CASTAI ) ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && !( ent->r.svFlags & SVF_CASTAI ) ) {
 		AICast_StartFrame( level.time /*ent->client->pers.cmd.serverTime*/ );
 		//AICast_StartServerFrame ( level.time );
 	}
@@ -1638,7 +1638,7 @@ void ClientEndFrame( gentity_t *ent ) {
 
 	// DHM - Nerve :: Only in single player...
 	// Ridah, if they are using a dangerous weapon, let AI do their avoidance
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		switch ( ent->client->ps.weapon ) {
 		case WP_TESLA:          // fear the tesla
 			AICast_CheckDangerousEntity( ent, DANGER_CLIENTAIM, TESLA_RANGE + 150, 0.5, 0.6, ( ent->client->buttons & BUTTON_ATTACK ? qtrue : qfalse ) );

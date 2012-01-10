@@ -1895,7 +1895,7 @@ void FireWeapon( gentity_t *ent ) {
 		if ( ent->s.weapon == WP_DYNAMITE ) {
 			ent->client->ps.classWeaponTime = level.time; // JPW NERVE
 		}
-                if ( g_coop.integer )
+                if ( g_gametype.integer <= GT_COOP )
 		        weapon_grenadelauncher_fire_coop( ent, ent->s.weapon );
                 else
 		        weapon_grenadelauncher_fire( ent, ent->s.weapon );

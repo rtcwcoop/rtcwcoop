@@ -123,7 +123,7 @@ void CG_LoadingClient( int clientNum ) {
 	char model[MAX_QPATH];
 	char iconName[MAX_QPATH];
 
-	if ( cgs.gametype == GT_SINGLE_PLAYER  && clientNum > 0 ) { // for now only show the player's icon in SP games
+	if ( cgs.gametype <= GT_SINGLE_PLAYER  && clientNum > 0 ) { // for now only show the player's icon in SP games
 		return;
 	}
 
@@ -149,7 +149,7 @@ void CG_LoadingClient( int clientNum ) {
 	Q_strncpyz( personality, Info_ValueForKey( info, "n" ), sizeof( personality ) );
 	Q_CleanStr( personality );
 
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype <= GT_SINGLE_PLAYER ) {
 		trap_S_RegisterSound( va( "sound/player/announce/%s.wav", personality ) );
 	}
 
@@ -528,7 +528,7 @@ void CG_DrawInformation( void ) {
 	}
 
 	// Ridah, in single player, cheats disabled, don't show unnecessary information
-	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype <= GT_SINGLE_PLAYER ) {
 		trap_UI_Popup( "briefing" );
 
 		trap_UpdateScreen();
@@ -597,6 +597,12 @@ void CG_DrawInformation( void ) {
 	case GT_SINGLE_PLAYER:
 		s = "Single Player";
 		break;
+	case GT_COOP:
+		s = "Cooperative";
+		break;
+	case GT_COOP_SPEEDRUN:
+		s = "Cooperative speedrun";
+		break;
 	default:
 		s = "Unknown Gametype";
 		break;
@@ -612,7 +618,7 @@ void CG_DrawInformation( void ) {
 		y += PROP_HEIGHT;
 	}
 
-	if ( cgs.gametype != GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype > GT_SINGLE_PLAYER ) {
 		value = atoi( Info_ValueForKey( info, "fraglimit" ) );
 		if ( value ) {
 			UI_DrawProportionalString( 320, y, va( "fraglimit %i", value ),
