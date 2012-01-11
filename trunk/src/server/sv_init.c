@@ -733,7 +733,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 	// Ridah
         // fretn - what about local clients ?
-	if ( sv_gametype->integer == GT_SINGLE_PLAYER ) {
+	if ( sv_gametype->integer <= GT_SINGLE_PLAYER ) {
 		SV_SetExpectedHunkUsage( va( "maps/%s.bsp", server ) );
 	} else {
 		// just set it to a negative number,so the cgame knows not to draw the percent bar
