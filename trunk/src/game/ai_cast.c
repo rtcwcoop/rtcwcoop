@@ -867,6 +867,7 @@ void AICast_CheckLoadGame( void ) {
 			// (SA) send a command that will be interpreted for both the screenfade and any other effects (music cues, pregame menu, etc)
 
 // briefing menu will handle transition, just set a cvar for it to check for drawing the 'continue' button
+                        // fretn - also copied to g_client.c in clientbegin
 			trap_SendServerCommand( -1, "rockandroll\n" );
 
 			level.reloadPauseTime = level.time + 1100;

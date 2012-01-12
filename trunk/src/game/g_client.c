@@ -1632,6 +1632,10 @@ void ClientBegin( int clientNum ) {
 		AICast_ScriptEvent( AICast_GetCastState( clientNum ), "spawn", "" );
 	}
 
+        // fretn, activate the clients pregame menu, comes from ai_cast.c
+        if ( !( ent->r.svFlags & SVF_CASTAI ) && !(client->pers.localClient) )
+                trap_SendServerCommand( ent->s.clientNum, "rockandroll\n" );
+
 	if ( client->sess.sessionTeam != TEAM_SPECTATOR ) {
 		// send event
 		tent = G_TempEntity( ent->client->ps.origin, EV_PLAYER_TELEPORT_IN );

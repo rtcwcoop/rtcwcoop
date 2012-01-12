@@ -161,6 +161,9 @@ void CG_ParseServerinfo( void ) {
 	mapname = Info_ValueForKey( info, "mapname" );
 	Com_sprintf( cgs.mapname, sizeof( cgs.mapname ), "maps/%s.bsp", mapname );
 
+        // fretn - ui needs this to render the levelshot of this map in the loading screen
+        trap_Cvar_Set( "mapname", Info_ValueForKey( info, "mapname" ) );
+
 // JPW NERVE
 // prolly should parse all CS_SERVERINFO keys automagically, but I don't want to break anything that might be improperly set for wolf SP, so I'm just parsing MP relevant stuff here
 	trap_Cvar_Set( "g_medicChargeTime",Info_ValueForKey( info,"g_medicChargeTime" ) );

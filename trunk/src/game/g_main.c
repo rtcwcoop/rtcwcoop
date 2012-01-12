@@ -2195,7 +2195,8 @@ void G_RunFrame( int levelTime ) {
 	msec = level.time - level.previousTime;
 
 	// Ridah, check for loading a save game
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+        // fretn - we copied the pregame popup to g_client
+        if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		extern void AICast_CheckLoadGame( void );
 		AICast_CheckLoadGame();
 	}
