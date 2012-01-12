@@ -284,6 +284,42 @@ static void CG_ParseScreenFade( void ) {
 	CG_Fade( 0, 0, 0, (int)( fadealpha * 255.0f ), fadestart, fadeduration );
 }
 
+/*
+==============
+coop_ParseFog
+	float near dist
+	float far dist
+	float density
+	float[3] r,g,b
+	int		time
+==============
+*/
+static void coop_ParseFog( const char *info ) {
+	char *token;
+	float ne, fa, r, g, b, density;
+	int time;
+
+	token = COM_Parse( (char **)&info );    ne = atof( token );
+	token = COM_Parse( (char **)&info );
+
+	if ( !token || !token[0] ) {
+		// set to  'no fog'
+		// 'FOG_MAP' is not registered, so it will always make fog go away
+		trap_R_SetFog( FOG_CMD_SWITCHFOG, FOG_MAP, (int)ne, 0, 0, 0, 0 );
+		return;
+	}
+
+	fa = atof( token );
+
+	token = COM_Parse( (char **)&info );    density = atof( token );
+	token = COM_Parse( (char **)&info );    r = atof( token );
+	token = COM_Parse( (char **)&info );    g = atof( token );
+	token = COM_Parse( (char **)&info );    b = atof( token );
+	token = COM_Parse( (char **)&info );    time = atoi( token );
+
+	trap_R_SetFog( FOG_SERVER, (int)ne, (int)fa, r, g, b, density );
+	trap_R_SetFog( FOG_CMD_SWITCHFOG, FOG_SERVER, time, 0, 0, 0, 0 );
+}
 
 /*
 ==============
@@ -986,11 +1022,15 @@ static void CG_ServerCommand( void ) {
 	}
 
 	if ( !strcmp( cmd, "rockandroll" ) ) {   // map loaded, game is ready to begin.
+        char buf[64];
 		CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black
 		trap_UI_Popup( "pregame" );                // start pregame menu
 		trap_Cvar_Set( "cg_norender", "1" );    // don't render the world until the player clicks in and the 'playerstart' func has been called (g_main in G_UpdateCvars() ~ilne 949)
 
 		trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
+
+                trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
+                coop_ParseFog(buf);
 
 		return;
 	}
