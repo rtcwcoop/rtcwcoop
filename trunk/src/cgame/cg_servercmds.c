@@ -1022,16 +1022,23 @@ static void CG_ServerCommand( void ) {
 	}
 
 	if ( !strcmp( cmd, "rockandroll" ) ) {   // map loaded, game is ready to begin.
-        char buf[64];
+                char buf[64];
+                static int num = 0;
+
+                if (num) // the first client receives this twice, so ignore it the second time
+                        return;
+
 		CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black
 		trap_UI_Popup( "pregame" );                // start pregame menu
 		trap_Cvar_Set( "cg_norender", "1" );    // don't render the world until the player clicks in and the 'playerstart' func has been called (g_main in G_UpdateCvars() ~ilne 949)
 
 		trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
 
+                // add fog
                 trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
                 coop_ParseFog(buf);
 
+                num++;
 		return;
 	}
 
