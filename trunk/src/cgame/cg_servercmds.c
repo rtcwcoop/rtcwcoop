@@ -1034,9 +1034,11 @@ static void CG_ServerCommand( void ) {
 
 		trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
 
-                // add fog
-                trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
-                coop_ParseFog(buf);
+                if ( cgs.gametype != GT_SINGLE_PLAYER) {
+                        // add fog
+                        trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
+                        coop_ParseFog(buf);
+                }
 
                 num++;
 		return;
