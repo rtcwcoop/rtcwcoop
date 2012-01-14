@@ -152,31 +152,11 @@ itemDef
 				mouseenter { show keyBindStatus }
 				mouseexit { hide keyBindStatus }
 				}
-				
-			itemDef {
-				name other
-				group grpMultiSet
-				type ITEM_TYPE_MULTI
-				text "Net Data Rate:"
-				cvar "rate"
-				cvarFloatList { "<=28.8k" 2500 "33.6k" 3000 "56k" 4000 "ISDN" 5000 "LAN/CABLE/xDSL" 25000  }
-				rect 199 235 256 12
-				textalign ITEM_ALIGN_RIGHT
-				textalignx 128
-				textaligny 10
-				textfont	UI_FONT_NORMAL
-				textscale .25
-				style WINDOW_STYLE_FILLED
-				backcolor 1 1 1 .07 		  
-				forecolor 1 1 1 1
-				visible 1 
-				action { uiScript update ui_setRate }
-				}
 
 			itemDef {
 				name			allow_download
 				group			grpMultiSet
-				rect			199 250 256 12		
+				rect			199 235 256 12		
 				textfont		UI_FONT_NORMAL
 				type			ITEM_TYPE_MULTI
 				style			WINDOW_STYLE_FILLED
@@ -191,17 +171,37 @@ itemDef
 				forecolor		1 1 1 1
 				visible			1
 			}
+
+			itemDef {
+				name			coop_crosshairname
+				group			grpMultiSet
+				rect			199 250 256 12		
+				textfont		UI_FONT_NORMAL
+				type			ITEM_TYPE_MULTI
+				style			WINDOW_STYLE_FILLED
+				text			"Crosshairnames:"
+				cvar			"cg_drawcrosshairnames"
+				cvarFloatList	{ "Off" 0 "On" 1}
+				textscale		.25
+				textalign		ITEM_ALIGN_RIGHT	
+				textalignx		128
+				textaligny		10
+				backcolor		1 1 1 .07 		  
+				forecolor		1 1 1 1
+				visible			1
+			}
 			
-						itemDef {
-				name			coop_nametags
+			itemDef {
+				name			coop_teamoverlay
 				group			grpMultiSet
 				rect			199 265 256 12		
 				textfont		UI_FONT_NORMAL
 				type			ITEM_TYPE_MULTI
 				style			WINDOW_STYLE_FILLED
-				text			"Nametags:"
+				text			"Team-Overlay:"
 				cvar			"cg_drawteamoverlay"
-				cvarFloatList	{ "Off" 0 "Weapon, Name, Health" 1 "Weapon, Name, Location, Health" 2}
+				cvarFloatList	{ "Off" 0 "On" 1}
+//				cvarFloatList	{ "Off" 0 "Weapon, Name, Health" 1 "Weapon, Name, Location, Health" 2}
 				textscale		.25
 				textalign		ITEM_ALIGN_RIGHT	
 				textalignx		128
