@@ -93,9 +93,9 @@ itemDef {
 
 itemDef {
 	name serverlist
-	text "SERVER LIST"
+	text "JOIN SERVER"
 	type 1
-	rect 26 90 78 20
+	rect 44 90 78 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0   
@@ -111,29 +111,10 @@ itemDef {
 	}
 
 itemDef {
-	name gameplaysetup
-	text "GAMEPLAY SETUP"
-	type 1
-	rect 129 90 106 20
-	textstyle 6
-	textalign ITEM_ALIGN_LEFT
-	textalignx 0   
-	textaligny 14
-	textfont	UI_FONT_NORMAL
-	textscale .23
-	forecolor .8 .8 .8 1
-	backcolor .4 .4 .4 .6  
-	visible 1 
-	action { open ingame_multiset }
-	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
-	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
-	}
-
-itemDef {
 	name callvote
 	text "CALL VOTE"
 	type 1
-	rect 260 90 65 20
+	rect 168 90 65 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0     
@@ -155,7 +136,7 @@ itemDef {
 	text "CONTROLS"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 350 90 64 20
+	rect 278 90 64 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0    
@@ -174,7 +155,7 @@ itemDef {
 	text "OPTIONS"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 439 90 51 20
+	rect 386 90 51 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0   
@@ -193,7 +174,7 @@ itemDef {
 	text "SYSTEM"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 515 90 47 20
+	rect 481 90 47 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0  
@@ -212,7 +193,7 @@ itemDef {
 	text "EXIT"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 587 90 26 20
+	rect 572 90 26 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT	
 	textalignx 0

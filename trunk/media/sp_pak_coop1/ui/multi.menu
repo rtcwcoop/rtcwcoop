@@ -124,7 +124,7 @@ itemDef {
 
 	itemDef {
 		name			Join_Server
-		text			"SERVER LIST" 	
+		text			"JOIN SERVER" 	
 		textfont		UI_FONT_NORMAL
 		bordercolor		1 1 1 1
 		style			0	
@@ -138,32 +138,11 @@ itemDef {
 		visible			1
 		action			{ play "sound/misc/kcaction.wav" ;
 			show		grpJoin
-			hide		grpMultiset
 			hide		grpCreate }	
 		mouseenter		{ show message_joinserver }
 		mouseexit		{ hide message_joinserver }
 		}
-	itemDef {
-		name			Multi_Setup	
-		text			"GAMEPLAY SETUP"
-		textfont		UI_FONT_NORMAL
-		type			1
-		style			0	
-		textstyle		6
-		rect			260 90 122 14 
-		textalign		0
-		textscale		.25		
-		textalignx		2
-		textaligny		12
-		forecolor		.9 .9 .9 .9
-		visible			1
-		action			{ play	"sound/misc/kcaction.wav" ;
-			hide		grpJoin
-			show		grpMultiset
-			hide		grpCreate }	
-		mouseenter		{ show message_multisetup }
-		mouseexit		{ hide message_multisetup }
-		}
+
 	itemDef {
 		name			create_server
 		text			"CREATE SERVER"
@@ -182,7 +161,6 @@ itemDef {
 			uiScript loadArenas ;		 
 //			uiScript voteFlags open ;
 			hide		grpJoin
-			hide		grpMultiset
 			show		grpCreate }	
 		mouseenter		{ show message_create }
 		mouseexit		{ hide message_create }
@@ -306,6 +284,7 @@ itemDef {
 			mouseExit { hide message_source }
 			}
 
+/*
 		itemDef {
 			name gametypefield
 			group grpJoin
@@ -327,28 +306,8 @@ itemDef {
 			mouseEnter { show message_typefilter }
 			mouseExit { hide message_typefilter }
 			}
-	
-		itemDef {
-			name dataratesetting
-			group grpJoin
-			type ITEM_TYPE_MULTI
-			text "Connection Type:"
-			cvar "rate"
-			cvarFloatList { "<=28.8k" 2500 "33.6k" 3000 "56k" 4000 "ISDN" 5000 "LAN/CABLE/xDSL" 25000  }
-			rect 215 175 220 15
-			textstyle 6
-			textalign ITEM_ALIGN_LEFT
-			textalignx 0
-			textaligny 14
-			textfont	UI_FONT_NORMAL
-			textscale .25
-			style WINDOW_STYLE_FILLED    
-			forecolor 1 1 1 1
-			visible 1 
-			action { uiScript update ui_setRate }
-			}
+*/
 
-			
 		itemDef {
 			name mappreview
 			group grpJoin
@@ -791,209 +750,6 @@ itemDef {
 			}
 
 // End of Join Server Section
-
-// Start of Multiplayer Setup
-
-		// Multiplayer Setup Border
-
-			itemDef {
-				name window
-				group grpMultiSet
-				rect 100 115 443 300	
-				style WINDOW_STYLE_FILLED
-				border 1
-				bordercolor .5 .5 .5 .5
-				forecolor 1 1 1 1
-				backcolor 0 0 0 .25
-				visible 1
-				decoration
-				}
-
-		// Multiplayer Setup Title
-
-		//////// START OF COPY
-		
-			itemDef {
-				name window
-				group grpMultiSet
-				text "Multiplayer Options"
-				textalignx 160
-				textfont	UI_FONT_NORMAL
-				textaligny 13
-				textscale .25
-				rect 102 117 439 20	
-				style WINDOW_STYLE_FILLED
-				border 1
-				bordercolor .1 .1 .1 .2
-				forecolor 1 1 1 1
-				backcolor .3 0.5 0.2 .25
-				visible 1
-				decoration
-			}
-
-		//	Multiplayer Setup Menu	//
-
-		
-			itemDef {
-				name chat
-				group grpMultiSet
-				type ITEM_TYPE_BIND
-				text "Chat:"
-				cvar "messagemode"
-				rect 199 160 256 12
-				textfont	UI_FONT_NORMAL
-				textalign ITEM_ALIGN_RIGHT
-				textalignx 128
-				textaligny 10
-				textscale .25
-				style WINDOW_STYLE_FILLED
-				backcolor 1 1 1 .07           
-				forecolor 1 1 1 1
-				visible 1
-				mouseenter { show keyBindStatus }
-				mouseexit { hide keyBindStatus }
-				}
-					
-			itemDef {
-				name view
-				group grpMultiSet
-				type ITEM_TYPE_MULTI		
-				text "Chat Icon Time:"
-				rect 199 175 256 12
-				cvar "cg_voicespritetime"
-				cvarFloatList { "Short" 3000 "Normal" 6000 "Long" 12000 "Really Long" 24000 }
-				textalign ITEM_ALIGN_RIGHT
-				textalignx 128
-				textaligny 10
-				textscale .25    
-				textfont	UI_FONT_NORMAL
-				style WINDOW_STYLE_FILLED
-				backcolor 1 1 1 .07    
-				forecolor 1 1 1 1
-				visible 1
-				}
-				
-			itemDef {
-				name misc
-				group grpMultiSet
-				type ITEM_TYPE_BIND
-				text "Show Scores:"
-				cvar "+scores"
-				rect 199 190 256 12
-				textalign ITEM_ALIGN_RIGHT
-				textfont	UI_FONT_NORMAL
-				textalignx 128 
-				textaligny 10
-				textscale .25
-				style WINDOW_STYLE_FILLED
-				backcolor 1 1 1 .07                    
-				forecolor 1 1 1 1
-				visible 1 
-				mouseenter { show keyBindStatus }
-				mouseexit { hide keyBindStatus }
-				}
-
-			itemDef {
-				name dropweapon
-				group grpMultiSet
-				type ITEM_TYPE_BIND
-				text "Drop Weapon:"
-				cvar "+dropweapon"
-				rect 199 205 256 12
-				textfont	UI_FONT_NORMAL
-				textalign ITEM_ALIGN_RIGHT
-				textalignx 128
-				textaligny 10
-				textscale .25
-				style WINDOW_STYLE_FILLED
-				backcolor 1 1 1 .07           
-				forecolor 1 1 1 1
-				visible 1
-				mouseenter { show keyBindStatus }
-				mouseexit { hide keyBindStatus }
-				}
-
-			itemDef {
-				name dropammo
-				group grpMultiSet
-				type ITEM_TYPE_BIND
-				text "Drop Ammo:"
-				cvar "dropammo"
-				rect 199 220 256 12
-				textfont	UI_FONT_NORMAL
-				textalign ITEM_ALIGN_RIGHT
-				textalignx 128
-				textaligny 10
-				textscale .25
-				style WINDOW_STYLE_FILLED
-				backcolor 1 1 1 .07           
-				forecolor 1 1 1 1
-				visible 1
-				mouseenter { show keyBindStatus }
-				mouseexit { hide keyBindStatus }
-				}
-
-			itemDef {
-				name			allow_download
-				group			grpMultiSet
-				rect			199 235 256 12		
-				textfont		UI_FONT_NORMAL
-				type			ITEM_TYPE_MULTI
-				style			WINDOW_STYLE_FILLED
-				text			"Allow Downloads:"
-				cvar			"cl_allowdownload"
-				cvarFloatList		{ "Off" 0 "On" 1 }
-				textscale		.25
-				textalign		ITEM_ALIGN_RIGHT	
-				textalignx		128
-				textaligny		10
-				backcolor		1 1 1 .07 		  
-				forecolor		1 1 1 1
-				visible			1
-			}
-
-			itemDef {
-				name			coop_crosshairname
-				group			grpMultiSet
-				rect			199 250 256 12		
-				textfont		UI_FONT_NORMAL
-				type			ITEM_TYPE_MULTI
-				style			WINDOW_STYLE_FILLED
-				text			"Crosshairnames:"
-				cvar			"cg_drawcrosshairnames"
-				cvarFloatList	{ "Off" 0 "On" 1}
-				textscale		.25
-				textalign		ITEM_ALIGN_RIGHT	
-				textalignx		128
-				textaligny		10
-				backcolor		1 1 1 .07 		  
-				forecolor		1 1 1 1
-				visible			1
-			}
-			
-			itemDef {
-				name			coop_teamoverlay
-				group			grpMultiSet
-				rect			199 265 256 12		
-				textfont		UI_FONT_NORMAL
-				type			ITEM_TYPE_MULTI
-				style			WINDOW_STYLE_FILLED
-				text			"Team-Overlay:"
-				cvar			"cg_drawteamoverlay"
-				cvarFloatList	{ "Off" 0 "On" 1}
-//				cvarFloatList	{ "Off" 0 "Weapon, Name, Health" 1 "Weapon, Name, Location, Health" 2}
-				textscale		.25
-				textalign		ITEM_ALIGN_RIGHT	
-				textalignx		128
-				textaligny		10
-				backcolor		1 1 1 .07 		  
-				forecolor		1 1 1 1
-				visible			1
-			}
-
-			//////// END OF COPY		
-				
-// End of Multiplayer Setup
 
 // Start of Create Server
 
