@@ -967,7 +967,7 @@ void AICast_StartServerFrame( int time ) {
 		return;
 	}
 
-	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer > GT_SINGLE_PLAYER ) {
 		return;
 	}
 
