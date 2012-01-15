@@ -207,30 +207,6 @@ itemDef {
 	}
 
 
-//itemDef {
-//	name wimpy
-//	text "Can I play, Daddy?"
-//	textscale .25
-//	style 0	
-//	type 1
-//	textstyle 6
-//	rect 200 140 240 20 
-//	textalign 0	 
-//	textalignx 60  	
-//	textaligny 16        
-//	forecolor 1 1 1 .9
-//	style WINDOW_STYLE_FILLED
-//	backcolor 1 1 1 .07
-//	visible 1 
-//	action {	play "sound/misc/kcaction.wav";
-//			   	close resetscore_menu;
-//			setCvar g_gameskill "0";
-//				exec "spmap cutscene1" }
-//	mouseenter { show message_controls }
-//	mouseexit { hide message_controls }
-//	}
-	
-
 itemDef {
 	name wuss
 	text "Don't hurt me."
@@ -239,6 +215,30 @@ itemDef {
 	type 1
 	textstyle 6
 	rect 200 140 240 20 
+	textalign 0	 
+	textalignx 60  	
+	textaligny 16        
+	forecolor 1 1 1 .9
+	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .07
+	visible 1 
+	action {	play "sound/misc/kcaction.wav";
+   				close resetscore_menu;
+				setCvar g_gameskill "0";
+				exec "spmap escape1" }
+	mouseenter { show message_controls }
+	mouseexit { hide message_controls }
+	}
+	
+
+itemDef {
+	name "hurt me"
+	text "Bring'em on!"
+	textscale .25
+	style 0	
+	type 1
+	textstyle 6
+	rect 200 180 240 20 
 	textalign 0	 
 	textalignx 60  	
 	textaligny 16        
@@ -255,13 +255,13 @@ itemDef {
 	}
 
 itemDef {
-	name "hurt me"
-	text "Bring'em on!"
+	name "hurt me plenty"
+	text "I am Death incarnate!"
 	textscale .25
 	style 0	
 	type 1
 	textstyle 6
-	rect 200 180 240 20 
+	rect 200 220 240 20 
 	textalign 0	 
 	textalignx 60 	
 	textaligny 16        
@@ -278,13 +278,13 @@ itemDef {
 	}
 
 itemDef {
-	name "hurt me plenty"
-	text "I am Death incarnate!"
+	name "nightmare"
+	text "NIGHTMARE!"
 	textscale .25
 	style 0	
 	type 1
 	textstyle 6
-	rect 200 220 240 20 
+	rect 200 260 240 20 
 	textalign 0	 
 	textalignx 60  	
 	textaligny 16        
