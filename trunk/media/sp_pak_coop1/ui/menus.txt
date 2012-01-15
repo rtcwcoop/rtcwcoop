@@ -9,12 +9,10 @@
 // COOP menu
 
 	loadMenu { "ui/multi.menu" }
-	loadMenu { "ui/filter.menu" }
-	loadMenu { "ui/password.menu" }
-	loadMenu { "ui/serverinfo.menu" }
 	loadMenu { "ui/ingame.menu" }
 	loadMenu { "ui/ingame_callvote.menu" }
 	loadMenu { "ui/ingame_join.menu" }
+	loadMenu { "ui/serverinfo.menu" }
 
 // OPTIONS menu
 

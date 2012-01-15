@@ -187,61 +187,62 @@ itemDef {
 
 	// End of Join Server Border	
 	
-	//  UPPER BUTTONS  //
+	//  1ST COLUMN  //
 	
 	
-			itemDef {
-			name refreshSource
-			group grpJoin
-			text "Get New List"
-			type ITEM_TYPE_BUTTON
-			textscale .25
-			style WINDOW_STYLE_FILLED	
-			//background "ui_mp/assets/button_red.tga"
-			border 1
-			bordercolor .1 .1 .1 .25
-			rect 70 125 105 15
-			textalign 1
-			textalignx 52		// center
-			textaligny 11
-			textfont	UI_FONT_NORMAL
-			backcolor .3 .5 .2 .3
-			forecolor 1 1 1 1
-			visible 1 
-			mouseEnter { show message_refreshSOurce ; setitemcolor refreshSource backcolor .1 .2 .37 1 }
-			mouseExit { hide message_refreshSource ; setitemcolor refreshSource backcolor .3 .5 .2 .3 }
-			action { play "sound/misc/nomenu.wav" ; 
-			uiScript RefreshServers }	  	  
-				}
+		itemDef {
+			name			refreshSource
+			group			grpJoin
+			text			"Get New List"
+			type			ITEM_TYPE_BUTTON
+			textscale		.25
+			style			WINDOW_STYLE_FILLED	
+			//background	"ui_mp/assets/button_red.tga"
+			border			1
+			bordercolor		.1 .1 .1 .25
+			rect			70 125 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			textfont		UI_FONT_NORMAL
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1 
+			
+			mouseEnter		{ show message_refreshSOurce ; setitemcolor refreshSource backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_refreshSource ; setitemcolor refreshSource backcolor .3 .5 .2 .3 }
+			action			{ play "sound/misc/nomenu.wav" ; 
+							uiScript RefreshServers }	  	  
+			}
 
 
 		itemDef {
-			name refreshFilter
-			group grpJoin
-			text "Refresh List"
-			textscale .25
-			style WINDOW_STYLE_FILLED
-			textfont	UI_FONT_NORMAL
-			type ITEM_TYPE_BUTTON
-			border 1
-			bordercolor .1 .1 .1 .25
-			rect 70 150 105 15
-			textalign 1
-			textalignx 52		// center
-			textaligny 11
-			backcolor .3 .5 .2 .3 
-			forecolor 1 1 1 1
-			visible 1 
-			mouseEnter { show message_refreshFilter ; setitemcolor refreshFilter backcolor .1 .2 .37 1 }
-			mouseExit { hide message_refreshFilter ; setitemcolor refreshFilter backcolor .3 .5 .2 .3 }	  	  
-			action { play "sound/misc/nomenu.wav" ; 
-			uiScript RefreshFilter }	  	  
-				}
-
+			name			refreshFilter
+			group			grpJoin
+			text			"Refresh List"
+			textscale		.25
+			style			WINDOW_STYLE_FILLED
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_BUTTON
+			border			1
+			bordercolor		.1 .1 .1 .25
+			rect			70 150 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			backcolor		.3 .5 .2 .3 
+			forecolor		1 1 1 1
+			visible			1 
+			mouseEnter		{ show message_refreshFilter ; setitemcolor refreshFilter backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_refreshFilter ; setitemcolor refreshFilter backcolor .3 .5 .2 .3 }	  	  
+			action			{ play "sound/misc/nomenu.wav" ; 
+							uiScript RefreshFilter }	  	  
+			}
+/*
 		itemDef {
-			name			filterServers
-			group grpJoin
-			text			"Filter Servers"
+			name			serverinfo
+			text			"Server Info"
+			group			grpJoin
 			type			ITEM_TYPE_BUTTON
 			textfont		UI_FONT_NORMAL
 			textscale		.25
@@ -257,56 +258,113 @@ itemDef {
 			visible			1
 
 			action {
-				play "sound/misc/kcaction.wav" ; 
-				open filter_popmenu
+				play		"sound/misc/kcaction.wav" ; 
+				setcvar		ui_serverBrowser 1 ; // 1: from server browser
+				open		serverinfo_popmenu
 			}
 
-			mouseEnter		{ show message_filterServers ; setitemcolor filterServers backcolor .1 .2 .37 1 }
-			mouseExit		{ hide message_filterServers ; setitemcolor filterServers backcolor .3 .5 .2 .3 }
+			mouseEnter		{ show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_serverinfo ; setitemcolor serverinfo backcolor .3 .5 .2 .3 }	 
 				}
+*/
 				
+	//  2ND COLUMN  //
+	
 		itemDef {
-			name gametypefield
-			group grpJoin
-			style 0	
-			textfont UI_FONT_NORMAL
-			ownerdraw UI_NETSOURCE
-			rect 215 125 134 15 
-			textstyle 6
-			textalign ITEM_ALIGN_LEFT		
-			textalignx 0     
-			textaligny 14
-			textscale .25   
-			forecolor 1 1 1 1
-			visible 1 
-			action { play "sound/misc/kcaction.wav" }
-			mouseEnter { show message_source }
-			mouseExit { hide message_source }
+			name			gametypefield
+			group			grpJoin
+			style			0	
+			textfont		UI_FONT_NORMAL
+			ownerdraw		UI_NETSOURCE
+			rect			215 125 134 15 
+			textstyle		6
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25   
+			forecolor		1 1 1 1
+			visible 		1
+			
+			action			{ play "sound/misc/kcaction.wav" }
+			mouseEnter		{ show message_source }
+			mouseExit		{ hide message_source }
 			}
 
-/*
 		itemDef {
-			name gametypefield
-			group grpJoin
-			style 0	
-			textstyle 6
-			text "Type:"
-			ownerdraw UI_JOINGAMETYPE
-			textfont	UI_FONT_NORMAL
-			rect 215 150 160 15
-			textalign ITEM_ALIGN_LEFT		
-			textalignx 0     
-			textaligny 14
-			textscale .25    
-			forecolor 1 1 1 1
-			border 0
-			bordercolor 0 0 0 0
-			visible 1 
-			action { play "sound/misc/kcaction.wav" }
-			mouseEnter { show message_typefilter }
-			mouseExit { hide message_typefilter }
+			name			passwordEntry
+			group			grpJoin
+			style			0
+			textstyle		6
+			text			"Password:"
+			type			ITEM_TYPE_EDITFIELD
+			maxChars		16
+			maxpaintchars	8
+			cvar			"password"
+			textfont		UI_FONT_NORMAL
+			rect			215 150 105 15
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25
+			forecolor		1 1 1 1
+			visible			1
+
+			action {
+				play "sound/misc/kcaction.wav" ; 
+				open password_popmenu
 			}
-*/
+			mouseEnter		{ show message_password ; setitemcolor password backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_password ; setitemcolor password backcolor .3 .5 .2 .3 }
+			}
+
+	//  3TD COLUMN  //
+			
+		itemDef {
+			name			gametypefield
+			group			grpJoin
+			style			0	
+			textstyle		6
+			text			"Type:"
+			ownerdraw		UI_JOINGAMETYPE
+			textfont		UI_FONT_NORMAL
+			rect			350 125 160 15
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25    
+			forecolor		1 1 1 1
+			visible			1
+			
+			action			{ play "sound/misc/kcaction.wav" }
+			mouseEnter		{ show message_typefilter }
+			mouseExit		{ hide message_typefilter }
+			}
+
+		itemDef {
+			name			nameEntry
+			group			grpJoin
+			style			0	
+			textstyle		6
+			type			ITEM_TYPE_YESNO
+			text			"View Empty:"
+			textfont		UI_FONT_NORMAL
+			cvar			"ui_browserShowEmpty"
+			rect			350 150 160 15
+			textalign		ITEM_ALIGN_LEFT
+			textalignx		0
+			textaligny		14
+			textscale		.25 		 
+			forecolor		1 1 1 1
+			visible			1
+			
+			action {
+				play		"sound/misc/nomenu.wav" ;
+							uiScript RefreshFilter }
+			
+			}
+
+		
+	//  MAP PREVIEW  //			
 
 		itemDef {
 			name mappreview
@@ -320,6 +378,8 @@ itemDef {
 			visible 1 
 			}
 
+	//  SERVER BROWSER LINES  //
+
 		itemDef {
 			name mappreview
 			group grpJoin
@@ -329,8 +389,7 @@ itemDef {
 			bordercolor .1 .1 .1 .40
 			visible 1 
 			}
-
-			
+		
 			
 		itemDef {
 			name horizontalseparators
@@ -394,7 +453,7 @@ itemDef {
 			decoration
 		  }
 
-	//	COLUMNS	//
+	//	SERVER BROWSER COLUMNS	//
 
 	
 		itemDef {
@@ -502,7 +561,7 @@ itemDef {
 			doubleClick { uiScript JoinServer }
 			}
 
-	//	SORT TABS	//
+	//	SERVER BROWSER - COLUMN TITLES	//
 
 		itemDef {
 			name server
@@ -530,8 +589,6 @@ itemDef {
 			mouseEnter { show message_sort ; setitemcolor serverColumn bordercolor 1 1 1 1 }
 			mouseExit { hide message_sort ; setitemcolor serverColumn bordercolor .5 .5 .5 .5 }  
 			}
-
-
 
 		itemDef {
 			name map
@@ -614,7 +671,6 @@ itemDef {
 				mouseExit { hide message_sort ; setitemcolor playerColumn bordercolor .5 .5 .5 .5 }  	  
 			}
 
-
 		itemDef {
 			name Type
 			group grpJoin
@@ -641,7 +697,6 @@ itemDef {
 				mouseEnter { show message_sort ; setitemcolor typeColumn bordercolor 1 1 1 1 }
 				mouseExit { hide message_sort ; setitemcolor typeColumn bordercolor .5 .5 .5 .5 }	  	  
 			}
-
 
 		itemDef {
 			name Ping
@@ -671,33 +726,7 @@ itemDef {
 			}
 
 
-		// 	BOTTON BUTTONS	//
-
-
-		itemDef {
-			name			password
-			text			"Password"
-			group			grpJoin
-			type			ITEM_TYPE_BUTTON
-			textscale		.25
-			style			WINDOW_STYLE_FILLED
-			border			1
-			textfont		UI_FONT_NORMAL
-			bordercolor		.1 .1 .1 .25
-			rect			70 385 105 15
-			textalign		1
-			textalignx		52		// center
-			textaligny		11
-			backcolor		.3 .5 .2 .3
-			forecolor		1 1 1 1
-			visible			1
-			action {
-				play "sound/misc/kcaction.wav" ; 
-				open password_popmenu
-			}
-			mouseEnter		{ show message_password ; setitemcolor password backcolor .1 .2 .37 1 }
-			mouseExit		{ hide message_password ; setitemcolor password backcolor .3 .5 .2 .3 }
-				}
+		// 	PLAYER-NAME PART	//
 
 		itemDef {
 			name			window_limbo_name
@@ -720,33 +749,6 @@ itemDef {
 			textalign		ITEM_ALIGN_RIGHT	
 			textalignx		126
 			textaligny		11
-			}
-
-		
-		itemDef {
-			name			serverinfo
-			text			"Server Info"
-			group			grpJoin
-			type			ITEM_TYPE_BUTTON
-			textscale		.25
-			style			WINDOW_STYLE_FILLED
-			border			1
-			textfont		UI_FONT_NORMAL
-			bordercolor		.1 .1 .1 .25
-			rect			467 385 105 15
-			textalign		1
-			textalignx		52		// center
-			textaligny		11
-			backcolor		.3 .5 .2 .3
-			forecolor		1 1 1 1
-			visible			1
-			action			{
-			play "sound/misc/kcaction.wav" ; 
-			setcvar ui_serverBrowser 1 ; // 1: from server browser
-			open serverinfo_popmenu
-			}
-			mouseEnter		{ show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 }
-			mouseExit		{ hide message_serverinfo ; setitemcolor serverinfo backcolor .3 .5 .2 .3 }	 
 			}
 
 // End of Join Server Section

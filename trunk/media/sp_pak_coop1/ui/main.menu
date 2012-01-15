@@ -313,6 +313,7 @@ itemDef {
 			close main ;
  			open multi_menu;
 			uiScript RefreshServers ;
+			uiScript RefreshFilter ;
 		}
     	}
 
