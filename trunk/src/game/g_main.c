@@ -993,23 +993,24 @@ void G_UpdateCvars( void ) {
 						// camera is actually started (since the camera needs to be triggered on loading the game)
 						// So we should call the script, but not let it actually run. Therefore upon loading, the
 						// script should run, and the camera start.
+                                                if (g_gametype.integer == GT_SINGLE_PLAYER) {
+                                                        saveGamePending = qtrue;    // set this temporarily so we dont actually run the script just yet
+                                                        AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
+                                                        // fretn
+                                                        saveGamePending = qfalse;   // set it back
 
-						saveGamePending = qtrue;    // set this temporarily so we dont actually run the script just yet
-						AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );
-                                                // fretn
-						saveGamePending = qfalse;   // set it back
+                                                        // save the "autosave\\<mapname>" savegame, which is taken before any cameras have been played
+                                                        trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+                                                        Q_strncpyz( filename, "autosave\\", sizeof( filename ) );
+                                                        Q_strcat( filename, sizeof( filename ), mapname );
+                                                        G_SaveGame( filename );
 
-						// save the "autosave\\<mapname>" savegame, which is taken before any cameras have been played
-						trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
-						Q_strncpyz( filename, "autosave\\", sizeof( filename ) );
-						Q_strcat( filename, sizeof( filename ), mapname );
-						G_SaveGame( filename );
-
+                                                }
 						// now let it think
 						AICast_CastScriptThink();
 
 						// if we are not watching a cutscene, save the game
-						if ( !g_entities[0].client->cameraPortal ) {
+						if ( !g_entities[0].client->cameraPortal && g_gametype.integer == GT_SINGLE_PLAYER) {
 							G_SaveGame( NULL );
 						}
 

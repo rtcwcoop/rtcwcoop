@@ -1630,6 +1630,8 @@ void ClientBegin( int clientNum ) {
 	// Ridah, trigger a spawn event
 	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
 		AICast_ScriptEvent( AICast_GetCastState( clientNum ), "spawn", "" );
+                if (g_gametype.integer <= GT_COOP)
+                    AICast_ScriptEvent( AICast_GetCastState( clientNum ), "playerstart", "" );
 	}
 
         // fretn, activate the clients pregame menu, comes from ai_cast.c
