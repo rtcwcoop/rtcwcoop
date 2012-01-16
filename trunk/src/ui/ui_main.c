@@ -78,9 +78,8 @@ static const serverFilter_t serverFilters[] = {
 };
 
 static const char *coopGameTypes[] = {
-        "sp",
-        "Coop",
-        "NotSoCoop"
+        "Coop Speedrun",
+        "Cooperative"
 };
 static int const numCoopGameTypes = sizeof( coopGameTypes ) / sizeof( const char* );
 
@@ -1166,8 +1165,8 @@ void UI_Load() {
 	// load translation text
 	UI_LoadTranslationStrings();
 
-//	UI_ParseGameInfo("gameinfo.txt");
-//	UI_LoadArenas();
+	UI_ParseGameInfo("coopgameinfo.txt");
+	UI_LoadArenas();
 
 	UI_LoadMenus( menuSet, qtrue );
 	Menus_CloseAll();
@@ -2775,7 +2774,28 @@ static qboolean UI_GameType_HandleKey( int flags, float *special, int key, qbool
 }
 
 static qboolean UI_NetGameType_HandleKey( int flags, float *special, int key ) {
-	return qfalse;
+        if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_ENTER || key == K_KP_ENTER ) {
+
+                if ( key == K_MOUSE2 ) {
+                        ui_netGameType.integer--;
+                } else {
+                        ui_netGameType.integer++;
+                }    
+
+                if ( ui_netGameType.integer < 0 ) {
+                        ui_netGameType.integer = uiInfo.numGameTypes - 1; 
+                } else if ( ui_netGameType.integer >= uiInfo.numGameTypes ) {
+                        ui_netGameType.integer = 0; 
+                }    
+
+                trap_Cvar_Set( "ui_netGameType", va( "%d", ui_netGameType.integer ) ); 
+                trap_Cvar_Set( "ui_actualnetGameType", va( "%d", uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) ); 
+                trap_Cvar_Set( "ui_currentNetMap", "0" );
+                UI_MapCountByGameType( qfalse );
+                Menu_SetFeederSelection( NULL, FEEDER_ALLMAPS, 0, NULL );
+                return qtrue;
+        }    
+        return qfalse;
 }
 
 static qboolean UI_JoinGameType_HandleKey( int flags, float *special, int key ) {
@@ -4175,7 +4195,7 @@ static void UI_RunMenuScript( char **args ) {
 		} else if ( Q_stricmp( name, "clearError" ) == 0 ) {
 			trap_Cvar_Set( "com_errorMessage", "" );
 		} else if ( Q_stricmp( name, "loadGameInfo" ) == 0 ) {
-			UI_ParseGameInfo( "gameinfo.txt" );
+			UI_ParseGameInfo( "coopgameinfo.txt" );
 			UI_LoadBestScores( uiInfo.mapList[ui_currentMap.integer].mapLoadName, uiInfo.gameTypes[ui_gameType.integer].gtEnum );
 		} else if ( Q_stricmp( name, "resetScores" ) == 0 ) {
 			UI_ClearScores();
@@ -4604,6 +4624,7 @@ static int UI_MapCountByGameType( qboolean singlePlayer ) {
 
 	for ( i = 0; i < uiInfo.mapCount; i++ ) {
 		uiInfo.mapList[i].active = qfalse;
+
 		if ( uiInfo.mapList[i].typeBits & ( 1 << game ) ) {
 			if ( singlePlayer ) {
 				if ( !( uiInfo.mapList[i].typeBits & ( 1 << GT_SINGLE_PLAYER ) ) ) {
@@ -6270,7 +6291,7 @@ void _UI_Init( qboolean inGameLoad ) {
 
 //	UI_ParseTeamInfo("teaminfo.txt");
 //	UI_LoadTeams();
-//	UI_ParseGameInfo("gameinfo.txt");
+	UI_ParseGameInfo("coopgameinfo.txt");
 
 	menuSet = UI_Cvar_VariableString( "ui_menuFiles" );
 	if ( menuSet == NULL || menuSet[0] == '\0' ) {
