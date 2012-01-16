@@ -2799,6 +2799,24 @@ static qboolean UI_NetGameType_HandleKey( int flags, float *special, int key ) {
 }
 
 static qboolean UI_JoinGameType_HandleKey( int flags, float *special, int key ) {
+        if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_ENTER || key == K_KP_ENTER ) {
+
+                if ( key == K_MOUSE2 ) {
+                        ui_joinGameType.integer--;
+                } else {
+                        ui_joinGameType.integer++;
+                }    
+
+                if ( ui_joinGameType.integer < 0 ) {
+                        ui_joinGameType.integer = uiInfo.numJoinGameTypes - 1; 
+                } else if ( ui_joinGameType.integer >= uiInfo.numJoinGameTypes ) {
+                        ui_joinGameType.integer = 0; 
+                }    
+
+                trap_Cvar_Set( "ui_joinGameType", va( "%d", ui_joinGameType.integer ) ); 
+                UI_BuildServerDisplayList( qtrue );
+                return qtrue;
+        }    
 	return qfalse;
 }
 
