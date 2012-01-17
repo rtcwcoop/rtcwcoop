@@ -375,7 +375,7 @@ itemDef {
 			style 0	
 			ownerdraw UI_NETMAPCINEMATIC
 			textfont	UI_FONT_NORMAL
-			rect 472 118 100 80
+			rect 502 118 100 80
 			border 1
 			bordercolor .1 .1 .1 .40
 			visible 1 
@@ -387,7 +387,7 @@ itemDef {
 			name mappreview
 			group grpJoin
 			style WINDOW_STYLE_FILLED	
-			rect 472 118 100 80 
+			rect 502 118 100 80 
 			border 1
 			bordercolor .1 .1 .1 .40
 			visible 1 
