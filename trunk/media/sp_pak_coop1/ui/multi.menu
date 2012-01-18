@@ -735,7 +735,7 @@ itemDef {
 			name			window_limbo_name
 			group			grpJoin
 			visible			1
-			rect			193 385 256 15		
+			rect			40 385 256 15		
 			forecolor		1 1 1 1
 			backcolor		0 0 0 0
 			outlinecolor	1 1 0 .5
@@ -746,13 +746,38 @@ itemDef {
 			bordercolor		.5 .5 .5 .5
 			maxChars		32
 			maxpaintchars	18
-			text			"Player Name:"
+			text			"Player's Name:"
 			cvar			"name"
 			textscale		.25
 			textalign		ITEM_ALIGN_RIGHT	
 			textalignx		126
 			textaligny		11
 			}
+			
+		itemDef {
+			name			window_limbo_model
+			group			grpJoin
+			visible			1
+			rect			344 385 256 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			border			1
+			bordercolor		.5 .5 .5 .5
+			maxChars		32
+			maxpaintchars	18
+			text			"Player's model:"
+			cvar			"coopmodel"
+			cvarFloatList	{ "B.J. Blazkowicz" 0 "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			textscale		.25
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			}
+
 
 // End of Join Server Section
 
@@ -889,7 +914,7 @@ itemDef {
 					text			"Host Name:  "
 					cvar			"sv_hostname"
 					maxChars		16
-					maxPaintChars		32
+					maxPaintChars	32
 					rect			295 145 290 12
 			//		origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
