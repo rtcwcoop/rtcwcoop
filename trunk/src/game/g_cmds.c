@@ -1984,7 +1984,7 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
 
         ammo_in_clip = client->ps.ammoclip[BG_FindClipForWeapon( client->ps.weapon )];
 
-        item = BG_FindItemForWeapon( weapon );
+        item = BG_FindItemForAmmo( BG_FindAmmoForWeapon(weapon) );
         VectorCopy( client->ps.viewangles, angles );
 
         // clamp pitch

@@ -979,6 +979,14 @@ static void CG_Item( centity_t *cent ) {
 
 	item = &bg_itemlist[ es->modelindex ];
 
+        // fretn - The dropammo command can drop items that where not in
+        // the map, so the server doesn't tell the client to preload them
+        // to overcome this problem, lets load the model now
+        CG_RegisterItemVisuals( item - bg_itemlist );
+
+
+        // fretn: the shaders are wrong, so disable this for now
+        /*
 	if ( cg_simpleItems.integer && item->giType != IT_TEAM ) {
 		memset( &ent, 0, sizeof( ent ) );
 		ent.reType = RT_SPRITE;
@@ -992,6 +1000,7 @@ static void CG_Item( centity_t *cent ) {
 		trap_R_AddRefEntityToScene( &ent );
 		return;
 	}
+        */
 
 	scale = 0.005 + cent->currentState.number * 0.00001;
 
