@@ -68,14 +68,14 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 64;
         client->ps.weapon = WP_MP40;
 
-        // grenades
+ /*       // grenades
         if (g_gameskill.integer >= GSKILL_MEDIUM)
         {
             COM_BitSet( client->ps.weapons, WP_GRENADE_PINEAPPLE );
             client->ps.ammo[BG_FindAmmoForWeapon( WP_GRENADE_PINEAPPLE )] = 4;
             client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE )] = 1;
         }
-
+*/
         // give all the players a binocular
         client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 }

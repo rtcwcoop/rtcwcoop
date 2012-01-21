@@ -3440,8 +3440,7 @@ void FS_Restart( int checksumFeed ) {
 		// skip the wolfconfig.cfg if "safe" is on the command line
 		if ( !Com_SafeMode() ) {
 
-// GISKARD: WOLFCONFIG.CFG FILE RENAMED TO COOPCONFIG.CFG
-			Cbuf_AddText( "exec coopconfig.cfg\n" );
+			Cbuf_AddText( "exec wolfconfig.cfg\n" );
 		}
 	}
 
