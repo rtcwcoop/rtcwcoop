@@ -323,9 +323,6 @@ CG_ParseAnimationFiles
 ======================
 */
 
-// fretn: enabled for COOP
-#if 1   // RF, this entire function not used anymore, since we now grab all this stuff from the server
-
 static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci, int client ) {
 	char text[100000];
 	char filename[MAX_QPATH];
@@ -336,10 +333,7 @@ static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci,
 	Q_strncpyz( ci->modelInfo->modelname, modelname, sizeof( ci->modelInfo->modelname ) );
 
 	// load the cfg file
-        if (!strcmp(modelname, "multi"))
-        	Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.cfg");
-        else
-        	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
+        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		return qfalse;
@@ -363,10 +357,7 @@ static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci,
 	CG_CalcMoveSpeeds( ci );
 
 	// load the script file
-        if (!strcmp(modelname, "multi"))
-                Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.script");
-        else
-                Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
+        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		if ( ci->modelInfo->version > 1 ) {
@@ -391,7 +382,6 @@ static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci,
 	BG_AnimParseAnimScript( ci->modelInfo, &cgs.animScriptData, ci->clientNum, filename, text );
 	return qtrue;
 }
-#endif
 
 /*
 ==========================
@@ -688,7 +678,13 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 		Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
 		ci->legsModel = trap_R_RegisterModel( filename );
 	} else {    // try skeletal model
-		Com_sprintf( filename, sizeof( filename ), "models/players/%s/body.mds", modelName );
+                // fretn: for the coop models, we use the body.mds from the multi model, so we don't have to
+                // copy that media from the mp_paks into our pk3's.
+                if (!strcmp(modelName, "coop"))
+                    Com_sprintf( filename, sizeof( filename ), "models/players/multi/body.mds" );
+                else
+                    Com_sprintf( filename, sizeof( filename ), "models/players/%s/body.mds", modelName );
+
 		ci->legsModel = trap_R_RegisterModel( filename );
 
 		if ( !ci->legsModel ) {   // revert to mesh animation
@@ -1268,9 +1264,19 @@ static qboolean CG_RegisterClientHeadname( clientInfo_t *ci, const char *modelNa
 	}
 
 	if ( trap_R_GetSkinModel( ci->headSkin, "md3_part", &namefromskin[0] ) ) {
-		Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
+                // fretn: for the coop models, we use the md3 parts from the multi model, so we don't have to
+                // copy that media from the mp_paks into our pk3's.
+                if (!strcmp(modelName, "coop"))
+		        Com_sprintf( filename, sizeof( filename ), "models/players/multi/%s", namefromskin );
+                else
+		        Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
 	} else {
-		Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", modelName );
+                // fretn: for the coop models, we use the md3 parts from the multi model, so we don't have to
+                // copy that media from the mp_paks into our pk3's.
+                if (!strcmp(modelName, "coop"))
+		        Com_sprintf( filename, sizeof( filename ), "models/players/multi/head.md3" );
+                else
+		        Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", modelName );
 	}
 
 	ci->headModel = trap_R_RegisterModel( filename );
@@ -1367,19 +1373,18 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 				CG_Error( "DEFAULT_MODEL (%s/default) failed to register", ci->modelName );
 			}
 		} else {
-			// go totally default
-                        if (cgs.gametype <= GT_COOP)
-                        {
-                                if ( !CG_RegisterClientModelname( ci, "multi", ci->skinName ) ) {
-                                        CG_Error( "DEFAULT_MODEL (multi/%s) failed to register", ci->skinName );
+                        if (cgs.gametype <= GT_COOP) {
+                                // go totally default
+                                if ( !CG_RegisterClientModelname( ci, DEFAULT_COOP_MODEL, "default" ) ) {
+                                        CG_Error( "DEFAULT_COOP_MODEL (%s/default) failed to register", DEFAULT_MODEL );
                                 }
 
                                 // fall back to default head
-                                if ( !CG_RegisterClientHeadname( ci, "multi", ci->skinName ) ) {
+                                if ( !CG_RegisterClientHeadname( ci, DEFAULT_COOP_MODEL, "default" ) ) {
                                         CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
                                 }
                         } else {
-
+                                // go totally default
                                 if ( !CG_RegisterClientModelname( ci, DEFAULT_MODEL, "default" ) ) {
                                         CG_Error( "DEFAULT_MODEL (%s/default) failed to register", DEFAULT_MODEL );
                                 }
@@ -1397,7 +1402,11 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 
 	// sounds
 	dir = ci->modelName;
-	fallback = DEFAULT_MODEL;
+        if (cgs.gametype > GT_COOP) {
+                fallback = DEFAULT_MODEL;
+        } else {
+                fallback = DEFAULT_COOP_MODEL;
+        }
 
 	for ( i = 0 ; i < MAX_CUSTOM_SOUNDS ; i++ ) {
 		s = cg_customSoundNames[i];
@@ -1630,6 +1639,7 @@ void CG_NewClientInfo( int clientNum ) {
 		// truncate modelName
 		*slash = 0;
 	}
+
 //	}
 
 	//----(SA) modify \/ to differentiate for head models/skins as well

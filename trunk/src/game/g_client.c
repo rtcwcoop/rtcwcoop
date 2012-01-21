@@ -760,14 +760,29 @@ Forces a client's skin (for Wolfenstein teamplay)
 */
 
 #define MULTIPLAYER_MODEL   "multi"
+#define COOP_MODEL   "coop"
 
-void SetCoopSkin( gclient_t *client, char *model ) {
+void SetCoopSkin( gclient_t *client, char *model, int number ) {
 
-        Q_strcat( model, MAX_QPATH, "blue" );
+        //Q_strcat( model, MAX_QPATH, "blue" );
 
-        Q_strcat( model, MAX_QPATH, "soldier" );
-
-        Q_strcat( model, MAX_QPATH, "1" );
+        switch ( number ) {
+        case 0:
+                Q_strcat( model, MAX_QPATH, "bj" );
+                break;
+        case 1:
+                Q_strcat( model, MAX_QPATH, "soldier1" );
+                break;
+        case 2:
+                Q_strcat( model, MAX_QPATH, "soldier2" );
+                break;
+        case 3:
+                Q_strcat( model, MAX_QPATH, "soldier3" );
+                break;
+        default:
+                Q_strcat( model, MAX_QPATH, "bj" );
+                break;
+        }
 }
 
 void SetWolfSkin( gclient_t *client, char *model ) {
@@ -1246,12 +1261,7 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 	Q_strncpyz( cl->modelInfo->modelname, modelname, sizeof( cl->modelInfo->modelname ) );
 
 	// load the cfg file
-        if (!strcmp(modelname, "multi"))
-        {
-	        Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.cfg" );
-        }
-        else
-	        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
+        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		G_Printf( "G_ParseAnimationFiles(): file '%s' not found\n", filename );       //----(SA)	added
@@ -1269,10 +1279,7 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 	BG_AnimParseAnimConfig( cl->modelInfo, filename, text );
 
 	// load the script file
-        if (!strcmp(modelname, "multi"))
-	        Com_sprintf( filename, sizeof( filename ), "models/players/coop/wolfanim.script");
-        else
-                Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
+        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		if ( cl->modelInfo->version > 1 ) {
@@ -1324,7 +1331,7 @@ if desired.
 void ClientUserinfoChanged( int clientNum ) {
 	gentity_t *ent;
 	char    *s;
-	char model[MAX_QPATH], modelname[MAX_QPATH];
+	char model[MAX_QPATH], modelname[MAX_QPATH], skin[MAX_QPATH];
 
 //----(SA) added this for head separation
 	char head[MAX_QPATH];
@@ -1403,7 +1410,11 @@ void ClientUserinfoChanged( int clientNum ) {
 
 	// set model
 	if ( g_forceModel.integer ) {
-		Q_strncpyz( model, DEFAULT_MODEL, sizeof( model ) );
+                if ( g_gametype.integer > GT_COOP )
+	        	Q_strncpyz( model, DEFAULT_MODEL, sizeof( model ) );
+                else
+	        	Q_strncpyz( model, DEFAULT_COOP_MODEL, sizeof( model ) );
+
 		Q_strcat( model, sizeof( model ), "/default" );
 	} else {
 		Q_strncpyz( model, Info_ValueForKey( userinfo, "model" ), sizeof( model ) );
@@ -1416,13 +1427,16 @@ void ClientUserinfoChanged( int clientNum ) {
 
         if ( g_gametype.integer <= GT_COOP &&  !(ent->r.svFlags & SVF_CASTAI))
         {
-		Q_strncpyz( model, MULTIPLAYER_MODEL, MAX_QPATH );
+                // get skin number:
+                Q_strncpyz( skin, Info_ValueForKey( userinfo, "skin" ), sizeof( skin ) );
+
+		Q_strncpyz( model, COOP_MODEL, MAX_QPATH );
 		Q_strcat( model, MAX_QPATH, "/" );
 
-		SetCoopSkin( client, model );
+		SetCoopSkin( client, model, atoi(skin) );
 
 		Q_strncpyz( head, "", MAX_QPATH );
-		SetCoopSkin( client, head );
+		SetCoopSkin( client, head, atoi(skin)  );
         }
 
 	// strip the skin name
@@ -1439,7 +1453,7 @@ void ClientUserinfoChanged( int clientNum ) {
 		}
 	}
 
-
+        if ( ent->r.svFlags & SVF_CASTAI ) {
 //----(SA) added this for head separation
 		// set head
 		if ( g_forceModel.integer ) {
@@ -1460,6 +1474,7 @@ void ClientUserinfoChanged( int clientNum ) {
 		default:
 			break;
 		}
+        }
 
 
 	// colors
