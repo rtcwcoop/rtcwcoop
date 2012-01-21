@@ -201,7 +201,7 @@ itemDef {
 			style			WINDOW_STYLE_FILLED	
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
-			bordercolor		.1 .1 .1 .25
+			bordercolor		.5 .5 .5 .5
 			rect			70 140 105 15
 			textalign		1
 			textalignx		52		// center
@@ -228,7 +228,7 @@ itemDef {
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_BUTTON
 			border			1
-			bordercolor		.1 .1 .1 .25
+			bordercolor		.5 .5 .5 .5
 			rect			70 165 105 15
 			textalign		1
 			textalignx		52		// center
@@ -575,7 +575,7 @@ itemDef {
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED
 			border 1
-			bordercolor .1 .1 .1 .25	
+			bordercolor .5 .5 .5 .5
 			rect 20 200 169 15
 			textalign 1
 			textalignx 85		// center
@@ -606,7 +606,7 @@ itemDef {
 			textalignx 98		// center
 			textaligny 10
 			border 1
-			bordercolor .1 .1 .1 .25
+			bordercolor .5 .5 .5 .5
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
 			visible 1 
@@ -629,7 +629,7 @@ itemDef {
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED
 			border 1
-			bordercolor .1 .1 .1 .25		
+			bordercolor .5 .5 .5 .5	
 			rect 384 200 37 15
 			textalign 1
 			textalignx 18		// center
@@ -660,7 +660,7 @@ itemDef {
 			textalignx 32		// center
 			textaligny 10
 			border 1
-			bordercolor .1 .1 .1 .25
+			bordercolor .5 .5 .5 .5
 			forecolor 1 1 1 1
 			backcolor .3 .5 .2 .3
 			visible 1 
@@ -687,7 +687,7 @@ itemDef {
 			textalignx 42		// center
 			textaligny 10
 			border 1	
-			bordercolor .1 .1 .1 .25	
+			bordercolor .5 .5 .5 .5
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
 			visible 1 
@@ -710,7 +710,7 @@ itemDef {
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED
 			border 1
-			bordercolor .1 .1 .1 .25		
+			bordercolor .5 .5 .5 .5	
 			rect 567 200 36 15
 			textalign 1
 			textalignx 18		// center
@@ -769,9 +769,9 @@ itemDef {
 			bordercolor		.5 .5 .5 .5
 			maxChars		32
 			maxpaintchars	18
-			text			"Player's skin:"
+			text			"Player's model:"
 			cvar			"skin"
-			cvarFloatList	{ "B.J. Blazkowicz" 0 "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
 			textscale		.25
 			textalign		ITEM_ALIGN_RIGHT	
 			textalignx		126
@@ -845,7 +845,7 @@ itemDef {
 					rect			28 120 230 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
-					bordercolor		.1 .1 .1 .2
+					bordercolor		.5 .5 .5 .5
 					forecolor		1 1 1 1
 					backcolor		.3 0.5 0.2 .25
 					visible			1
@@ -899,7 +899,7 @@ itemDef {
 					rect			294 120 290 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
-					bordercolor		.1 .1 .1 .2
+					bordercolor		.5 .5 .5 .5
 					forecolor		1 1 1 1
 					backcolor		.3 0.5 0.2 .25
 					visible			1
@@ -1073,8 +1073,8 @@ itemDef {
 					type			ITEM_TYPE_NUMERICFIELD
 					textfont		UI_FONT_NORMAL
 					text			"Number of lives:  "
-				//	cvar			"g_maxLives"
-					cvar			"g_alliedmaxlives"
+					cvar			"g_maxLives"
+				//	cvar			"g_alliedmaxlives"
 					rect			295 250 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
@@ -1112,28 +1112,6 @@ itemDef {
 					maxchars		6
 					mouseenter		{ show message_skill }
 					mouseexit		{ hide message_skill }
-					}
-
-					
-				itemDef {
-					name				expert
-					group				grpCreate
-					type				ITEM_TYPE_YESNO
-					text				"Enable Voting:  "
-					cvar				"g_allowvote"
-					rect				295 280 290 12
-				//	origin				ORIGIN_WINDOW2
-					textfont			UI_FONT_NORMAL
-					style				WINDOW_STYLE_FILLED
-					textalign			ITEM_ALIGN_RIGHT
-					textalignx			145
-					textaligny			10
-					textscale			.25
-					backcolor			1 1 1 .07       
-					forecolor			1 1 1 1
-					visible				1 
-					mouseenter			{ show message_enable_voting }
-					mouseexit			{ hide message_enable_voting }
 					}
 /*				
 				itemDef {

@@ -4022,7 +4022,7 @@ static void UI_Update( const char *name ) {
 			trap_Cvar_SetValue( "r_fastSky", 0 );
 			trap_Cvar_SetValue( "r_inGameVideo", 1 );
 			trap_Cvar_SetValue( "cg_shadows", 1 );
-			trap_Cvar_SetValue( "cg_brassTime", 2500 );
+			trap_Cvar_SetValue( "cg_brassTime", 60000 );
 			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
 			break;
 		case 1: // normal
@@ -4033,48 +4033,48 @@ static void UI_Update( const char *name ) {
 			trap_Cvar_SetValue( "r_colorbits", 0 );
 			trap_Cvar_SetValue( "r_depthbits", 24 );
 			trap_Cvar_SetValue( "r_picmip", 0 );
-			trap_Cvar_SetValue( "r_picmip2", 1 );
+			trap_Cvar_SetValue( "r_picmip2", 0 );
 			trap_Cvar_SetValue( "r_mode", 3 );
 			trap_Cvar_SetValue( "r_texturebits", 0 );
 			trap_Cvar_SetValue( "r_fastSky", 0 );
 			trap_Cvar_SetValue( "r_inGameVideo", 1 );
-			trap_Cvar_SetValue( "cg_brassTime", 2500 );
-			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_NEAREST" ); //----(SA)	modified so wolf never sets trilinear automatically
+			trap_Cvar_SetValue( "cg_brassTime", 60000 );
+			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" ); //----(SA)	modified so wolf never sets trilinear automatically
 			trap_Cvar_SetValue( "cg_shadows", 0 );
 			break;
 		case 2: // fast
 			trap_Cvar_SetValue( "r_fullScreen", 1 );
 			trap_Cvar_SetValue( "r_subdivisions", 8 );
 			trap_Cvar_SetValue( "r_vertexlight", 0 );
-			trap_Cvar_SetValue( "r_lodbias", 1 );
+			trap_Cvar_SetValue( "r_lodbias", 0 );
 			trap_Cvar_SetValue( "r_colorbits", 0 );
 			trap_Cvar_SetValue( "r_depthbits", 0 );
-			trap_Cvar_SetValue( "r_picmip", 1 );
-			trap_Cvar_SetValue( "r_picmip2", 2 );
+			trap_Cvar_SetValue( "r_picmip", 0 );
+			trap_Cvar_SetValue( "r_picmip2", 0 );
 			trap_Cvar_SetValue( "r_mode", 3 );
 			trap_Cvar_SetValue( "r_texturebits", 0 );
 			trap_Cvar_SetValue( "cg_shadows", 0 );
-			trap_Cvar_SetValue( "r_fastSky", 1 );
+			trap_Cvar_SetValue( "r_fastSky", 0 );
 			trap_Cvar_SetValue( "r_inGameVideo", 0 );
-			trap_Cvar_SetValue( "cg_brassTime", 0 );
-			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_NEAREST" );
+			trap_Cvar_SetValue( "cg_brassTime", 60000 );
+			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
 			break;
 		case 3: // fastest
 			trap_Cvar_SetValue( "r_fullScreen", 1 );
 			trap_Cvar_SetValue( "r_subdivisions", 20 );
-			trap_Cvar_SetValue( "r_vertexlight", 1 );
-			trap_Cvar_SetValue( "r_lodbias", 2 );
+			trap_Cvar_SetValue( "r_vertexlight", 0 );
+			trap_Cvar_SetValue( "r_lodbias", 0 );
 			trap_Cvar_SetValue( "r_colorbits", 16 );
 			trap_Cvar_SetValue( "r_depthbits", 16 );
 			trap_Cvar_SetValue( "r_mode", 3 );
-			trap_Cvar_SetValue( "r_picmip", 2 );
-			trap_Cvar_SetValue( "r_picmip2", 3 );
+			trap_Cvar_SetValue( "r_picmip", 0 );
+			trap_Cvar_SetValue( "r_picmip2", 0 );
 			trap_Cvar_SetValue( "r_texturebits", 16 );
 			trap_Cvar_SetValue( "cg_shadows", 0 );
-			trap_Cvar_SetValue( "cg_brassTime", 0 );
-			trap_Cvar_SetValue( "r_fastSky", 1 );
+			trap_Cvar_SetValue( "cg_brassTime", 60000 );
+			trap_Cvar_SetValue( "r_fastSky", 0 );
 			trap_Cvar_SetValue( "r_inGameVideo", 0 );
-			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_NEAREST" );
+			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
 			break;
 
 		case 999:   // 999 is reserved for having set default values ("recommended")
@@ -6979,7 +6979,7 @@ cvarTable_t cvarTable[] = {
 	{ &ui_drawCrosshair, "cg_drawCrosshair", "4", CVAR_ARCHIVE },
 	{ &ui_drawCrosshairNames, "cg_drawCrosshairNames", "1", CVAR_ARCHIVE },
 	{ &ui_drawCrosshairPickups, "cg_drawCrosshairPickups", "1", CVAR_ARCHIVE },   //----(SA) added
-	{ &ui_marks, "cg_marktime", "20000", CVAR_ARCHIVE },
+	{ &ui_marks, "cg_marktime", "3600000", CVAR_ARCHIVE },
 	{ &ui_autoactivate, "cg_autoactivate", "1", CVAR_ARCHIVE },
 	{ &ui_useSuggestedWeapons, "cg_useSuggestedWeapons", "1", CVAR_ARCHIVE }, //----(SA)	added
 	{ &ui_emptyswitch, "cg_emptyswitch", "0", CVAR_ARCHIVE }, //----(SA)	added

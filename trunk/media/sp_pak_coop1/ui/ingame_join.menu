@@ -619,8 +619,8 @@ menuDef {
 			maxChars		32
 			maxpaintchars	18
 			text			"Player's model:"
-			cvar			"coopmodel"
-			cvarFloatList	{ "B.J. Blazkowicz" 0 "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			cvar			"skin"
+			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
 			textscale		.25
 			textalign		ITEM_ALIGN_RIGHT	
 			textalignx		126
