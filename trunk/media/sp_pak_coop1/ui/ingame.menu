@@ -95,7 +95,7 @@ itemDef {
 	name serverlist
 	text "JOIN SERVER"
 	type 1
-	rect 44 90 78 20
+	rect 41 90 79 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0   
@@ -114,7 +114,7 @@ itemDef {
 	name callvote
 	text "CALL VOTE"
 	type 1
-	rect 168 90 65 20
+	rect 160 90 65 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0     
@@ -136,7 +136,7 @@ itemDef {
 	text "CONTROLS"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 278 90 64 20
+	rect 265 90 63 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0    
@@ -152,10 +152,10 @@ itemDef {
 
 itemDef {
 	name options
-	text "OPTIONS"
+	text "HUD OPTIONS"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 386 90 51 20
+	rect 368 90 80 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0   
@@ -174,7 +174,7 @@ itemDef {
 	text "SYSTEM"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 481 90 47 20
+	rect 488 90 46 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT
 	textalignx 0  
@@ -193,7 +193,7 @@ itemDef {
 	text "EXIT"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 572 90 26 20
+	rect 574 90 25 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT	
 	textalignx 0
@@ -215,13 +215,13 @@ itemDef {
 	text "Version:"
 	cvar version 
 	maxPaintChars 32
-      //	textalign ITEM_ALIGN_LEFT		
-      	textalignx 30
-      	textaligny 12
+//	textalign ITEM_ALIGN_LEFT		
+    textalignx 30
+    textaligny 12
 	textalign 0    
 	textscale .18     
-      	forecolor 1 1 1 1
-      	visible 1
+    forecolor 1 1 1 1
+    visible 1
 	decoration
 	}
 

@@ -7,12 +7,12 @@ menuDef {
     	name "ingame_controls"
     	visible 0
     	fullscreen 0
-			outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
-	rect 100 125 443 340
+		outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+		rect 100 125 443 340
     	focusColor 1 .75 0 1
     	style 1
     	border 1
-	onClose {
+		onClose {
 	    uiScript saveControls
 	}
 	onopen { hide grpControls ; show look ; uiScript loadControls }
@@ -31,7 +31,7 @@ itemDef {
 	backcolor 0 0 0 .25
 	visible 1
 	decoration
-}
+	}
 
 
 itemDef {
@@ -93,23 +93,6 @@ itemDef {
 	}
 
 
-itemDef {
-	name look
-	text "CONTROLS"
- 	type 1
-	textfont UI_FONT_NORMAL
-	style 0	
-	textstyle 6
-	rect 222.5 -12 64 14 
-	textalign ITEM_ALIGN_CENTER
-	textscale .23		
-	textalignx 2
-	textaligny 12
-	forecolor .9 .9 .9 1
-	visible 1 
-	decoration
-
-}
 	itemDef {
 		name look
 		group grpControls
@@ -1249,11 +1232,13 @@ itemDef {
 		mouseexit { hide keyBindStatus }
   	}
 
+	
+	
 	itemDef {
 		name misc
 		group grpControls
 		type ITEM_TYPE_TEXT
-		text "Cooperative Settings..."
+		text "Cooperative Gameplay"
 		rect 50 180 290 12
 		textalign ITEM_ALIGN_CENTER
 		textalignx 180
@@ -1286,28 +1271,10 @@ itemDef {
 	itemDef {
 		name misc
 		group grpControls
-		type ITEM_TYPE_MULTI		
-		text "Chat Icon Time:  "
-		rect 82 210 290 12
-		cvar "cg_voicespritetime"
-		cvarFloatList { "3 sec" 3000 "6 sec" 6000 "12 sec" 12000 "24 sec" 24000 }
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07    
-		forecolor 1 1 1 1
-		visible 1
-		}
-		
-	itemDef {
-		name misc
-		group grpControls
 		type ITEM_TYPE_BIND
 		text "Drop Weapon:  "
 		cvar "+dropweapon"
-		rect 82 225 290 12
+		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -1326,7 +1293,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Drop Ammo:  "
 		cvar "dropammo"
-		rect 82 240 290 12
+		rect 82 225 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -1345,7 +1312,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Show Scores:  "
 		cvar "+scores"
-		rect 82 255 290 12
+		rect 82 240 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -1359,41 +1326,6 @@ itemDef {
 		}
 
 
-	itemDef {
-		name			misc
-		group			grpControls
-		rect			82 270 290 12
-		type			ITEM_TYPE_MULTI
-		style			WINDOW_STYLE_FILLED
-		text			"Crosshairnames:  "
-		cvar			"cg_drawcrosshairnames"
-		cvarFloatList	{ "Off" 0 "On" 1}
-		textscale		.23
-		textalign		ITEM_ALIGN_RIGHT	
-		textalignx		142
-		textaligny		10
-		backcolor		1 1 1 .07 		  
-		forecolor		1 1 1 1
-		visible			1
-	}
-	
-	itemDef {
-		name			misc
-		group			grpControls
-		rect			82 285 290 12
-		type			ITEM_TYPE_MULTI
-		style			WINDOW_STYLE_FILLED
-		text			"Team-Overlay:  "
-		cvar			"cg_drawteamoverlay"
-		cvarFloatList	{ "Off" 0 "On" 1}
-		textscale		.23
-		textalign		ITEM_ALIGN_RIGHT	
-		textalignx		142
-		textaligny		10
-		backcolor		1 1 1 .07 		  
-		forecolor		1 1 1 1
-		visible			1
-	}
 ///////////////// end misc
 
 
