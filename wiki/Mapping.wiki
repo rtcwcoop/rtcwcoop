@@ -30,3 +30,5 @@ New entities for mappers and other information for mappers.
 == .ai scripts ==
  In a coop game, the following attributes are ignored: aim_accuracy, aim_skill, attack_skill and health
  these are set based on the value of g_gameskill
+Also the script must be named mapname.coop.ai (single player uses mapname.ai)
+the same counts for the mapname.coop.script file
