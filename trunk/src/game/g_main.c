@@ -2096,10 +2096,18 @@ void CheckReloadStatus( void ) {
 
 				if ( g_reloading.integer == RELOAD_NEXTMAP_WAITING ) {
 					trap_Cvar_Set( "g_reloading", va( "%d", RELOAD_NEXTMAP ) ); // set so sv_map_f will know it's okay to start a map
-					if ( g_cheats.integer ) {
-						trap_SendConsoleCommand( EXEC_APPEND, va( "spdevmap %s\n", level.nextMap ) );
-					} else {
-						trap_SendConsoleCommand( EXEC_APPEND, va( "spmap %s\n", level.nextMap ) );
+                                        if (g_gametype.integer <= GT_COOP) {
+                                            if ( g_cheats.integer ) {
+                                                    trap_SendConsoleCommand( EXEC_APPEND, va( "coopdevmap %s\n", level.nextMap ) );
+                                            } else {
+                                                    trap_SendConsoleCommand( EXEC_APPEND, va( "coopmap %s\n", level.nextMap ) );
+                                            }
+                                        } else {
+                                            if ( g_cheats.integer ) {
+                                                    trap_SendConsoleCommand( EXEC_APPEND, va( "spdevmap %s\n", level.nextMap ) );
+                                            } else {
+                                                    trap_SendConsoleCommand( EXEC_APPEND, va( "spmap %s\n", level.nextMap ) );
+                                            }
 					}
 
 				} else if ( g_reloading.integer == RELOAD_ENDGAME ) {
