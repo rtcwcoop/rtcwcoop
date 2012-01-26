@@ -1177,7 +1177,7 @@ void G_SpawnEntitiesFromString( void ) {
 		G_SpawnGEntityFromSpawnVars();
 	}
 
-        if (g_gametype <= GT_COOP) {
+        if (g_gametype.integer <= GT_COOP) {
                 G_LoadEntsFile();
 
                 G_ParseExtraSpawnVars();
