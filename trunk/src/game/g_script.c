@@ -258,7 +258,11 @@ void G_Script_ScriptLoad( void ) {
 	}
 	Q_strncpyz( filename, "maps/", sizeof( filename ) );
 	Q_strcat( filename, sizeof( filename ), mapname.string );
-	Q_strcat( filename, sizeof( filename ), ".script" );
+        if (g_gametype.integer <= GT_COOP) {
+	        Q_strcat( filename, sizeof( filename ), ".coop.script" );
+        } else {
+	        Q_strcat( filename, sizeof( filename ), ".script" );
+        }
 
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 
