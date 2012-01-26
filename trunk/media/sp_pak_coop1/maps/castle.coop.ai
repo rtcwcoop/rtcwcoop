@@ -1,0 +1,1701 @@
+//
+//Chad's first scripting attempt.  :)
+//six treasure items
+//
+// DO NOT EDIT WITHOUT SPEAKING TO CHAD.  I DON'T CARE WHO YOU ARE.
+//
+
+player
+{
+
+	spawn
+	{
+
+		cvar g_episode 6
+		objectivesneeded 1
+		mu_fade 0 1000
+		mu_queue sound\music\c_chant
+	}
+
+	trigger action1
+	{
+		wait 500
+		alertentity zombie2
+		wait 500
+		trigger zombie2 getup
+		wait 500
+		alertentity zombie1
+		wait 500
+		trigger zombie1 getup
+		wait 500
+		alertentity zombie3
+		wait 500
+		trigger zombie3 getup
+		wait 7000
+		alertentity zombie5
+		wait 1000
+		alertentity coffindoor
+		wait 2000
+		trigger zombie5 go
+		
+	}
+
+	trigger action2
+	{
+	}
+
+	trigger action3
+	{
+		trigger zombie4 getup
+		mu_play sound\music\s_bighits
+	}
+
+	trigger action4
+	{
+		alertentity zombie6
+		alertentity zombie7
+	}
+
+	trigger action5
+	{
+		alertentity zombie8
+		alertentity zombie9
+		wait 2000
+		alertentity zombie18
+	}
+
+	trigger action6 /// (head roll)
+	{
+		trigger head roll1
+	}
+
+	trigger action7
+	{
+		alertentity nazi1
+		alertentity zombie10
+		alertentity zombie11
+		alertentity naziscream
+	}
+
+	trigger action8
+	{
+		alertentity door1
+		alertentity warrior4
+		alertentity nazi2
+		alertentity nazi3
+		wait 3000
+		alertentity nazi6
+		wait 3000
+	}
+
+	trigger action9
+	{
+		wait 3000
+		alertentity zombie12
+		alertentity zombie13
+		alertentity zombie14
+		alertentity bust3
+		mu_play sound\music\s_barrelfall
+		alertentity killtriggerz
+	}
+
+	trigger action10
+	{
+	}
+
+	trigger action11
+	{
+		alertentity elite1
+		alertentity nazi17
+		alertentity nazi18
+	}
+
+	trigger action12
+	{
+		mu_fade 0 1000
+		mu_queue sound\music\c_military
+		alertentity door2
+		alertentity nazi4
+		alertentity nazi5
+		alertentity elite2
+		//alertentity zombie15
+		alertentity zombie16
+	}
+
+	trigger action13
+	{
+		alertentity elite3
+		alertentity elite4
+	}
+
+	trigger action14
+	{
+		trigger elite3 attack
+		trigger elite4 attack
+	}
+
+	trigger action15
+	{
+		alertentity nazi7
+		alertentity nazi8
+		alertentity nazi9
+		alertentity nazi10
+	}
+
+	trigger action16
+	{
+		alertentity elite5
+		alertentity nazi11
+		alertentity nazi12
+	}
+
+	trigger action17
+	{
+		alertentity elite6
+		alertentity nazi13
+	}
+
+	trigger action18
+	{
+		alertentity nazi14
+		alertentity nazi15
+	}
+		
+	trigger action19
+	{
+		alertentity nazi16
+		wait 2000
+		alertentity zombie17
+	}
+
+	trigger action20
+	{
+		trigger zombie8 getup
+		wait 1000
+		trigger zombie9 getup
+	}
+
+	trigger secret1
+	{
+		foundsecret
+	}
+
+	trigger secret2
+	{
+		foundsecret
+	}
+
+	trigger getobjective1
+	{
+		objectivemet 1
+	}
+	
+	trigger endmap
+	{
+		changelevel end persistent
+	}
+}
+
+///
+/// ZOMBIES
+///
+
+zombie1 /// (first spawned zombie)
+{
+	attributes
+	{
+		starting_health 250
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		accum 0 bitset 0
+		knockback off
+		takeweapon monsterattack2
+		noavoid
+		godmode on
+		nosight 9999
+		playanim off_hole_still both forever
+	}
+
+	trigger getup
+	{
+		wait 3000
+		alertentity dust2
+		wait 1000
+		playanim off_hole both
+		godmode off
+		giveweapon monsterattack2
+		knockback on
+		sight
+		gotocast player
+		noavoid off
+		resetscript	
+	}
+
+	fakedeath
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+
+	death
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+}
+
+zombie2 /// (first spawned zombie)
+{
+	attributes
+	{
+		starting_health 250
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		accum 0 bitset 0
+		knockback off
+		takeweapon monsterattack2
+		noavoid
+		godmode on
+		nosight 9999
+		playanim off_hole_still both forever
+	}
+
+	trigger getup
+	{
+		wait 500
+		alertentity dust1
+		playanim off_hole both
+		wait 1000
+		playsound sound\zombie\firstsight\firstsight4.wav
+		godmode off
+		giveweapon monsterattack2
+		knockback on
+		sight
+		gotocast player
+		noavoid off
+		resetscript	
+	}
+
+	fakedeath
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+
+	death
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+}
+
+zombie3 /// (first spawned zombie)
+{
+	attributes
+	{
+		starting_health 250
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		accum 0 bitset 0
+		takeweapon monsterattack2
+		knockback off
+		noavoid
+		godmode on
+		nosight 9999
+		playanim off_hole_still both forever
+	}
+
+	trigger getup
+	{
+		wait 5000
+		alertentity dust3
+		wait 1000
+		playanim off_hole both
+		playsound sound\zombie\firstsight\firstsight3.wav
+		godmode off
+		giveweapon monsterattack2
+		knockback on
+		sight
+		gotocast player
+		noavoid off
+		resetscript	
+	}
+
+	fakedeath
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+
+	death
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+}
+
+zombie4 /// (zombie in secret room)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		nosight 9999
+		godmode on
+		noavoid
+		knockback off
+		trigger zombie4 animloop		
+	}
+
+	trigger animloop
+	{
+		nosight 999999
+		playanim laying_back both forever
+	}
+
+	
+	trigger getup
+	{
+		playanim getup_back both
+		alertentity bust2
+		godmode off
+		knockback on
+		sight
+		gotocast player
+		noavoid off
+		resetscript	
+	}
+
+	death
+	{
+	}
+}
+
+zombie5 /// (zombie spawns in coffin)
+{
+	attributes
+	{
+		starting_health 250
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		accum 0 bitset 0
+		knockback off
+		noavoid
+		godmode on
+		nosight 9999
+		wait forever 0
+	}
+
+	trigger go
+	{
+		godmode off
+		giveweapon monsterattack2
+		knockback on
+		explicit_routing on
+		runtomarker z5spot1
+		sight
+		gotocast player
+		noavoid off
+		resetscript
+		
+	}
+
+	fakedeath
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+
+	death
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger counter1 room1
+	}
+}
+
+zombie6 /// (zombie in second room)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		nosight 99999
+		trigger zombie6 getup
+	}
+
+	trigger getup
+	{
+		playsound sound\zombie\attack\attack4.wav
+		alertentity dust5
+		playanim alcove both holdframe
+		playanim revive both
+		sight
+		gotocast player
+		resetscript
+	}
+}
+
+zombie7 /// (zombie in second room)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		nosight 99999
+		trigger zombie7 getup
+	}
+
+	trigger getup
+	{
+		playsound sound\zombie\attack\attack4.wav
+		alertentity dust6
+		playanim alcove both holdframe
+		playanim revive both
+		sight
+		gotocast player
+		resetscript
+	}
+}
+
+zombie8 /// (eating zombie in bloody room)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		knockback off
+		noavoid
+		wait 300
+		trigger zombie8 animloop
+	}
+
+	trigger animloop
+	{
+		nosight 999999
+		playanim eating_loop both forever
+	}
+	
+	trigger getup
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		alertentity killsound1
+		playanim eating_out both
+		godmode off
+		knockback on
+		sight
+		gotocast player
+		noavoid off
+		resetscript	
+	}
+
+	pain 148
+	{
+		trigger zombie8 getup
+	}
+}
+
+zombie9 /// (eating zombie in bloody room)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		knockback off
+		noavoid
+		wait 100
+		trigger zombie9 animloop
+	}
+
+	
+
+	trigger animloop
+	{
+		nosight 999999
+		playanim eating_loop both forever
+	}
+	
+	trigger getup
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		alertentity killsound2
+		playanim eating_out both
+		godmode off
+		knockback on
+		sight
+		gotocast player
+		noavoid off
+		resetscript	
+	}
+
+	pain 148
+	{
+		trigger zombie9 getup
+	}
+}
+
+zombie10 /// (zombie in radio room)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+		aggression 1.0
+	}
+
+	spawn
+	{
+		attack nazi1
+		resetscript
+	}
+}
+
+zombie11 /// (zombie in radio room)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+		aggression 1.0
+	}
+
+	spawn
+	{
+		attack nazi1
+		resetscript
+	}
+}
+
+zombie12 /// (zombie in tomb behind wall)
+{
+	attributes
+	{
+		starting_health 250
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		runtomarker z12spot1
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+zombie13 /// (zombie in tomb behind wall)
+{
+	attributes
+	{
+		starting_health 250
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		runtomarker z13spot1
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+zombie14 /// (zombie in tomb behind wall)
+{
+	attributes
+	{
+		starting_health 250
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		runtomarker z14spot1
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+zombie15 /// (zombie in church)
+{
+	attributes
+	{
+		starting_health 100
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		wait 3000
+		runtomarker z15spot1
+	}
+
+	death
+	{
+	}
+}
+
+zombie16 /// (zombie in church)
+{
+	attributes
+	{
+		starting_health 100
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		runtomarker z15spot1
+		resetscript
+	}
+
+	death
+	{
+		trigger nazi5 attack
+		trigger nazi4 attack
+		trigger elite2 attack
+	}
+}
+
+zombie17 /// (zombie in death scenerio)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		explicit_routing on
+		nosight 9999
+		noavoid on
+		godmode on
+		runtomarker z17spot1
+		playsound sound\zombie\attack\attack4.wav
+		playsound sound\player\infantryss\death\flame_scream1.wav
+		wait 3000
+		facetargetangles e5spot1
+		runtomarker e5spot1
+		alertentity killzombies
+		
+	}
+
+	death
+	{
+	}
+}
+
+zombie18 /// (zombie in blood room behind door)
+{
+	attributes
+	{
+		starting_health 150
+		aim_accuracy 1.0
+	}
+
+	spawn
+	{
+		wait 5000
+		gotocast player
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+///
+/// WARRIOR ZOMBIES
+///
+
+warrior1 /// (warrior in switch room)
+{
+	attributes
+	{
+		starting_health 200
+		aim_accuracy 1.0
+		aggression 1.0
+		camper 0.0
+		tactical 0.0
+	}
+
+	spawn
+	{
+		wait 3000
+		runtomarker w1spot1
+		attack player
+		resetscript
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+warrior2 /// (warrior in switch room)
+{
+	attributes
+	{
+		starting_health 200
+		aim_accuracy 1.0
+		aggression 1.0
+		camper 0.0
+		tactical 0.0	
+	}
+
+	spawn
+	{
+		wait 4000
+		runtomarker w1spot1
+		attack player
+		resetscript
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+warrior3 /// (warrior in switch room)
+{
+	attributes
+	{
+		starting_health 200
+		aim_accuracy 1.0
+		aggression 1.0
+		camper 0.0
+		tactical 0.0	
+	}
+
+	spawn
+	{
+		wait 7000
+		runtomarker w1spot1
+		attack player
+		resetscript
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+warrior4 /// (warrior attacking door)
+{
+	attributes
+	{
+		starting_health 200
+		aim_accuracy 1.0	
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		wait 100
+		walktomarker w4spot1
+		resetscript
+	}
+}
+
+warrior5 /// (warrior attacking door)
+{
+	attributes
+	{
+		starting_health 200
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		wait 1000
+		walktomarker w5spot1
+		resetscript
+	}
+
+	enemysight elite1
+	{
+	}
+}
+
+warrior6 /// (warrior in death scenerio)
+{
+	attributes
+	{
+		starting_health 200
+		aim_accuracy 1.0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		wait 2000
+		nosight 9999
+		walktocast nazi15
+		attack nazi15
+		runtomarker e5spot1
+	}
+}
+
+///
+/// NAZIS
+///
+
+nazi1 /// (nazi in radio room)
+{
+	attributes
+	{
+		starting_health 2
+		aim_accuracy 0.0
+	}
+
+	spawn
+	{
+		knockback off
+		noavoid
+		nosight 9999
+		wait 500
+		playanim talking_1h both forever
+	}
+
+}
+
+nazi2 /// (nazi in the ladder room)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait 500
+		runtomarker n2spot1
+		attack player
+		resetscript
+	}
+}
+
+nazi3 /// (nazi in ladder room)
+{
+	attributes
+	{
+		starting_health 100
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait 1500
+		runtomarker n3spot1
+		attack player
+		resetscript
+	}
+}
+
+nazi4 /// (nazi in church)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.5
+		aim_accuracy 0.6
+		aim_skill 0.5
+		aggression 0.9
+		camper 0.0
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		attack player
+	}
+		
+	trigger attack
+	{
+		attrib aim_accuracy 0.7
+		resetscript
+	}
+}
+
+nazi5 /// (nazi in church)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.5
+		aim_accuracy 0.6
+		aim_skill 0.6
+		aggression 0.9
+		camper 0.0
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		attack zombie16
+	}
+		
+	trigger attack
+	{
+		attrib aim_accuracy 0.7
+		resetscript
+	}
+}
+
+nazi6 /// (warrior zombie lure)
+{
+	attributes
+	{
+		starting_health 100
+		aim_accuracy 0.4
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		runtomarker n6spot1
+		runtomarker n6spot2
+		runtomarker n6spot3
+		attack warrior4
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+nazi7 /// (sniper in room)
+{
+	attributes
+	{
+		starting_health 100
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 9999
+		selectweapon weapon_mauserrifle
+		wait forever 0
+	}
+		
+	enemysight
+	{
+		wait forever 0 player
+	}
+
+}
+
+nazi8 /// (sniper across courtyard)
+{
+	attributes
+	{
+		starting_health 100
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 9999
+		selectweapon weapon_mauserrifle
+		runtomarker n8spot1
+		runtomarker n8spot2
+		wait forever 0
+	}
+		
+}
+
+nazi9 /// (upper courtyard)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait forever 0
+	}
+		
+	enemysight
+	{
+		resetscript	
+	}
+}
+
+nazi10 /// (lower courtyard)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait forever 0
+	}
+		
+	enemysight
+	{
+		resetscript	
+	}
+}
+
+nazi11 /// (nazi coming through door)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait 2000
+		runtomarker e5spot1
+		runtomarker e5spot2
+		runtomarker e5spot3
+		runtomarker n11spot1
+		facetargetangles n11spot1
+		wait forever 0
+	}
+		
+	enemysight
+	{
+		resetscript
+	}
+}
+
+nazi12 /// (nazi coming through door)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait 3000
+		runtomarker e5spot1
+		runtomarker e5spot2
+		runtomarker n12spot1
+		wait forever 0
+	}
+		
+	enemysight
+	{
+		resetscript
+	}
+}
+
+nazi13 /// (nazi in stairway)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait 1000
+		runtomarker n13spot1
+		wait forever 0
+	}
+		
+	enemysight
+	{
+		resetscript
+	}
+}
+
+nazi14 /// (nazi in ladder room)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait forever 0
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+nazi15 /// (nazi in switch room)
+{
+	attributes
+	{
+		starting_health 150
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		wait forever 0
+	}
+		
+	enemysight
+	{
+		resetscript
+	}
+}
+
+nazi16 /// (nazi in death scenerio)
+{
+	attributes
+	{
+		starting_health 2
+		aim_accuracy 0.0
+	}
+	
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	spawn
+	{
+		explicit_routing on
+		nosight 9999
+		wait 500
+		godmode on
+		runtomarker n16spot1 e5spot1
+		wait 2000 e5spot1
+		alertentity killnazi
+	}
+
+	death
+	{
+	}
+}
+
+nazi17 /// (courtyard surprise)
+{
+	attributes
+	{
+		starting_health 100
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		runtomarker w5spot1
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+nazi18 /// (courtyard surprise)
+{
+	attributes
+	{
+		starting_health 100
+		idle_crouch 0.0
+		attack_crouch 0.0
+		attack_skill 0.9
+		aim_accuracy 0.6
+		aim_skill 0.9
+		aggression 0.9
+		pain_threshhold_scale 2.0
+	}
+
+	spawn
+	{
+		runtomarker w4spot1
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+///
+/// ELITE GUARDS
+///
+
+elite1 /// (elite guard in ladder room)
+{
+	attributes
+	{
+		starting_health 75
+		fov 240
+		aim_accuracy 0.5
+		camper 1.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setclip 9mm 999
+		selectweapon weapon_sten
+		wait 500
+		runtomarker e1spot1
+		attack player
+		resetscript
+	}
+}
+
+elite2 /// (elite guard behind pillar in church)
+{
+	attributes
+	{
+		starting_health 75
+		fov 240
+		aim_accuracy 0.5
+		camper 1.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setclip 9mm 999
+		selectweapon weapon_sten
+		wait forever 0
+		attack zombie16
+	}
+	
+	trigger attack
+	{
+		wait forever 0
+		attack player
+	}
+}
+
+elite3 /// (elite guard flanking player in church)
+{
+	attributes
+	{
+		starting_health 75
+		fov 240
+		aim_accuracy 0.5
+		camper 1.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setclip 9mm 999
+		selectweapon weapon_sten
+		wait forever 0
+	}
+	
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	trigger attack
+	{
+		crouchtomarker e3spot1
+		attack player
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+elite4 /// (elite guard flanking player in church)
+{
+	attributes
+	{
+		starting_health 75
+		fov 240
+		aim_accuracy 0.5
+		camper 1.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setclip 9mm 999
+		selectweapon weapon_sten
+		wait forever 0
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+	
+	trigger attack
+	{
+		runtomarker e4spot1
+		attack player
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
+
+elite5 /// (elite guard coming through door)
+{
+	attributes
+	{
+		starting_health 75
+		fov 240
+		aim_accuracy 0.5
+		camper 1.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setclip 9mm 999
+		selectweapon weapon_sten
+		runtomarker e5spot1
+		runtomarker e5spot2
+		runtomarker e5spot3
+		runtomarker e5spot4
+		wait forever 0
+	}
+}
+
+elite6 /// (elite guard in stairway)
+{
+	attributes
+	{
+		starting_health 75
+		fov 240
+		aim_accuracy 0.5
+		camper 1.0
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setclip 9mm 999
+		selectweapon weapon_sten
+		runtomarker e6spot1
+		wait forever 0
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+}
