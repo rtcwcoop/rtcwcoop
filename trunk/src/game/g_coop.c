@@ -54,28 +54,8 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1; 
         //client->ps.weapon = WP_KNIFE;
      
-        COM_BitSet( client->ps.weapons, WP_LUGER );
-        client->ps.ammoclip[BG_FindClipForWeapon( WP_LUGER )] += 8;
-
-        // fretn: luger and mp40 use the same ammo ..
-        //client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] += 24;
-        //client->ps.weapon = WP_LUGER;
         client->ps.weaponstate = WEAPON_READY;
 
-        // game is harder now, so give also an mp40
-        COM_BitSet( client->ps.weapons, WP_MP40 );
-        client->ps.ammoclip[BG_FindClipForWeapon( WP_MP40 )] += 32;
-        client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 64;
-        client->ps.weapon = WP_MP40;
-
- /*       // grenades
-        if (g_gameskill.integer >= GSKILL_MEDIUM)
-        {
-            COM_BitSet( client->ps.weapons, WP_GRENADE_PINEAPPLE );
-            client->ps.ammo[BG_FindAmmoForWeapon( WP_GRENADE_PINEAPPLE )] = 4;
-            client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE )] = 1;
-        }
-*/
         // give all the players a binocular
         client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 }

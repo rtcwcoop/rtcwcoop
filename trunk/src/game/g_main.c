@@ -2109,7 +2109,6 @@ void CheckReloadStatus( void ) {
                                                     trap_SendConsoleCommand( EXEC_APPEND, va( "spmap %s\n", level.nextMap ) );
                                             }
 					}
-
 				} else if ( g_reloading.integer == RELOAD_ENDGAME ) {
 					G_EndGame();    // kick out to the menu and start the "endgame" menu (credits, etc)
 

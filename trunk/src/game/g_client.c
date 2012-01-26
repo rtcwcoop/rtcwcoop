@@ -1693,6 +1693,12 @@ void ClientSpawn( gentity_t *ent ) {
 	int savedPing;
 	int savedTeam;
 
+        // fretn
+        int savedAmmo[MAX_WEAPONS];
+        int savedAmmoclip[MAX_WEAPONS];
+        int savedWeapon, savedWeaponstate;
+        int savedWeapons[MAX_WEAPONS];
+
 	index = ent - g_entities;
 	client = ent->client;
 
@@ -1782,6 +1788,22 @@ void ClientSpawn( gentity_t *ent ) {
 	for ( i = 0 ; i < MAX_PERSISTANT ; i++ ) {
 		persistant[i] = client->ps.persistant[i];
 	}
+
+	if ( g_gametype.integer <= GT_COOP )
+        {
+            // fretn: save weapons for respawn
+            savedWeapon = client->ps.weapon;
+            savedWeaponstate = client->ps.weaponstate;
+            for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
+                    savedAmmo[i] = client->ps.ammo[i];
+                    savedAmmoclip[i] = client->ps.ammoclip[i];
+            }
+            for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                    savedWeapons[i] = client->ps.weapons[i];
+            }
+        }
+
+        // clear everything
 	memset( client, 0, sizeof( *client ) );
 
 	client->pers = saved;
@@ -1791,6 +1813,20 @@ void ClientSpawn( gentity_t *ent ) {
 	for ( i = 0 ; i < MAX_PERSISTANT ; i++ ) {
 		client->ps.persistant[i] = persistant[i];
 	}
+
+	if ( g_gametype.integer <= GT_COOP )
+        {
+            // fretn: restore weapons after a respawn
+            client->ps.weapon = savedWeapon;
+            client->ps.weaponstate = savedWeaponstate;
+            for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
+                    client->ps.ammo[i] = savedAmmo[i];
+                    client->ps.ammoclip[i] = savedAmmoclip[i];
+            }
+            for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                    client->ps.weapons[i] = savedWeapons[i];
+            }
+        }
 
 	// increment the spawncount so the client will detect the respawn
 	client->ps.persistant[PERS_SPAWN_COUNT]++;
