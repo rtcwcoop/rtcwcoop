@@ -1177,14 +1177,11 @@ void G_SpawnEntitiesFromString( void ) {
 		G_SpawnGEntityFromSpawnVars();
 	}
 
+        if (g_gametype <= GT_COOP) {
+                G_LoadEntsFile();
 
-        G_LoadEntsFile();
-
-        // fretn - parse extra ents
-    //    while (G_ParseExtraSpawnVars()) {
-     //   G_SpawnExtraGEntityFromSpawnVars();
-      //  }
-        G_ParseExtraSpawnVars();
+                G_ParseExtraSpawnVars();
+        }
 
 	level.spawning = qfalse;            // any future calls to G_Spawn*() will be errors
 }
