@@ -38,7 +38,7 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
 
         // zero out all ammo counts
-        memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) ); 
+        //memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) ); 
 
         // Communicate it to cgame
         client->ps.stats[STAT_PLAYER_CLASS] = pc;
@@ -47,8 +47,8 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         client->ps.teamNum = pc;
 
         // All players start with a knife (not OR-ing so that it clears previous weapons)
-        client->ps.weapons[0] = 0; 
-        client->ps.weapons[1] = 0; 
+        //client->ps.weapons[0] = 0; 
+        //client->ps.weapons[1] = 0; 
 
         COM_BitSet( client->ps.weapons, WP_KNIFE );
         client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1; 
