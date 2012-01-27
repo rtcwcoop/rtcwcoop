@@ -1087,6 +1087,11 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	char arg1[MAX_STRING_TOKENS];
 	char arg2[MAX_STRING_TOKENS];
 
+        if ( g_gametype.integer == GT_SINGLE_PLAYER) {
+		trap_SendServerCommand( ent - g_entities, "print \"Voting not allowed in single player.\n\"" );
+                return;
+        }
+
 	if ( !g_allowVote.integer ) {
 		trap_SendServerCommand( ent - g_entities, "print \"Voting not allowed here.\n\"" );
 		return;
@@ -1106,7 +1111,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	trap_Argv( 2, arg2, sizeof( arg2 ) );
 
 	if ( !Q_stricmp( arg1, "map_restart" ) ) {
-	} else if ( !Q_stricmp( arg1, "map" ) ) {
+	} else if ( !Q_stricmp( arg1, "coopmap" ) ) {
 	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
 	} else if ( !Q_stricmp( arg1, "kick" ) ) {
 	} else {
@@ -2136,10 +2141,10 @@ void ClientCommand( int clientNum ) {
 	} else if ( Q_stricmp( cmd, "where" ) == 0 )  {
 		Cmd_Where_f( ent );
 	}
-//	else if (Q_stricmp (cmd, "callvote") == 0)	//----(SA)	id requests these gone in sp
-//		Cmd_CallVote_f (ent);
-//	else if (Q_stricmp (cmd, "vote") == 0)		//----(SA)	id requests these gone in sp
-//		Cmd_Vote_f (ent);
+	else if (Q_stricmp (cmd, "callvote") == 0)	//----(SA)	id requests these gone in sp
+		Cmd_CallVote_f (ent);
+	else if (Q_stricmp (cmd, "vote") == 0)		//----(SA)	id requests these gone in sp
+		Cmd_Vote_f (ent);
 	else if ( Q_stricmp( cmd, "gc" ) == 0 ) {
 		Cmd_GameCommand_f( ent );
 	} else if ( Q_stricmp( cmd, "startCamera" ) == 0 )  {
