@@ -28,6 +28,31 @@ player
 		trigger player cam2
 //		trigger player cam
 //		trigger counter1 plane_cine1
+
+		// Weapons
+		giveweapon weapon_knife		
+		giveweapon weapon_luger
+			setclip weapon_luger 8
+		giveweapon weapon_mp40
+			setclip weapon_mp40 32
+		giveweapon weapon_thompson
+			setclip weapon_thompson 30
+		giveweapon weapon_sten
+			setclip weapon_sten 32
+		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
+			setclip weapon_mauserrifle 10
+
+		// Ammo
+		setammo ammo_9mm 144
+		setammo ammo_45cal 98
+		setammo ammo_792mm 35
+		setammo ammo_grenades 5
+
+		// Items
+		giveinventory key_binocs
+		selectweapon weapon_sten
+
 	}
 
 	// --- Start Camera section ---

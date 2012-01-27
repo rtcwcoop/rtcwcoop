@@ -26,6 +26,29 @@ player
 		mu_queue sound/music/m_stealth
 		trigger bookshelf cinematic1
 		trigger player cam0
+
+		// Weapons
+		giveweapon weapon_knife	
+		giveweapon weapon_luger
+			setclip weapon_luger 8
+		giveweapon weapon_mp40
+			setclip weapon_mp40 32
+		giveweapon weapon_thompson
+			setclip weapon_thompson 30
+		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
+			setclip weapon_mauserrifle 10
+
+		// Ammo
+		setammo ammo_9mm 80
+		setammo ammo_45cal 38
+		setammo ammo_792mm 15
+		setammo ammo_grenades 3
+
+		// Items
+		giveinventory key_binocs
+		selectweapon weapon_thompson
+
 	}
 
 	// --- Start Cameras---

@@ -19,14 +19,28 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
+
 	}
 
 	playerstart
 	{
+
 		mu_fade 0 1500
 		mu_queue sound/music/c_military
 		trigger dummy cinematic1
 		trigger player cam1
+
+		// Weapons
+		giveweapon weapon_knife
+		giveweapon weapon_luger
+			setclip weapon_luger 8
+
+		// Ammo
+		setammo ammo_9mm 4
+
+		// Items
+		selectweapon weapon_luger
+
 	}
 
 	trigger fix_bitset0

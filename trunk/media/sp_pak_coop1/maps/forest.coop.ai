@@ -28,16 +28,20 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/m_stealth
-		// weapons
-		giveweapon weapon_knife
+
+		// Weapons
+		giveweapon weapon_knife		
 		giveweapon weapon_sten
-		// ammo
-		setammo ammo_9mm 182
-		// misc
+			setclip weapon_sten 32
+
+		// Ammo
+		setammo ammo_9mm 200
+
+		// Items
 		setarmor 50
 		giveinventory key_binocs
-		setclip weapon_sten 32
 		selectweapon weapon_sten
+
 		accum 0 abort_if_not_bitset 7
 		objectivemet 3	// mission objective complete
 		accum 1 inc 1

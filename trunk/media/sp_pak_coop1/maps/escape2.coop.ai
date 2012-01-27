@@ -17,12 +17,33 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
+
 	}
 
 	playerstart
 	{
+
 		mu_fade 0 1500
 		mu_queue sound/music/m_drums
+
+		// Weapons
+		giveweapon weapon_knife
+		giveweapon weapon_luger
+			setclip weapon_luger 8
+		giveweapon weapon_mp40
+			setclip weapon_mp40 32
+		giveweapon weapon_mauserrifle
+			setclip weapon_mauserrifle 10
+
+		// Ammo
+		setammo ammo_9mm 48
+		setammo ammo_792mm 5
+		setammo ammo_grenades 2
+
+		// Items
+		giveinventory key_binocs
+		selectweapon weapon_mp40
+
 	}
 
 	trigger action1
