@@ -50,14 +50,14 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         //client->ps.weapons[0] = 0; 
         //client->ps.weapons[1] = 0; 
 
-        COM_BitSet( client->ps.weapons, WP_KNIFE );
-        client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1; 
+        // COM_BitSet( client->ps.weapons, WP_KNIFE );
+        // client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1; 
         //client->ps.weapon = WP_KNIFE;
      
         client->ps.weaponstate = WEAPON_READY;
 
         // give all the players a binocular
-        client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
+        // client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 }
 
 
