@@ -25,34 +25,37 @@ player
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
+		giveweapon weapon_silencer
+			setclip weapon_luger 8
 		giveweapon weapon_colt
 		giveweapon weapon_colt
-			setclip weapon_akimbo 8
 			setclip weapon_colt 8
+			setclip weapon_akimbo 8
 		giveweapon weapon_mp40
 			setclip weapon_mp40 32
 		giveweapon weapon_thompson
 			setclip weapon_thompson 30
 		giveweapon weapon_sten
 			setclip weapon_sten 32
-		giveweapon weapon_mauserRifle
+		giveweapon weapon_mauserrifle
 		giveweapon weapon_sniperscope
-			setclip weapon_mauserrifle 10
 		giveweapon weapon_snooperrifle
 		giveweapon weapon_fg42
-			setclip weapon_fg42 20
+			setclip weapon_fg42 20	
 		giveweapon weapon_flamethrower
 		giveweapon weapon_venom
+		giveweapon weapon_tesla
 
 		// Ammo
-		setammo ammo_9mm 256
-		setammo ammo_45cal 200
-		setammo ammo_792mm 160
+		setammo ammo_9mm 224
+		setammo ammo_45cal 150
+		setammo ammo_792mm 140
 		setammo ammo_30cal 15
 		setammo ammo_grenades 8
 		setammo ammo_grenades_american 5
 		setammo ammo_fuel 120
-		setammo ammo_127mm 400
+		setammo ammo_127mm 300
+		setammo ammo_cell 90
 
 		// Items
 		giveinventory key_binocs
