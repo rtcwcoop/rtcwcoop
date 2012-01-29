@@ -3549,11 +3549,13 @@ static bind_t g_bindings[] =
 //	{"help",			K_F1,           -1, -1, -1},
 	{"+leanleft",        -1,             -1, -1, -1},
 	{"+leanright",       -1,             -1, -1, -1},
-// GISKARD: Drop weapon & Ammo
+// GISKARD: Coop buttons
 	{"+dropweapon",  -1,             -1, -1, -1},
 	{"dropammo",  -1,             -1, -1, -1},
 	{"kill",         -1,             -1, -1, -1},
 	{"spawnpoint",  -1,             -1, -1, -1},
+	{"vote yes",     -1,             -1, -1, -1},
+	{"vote no",          -1,             -1, -1, -1},
 };
 
 
