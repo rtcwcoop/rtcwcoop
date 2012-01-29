@@ -1460,7 +1460,9 @@ int QDECL SortRanks( const void *a, const void *b ) {
 		return -1;
 	}
 
+
 	// then connecting clients
+
 	if ( ca->pers.connected == CON_CONNECTING ) {
 		return 1;
 	}
@@ -1469,7 +1471,9 @@ int QDECL SortRanks( const void *a, const void *b ) {
 	}
 
 
+
 	// then spectators
+/*
 	if ( ca->sess.sessionTeam == TEAM_SPECTATOR && cb->sess.sessionTeam == TEAM_SPECTATOR ) {
 		if ( ca->sess.spectatorTime < cb->sess.spectatorTime ) {
 			return -1;
@@ -1485,6 +1489,7 @@ int QDECL SortRanks( const void *a, const void *b ) {
 	if ( cb->sess.sessionTeam == TEAM_SPECTATOR ) {
 		return -1;
 	}
+*/
 
 	// then sort by score
 	if ( ca->ps.persistant[PERS_SCORE]
@@ -1528,7 +1533,7 @@ void CalculateRanks( void ) {
 			level.sortedClients[level.numConnectedClients] = i;
 			level.numConnectedClients++;
 
-			if ( level.clients[i].sess.sessionTeam != TEAM_SPECTATOR ) {
+			//if ( level.clients[i].sess.sessionTeam != TEAM_SPECTATOR ) {
 				level.numNonSpectatorClients++;
 
 				// decide if this should be auto-followed
@@ -1548,7 +1553,7 @@ void CalculateRanks( void ) {
 						level.follow2 = i;
 					}
 				}
-			}
+			//}
 		}
 	}
 

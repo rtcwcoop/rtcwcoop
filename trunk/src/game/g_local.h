@@ -475,6 +475,15 @@ typedef struct {
 	int playerPistol;               // DHM - Nerve :: for GT_WOLF
 	int playerItem;                 // DHM - Nerve :: for GT_WOLF
 	int playerSkin;                 // DHM - Nerve :: for GT_WOLF
+
+        // fretn
+        // stats for the scoreboard
+        int damage_given;
+        int damage_received;
+        int kills;
+        int deaths;
+        int suicides;
+
 } clientSession_t;
 
 //
@@ -673,6 +682,8 @@ typedef struct {
 	char        *spawnVars[MAX_SPAWN_VARS][2];  // key / value pairs
 	int numSpawnVarChars;
 	char spawnVarChars[MAX_SPAWN_VARS_CHARS];
+
+        qboolean fResetStats;
 
 	// intermission state
 	int intermissionQueued;             // intermission was qualified, but

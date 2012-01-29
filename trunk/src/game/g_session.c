@@ -27,6 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #include "g_local.h"
+#include "g_coop.h"
 
 
 /*
@@ -49,6 +50,9 @@ Called on game shutdown
 void G_WriteClientSessionData( gclient_t *client ) {
 	const char  *s;
 	const char  *var;
+
+        if (level.fResetStats)
+                Coop_DeleteStats( client - level.clients );
 
 	s = va( "%i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			client->sess.sessionTeam,
@@ -137,6 +141,8 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 	sess->playerSkin = 0;
 	// dhm - end
 
+        Coop_DeleteStats( client - level.clients );
+
 	G_WriteClientSessionData( client );
 }
 
@@ -153,6 +159,10 @@ void G_InitWorldSession( void ) {
 
 	trap_Cvar_VariableStringBuffer( "session", s, sizeof( s ) );
 	gt = atoi( s );
+
+        if ( g_gametype.integer != gt ) {
+                level.fResetStats = qtrue;
+        }
 
 	// if the gametype changed since the last session, don't use any
 	// client sessions
@@ -176,6 +186,8 @@ void G_WriteSessionData( void ) {
 	for ( i = 0 ; i < level.maxclients ; i++ ) {
 		if ( level.clients[i].pers.connected == CON_CONNECTED ) {
 			G_WriteClientSessionData( &level.clients[i] );
-		}
+		} else if ( level.fResetStats ) {
+                         Coop_DeleteStats( level.sortedClients[i] );
+                }
 	}
 }

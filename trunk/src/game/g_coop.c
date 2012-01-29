@@ -218,3 +218,53 @@ gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
         return spot;
 }
 
+// Resets player's current stats
+void Coop_DeleteStats( int clientnum ) { 
+        gclient_t *cl = &level.clients[clientnum];
+
+        cl->sess.damage_given = 0;
+        cl->sess.damage_received = 0;
+        cl->sess.deaths = 0;
+        cl->sess.kills = 0;
+        cl->sess.suicides = 0;
+}
+
+// Records accuracy, damage, and kill/death stats.
+void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod ) { 
+        int dmg;
+
+        // Keep track of only active player-to-player interactions in a real game
+        if ( !targ || !targ->client ||
+                 ( g_gametype.integer >= GT_SINGLE_PLAYER && ( targ->s.eFlags == EF_DEAD || targ->client->ps.pm_type == PM_DEAD ) ) ) { 
+                return;
+        }   
+
+        // Suicides only affect the player specifically
+        if ( targ == attacker || !attacker || !attacker->client ) { 
+                if ( targ->health <= 0 ) { 
+                        targ->client->sess.suicides++;
+                }   
+                return;
+        }   
+
+        // Telefrags only add 100 points.. not 100k!!
+        if ( mod == MOD_TELEFRAG ) {
+                dmg = 100;
+        } else { dmg = dmg_ref;}
+
+        // General player stats
+        //if ( mod != MOD_SYRINGE ) {
+                attacker->client->sess.damage_given += dmg;
+                targ->client->sess.damage_received += dmg;
+
+                // update score
+                attacker->client->ps.persistant[PERS_SCORE] = attacker->client->sess.damage_given;
+
+                if ( targ->health <= 0 ) {
+                        attacker->client->sess.kills++;
+                        targ->client->sess.deaths++;
+                }
+        CalculateRanks();
+        //}
+}
+

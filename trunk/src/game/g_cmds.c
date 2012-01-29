@@ -40,6 +40,7 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 	int stringlength;
 	int i, j;
 	gclient_t   *cl;
+        gentity_t *tmpent;
 	int numSorted;
 	int scoreFlags;
 
@@ -53,9 +54,9 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 
 	// don't send more than 32 scores (FIXME?)
 	numSorted = level.numConnectedClients;
-	if ( numSorted > 32 ) {
-		numSorted = 32;
-	}
+	//if ( numSorted > 32 ) {
+//		numSorted = 32;
+//	}
 /*
         for ( i = 0; i < g_maxclients.integer; i++ ) 
                 player = &g_entities[i];
@@ -68,8 +69,12 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 		cl = &level.clients[level.sortedClients[i]];
                 
                 // fretn - coop, don't send the score of the AI
-                if (g_entities[level.sortedClients[i]].r.svFlags & SVF_CASTAI)
+                //if ( (g_entities[level.sortedClients[i]].r.svFlags & SVF_CASTAI) )
+                tmpent = &g_entities[level.sortedClients[i]];
+                if ( (tmpent->r.svFlags & SVF_CASTAI) )
+                {
                         continue;
+                }
 
 		if ( cl->pers.connected == CON_CONNECTING ) {
 			ping = -1;
@@ -78,7 +83,7 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 		}
 		Com_sprintf( entry, sizeof( entry ),
 					 " %i %i %i %i %i %i", level.sortedClients[i],
-					 cl->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000,
+					 g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000,
 					 scoreFlags, g_entities[level.sortedClients[i]].s.powerups );
 		j = strlen( entry );
 		if ( stringlength + j > 1024 ) {
@@ -90,6 +95,7 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
                 counter ++;
 	}
 
+        //G_Printf("VERZONDEN: %s", va( "scores %i %i %i%s\n", counter, level.teamScores[TEAM_RED], level.teamScores[TEAM_BLUE], string ) );
 	trap_SendServerCommand( ent - g_entities, va( "scores %i %i %i%s", counter,
 												  level.teamScores[TEAM_RED], level.teamScores[TEAM_BLUE],
 												  string ) );

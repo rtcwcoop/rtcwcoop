@@ -34,6 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #include "g_local.h"
+#include "g_coop.h"
 
 /*
 ============
@@ -351,6 +352,10 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 //		Weapon_HookFree(self->client->hook);
 
 	self->client->ps.pm_type = PM_DEAD;
+
+        // death stats handled out-of-band of G_Damage for external calls
+        Coop_AddStats( self, attacker, damage, meansOfDeath );
+
 
 	if ( attacker ) {
 		killer = attacker->s.number;
@@ -1263,9 +1268,11 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 				VectorClear( targ->rotate );
 				VectorClear( targ->pos3 );
 			}
-
+                        Coop_AddStats( targ, attacker, take, mod );
 			targ->pain( targ, attacker, take, point );
-		}
+		} else {
+                        Coop_AddStats( targ, attacker, take, mod );
+                }
 
 		G_ArmorDamage( targ );    //----(SA)	moved out to separate routine
 
