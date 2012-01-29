@@ -3552,7 +3552,8 @@ static bind_t g_bindings[] =
 // GISKARD: Drop weapon & Ammo
 	{"+dropweapon",  -1,             -1, -1, -1},
 	{"dropammo",  -1,             -1, -1, -1},
-	{"kill",         -1,             -1, -1, -1}
+	{"kill",         -1,             -1, -1, -1},
+	{"spawnpoint",  -1,             -1, -1, -1},
 };
 
 
