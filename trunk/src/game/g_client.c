@@ -681,7 +681,7 @@ void respawn( gentity_t *ent ) {
 
 	// DHM - Nerve :: Already handled in 'limbo()'
 	//if ( g_gametype.integer != GT_WOLF ) {
-		//CopyToBodyQue( ent );
+		CopyToBodyQue( ent );
 	//}
 
 	ClientSpawn( ent );
