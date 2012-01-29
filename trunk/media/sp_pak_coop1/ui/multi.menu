@@ -939,6 +939,30 @@ itemDef {
 					}
 
 				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Skill:  "
+					cvar			"g_gameskill"
+					cvarFloatList	{ "Don't hurt me." 0 "Bring'em on!" 1 "I am Death incarnate!" 2 "NIGHTMARE!" 3 }
+					rect			295 175 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		6
+					mouseenter		{ show message_skill }
+					mouseexit		{ hide message_skill }
+					}
+
+					
+				itemDef {
 					name			normal
 					group			grpCreate
 					type			ITEM_TYPE_MULTI
@@ -948,7 +972,7 @@ itemDef {
 					// dedicated is a special cvar in that as soon as it is set, the game goes to console only so the ui catches this one specifically
 					cvar			"ui_dedicated"
 					cvarFloatList		{ "Non-dedicated" 0 "yes, on LAN" 1 "yes, over Internet" 2 }
-					rect			295 175 290 12
+					rect			295 190 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -970,7 +994,7 @@ itemDef {
 					text			"Password:  "
 					textfont		UI_FONT_NORMAL
 					cvar			"g_password"
-					rect			295 190 290 12
+					rect			295 205 290 12
 				//	origin			ORIGIN_WINDOW2
 					maxchars		25
 					maxpaintchars	10
@@ -986,7 +1010,28 @@ itemDef {
 					mouseexit		{ hide message_password_create } 
 					}
 
-				
+					
+					
+				itemDef {
+					name			window
+					group			grpCreate
+					text			"Player Options"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 220 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}
+
+					
 				itemDef {
 					name			normal
 					group			grpCreate
@@ -994,7 +1039,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Friendly Fire:  "
 					cvar			"g_friendlyFire"
-					rect			295 205 290 12
+					rect			295 245 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1013,10 +1058,10 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_NUMERICFIELD
 					textfont		UI_FONT_NORMAL
-					text			"Maximum Players:  "
+					text			"Max Players:  "
 					cvar			"sv_maxclients"
 					maxchars		3
-					rect			295 220 290 12
+					rect			295 260 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1031,37 +1076,13 @@ itemDef {
 					}
 
 				itemDef {
-					name			normal
-					group			grpCreate
-					type			ITEM_TYPE_MULTI	
-					textfont		UI_FONT_NORMAL
-					text			"Ingame Cutscenes:  "
-					cvar			"g_skipcutscenes"
-					cvarFloatList	{ "yes" 0 "no" 1 }
-					rect			295 235 290 12
-				//	origin			ORIGIN_WINDOW2
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145
-					textaligny		10
-					textscale		.25
-					backcolor		1 1 1 .07 		  
-					forecolor		1 1 1 1
-					visible			1
-					mouseenter		{ show message_cutscenes }
-					mouseexit		{ hide message_cutscenes }
-					}
-
-
-				itemDef {
 					name			window
 					group			grpCreate
 					type			ITEM_TYPE_NUMERICFIELD
 					textfont		UI_FONT_NORMAL
 					text			"Number of lives:  "
-					cvar			"g_maxLives"
-				//	cvar			"g_alliedmaxlives"
-					rect			295 250 290 12
+					cvar			"g_maxlives"
+					rect			295 275 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1076,16 +1097,36 @@ itemDef {
 					mouseexit		{ hide message_max_lives }
 					}
 
-	
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI	
+					textfont		UI_FONT_NORMAL
+					text			"Common Lives:  "
+					cvar			"g_commonlives"
+					cvarFloatList	{ "yes" 0 "no" 1 }
+					rect			295 290 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07 		  
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_commonlives }
+					mouseexit		{ hide message_commonlives }
+					}	
+					
 				itemDef {
 					name			window
 					group			grpCreate
-					type			ITEM_TYPE_MULTI
+					type			ITEM_TYPE_NUMERICFIELD
 					textfont		UI_FONT_NORMAL
-					text			"Skill:  "
-					cvar			"g_gameskill"
-					cvarFloatList	{ "Don't hurt me." 0 "Bring'em on!" 1 "I am Death incarnate!" 2 "NIGHTMARE!" 3 }
-					rect			295 265 290 12
+					text			"SpawnPoints / map:  "
+					cvar			"g_maxspawnpoints"
+					rect			295 305 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1095,87 +1136,55 @@ itemDef {
 					backcolor		1 1 1 .07
 					forecolor		1 1 1 1
 					visible			0
-					maxchars		6
-					mouseenter		{ show message_skill }
-					mouseexit		{ hide message_skill }
-					}
-/*				
-				itemDef {
-					name				voting_restart
-					group				grpCreate
-					type				ITEM_TYPE_YESNO
-					textfont			UI_FONT_NORMAL
-					text				"Restart Map:  "
-					cvar				"ui_voteRestart"
-					rect				295 340 290 12
-				//	origin				ORIGIN_WINDOW1
-					style				WINDOW_STYLE_FILLED
-					textalign			ITEM_ALIGN_RIGHT
-					textalignx			145
-					textaligny			10
-					textscale			.25
-					backcolor			1 1 1 .07
-					forecolor			1 1 1 1
-					visible				0
+					maxchars		6		
+					mouseenter		{ show message_spawnpoints }
+					mouseexit		{ hide message_spawnpoints }
 					}
 
+					
+
 				itemDef {
-					name				voting_nextmap
-					group				grpCreate
-					type				ITEM_TYPE_YESNO
-					textfont			UI_FONT_NORMAL
-					text				"Next Map:  "
-					cvar				"ui_voteNextMap"
-					rect				295 355 290 12
-				//	origin				ORIGIN_WINDOW1
-					style				WINDOW_STYLE_FILLED
-					textalign			ITEM_ALIGN_RIGHT
-					textalignx			145
-					textaligny			10
-					textscale			.25
-					backcolor			1 1 1 .07
-					forecolor			1 1 1 1
-					visible				0
+					name			window
+					group			grpCreate
+					text			"Other Options"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 320 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
 					}
 					
 				itemDef {
-					name				voting_map
-					group				grpCreate
-					type				ITEM_TYPE_YESNO
-					textfont			UI_FONT_NORMAL
-					text				"New Map:  "
-					cvar				"ui_voteMap"
-					rect				295 370 290 12
-				//	origin				ORIGIN_WINDOW1
-					style				WINDOW_STYLE_FILLED
-					textalign			ITEM_ALIGN_RIGHT
-					textalignx			145
-					textaligny			10
-					textscale			.25
-					backcolor			1 1 1 .07
-					forecolor			1 1 1 1
-					visible				0
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI	
+					textfont		UI_FONT_NORMAL
+					text			"Ingame Cutscenes:  "
+					cvar			"g_skipcutscenes"
+					cvarFloatList	{ "yes" 0 "no" 1 }
+					rect			295 345 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07 		  
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_cutscenes }
+					mouseexit		{ hide message_cutscenes }
 					}
 					
-				itemDef {
-					name				voting_kick
-					group				grpCreate
-					type				ITEM_TYPE_YESNO
-					textfont			UI_FONT_NORMAL
-					text				"Kick:  "
-					cvar				"ui_voteKick"
-					rect				295 385 290 12
-				//	origin				ORIGIN_WINDOW1
-					style				WINDOW_STYLE_FILLED
-					textalign			ITEM_ALIGN_RIGHT
-					textalignx			145
-					textaligny			10
-					textscale			.25
-					backcolor			1 1 1 .07
-					forecolor			1 1 1 1
-					visible				0
-					}
-*/
+					
 				itemDef {
 					name				start
 					group				grpCreate
@@ -1924,24 +1933,6 @@ itemDef {
 				}
 
 			itemDef {
-				name message_slot
-				group grpmessage
-				style 0 
-				rect 320 437 128 30
-				textfont	UI_FONT_NORMAL
-			//	origin HELP_ORIGIN
-				textalign 1
-				textstyle 1
-				textalignx 0
-				textaligny 25
-				textscale .25
-				text "Click to toggle botnames, human, or closed slots"
-				forecolor 1 1 1 1
-				decoration 
-				visible 0
-				}
-
-			itemDef {
 				name message_friendly_fire
 				group grpmessage
 				style 0 
@@ -1986,24 +1977,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "The Name of the Server"
-				forecolor 1 1 1 1
-				decoration 
-				visible 0
-				}
-
-			itemDef {
-				name message_enable_voting
-				group grpmessage
-				style 0 
-				rect 320 437 128 30
-				textalign 1
-				textfont	UI_FONT_NORMAL
-				textalignx 0
-				textstyle 1
-				textaligny 25
-				textscale .25
-				text "Enable Votes to be Called In-Game"
+				text "Name of the Server"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -2061,23 +2035,6 @@ itemDef {
 				}
 
 			itemDef {
-				name message_punkbuster_server
-				group grpmessage
-				style 0 
-				rect 320 437 128 30
-				textalign 1
-				textfont	UI_FONT_NORMAL
-				textalignx 0
-				textstyle 1
-				textaligny 25
-				textscale .25
-				text "Server will use Punkbuster Anti-Cheating Technology"
-				forecolor 1 1 1 1
-				decoration 
-				visible 0
-				}
-				
-			itemDef {
 				name message_password_create
 				group grpmessage
 				style 0 
@@ -2095,23 +2052,6 @@ itemDef {
 				}
 								
 			itemDef {
-				name message_allied_respawn
-				group grpmessage
-				style 0 
-				rect 320 437 128 30
-				textalign 1
-				textfont	UI_FONT_NORMAL
-				textalignx 0
-				textstyle 1
-				textaligny 25
-				textscale .25
-				text "How Long the Allies Take to Deploy"
-				forecolor 1 1 1 1
-				decoration 
-				visible 0
-				}
-
-			itemDef {
 				name message_max_lives
 				group grpmessage
 				style 0 
@@ -2122,41 +2062,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Number of Deployments Per Player. 0 = unlimited"
-				forecolor 1 1 1 1
-				decoration 
-				visible 0
-				}
-
-			itemDef {
-				name message_min_clients
-				group grpmessage
-				style 0 
-				rect 320 437 128 30
-				textalign 1
-				textfont	UI_FONT_NORMAL
-				textalignx 0
-				textstyle 1
-				textaligny 25
-				textscale .25
-				text "Number of Clients Needed to Join Before Automatic Match Start"
-				forecolor 1 1 1 1
-				decoration 
-				visible 0
-				}
-
-			itemDef {
-				name message_pure_server
-				group grpmessage
-				style 0 
-				rect 320 437 128 30
-				textalign 1
-				textfont	UI_FONT_NORMAL
-				textalignx 0
-				textstyle 1
-				textaligny 25
-				textscale .25
-				text "Server Doesn't Allow Modifications"
+				text "Number of Deployments. 0 = unlimited"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -2193,6 +2099,42 @@ itemDef {
 				textaligny 25
 				textscale .25
 				text "Do you want to watch the ingame cutscenes?"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_commonlives
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Yes: The Lives will be Shared Between the Team Members"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_spawnpoints
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Number of Droppable Spawnpoints on each map [ 0 = unlimited ]"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
