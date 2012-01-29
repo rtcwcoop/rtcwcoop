@@ -140,8 +140,6 @@ itemDef {
 		style WINDOW_STYLE_FILLED
 		backcolor 1 1 1 .07       
       	forecolor 1 1 1 1
-		cvarTest "r_ignorehwgamma"
-		showcvar { "1" }
       	visible 0 
 		action { uiScript glCustom }
     }
