@@ -1273,7 +1273,7 @@ itemDef {
 		group grpControls
 		type ITEM_TYPE_BIND
 		text "Drop SpawnPoint:  "
-		cvar "+dropspawn"
+		cvar "spawnpoint"
 		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
