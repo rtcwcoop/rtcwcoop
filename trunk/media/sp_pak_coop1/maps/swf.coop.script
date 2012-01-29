@@ -1,0 +1,210 @@
+//
+//Brush Scripting
+//Map: SWF (Secret Weapons Facility)
+//Last edited by: Dan
+//
+
+elevator
+{
+	spawn
+	{
+		accum 0 set 0
+		accum 1 bitreset 0	// Used to compensate for the "func_door" triggering the script twice, once when it begins to open, and once when it fully opens.
+	}
+
+	trigger cinematic1
+	{
+		alertentity cine_nazi1
+		alertentity cine_nazi2
+		wait 4000
+		trigger cine_death dtalk1
+		wait 3800
+		trigger cine_major mtalk1
+		wait 2000
+		trigger player cam3
+		wait 6250
+		trigger player cam2
+		trigger cine_death dtalk2
+		wait 1000
+		trigger cine_death anim1
+		wait 9200
+		trigger player cam4
+		trigger player cam3
+		trigger cine_major mtalk2
+		wait 1250
+		trigger cine_death go
+		wait 750
+		trigger player cam4
+		trigger player cam3d
+		wait 4000
+		trigger player camstop
+		trigger elevator cine_cleanup
+	}
+
+	trigger cine_cleanup
+	{
+		resetscript
+		alertentity kill_cine
+		trigger elevator decent
+	}
+
+	trigger decent
+	{
+		wait 1200
+		gotomarker elev1 2000 wait
+		wait 2000
+		playsound sound/movers/elevators/elev1_start.wav
+		wait 200
+		playsound sound/movers/elevators/elev1_loop.wav	looping	
+		trigger counterweight countermove
+		gotomarker elev2 60 wait
+		gotomarker elev3 50 wait
+		gotomarker elev4 40 wait
+		gotomarker elev5 20 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav
+		gotomarker elev6 10 wait
+		wait 800
+		alertentity elevdoor
+		wait 1000
+		trigger nazi1 elevworks
+	}
+
+	trigger spawnin
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		alertentity nazi13
+		alertentity nazi2
+	}
+
+	trigger spawnalert
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		alertentity nazi13
+		alertentity nazi2
+		wait 1000
+		trigger nazi13 alerton
+		trigger nazi2 alerton
+	}
+
+	trigger end_cutscene
+	{
+		accum 1 abort_if_bitset 0
+		accum 1 bitset 0
+		trigger lab6 look_at_bj1
+//		alertentity fake_bj
+//		trigger player camend2
+//		wait 750
+//		trigger player camend1
+//		wait 1000
+//		trigger lab6 talk1
+//		wait 2000
+//		trigger fake_bj reload
+		wait 1400
+		trigger lab6 talk2
+		wait 100
+		trigger lab6 look_at_bj2
+		wait 4000
+		trigger player endnow
+	}
+}
+
+counterweight
+{
+	trigger countermove
+	{
+		gotomarker counter2 60 wait
+		gotomarker counter3 50 wait
+		gotomarker counter4 40 wait
+		gotomarker counter5 20 wait
+		gotomarker counter6 10 wait
+	}
+}
+
+crane1
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger spawnaction
+	{
+		accum 0 random 3
+		wait 5
+		trigger crane1 eventa
+		wait 5
+		trigger crane1 eventb
+ 		wait 5
+		trigger crane1 eventc
+	}
+ 
+	trigger eventa
+	{
+		accum 0 abort_if_not_equal 0
+		alertentity nazi17
+	}
+
+	trigger eventb
+	{
+		accum 0 abort_if_not_equal 1
+		alertentity nazi16
+	}
+
+	trigger eventc
+	{
+		accum 0 abort_if_not_equal 2
+		alertentity nazi16
+		alertentity nazi17
+	}
+}
+
+propeller
+{
+	spawn
+	{
+		wait 5000
+		faceangles 16 -2 0 100
+	}
+}
+
+waterwheel
+{
+	spawn
+	{
+		accum 0 bitset 0
+	}
+
+	trigger raise
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		playsound sound/scenaric/assault/metal_crank1.wav looping forever
+		faceangles 0 0 -90 500
+		faceangles 0 0 -180 500
+		faceangles 0 0 -270 500
+		faceangles 0 0 0 500
+		stopsound
+	}
+
+}
+
+submarine
+{
+	spawn
+	{
+
+	}
+
+	trigger leaving
+	{
+		alertentity opensubdoor
+		gotomarker subspot1 20 wait
+		gotomarker subspot2 20 wait
+		gotomarker subspot3 20 wait
+		gotomarker subspot4 30 wait
+		alertentity opensubdoor 
+	}
+}

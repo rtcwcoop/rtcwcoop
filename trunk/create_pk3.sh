@@ -2,7 +2,7 @@
 PAKFILE=sp_pak_coop1.pk3
 cd media/sp_pak_coop1
 
-zip -R $PAKFILE models/players/coop/* models/movespeeds/* maps/* scripts/* ui/* ./*
+zip -R $PAKFILE models/players/coop/* models/movespeeds/* maps/* scripts/* ui/* ./* levelshots/*
 
 if [ "`uname`" = "Darwin" ]; then
         cp $PAKFILE ~/Library/Application\ Support/Wolfenstein/main/

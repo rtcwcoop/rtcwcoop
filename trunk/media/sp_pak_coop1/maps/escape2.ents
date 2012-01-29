@@ -1,0 +1,329 @@
+{
+"classname" "info_player_coop"
+"origin" "-1052 1565 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-982 1565 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-922 1565 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-922 1526 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-987 1526 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-1044 1526 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-1044 1466 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-978 1466 -103"
+"angle" "-90"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-914 1466 -103"
+"angle" "-90"
+}
+
+{
+"classname" "target_location"
+"origin" "-987 1526 -103"
+"message" "Spawn"
+}
+
+{
+"classname" "target_location"
+"origin" "-1709 1282 -135"
+"message" "Officer room"
+}
+
+{
+"classname" "target_location"
+"origin" "-1436 767 -239"
+"message" "Soldier stairs"
+}
+
+{
+"classname" "target_location"
+"origin" "-1034 1420 -359"
+"message" "Axis barracks"
+}
+
+{
+"classname" "target_location"
+"origin" "-777 601 -359"
+"message" "Under the bridge"
+}
+
+{
+"classname" "target_location"
+"origin" "218 610 -295"
+"message" "Tower stairs"
+}
+
+{
+"classname" "target_location"
+"origin" "576 371 -167"
+"message" "Tower stairs"
+}
+
+{
+"classname" "target_location"
+"origin" "646 602 8"
+"message" "Tower stairs"
+}
+
+{
+"classname" "target_location"
+"origin" "161 598 152"
+"message" "Courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "-219 872 152"
+"message" "Courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "-417 1442 -39"
+"message" "Bridge entrance"
+}
+
+{
+"classname" "target_location"
+"origin" "-718 1119 -103"
+"message" "Bridge entrance"
+}
+
+{
+"classname" "target_location"
+"origin" "-396 812 -167"
+"message" "Guard bridge"
+}
+
+{
+"classname" "target_location"
+"origin" "44 968 -167"
+"message" "Upper Axis barracks"
+}
+
+{
+"classname" "target_location"
+"origin" "-620 30 -103"
+"message" "Generator room"
+}
+
+{
+"classname" "target_location"
+"origin" "138 1885 296"
+"message" "Upper hallway"
+}
+
+{
+"classname" "target_location"
+"origin" "433 2249 296"
+"message" "Mini library"
+}
+
+{
+"classname" "target_location"
+"origin" "-29 2251 296"
+"message" "Wine stairs"
+}
+
+{
+"classname" "target_location"
+"origin" "-40 2094 8"
+"message" "Wine cellar"
+}
+
+{
+"classname" "target_location"
+"origin" "-473 1822 8"
+"message" "Wine cellar"
+}
+
+{
+"classname" "target_location"
+"origin" "706 2377 -71"
+"message" "Axis dining room"
+}
+
+{
+"classname" "target_location"
+"origin" "672 2718 -71"
+"message" "Axis dining room"
+}
+
+{
+"classname" "target_location"
+"origin" "1406 2999 -199"
+"message" "Axis compound"
+}
+
+{
+"classname" "target_location"
+"origin" "1353 2735 -199"
+"message" "Axis compound"
+}
+
+{
+"classname" "target_location"
+"origin" "1699 2571 -119"
+"message" "Axis compound"
+}
+
+{
+"classname" "target_location"
+"origin" "2483 3253 -199"
+"message" "Machine room"
+}
+
+{
+"classname" "target_location"
+"origin" "1529 3270 -199"
+"message" "Dining table"
+}
+
+{
+"classname" "target_location"
+"origin" "1539 2034 -199"
+"message" "Lower bunker"
+}
+
+{
+"classname" "target_location"
+"origin" "967 1319 -231"
+"message" "Lower courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "892 993 -231"
+"message" "Lower courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "1065 613 -231"
+"message" "Lower courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "1450 517 -199"
+"message" "Lower barracks"
+}
+
+{
+"classname" "target_location"
+"origin" "1003 798 185"
+"message" "Big Bridge"
+}
+
+{
+"classname" "target_location"
+"origin" "763 735 327"
+"message" "Sniper stairs"
+}
+
+{
+"classname" "target_location"
+"origin" "565 860 488"
+"message" "Sniper wall"
+}
+
+{
+"classname" "target_location"
+"origin" "1578 817 216"
+"message" "Inner courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "1573 547 216"
+"message" "Exit"
+}
+
+{
+"classname" "target_location"
+"origin" "1559 65 72"
+"message" "Exit"
+}
+
+{
+"classname" "target_location"
+"origin" "2094 153 -87"
+"message" "Exit"
+}
+
+{
+"classname" "target_location"
+"origin" "-249 608 -359"
+"message" "Under the bridge"
+}
+
+{
+"classname" "target_location"
+"origin" "101 2097 8"
+"message" "Cellar entrance"
+}
+
+{
+"classname" "target_location"
+"origin" "1234 3140 -199"
+"message" "Compound gate"
+}
+
+{
+"classname" "target_location"
+"origin" "2036 2729 -199"
+"message" "Stockroom"
+}
+
+{
+"classname" "target_location"
+"origin" "1942 3269 -199"
+"message" "Axis compound"
+}
+
+{
+"classname" "target_location"
+"origin" "-139 1548 296"
+"message" "Porch"
+}
+
+{
+"classname" "target_location"
+"origin" "458 828 152"
+"message" "Big bridge entrance"
+}

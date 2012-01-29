@@ -1,0 +1,372 @@
+{
+"classname" "info_player_coop"
+"origin" "-2534 -367 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2600 -367 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2663 -367 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2717 -367 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2717 -415 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2667 -415 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2599 -415 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2702 -495 -167"
+"angle" "-89"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2534 -614 -159"
+"angle" "151"
+}
+
+{
+"classname" "target_location"
+"origin" "-2628 -454 -167"
+"message" "Spawn"
+}
+
+{
+"classname" "target_location"
+"origin" "-2830 -914 -327"
+"message" "Cafe entrance"
+}
+
+{
+"classname" "target_location"
+"origin" "-2626 -1226 -487"
+"message" "Wine cellar"
+}
+
+{
+"classname" "target_location"
+"origin" "-2819 -1381 -487"
+"message" "Wine cellar"
+}
+
+{
+"classname" "target_location"
+"origin" "-2857 -1960 -327"
+"message" "Stairs"
+}
+
+{
+"classname" "target_location"
+"origin" "-2391 -1866 -103"
+"message" "Cafe"
+}
+
+{
+"classname" "target_location"
+"origin" "-2167 -1917 -103"
+"message" "Helgas bar"
+}
+
+{
+"classname" "target_location"
+"origin" "-2439 -1364 -103"
+"message" "Cafe"
+}
+
+{
+"classname" "target_location"
+"origin" "-2054 -1169 -103"
+"message" "Cafe entrance"
+}
+
+{
+"classname" "target_location"
+"origin" "-2255 -1037 -103"
+"message" "Cafe porch"
+}
+
+{
+"classname" "target_location"
+"origin" "-1853 -1523 8"
+"message" "Cafe balcony"
+}
+
+{
+"classname" "target_location"
+"origin" "-1960 -1636 8"
+"message" "Cafe balcony"
+}
+
+{
+"classname" "target_location"
+"origin" "-1547 -2040 24"
+"message" "Cafe upstairs"
+}
+
+{
+"classname" "target_location"
+"origin" "-1353 -1803 24"
+"message" "Room 1"
+}
+
+{
+"classname" "target_location"
+"origin" "-1816 -1753 24"
+"message" "Room 2"
+}
+
+{
+"classname" "target_location"
+"origin" "-1757 -1446 24"
+"message" "Machine gun"
+}
+
+{
+"classname" "target_location"
+"origin" "-1619 -1106 -159"
+"message" "Courtyard hideout"
+}
+
+{
+"classname" "target_location"
+"origin" "-2316 -840 -167"
+"message" "Tree of life"
+}
+
+{
+"classname" "target_location"
+"origin" "-2002 -493 -175"
+"message" "Tree of life"
+}
+
+{
+"classname" "target_location"
+"origin" "-1360 -951 -159"
+"message" "Rue de la resistance"
+}
+
+{
+"classname" "target_location"
+"origin" "-612 -509 32"
+"message" "Sniper tower"
+}
+
+{
+"classname" "target_location"
+"origin" "-314 -447 -167"
+"message" "Hallway"
+}
+
+{
+"classname" "target_location"
+"origin" "-101 -973 -231"
+"message" "Backdoor"
+}
+
+{
+"classname" "target_location"
+"origin" "-323 -859 -151"
+"message" "Resistance room"
+}
+
+{
+"classname" "target_location"
+"origin" "-569 -1077 -199"
+"message" "Armor room"
+}
+
+{
+"classname" "target_location"
+"origin" "-143 87 -55"
+"message" "Bridge"
+}
+
+{
+"classname" "target_location"
+"origin" "-845 157 -167"
+"message" "Gate"
+}
+
+{
+"classname" "target_location"
+"origin" "-143 198 -175"
+"message" "Tunnel"
+}
+
+{
+"classname" "target_location"
+"origin" "505 347 -119"
+"message" "Eastside courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "272 775 -55"
+"message" "Eastside courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "-49 769 -55"
+"message" "Eastside courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "-624 1181 -55"
+"message" "Westside courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "-1065 1308 -55"
+"message" "Westside courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "-1094 936 -167"
+"message" "Westside courtyard"
+}
+
+{
+"classname" "target_location"
+"origin" "-1476 624 -159"
+"message" "Ammo room"
+}
+
+{
+"classname" "target_location"
+"origin" "-1008 2382 -183"
+"message" "Backside cellar"
+}
+
+{
+"classname" "target_location"
+"origin" "-423 2765 -23"
+"message" "Backside house"
+}
+
+{
+"classname" "target_location"
+"origin" "-451 2583 -183"
+"message" "Backside house"
+}
+
+{
+"classname" "target_location"
+"origin" "82 2898 -147"
+"message" "Cemetary"
+}
+
+{
+"classname" "target_location"
+"origin" "80 2569 -167"
+"message" "Cemetary"
+}
+
+{
+"classname" "target_location"
+"origin" "51 3195 -160"
+"message" "Cemetary"
+}
+
+{
+"classname" "target_location"
+"origin" "-183 3410 -121"
+"message" "Cemetary"
+}
+
+{
+"classname" "target_location"
+"origin" "-372 4078 -91"
+"message" "Cemetary"
+}
+
+{
+"classname" "target_location"
+"origin" "-387 4450 -53"
+"message" "Exit"
+}
+
+{
+"classname" "target_location"
+"origin" "974 2355 -167"
+"message" "Dead tree"
+}
+
+{
+"classname" "target_location"
+"origin" "1074 1930 -167"
+"message" "Dead tree"
+}
+
+{
+"classname" "target_location"
+"origin" "1670 2336 24"
+"message" "Axis spawn"
+}
+
+{
+"classname" "target_location"
+"origin" "1696 1829 24"
+"message" "Axis spawn"
+}
+
+{
+"classname" "target_location"
+"origin" "1155 1279 -167"
+"message" "Dead tree"
+}
+
+{
+"classname" "target_location"
+"origin" "849 -968 -151"
+"message" "Downtown"
+}
+
+{
+"classname" "target_location"
+"origin" "1313 -964 -151"
+"message" "Downtown"
+}
+
+{
+"classname" "target_location"
+"origin" "1791 -819 -103"
+"message" "Axis storage"
+}
+
+{
+"classname" "target_location"
+"origin" "440 -579 -151"
+"message" "Downtown"
+}
+
