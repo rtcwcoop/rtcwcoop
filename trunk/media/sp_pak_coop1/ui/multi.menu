@@ -373,7 +373,7 @@ itemDef {
 			name mappreview
 			group grpJoin
 			style 0	
-			ownerdraw UI_NETMAPCINEMATIC
+			ownerdraw UI_NETMAPPREVIEW
 			textfont	UI_FONT_NORMAL
 			rect 498 119 104 78
 			border 1

@@ -1785,6 +1785,8 @@ static void UI_DrawNetMapPreview( rectDef_t *rect, float scale, vec4_t color ) {
 
 	if ( uiInfo.serverStatus.currentServerPreview > 0 ) {
 		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, uiInfo.serverStatus.currentServerPreview );
+        } else if ( uiInfo.mapList[ui_currentNetMap.integer].mapLoadName > 0 ) {
+		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( va("levelshots/ui_%s", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName)) );
 	} else {
 		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( "menu/art/unknownmap" ) );
 	}
