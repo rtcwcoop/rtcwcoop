@@ -678,12 +678,7 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 		Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
 		ci->legsModel = trap_R_RegisterModel( filename );
 	} else {    // try skeletal model
-                // fretn: for the coop models, we use the body.mds from the multi model, so we don't have to
-                // copy that media from the mp_paks into our pk3's.
-                if (!strcmp(modelName, "coop"))
-                    Com_sprintf( filename, sizeof( filename ), "models/players/multi/body.mds" );
-                else
-                    Com_sprintf( filename, sizeof( filename ), "models/players/%s/body.mds", modelName );
+                Com_sprintf( filename, sizeof( filename ), "models/players/%s/body.mds", modelName );
 
 		ci->legsModel = trap_R_RegisterModel( filename );
 
@@ -1264,19 +1259,9 @@ static qboolean CG_RegisterClientHeadname( clientInfo_t *ci, const char *modelNa
 	}
 
 	if ( trap_R_GetSkinModel( ci->headSkin, "md3_part", &namefromskin[0] ) ) {
-                // fretn: for the coop models, we use the md3 parts from the multi model, so we don't have to
-                // copy that media from the mp_paks into our pk3's.
-                if (!strcmp(modelName, "coop"))
-		        Com_sprintf( filename, sizeof( filename ), "models/players/multi/%s", namefromskin );
-                else
-		        Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
+		Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
 	} else {
-                // fretn: for the coop models, we use the md3 parts from the multi model, so we don't have to
-                // copy that media from the mp_paks into our pk3's.
-                if (!strcmp(modelName, "coop"))
-		        Com_sprintf( filename, sizeof( filename ), "models/players/multi/head.md3" );
-                else
-		        Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", modelName );
+                Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", modelName );
 	}
 
 	ci->headModel = trap_R_RegisterModel( filename );

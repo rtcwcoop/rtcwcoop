@@ -94,7 +94,7 @@ float Com_GetFlamethrowerRange( void );
 // RF, temp only, use infantryss so we can test new anim system
 //#define	DEFAULT_MODEL		"american"
 #define DEFAULT_MODEL       "bj2"
-#define DEFAULT_COOP_MODEL       "coop"
+#define DEFAULT_COOP_MODEL       "multi"
 #define DEFAULT_HEAD        "default"    // technically the default head skin.  this means "head_default.skin" for the head
 
 // RF, on fire effects

@@ -760,7 +760,7 @@ Forces a client's skin (for Wolfenstein teamplay)
 */
 
 #define MULTIPLAYER_MODEL   "multi"
-#define COOP_MODEL   "coop"
+#define COOP_MODEL   "multi"
 
 void SetCoopSkin( gclient_t *client, char *model, int number ) {
 
