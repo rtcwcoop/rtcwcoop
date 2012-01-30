@@ -11,6 +11,7 @@
 	loadMenu { "ui/multi.menu" }
 	loadMenu { "ui/ingame.menu" }
 	loadMenu { "ui/ingame_callvote.menu" }
+	loadMenu { "ui/ingame_quick.menu" }
 	loadMenu { "ui/ingame_join.menu" }
 	loadMenu { "ui/serverinfo.menu" }
 

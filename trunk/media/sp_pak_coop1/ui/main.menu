@@ -373,7 +373,7 @@ itemDef {
 		visible 1 
 		mouseEnter { fadein message_accept }
 		action {
-		open ingame_multiset } 
+		open ingame } 
 	}
 	
 	

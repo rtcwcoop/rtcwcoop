@@ -28,6 +28,7 @@ menuDef {
 	rect 0 0 640 480
 	focusColor 1 .75 0 1
 	disableColor .5 .5 .5 1
+	onOpen { open ingame_quick }
 
 itemDef {
 	name window
@@ -42,9 +43,6 @@ itemDef {
 	decoration
 
 }
-
-
-
 
 	itemDef {
 		name BLACKGRAD					// BLACKGRAD
@@ -91,6 +89,7 @@ itemDef {
 		decoration
 		}
 
+
 itemDef {
 	name serverlist
 	text "JOIN SERVER"
@@ -105,7 +104,7 @@ itemDef {
 	forecolor .8 .8 .8 1
 	backcolor .4 .4 .4 .6  
 	visible 1 
-	action { open ingame_join }
+	action { open ingame_join ;	close ingame_quick }
 	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
 	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
 	}
@@ -126,7 +125,7 @@ itemDef {
 	visible 1 
 	action {
 			uiScript clientCheckVote ;
-			open ingame_callvote }
+			open ingame_callvote ; close ingame_quick }
 	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
 	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
 	}
@@ -145,7 +144,7 @@ itemDef {
 	forecolor .8 .8 .8 1
 	backcolor .4 .4 .4 .6  
 	visible 1 
-	action { open ingame_controls }
+	action { open ingame_controls ; close ingame_quick }
 	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
 	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
 	}
@@ -164,7 +163,7 @@ itemDef {
 	forecolor .8 .8 .8 1
 	backcolor .4 .4 .4 .6  
 	visible 1 
-	action { open ingame_options }
+	action { open ingame_options ; close ingame_quick }
 	mouseEnter { setitemcolor options backcolor .15 .1 .1 .7 }
 	mouseExit { setitemcolor options backcolor .4 .4 .4 .6  }
 	}
@@ -183,7 +182,7 @@ itemDef {
 	forecolor .8 .8 .8 1
 	backcolor .4 .4 .4 .6
 	visible 1 
-	action { open ingame_system }
+	action { open ingame_system ; close ingame_quick }
 	mouseEnter { setitemcolor system backcolor .15 .1 .1 .7 }
 	mouseExit { setitemcolor system backcolor .4 .4 .4 .6  }
 	}
@@ -202,7 +201,7 @@ itemDef {
 	forecolor .8 .8 .8 1
 	backcolor .4 .4 .4 .6 
 	visible 1 
-	action { open ingame_leave }
+	action { open ingame_leave ; close ingame_quick }
 	mouseEnter { setitemcolor leave backcolor .15 .1 .1 .7 }
 	mouseExit { setitemcolor leave backcolor .4 .4 .4 .6  }
 	}

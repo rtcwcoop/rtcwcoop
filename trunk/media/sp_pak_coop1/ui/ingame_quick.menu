@@ -1,0 +1,258 @@
+#include "ui/menudef.h"
+{
+
+\\ INGAME_QUICK MENU \\
+
+menuDef {
+	name "ingame_quick"
+	visible 0
+	fullScreen 0
+	outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+	rect 50 140 220 290
+	focusColor 1 .75 0 1
+	disableColor .5 .5 .5 1
+
+
+
+	itemDef {
+		name quick
+		rect 0 0 220 290	
+		style WINDOW_STYLE_FILLED
+		border 1
+		bordercolor .5 .5 .5 .5
+		forecolor 1 1 1 1
+		backcolor 0 0 0 .25
+		visible 1
+		decoration
+		}	
+
+	itemDef {
+		name quick
+		text "Quick Menu"
+		textfont UI_FONT_NORMAL
+		textalign ITEM_ALIGN_CENTER
+		textalignx 107
+		textaligny 14
+		textscale .25
+		rect 3 2 214 20
+		style WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.5 .5 .5 .5
+		forecolor		1 1 1 1
+		backcolor		.3 0.5 0.2 .25
+		visible			1
+		decoration
+		}
+
+		itemDef {
+			name			quick
+			visible			1
+			rect			-30 30 220 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		32
+			maxpaintchars	18
+			text			"Player's Name:"
+			cvar			"name"
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			}
+			
+		itemDef {
+			name			quick
+			visible			1
+			rect			-30 45 220 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			maxChars		32
+			maxpaintchars	18
+			text			"Player's model:"
+			cvar			"skin"
+			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			}
+
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Brightness:"
+			cvarfloat "r_gamma" 1 0.5 2
+			rect -30 65 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22 
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			action { uiScript glCustom }
+			}
+			
+		itemDef {
+			name quick
+			type ITEM_TYPE_YESNO
+			text "Fullscreen:"
+			cvar "r_fullscreen"
+			rect -30 80 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0        
+			forecolor 1 1 1 1
+			visible 1 
+			action { uiScript glCustom }
+			}
+			
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Sound Volume:"
+			cvarfloat "s_volume" 0.7 0 1
+			rect -30 100 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 12
+			textscale .22    
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1 
+			}
+		
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Music Volume:"
+			cvarfloat "s_musicvolume" 0.25 0 1
+			rect -30 115 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22  
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1 
+			}
+			
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "HUD Alpha:"
+			cvarfloat "cg_hudAlpha" .6 .1 1
+			rect -30 135 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			}
+
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Crosshair Alpha:"
+			cvarfloat "cg_crosshairAlpha" .6 .1 1
+			rect -30 150 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			}
+
+		itemDef {
+			name quick
+			text "Crosshair:"
+			type 1	
+			rect -30 165 60 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_CENTER
+			textalignx 130
+			textaligny 11
+			textscale .22
+			forecolor 1 1 1 1
+			visible 1 
+			decoration
+			}
+
+		itemDef {
+			name quick
+			rect 74 180 50 50
+			ownerdraw UI_CROSSHAIR
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 0 
+			textaligny 50  
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			}
+
+		itemDef {
+			name			quick
+			rect			-30 240 220 12
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			text			"Crosshairnames:"
+			cvar			"cg_drawcrosshairnames"
+			cvarFloatList	{ "Off" 0 "On" 1}
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			backcolor		0 0 0 0 		  
+			forecolor		1 1 1 1
+			visible			1
+			}
+		
+		itemDef {
+			name			quick
+			rect			-30 255 220 12
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			WINDOW_STYLE_FILLED
+			text			"Team-Overlay:"
+			cvar			"cg_drawteamoverlay"
+			cvarFloatList	{ "Off" 0 "On" 1}
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			backcolor		0 0 0 0 		  
+			forecolor		1 1 1 1
+			visible			1
+			}
+
+}
+
+}
