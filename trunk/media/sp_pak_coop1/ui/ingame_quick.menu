@@ -102,13 +102,31 @@ menuDef {
 			visible 1
 			action { uiScript glCustom }
 			}
+
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Field of View:"
+			cvarfloat "cg_fov" 90 90 105
+			rect -30 80 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22 
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			action { uiScript glCustom }
+			}
 			
 		itemDef {
 			name quick
 			type ITEM_TYPE_YESNO
 			text "Fullscreen:"
 			cvar "r_fullscreen"
-			rect -30 80 220 12
+			rect -30 95 220 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_RIGHT
 			textalignx 126
@@ -126,7 +144,7 @@ menuDef {
 			type ITEM_TYPE_SLIDER
 			text "Sound Volume:"
 			cvarfloat "s_volume" 0.7 0 1
-			rect -30 100 220 12
+			rect -30 115 220 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_RIGHT
 			textalignx 126
@@ -143,7 +161,7 @@ menuDef {
 			type ITEM_TYPE_SLIDER
 			text "Music Volume:"
 			cvarfloat "s_musicvolume" 0.25 0 1
-			rect -30 115 220 12
+			rect -30 130 220 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_RIGHT
 			textalignx 126
@@ -160,7 +178,7 @@ menuDef {
 			type ITEM_TYPE_SLIDER
 			text "HUD Alpha:"
 			cvarfloat "cg_hudAlpha" .6 .1 1
-			rect -30 135 220 12
+			rect -30 150 220 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_RIGHT
 			textalignx 126
@@ -177,7 +195,7 @@ menuDef {
 			type ITEM_TYPE_SLIDER
 			text "Crosshair Alpha:"
 			cvarfloat "cg_crosshairAlpha" .6 .1 1
-			rect -30 150 220 12
+			rect -30 165 220 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_RIGHT
 			textalignx 126
@@ -193,7 +211,7 @@ menuDef {
 			name quick
 			text "Crosshair:"
 			type 1	
-			rect -30 165 60 12
+			rect -30 180 60 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_CENTER
 			textalignx 130
@@ -206,7 +224,7 @@ menuDef {
 
 		itemDef {
 			name quick
-			rect 74 180 50 50
+			rect 74 195 50 50
 			ownerdraw UI_CROSSHAIR
 			textalign ITEM_ALIGN_RIGHT
 			textalignx 0 
@@ -219,7 +237,7 @@ menuDef {
 
 		itemDef {
 			name			quick
-			rect			-30 240 220 12
+			rect			-30 255 220 12
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_MULTI
 			style			0
@@ -237,7 +255,7 @@ menuDef {
 		
 		itemDef {
 			name			quick
-			rect			-30 255 220 12
+			rect			-30 270 220 12
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_MULTI
 			style			WINDOW_STYLE_FILLED

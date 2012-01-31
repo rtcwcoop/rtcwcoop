@@ -50,8 +50,8 @@ menuDef {
 			style			WINDOW_STYLE_FILLED	
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
-			bordercolor		.1 .1 .1 .25
-			rect			70 140 105 15
+			bordercolor		.5 .5 .5 .5
+			rect			40 145 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -77,8 +77,8 @@ menuDef {
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_BUTTON
 			border			1
-			bordercolor		.1 .1 .1 .25
-			rect			70 165 105 15
+			bordercolor		.5 .5 .5 .5
+			rect			40 170 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -90,7 +90,8 @@ menuDef {
 			action			{ play "sound/misc/nomenu.wav" ; 
 							uiScript RefreshFilter }	  	  
 			}
-/*
+
+
 		itemDef {
 			name			serverinfo
 			text			"Server Info"
@@ -100,8 +101,8 @@ menuDef {
 			textscale		.25
 			style			WINDOW_STYLE_FILLED
 			border			1
-			bordercolor		.1 .1 .1 .25
-			rect			70 175 105 15
+			bordercolor		.5 .5 .5 .5
+			rect			40 195 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -118,9 +119,32 @@ menuDef {
 			mouseEnter		{ show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 }
 			mouseExit		{ hide message_serverinfo ; setitemcolor serverinfo backcolor .3 .5 .2 .3 }	 
 				}
-*/
-				
+
+
+
 	//  2ND COLUMN  //
+
+		itemDef {
+			name			window_limbo_name
+			group			grpJoin
+			visible			1
+			rect			180 145 100 15
+			textstyle		6			
+			forecolor		1 1 1 1
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		16
+			maxpaintchars	16
+			text			"Name:"
+			cvar			"name"
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
 	
 		itemDef {
 			name			gametypefield
@@ -128,7 +152,7 @@ menuDef {
 			style			0	
 			textfont		UI_FONT_NORMAL
 			ownerdraw		UI_NETSOURCE
-			rect			215 140 134 15 
+			rect			180 170 134 15 
 			textstyle		6
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
@@ -153,7 +177,7 @@ menuDef {
 			maxpaintchars	8
 			cvar			"password"
 			textfont		UI_FONT_NORMAL
-			rect			215 165 105 15
+			rect			180 195 105 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -170,6 +194,31 @@ menuDef {
 			}
 
 	//  3TD COLUMN  //
+
+
+		itemDef {
+			name			window_limbo_model
+			group			grpJoin
+			visible			1
+			rect			330 145 100 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			textstyle		6
+			maxChars		16
+			maxpaintchars	16
+			text			"Model:"
+			cvar			"skin"
+			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
 			
 		itemDef {
 			name			gametypefield
@@ -179,7 +228,7 @@ menuDef {
 			text			"Type:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
-			rect			350 140 160 15
+			rect			330 170 160 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -201,7 +250,7 @@ menuDef {
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
-			rect			350 165 160 15
+			rect			330 195 160 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0
 			textaligny		14
@@ -221,32 +270,27 @@ menuDef {
 		itemDef {
 			name mappreview
 			group grpJoin
-			style 0	
-			ownerdraw UI_NETMAPCINEMATIC
-			textfont	UI_FONT_NORMAL
-			rect 472 118 100 80
-			border 1
-			bordercolor .1 .1 .1 .40
+			ownerdraw UI_NETMAPPREVIEW
+			rect 467 120 148 111
 			visible 1 
 			}
-
-	//  SERVER BROWSER LINES  //
 
 		itemDef {
 			name mappreview
 			group grpJoin
 			style WINDOW_STYLE_FILLED	
-			rect 472 118 100 80 
+			rect 466 119 149 112
 			border 1
-			bordercolor .1 .1 .1 .40
+			bordercolor .5 .5 .5 .5
 			visible 1 
 			}
 		
-			
+//  SERVER BROWSER LINES  //
+		
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 216 581 15
+			rect 21 251 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .25
@@ -257,7 +301,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 246 581 15
+			rect 21 281 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .25
@@ -267,7 +311,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 276 581 15
+			rect 21 311 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .25
@@ -277,7 +321,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 306 581 15
+			rect 21 341 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .25
@@ -287,7 +331,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 336 581 15
+			rect 21 371 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .25
@@ -297,7 +341,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 366 581 15
+			rect 21 401 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .25
@@ -311,7 +355,7 @@ menuDef {
 		itemDef {
 			name serverColumn
 			group grpJoin
-			rect 20 215 169 165
+			rect 20 250 169 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -323,7 +367,7 @@ menuDef {
 		itemDef {
 			name mapColumn
 			group grpJoin
-			rect 188 215 197 165
+			rect 188 250 197 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -335,7 +379,7 @@ menuDef {
 		itemDef {
 			name skillColumn
 			group grpJoin
-			rect 384 215 37 165
+			rect 384 250 37 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -347,7 +391,7 @@ menuDef {
 		itemDef {
 			name playerColumn
 			group grpJoin
-			rect 420 215 65 165
+			rect 420 250 65 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -359,7 +403,7 @@ menuDef {
 		itemDef {
 			name typeColumn
 			group grpJoin
-			rect 484 215 84 165
+			rect 484 250 84 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -371,7 +415,7 @@ menuDef {
 		itemDef {
 			name pingColumn
 			group grpJoin
-			rect 567 215 36 165
+			rect 567 250 36 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -385,7 +429,7 @@ menuDef {
 		 itemDef {
 			name serverlist
 			group grpJoin
-			rect 20 215 600 165
+			rect 20 250 600 165
 			type ITEM_TYPE_LISTBOX
 			style WINDOW_STYLE_FILLED
 			elementwidth 120
@@ -424,11 +468,11 @@ menuDef {
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED
 			border 1
-			bordercolor .1 .1 .1 .25	
-			rect 20 200 169 15
+			bordercolor .5 .5 .5 .5
+			rect 20 235 169 15
 			textalign 1
 			textalignx 85		// center
-			textaligny 10
+			textaligny 11
 			forecolor 1 1 1 1
 			backcolor .3 .5 .2 .3
 			visible 1 
@@ -450,12 +494,12 @@ menuDef {
 			textscale .25
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED	
-			rect 188 200 197 15
+			rect 188 235 197 15
 			textalign 1
 			textalignx 98		// center
-			textaligny 10
+			textaligny 11
 			border 1
-			bordercolor .1 .1 .1 .25
+			bordercolor .5 .5 .5 .5
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
 			visible 1 
@@ -478,11 +522,11 @@ menuDef {
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED
 			border 1
-			bordercolor .1 .1 .1 .25		
-			rect 384 200 37 15
+			bordercolor .5 .5 .5 .5	
+			rect 384 235 37 15
 			textalign 1
 			textalignx 18		// center
-			textaligny 10
+			textaligny 11
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
 			visible 1 
@@ -504,12 +548,12 @@ menuDef {
 			textscale .25
 			style WINDOW_STYLE_FILLED	
 			textfont	UI_FONT_NORMAL
-			rect 420 200 65 15
+			rect 420 235 65 15
 			textalign 1
 			textalignx 32		// center
-			textaligny 10
+			textaligny 11
 			border 1
-			bordercolor .1 .1 .1 .25
+			bordercolor .5 .5 .5 .5
 			forecolor 1 1 1 1
 			backcolor .3 .5 .2 .3
 			visible 1 
@@ -531,12 +575,12 @@ menuDef {
 			textscale .25
 			type ITEM_TYPE_BUTTON
 			style WINDOW_STYLE_FILLED	
-			rect 484 200 84 15
+			rect 484 235 84 15
 			textalign 1
 			textalignx 42		// center
-			textaligny 10
+			textaligny 11
 			border 1	
-			bordercolor .1 .1 .1 .25	
+			bordercolor .5 .5 .5 .5
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
 			visible 1 
@@ -559,8 +603,8 @@ menuDef {
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED
 			border 1
-			bordercolor .1 .1 .1 .25		
-			rect 567 200 36 15
+			bordercolor .5 .5 .5 .5	
+			rect 567 235 53 15
 			textalign 1
 			textalignx 18		// center
 			textaligny 10
@@ -578,61 +622,10 @@ menuDef {
 			}
 
 
-		// 	PLAYER-NAME PART	//
-
-		itemDef {
-			name			window_limbo_name
-			group			grpJoin
-			visible			1
-			rect			40 385 256 15		
-			forecolor		1 1 1 1
-			backcolor		0 0 0 0
-			outlinecolor	1 1 0 .5
-			textfont		UI_FONT_NORMAL
-			type			ITEM_TYPE_EDITFIELD
-			style			0
-			border			1
-			bordercolor		.5 .5 .5 .5
-			maxChars		32
-			maxpaintchars	18
-			text			"Playername:"
-			cvar			"name"
-			textscale		.25
-			textalign		ITEM_ALIGN_RIGHT	
-			textalignx		126
-			textaligny		11
-			}
-			
-		itemDef {
-			name			window_limbo_model
-			group			grpJoin
-			visible			1
-			rect			344 385 256 15		
-			forecolor		1 1 1 1
-			backcolor		0 0 0 0
-			outlinecolor	1 1 0 .5
-			textfont		UI_FONT_NORMAL
-			type			ITEM_TYPE_MULTI
-			style			0
-			border			1
-			bordercolor		.5 .5 .5 .5
-			maxChars		32
-			maxpaintchars	18
-			text			"Playermodel:"
-			cvar			"skin"
-			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
-			textscale		.25
-			textalign		ITEM_ALIGN_RIGHT	
-			textalignx		126
-			textaligny		11
-			}
-			
-			
 // End of Join Server Section
 
 //////// END OF PASTE
 
-//////// DON'T FORGET TO MODIFY THE RECT VALUES: -100 -115 FROM THE FIRST 2 VALUES!!!!
 }
 
 }
