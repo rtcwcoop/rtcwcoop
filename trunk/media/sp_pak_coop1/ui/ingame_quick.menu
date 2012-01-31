@@ -28,7 +28,7 @@ menuDef {
 
 	itemDef {
 		name quick
-		text "Quick Menu"
+		text "Quick Settings"
 		textfont UI_FONT_NORMAL
 		textalign ITEM_ALIGN_CENTER
 		textalignx 107
@@ -56,7 +56,7 @@ menuDef {
 			style			0
 			maxChars		32
 			maxpaintchars	18
-			text			"Player's Name:"
+			text			"Name:"
 			cvar			"name"
 			textscale		.22
 			textalign		ITEM_ALIGN_RIGHT	
@@ -76,7 +76,7 @@ menuDef {
 			style			0
 			maxChars		32
 			maxpaintchars	18
-			text			"Player's model:"
+			text			"Model:"
 			cvar			"skin"
 			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
 			textscale		.22

@@ -595,7 +595,7 @@ menuDef {
 			bordercolor		.5 .5 .5 .5
 			maxChars		32
 			maxpaintchars	18
-			text			"Player's Name:"
+			text			"Playername:"
 			cvar			"name"
 			textscale		.25
 			textalign		ITEM_ALIGN_RIGHT	
@@ -618,7 +618,7 @@ menuDef {
 			bordercolor		.5 .5 .5 .5
 			maxChars		32
 			maxpaintchars	18
-			text			"Player's model:"
+			text			"Playermodel:"
 			cvar			"skin"
 			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
 			textscale		.25

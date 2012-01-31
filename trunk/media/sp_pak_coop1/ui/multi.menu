@@ -202,7 +202,7 @@ itemDef {
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			70 140 105 15
+			rect			50 130 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -229,7 +229,7 @@ itemDef {
 			type			ITEM_TYPE_BUTTON
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			70 165 105 15
+			rect			50 155 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -241,7 +241,8 @@ itemDef {
 			action			{ play "sound/misc/nomenu.wav" ; 
 							uiScript RefreshFilter }	  	  
 			}
-/*
+
+
 		itemDef {
 			name			serverinfo
 			text			"Server Info"
@@ -251,8 +252,8 @@ itemDef {
 			textscale		.25
 			style			WINDOW_STYLE_FILLED
 			border			1
-			bordercolor		.1 .1 .1 .25
-			rect			70 175 105 15
+			bordercolor		.5 .5 .5 .5
+			rect			50 180 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -269,9 +270,32 @@ itemDef {
 			mouseEnter		{ show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 }
 			mouseExit		{ hide message_serverinfo ; setitemcolor serverinfo backcolor .3 .5 .2 .3 }	 
 				}
-*/
-				
+
+
+
 	//  2ND COLUMN  //
+
+		itemDef {
+			name			window_limbo_name
+			group			grpJoin
+			visible			1
+			rect			195 130 100 15
+			textstyle		6			
+			forecolor		1 1 1 1
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		16
+			maxpaintchars	16
+			text			"Name:"
+			cvar			"name"
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
 	
 		itemDef {
 			name			gametypefield
@@ -279,7 +303,7 @@ itemDef {
 			style			0	
 			textfont		UI_FONT_NORMAL
 			ownerdraw		UI_NETSOURCE
-			rect			215 140 134 15 
+			rect			195 155 134 15 
 			textstyle		6
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
@@ -304,7 +328,7 @@ itemDef {
 			maxpaintchars	8
 			cvar			"password"
 			textfont		UI_FONT_NORMAL
-			rect			215 165 105 15
+			rect			195 180 105 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -321,6 +345,31 @@ itemDef {
 			}
 
 	//  3TD COLUMN  //
+
+
+		itemDef {
+			name			window_limbo_model
+			group			grpJoin
+			visible			1
+			rect			350 130 100 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			textstyle		6
+			maxChars		16
+			maxpaintchars	16
+			text			"Model:"
+			cvar			"skin"
+			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
 			
 		itemDef {
 			name			gametypefield
@@ -330,7 +379,7 @@ itemDef {
 			text			"Type:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
-			rect			350 140 160 15
+			rect			350 155 160 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -352,7 +401,7 @@ itemDef {
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
-			rect			350 165 160 15
+			rect			350 180 160 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0
 			textaligny		14
@@ -729,56 +778,6 @@ itemDef {
 			}
 
 
-		// 	PLAYER-NAME PART	//
-
-		itemDef {
-			name			window_limbo_name
-			group			grpJoin
-			visible			1
-			rect			40 385 256 15		
-			forecolor		1 1 1 1
-			backcolor		0 0 0 0
-			outlinecolor	1 1 0 .5
-			textfont		UI_FONT_NORMAL
-			type			ITEM_TYPE_EDITFIELD
-			style			0
-			border			1
-			bordercolor		.5 .5 .5 .5
-			maxChars		32
-			maxpaintchars	18
-			text			"Player's Name:"
-			cvar			"name"
-			textscale		.25
-			textalign		ITEM_ALIGN_RIGHT	
-			textalignx		126
-			textaligny		11
-			}
-			
-		itemDef {
-			name			window_limbo_model
-			group			grpJoin
-			visible			1
-			rect			344 385 256 15		
-			forecolor		1 1 1 1
-			backcolor		0 0 0 0
-			outlinecolor	1 1 0 .5
-			textfont		UI_FONT_NORMAL
-			type			ITEM_TYPE_MULTI
-			style			0
-			border			1
-			bordercolor		.5 .5 .5 .5
-			maxChars		32
-			maxpaintchars	18
-			text			"Player's model:"
-			cvar			"skin"
-			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
-			textscale		.25
-			textalign		ITEM_ALIGN_RIGHT	
-			textalignx		126
-			textaligny		11
-			}
-
-
 // End of Join Server Section
 
 //////// END OF PASTE
@@ -826,11 +825,43 @@ itemDef {
 					decoration
 					}
 
+				itemDef {
+					name			mappreview
+					group			grpCreate
+					style			0	
+					ownerdraw		UI_NETMAPCINEMATIC
+					rect			28 146 152 114
+					border			1
+					bordercolor		.5 .5 .5 .5
+					visible			1 
+					}
+				
+						itemDef {
+							name			mappreview
+							group			grpCreate
+							style			0	
+//							ownerdraw		UI_NETMAPPREVIEW_SMALL1
+							rect			186 146 72 54
+							border			1
+							bordercolor		.5 .5 .5 .5
+							visible			1 
+							}
+
+						itemDef {
+							name			mappreview
+							group			grpCreate
+							style			0	
+//							ownerdraw		UI_NETMAPPREVIEW_SMALL2
+							rect			186 206 72 54
+							border			1
+							bordercolor		.5 .5 .5 .5
+							visible			1 
+							}
+
 				 itemDef {
 					name			maplist
 					group			grpCreate
-					rect			28 265 230 145
-				//	rect			28 143 230 264
+					rect			28 266 230 144
 					type			ITEM_TYPE_LISTBOX
 					style			WINDOW_STYLE_FILLED
 					elementwidth	240
@@ -857,18 +888,7 @@ itemDef {
 						setitemcolor maplist bordercolor .5 .5 .5 .5 } 
 					}
 
-				itemDef {
-					name mappreview
-					group grpCreate
-					style 0	
-					ownerdraw UI_NETMAPCINEMATIC
-					textfont	UI_FONT_NORMAL
-					rect 63 143 160 120
-					border 1
-					bordercolor .5 .5 .5 .5
-					visible 1 
-					}					
-				
+	
 				// End of bottom left map selection border image
 					
 			// Settings
@@ -937,6 +957,7 @@ itemDef {
 					mouseenter		{ show message_game_type }
 					mouseexit		{ hide message_game_type }
 					}
+
 
 				itemDef {
 					name			window
