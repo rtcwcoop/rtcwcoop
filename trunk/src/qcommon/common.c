@@ -2116,8 +2116,12 @@ void Com_Init( char *commandLine ) {
 	// skip the q3config.cfg if "safe" is on the command line
 	if ( !Com_SafeMode() ) {
 
+#ifdef DEDICATED
+		Cbuf_AddText( "exec wolfconfig_ded.cfg\n" );
+#else
 		Cbuf_AddText( "exec wolfconfig.cfg\n" );
-		}
+#endif
+	}
 
 	Cbuf_AddText( "exec autoexec.cfg\n" );
 
@@ -2293,7 +2297,11 @@ void Com_WriteConfiguration( void ) {
 	}
 	cvar_modifiedFlags &= ~CVAR_ARCHIVE;
 
+#ifdef DEDICATED
+	Com_WriteConfigToFile( "wolfconfig_ded.cfg" );
+#else
 	Com_WriteConfigToFile( "wolfconfig.cfg" );
+#endif
 
 	// bk001119 - tentative "not needed for dedicated"
 #ifndef DEDICATED

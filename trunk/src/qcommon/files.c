@@ -3439,8 +3439,11 @@ void FS_Restart( int checksumFeed ) {
 	if ( Q_stricmp( fs_gamedirvar->string, lastValidGame ) ) {
 		// skip the wolfconfig.cfg if "safe" is on the command line
 		if ( !Com_SafeMode() ) {
-
+#ifdef DEDICATED
+			Cbuf_AddText( "exec wolfconfig_ded.cfg\n" );
+#else
 			Cbuf_AddText( "exec wolfconfig.cfg\n" );
+#endif
 		}
 	}
 
