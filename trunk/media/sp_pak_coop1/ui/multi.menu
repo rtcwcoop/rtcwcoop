@@ -843,7 +843,7 @@ itemDef {
 						itemDef {
 							name			mappreview
 							group			grpCreate
-//							ownerdraw		UI_NETMAPPREVIEW_SMALL1
+							ownerdraw		UI_NETMAPPREVIEW_SMALL1
 							rect			186 146 72 54
 							visible			1 
 							}
@@ -861,7 +861,7 @@ itemDef {
 						itemDef {
 							name			mappreview
 							group			grpCreate
-//							ownerdraw		UI_NETMAPPREVIEW_SMALL2
+							ownerdraw		UI_NETMAPPREVIEW_SMALL2
 							rect			186 206 72 54
 							visible			1 
 							}

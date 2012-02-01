@@ -1781,6 +1781,15 @@ static void UI_DrawNetSource( rectDef_t *rect, int font, float scale, vec4_t col
 	
 }
 
+static void UI_DrawSmallNetMapPreview( rectDef_t *rect, float scale, vec4_t color, int number ) {
+
+        if ( uiInfo.mapList[ui_currentNetMap.integer].mapLoadName > 0 ) {
+		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( va("levelshots/ui_%s_s%d", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName, number)) );
+	} else {
+		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( "menu/art/unknownmap" ) );
+	}
+}
+
 static void UI_DrawNetMapPreview( rectDef_t *rect, float scale, vec4_t color ) {
 
 	if ( uiInfo.serverStatus.currentServerPreview > 0 ) {
@@ -2508,6 +2517,12 @@ static void UI_OwnerDraw( float x, float y, float w, float h, float text_x, floa
 	case UI_NETMAPPREVIEW:
 		UI_DrawNetMapPreview( &rect, scale, color );
 		break;
+        case UI_NETMAPPREVIEW_SMALL1:
+		UI_DrawSmallNetMapPreview( &rect, scale, color, 1 );
+                break;
+        case UI_NETMAPPREVIEW_SMALL2:
+		UI_DrawSmallNetMapPreview( &rect, scale, color, 2 );
+                break;
 	case UI_NETMAPCINEMATIC:
 		UI_DrawNetMapCinematic( &rect, scale, color );
 		break;
