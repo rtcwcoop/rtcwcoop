@@ -2983,6 +2983,18 @@ void CG_AddViewWeapon( playerState_t *ps ) {
 		gunoff[1] = cg_gun_y.value;
 		gunoff[2] = cg_gun_z.value;
 
+                if ( ps->weapon == WP_LUGER )
+                        gunoff[2] += 5.0;
+
+                // fretn: example for other weapons
+                /*
+                if ( ps->weapon == WP_PANZERFAUST ) {
+                        gunoff[0] += 1.0;
+                        gunoff[1] += 1.0;
+                        gunoff[2] -= 1.0;
+                }
+                */
+
 //----(SA)	removed
 
 		VectorMA( hand.origin, gunoff[0], cg.refdef.viewaxis[0], hand.origin );
