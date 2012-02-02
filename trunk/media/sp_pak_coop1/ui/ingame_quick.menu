@@ -78,7 +78,7 @@ menuDef {
 			maxpaintchars	18
 			text			"Model:"
 			cvar			"skin"
-			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			cvarFloatList	{ "Yenkee Soldier" 1 "Afro Soldier" 2 "Euro Soldier" 3 }
 			textscale		.22
 			textalign		ITEM_ALIGN_RIGHT	
 			textalignx		126

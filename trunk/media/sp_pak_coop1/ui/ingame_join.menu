@@ -51,7 +51,7 @@ menuDef {
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			40 145 105 15
+			rect			30 145 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -78,7 +78,7 @@ menuDef {
 			type			ITEM_TYPE_BUTTON
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			40 170 105 15
+			rect			30 170 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -102,7 +102,7 @@ menuDef {
 			style			WINDOW_STYLE_FILLED
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			40 195 105 15
+			rect			30 195 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -128,7 +128,7 @@ menuDef {
 			name			window_limbo_name
 			group			grpJoin
 			visible			1
-			rect			180 145 100 15
+			rect			160 145 130 15
 			textstyle		6			
 			forecolor		1 1 1 1
 			outlinecolor	1 1 0 .5
@@ -152,7 +152,7 @@ menuDef {
 			style			0	
 			textfont		UI_FONT_NORMAL
 			ownerdraw		UI_NETSOURCE
-			rect			180 170 134 15 
+			rect			160 170 130 15 
 			textstyle		6
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
@@ -177,7 +177,7 @@ menuDef {
 			maxpaintchars	8
 			cvar			"password"
 			textfont		UI_FONT_NORMAL
-			rect			180 195 105 15
+			rect			160 195 130 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -200,7 +200,7 @@ menuDef {
 			name			window_limbo_model
 			group			grpJoin
 			visible			1
-			rect			330 145 100 15		
+			rect			310 145 150 15		
 			forecolor		1 1 1 1
 			backcolor		0 0 0 0
 			outlinecolor	1 1 0 .5
@@ -212,7 +212,7 @@ menuDef {
 			maxpaintchars	16
 			text			"Model:"
 			cvar			"skin"
-			cvarFloatList	{ "Soldier 1" 1 "Soldier 2" 2 "Soldier 3" 3 }
+			cvarFloatList	{ "Yankee Soldier" 1 "Afro Soldier" 2 "Euro Soldier" 3 }
 			textscale		.25
 			textalign		ITEM_ALIGN_LEFT	
 			textalignx		0
@@ -228,7 +228,7 @@ menuDef {
 			text			"Type:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
-			rect			330 170 160 15
+			rect			310 170 100 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -250,7 +250,7 @@ menuDef {
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
-			rect			330 195 160 15
+			rect			310 195 100 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0
 			textaligny		14
