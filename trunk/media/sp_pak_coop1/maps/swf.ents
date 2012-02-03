@@ -45,28 +45,3 @@
 "origin" "2190 38 512"
 "angle" "-90"
 }
-
-{
-"classname" "info_player_coop"
-"origin" "2231 38 512"
-"angle" "-90"
-}
-
-{
-"classname" "info_player_coop"
-"origin" "2301 38 512"
-"angle" "-90"
-}
-
-{
-"classname" "info_player_coop"
-"origin" "2090 -14 512"
-"angle" "-52"
-}
-
-{
-"classname" "info_player_coop"
-"origin" "1984 -32 512"
-"angle" "-52"
-}
-

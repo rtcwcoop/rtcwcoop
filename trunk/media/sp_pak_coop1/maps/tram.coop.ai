@@ -27,24 +27,6 @@ player
 		mu_fade 0 1500
 		mu_queue sound/music/m_drums
 
-		// Weapons
-		giveweapon weapon_knife
-		giveweapon weapon_luger
-			setclip weapon_luger 8
-		giveweapon weapon_mp40
-			setclip weapon_mp40 32
-		giveweapon weapon_mauserrifle
-			setclip weapon_mauserrifle 10
-
-		// Ammo
-		setammo ammo_9mm 64
-		setammo ammo_792mm 10
-		setammo ammo_grenades 3
-
-		// Items
-		giveinventory key_binocs
-		selectweapon weapon_mp40
-
 	}
 
 	trigger switch1on

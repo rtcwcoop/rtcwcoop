@@ -20,45 +20,10 @@ player
 
 	playerstart
 	{
+	
 		mu_fade 0 1000
 		mu_queue sound/music/m_drums		
 
-		// Weapons
-		giveweapon weapon_knife
-		giveweapon weapon_luger
-		giveweapon weapon_colt
-		giveweapon weapon_colt
-			setclip weapon_akimbo 8
-			setclip weapon_colt 8
-		giveweapon weapon_mp40
-			setclip weapon_mp40 32
-		giveweapon weapon_thompson
-			setclip weapon_thompson 30
-		giveweapon weapon_sten
-			setclip weapon_sten 32
-		giveweapon weapon_mauserRifle
-		giveweapon weapon_sniperscope
-			setclip weapon_mauserrifle 10
-		giveweapon weapon_snooperrifle
-		giveweapon weapon_fg42
-			setclip weapon_fg42 20
-		giveweapon weapon_flamethrower
-		giveweapon weapon_venom
-
-		// Ammo
-		setammo ammo_9mm 200
-		setammo ammo_45cal 150
-		setammo ammo_792mm 120
-		setammo ammo_30cal 10
-		setammo ammo_grenades 8
-		setammo ammo_grenades_american 5
-		setammo ammo_fuel 60
-		setammo ammo_127mm 200
-
-		// Items
-		setarmor 50
-		giveinventory key_binocs
-		selectweapon weapon_sten
 	}
 
 	trigger first_conversation 

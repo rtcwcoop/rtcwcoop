@@ -18,46 +18,11 @@ player
 
 	playerstart
 	{
+	
 		mu_fade 0 1000
 		mu_queue sound/music/x_atmos
 		trigger counter1 cine1_cams
 		trigger player cam1	// Camera1
-
-		// Weapons
-		giveweapon weapon_knife
-		giveweapon weapon_luger
-		giveweapon weapon_colt
-		giveweapon weapon_colt
-			setclip weapon_akimbo 8
-			setclip weapon_colt 8
-		giveweapon weapon_mp40
-			setclip weapon_mp40 32
-		giveweapon weapon_thompson
-			setclip weapon_thompson 30
-		giveweapon weapon_sten
-			setclip weapon_sten 32
-		giveweapon weapon_mauserRifle
-		giveweapon weapon_sniperscope
-			setclip weapon_mauserrifle 10
-		giveweapon weapon_snooperrifle
-		giveweapon weapon_fg42
-			setclip weapon_fg42 20
-		giveweapon weapon_flamethrower
-		giveweapon weapon_venom
-
-		// Ammo
-		setammo ammo_9mm 216
-		setammo ammo_45cal 165
-		setammo ammo_792mm 130
-		setammo ammo_30cal 10
-		setammo ammo_grenades 8
-		setammo ammo_grenades_american 5
-		setammo ammo_fuel 75
-		setammo ammo_127mm 250
-
-		// Items
-		giveinventory key_binocs
-		selectweapon weapon_sten
 
 	}
 

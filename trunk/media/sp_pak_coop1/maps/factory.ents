@@ -45,10 +45,3 @@
 "origin" "-155 -979 -231"
 "angle" "10"
 }
-
-{
-"classname" "info_player_coop"
-"origin" "-166 -928 -231"
-"angle" "10"
-}
-

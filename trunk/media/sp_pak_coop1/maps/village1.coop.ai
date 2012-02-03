@@ -22,29 +22,12 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1000
+	
+		mu_fade 0 1500
 		mu_queue sound/music/m_stealth
 		trigger bookshelf cinematic1
 		trigger player cam0
-
-		// Weapons
-		giveweapon weapon_knife	
-		giveweapon weapon_luger
-			setclip weapon_luger 8
-		giveweapon weapon_mp40
-			setclip weapon_mp40 32
-		giveweapon weapon_mauserrifle
-			setclip weapon_mauserrifle 10
-
-		// Ammo
-		setammo ammo_9mm 80
-		setammo ammo_792mm 15
-		setammo ammo_grenades 3
-
-		// Items
-		giveinventory key_binocs
-		selectweapon weapon_mp40
-
+		
 	}
 
 	// --- Start Cameras---
@@ -2225,8 +2208,10 @@ nazi19a
 		accum 0 bitreset 1		// Chooses the correct room.
 		accum 0 bitreset 2		// So Choose_room is only triggered once.
 		takeweapon all
-		giveweapon weapon_mauserRifle
+		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
 		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_sniperscope
 		trigger nazi19a go
 	}
 
@@ -2722,8 +2707,9 @@ nazi27
 	{
 		takeweapon mp40
 		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
 		setammo ammo_792mm 300
-		selectweapon weapon_mauserrifle
+		selectweapon weapon_sniperscope
 		setammo ammo_grenades 0	// Grenades
 		trigger nazi27 marchloop
 	}

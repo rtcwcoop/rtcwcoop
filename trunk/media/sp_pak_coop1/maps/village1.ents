@@ -47,13 +47,49 @@
 }
 
 {
+"classname" "weapon_thompson"
+"origin" "-512 3408 -128"
+"angle" "270"
+}
+
+{
+"classname" "weapon_thompson"
+"origin" "2136 -1160 -128"
+"angle" "270"
+}
+
+{
+"classname" "weapon_thompson"
+"origin" "-288 -904 -128"
+"angle" "180"
+}
+
+{
+"classname" "weapon_thompson"
+"origin" "-2672 -1304 -288"
+"angle" "0"
+}
+
+{
 "classname" "weapon_sten"
 "origin" "2144 -1360 -296"
 "angle" "0"
 }
 
 {
-"classname" "weapon_thompson"
-"origin" "-512 3408 -128"
-"angle" "270"
+"classname" "weapon_sten"
+"origin" "-600 -1200 -216"
+"angle" "0"
+}
+
+{
+"classname" "weapon_sten"
+"origin" "-608 -1200 -112"
+"angle" "0"
+}
+
+{
+"classname" "weapon_sten"
+"origin" "-544 -1016 -80"
+"angle" "180"
 }
