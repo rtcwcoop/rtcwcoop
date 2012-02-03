@@ -5490,7 +5490,7 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 				coop = atoi( Info_ValueForKey( info, "coop" ) );
                                 
 				if ( game >= 0 && game < numTeamArenaGameTypes ) {
-                                        if (coop > 0 && coop < numCoopGameTypes)
+                                        if (coop >= 0 && coop < numCoopGameTypes)
 					        return coopGameTypes[coop];
                                         else 
                                                 return teamArenaGameTypes[game];

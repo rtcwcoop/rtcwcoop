@@ -1098,7 +1098,7 @@ itemDef {
 					type			ITEM_TYPE_NUMERICFIELD
 					textfont		UI_FONT_NORMAL
 					text			"Max Players:  "
-					cvar			"sv_maxclients"
+					cvar			"sv_maxcoopclients"
 					maxchars		3
 					rect			295 260 290 12
 				//	origin			ORIGIN_WINDOW2

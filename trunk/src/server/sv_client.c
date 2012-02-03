@@ -359,9 +359,10 @@ void SV_DirectConnect( netadr_t from ) {
 	}
 
 	newcl = NULL;
+        // fretn - game is now limited by sv_maxcoopclients
 	for ( i = startIndex; i < sv_maxclients->integer ; i++ ) {
 		cl = &svs.clients[i];
-		if ( cl->state == CS_FREE ) {
+		if ( cl->state == CS_FREE && i < sv_maxcoopclients->integer ) {
 			newcl = cl;
 			break;
 		}

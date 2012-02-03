@@ -40,6 +40,7 @@ cvar_t  *sv_rconPassword;       // password for remote server commands
 cvar_t  *sv_privatePassword;    // password for the privateClient slots
 cvar_t  *sv_allowDownload;
 cvar_t  *sv_maxclients;
+cvar_t  *sv_maxcoopclients;
 cvar_t  *sv_privateClients;     // number of clients reserved for password
 cvar_t  *sv_hostname;
 cvar_t  *sv_master[MAX_MASTER_SERVERS];     // master server ip address
@@ -387,9 +388,10 @@ if a user is interested in a server to do a full status
 ================
 */
 void SVC_Info( netadr_t from ) {
-	int i, count;
+	int i, count, countai;
 	char    *gamedir;
 	char infostring[MAX_INFO_STRING];
+        int maxclients = 0;
 
 	// ignore if we are in single player
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
@@ -398,11 +400,29 @@ void SVC_Info( netadr_t from ) {
 
 	// don't count privateclients
 	count = 0;
+        // fretn
+        countai = 0;
 	for ( i = sv_privateClients->integer ; i < sv_maxclients->integer ; i++ ) {
+                if (  svs.clients[i].gentity && svs.clients[i].gentity->r.svFlags & SVF_CASTAI ) { // ignore AI
+                        countai++;
+                        continue;
+                }
+
 		if ( svs.clients[i].state >= CS_CONNECTED ) {
 			count++;
 		}
 	}
+
+        // fretn: if there are 62 bots on a 64 player server
+        // and sv_maxcoopclients is set to 4, then the num available
+        // spots is wrong.
+        // Actually sv_maxcoopclients is an ugly hack :) But AI's are
+        // "normal" clients, so we have to work around this.
+
+        maxclients = sv_maxclients->integer - countai ;
+        if (maxclients >= sv_maxcoopclients->integer)
+                maxclients = sv_maxcoopclients->integer;
+        
 
 	infostring[0] = 0;
 
@@ -415,7 +435,8 @@ void SVC_Info( netadr_t from ) {
 	Info_SetValueForKey( infostring, "mapname", sv_mapname->string );
 	Info_SetValueForKey( infostring, "clients", va( "%i", count ) );
 	Info_SetValueForKey( infostring, "sv_maxclients",
-						 va( "%i", sv_maxclients->integer - sv_privateClients->integer ) );
+						 va( "%i", maxclients - sv_privateClients->integer) );
+						// va( "%i", sv_maxclients->integer - sv_privateClients->integer - aicount) );
 	Info_SetValueForKey( infostring, "gametype", va( "%i", sv_gametype->integer ) );
 	Info_SetValueForKey( infostring, "pure", va( "%i", sv_pure->integer ) );
         Info_SetValueForKey( infostring, "gamename", GAMENAME_STRING );
