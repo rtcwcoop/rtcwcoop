@@ -1645,7 +1645,7 @@ void ClientBegin( int clientNum ) {
 	// Ridah, trigger a spawn event
 	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
 		AICast_ScriptEvent( AICast_GetCastState( clientNum ), "spawn", "" );
-                if (g_gametype.integer <= GT_COOP)
+                if (g_gametype.integer <= GT_SINGLE_PLAYER)
                     AICast_ScriptEvent( AICast_GetCastState( clientNum ), "playerstart", "" );
 	}
 

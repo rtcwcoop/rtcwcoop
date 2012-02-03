@@ -4321,6 +4321,7 @@ static void UI_RunMenuScript( char **args ) {
                         } else {
 			        trap_Cmd_ExecuteText( EXEC_APPEND, "fade 0 0 0 0 3\n" );    // fade screen up
 			        trap_Cvar_Set( "g_playerstart", "1" );                 // set cvar which will trigger "playerstart" in script
+			        trap_Cvar_Set( "cg_norender", "0" );
                         }
 			Menus_CloseAll();
 			//----(SA)	end
