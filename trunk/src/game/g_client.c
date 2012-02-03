@@ -265,7 +265,7 @@ gentity_t *SelectInitialSpawnPoint( vec3_t origin, vec3_t angles ) {
 			break;
 		}
 	}
-
+        
 	if ( !spot || SpotWouldTelefrag( spot ) ) {
 		return SelectSpawnPoint( vec3_origin, origin, angles );
 	}
@@ -1729,11 +1729,18 @@ void ClientSpawn( gentity_t *ent ) {
 				// the first spawn should be at a good looking spot
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {
 					client->pers.initialSpawn = qtrue;
-					spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
-                                        if (!spawnPoint)
+                                        if ( g_gametype.integer <= GT_COOP)
                                         {
-                                                G_Printf("No coop spawnpoints found\n");
-					        spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
+					        spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
+                                                if (!spawnPoint)
+                                                {
+                                                        G_Printf("No coop spawnpoints found\n");
+					                spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
+                                                }
+                                        }
+                                        else
+                                        {
+                                                spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
                                         }
                                         // fretn
                                         ent->client->hasCoopSpawn = qfalse;
