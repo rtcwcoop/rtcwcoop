@@ -47,49 +47,61 @@
 }
 
 {
-"classname" "weapon_thompson"
+"classname" "weapon_thompson"		// Cemetery's old tree
 "origin" "-512 3408 -128"
 "angle" "270"
 }
 
 {
-"classname" "weapon_thompson"
-"origin" "2136 -1160 -128"
-"angle" "270"
+"classname" "weapon_thompson"		// Secret basement
+"origin" "2136 -1160 -288"
+"angle" "315"
 }
 
 {
-"classname" "weapon_thompson"
+"classname" "weapon_thompson"		// Partisan's table
 "origin" "-288 -904 -128"
-"angle" "180"
+"angle" "135"
 }
 
 {
-"classname" "weapon_thompson"
-"origin" "-2672 -1304 -288"
-"angle" "0"
+"classname" "weapon_thompson"		// Kessler's self
+"origin" "-2656 -1308 -288"
+"angle" "150"
 }
 
 {
-"classname" "weapon_sten"
+"classname" "weapon_sten"			// Secret basement
 "origin" "2144 -1360 -296"
-"angle" "0"
+"angle" "90"
 }
 
 {
-"classname" "weapon_sten"
+"classname" "weapon_sten"			// Partisan's room (floor)
 "origin" "-600 -1200 -216"
 "angle" "0"
 }
 
 {
-"classname" "weapon_sten"
+"classname" "weapon_sten"			// Partisan's room (left wall)
 "origin" "-608 -1200 -112"
 "angle" "0"
 }
 
 {
-"classname" "weapon_sten"
+"classname" "weapon_sten"			// Partisan's room (right wall)
 "origin" "-544 -1016 -80"
 "angle" "180"
+}
+
+{
+"classname" "weapon_sniperScope"	// Empty room
+"origin" "-1736 -1808 40"
+"angle" "180"
+}
+
+{
+"classname" "weapon_silencer"		// Pub
+"origin" "1728 -744 -112"
+"angle" "63"
 }

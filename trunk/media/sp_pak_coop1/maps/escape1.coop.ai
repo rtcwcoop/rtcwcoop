@@ -29,6 +29,9 @@ player
 		mu_queue sound/music/c_military
 		trigger dummy cinematic1
 		trigger player cam1
+		
+		// Weapons
+		giveweapon weapon_knife
 
 	}
 

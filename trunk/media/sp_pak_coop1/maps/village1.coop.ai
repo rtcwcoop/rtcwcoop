@@ -2208,7 +2208,6 @@ nazi19a
 		accum 0 bitreset 1		// Chooses the correct room.
 		accum 0 bitreset 2		// So Choose_room is only triggered once.
 		takeweapon all
-		giveweapon weapon_mauserrifle
 		giveweapon weapon_sniperscope
 		setammo ammo_792mm 999	// Mauser Rifle, FG42
 		selectweapon weapon_sniperscope
@@ -2706,7 +2705,6 @@ nazi27
 	spawn
 	{
 		takeweapon mp40
-		giveweapon weapon_mauserrifle
 		giveweapon weapon_sniperscope
 		setammo ammo_792mm 300
 		selectweapon weapon_sniperscope
@@ -3494,7 +3492,6 @@ sniper1
 	{
 		takeweapon mp40
 		setammo ammo_grenades 0	// Grenades
-		giveweapon weapon_mauserrifle
 		giveweapon weapon_sniperscope
 		setammo ammo_792mm 200
 		selectweapon weapon_sniperscope
@@ -3580,7 +3577,6 @@ sniper2
 	{
 		takeweapon mp40
 		setammo ammo_grenades 0	// Grenades
-		giveweapon weapon_mauserrifle
 		giveweapon weapon_sniperscope
 		setammo ammo_792mm 50
 		selectweapon weapon_sniperscope
@@ -3639,10 +3635,10 @@ officer1
 		accum 0 bitreset 0
 		accum 0 bitreset 1
 		takeweapon all
-		giveweapon weapon_luger
+		giveweapon weapon_silencer
 		setammo ammo_9mm 999
 		setclip weapon_luger 6
-		selectweapon weapon_luger
+		selectweapon weapon_silencer
 		setammo ammo_grenades 0	// Grenades
 	}
 
@@ -3765,10 +3761,10 @@ officer2
 		accum 0 bitreset 1
 		setammo ammo_grenades 0	// Grenades
 		takeweapon all
-		giveweapon weapon_luger
+		giveweapon weapon_silencer
 		setammo ammo_9mm 999
 		setclip weapon_luger 6
-		selectweapon weapon_luger
+		selectweapon weapon_silencer
 	}
 
 	trigger talk1
