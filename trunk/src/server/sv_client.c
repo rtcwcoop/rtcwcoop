@@ -240,7 +240,7 @@ void SV_DirectConnect( netadr_t from ) {
 	char        *password;
 	int startIndex;
 	char        *denied;
-	int count;
+	int count, cnt=0;
 
 	Com_DPrintf( "SVC_DirectConnect ()\n" );
 
@@ -362,11 +362,22 @@ void SV_DirectConnect( netadr_t from ) {
         // fretn - game is now limited by sv_maxcoopclients
 	for ( i = startIndex; i < sv_maxclients->integer ; i++ ) {
 		cl = &svs.clients[i];
-		if ( cl->state == CS_FREE && i < sv_maxcoopclients->integer ) {
+		//if ( cl->state == CS_FREE && cnt < sv_maxcoopclients->integer ) {
+		if ( cl->state == CS_FREE ) {
 			newcl = cl;
 			break;
 		}
 	}
+
+	for ( i = startIndex ; i < sv_maxclients->integer ; i++ ) {
+		cl = &svs.clients[i];
+		if ( cl->state == CS_FREE && cl->gentity && !(cl->gentity->r.svFlags & SVF_CASTAI ))
+                        cnt++;
+                
+        }
+        
+        if (cnt > sv_maxcoopclients->integer)
+                newcl = NULL;
 
 	if ( !newcl ) {
 		if ( NET_IsLocalAddress( from ) ) {
