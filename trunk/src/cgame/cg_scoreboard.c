@@ -43,6 +43,8 @@ void CG_DrawCoopScoreboard( void )
         clientInfo_t *ci;
         long score;
         int ping;
+        const char *s;
+        int msec, mins, seconds, tens; // JPW NERVE
 
         #define MAX_STATS_VARS  64
 
@@ -118,8 +120,21 @@ void CG_DrawCoopScoreboard( void )
         color2[3] = color[3];
         w = strlen("scores") * SMALLCHAR_WIDTH;
         CG_DrawStringExt( 170 + (344/2)-(w-2), 105, va("scores"), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
-        w = strlen(va("Time: %d", (cg.time - cgs.levelStartTime)/1000));
-        CG_DrawStringExt( 175, 105, va("Time %d", (cg.time - cgs.levelStartTime)/1000), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+
+
+
+        //msec = ( cgs.timelimit * 60.f * 1000.f ) - ( cg.time - cgs.levelStartTime );
+        msec = ( cg.time - cgs.levelStartTime );
+
+        seconds = msec / 1000;
+        mins = seconds / 60; 
+        seconds -= mins * 60; 
+        tens = seconds / 10; 
+        seconds -= tens * 10; 
+
+        s = va( "%2.0f:%i%i", (float)mins, tens, seconds );
+
+        CG_DrawStringExt( 170, 105, s, color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
 
         color2[0] = color2[1] = color2[2] = 1;
 }
