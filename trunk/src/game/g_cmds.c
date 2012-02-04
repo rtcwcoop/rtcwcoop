@@ -1993,6 +1993,9 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
 
         weapon = client->ps.weapon;
 
+        if (weapon == WP_KNIFE)
+                return;
+
         ammo_in_clip = client->ps.ammoclip[BG_FindClipForWeapon( client->ps.weapon )];
 
         item = BG_FindItemForAmmo( BG_FindAmmoForWeapon(weapon) );
