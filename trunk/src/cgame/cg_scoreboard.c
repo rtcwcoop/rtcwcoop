@@ -118,6 +118,8 @@ void CG_DrawCoopScoreboard( void )
         color2[3] = color[3];
         w = strlen("scores") * SMALLCHAR_WIDTH;
         CG_DrawStringExt( 170 + (344/2)-(w-2), 105, va("scores"), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+        w = strlen(va("Time: %d", (cg.time - cgs.levelStartTime)/1000));
+        CG_DrawStringExt( 175, 105, va("Time %d", (cg.time - cgs.levelStartTime)/1000), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
 
         color2[0] = color2[1] = color2[2] = 1;
 }
