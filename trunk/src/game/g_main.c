@@ -2012,7 +2012,7 @@ void CheckExitRules( void ) {
 	}
 
         // fretn: no fraglimit in coop
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && g_fraglimit.integer ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_fraglimit.integer ) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );
