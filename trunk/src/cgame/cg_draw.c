@@ -758,6 +758,29 @@ static float CG_DrawCoopOverlay( float y ) {
         return y;
 }
 
+static void CG_DrawTimeLeft( void ) {
+
+        const char *s;
+        int msec, mins, seconds, tens;
+        float color[4] = {1, 1, 1, 1}; 
+
+
+        if ( cgs.gametype != GT_COOP_SPEEDRUN)
+                return;
+
+        msec = ( cgs.timelimit * 60.f * 1000.f ) - ( cg.time - cgs.levelStartTime );
+
+        seconds = msec / 1000;
+        mins = seconds / 60; 
+        seconds -= mins * 60; 
+        tens = seconds / 10;  
+        seconds -= tens * 10; 
+
+        s = va( "%2.0f:%i%i", (float)mins, tens, seconds );
+
+        CG_DrawStringExt( 5, 105, s, color, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+}
+
 /*
 =====================
 CG_DrawUpperRight
@@ -2737,6 +2760,8 @@ static void CG_Draw2D( void ) {
 	if ( !cg_paused.integer ) {
 		CG_DrawUpperRight();
 	}
+
+        CG_DrawTimeLeft();
 
 //	CG_DrawLowerRight();
 	if ( !CG_DrawFollow() ) {

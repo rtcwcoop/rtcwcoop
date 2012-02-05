@@ -118,8 +118,10 @@ void CG_DrawCoopScoreboard( void )
         // title
         color2[0] = color2[1] = color2[2] = 1;
         color2[3] = color[3];
-        w = strlen("scores") * SMALLCHAR_WIDTH;
-        CG_DrawStringExt( 170 + (344/2)-(w-2), 105, va("scores"), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+        if (cgs.gametype == GT_COOP) {
+                w = strlen("scores") * SMALLCHAR_WIDTH;
+                CG_DrawStringExt( 170 + (344/2)-(w-2), 105, va("scores"), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+       } 
 
 
 
@@ -134,7 +136,10 @@ void CG_DrawCoopScoreboard( void )
         tens = seconds / 10; 
         seconds -= tens * 10; 
 
-        s = va( "%2.0f:%i%i", (float)mins, tens, seconds );
+        if (cgs.gametype == GT_COOP_SPEEDRUN)
+                s = va( "Time to beat: %2.0f:%i%i", (float)mins, tens, seconds );
+        else
+                s = va( "%2.0f:%i%i", (float)mins, tens, seconds );
 
         CG_DrawStringExt( 170, 105, s, color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
 
