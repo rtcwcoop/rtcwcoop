@@ -2,8 +2,8 @@
 //
 // description, g_gametype enum
 gametypes {
-  { "Cooperative" 0 }
-  { "Speedrun" 1 }
+  { "Speedrun" 0 }
+  { "Cooperative" 1 }
 }
 
 
@@ -14,7 +14,7 @@ maps {
 
 joingametypes {
   { "All" -1 }
-  { "Cooperative" 0 }
-  { "Speedrun" 1 }
+  { "Speedrun" 0 }
+  { "Cooperative" 1 }
 
 }

@@ -123,8 +123,10 @@ void CG_DrawCoopScoreboard( void )
 
 
 
-        //msec = ( cgs.timelimit * 60.f * 1000.f ) - ( cg.time - cgs.levelStartTime );
-        msec = ( cg.time - cgs.levelStartTime );
+        if (cgs.gametype == GT_COOP_SPEEDRUN)
+                msec = ( cgs.timelimit * 60.f * 1000.f ) - ( cg.time - cgs.levelStartTime );
+        else
+                msec = ( cg.time - cgs.levelStartTime );
 
         seconds = msec / 1000;
         mins = seconds / 60; 

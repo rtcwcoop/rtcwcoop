@@ -78,7 +78,7 @@ static const serverFilter_t serverFilters[] = {
 };
 
 static const char *coopGameTypes[] = {
-        "Coop Speedrun",
+        "Speedrun",
         "Cooperative"
 };
 static int const numCoopGameTypes = sizeof( coopGameTypes ) / sizeof( const char* );
@@ -4143,7 +4143,7 @@ static void UI_RunMenuScript( char **args ) {
 #ifndef _WIN32
 			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
 #endif
-			//trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 8, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
+			trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 1, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
 			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
 			skill = trap_Cvar_VariableValue( "g_spSkill" );
 			// set max clients based on spots
@@ -7036,7 +7036,7 @@ cvarTable_t cvarTable[] = {
 #endif
 	{ &ui_gameType, "ui_gametype", "3", CVAR_ARCHIVE },
 	{ &ui_joinGameType, "ui_joinGametype", "0", CVAR_ARCHIVE },
-	{ &ui_netGameType, "ui_netGametype", "3", CVAR_ARCHIVE },
+	{ &ui_netGameType, "ui_netGametype", "1", CVAR_ARCHIVE },
 	{ &ui_actualNetGameType, "ui_actualNetGametype", "0", CVAR_ARCHIVE },
 	{ &ui_notebookCurrentPage, "ui_notebookCurrentPage", "1", CVAR_ROM},
 	{ &ui_clipboardName, "cg_clipboardName", "", CVAR_ROM },
