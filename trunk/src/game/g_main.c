@@ -181,7 +181,7 @@ cvarTable_t gameCvarTable[] = {
 
 	// change anytime vars
 	{ &g_dmflags, "dmflags", "0", CVAR_SERVERINFO | CVAR_ARCHIVE, 0, qtrue  },
-	{ &g_fraglimit, "fraglimit", "20", CVAR_SERVERINFO | CVAR_ARCHIVE | CVAR_NORESTART, 0, qtrue },
+	{ &g_fraglimit, "fraglimit", "0", CVAR_SERVERINFO | CVAR_ARCHIVE | CVAR_NORESTART, 0, qtrue },
 	{ &g_timelimit, "timelimit", "0", CVAR_SERVERINFO | CVAR_ARCHIVE | CVAR_NORESTART, 0, qtrue },
 	{ &g_capturelimit, "capturelimit", "8", CVAR_SERVERINFO | CVAR_ARCHIVE | CVAR_NORESTART, 0, qtrue },
 
@@ -1089,6 +1089,14 @@ int G_SendMissionStats() {
 		sec = player->numSecretsFound;
 		treas = player->numTreasureFound;
 	}
+
+
+        G_Printf("before playtime: %d\n", playtime);
+        // fretn - coop
+        if (g_gametype.integer <= GT_COOP)
+                playtime = level.time - level.startTime;
+
+        G_Printf("after playtime: %d\n", playtime);
 
 	memset( cmd, 0, sizeof( cmd ) );
 	Q_strcat( cmd, sizeof( cmd ), "s=" );
@@ -2012,7 +2020,7 @@ void CheckExitRules( void ) {
 	}
 
         // fretn: no fraglimit in coop
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_fraglimit.integer ) {
+	if ( g_gametype.integer >= GT_SINGLE_PLAYER && g_fraglimit.integer ) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );
