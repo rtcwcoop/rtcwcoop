@@ -1091,12 +1091,12 @@ int G_SendMissionStats() {
 	}
 
 
-        G_Printf("before playtime: %d\n", playtime);
+        //G_Printf("before playtime: %d\n", playtime);
         // fretn - coop
         if (g_gametype.integer <= GT_COOP)
                 playtime = level.time - level.startTime;
 
-        G_Printf("after playtime: %d\n", playtime);
+        //G_Printf("after playtime: %d\n", playtime);
 
 	memset( cmd, 0, sizeof( cmd ) );
 	Q_strcat( cmd, sizeof( cmd ), "s=" );
