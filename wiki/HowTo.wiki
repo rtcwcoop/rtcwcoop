@@ -55,7 +55,7 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
  In single player these are set in the mapname.ai script files for each aicast, the coop mode ignores these  values in the scripts.
 
 == sv_maxcoopclients ==
-Limits the number of coop players in a game. sv_maxclients still exists and should be set to 64. Don't lower it because the AI's also count as clients. sv_maxcoopclients shouldn't be higher than sv_maxclients - numberofai
+Limits the number of coop players in a game. sv_maxclients still exists and should be set to 64. Don't lower it because the AI's also count as clients. sv_maxcoopclients shouldn't be higher than sv_maxclients - numberofai and its limited to a maximum value of 8
 
 = Cmds =
 ==+dropweapon==
