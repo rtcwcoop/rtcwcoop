@@ -35,6 +35,8 @@ If you have questions concerning this license or the applicable additional terms
 
 //=============================================================================
 
+#define MAX_COOP_CLIENTS 8
+
 #define PERS_SCORE              0       // !!! MUST NOT CHANGE, SERVER AND
 										// GAME BOTH REFERENCE !!!
 

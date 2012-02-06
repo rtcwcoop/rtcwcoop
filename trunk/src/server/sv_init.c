@@ -204,6 +204,24 @@ void SV_CreateBaseline( void ) {
 	}
 }
 
+/*
+===============
+SV_BoundMaxCoopClients
+
+===============
+*/
+void SV_BoundMaxCoopClients( int minimum ) {
+	// get the current maxclients value
+	Cvar_Get( "sv_maxcoopclients", "8", 0 );
+
+	//sv_maxclients->modified = qfalse;
+
+	if ( sv_maxcoopclients->integer < minimum ) {
+		Cvar_Set( "sv_maxcoopclients", va( "%i", minimum ) );
+	} else if ( sv_maxcoopclients->integer > MAX_CLIENTS ) {
+		Cvar_Set( "sv_maxcoopclients", va( "%i", MAX_COOP_CLIENTS ) );
+	}
+}
 
 /*
 ===============
@@ -417,6 +435,7 @@ void SV_Startup( void ) {
 		Com_Error( ERR_FATAL, "SV_Startup: svs.initialized" );
 	}
 	SV_BoundMaxClients( 1 );
+        SV_BoundMaxCoopClients( 1 );
 
 #ifdef ZONECLIENTS
 	svs.clients = Z_Malloc( sizeof( client_t ) * sv_maxclients->integer );
@@ -705,6 +724,8 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 		if ( sv_maxclients->modified ) {
 			SV_ChangeMaxClients();
 		}
+
+                SV_BoundMaxCoopClients( 1 );
 	}
 
 	// clear pak references
