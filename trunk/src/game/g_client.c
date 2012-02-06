@@ -1750,6 +1750,7 @@ void ClientSpawn( gentity_t *ent ) {
                                                 // todo: select random spot from friends
                                                 VectorCopy(client->coopSpawnPointOrigin, spawn_origin);                      
                                                 VectorCopy(client->coopSpawnPointAngles, spawn_angles);                      
+                                                spawnPoint = ent;
                                         }
 					// don't spawn near existing origin if possible
                                         else
