@@ -1929,7 +1929,7 @@ itemDef {
 				textalignx 0
 				textaligny 25
 				textscale .25
-				text "Select s Skill Level"
+				text "Selects Skill Level"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
