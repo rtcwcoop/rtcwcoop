@@ -164,16 +164,6 @@ void CG_ParseServerinfo( void ) {
         // fretn - ui needs this to render the levelshot of this map in the loading screen
         trap_Cvar_Set( "mapname", Info_ValueForKey( info, "mapname" ) );
 
-// JPW NERVE
-// prolly should parse all CS_SERVERINFO keys automagically, but I don't want to break anything that might be improperly set for wolf SP, so I'm just parsing MP relevant stuff here
-	trap_Cvar_Set( "g_medicChargeTime",Info_ValueForKey( info,"g_medicChargeTime" ) );
-	trap_Cvar_Set( "g_engineerChargeTime",Info_ValueForKey( info,"g_engineerChargeTime" ) );
-	trap_Cvar_Set( "g_soldierChargeTime",Info_ValueForKey( info,"g_soldierChargeTime" ) );
-	trap_Cvar_Set( "g_LTChargeTime",Info_ValueForKey( info,"g_LTChargeTime" ) );
-	trap_Cvar_Set( "g_redlimbotime",Info_ValueForKey( info,"g_redlimbotime" ) );
-	trap_Cvar_Set( "g_bluelimbotime",Info_ValueForKey( info,"g_bluelimbotime" ) );
-// jpw
-
 	//	Q_strncpyz( cgs.redTeam, Info_ValueForKey( info, "g_redTeam" ), sizeof(cgs.redTeam) );
 //	trap_Cvar_Set("g_redTeam", cgs.redTeam);
 //	Q_strncpyz( cgs.blueTeam, Info_ValueForKey( info, "g_blueTeam" ), sizeof(cgs.blueTeam) );

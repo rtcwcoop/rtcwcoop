@@ -231,15 +231,6 @@ vmCvar_t cg_gameSkill;
 
 vmCvar_t cg_reloading;      //----(SA)	added
 
-// JPW NERVE
-vmCvar_t cg_medicChargeTime;
-vmCvar_t cg_engineerChargeTime;
-vmCvar_t cg_LTChargeTime;
-vmCvar_t cg_soldierChargeTime;
-vmCvar_t cg_redlimbotime;
-vmCvar_t cg_bluelimbotime;
-// jpw
-
 vmCvar_t cg_hunkUsed;
 vmCvar_t cg_soundAdjust;
 vmCvar_t cg_expectedhunkusage;
@@ -440,15 +431,6 @@ cvarTable_t cvarTable[] = {
 	{ &cg_gameSkill, "g_gameskill", "2", 0 }, // communicated by systeminfo	// (SA) new default '2' (was '1')
 
 	{ &cg_reloading, "g_reloading", "0", 0 }, //----(SA)	added
-
-	// JPW NERVE
-	{ &cg_medicChargeTime,  "g_medicChargeTime", "10000", 0 }, // communicated by systeminfo
-	{ &cg_LTChargeTime, "g_LTChargeTime", "30000", 0 }, // communicated by systeminfo
-	{ &cg_engineerChargeTime,   "g_engineerChargeTime", "30000", 0 }, // communicated by systeminfo
-	{ &cg_soldierChargeTime,    "g_soldierChargeTime", "20000", 0 }, // communicated by systeminfo
-	{ &cg_bluelimbotime,        "g_bluelimbotime", "30000", 0 }, // communicated by systeminfo
-	{ &cg_redlimbotime,         "g_redlimbotime","30000", 0 }, // communicated by systeminfo
-	// jpw
 
 	{ &cg_notebook, "cl_notebook", "0", CVAR_ROM },
 	{ &cg_notebookpages, "cg_notebookpages", "0", CVAR_ROM},

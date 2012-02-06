@@ -2038,9 +2038,9 @@ static qboolean CG_DrawFollow( void ) {
 		color[1] = 0;
 		color[2] = 0;
 		if ( cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_RED ) {
-			sprintf( deploytime,"Deploying in %d seconds", (int)( (float)( cg_redlimbotime.integer - ( cg.time % cg_redlimbotime.integer ) ) * 0.001f ) );
+			//sprintf( deploytime,"Deploying in %d seconds", (int)( (float)( cg_redlimbotime.integer - ( cg.time % cg_redlimbotime.integer ) ) * 0.001f ) );
 		} else {
-			sprintf( deploytime,"Deploying in %d seconds", (int)( (float)( cg_bluelimbotime.integer - ( cg.time % cg_bluelimbotime.integer ) ) * 0.001f ) );
+			//sprintf( deploytime,"Deploying in %d seconds", (int)( (float)( cg_bluelimbotime.integer - ( cg.time % cg_bluelimbotime.integer ) ) * 0.001f ) );
 		}
 
 		x = 0.5 * ( 640 - BIGCHAR_WIDTH * strlen( deploytime ) ); //CG_DrawStrlen( deploytime ) );

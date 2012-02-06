@@ -156,10 +156,11 @@ void Weapon_Knife( gentity_t *ent ) {
 */
 // JPW NERVE
 void Weapon_Medic( gentity_t *ent ) {
-	gitem_t *item;
-	gentity_t *ent2;
-	vec3_t velocity, org, offset;
-	vec3_t angles;
+	//gitem_t *item;
+	//gentity_t *ent2;
+	//vec3_t velocity, org, offset;
+        vec3_t org;
+	//vec3_t angles;
 
 	trace_t tr;
 	gentity_t   *traceEnt;
@@ -177,9 +178,11 @@ void Weapon_Medic( gentity_t *ent ) {
 		traceEnt = &g_entities[ tr.entityNum ];
 		if ( traceEnt->client != NULL ) {
 			if ( ( traceEnt->client->ps.pm_type == PM_DEAD ) && ( traceEnt->client->sess.sessionTeam == ent->client->sess.sessionTeam ) ) {
+                                /*
 				if ( level.time - ent->client->ps.classWeaponTime > g_medicChargeTime.integer ) {
 					ent->client->ps.classWeaponTime = level.time - g_medicChargeTime.integer;
 				}
+                                */
 				ent->client->ps.classWeaponTime += 125;
 				traceEnt->client->medicHealAmt++;
 				if ( ent->client->ps.classWeaponTime > level.time ) { // heal the dude
@@ -217,6 +220,7 @@ void Weapon_Medic( gentity_t *ent ) {
 		}
 	} else { // throw out health pack
 //		if (level.time - ent->client->ps.classWeaponTime >= g_medicChargeTime.integer) {
+                /*
 		if ( level.time - ent->client->ps.classWeaponTime >= g_medicChargeTime.integer * 0.25f ) {
 			if ( level.time - ent->client->ps.classWeaponTime > g_medicChargeTime.integer ) {
 				ent->client->ps.classWeaponTime = level.time - g_medicChargeTime.integer;
@@ -237,6 +241,7 @@ void Weapon_Medic( gentity_t *ent ) {
 			VectorAdd( ent->client->ps.origin,offset,org );
 			ent2 = LaunchItem( item, org, velocity );
 		}
+                */
 	}
 }
 // jpw
@@ -289,9 +294,11 @@ void Weapon_Engineer( gentity_t *ent ) {
 		}
 	} else if ( !traceEnt->takedamage && !Q_stricmp( traceEnt->classname, "misc_mg42" ) )       {
 		// "Ammo" for this weapon is time based
+                /*
 		if ( ent->client->ps.classWeaponTime + g_engineerChargeTime.integer < level.time ) {
 			ent->client->ps.classWeaponTime = level.time - g_engineerChargeTime.integer;
 		}
+                */
 		ent->client->ps.classWeaponTime += 150;
 
 		if ( ent->client->ps.classWeaponTime > level.time ) {
@@ -449,10 +456,12 @@ void Weapon_Class_Special( gentity_t *ent ) {
 		Weapon_Engineer( ent );
 		break;
 	case PC_LT:
+                /*
 		if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
 			weapon_grenadelauncher_fire( ent,WP_GRENADE_SMOKE );
 			ent->client->ps.classWeaponTime = level.time;
 		}
+                */
 		break;
 	}
 }

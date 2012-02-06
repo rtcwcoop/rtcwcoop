@@ -1149,7 +1149,7 @@ qboolean G_ScriptAction_AxisRespawntime( gentity_t *ent, char *params ) {
 		G_Error( "G_ScriptAction_AxisRespawntime: time parameter required\n" );
 	}
 
-	trap_Cvar_Set( "g_redlimbotime", va( "%s000", token ) );
+	//trap_Cvar_Set( "g_redlimbotime", va( "%s000", token ) );
 
 	return qtrue;
 }
@@ -1170,7 +1170,7 @@ qboolean G_ScriptAction_AlliedRespawntime( gentity_t *ent, char *params ) {
 		G_Error( "G_ScriptAction_AlliedRespawntime: time parameter required\n" );
 	}
 
-	trap_Cvar_Set( "g_bluelimbotime", va( "%s000", token ) );
+	//trap_Cvar_Set( "g_bluelimbotime", va( "%s000", token ) );
 
 	return qtrue;
 }

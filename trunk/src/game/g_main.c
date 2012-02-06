@@ -130,15 +130,6 @@ vmCvar_t g_totalPlayTime;
 vmCvar_t g_attempts;
 
 vmCvar_t g_footstepAudibleRange;
-// JPW NERVE multiplayer reinforcement times
-vmCvar_t g_redlimbotime;
-vmCvar_t g_bluelimbotime;
-// charge times for character class special weapons
-vmCvar_t g_medicChargeTime;
-vmCvar_t g_engineerChargeTime;
-vmCvar_t g_LTChargeTime;
-vmCvar_t g_soldierChargeTime;
-// jpw
 
 vmCvar_t g_playerStart;         // set when the player enters the game
 vmCvar_t g_autospawn;
@@ -161,15 +152,6 @@ cvarTable_t gameCvarTable[] = {
 	// done
 
 	{ &g_reloading, "g_reloading", "0", CVAR_ROM },   //----(SA)	added
-
-// JPW NERVE multiplayer stuffs
-	{ &g_redlimbotime, "g_redlimbotime", "30000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-	{ &g_bluelimbotime, "g_bluelimbotime", "30000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-	{ &g_medicChargeTime, "g_medicChargeTime", "45000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-	{ &g_engineerChargeTime, "g_engineerChargeTime", "30000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-	{ &g_LTChargeTime, "g_LTChargeTime", "20000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-	{ &g_soldierChargeTime, "g_soldierChargeTime", "20000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-// jpw
 
         //fretn
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },

@@ -321,7 +321,6 @@ int Pmove( pmove_t *pmove );
 #define PC_MEDIC                1   //	heal stuff
 #define PC_ENGINEER             2   //	build stuff
 #define PC_LT                   3   //	bomb stuff
-#define PC_MEDIC_CHARGETIME     30000   // FIXME just for testing, this will change to server cvars for each class
 // jpw
 
 // player_state->stats[] indexes

@@ -2660,18 +2660,6 @@ Generates weapon events and modifes the weapon counter
 #define VENOM_ATTACK    WEAP_ATTACK2
 #define VENOM_LOWER     WEAP_ATTACK_LASTSHOT
 
-// JPW NERVE
-#ifdef CGAMEDLL
-extern vmCvar_t cg_soldierChargeTime;
-extern vmCvar_t cg_engineerChargeTime;
-#endif
-#ifdef GAMEDLL
-extern vmCvar_t g_soldierChargeTime;
-extern vmCvar_t g_engineerChargeTime;
-#endif
-// jpw
-
-
 #ifdef CGAMEDLL
 extern vmCvar_t cg_reloading;
 #endif

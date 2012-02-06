@@ -1458,8 +1458,8 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 	gclient_t   *cl;
 	int do_respawn = 0; // JPW NERVE
 	int savedScore;     // DHM
-	static int lastRedReinforceTime = 0, lastBlueReinforceTime = 0;
-	int testtime;
+	//static int lastRedReinforceTime = 0, lastBlueReinforceTime = 0;
+	//int testtime;
 
 	// if we are doing a chase cam or a remote view, grab the latest info
 	if ( ( ent->client->sess.spectatorState == SPECTATOR_FOLLOW ) || ( ent->client->ps.pm_flags & PMF_LIMBO ) ) { // JPW NERVE for limbo
@@ -1469,6 +1469,7 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 //		G_Printf("rlt=%d blt=%d diff=%d\n",g_redlimbotime.integer,g_bluelimbotime.integer, level.time - level.redReinforceTime);
 // new way, based on constant spawnrates
 
+                /*
 		if ( ent->client->sess.sessionTeam == TEAM_RED ) {
 			testtime = level.time % g_redlimbotime.integer;
 			if ( testtime < lastRedReinforceTime ) {
@@ -1481,7 +1482,7 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 				do_respawn = 1;
 			}
 			lastBlueReinforceTime = testtime;
-		}
+		}*/
 
 		if ( do_respawn ) {
 			reinforce( ent );

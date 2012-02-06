@@ -1757,15 +1757,6 @@ extern vmCvar_t cg_gameSkill;
 
 extern vmCvar_t cg_reloading;           //----(SA)	added
 
-// JPW NERVE
-extern vmCvar_t cg_medicChargeTime;
-extern vmCvar_t cg_engineerChargeTime;
-extern vmCvar_t cg_LTChargeTime;
-extern vmCvar_t cg_soldierChargeTime;
-extern vmCvar_t cg_redlimbotime;
-extern vmCvar_t cg_bluelimbotime;
-// jpw
-
 extern vmCvar_t cg_hunkUsed;
 extern vmCvar_t cg_soundAdjust;
 extern vmCvar_t cg_expectedhunkusage;
