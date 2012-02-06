@@ -211,14 +211,12 @@ SV_BoundMaxCoopClients
 ===============
 */
 void SV_BoundMaxCoopClients( int minimum ) {
-	// get the current maxclients value
+	// get the current maxcoopclients value
 	Cvar_Get( "sv_maxcoopclients", "8", 0 );
-
-	//sv_maxclients->modified = qfalse;
 
 	if ( sv_maxcoopclients->integer < minimum ) {
 		Cvar_Set( "sv_maxcoopclients", va( "%i", minimum ) );
-	} else if ( sv_maxcoopclients->integer > MAX_CLIENTS ) {
+	} else if ( sv_maxcoopclients->integer > MAX_COOP_CLIENTS ) {
 		Cvar_Set( "sv_maxcoopclients", va( "%i", MAX_COOP_CLIENTS ) );
 	}
 }
@@ -686,6 +684,18 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 				Cvar_Set( "bot_enable", "1" );
 			}
 		}
+                if ( g_gametype->integer <= GT_COOP ) {
+			if ( sv_maxcoopclients->latchedString ) {
+				// it's been modified, so grab the new value
+				Cvar_Get( "sv_maxcoopclients", "8", 0 );
+			}
+			if ( sv_maxclients->integer > MAX_COOP_CLIENTS ) {
+				Cvar_SetValue( "sv_maxcoopclients", MAX_COOP_CLIENTS );
+			}
+			if ( sv_maxclients->integer < 1 ) {
+				Cvar_SetValue( "sv_maxcoopclients", 1);
+			}
+                }
 	}
 	// done.
 
