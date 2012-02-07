@@ -20,10 +20,33 @@ player
 
 	playerstart
 	{
-	
 		trigger truck1 jet_idle_loop_start
 		mu_fade 0 1000
 		mu_queue sound/music/m_grave
+
+		// Weapons
+		giveweapon weapon_knife		
+		giveweapon weapon_luger
+			setclip weapon_luger 8
+		giveweapon weapon_mp40
+			setclip weapon_mp40 32
+		giveweapon weapon_sten
+			setclip weapon_sten 32
+		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
+			setclip weapon_mauserrifle 10
+		giveweapon weapon_snooperrifle
+
+
+		// Ammo
+		setammo ammo_9mm 248
+		setammo ammo_792mm 20
+		setammo ammo_30cal 15
+		setammo ammo_grenades 4
+
+		// Items
+		giveinventory key_binocs
+		selectweapon weapon_sten
 
 	}
 

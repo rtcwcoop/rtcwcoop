@@ -22,12 +22,33 @@ player
 
 	playerstart
 	{
-	
-		mu_fade 0 1500
+		mu_fade 0 1000
 		mu_queue sound/music/m_stealth
 		trigger bookshelf cinematic1
 		trigger player cam0
-		
+
+		// Weapons
+		giveweapon weapon_knife	
+		giveweapon weapon_luger
+			setclip weapon_luger 8
+		giveweapon weapon_mp40
+			setclip weapon_mp40 32
+		giveweapon weapon_thompson
+			setclip weapon_thompson 30
+		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
+			setclip weapon_mauserrifle 10
+
+		// Ammo
+		setammo ammo_9mm 80
+		setammo ammo_45cal 38
+		setammo ammo_792mm 15
+		setammo ammo_grenades 3
+
+		// Items
+		giveinventory key_binocs
+		selectweapon weapon_thompson
+
 	}
 
 	// --- Start Cameras---
@@ -2208,9 +2229,8 @@ nazi19a
 		accum 0 bitreset 1		// Chooses the correct room.
 		accum 0 bitreset 2		// So Choose_room is only triggered once.
 		takeweapon all
-		giveweapon weapon_sniperscope
+		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999	// Mauser Rifle, FG42
-		selectweapon weapon_sniperscope
 		trigger nazi19a go
 	}
 
@@ -2705,9 +2725,9 @@ nazi27
 	spawn
 	{
 		takeweapon mp40
-		giveweapon weapon_sniperscope
+		giveweapon weapon_mauserrifle
 		setammo ammo_792mm 300
-		selectweapon weapon_sniperscope
+		selectweapon weapon_mauserrifle
 		setammo ammo_grenades 0	// Grenades
 		trigger nazi27 marchloop
 	}
@@ -3492,9 +3512,9 @@ sniper1
 	{
 		takeweapon mp40
 		setammo ammo_grenades 0	// Grenades
-		giveweapon weapon_sniperscope
+		giveweapon weapon_mauserrifle
 		setammo ammo_792mm 200
-		selectweapon weapon_sniperscope
+		selectweapon weapon_mauserrifle
 		accum 0 set 0 // Accum 0 is for when the player has been spotted the AI will reset if the player tries going up the ladder.
 		accum 0 bitreset 0
 		walktomarker s1spot1
@@ -3577,9 +3597,9 @@ sniper2
 	{
 		takeweapon mp40
 		setammo ammo_grenades 0	// Grenades
-		giveweapon weapon_sniperscope
+		giveweapon weapon_mauserrifle
 		setammo ammo_792mm 50
-		selectweapon weapon_sniperscope
+		selectweapon weapon_mauserrifle
 		wait 500 0
 		walktomarker s2spot1
 		trigger sniper2 waitloop
@@ -3635,10 +3655,10 @@ officer1
 		accum 0 bitreset 0
 		accum 0 bitreset 1
 		takeweapon all
-		giveweapon weapon_silencer
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
 		setclip weapon_luger 6
-		selectweapon weapon_silencer
+		selectweapon weapon_luger
 		setammo ammo_grenades 0	// Grenades
 	}
 
@@ -3761,10 +3781,10 @@ officer2
 		accum 0 bitreset 1
 		setammo ammo_grenades 0	// Grenades
 		takeweapon all
-		giveweapon weapon_silencer
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
 		setclip weapon_luger 6
-		selectweapon weapon_silencer
+		selectweapon weapon_luger
 	}
 
 	trigger talk1

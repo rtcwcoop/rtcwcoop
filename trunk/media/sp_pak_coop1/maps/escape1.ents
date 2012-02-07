@@ -45,3 +45,118 @@
 "origin" "1749 1512 -759"
 "angle" "-91"
 }
+
+{
+"classname" "ai_soldier"
+"origin" "1671 277 -759"
+"ainame" "coop_ai_soldier_1"
+"angle" "173"
+}
+{
+"classname" "ai_soldier"
+"origin" "1287 177 -759"
+"ainame" "coop_ai_soldier_2"
+"angle" "1"
+}
+{
+"classname" "ai_soldier"
+"origin" "-161 507 -375"
+"ainame" "coop_ai_soldier_3"
+"angle" "87"
+}
+{
+"classname" "ai_soldier"
+"origin" "-982 485 -355"
+"ainame" "coop_ai_soldier_4"
+"angle" "73"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1381 1629 -231"
+"ainame" "coop_ai_soldier_5"
+"angle" "-26"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1134 1395 200"
+"ainame" "coop_ai_soldier_6"
+"angle" "83"
+}
+{
+"classname" "ai_soldier"
+"origin" "-156 415 280"
+"ainame" "coop_ai_soldier_7"
+"angle" "-113"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1351 640 -39"
+"ainame" "coop_ai_soldier_8"
+"angle" "-15"
+}
+{
+"classname" "ai_soldier"
+"origin" "-129 292 712"
+"ainame" "coop_ai_soldier_9"
+"angle" "-100"
+}
+{
+"classname" "ai_soldier"
+"origin" "-183 1096 712"
+"ainame" "coop_ai_soldier_10"
+"angle" "155"
+}
+{
+"classname" "ai_soldier"
+"origin" "476 210 472"
+"ainame" "coop_ai_soldier_11"
+"angle" "-179"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1046 -347 376"
+"ainame" "coop_ai_soldier_12"
+"angle" "10"
+}
+{
+"classname" "ai_soldier"
+"origin" "-48 -5 472"
+"ainame" "coop_ai_soldier_13"
+"angle" "-50"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1992 -114 376"
+"ainame" "coop_ai_soldier_14"
+"angle" "147"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1361 323 152"
+"ainame" "coop_ai_soldier_15"
+"angle" "178"
+}
+{
+"classname" "ai_soldier"
+"origin" "-2619 636 152"
+"ainame" "coop_ai_soldier_16"
+"angle" "6"
+}
+{
+"classname" "ai_soldier"
+"origin" "-3646 368 152"
+"ainame" "coop_ai_soldier_17"
+"angle" "22"
+}
+{
+"classname" "ai_soldier"
+"origin" "-3633 499 152"
+"ainame" "coop_ai_soldier_18"
+"angle" "-36"
+}
+{
+"classname" "ai_soldier"
+"origin" "-3410 993 152"
+"ainame" "coop_ai_soldier_19"
+"angle" "-90"
+}

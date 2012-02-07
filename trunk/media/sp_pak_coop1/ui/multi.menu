@@ -1097,7 +1097,7 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_NUMERICFIELD
 					textfont		UI_FONT_NORMAL
-					text			"Max Players:  "
+					text			"Max Players (1-8):  "
 					cvar			"sv_maxcoopclients"
 					maxchars		3
 					rect			295 260 290 12
@@ -1221,6 +1221,28 @@ itemDef {
 					visible			1
 					mouseenter		{ show message_cutscenes }
 					mouseexit		{ hide message_cutscenes }
+					}
+
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI	
+					textfont		UI_FONT_NORMAL
+					text			"Allow Health-Penalty:  "
+					cvar			"g_healthpenalty"
+					cvarFloatList	{ "yes" 1 "no" 0 }
+					rect			295 360 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07 		  
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_healthpenalty }
+					mouseexit		{ hide message_healthpenalty }
 					}
 					
 					
@@ -1929,7 +1951,7 @@ itemDef {
 				textalignx 0
 				textaligny 25
 				textscale .25
-				text "Selects Skill Level"
+				text "Select a Skill Level"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -2113,7 +2135,6 @@ itemDef {
 				style 0 
 				textfont	UI_FONT_NORMAL
 				rect 320 437 128 30
-			//	origin HELP_ORIGIN
 				textalign 1
 				textalignx 0
 				textstyle 1
@@ -2131,7 +2152,6 @@ itemDef {
 				style 0 
 				textfont	UI_FONT_NORMAL
 				rect 320 437 128 30
-			//	origin HELP_ORIGIN
 				textalign 1
 				textalignx 0
 				textstyle 1
@@ -2149,7 +2169,6 @@ itemDef {
 				style 0 
 				textfont	UI_FONT_NORMAL
 				rect 320 437 128 30
-			//	origin HELP_ORIGIN
 				textalign 1
 				textalignx 0
 				textstyle 1
@@ -2167,7 +2186,6 @@ itemDef {
 				style 0 
 				textfont	UI_FONT_NORMAL
 				rect 320 437 128 30
-			//	origin HELP_ORIGIN
 				textalign 1
 				textalignx 0
 				textstyle 1
@@ -2178,6 +2196,22 @@ itemDef {
 				decoration 
 				visible 0
 				}
-			
+
+			itemDef {
+				name message_healthpenalty
+				group grpmessage
+				style 0 
+				textfont UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Health Penalty for Friendly Fire"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
 }
 }

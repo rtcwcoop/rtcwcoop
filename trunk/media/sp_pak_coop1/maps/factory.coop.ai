@@ -23,9 +23,47 @@ player
 
 	playerstart
 	{
-	
 		mu_fade 0 1500
 		mu_queue sound/music/m_drums
+
+		// Weapons
+		giveweapon weapon_knife
+		giveweapon weapon_luger
+		giveweapon weapon_silencer
+			setclip weapon_luger 8
+		giveweapon weapon_colt
+		giveweapon weapon_colt
+			setclip weapon_colt 8
+			setclip weapon_akimbo 8
+		giveweapon weapon_mp40
+			setclip weapon_mp40 32
+		giveweapon weapon_thompson
+			setclip weapon_thompson 30
+		giveweapon weapon_sten
+			setclip weapon_sten 32
+		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
+			setclip weapon_mauserrifle 10
+		giveweapon weapon_snooperrifle
+		giveweapon weapon_fg42
+			setclip weapon_fg42 20
+		giveweapon weapon_panzerfaust
+			setclip weapon_panzerfaust 1
+		giveweapon weapon_flamethrower
+
+		// Ammo
+		setammo ammo_9mm 208
+		setammo ammo_45cal 135
+		setammo ammo_792mm 65
+		setammo ammo_30cal 10
+		setammo ammo_grenades 5
+		setammo ammo_grenades_american 2
+		setammo ammo_panzerfaust 1
+		setammo ammo_fuel 30
+
+		// Items
+		giveinventory key_binocs
+		selectweapon weapon_sten
 
 	}
 
