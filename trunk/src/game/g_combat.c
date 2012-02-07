@@ -1243,10 +1243,14 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                 else
                 {
                         if ( g_healthpenalty.integer ) {
-                                if  ( attacker->client && targ->client && !(targ->r.svFlags & SVF_CASTAI) ) // if you hit a teammate, you hit yourself !
+                                if  ( attacker->client && targ->client && !(targ->r.svFlags & SVF_CASTAI) ) {// if you hit a teammate, you hit yourself !
                                         attacker->health = attacker->health - take;
-                                else
+                                        // show some pain !
+                                        if ( attacker->pain )
+                                                targ->pain( attacker, targ, take, point );
+                                } else {
                                         targ->health = targ->health - take;
+                                }
                         } else {
                                 targ->health = targ->health - take;
                         }
