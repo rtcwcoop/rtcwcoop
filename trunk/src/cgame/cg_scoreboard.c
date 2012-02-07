@@ -45,6 +45,7 @@ void CG_DrawCoopScoreboard( void )
         int ping;
         const char *s;
         int msec, mins, seconds, tens; // JPW NERVE
+        qboolean maxlives = qfalse;
 
         #define MAX_STATS_VARS  64
 
@@ -84,6 +85,9 @@ void CG_DrawCoopScoreboard( void )
         CG_DrawStringExt( 170 + 255 - w , 130, va("Score"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
         w = strlen("Ping") * SMALLCHAR_WIDTH;
         CG_DrawStringExt( 170 + 294 - w, 130, va("Ping"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+        
+        if (cg.scores[0].respawnsLeft != -1)
+                maxlives = qtrue;
 
         for ( i = 0; i < 4; i++ ) {
                 if (cg.clientNum == cg.scores[i].client && i < cg.numScores)
@@ -99,7 +103,7 @@ void CG_DrawCoopScoreboard( void )
 
                         place++;
                         CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("%i. %s", place, ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
-                        if (cg.scores[i].respawnsLeft != -1) {
+                        if (maxlives) {
                                 w = strlen(va("%d (%d)", score, cg.scores[i].respawnsLeft)) * SMALLCHAR_WIDTH;
                                 CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i) + 1, va("%d (%d)", cg.scores[i].score, cg.scores[i].respawnsLeft), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
                         } else {

@@ -1111,6 +1111,7 @@ extern vmCvar_t g_gametype;
 extern vmCvar_t g_autospawn;
 extern vmCvar_t g_skipcutscenes;
 extern vmCvar_t g_maxlives;
+extern vmCvar_t g_healthpenalty;
 
 // Rafael gameskill
 extern vmCvar_t g_gameskill;

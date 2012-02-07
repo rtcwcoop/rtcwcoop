@@ -1242,7 +1242,14 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                 }
                 else
                 {
-		        targ->health = targ->health - take;
+                        if ( g_healthpenalty.integer ) {
+                                if  ( attacker->client && targ->client && !(targ->r.svFlags & SVF_CASTAI) ) // if you hit a teammate, you hit yourself !
+                                        attacker->health = attacker->health - take;
+                                else
+                                        targ->health = targ->health - take;
+                        } else {
+                                targ->health = targ->health - take;
+                        }
                         
 
                         // Ridah, can't gib with bullet weapons (except VENOM)
