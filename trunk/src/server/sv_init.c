@@ -958,6 +958,7 @@ void SV_Init( void ) {
 	sv_maxPing = Cvar_Get( "sv_maxPing", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_floodProtect = Cvar_Get( "sv_floodProtect", "1", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_allowAnonymous = Cvar_Get( "sv_allowAnonymous", "0", CVAR_SERVERINFO );
+        sv_maxlives = Cvar_Get( "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO );
 
 	// systeminfo
 	Cvar_Get( "sv_cheats", "0", CVAR_SYSTEMINFO | CVAR_ROM );
@@ -995,6 +996,8 @@ void SV_Init( void ) {
 	sv_mapChecksum = Cvar_Get( "sv_mapChecksum", "", CVAR_ROM );
 
 	sv_reloading = Cvar_Get( "g_reloading", "0", CVAR_ROM );   //----(SA)	added
+
+        Cvar_Get( "g_maxlives", "0", 0 );
 
 	// initialize bot cvars so they are listed and can be set before loading the botlib
 	SV_BotInitCvars();

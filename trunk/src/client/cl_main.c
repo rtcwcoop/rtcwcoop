@@ -2710,6 +2710,7 @@ static void CL_SetServerInfo( serverInfo_t *server, const char *info, int ping )
                         // fretn
 			server->coop = atoi( Info_ValueForKey( info, "coop" ) );
 			server->gameskill= atoi( Info_ValueForKey( info, "gameskill" ) );
+                        server->maxlives = atoi( Info_ValueForKey( info, "maxlives" ) );
 		}
 		server->ping = ping;
 	}
@@ -2845,6 +2846,7 @@ void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
 	cls.localServers[i].netType = from.type;
 	cls.localServers[i].allowAnonymous = 0;
 	cls.localServers[i].gameskill = 0;
+        cls.localServers[i].maxlives = 0;
 
 	Q_strncpyz( info, MSG_ReadString( msg ), MAX_INFO_STRING );
 

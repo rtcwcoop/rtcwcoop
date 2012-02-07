@@ -1458,6 +1458,7 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 	gclient_t   *cl;
 	int do_respawn = 0; // JPW NERVE
 	int savedScore;     // DHM
+        int savedRespawns;
 	//static int lastRedReinforceTime = 0, lastBlueReinforceTime = 0;
 	//int testtime;
 
@@ -1483,6 +1484,10 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 			}
 			lastBlueReinforceTime = testtime;
 		}*/
+
+                if ( ( g_maxlives.integer > 0 ) && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
+                        do_respawn = 0; 
+                }
 
 		if ( do_respawn ) {
 			reinforce( ent );
@@ -1530,10 +1535,13 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 					// abuse do_respawn var
 					savedScore = ent->client->ps.persistant[PERS_SCORE];
 					do_respawn = ent->client->ps.pm_time;
+                                        savedRespawns = ent->client->ps.persistant[PERS_RESPAWNS_LEFT];
+
 					ent->client->ps = cl->ps;
 					ent->client->ps.pm_flags |= PMF_FOLLOW;
 					ent->client->ps.pm_flags |= PMF_LIMBO;
 					ent->client->ps.pm_time = do_respawn; // put pm_time back
+                                        ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = savedRespawns;
 					ent->client->ps.persistant[PERS_SCORE] = savedScore;    // put score back
 				} else {
 					ent->client->ps = cl->ps;

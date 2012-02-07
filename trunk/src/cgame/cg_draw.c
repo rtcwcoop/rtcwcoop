@@ -1963,7 +1963,7 @@ CG_DrawIntermission
 =================
 */
 static void CG_DrawIntermission( void ) {
-	if ( cgs.gametype <= GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		CG_DrawCenterString();
 		return;
 	}

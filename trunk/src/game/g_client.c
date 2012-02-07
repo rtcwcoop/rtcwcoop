@@ -469,7 +469,7 @@ void limbo( gentity_t *ent ) {
 		ent->r.currentOrigin[2] += 8;
 		contents = trap_PointContents( ent->r.currentOrigin, -1 ); // drop stuff
 		ent->s.weapon = ent->client->limboDropWeapon; // stored in player_die()
-		if ( !( contents & CONTENTS_NODROP ) ) {
+		if ( !( contents & CONTENTS_NODROP ) &&  g_gametype.integer == GT_SINGLE_PLAYER ) {
 			TossClientItems( ent );
 		}
 
@@ -679,9 +679,14 @@ void respawn( gentity_t *ent ) {
 
 	ent->client->ps.pm_flags &= ~PMF_LIMBO; // JPW NERVE turns off limbo
 
+        // DHM - Nerve :: Decrease the number of respawns left
+        if ( g_maxlives.integer > 0 && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 ) {
+                ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+        }
+
 	// DHM - Nerve :: Already handled in 'limbo()'
 	//if ( g_gametype.integer != GT_WOLF ) {
-		CopyToBodyQue( ent );
+        CopyToBodyQue( ent );
 	//}
 
 	ClientSpawn( ent );
@@ -1641,6 +1646,14 @@ void ClientBegin( int clientNum ) {
 
 	// locate ent at a spawn point
 	ClientSpawn( ent );
+
+        // fretn : maxlives
+        if ( g_maxlives.integer > 0 ) {
+                ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
+        } else {
+                ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+        }
+
 
 	// Ridah, trigger a spawn event
 	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {

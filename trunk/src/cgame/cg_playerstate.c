@@ -408,6 +408,7 @@ void CG_CheckLocalSounds( playerState_t *ps, playerState_t *ops ) {
 
 	// reward sounds
 	if ( ps->persistant[PERS_REWARD_COUNT] > ops->persistant[PERS_REWARD_COUNT] ) {
+        /*
 		switch ( ps->persistant[PERS_REWARD] ) {
 		case REWARD_IMPRESSIVE:
 			trap_S_StartLocalSound( cgs.media.impressiveSound, CHAN_ANNOUNCER );
@@ -436,6 +437,7 @@ void CG_CheckLocalSounds( playerState_t *ps, playerState_t *ops ) {
 		default:
 			CG_Error( "Bad reward_t" );
 		}
+        */
 	} else {
 		// lead changes (only if no reward)
 		s = CG_ConfigString( CS_WARMUP );

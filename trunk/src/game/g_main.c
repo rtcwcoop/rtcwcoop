@@ -55,6 +55,7 @@ extern int bg_pmove_gameskill_integer;
 
 vmCvar_t g_gametype;
 vmCvar_t g_skipcutscenes;
+vmCvar_t g_maxlives;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
@@ -155,6 +156,7 @@ cvarTable_t gameCvarTable[] = {
 
         //fretn
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
+        { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
@@ -1515,6 +1517,9 @@ void CalculateRanks( void ) {
 	level.numNonSpectatorClients = 0;
 	level.numPlayingClients = 0;
 	level.numVotingClients = 0;     // don't count bots
+
+        level.numFinalDead = 0;
+
 	for ( i = 0; i < TEAM_NUM_TEAMS; i++ ) {
 		level.numteamVotingClients[i] = 0;
 	}
@@ -1531,6 +1536,12 @@ void CalculateRanks( void ) {
 					level.numPlayingClients++;
 					if ( !( g_entities[i].r.svFlags & SVF_BOT ) ) {
 						level.numVotingClients++;
+                                                // fretn
+                                                if ( level.clients[i].ps.persistant[PERS_RESPAWNS_LEFT] == 0 
+                                                            && g_entities[i].health <= 0 ) {
+                                                        level.numFinalDead++;
+                                                }
+
 						if ( level.clients[i].sess.sessionTeam == TEAM_RED ) {
 							level.numteamVotingClients[0]++;
 						} else if ( level.clients[i].sess.sessionTeam == TEAM_BLUE ) {
@@ -1733,6 +1744,10 @@ void ExitLevel( void ) {
 	int i;
 	gclient_t *cl;
 
+        if ( g_gametype <= GT_COOP) {
+                Cvar_Set( "nextmap", "map_restart 0" );
+        }
+
 	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
 	level.changemap = NULL;
 	level.intermissiontime = 0;
@@ -1828,9 +1843,9 @@ void LogExit( const char *string ) {
 
 	// don't send more than 32 scores (FIXME?)
 	numSorted = level.numConnectedClients;
-	if ( numSorted > 32 ) {
-		numSorted = 32;
-	}
+	//if ( numSorted > 32 ) {
+//		numSorted = 32;
+//	}
 
 	for ( i = 0 ; i < numSorted ; i++ ) {
 		int ping;
@@ -1869,7 +1884,7 @@ void CheckIntermissionExit( void ) {
 	gclient_t   *cl;
 	int readyMask;
 
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		return;
 	}
 
@@ -2000,6 +2015,14 @@ void CheckExitRules( void ) {
 	if ( level.numPlayingClients < 2 ) {
 		return;
 	}
+
+        if ( g_gametype.integer <= GT_COOP && g_maxlives.integer ) {
+                if ( level.numFinalDead >= level.numVotingClients && level.numVotingClients > 0 ) {
+                        trap_SendServerCommand( -1, "cp \"Every one is dead.\n\"" );
+                        LogExit( "No more lives." );
+                        return;
+                }
+        }
 
         // fretn: no fraglimit in coop
 	if ( g_gametype.integer >= GT_SINGLE_PLAYER && g_fraglimit.integer ) {

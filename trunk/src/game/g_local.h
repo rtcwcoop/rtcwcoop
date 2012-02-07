@@ -752,6 +752,8 @@ typedef struct {
         // fretn: every x seconds save the current location of the players to use as a future spawnpoint
         int lastSpawnSave;
 
+        int numFinalDead;
+
 } level_locals_t;
 
 //extern    qboolean	reloading;				// loading up a savegame
@@ -1108,6 +1110,7 @@ extern vmCvar_t g_gametype;
 //fretn
 extern vmCvar_t g_autospawn;
 extern vmCvar_t g_skipcutscenes;
+extern vmCvar_t g_maxlives;
 
 // Rafael gameskill
 extern vmCvar_t g_gameskill;

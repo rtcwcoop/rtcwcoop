@@ -273,7 +273,7 @@ void SV_AddOperatorCommands( void );
 void SV_RemoveOperatorCommands( void );
 
 
-void SV_MasterHeartbeat( void );
+void SV_MasterHeartbeat( const char *hbname );
 void SV_MasterShutdown( void );
 
 
@@ -425,3 +425,4 @@ void SV_Netchan_Transmit( client_t *client, msg_t *msg );    //int length, const
 void SV_Netchan_TransmitNextFragment( netchan_t *chan );
 qboolean SV_Netchan_Process( client_t *client, msg_t *msg );
 
+extern cvar_t  *sv_maxlives;

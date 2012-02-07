@@ -416,7 +416,7 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	// if client is in a nodrop area, don't drop anything
 // JPW NERVE new drop behavior
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {   // only drop here in single player; in multiplayer, drop @ limbo
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {   // only drop here in single player; in multiplayer, drop @ limbo
 		contents = trap_PointContents( self->r.currentOrigin, -1 );
 		if ( !( contents & CONTENTS_NODROP ) ) {
 			TossClientItems( self );

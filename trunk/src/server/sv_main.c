@@ -63,6 +63,8 @@ cvar_t  *sv_allowAnonymous;
 cvar_t  *sv_gameskill;
 // done
 
+cvar_t  *sv_maxlives;
+
 cvar_t  *sv_reloading;  //----(SA)	added
 
 /*
@@ -236,8 +238,10 @@ but not on every player enter or exit.
 ================
 */
 #define HEARTBEAT_MSEC  300 * 1000
-#define HEARTBEAT_GAME  "Wolfenstein-1"
-void SV_MasterHeartbeat( void ) {
+#define HEARTBEAT_GAME  "WolfensteinCoop-1"
+#define HEARTBEAT_DEAD  "WolfFlatlineCoop-1"
+
+void SV_MasterHeartbeat( const char *hbname ) {
 	static netadr_t adr[MAX_MASTER_SERVERS];
 	int i;
 
@@ -286,7 +290,7 @@ void SV_MasterHeartbeat( void ) {
 		Com_Printf( "Sending heartbeat to %s\n", sv_master[i]->string );
 		// this command should be changed if the server info / status format
 		// ever incompatably changes
-		NET_OutOfBandPrint( NS_SERVER, adr[i], "heartbeat %s\n", HEARTBEAT_GAME );
+		NET_OutOfBandPrint( NS_SERVER, adr[i], "heartbeat %s\n", hbname );
 	}
 }
 
@@ -300,11 +304,11 @@ Informs all masters that this server is going down
 void SV_MasterShutdown( void ) {
 	// send a hearbeat right now
 	svs.nextHeartbeatTime = -9999;
-	SV_MasterHeartbeat();
+	SV_MasterHeartbeat( HEARTBEAT_DEAD );
 
 	// send it again to minimize chance of drops
 	svs.nextHeartbeatTime = -9999;
-	SV_MasterHeartbeat();
+	SV_MasterHeartbeat( HEARTBEAT_DEAD );
 
 	// when the master tries to poll the server, it won't respond, so
 	// it will be removed from the list
@@ -456,6 +460,8 @@ void SVC_Info( netadr_t from ) {
 	// Rafael gameskill
 	Info_SetValueForKey( infostring, "gameskill", va( "%i", sv_gameskill->integer ) );
 	// done
+
+        Info_SetValueForKey( infostring, "maxlives", va( "%i", sv_maxlives->integer ? 1 : 0 ) );
 
 	NET_OutOfBandPrint( NS_SERVER, from, "infoResponse\n%s", infostring );
 }
@@ -879,7 +885,7 @@ void SV_Frame( int msec ) {
 	SV_SendClientMessages();
 
 	// send a heartbeat to the master if needed
-	SV_MasterHeartbeat();
+	SV_MasterHeartbeat( HEARTBEAT_GAME );
 }
 
 //============================================================================

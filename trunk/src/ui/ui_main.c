@@ -4759,6 +4759,7 @@ UI_BuildServerDisplayList
 */
 static void UI_BuildServerDisplayList( qboolean force ) {
 	//int i, count, clients, maxClients, ping, game, len, visible, friendlyFire, tourney, maxlives, punkbuster, antilag;
+        int maxlives;
 	int i, count, clients, maxClients, ping, game, len, visible;
 	char info[MAX_STRING_CHARS];
 	//qboolean startRefresh = qtrue;// TTimo: unused
@@ -4853,7 +4854,7 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 				}
 			}
 */
-/*
+
 			// NERVE - SMF - maxlives parsing
 			if ( ui_browserShowMaxlives.integer == 0 ) {
 				maxlives = atoi( Info_ValueForKey( info, "maxlives" ) );
@@ -4862,7 +4863,7 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 					continue;
 				}
 			}
-*/
+
 /*
 			// NERVE - SMF - tourney parsing
 			if ( ui_browserShowTourney.integer == 0 ) {
@@ -6945,6 +6946,7 @@ vmCvar_t ui_browserGameType;
 vmCvar_t ui_browserSortKey;
 vmCvar_t ui_browserShowFull;
 vmCvar_t ui_browserShowEmpty;
+vmCvar_t ui_browserShowMaxlives;
 
 vmCvar_t ui_serverStatusTimeOut;
 
@@ -6997,6 +6999,7 @@ cvarTable_t cvarTable[] = {
 	{ &ui_browserSortKey, "ui_browserSortKey", "4", CVAR_ARCHIVE },
 	{ &ui_browserShowFull, "ui_browserShowFull", "1", CVAR_ARCHIVE },
 	{ &ui_browserShowEmpty, "ui_browserShowEmpty", "1", CVAR_ARCHIVE },
+        { &ui_browserShowMaxlives, "ui_browserShowMaxlives", "1", CVAR_ARCHIVE },
 
 	{ &ui_brassTime, "cg_brassTime", "1250", CVAR_ARCHIVE },
 	{ &ui_drawCrosshair, "cg_drawCrosshair", "4", CVAR_ARCHIVE },

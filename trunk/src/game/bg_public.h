@@ -352,9 +352,8 @@ typedef enum {
 	PERS_REWARD,                    // a reward_t
 	PERS_ATTACKER,                  // clientnum of last damage inflicter
 	PERS_KILLED,                    // count of the number of times you died
+        PERS_RESPAWNS_LEFT,             // number of remaining respawns
 	// these were added for single player awards tracking
-	PERS_IMPRESSIVE_COUNT,
-	PERS_EXCELLENT_COUNT,
 	PERS_GAUNTLET_FRAG_COUNT,
 	PERS_ACCURACY_SHOTS,
 	PERS_ACCURACY_HITS,

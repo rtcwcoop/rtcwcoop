@@ -280,7 +280,7 @@ PROTOCOL
 ==============================================================
 */
 
-#define PROTOCOL_VERSION    49  // TA value
+#define PROTOCOL_VERSION    1  // TA value
 //#define	PROTOCOL_VERSION	43	// (SA) bump this up
 #define GAMENAME_STRING "wolfcoop"
 

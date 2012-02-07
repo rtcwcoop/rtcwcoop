@@ -350,6 +350,7 @@ static void LAN_GetServerInfo( int source, int n, char *buf, int buflen ) {
 		Info_SetValueForKey( info, "sv_allowAnonymous", va( "%i", server->allowAnonymous ) );
 		Info_SetValueForKey( info, "coop", va( "%i", server->coop ) );
 		Info_SetValueForKey( info, "gameskill", va( "%i", server->gameskill ) );
+                Info_SetValueForKey( info, "maxlives", va( "%i", server->maxlives ) );
 		Q_strncpyz( buf, info, buflen );
 	} else {
 		if ( buf ) {
