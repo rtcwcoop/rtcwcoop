@@ -1711,6 +1711,8 @@ void ClientSpawn( gentity_t *ent ) {
         int savedAmmoclip[MAX_WEAPONS];
         int savedWeapon, savedWeaponstate;
         int savedWeapons[MAX_WEAPONS];
+	vec3_t saved_spawn_origin, saved_spawn_angles;
+        qboolean savedHasCoopSpawn;
 
 	index = ent - g_entities;
 	client = ent->client;
@@ -1822,6 +1824,11 @@ void ClientSpawn( gentity_t *ent ) {
             for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
                     savedWeapons[i] = client->ps.weapons[i];
             }
+
+                // save the spawnpoint
+                VectorCopy(client->coopSpawnPointOrigin, saved_spawn_origin);                      
+                VectorCopy(client->coopSpawnPointAngles, saved_spawn_angles);                      
+                savedHasCoopSpawn = client->hasCoopSpawn;
         }
 
         // clear everything
@@ -1847,6 +1854,10 @@ void ClientSpawn( gentity_t *ent ) {
             for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
                     client->ps.weapons[i] = savedWeapons[i];
             }
+                // restorethe spawnpoint
+                VectorCopy(saved_spawn_origin, client->coopSpawnPointOrigin);                      
+                VectorCopy(saved_spawn_angles, client->coopSpawnPointAngles);                      
+                client->hasCoopSpawn = savedHasCoopSpawn;
         }
 
 	// increment the spawncount so the client will detect the respawn
