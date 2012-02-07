@@ -497,6 +497,7 @@ typedef struct {
 	int client;
 	int score;
 	int ping;
+        int respawnsLeft;
 	int time;
 	int scoreFlags;
 	int powerUps;

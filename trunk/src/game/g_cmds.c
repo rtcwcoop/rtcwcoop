@@ -79,9 +79,9 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 
                 // fretn
                 respawnsLeft = cl->ps.persistant[PERS_RESPAWNS_LEFT];
-                //if ( respawnsLeft == 0 && ( ( cl->ps.pm_flags & PMF_LIMBO ) || ( level.intermissiontime && g_entities[level.sortedClients[i]].health <= 0 ) ) ) {
-                //        respawnsLeft = -2;
-                //}
+                if ( respawnsLeft == 0 && ( ( cl->ps.pm_flags & PMF_LIMBO ) || ( level.intermissiontime && g_entities[level.sortedClients[i]].health <= 0 ) ) ) {
+                        respawnsLeft = -2;
+                }
 
 		if ( cl->pers.connected == CON_CONNECTING ) {
 			ping = -1;
@@ -91,9 +91,9 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 
                 // TODO: fretn: add respawnsLeft to the end of the message
 		Com_sprintf( entry, sizeof( entry ),
-					 " %i %i %i %i %i %i", level.sortedClients[i],
+					 " %i %i %i %i %i %i %i", level.sortedClients[i],
 					 g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000,
-					 scoreFlags, g_entities[level.sortedClients[i]].s.powerups );
+					 scoreFlags, g_entities[level.sortedClients[i]].s.powerups, respawnsLeft );
 		j = strlen( entry );
 		if ( stringlength + j > 1024 ) {
 			break;
