@@ -1,4 +1,4 @@
-notebook1
+notebookcoop
 {
 	nopicmip
 	nomipmaps
