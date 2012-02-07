@@ -1744,8 +1744,8 @@ void ExitLevel( void ) {
 	int i;
 	gclient_t *cl;
 
-        if ( g_gametype <= GT_COOP) {
-                Cvar_Set( "nextmap", "map_restart 0" );
+        if ( g_gametype.integer <= GT_COOP) {
+                trap_Cvar_Set( "nextmap", "map_restart 0" );
         }
 
 	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
