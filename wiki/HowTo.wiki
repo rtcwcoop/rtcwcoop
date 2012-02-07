@@ -60,6 +60,9 @@ Limits the number of coop players in a game. sv_maxclients still exists and shou
 == g_maxlives ==
 The number of the times a player can die before he can't play anymore. Set to 0 to disable it.
 
+== g_healthpenalty ==
+if set to 1 and you hit a teammate, you loose health, set to 0 to disable this.
+
 = Cmds =
 ==+dropweapon==
  drop your current weapon so your coop friend can pick it up
