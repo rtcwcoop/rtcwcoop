@@ -1019,7 +1019,7 @@ static void CG_ServerCommand( void ) {
                 static int num = 0;
 
                 if (num) // the first client receives this twice, so ignore it the second time
-                        return;
+                                return;
 
 		CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black
 		trap_UI_Popup( "pregame" );                // start pregame menu

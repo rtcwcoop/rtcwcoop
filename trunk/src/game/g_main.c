@@ -1745,7 +1745,11 @@ void ExitLevel( void ) {
 	gclient_t *cl;
 
         if ( g_gametype.integer <= GT_COOP) {
-                trap_Cvar_Set( "nextmap", "map_restart 0" );
+                char mapname[1024];
+                trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+                trap_Cvar_Set( "nextmap", va("coopmap %s", mapname) );
+                // fretn: should be this, but I'm having problems with the pregame menu if I do this
+                //Cvar_Set( "nextmap", "map_restart 0" );
         }
 
 	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
