@@ -63,7 +63,7 @@ static void CG_ParseScores( void ) {
 		cg.scores[i].time = atoi( CG_Argv( i * 6 + 7 ) );
 		cg.scores[i].scoreFlags = atoi( CG_Argv( i * 6 + 8 ) );
 		powerups = atoi( CG_Argv( i * 6 + 9 ) );
-		respawnsLeft = atoi( CG_Argv( i * 6 + 10 ) );
+		//respawnsLeft = atoi( CG_Argv( i * 6 + 10 ) );
 		// DHM - Nerve :: the following parameters are not sent by server
 		/*
 		cg.scores[i].accuracy = atoi(CG_Argv(i * 14 + 10));
@@ -82,7 +82,7 @@ static void CG_ParseScores( void ) {
 		cgs.clientinfo[ cg.scores[i].client ].score = cg.scores[i].score;
 		cgs.clientinfo[ cg.scores[i].client ].powerups = powerups;
         
-		cg.scores[i].respawnsLeft = respawnsLeft;
+		//cg.scores[i].respawnsLeft = respawnsLeft;
 		cg.scores[i].team = cgs.clientinfo[cg.scores[i].client].team;
 	}
 

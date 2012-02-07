@@ -86,8 +86,8 @@ void CG_DrawCoopScoreboard( void )
         w = strlen("Ping") * SMALLCHAR_WIDTH;
         CG_DrawStringExt( 170 + 294 - w, 130, va("Ping"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
         
-        if (cg.scores[0].respawnsLeft != -1)
-                maxlives = qtrue;
+        //if (cg.scores[0].respawnsLeft != -1)
+        //        maxlives = qtrue;
 
         for ( i = 0; i < 4; i++ ) {
                 if (cg.clientNum == cg.scores[i].client && i < cg.numScores)

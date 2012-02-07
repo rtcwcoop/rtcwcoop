@@ -91,9 +91,9 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 
                 // TODO: fretn: add respawnsLeft to the end of the message
 		Com_sprintf( entry, sizeof( entry ),
-					 " %i %i %i %i %i %i %i", level.sortedClients[i],
+					 " %i %i %i %i %i %i", level.sortedClients[i],
 					 g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000,
-					 scoreFlags, g_entities[level.sortedClients[i]].s.powerups, respawnsLeft );
+					 scoreFlags, g_entities[level.sortedClients[i]].s.powerups );
 		j = strlen( entry );
 		if ( stringlength + j > 1024 ) {
 			break;
