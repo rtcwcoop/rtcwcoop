@@ -681,7 +681,18 @@ void respawn( gentity_t *ent ) {
 
         // DHM - Nerve :: Decrease the number of respawns left
         if ( g_maxlives.integer > 0 && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 ) {
-                ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+                // fretn
+                // the team looses a life, so -- for everyone
+                if ( g_sharedlives.integer == 1) {
+                        gentity_t *tmpent;
+                        int i;
+                        for ( i = 0; i < level.maxclients; i++ ) {
+                                tmpent = &g_entities[i];
+                                tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+                        }
+                } else {
+                        ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+                }
         }
 
 	// DHM - Nerve :: Already handled in 'limbo()'

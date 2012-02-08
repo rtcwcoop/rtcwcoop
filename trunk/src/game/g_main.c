@@ -56,6 +56,7 @@ extern int bg_pmove_gameskill_integer;
 vmCvar_t g_gametype;
 vmCvar_t g_skipcutscenes;
 vmCvar_t g_maxlives;
+vmCvar_t g_sharedlives;
 vmCvar_t g_healthpenalty;
 
 // Rafael gameskill
@@ -158,6 +159,7 @@ cvarTable_t gameCvarTable[] = {
         //fretn
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
+        { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
         { &g_healthpenalty, "g_healthpenalty", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
 
@@ -2030,8 +2032,8 @@ void CheckExitRules( void ) {
                 }
         }
 
-        // fretn: no fraglimit in coop
-	if ( g_gametype.integer >= GT_SINGLE_PLAYER && g_fraglimit.integer ) {
+        // fretn: no fraglimit in coop and single player
+	if ( g_gametype.integer > GT_SINGLE_PLAYER && g_fraglimit.integer ) {
 		if ( level.teamScores[TEAM_RED] >= g_fraglimit.integer ) {
 			trap_SendServerCommand( -1, "print \"Red hit the fraglimit.\n\"" );
 			LogExit( "Fraglimit hit." );

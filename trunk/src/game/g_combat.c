@@ -1234,10 +1234,20 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                         //attacker->health -= take;
                         // fretn
                         //attacker->die( attacker, inflictor, attacker, take, mod );
-                        attacker->client->ps.stats[STAT_HEALTH] = attacker->health = 0;
+                        /*attacker->client->ps.stats[STAT_HEALTH] = attacker->health = 0;
                         player_die( attacker, attacker, attacker, 100000, MOD_SUICIDE );
                         if ( attacker->s.number >= MAX_CLIENTS && attacker->health <= 0 ) { // might have revived itself in death function
                                 G_Script_ScriptEvent( attacker, "death", "" );
+                        }*/
+                        if ( g_healthpenalty.integer ) {
+                                attacker->health = attacker->health - take;
+                                // show some pain !
+                                if ( attacker->pain )
+                                        targ->pain( attacker, targ, take, point );
+                        }
+
+                        if ( attacker->client ) {
+                                 attacker->client->ps.stats[STAT_HEALTH] = attacker->health;
                         }
                 }
                 else
@@ -1310,6 +1320,9 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                         if ( targ->client ) {
                                 targ->client->ps.stats[STAT_HEALTH] = targ->health;
 		        }
+                        if ( attacker->client ) {
+                                 attacker->client->ps.stats[STAT_HEALTH] = attacker->health;
+                        }
                 }
 	}
 
