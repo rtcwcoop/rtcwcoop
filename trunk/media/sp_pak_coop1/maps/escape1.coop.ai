@@ -2954,6 +2954,11 @@ nazi26
 	}
 }
 
+
+
+
+
+
 coop_ai_soldier_1		// below the cages
 {
 	attributes
@@ -2973,11 +2978,6 @@ coop_ai_soldier_1		// below the cages
 		statetype alert
 	}
 }
-
-
-
-
-
 
 coop_ai_soldier_2		// below the cages
 {
@@ -3096,10 +3096,7 @@ coop_ai_soldier_8		// in the barrack
 	spawn
 	{
 		setammo ammo_grenades 0
-		takeweapon weapon_mp40
-		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_luger
 		statetype alert
 	}
 }

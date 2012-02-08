@@ -3011,3 +3011,330 @@ nazi36
 		playsound MiscKillHim
 	}
 }
+
+coop_ai_soldier_70		// near the fireplace with officer
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_71		// in the secret room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_72		// at the window
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_73		// at the circle-stair
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_74		// on the top of circle-stair
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_76		// hiding near the stairs
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_77		// in the 2nd barrack
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_78		// in control-room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_79		// at the gate
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_80		// in the 1st barrack (at the start)
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_81		// in the hallway after the outside area
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_82		// in the small room near the fireplace
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_83		// down, between the stairs
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_84		// in the weinkeller
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_85		// in the 3rd barrack
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_86		// below the bridge
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		giveweapon weapon_mauserrifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserrifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_87		// in the 4th barrack
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_88		// in the exit room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_89		// in the exit room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+

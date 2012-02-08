@@ -45,3 +45,126 @@
 "origin" "-978 1466 -103"
 "angle" "-90"
 }
+
+{
+"classname" "ai_soldier"
+"origin" "-1692 1145 -135"
+"ainame" "coop_ai_soldier_70"
+"head" "escape1"
+"angle" "88"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1220 1449 -103"
+"ainame" "coop_ai_soldier_71"
+"angle" "172"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1658 907 -279"
+"ainame" "coop_ai_soldier_72"
+"head" "escape2"
+"angle" "-178"
+}
+{
+"classname" "ai_soldier"
+"origin" "412 562 -87"
+"ainame" "coop_ai_soldier_73"
+"head" "escape2"
+"angle" "-80"
+}
+{
+"classname" "ai_soldier"
+"origin" "420 556 152"
+"ainame" "coop_ai_soldier_74"
+"angle" "66"
+}
+{
+"classname" "ai_soldier"
+"origin" "60 1165 24"
+"ainame" "coop_ai_soldier_76"
+"angle" "90"
+}
+{
+"classname" "ai_soldier"
+"origin" "93 822 -167"
+"ainame" "coop_ai_soldier_77"
+"head" "escape1"
+"angle" "139"
+}
+{
+"classname" "ai_soldier"
+"origin" "-813 141 -103"
+"ainame" "coop_ai_soldier_78"
+"angle" "-2"
+}
+{
+"classname" "ai_soldier"
+"origin" "626 832 152"
+"ainame" "coop_ai_soldier_79"
+"angle" "-179"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1254 1464 -359"
+"ainame" "coop_ai_soldier_80"
+"angle" "28"
+}
+{
+"classname" "ai_soldier"
+"origin" "459 1908 296"
+"ainame" "coop_ai_soldier_81"
+"head" "escape1"
+"angle" "179"
+}
+{
+"classname" "ai_soldier"
+"origin" "499 2344 296"
+"ainame" "coop_ai_soldier_82"
+"head" "escape2"
+"angle" "73"
+}
+{
+"classname" "ai_soldier"
+"origin" "-280 2369 8"
+"ainame" "coop_ai_soldier_83"
+"angle" "0"
+}
+{
+"classname" "ai_soldier"
+"origin" "-488 2132 8"
+"ainame" "coop_ai_soldier_84"
+"head" "escape1"
+"angle" "-53"
+}
+{
+"classname" "ai_soldier"
+"origin" "1666 2039 -199"
+"ainame" "coop_ai_soldier_85"
+"angle" "178"
+}
+{
+"classname" "ai_soldier"
+"origin" "986 717 -223"
+"ainame" "coop_ai_soldier_86"
+"angle" "-86"
+}
+{
+"classname" "ai_soldier"
+"origin" "1444 784 -199"
+"ainame" "coop_ai_soldier_87"
+"angle" "-96"
+}
+{
+"classname" "ai_soldier"
+"origin" "1487 104 72"
+"ainame" "coop_ai_soldier_88"
+"angle" "1"
+}
+{
+"classname" "ai_soldier"
+"origin" "1596 62 72"
+"ainame" "coop_ai_soldier_89"
+"head" "escape1"
+"angle" "148"
+}

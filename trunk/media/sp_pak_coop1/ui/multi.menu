@@ -1141,9 +1141,9 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_MULTI	
 					textfont		UI_FONT_NORMAL
-					text			"Common Lives:  "
-					cvar			"g_commonlives"
-					cvarFloatList	{ "yes" 0 "no" 1 }
+					text			"Shared Lives:  "
+					cvar			"g_sharedlives"
+					cvarFloatList	{ "yes" 1 "no" 0 }
 					rect			295 290 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
@@ -1230,7 +1230,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Allow Health-Penalty:  "
 					cvar			"g_healthpenalty"
-					cvarFloatList	{ "yes" 1 "no" 0 }
+					cvarFloatList	{ "No Penalty" 0 "Simple Health-Penalty" 1 "Double Health-Penalty" 2 }
 					rect			295 360 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
@@ -2208,7 +2208,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Health Penalty for Friendly Fire"
+				text "Health-Penalty for Friendly Fire"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
