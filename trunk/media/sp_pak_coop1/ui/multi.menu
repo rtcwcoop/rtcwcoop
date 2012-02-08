@@ -984,7 +984,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Skill:  "
 					cvar			"g_gameskill"
-					cvarFloatList	{ "Don't hurt me." 0 "Bring'em on!" 1 "I am Death incarnate!" 2 "NIGHTMARE!" 3 }
+					cvarFloatList	{ "Normal" 1 "Hard" 2 "NIGHTMARE!" 3 }
 					rect			295 175 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
@@ -1230,7 +1230,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Allow Health-Penalty:  "
 					cvar			"g_healthpenalty"
-					cvarFloatList	{ "No Penalty" 0 "Simple Health-Penalty" 1 "Double Health-Penalty" 2 }
+					cvarFloatList	{ "No Penalty" 0 "Health-Penalty" 1 "Double Health-Penalty" 2 }
 					rect			295 360 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
