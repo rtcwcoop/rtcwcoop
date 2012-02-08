@@ -101,6 +101,10 @@ qhandle_t RE_RegisterModel( const char *name ) {
 	qhandle_t hModel;
 	int numLoaded;
 
+        // fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
+        // there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
+        qboolean ignore = qfalse;; 
+
 	if ( !name || !name[0] ) {
 		// Ridah, disabled this, we can see models that can't be found because they won't be there
 		//ri.Printf( PRINT_ALL, "RE_RegisterModel: NULL name\n" );
@@ -111,6 +115,13 @@ qhandle_t RE_RegisterModel( const char *name ) {
 		Com_Printf( "Model name exceeds MAX_QPATH\n" );
 		return 0;
 	}
+
+        // fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
+        // there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
+        if ( !strcmp(name, "models/mapobjects/tree/tree_m08.md3") ||
+          !strcmp(name, "models/mapobjects/tree/tree_m07.md3")) {
+                ignore = qtrue;
+        }
 
 	// Ridah, caching
 	if ( r_cacheGathering->integer ) {
@@ -198,10 +209,12 @@ qhandle_t RE_RegisterModel( const char *name ) {
 			strcat( filename, namebuf );
 		}
 
-		if ( r_compressModels->integer ) {
+                // fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
+                // there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
+		if ( r_compressModels->integer || ignore) {
 			filename[strlen( filename ) - 1] = '3';  // try MD3 first
 		} else {
-			filename[strlen( filename ) - 1] = 'c';  // try MDC first
+                        filename[strlen( filename ) - 1] = 'c';  // try MDC first
 		}
 		ri.FS_ReadFile( filename, (void **)&buf );
 
