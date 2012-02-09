@@ -137,6 +137,8 @@ player
 		trigger spawner zone1calm
 		trigger nazi2 nohelp
 		trigger alarm exitcells
+		alertentity coop_ai_soldier_3
+		alertentity coop_ai_soldier_4
 	}
 
 	trigger lowernoise
@@ -152,6 +154,8 @@ player
 	{
 		trigger nazi2 getballs2
 		trigger nazi5 inhall5
+		alertentity coop_ai_soldier_5
+		alertentity coop_ai_soldier_6
 	}
 
 	trigger action5
@@ -160,6 +164,8 @@ player
 		alertentity nazi7
 		alertentity nazi8
 		alertentity nazi9
+		alertentity coop_ai_soldier_10
+		alertentity coop_ai_soldier_7
 	}
 
 	trigger action6
@@ -177,6 +183,9 @@ player
 		trigger nazi6 snuckby
 		trigger nazi8 useattackd
 		trigger dialog radiotalk
+		alertentity coop_ai_soldier_9
+		alertentity coop_ai_soldier_11
+		alertentity coop_ai_soldier_12
 	}
 
 	trigger wake_radio
@@ -196,8 +205,10 @@ player
 		trigger spawner meetingroom
 		trigger nazi7 moveposition7
 		trigger nazi8 moveposition8
+		alertentity coop_ai_soldier_13
+		alertentity coop_ai_soldier_14
 	}
-
+	
 	trigger action10a
 	{
 		accum 0 abort_if_not_bitset 3
@@ -205,6 +216,7 @@ player
 		alertentity nazi17
 		alertentity nazi18
 		alertentity nazi15
+		alertentity coop_ai_soldier_15
 		alertentity fakewall
 		trigger player musicmoving
 	}
@@ -222,6 +234,7 @@ player
 		trigger nazi9 longrun9
 		trigger nazi17 clear17
 		trigger nazi18 clear18
+		alertentity coop_ai_soldier_16
 	}
 
 	trigger action12
@@ -240,6 +253,7 @@ player
 	trigger action14
 	{
 		objectivemet 2
+		alertentity coop_ai_soldier_19
 	}
 
 	trigger action16
@@ -251,6 +265,7 @@ player
 	trigger action17
 	{
 		trigger spawner barracks
+		alertentity coop_ai_soldier_8
 	}
 
 	trigger action18
@@ -271,6 +286,8 @@ player
 	trigger action21
 	{
 		trigger nazi23 freeup23
+		alertentity coop_ai_soldier_17
+		alertentity coop_ai_soldier_18
 	}
 
 	trigger callalarm
@@ -3118,7 +3135,7 @@ coop_ai_soldier_9		// on the top of circle stairs
 	}
 }
 
-coop_ai_soldier_10		// on the roof of castle
+coop_ai_soldier_10		// on the rooftop
 {
 	attributes
 	{

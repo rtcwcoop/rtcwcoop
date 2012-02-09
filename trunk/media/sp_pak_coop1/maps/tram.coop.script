@@ -562,13 +562,9 @@ zone1
 		accum 0 bitreset 1
 
 		alertentity nazi25
-//		wait 2000
 		alertentity exitopen
-//		wait 1000
 		alertentity nazi26
-//		wait 1000
 		alertentity nazi27
-//		wait 1000
 		alertentity nazi28
 	}
 

@@ -50,6 +50,7 @@ player
 	{
 		alertentity officer1
 		trigger dialog firstroom
+		alertentity coop_ai_soldier_1
 	}
 
 	trigger action2
@@ -60,6 +61,7 @@ player
 	trigger action3
 	{
 		trigger spawner spawnnazi3
+		alertentity coop_ai_soldier_10
 	}
 
 	trigger action4
@@ -73,6 +75,10 @@ player
 		trigger spawner spawnnazi89
 		trigger nazi7 clearorders	// should only be used when alarm triggered
 		trigger nazi4 clearorders	// should only be used when alarm triggered
+		alertentity coop_ai_soldier_4
+		alertentity coop_ai_soldier_5
+		alertentity coop_ai_soldier_6
+		alertentity coop_ai_soldier_9
 	}
 
 	trigger action6
@@ -85,6 +91,11 @@ player
 	{
 		trigger officer2 upstairs
 		trigger spawner spawnnazi567 // this happens only if no alarm has been set
+		alertentity coop_ai_soldier_7
+		alertentity coop_ai_soldier_8
+		alertentity coop_ai_soldier_2
+		alertentity coop_ai_soldier_11
+		alertentity coop_ai_soldier_12
 	}
 
 	trigger advance1
@@ -101,12 +112,14 @@ player
 	{
 		alertentity nazi10
 		alertentity nazi11
+		alertentity coop_ai_soldier_13
 	}
 
 	trigger action9
 	{
 		trigger dialog wineroom
 		alertentity nazi15
+		alertentity coop_ai_soldier_14
 	}
 
 	trigger action10
@@ -137,6 +150,11 @@ player
 	trigger action14
 	{
 		alertentity nazi24
+		alertentity coop_ai_soldier_20
+		alertentity coop_ai_soldier_21
+		alertentity coop_ai_soldier_22
+		alertentity coop_ai_soldier_15
+		alertentity coop_ai_soldier_16
 	}
 
 	trigger action15
@@ -155,6 +173,9 @@ player
 	{
 		alertentity nazi35
 		alertentity nazi36
+		alertentity coop_ai_soldier_17
+		alertentity coop_ai_soldier_18
+		alertentity coop_ai_soldier_19
 	}
 
 	trigger action17
@@ -3012,7 +3033,7 @@ nazi36
 	}
 }
 
-coop_ai_soldier_70		// near the fireplace with officer
+coop_ai_soldier_1		// near the fireplace with officer
 {
 	attributes
 	{
@@ -3029,7 +3050,7 @@ coop_ai_soldier_70		// near the fireplace with officer
 	}
 }
 
-coop_ai_soldier_71		// in the secret room
+coop_ai_soldier_2		// in the secret room
 {
 	attributes
 	{
@@ -3046,7 +3067,7 @@ coop_ai_soldier_71		// in the secret room
 	}
 }
 
-coop_ai_soldier_72		// at the window
+coop_ai_soldier_3		// at the window
 {
 	attributes
 	{
@@ -3063,7 +3084,7 @@ coop_ai_soldier_72		// at the window
 	}
 }
 
-coop_ai_soldier_73		// at the circle-stair
+coop_ai_soldier_4		// at the circle-stair
 {
 	attributes
 	{
@@ -3080,7 +3101,7 @@ coop_ai_soldier_73		// at the circle-stair
 	}
 }
 
-coop_ai_soldier_74		// on the top of circle-stair
+coop_ai_soldier_5		// on the top of circle-stair
 {
 	attributes
 	{
@@ -3097,7 +3118,7 @@ coop_ai_soldier_74		// on the top of circle-stair
 	}
 }
 
-coop_ai_soldier_76		// hiding near the stairs
+coop_ai_soldier_6		// hiding near the stairs
 {
 	attributes
 	{
@@ -3114,7 +3135,7 @@ coop_ai_soldier_76		// hiding near the stairs
 	}
 }
 
-coop_ai_soldier_77		// in the 2nd barrack
+coop_ai_soldier_7		// in the 2nd barrack
 {
 	attributes
 	{
@@ -3131,7 +3152,7 @@ coop_ai_soldier_77		// in the 2nd barrack
 	}
 }
 
-coop_ai_soldier_78		// in control-room
+coop_ai_soldier_8		// in control-room
 {
 	attributes
 	{
@@ -3148,7 +3169,7 @@ coop_ai_soldier_78		// in control-room
 	}
 }
 
-coop_ai_soldier_79		// at the gate
+coop_ai_soldier_9		// at the gate
 {
 	attributes
 	{
@@ -3165,7 +3186,7 @@ coop_ai_soldier_79		// at the gate
 	}
 }
 
-coop_ai_soldier_80		// in the 1st barrack (at the start)
+coop_ai_soldier_10		// in the 1st barrack (at the start)
 {
 	attributes
 	{
@@ -3182,7 +3203,7 @@ coop_ai_soldier_80		// in the 1st barrack (at the start)
 	}
 }
 
-coop_ai_soldier_81		// in the hallway after the outside area
+coop_ai_soldier_11		// in the hallway after the outside area
 {
 	attributes
 	{
@@ -3199,7 +3220,7 @@ coop_ai_soldier_81		// in the hallway after the outside area
 	}
 }
 
-coop_ai_soldier_82		// in the small room near the fireplace
+coop_ai_soldier_12		// in the small room near the fireplace
 {
 	attributes
 	{
@@ -3216,7 +3237,7 @@ coop_ai_soldier_82		// in the small room near the fireplace
 	}
 }
 
-coop_ai_soldier_83		// down, between the stairs
+coop_ai_soldier_13		// down, between the stairs
 {
 	attributes
 	{
@@ -3233,7 +3254,7 @@ coop_ai_soldier_83		// down, between the stairs
 	}
 }
 
-coop_ai_soldier_84		// in the weinkeller
+coop_ai_soldier_14		// in the weinkeller
 {
 	attributes
 	{
@@ -3250,7 +3271,7 @@ coop_ai_soldier_84		// in the weinkeller
 	}
 }
 
-coop_ai_soldier_85		// in the 3rd barrack
+coop_ai_soldier_15		// in the 3rd barrack
 {
 	attributes
 	{
@@ -3267,7 +3288,7 @@ coop_ai_soldier_85		// in the 3rd barrack
 	}
 }
 
-coop_ai_soldier_86		// below the bridge
+coop_ai_soldier_16		// below the bridge
 {
 	attributes
 	{
@@ -3287,7 +3308,7 @@ coop_ai_soldier_86		// below the bridge
 	}
 }
 
-coop_ai_soldier_87		// in the 4th barrack
+coop_ai_soldier_17		// in the 4th barrack
 {
 	attributes
 	{
@@ -3304,7 +3325,7 @@ coop_ai_soldier_87		// in the 4th barrack
 	}
 }
 
-coop_ai_soldier_88		// in the exit room
+coop_ai_soldier_18		// in the exit room
 {
 	attributes
 	{
@@ -3321,7 +3342,7 @@ coop_ai_soldier_88		// in the exit room
 	}
 }
 
-coop_ai_soldier_89		// in the exit room
+coop_ai_soldier_19		// in the exit room
 {
 	attributes
 	{
@@ -3338,3 +3359,53 @@ coop_ai_soldier_89		// in the exit room
 	}
 }
 
+coop_ai_soldier_20		// in the back hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_21		// in the back hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_22		// in the back hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
