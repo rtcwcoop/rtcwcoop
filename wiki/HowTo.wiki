@@ -60,6 +60,9 @@ Limits the number of coop players in a game. sv_maxclients still exists and shou
 == g_maxlives ==
 The number of the times a player can die before he can't play anymore. Set to 0 to disable it.
 
+== g_sharedlives ==
+If set to 1 then the g_maxlives is a teamvalue
+
 == g_friendlyfire ==
 value 0: you can't hit friends
 value 1: you can hit friends
