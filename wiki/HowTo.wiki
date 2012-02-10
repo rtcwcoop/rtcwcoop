@@ -60,8 +60,12 @@ Limits the number of coop players in a game. sv_maxclients still exists and shou
 == g_maxlives ==
 The number of the times a player can die before he can't play anymore. Set to 0 to disable it.
 
-== g_healthpenalty ==
-if set to 1 and you hit a teammate, you loose health, set to 0 to disable this.
+== g_friendlyfire ==
+value 0: you can't hit friends
+value 1: you can hit friends
+value 2: you can hit friends but you loose the health instead (also score goes down)
+value 3: you can hit friends but you loose the health instead (and also twice the score)
+friends are: civilians and the other coop players
 
 = Cmds =
 ==+dropweapon==
