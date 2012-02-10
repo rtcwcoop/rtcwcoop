@@ -57,7 +57,6 @@ vmCvar_t g_gametype;
 vmCvar_t g_skipcutscenes;
 vmCvar_t g_maxlives;
 vmCvar_t g_sharedlives;
-vmCvar_t g_healthpenalty;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
@@ -160,7 +159,6 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
         { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
-        { &g_healthpenalty, "g_healthpenalty", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },

@@ -1239,7 +1239,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                         if ( attacker->s.number >= MAX_CLIENTS && attacker->health <= 0 ) { // might have revived itself in death function
                                 G_Script_ScriptEvent( attacker, "death", "" );
                         }*/
-                        if ( g_healthpenalty.integer ) {
+                        if ( g_friendlyFire.integer == 2 ) {
                                 attacker->health = attacker->health - take;
                                 // show some pain !
                                 if ( attacker->pain )
@@ -1252,7 +1252,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                 }
                 else
                 {
-                        if ( g_healthpenalty.integer ) {
+                        if ( g_friendlyFire.integer == 2 ) {
                                 if  ( attacker->client && targ->client && !(attacker->r.svFlags & SVF_CASTAI) && !(targ->r.svFlags & SVF_CASTAI) ) {// if you hit a teammate, you hit yourself !
                                         attacker->health = attacker->health - take;
                                         // show some pain !

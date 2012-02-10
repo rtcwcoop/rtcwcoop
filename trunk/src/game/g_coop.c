@@ -255,7 +255,7 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
         // General player stats
         //if ( mod != MOD_SYRINGE ) {
                 if  ( !(targ->r.svFlags & SVF_CASTAI) ) {
-                        if (g_healthpenalty.integer == 2)
+                        if ( g_friendlyFire.integer == 3 )
                                 attacker->client->sess.damage_given -= (dmg*2);
                         else
                                 attacker->client->sess.damage_given -= dmg;
