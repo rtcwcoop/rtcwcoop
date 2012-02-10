@@ -689,10 +689,10 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 				// it's been modified, so grab the new value
 				Cvar_Get( "sv_maxcoopclients", "8", 0 );
 			}
-			if ( sv_maxclients->integer > MAX_COOP_CLIENTS ) {
+			if ( sv_maxcoopclients->integer > MAX_COOP_CLIENTS ) {
 				Cvar_SetValue( "sv_maxcoopclients", MAX_COOP_CLIENTS );
 			}
-			if ( sv_maxclients->integer < 1 ) {
+			if ( sv_maxcoopclients->integer < 1 ) {
 				Cvar_SetValue( "sv_maxcoopclients", 1);
 			}
                 }
