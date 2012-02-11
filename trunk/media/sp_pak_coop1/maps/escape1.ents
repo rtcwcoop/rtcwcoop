@@ -109,10 +109,10 @@
 }
 {
 "classname" "ai_soldier"
-"origin" "-129 292 728"
+"origin" "340 -61 696"
 "ainame" "coop_ai_soldier_9"
 "spawnflags" "1"
-"angle" "-100"
+"angle" "98"
 }
 {
 "classname" "ai_soldier"
@@ -189,3 +189,64 @@
 "spawnflags" "1"
 "angle" "-90"
 }
+{
+"classname" "ai_soldier"
+"origin" "476 448 -551"
+"ainame" "coop_ai_soldier_20"
+"spawnflags" "1"
+"head" "escape1"
+"angle" "-1"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1347 1350 -119"
+"ainame" "coop_ai_soldier_21"
+"spawnflags" "1"
+"head" "escape1"
+"angle" "53"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1062 1599 104"
+"ainame" "coop_ai_soldier_22"
+"spawnflags" "1"
+"angle" "-124"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1245 1382 200"
+"ainame" "coop_ai_soldier_23"
+"spawnflags" "1"
+"head" "escape1"
+"angle" "59"
+}
+{
+"classname" "ai_soldier"
+"origin" "-21 1344 712"
+"ainame" "coop_ai_soldier_24"
+"spawnflags" "1"
+"angle" "179"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1198 1148 376"
+"ainame" "coop_ai_soldier_25"
+"spawnflags" "1"
+"angle" "3"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1238 -491 376"
+"ainame" "coop_ai_soldier_26"
+"spawnflags" "1"
+"angle" "21"
+}
+{
+"classname" "ai_soldier"
+"origin" "-2593 791 152"
+"ainame" "coop_ai_soldier_27"
+"spawnflags" "1"
+"head" "escape1"
+"angle" "-10"
+}
+

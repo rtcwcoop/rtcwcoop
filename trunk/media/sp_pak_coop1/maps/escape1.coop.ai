@@ -121,6 +121,7 @@ player
 	trigger action1b
 	{
 		trigger nazi1 hands1
+		alertentity coop_ai_soldier_20
 	}
 
 	trigger action2
@@ -156,6 +157,9 @@ player
 		trigger nazi5 inhall5
 		alertentity coop_ai_soldier_5
 		alertentity coop_ai_soldier_6
+		alertentity coop_ai_soldier_21
+		alertentity coop_ai_soldier_22
+		alertentity coop_ai_soldier_23
 	}
 
 	trigger action5
@@ -166,6 +170,8 @@ player
 		alertentity nazi9
 		alertentity coop_ai_soldier_10
 		alertentity coop_ai_soldier_7
+		alertentity coop_ai_soldier_24
+		alertentity coop_ai_soldier_25
 	}
 
 	trigger action6
@@ -186,6 +192,7 @@ player
 		alertentity coop_ai_soldier_9
 		alertentity coop_ai_soldier_11
 		alertentity coop_ai_soldier_12
+		alertentity coop_ai_soldier_26
 	}
 
 	trigger wake_radio
@@ -259,7 +266,6 @@ player
 	trigger action16
 	{
 		trigger nazi15 moveunder15
-		trigger nazi16 moveunder16
 	}
 
 	trigger action17
@@ -281,6 +287,8 @@ player
 	trigger action20
 	{
 		trigger zone3thru5 exitz3
+		alertentity coop_ai_soldier_16
+		alertentity coop_ai_soldier_27
 	}
 
 	trigger action21
@@ -3118,7 +3126,7 @@ coop_ai_soldier_8		// in the barrack
 	}
 }
 
-coop_ai_soldier_9		// on the top of circle stairs
+coop_ai_soldier_9		// on the rooftop
 {
 	attributes
 	{
@@ -3135,7 +3143,7 @@ coop_ai_soldier_9		// on the top of circle stairs
 	}
 }
 
-coop_ai_soldier_10		// on the rooftop
+coop_ai_soldier_10		// on the rooftop 2
 {
 	attributes
 	{
@@ -3307,3 +3315,150 @@ coop_ai_soldier_19		// in the exit room
 		statetype alert
 	}
 }
+
+coop_ai_soldier_20		// Near the doctor
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+		statetype alert
+	}
+}
+
+coop_ai_soldier_21		// On the big stairs
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_22		// On the big stairs
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_23		// Top of the big stairs
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_24		// Rooftop
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_25		// Near the door
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		giveweapon weapon_mauserrifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserrifle
+	}
+}
+
+coop_ai_soldier_26		// near the Mauserguys
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		giveweapon weapon_mauserrifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserrifle
+	}
+}
+
+coop_ai_soldier_27		// Knightroom
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 2
+		takeweapon weapon_mp40
+		giveweapon weapon_mauserrifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserrifle
+
+	}
+}
+
