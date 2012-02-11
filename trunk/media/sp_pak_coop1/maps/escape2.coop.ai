@@ -51,6 +51,7 @@ player
 		alertentity officer1
 		trigger dialog firstroom
 		alertentity coop_ai_soldier_1
+		alertentity coop_ai_soldier_23
 	}
 
 	trigger action2
@@ -62,6 +63,7 @@ player
 	{
 		trigger spawner spawnnazi3
 		alertentity coop_ai_soldier_10
+		alertentity coop_ai_soldier_24
 	}
 
 	trigger action4
@@ -77,14 +79,18 @@ player
 		trigger nazi4 clearorders	// should only be used when alarm triggered
 		alertentity coop_ai_soldier_4
 		alertentity coop_ai_soldier_5
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_9
+		alertentity coop_ai_soldier_25
 	}
 
 	trigger action6
 	{
 		trigger nazi8 march8
 		trigger officer2 clearorders	// should only be used when alarm triggered
+		alertentity coop_ai_soldier_6
+		alertentity coop_ai_soldier_9		
+		alertentity coop_ai_soldier_26		
+		alertentity coop_ai_soldier_27
+		alertentity coop_ai_soldier_28
 	}
 
 	trigger action7
@@ -113,6 +119,7 @@ player
 		alertentity nazi10
 		alertentity nazi11
 		alertentity coop_ai_soldier_13
+		alertentity coop_ai_soldier_29
 	}
 
 	trigger action9
@@ -176,6 +183,8 @@ player
 		alertentity coop_ai_soldier_17
 		alertentity coop_ai_soldier_18
 		alertentity coop_ai_soldier_19
+		alertentity coop_ai_soldier_30
+		alertentity coop_ai_soldier_31
 	}
 
 	trigger action17
@@ -3394,6 +3403,165 @@ coop_ai_soldier_21		// in the back hallway
 }
 
 coop_ai_soldier_22		// in the back hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_23		// start window, fireplace room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_24		// at the end of long hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		giveweapon weapon_mauserrifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserrifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_25		// after the hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_26		// after the outside-stair 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_27		// after the outside-stair 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		giveweapon weapon_mauserrifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserrifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_28		// behind the boxes
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_29		// bottom of stairs
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_30		// last square 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_31		// last square 2
 {
 	attributes
 	{

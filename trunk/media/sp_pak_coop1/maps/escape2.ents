@@ -1,48 +1,48 @@
 {
 "classname" "info_player_coop"
-"origin" "-966 1581 -103"
+"origin" "-931 1559 -103"
 "angle" "-90"
 }
 
 {
 "classname" "info_player_coop"
-"origin" "-1020 1581 -103"
+"origin" "-967 1561 -103"
 "angle" "-90"
 }
 
 {
 "classname" "info_player_coop"
-"origin" "-930 1550 -103"
+"origin" "-1022 1569 -103"
 "angle" "-90"
 }
 
 {
 "classname" "info_player_coop"
-"origin" "-995 1542 -103"
+"origin" "-1056 1569 -103"
 "angle" "-90"
 }
 
 {
 "classname" "info_player_coop"
-"origin" "-1060 1550 -103"
+"origin" "-1055 1523 -103"
 "angle" "-90"
 }
 
 {
 "classname" "info_player_coop"
-"origin" "-922 1504 -103"
+"origin" "-1017 1520 -103"
 "angle" "-90"
 }
 
 {
 "classname" "info_player_coop"
-"origin" "-994 1496 -103"
+"origin" "-971 1519 -103"
 "angle" "-90"
 }
 
 {
 "classname" "info_player_coop"
-"origin" "-1044 1504 -103"
+"origin" "-929 1516 -103"
 "angle" "-90"
 }
 
@@ -78,7 +78,7 @@
 }
 {
 "classname" "ai_soldier"
-"origin" "420 556 152"
+"origin" "420 524 152"
 "ainame" "coop_ai_soldier_5"
 "spawnflags" "1"
 "angle" "66"
@@ -207,4 +207,70 @@
 "ainame" "coop_ai_soldier_22"
 "spawnflags" "1"
 "angle" "83"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1874 1120 -135"
+"ainame" "coop_ai_soldier_23"
+"spawnflags" "1"
+"angle" "-100"
+}
+{
+"classname" "ai_soldier"
+"origin" "-100 549 -359"
+"ainame" "coop_ai_soldier_24"
+"head" "escape1"
+"spawnflags" "1"
+"angle" "175"
+}
+{
+"classname" "ai_soldier"
+"origin" "185 536 -295"
+"ainame" "coop_ai_soldier_25"
+"head" "escape1"
+"spawnflags" "1"
+"angle" "89"
+}
+{
+"classname" "ai_soldier"
+"origin" "217 1561 296"
+"ainame" "coop_ai_soldier_26"
+"spawnflags" "1"
+"angle" "-92"
+}
+{
+"classname" "ai_soldier"
+"origin" "-189 1572 296"
+"ainame" "coop_ai_soldier_27"
+"spawnflags" "1"
+"angle" "-77"
+}
+{
+"classname" "ai_soldier"
+"origin" "-160 512 152"
+"ainame" "coop_ai_soldier_28"
+"head" "escape1"
+"spawnflags" "1"
+"angle" "128"
+}
+{
+"classname" "ai_soldier"
+"origin" "121 2475 8"
+"ainame" "coop_ai_soldier_29"
+"spawnflags" "1"
+"angle" "-148"
+}
+{
+"classname" "ai_soldier"
+"origin" "1458 929 216"
+"ainame" "coop_ai_soldier_30"
+"spawnflags" "1"
+"angle" "-99"
+}
+{
+"classname" "ai_soldier"
+"origin" "1448 723 216"
+"ainame" "coop_ai_soldier_31"
+"spawnflags" "1"
+"angle" "91"
 }
