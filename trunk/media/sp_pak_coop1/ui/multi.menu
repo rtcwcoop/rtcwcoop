@@ -1074,10 +1074,11 @@ itemDef {
 				itemDef {
 					name			normal
 					group			grpCreate
-					type			ITEM_TYPE_YESNO
+					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
 					text			"Friendly Fire:  "
 					cvar			"g_friendlyFire"
+					cvarFloatList	{ "Off" 0 "On" 1 "On + Penalty" 2 "On + High Penalty" 3}
 					rect			295 245 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
@@ -1222,29 +1223,6 @@ itemDef {
 					mouseenter		{ show message_cutscenes }
 					mouseexit		{ hide message_cutscenes }
 					}
-
-				itemDef {
-					name			normal
-					group			grpCreate
-					type			ITEM_TYPE_MULTI	
-					textfont		UI_FONT_NORMAL
-					text			"Allow Health-Penalty:  "
-					cvar			"g_healthpenalty"
-					cvarFloatList	{ "No Penalty" 0 "Health-Penalty" 1 "Double Health-Penalty" 2 }
-					rect			295 360 290 12
-				//	origin			ORIGIN_WINDOW2
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145
-					textaligny		10
-					textscale		.25
-					backcolor		1 1 1 .07 		  
-					forecolor		1 1 1 1
-					visible			1
-					mouseenter		{ show message_healthpenalty }
-					mouseexit		{ hide message_healthpenalty }
-					}
-					
 					
 				itemDef {
 					name				start
@@ -2197,21 +2175,5 @@ itemDef {
 				visible 0
 				}
 
-			itemDef {
-				name message_healthpenalty
-				group grpmessage
-				style 0 
-				textfont UI_FONT_NORMAL
-				rect 320 437 128 30
-				textalign 1
-				textalignx 0
-				textstyle 1
-				textaligny 25
-				textscale .25
-				text "Health-Penalty for Friendly Fire"
-				forecolor 1 1 1 1
-				decoration 
-				visible 0
-				}
 }
 }
