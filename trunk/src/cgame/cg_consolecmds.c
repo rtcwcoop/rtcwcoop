@@ -445,7 +445,6 @@ static void CG_DumpCastAi_f( void ) {
         }   
 	trap_Argv( 1, aitype, sizeof( aitype ) );
 
-
         if (strcmp("ai_soldier", aitype) && 
                 strcmp("ai_american", aitype) && 
                 strcmp("ai_zombie", aitype) && 
@@ -469,7 +468,6 @@ static void CG_DumpCastAi_f( void ) {
                     CG_Printf( "Usage: dumpcastai <type> [name]\n" );
                     return;
         }
-
 
         if ( trap_Argc() == 3)
 	        trap_Argv( 2, ainame, sizeof( ainame ) );
@@ -524,7 +522,7 @@ static void CG_DumpCastAi_f( void ) {
         }
 
         // Build the entity definition
-        buffptr = va(   "{\n\"classname\" \"%s\"\n\"origin\" \"%i %i %i\"\n\"ainame\" \"%s\"\n\"angle\" \"%i\"\n\"skin\" \"\"\n\"head\" \"\"\n}\n", aitype, (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], ainame, (int)cg.refdefViewAngles[YAW] );
+        buffptr = va(   "{\n\"classname\" \"%s\"\n\"origin\" \"%i %i %i\"\n\"ainame\" \"%s\"\n\"angle\" \"%i\"\n\"skin\" \"\"\n\"head\" \"\"\n\"spawnflags\" \"1\"\n}\n", aitype, (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], ainame, (int)cg.refdefViewAngles[YAW] );
 
         // And write out/acknowledge
         trap_FS_Write( buffptr, strlen( buffptr ), f );
