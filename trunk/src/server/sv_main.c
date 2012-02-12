@@ -754,6 +754,10 @@ qboolean SV_CheckPaused( void ) {
 		return qfalse;
 	}
 
+        // no pausing in coop games
+        if ( sv_gametype->integer <= GT_COOP)
+                return qfalse;
+
 	// only pause if there is just a single client connected
 	count = 0;
 	for ( i = 0,cl = svs.clients ; i < sv_maxclients->integer ; i++,cl++ ) {
