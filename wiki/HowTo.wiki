@@ -70,6 +70,9 @@ value 2: you can hit friends but you loose the health instead (also score goes d
 value 3: you can hit friends but you loose the health instead (and also twice the score)
 friends are: civilians and the other coop players
 
+== g_limbotime ==
+When playing the Speedrun gametype, you respawn at fixed intervals, this interval is set by g_limbotime, default value is 30000 (30 seconds).
+
 = Cmds =
 ==+dropweapon==
  drop your current weapon so your coop friend can pick it up
