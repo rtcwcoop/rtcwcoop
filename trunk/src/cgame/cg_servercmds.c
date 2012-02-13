@@ -167,6 +167,8 @@ void CG_ParseServerinfo( void ) {
         // fretn - ui needs this to render the levelshot of this map in the loading screen
         trap_Cvar_Set( "mapname", Info_ValueForKey( info, "mapname" ) );
 
+        cg_limbotime.integer = atoi( Info_ValueForKey( info,"g_limbotime" ) );
+
 	//	Q_strncpyz( cgs.redTeam, Info_ValueForKey( info, "g_redTeam" ), sizeof(cgs.redTeam) );
 //	trap_Cvar_Set("g_redTeam", cgs.redTeam);
 //	Q_strncpyz( cgs.blueTeam, Info_ValueForKey( info, "g_blueTeam" ), sizeof(cgs.blueTeam) );

@@ -444,60 +444,71 @@ void SetClientViewAngle( gentity_t *ent, vec3_t angle ) {
 limbo
 ================
 */
-void limbo( gentity_t *ent ) {
-	int i,contents;
-	//int startclient = ent->client->sess.spectatorClient;
-	int startclient = ent->client->ps.clientNum;
+void limbo( gentity_t *ent, qboolean makeCorpse ) {
+        int i,contents;
+        //int startclient = ent->client->sess.spectatorClient;
+        int startclient = ent->client->ps.clientNum;
 
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
-		G_Printf( "FIXME: limbo called from single player game.  Shouldn't see this\n" );
-		return;
-	}
-	if ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
+        if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
+                G_Printf( "FIXME: limbo called from wrong gametype.  Shouldn't see this\n" );
+                return;
+        }
+        if ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
 
-		// DHM - Nerve :: First save off persistant info we'll need for respawn
-		for ( i = 0; i < MAX_PERSISTANT; i++ )
-			ent->client->saved_persistant[i] = ent->client->ps.persistant[i];
-		// dhm
+                // DHM - Nerve :: First save off persistant info we'll need for respawn
+                for ( i = 0; i < MAX_PERSISTANT; i++ )
+                        ent->client->saved_persistant[i] = ent->client->ps.persistant[i];
+                // dhm
 
-		ent->client->ps.pm_flags |= PMF_LIMBO;
-		ent->client->ps.pm_flags |= PMF_FOLLOW;
+                ent->client->ps.pm_flags |= PMF_LIMBO;
+                ent->client->ps.pm_flags |= PMF_FOLLOW;
 
-		CopyToBodyQue( ent ); // make a nice looking corpse
+                if ( makeCorpse ) {
+                        CopyToBodyQue( ent ); // make a nice looking corpse
+                } else {
+                        trap_UnlinkEntity( ent );
+                }
 
-		ent->r.maxs[2] = 0;
-		ent->r.currentOrigin[2] += 8;
-		contents = trap_PointContents( ent->r.currentOrigin, -1 ); // drop stuff
-		ent->s.weapon = ent->client->limboDropWeapon; // stored in player_die()
-		if ( !( contents & CONTENTS_NODROP ) &&  g_gametype.integer == GT_SINGLE_PLAYER ) {
-			TossClientItems( ent );
-		}
+                // DHM - Nerve :: reset these values
+                ent->client->ps.viewlocked = 0;
+                ent->client->ps.viewlocked_entNum = 0;
 
+                ent->r.maxs[2] = 0;
+                ent->r.currentOrigin[2] += 8;
+                contents = trap_PointContents( ent->r.currentOrigin, -1 ); // drop stuff
+                ent->s.weapon = ent->client->limboDropWeapon; // stored in player_die()
+                if ( makeCorpse && !( contents & CONTENTS_NODROP ) ) {
+                        TossClientItems( ent );
+                }
 
-		ent->client->sess.spectatorClient = startclient;
-		Cmd_FollowCycle_f( ent,1 ); // get fresh spectatorClient
+                ent->client->sess.spectatorClient = startclient;
+                Cmd_FollowCycle_f( ent,1 ); // get fresh spectatorClient
 
-		if ( ent->client->sess.spectatorClient == startclient ) {
-			// No one to follow, so just stay put
-			ent->client->sess.spectatorState = SPECTATOR_FREE;
-		} else {
-			ent->client->sess.spectatorState = SPECTATOR_FOLLOW;
-		}
+                if ( ent->client->sess.spectatorClient == startclient ) {
+                        // No one to follow, so just stay put
+                        ent->client->sess.spectatorState = SPECTATOR_FREE;
+                } else {
+                        ent->client->sess.spectatorState = SPECTATOR_FOLLOW;
+                }
 
-		ClientUserinfoChanged( ent->client - level.clients );
-		if ( ent->client->sess.sessionTeam == TEAM_RED ) {
-			ent->client->deployQueueNumber = level.redNumWaiting;
-			level.redNumWaiting++;
-		} else if ( ent->client->sess.sessionTeam == TEAM_BLUE )     {
-			ent->client->deployQueueNumber = level.blueNumWaiting;
-			level.blueNumWaiting++;
-		}
+//              ClientUserinfoChanged( ent->client - level.clients );           // NERVE - SMF - don't do this
+                if ( ent->client->sess.sessionTeam == TEAM_RED ) {
+                        ent->client->deployQueueNumber = level.redNumWaiting;
+                        level.redNumWaiting++;
+                } else if ( ent->client->sess.sessionTeam == TEAM_BLUE )     {
+                        ent->client->deployQueueNumber = level.blueNumWaiting;
+                        level.blueNumWaiting++;
+                }
 
-
-//	ClientBegin( ent->client - level.clients );
-
-	}
+                for ( i = 0 ; i < level.maxclients ; i++ ) {
+                        if ( level.clients[i].ps.pm_flags & PMF_LIMBO
+                                 && level.clients[i].sess.spectatorClient == ent->s.number ) {
+                                Cmd_FollowCycle_f( &g_entities[i], 1 );
+                        }
+                }
+        }
 }
+
 
 /* JPW NERVE
 ================
@@ -506,137 +517,38 @@ reinforce
 // -- called when time expires for a team deployment cycle and there is at least one guy ready to go
 */
 void reinforce( gentity_t *ent ) {
-	int i, j, p, team, deployable[256], numDeployable = 0, finished = 0;
-	char *classname = NULL;
-	gentity_t *spot;
-	gclient_t *rclient;
+        int p, team; // numDeployable=0, finished=0; // TTimo unused
+        char *classname;
+        gclient_t *rclient;
 
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
-		G_Printf( "FIXME: reinforce called from single player game.  Shouldn't see this\n" );
-		return;
-	}
-	if ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
-		G_Printf( "player already deployed, skipping\n" );
-		return;
-	}
-	// get team to deploy from passed entity
+        if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
+                G_Printf( "FIXME: reinforce called from wrong gametype.  Shouldn't see this\n" );
+                return;
+        }    
+        if ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
+                G_Printf( "player already deployed, skipping\n" );
+                return;
+        }    
+        // get team to deploy from passed entity
 
-	for ( i = 0; i < level.maxclients; i++ )
-		deployable[i] = -1;
+        team = ent->client->sess.sessionTeam;
 
-	team = ent->client->sess.sessionTeam;
+        // find number active team spawnpoints
+        /*if ( team == TEAM_RED ) {
+                classname = "team_CTF_redspawn";
+        } else if ( team == TEAM_BLUE ) {
+                classname = "team_CTF_bluespawn";
+        } else {
+                assert( 0 ); 
+        }    */
 
+        // DHM - Nerve :: restore persistant data now that we're out of Limbo
+        rclient = ent->client;
+        for ( p = 0; p < MAX_PERSISTANT; p++ )
+                rclient->ps.persistant[p] = rclient->saved_persistant[p];
+        // dhm
 
-	// build initial list
-	for ( i = 0; i < level.maxclients; i++ ) {
-		// skip if not connected
-		if ( level.clients[i].pers.connected != CON_CONNECTED ) {
-			continue;
-		}
-		// skip if not in limbo
-		if ( !( level.clients[i].ps.pm_flags & PMF_LIMBO ) ) {
-			continue;
-		}
-		// skip if not on same team
-		if ( level.clients[i].sess.sessionTeam != team ) {
-			continue;
-		}
-		// still here? add to list
-		deployable[numDeployable] = i;
-		numDeployable++;
-	}
-	G_Printf( "numDeployable=%d\n",numDeployable );
-
-	// bubble sort list on time-based death order
-	while ( !finished ) {
-		finished = 1; // if nothing bad happens, bail out after this pass
-		for ( i = 1; i < numDeployable; i++ )
-			if ( level.clients[deployable[i]].deployQueueNumber < level.clients[deployable[i - 1]].deployQueueNumber ) {
-				G_Printf( "swapping %d and %d (priority %d and %d)\n", deployable[i], deployable[i - 1],
-						  level.clients[deployable[i]].deployQueueNumber, level.clients[deployable[i - 1]].deployQueueNumber );
-				j = deployable[i - 1];
-				deployable[i - 1] = deployable[i];
-				deployable[i] = j;
-				finished = 0; // continue bubble sorting
-			}
-	}
-
-// sanity check
-	G_Printf( "sorted " );
-	for ( i = 0; i < numDeployable; i++ )
-		G_Printf( "%d ",level.clients[deployable[i]] );
-	G_Printf( "\n" );
-
-	// find number active team spawnpoints
-	if ( team == TEAM_RED ) {
-		classname = "team_CTF_redspawn";
-	} else if ( team == TEAM_BLUE ) {
-		classname = "team_CTF_bluespawn";
-	} else {
-		assert( 0 );
-	}
-
-	finished = 0;
-
-
-	spot = NULL;
-
-	while ( ( spot = G_Find( spot, FOFS( classname ), classname ) ) != NULL ) {
-
-		if ( SpotWouldTelefrag( spot ) ) {
-			continue;
-		}
-		if ( spot->spawnflags & 2 ) { // spawnpoint is active
-			finished++;
-		}
-	}
-	G_Printf( "found %d active spawnpoints\n",finished );
-
-	if ( finished < numDeployable ) {
-		j = finished;
-	} else {
-		j = numDeployable;
-	}
-
-	// respawn deployable people
-	for ( i = 0; i < j; i++ ) {
-
-		// DHM - Nerve :: restore persistant data now that we're out of Limbo
-		rclient = g_entities[deployable[i]].client;
-		for ( p = 0; p < MAX_PERSISTANT; p++ )
-			rclient->ps.persistant[p] = rclient->saved_persistant[p];
-		// dhm```
-
-		respawn( &g_entities[deployable[i]] );
-	}
-
-	// re-spool non-deployable people (update time-based death order)
-	// reset next sort value
-	if ( team == TEAM_RED ) {
-		level.redNumWaiting = 0;
-	} else if ( team == TEAM_BLUE ) {
-		level.blueNumWaiting = 0;
-	}
-
-	if ( finished < numDeployable ) {
-		G_Printf( "more deployable are waiting in queue\n" );
-		for ( i = finished,j = 0; i < numDeployable; i++,j++ )
-			level.clients[deployable[i]].deployQueueNumber = j;
-		// reset next sort value
-		if ( team == TEAM_RED ) {
-			level.redNumWaiting = j;
-		} else if ( team == TEAM_BLUE ) {
-			level.blueNumWaiting = j;
-		}
-
-		// sanity check
-		G_Printf( "second sanity check sorted " );
-		for ( i = finished; i < numDeployable; i++ )
-			G_Printf( "%d ",level.clients[deployable[i]].deployQueueNumber );
-		G_Printf( "\n" );
-
-	}
-
+        respawn( ent );
 }
 // jpw
 
@@ -696,9 +608,9 @@ void respawn( gentity_t *ent ) {
         }
 
 	// DHM - Nerve :: Already handled in 'limbo()'
-	//if ( g_gametype.integer != GT_WOLF ) {
-        CopyToBodyQue( ent );
-	//}
+	if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
+                CopyToBodyQue( ent );
+	}
 
 	ClientSpawn( ent );
 

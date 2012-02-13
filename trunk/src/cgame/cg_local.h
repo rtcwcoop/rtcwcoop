@@ -1747,6 +1747,7 @@ extern vmCvar_t cg_wolfparticles;
 extern vmCvar_t cg_gameType;
 //fretn
 extern vmCvar_t cg_entityEditCounter;
+extern vmCvar_t cg_limbotime;
 
 extern vmCvar_t cg_bloodTime;
 extern vmCvar_t cg_norender;

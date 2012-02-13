@@ -736,7 +736,7 @@ void SendPendingPredictableEvents( playerState_t *ps ) {
 	*/
 }
 
-void limbo( gentity_t *ent ); // JPW NERVE
+void limbo( gentity_t *ent, qboolean makeCorpse );
 void reinforce( gentity_t *ent ); // JPW NERVE
 
 void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id );        // NERVE - SMF
@@ -1389,7 +1389,9 @@ void ClientThink_real( gentity_t *ent ) {
 
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
-				if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+                                if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
+                                        limbo( ent, qtrue );
+				} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 					respawn( ent );
 				}
 				// pressing attack or use is the normal respawn method
@@ -1459,8 +1461,9 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 	int do_respawn = 0; // JPW NERVE
 	int savedScore;     // DHM
         int savedRespawns;
+        static int lastReinforceTime = 0;
 	//static int lastRedReinforceTime = 0, lastBlueReinforceTime = 0;
-	//int testtime;
+	int testtime;
 
 	// if we are doing a chase cam or a remote view, grab the latest info
 	if ( ( ent->client->sess.spectatorState == SPECTATOR_FOLLOW ) || ( ent->client->ps.pm_flags & PMF_LIMBO ) ) { // JPW NERVE for limbo
@@ -1485,8 +1488,20 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 			lastBlueReinforceTime = testtime;
 		}*/
 
+
+                if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
+                        testtime = level.time % g_limbotime.integer;
+                        if ( testtime < lastReinforceTime ) 
+                                do_respawn = 1;
+
+                        lastReinforceTime = testtime;
+                }
+
                 if ( ( g_maxlives.integer > 0 ) && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
                         do_respawn = 0; 
+                        // fretn - if no lives left, should go to limbo ?
+                        limbo( ent, qtrue );
+                        return;
                 }
 
 		if ( do_respawn ) {

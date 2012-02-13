@@ -1112,6 +1112,7 @@ extern vmCvar_t g_autospawn;
 extern vmCvar_t g_skipcutscenes;
 extern vmCvar_t g_maxlives;
 extern vmCvar_t g_sharedlives;
+extern vmCvar_t g_limbotime;
 
 // Rafael gameskill
 extern vmCvar_t g_gameskill;

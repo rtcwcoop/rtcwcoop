@@ -57,6 +57,7 @@ vmCvar_t g_gametype;
 vmCvar_t g_skipcutscenes;
 vmCvar_t g_maxlives;
 vmCvar_t g_sharedlives;
+vmCvar_t g_limbotime;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
@@ -160,6 +161,7 @@ cvarTable_t gameCvarTable[] = {
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
         { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
+        { &g_limbotime, "g_limbotime", "10000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_maxGameClients, "g_maxGameClients", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
@@ -1648,7 +1650,6 @@ void MoveClientToIntermission( gentity_t *ent ) {
 	if ( ent->client->sess.spectatorState == SPECTATOR_FOLLOW ) {
 		StopFollowing( ent );
 	}
-
 
 	// move to the spot
 	VectorCopy( level.intermission_origin, ent->s.origin );

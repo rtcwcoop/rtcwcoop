@@ -1036,6 +1036,9 @@ static void CG_DrawDisconnect( void ) {
 	const char      *s;
 	int w;          // bk010215 - FIXME char message[1024];
 
+        if (cg.snap->ps.pm_flags & PMF_FOLLOW)
+                return;
+
 	// draw the phone jack if we are completely past our buffers
 	cmdNum = trap_GetCurrentCmdNumber() - CMD_BACKUP + 1;
 	trap_GetUserCmd( cmdNum, &cmd );
@@ -2043,6 +2046,7 @@ static qboolean CG_DrawFollow( void ) {
 			//sprintf( deploytime,"Deploying in %d seconds", (int)( (float)( cg_bluelimbotime.integer - ( cg.time % cg_bluelimbotime.integer ) ) * 0.001f ) );
 		}
 
+	        sprintf( deploytime,"Deploying in %d seconds", (int)( (float)( cg_limbotime.integer - ( cg.time % cg_limbotime.integer ) ) * 0.001f ) );
 		x = 0.5 * ( 640 - BIGCHAR_WIDTH * strlen( deploytime ) ); //CG_DrawStrlen( deploytime ) );
 		CG_DrawStringExt( x, 24, deploytime, color, qtrue, qtrue, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, 0 );
 		sprintf( deploytime,"(Following %s)",cgs.clientinfo[ cg.snap->ps.clientNum ].name );
