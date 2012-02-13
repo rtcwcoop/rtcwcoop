@@ -140,6 +140,7 @@ player
 	trigger action1a
 	{
 		alertentity nazi4
+		alertentity coop_ai_soldier_3
 	}
 
 	trigger action1b
@@ -153,11 +154,17 @@ player
 		trigger coffincover1b slowopen
 		alertentity elite1a
 		alertentity elite1b
+		alertentity coop_ai_soldier_4
+		alertentity coop_ai_soldier_5
 	}
 
 	trigger action2
 	{
 		trigger elite1b talk1
+		alertentity coop_ai_eliteguard_6
+		alertentity coop_ai_eliteguard_7
+		alertentity coop_ai_soldier_8
+		alertentity coop_ai_soldier_9
 	}
 
 	trigger action3
@@ -165,6 +172,10 @@ player
 		alertentity dispatch
 		trigger portcullis1 action3
 		trigger counter1 action3
+		alertentity coop_ai_eliteguard_10
+		alertentity coop_ai_eliteguard_11
+		alertentity coop_ai_eliteguard_14
+		alertentity coop_ai_eliteguard_15
 	}
 
 	trigger action4
@@ -190,6 +201,10 @@ player
 		alertentity elite12
 		alertentity elite13
 		alertentity elite14
+		alertentity coop_ai_eliteguard_16
+		alertentity coop_ai_eliteguard_17
+		alertentity coop_ai_eliteguard_18
+		alertentity coop_ai_eliteguard_19
 	}
 
 	trigger action5a
@@ -223,6 +238,8 @@ player
 	trigger action7a
 	{
 		trigger lightning1 stinger
+		alertentity coop_ai_eliteguard_22
+		alertentity coop_ai_eliteguard_23
 	}
 
 	trigger action8
@@ -234,6 +251,11 @@ player
 	trigger action8a
 	{
 		trigger portcullis3 down	// This is to hide porcullis3 going through the roof, which can be visible from the last room.
+		alertentity coop_ai_eliteguard_24
+		alertentity coop_ai_eliteguard_25
+		alertentity coop_ai_eliteguard_26
+		alertentity coop_ai_eliteguard_27
+		alertentity coop_ai_eliteguard_28
 	}
 
 	trigger pass_mission1
@@ -254,6 +276,8 @@ player
 	trigger secret1
 	{
 		foundsecret
+		alertentity coop_ai_eliteguard_20
+		alertentity coop_ai_eliteguard_21
 	}
 
 	trigger endmap
@@ -2868,6 +2892,654 @@ elite23
 		deny
 	}
 
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_soldier_1		// first room 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 1
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_2		// first room 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 1
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_3		// near the boxes
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 1
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_4		// behind the boxes
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 1
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_5		// near the zombie
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 1
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_eliteguard_6		// half of the stairs 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_7		// half of the stairs 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_soldier_8		// behind the backbox
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 1
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_9		// near the 1st box
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 1
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_eliteguard_10	// top of the stairs 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_11		// top of the stairs 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_14		// temple 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_15		// temple 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_16		// upper floor 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_17		// upper floor 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_18		// upper floor 3
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_19		// upper floor 4
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_20		// secret room 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_21		// secret room 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_13		// top of the stairs 4
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_22		// bottom hallway 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_23		// bottom hallway 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_24		// exit room 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_25		// exit room 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_26		// exit room 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_27		// end 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		movetype crouch
+	}
+	
+	death
+	{
+		trigger coffincover1a objective3
+	}
+}
+
+coop_ai_eliteguard_28		// end 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 75
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+	
 	death
 	{
 		trigger coffincover1a objective3
