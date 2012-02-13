@@ -25,6 +25,12 @@ bigblock
 		playsound sound/movers/doors/door2_locked.wav
 		alertentity platdust
 		alertentity blocktrig
+		alertentity coop_ai_soldier_15
+		alertentity coop_ai_soldier_16
+		alertentity coop_ai_soldier_17
+		alertentity coop_ai_soldier_18
+		alertentity coop_ai_soldier_19
+		alertentity coop_ai_soldier_20
 	}
 
 	trigger ready

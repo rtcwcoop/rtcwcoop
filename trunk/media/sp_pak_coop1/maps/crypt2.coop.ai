@@ -45,8 +45,8 @@ player
 
 		// Items
 		giveinventory key_binocs
-		selectweapon weapon_sten
-
+		selectweapon weapon_mp40
+		
 	}
 	
 
@@ -77,6 +77,9 @@ player
 
 	trigger nazi2help
 	{
+		alertentity coop_ai_zombie_1
+		alertentity coop_ai_zombie_2
+		alertentity coop_ai_zombie_3
 	}
 
 	trigger action0a
@@ -103,6 +106,10 @@ player
 		trigger nazi3 reset
 		trigger nazi5 reset
 		alertentity bnazi1
+		alertentity coop_ai_zombie_7
+		alertentity coop_ai_zombie_8
+		alertentity coop_ai_zombie_9
+		alertentity coop_ai_zombie_10
 	}
 
 	trigger action2
@@ -125,14 +132,22 @@ player
 
 	trigger action3
 	{
-//		alertentity door_close
 		trigger counter1 action3
+		alertentity coop_ai_zombie_11
+		alertentity coop_ai_zombie_12
+		alertentity coop_ai_zombie_13
+		alertentity coop_ai_zombie_14
 	}
 
 	trigger action4
 	{
 		alertentity zombie15
 		alertentity zombie16
+		alertentity coop_ai_zombie_21
+		alertentity coop_ai_zombie_22
+		alertentity coop_ai_zombie_23
+		alertentity coop_ai_zombie_24
+		alertentity coop_ai_zombie_25
 	}
 
 	trigger z16reset
@@ -161,6 +176,15 @@ player
 	{
 		trigger counter1 go
 		trigger spikes go
+		alertentity coop_ai_zombie_26
+		alertentity coop_ai_zombie_27
+		alertentity coop_ai_zombie_28
+		alertentity coop_ai_zombie_29
+		alertentity coop_ai_zombie_30
+		alertentity coop_ai_zombie_31
+		alertentity coop_ai_zombie_32
+		alertentity coop_ai_zombie_33
+		alertentity coop_ai_zombie_34
 	}
 
 	trigger razorsgo
@@ -218,6 +242,8 @@ player
 	trigger secret1
 	{	
 		foundsecret
+		alertentity coop_ai_zombie_5
+		alertentity coop_ai_zombie_6
 	}
 
 	trigger pass_mission
@@ -1970,5 +1996,671 @@ warboss2
 	enemysight player
 	{
 		resetscript
+	}
+}
+
+coop_ai_zombie_1 		// first room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_2 		// first room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_3 		// first room 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+
+coop_ai_zombie_4 		// hallway
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+
+coop_ai_zombie_5 		// secret room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+
+coop_ai_zombie_6 		// secret room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_7 		// small hallway 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_8 		// small hallway 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+coop_ai_zombie_9 		// enter to foggy room
+{
+	attributes
+	{
+		fov 240
+		starting_health 90
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_10 		// hiding in foggy room
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_11 		// Button Middle
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_12 		// Button Left 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_13 		// Button Left 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_14 		// Button Left 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_15 		// Upper place 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_16 		// Upper place 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_17 		// Upper place 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_18 		// Upper place 4
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_19 		// Upper place 5
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_20 		// Upper place 6
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_21 		// Last room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_22 		// Last room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_23		// Last room 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_24 		// Last room 4
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_25 		// Last room 5
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_26 		// earthquake 1
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_27 		// earthquake 2
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_28 		// earthquake 3
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_29 		// earthquake 4
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_30 		// earthquake 5
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_31 		// earthquake 6
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_32 		// earthquake 7
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_33 		// earthquake 8
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_34 		// earthquake 9
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
 	}
 }

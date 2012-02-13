@@ -48,7 +48,7 @@ player
 
 		// Items
 		giveinventory key_binocs
-		selectweapon weapon_sten
+		selectweapon weapon_mp40
 
 	}
 
@@ -157,12 +157,18 @@ player
 	{
 		trigger warzombie3c go
 		trigger warzombie3d go
+		alertentity coop_ai_zombie_1
+		alertentity coop_ai_zombie_2
+		alertentity coop_ai_zombie_3		
 	}
 
 	// Spawns Zombie4
 	trigger action3		
 	{
 		trigger counter1 action3_choose
+		alertentity coop_ai_zombie_4
+		alertentity coop_ai_zombie_5
+		alertentity coop_ai_zombie_6
 	}
 
 	// Triggers wall to explode and then tells Zombie6 to stand.
@@ -177,6 +183,8 @@ player
 		alertentity zombie6a
 		alertentity zombie6b
 		alertentity zombie5
+		alertentity coop_ai_zombie_7
+		alertentity coop_ai_zombie_8
 	}
 
 	trigger action4a1
@@ -202,6 +210,12 @@ player
 	// Spawns in the following AI
 	trigger action5		
 	{
+		alertentity coop_ai_zombie_11
+		alertentity coop_ai_zombie_12
+		alertentity coop_ai_zombie_13
+		alertentity coop_ai_zombie_14
+		alertentity coop_ai_zombie_15
+		alertentity coop_ai_zombie_16
 		trigger zombie6a go
 		trigger zombie6b go
 	}
@@ -226,6 +240,9 @@ player
 	{
 		trigger zombie9 getup	
 		trigger zombie11 getup
+		alertentity coop_ai_zombie_17
+		alertentity coop_ai_zombie_18
+		alertentity coop_ai_zombie_19
 	}
 
 	// After Zombie 9 & 11 die this will trigger alert warzombie 11 & 11a
@@ -238,6 +255,9 @@ player
 	{
 		alertentity nazi4
 		alertentity nazi5
+		alertentity coop_ai_soldier_20
+		alertentity coop_ai_soldier_21
+		alertentity coop_ai_soldier_22
 		alertentity warzombie14
 		alertentity warzombie15
 		alertentity secret_debris
@@ -254,6 +274,8 @@ player
 		alertentity zombie12
 		alertentity zombie13
 		alertentity kill_clip1
+		alertentity coop_ai_zombie_23
+		alertentity coop_ai_zombie_24
 	}
 
 	// Spawns in zombie15
@@ -270,11 +292,15 @@ player
 	trigger action8b	// Secret button room.
 	{
 		trigger counter1 action8b_choose
+		alertentity coop_ai_zombie_25
+		alertentity coop_ai_zombie_26
+		alertentity coop_ai_zombie_27
 	}
 
 	// Spawns in the following AI
 	trigger action9		
 	{
+		alertentity zombie16
 		alertentity zombie17
 		alertentity zombie18
 		alertentity zombie19
@@ -3988,6 +4014,746 @@ flamezombie
 		explicit_routing on
 		runtomarker f1spot1
 		explicit_routing off
+		alertentity hurt01
+		accum 0 bitset 0
+		resetscript
+		attack player
+		
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectsoundend
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	inspectbodyend
+	{
+		deny
+	}
+
+	death
+	{
+		alertentity zombie16
+		accum 0 abort_if_bitset 0
+		alertentity hurt01
+	}
+
+	enemysight
+	{
+	}
+}
+
+coop_ai_zombie_1		// small hallway 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_2		// small hallway 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_3		// small hallway 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_4		// near the corpse 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_5		// near the corpse 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_6		// near the corpse 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_7		// switcher-room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_8		// switcher-room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_9		// foggy room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_10		// foggy room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_11		// circle-stairs 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_12		// circle-stairs 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_13		// circle-stairs 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_14  		// top of circle stairs 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_15  		// top of circle-stairs 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_16  		// top of circle-stairs 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_17  		// under broken bridge 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_18  		// under broken bridge 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_19  		// under broken bridge 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_20  		// lost soldier 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_21  		// lost soldier 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_22  		// lost soldier 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_zombie_23  		// small crypt 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_24  		// small crypt 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_25  		// secret room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_26  		// secret room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_27  		// secret room 3
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_28  		// flame 1
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		noaidamage on
+		nosight 99999
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		alertentity flame1_bust
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		alertentity hurt01
+		accum 0 bitset 0
+		resetscript
+		attack player
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectsoundend
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	inspectbodyend
+	{
+		deny
+	}
+
+	death
+	{
+		alertentity zombie16
+		accum 0 abort_if_bitset 0
+		alertentity hurt01
+	}
+
+	enemysight
+	{
+	}
+}
+
+coop_ai_zombie_29  		// flame 2
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		noaidamage on
+		nosight 99999
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		alertentity flame1_bust
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		alertentity hurt01
+		accum 0 bitset 0
+		resetscript
+		attack player
+		
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectsoundend
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	inspectbodyend
+	{
+		deny
+	}
+
+	death
+	{
+		alertentity zombie16
+		accum 0 abort_if_bitset 0
+		alertentity hurt01
+	}
+
+	enemysight
+	{
+	}
+}
+
+coop_ai_zombie_30  		// flame 3
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		noaidamage on
+		nosight 99999
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		alertentity flame1_bust
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		alertentity hurt01
+		accum 0 bitset 0
+		resetscript
+		attack player
+		
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectsoundend
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	inspectbodyend
+	{
+		deny
+	}
+
+	death
+	{
+		alertentity zombie16
+		accum 0 abort_if_bitset 0
+		alertentity hurt01
+	}
+
+	enemysight
+	{
+	}
+}
+
+coop_ai_zombie_31  		// flame 4
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		noaidamage on
+		nosight 99999
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		alertentity flame1_bust
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		alertentity hurt01
+		accum 0 bitset 0
+		resetscript
+		attack player
+		
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectsoundend
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	inspectbodyend
+	{
+		deny
+	}
+
+	death
+	{
+		alertentity zombie16
+		accum 0 abort_if_bitset 0
+		alertentity hurt01
+	}
+
+	enemysight
+	{
+	}
+}
+
+coop_ai_zombie_32  		// flame 5
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		noaidamage on
+		nosight 99999
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		alertentity flame1_bust
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
 		alertentity hurt01
 		accum 0 bitset 0
 		resetscript
