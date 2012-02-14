@@ -28,8 +28,8 @@ Also copy our pk3 files (you can find them in other_files in the svn) to that sa
 
 = Cvars =
 
-== g_autospawn ==
- g_autospawn 1 autosaves you spawnpoint every 30 seconds, if g_autospawn is set to 0 then you can
+== g_spawnpoint ==
+ g_spawnpoint 0 autosaves you spawnpoint every 30 seconds, if g_spawnpoint is set to 1 then you can
  save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button
 
 == g_skipcutscenes ==
