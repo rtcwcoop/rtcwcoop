@@ -953,53 +953,6 @@ itemDef {
 					mouseexit		{ hide message_hostname }
 					}
 
-				itemDef {
-					name			expert
-					group			grpCreate
-					type			ITEM_TYPE_MULTI
-					textfont		UI_FONT_NORMAL
-					text			"Game Type:  "
-					//cvar			"g_GameType"
-					//cvarfloatlist		{ "coop1" 0 "coop2" 1 }
-					ownerdraw		UI_NETGAMETYPE
-					rect			295 160 290 12
-				//	origin			ORIGIN_WINDOW2
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145	
-					textaligny		10
-					textscale		.25
-					backcolor		1 1 1 .07       
-					forecolor		1 1 1 1
-					visible			1 
-					mouseenter		{ show message_game_type }
-					mouseexit		{ hide message_game_type }
-					}
-
-
-				itemDef {
-					name			window
-					group			grpCreate
-					type			ITEM_TYPE_MULTI
-					textfont		UI_FONT_NORMAL
-					text			"Skill:  "
-					cvar			"g_gameskill"
-					cvarFloatList	{ "Normal" 1 "Hard" 2 "NIGHTMARE!" 3 }
-					rect			295 175 290 12
-				//	origin			ORIGIN_WINDOW1
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145
-					textaligny		10
-					textscale		.25
-					backcolor		1 1 1 .07
-					forecolor		1 1 1 1
-					visible			0
-					maxchars		6
-					mouseenter		{ show message_skill }
-					mouseexit		{ hide message_skill }
-					}
-
 					
 				itemDef {
 					name			normal
@@ -1011,7 +964,7 @@ itemDef {
 					// dedicated is a special cvar in that as soon as it is set, the game goes to console only so the ui catches this one specifically
 					cvar			"ui_dedicated"
 					cvarFloatList		{ "Non-dedicated" 0 "yes, on LAN" 1 "yes, over Internet" 2 }
-					rect			295 190 290 12
+					rect			295 160 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1033,7 +986,7 @@ itemDef {
 					text			"Password:  "
 					textfont		UI_FONT_NORMAL
 					cvar			"g_password"
-					rect			295 205 290 12
+					rect			295 175 290 12
 				//	origin			ORIGIN_WINDOW2
 					maxchars		25
 					maxpaintchars	10
@@ -1047,10 +1000,78 @@ itemDef {
 					visible			1
 					mouseenter		{ show message_password_create }
 					mouseexit		{ hide message_password_create } 
+					}		
+					
+				itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Game Type:  "
+					//cvar			"g_GameType"
+					//cvarfloatlist		{ "coop1" 0 "coop2" 1 }
+					ownerdraw		UI_NETGAMETYPE
+					rect			295 190 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145	
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1 
+					mouseenter		{ show message_game_type }
+					mouseexit		{ hide message_game_type }
 					}
 
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Amount of Enemy:  "
+					cvar			"g_reinforce"
+					cvarFloatList	{ "Basic" 0 "More" 1 "Many" 2 }
+					rect			295 205 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		6
+					mouseenter		{ show message_reinforce }
+					mouseexit		{ hide message_reinforce }
+					}
 					
-					
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Skill of Enemies:  "
+					cvar			"g_gameskill"
+					cvarFloatList	{ "Normal" 1 "Hard" 2 "Hardcore" 3 }
+					rect			295 220 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		6
+					mouseenter		{ show message_skill }
+					mouseexit		{ hide message_skill }
+					}
+
+
 				itemDef {
 					name			window
 					group			grpCreate
@@ -1060,7 +1081,7 @@ itemDef {
 					textalignx		145
 					textaligny		14
 					textscale		.25
-					rect			294 220 290 20	
+					rect			294 235 290 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
 					bordercolor		.5 .5 .5 .5
@@ -1078,8 +1099,8 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Friendly Fire:  "
 					cvar			"g_friendlyFire"
-					cvarFloatList	{ "Off" 0 "On" 1 "On + Penalty" 2 "On + High Penalty" 3}
-					rect			295 245 290 12
+					cvarFloatList	{ "Off" 0 "On" 1 "On + Penalty" 2 "On + Brutal Penalty" 3}
+					rect			295 260 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1101,7 +1122,7 @@ itemDef {
 					text			"Max Players (1-8):  "
 					cvar			"sv_maxcoopclients"
 					maxchars		3
-					rect			295 260 290 12
+					rect			295 275 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1122,7 +1143,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Number of Lives:  "
 					cvar			"g_maxlives"
-					rect			295 275 290 12
+					rect			295 290 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1145,7 +1166,7 @@ itemDef {
 					text			"Shared Lives:  "
 					cvar			"g_sharedlives"
 					cvarFloatList	{ "yes" 1 "no" 0 }
-					rect			295 290 290 12
+					rect			295 305 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1162,11 +1183,12 @@ itemDef {
 				itemDef {
 					name			window
 					group			grpCreate
-					type			ITEM_TYPE_NUMERICFIELD
+					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
-					text			"SpawnPoints / map:  "
-					cvar			"g_maxspawnpoints"
-					rect			295 305 290 12
+					text			"Respawn System:  "
+					cvar			"g_spawnpoints"
+					cvarFloatList	{ "Autosaved SpawnPoints" 0 "Dropped SpawnPoints" 1 "MP-Style SpawnZones" 2 }
+					rect			295 320 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1181,7 +1203,27 @@ itemDef {
 					mouseexit		{ hide message_spawnpoints }
 					}
 
-					
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_NUMERICFIELD
+					textfont		UI_FONT_NORMAL
+					text			"SpawnPoints / map:  "
+					cvar			"g_maxspawnpoints"
+					rect			295 335 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		6		
+					mouseenter		{ show message_maxspawnpoints }
+					mouseexit		{ hide message_maxspawnpoints }
+					}					
 
 				itemDef {
 					name			window
@@ -1192,7 +1234,7 @@ itemDef {
 					textalignx		145
 					textaligny		14
 					textscale		.25
-					rect			294 320 290 20	
+					rect			294 350 290 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
 					bordercolor		.5 .5 .5 .5
@@ -1210,7 +1252,7 @@ itemDef {
 					text			"Ingame Cutscenes:  "
 					cvar			"g_skipcutscenes"
 					cvarFloatList	{ "yes" 0 "no" 1 }
-					rect			295 345 290 12
+					rect			295 375 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1982,7 +2024,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Yes: Can Damage Teammates, No: No Team Damage"
+				text "What Happens if You Shoot Your Friends?"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -2169,7 +2211,41 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
+				text "Choose a Respawn-system for your team!"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+			
+			itemDef {
+				name message_maxspawnpoints
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
 				text "Number of Droppable Spawnpoints on each map [ 0 = unlimited ]"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+		
+			itemDef {
+				name message_reinforce
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "With how many enemy do you want to meet?"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
