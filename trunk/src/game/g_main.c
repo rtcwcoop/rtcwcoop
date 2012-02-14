@@ -135,7 +135,7 @@ vmCvar_t g_attempts;
 vmCvar_t g_footstepAudibleRange;
 
 vmCvar_t g_playerStart;         // set when the player enters the game
-vmCvar_t g_autospawn;
+vmCvar_t g_spawnpoints;
 
 cvarTable_t gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -165,7 +165,7 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_maxGameClients, "g_maxGameClients", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
-	{ &g_autospawn, "g_autospawn", "0", CVAR_ARCHIVE, 0, qfalse  },
+	{ &g_spawnpoints, "g_spawnpoints", "0", CVAR_ARCHIVE, 0, qfalse  },
 
 	// change anytime vars
 	{ &g_dmflags, "dmflags", "0", CVAR_SERVERINFO | CVAR_ARCHIVE, 0, qtrue  },
@@ -2240,7 +2240,7 @@ void G_RunFrame( int levelTime ) {
 
         // fretn
 
-        if (level.lastSpawnSave <= level.time && g_autospawn.integer)
+        if (level.lastSpawnSave <= level.time && g_spawnpoints.integer == 0)
         {    
                 level.lastSpawnSave = level.time + 30000;
                 newSpawns = qtrue;

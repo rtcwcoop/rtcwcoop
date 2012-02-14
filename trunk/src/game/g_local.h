@@ -1108,7 +1108,7 @@ extern gentity_t       *g_camEnt;
 
 extern vmCvar_t g_gametype;
 //fretn
-extern vmCvar_t g_autospawn;
+extern vmCvar_t g_spawnpoints;
 extern vmCvar_t g_skipcutscenes;
 extern vmCvar_t g_maxlives;
 extern vmCvar_t g_sharedlives;

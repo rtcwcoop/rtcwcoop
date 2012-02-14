@@ -528,7 +528,8 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         if ( ent->health <= 0 )
                 return;
 
-        if (g_autospawn.integer)
+        // if automatic spawnpoints are enabled, don't allow manual saving
+        if (g_spawnpoints.integer != 1)
         {
                 trap_SendServerCommand( ent - g_entities, va( "cp \"Can't save spawnpoint, \nautosave is activated on the server\n\"" ) );
                 return;
