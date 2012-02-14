@@ -203,8 +203,8 @@ player
 		alertentity elite14
 		alertentity coop_ai_eliteguard_16
 		alertentity coop_ai_eliteguard_17
-		alertentity coop_ai_eliteguard_18
-		alertentity coop_ai_eliteguard_19
+		alertentity coop_ai_soldier_18
+		alertentity coop_ai_soldier_19
 	}
 
 	trigger action5a
@@ -276,8 +276,8 @@ player
 	trigger secret1
 	{
 		foundsecret
-		alertentity coop_ai_eliteguard_20
-		alertentity coop_ai_eliteguard_21
+		alertentity coop_ai_soldier_20
+		alertentity coop_ai_soldier_21
 	}
 
 	trigger endmap
@@ -3229,135 +3229,71 @@ coop_ai_eliteguard_17		// upper floor 2
 	}
 }
 
-coop_ai_eliteguard_18		// upper floor 3
+coop_ai_soldier_18		// upper floor 3
 {
 	attributes
 	{
-		fov 240
-		aim_accuracy 0.5
-		starting_health 75
-		camper 1.0
-		aggression 0.2
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
 	}
 
 	spawn
 	{
-		takeweapon all
-		giveweapon weapon_sten
+		setammo ammo_grenades 1
 		setammo ammo_9mm 999
-		setclip sten 32
-		selectweapon weapon_sten
-		movetype crouch
-	}
-	
-	death
-	{
-		trigger coffincover1a objective3
+		statetype alert
 	}
 }
 
-coop_ai_eliteguard_19		// upper floor 4
+coop_ai_soldier_19		// upper floor 4
 {
 	attributes
 	{
-		fov 240
-		aim_accuracy 0.5
-		starting_health 75
-		camper 1.0
-		aggression 0.2
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
 	}
 
 	spawn
 	{
-		takeweapon all
-		giveweapon weapon_sten
+		setammo ammo_grenades 1
 		setammo ammo_9mm 999
-		setclip sten 32
-		selectweapon weapon_sten
-	}
-	
-	death
-	{
-		trigger coffincover1a objective3
+		statetype alert
 	}
 }
 
-coop_ai_eliteguard_20		// secret room 1
+coop_ai_soldier_20		// secret room 1
 {
 	attributes
 	{
-		fov 240
-		aim_accuracy 0.5
-		starting_health 75
-		camper 1.0
-		aggression 0.2
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
 	}
 
 	spawn
 	{
-		takeweapon all
-		giveweapon weapon_sten
+		setammo ammo_grenades 1
 		setammo ammo_9mm 999
-		setclip sten 32
-		selectweapon weapon_sten
-		movetype crouch
-	}
-	
-	death
-	{
-		trigger coffincover1a objective3
+		statetype alert
 	}
 }
 
-coop_ai_eliteguard_21		// secret room 2
+coop_ai_soldier_21		// secret room 2
 {
 	attributes
 	{
-		fov 240
-		aim_accuracy 0.5
-		starting_health 75
-		camper 1.0
-		aggression 0.2
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
 	}
 
 	spawn
 	{
-		takeweapon all
-		giveweapon weapon_sten
+		setammo ammo_grenades 1
 		setammo ammo_9mm 999
-		setclip sten 32
-		selectweapon weapon_sten
-	}
-	
-	death
-	{
-		trigger coffincover1a objective3
-	}
-}
-
-coop_ai_eliteguard_13		// top of the stairs 4
-{
-	attributes
-	{
-		fov 240
-		aim_accuracy 0.5
-		starting_health 75
-		camper 1.0
-		aggression 0.2
-	}
-
-	spawn
-	{
-		takeweapon all
-		giveweapon weapon_sten
-		setammo ammo_9mm 999
-		setclip sten 32
-		selectweapon weapon_sten
-	}
-	
-	death
-	{
-		trigger coffincover1a objective3
+		statetype alert
 	}
 }
 

@@ -43,7 +43,7 @@ coffincover1a
 	trigger objective3
 	{
 		accum 0 inc 1
-		accum 0 abort_if_not_equal 20
+		accum 0 abort_if_not_equal 35
 		trigger player got_objective3
 	}
 

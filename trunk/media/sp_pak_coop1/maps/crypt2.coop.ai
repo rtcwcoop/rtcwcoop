@@ -16,13 +16,7 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_2
-	}
-
-	playerstart
-	{
-		mu_fade 0 1000
-		mu_queue sound/music/c_military
-
+		
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -46,7 +40,12 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
-		
+	}
+
+	playerstart
+	{
+		mu_fade 0 1000
+		mu_queue sound/music/c_military
 	}
 	
 
@@ -2475,6 +2474,11 @@ coop_ai_zombie_26 		// earthquake 1
 		resetscript
 		attack player
 	}
+	
+	death
+	{
+		trigger secretdummy cracks
+	}
 }
 
 coop_ai_zombie_27 		// earthquake 2
@@ -2497,6 +2501,11 @@ coop_ai_zombie_27 		// earthquake 2
 		godmode off
 		resetscript
 		attack player
+	}
+	
+	death
+	{
+		trigger secretdummy cracks
 	}
 }
 
@@ -2521,6 +2530,11 @@ coop_ai_zombie_28 		// earthquake 3
 		resetscript
 		attack player
 	}
+	
+	death
+	{
+		trigger secretdummy cracks
+	}
 }
 
 coop_ai_zombie_29 		// earthquake 4
@@ -2543,6 +2557,11 @@ coop_ai_zombie_29 		// earthquake 4
 		godmode off
 		resetscript
 		attack player
+	}
+	
+	death
+	{
+		trigger secretdummy cracks
 	}
 }
 
@@ -2569,6 +2588,11 @@ coop_ai_zombie_30 		// earthquake 5
 		resetscript
 		attack player
 	}
+	
+	death
+	{
+		trigger secretdummy cracks
+	}
 }
 
 coop_ai_zombie_31 		// earthquake 6
@@ -2579,7 +2603,7 @@ coop_ai_zombie_31 		// earthquake 6
 		hearing_scale 1.0
 		alertness 4000
 	}
-
+	
 	spawn
 	{
 		noaidamage on
@@ -2591,6 +2615,11 @@ coop_ai_zombie_31 		// earthquake 6
 		godmode off
 		resetscript
 		attack player
+	}
+
+	death
+	{
+		trigger secretdummy cracks
 	}
 }
 
@@ -2615,6 +2644,11 @@ coop_ai_zombie_32 		// earthquake 7
 		resetscript
 		attack player
 	}
+
+	death
+	{
+		trigger secretdummy cracks
+	}
 }
 
 coop_ai_zombie_33 		// earthquake 8
@@ -2637,6 +2671,11 @@ coop_ai_zombie_33 		// earthquake 8
 		godmode off
 		resetscript
 		attack player
+	}
+
+	death
+	{
+		trigger secretdummy cracks
 	}
 }
 
@@ -2662,5 +2701,10 @@ coop_ai_zombie_34 		// earthquake 9
 		godmode off
 		resetscript
 		attack player
+	}
+
+	death
+	{
+		trigger secretdummy cracks
 	}
 }

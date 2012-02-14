@@ -255,15 +255,16 @@ player
 
 	trigger endmap
 	{
+		trigger player endmap2
 //		resetscript
-		startcam boss1end
-		alertentity bj
-		trigger counter1 plane_cine1
+//		startcam boss1end
+//		alertentity bj
+//		trigger counter1 plane_cine1
 	}
 
 	trigger endmap2
 	{
-		changelevel forest 4000
+		changelevel forest
 	}
 
 }
@@ -884,7 +885,7 @@ helga_zombie	// reincarnation of helga
 	attributes
 	{
 		pain_threshold_scale 50
-		starting_health 1000
+		starting_health 1500
 		aggression 1.0
 		fov 360
 	}
@@ -958,8 +959,490 @@ helga_zombie	// reincarnation of helga
 		alertentity zombie6
 		alertentity zombie7
 		alertentity zombie8
+		alertentity coop_ai_zombie_1
+		alertentity coop_ai_zombie_2
+		alertentity coop_ai_zombie_3
+		alertentity coop_ai_zombie_4
+		alertentity coop_ai_zombie_5
+		alertentity coop_ai_zombie_6
+		alertentity coop_ai_zombie_10
+		alertentity coop_ai_zombie_11
+		alertentity coop_ai_zombie_12
+		alertentity coop_ai_zombie_13
+		alertentity coop_ai_zombie_14
+		alertentity coop_ai_zombie_15
+		alertentity coop_ai_zombie_16
 		trigger counter1 killed_total
 		accum 2 abort_if_not_equal 0
 		alertentity blowfence
+	}
+}
+
+coop_ai_zombie_1 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_2 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_3 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_4 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_5 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_6 		//
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_7 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_8 		//
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_9 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_10 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_11		//
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_12 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_13 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_14 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_15 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_16 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		takeweapon monsterattack2
+		knockback off
+		giveweapon monsterattack1
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
 	}
 }

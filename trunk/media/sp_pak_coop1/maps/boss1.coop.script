@@ -132,10 +132,13 @@ counter1	// Used for cinematic syncronization.
 	trigger killed_total
 	{
 		accum 2 inc 1
-		accum 2 abort_if_less_than 9
+		accum 2 abort_if_less_than 22
 		trigger player got_objective1
 		alertentity on_objective2
 		alertentity opendoor
+		alertentity coop_ai_zombie_7
+		alertentity coop_ai_zombie_8
+		alertentity coop_ai_zombie_9
 	}
 
 	trigger plane_cine1
@@ -169,7 +172,7 @@ counter1	// Used for cinematic syncronization.
 		trigger bj3 talk5
 //		alertentity plane_radio5_mh // mother hen3	All Things considered, the passenger is doing fine.  Repeat...
 		wait 7300
-		trigger player endmap2
+//		trigger player endmap2
 //		alertentity plane_radio3_static // eagles nest static
 //		alertentity plane_radio5_static // mother hen4 static
 

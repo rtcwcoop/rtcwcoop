@@ -30,7 +30,7 @@ bigblock
 		alertentity coop_ai_soldier_17
 		alertentity coop_ai_soldier_18
 		alertentity coop_ai_soldier_19
-		alertentity coop_ai_soldier_20
+		alertentity coop_ai_soldier_20 
 	}
 
 	trigger ready
@@ -537,9 +537,9 @@ secretdummy
 
 	trigger crack1
 	{
-		accum 2 abort_if_not_equal 2
+		accum 2 abort_if_not_equal 11
 		trigger counter1 flame_stop
-		wait 7000
+		wait 3000
 		alertentity rumble_snd1
 		wait 500
 		alertentity end_debris1
