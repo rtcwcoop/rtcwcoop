@@ -995,12 +995,16 @@ void G_ScriptPreprocess( char *script )
                         copy = qtrue;
                 } else {
                         if (copy) {
-                                strcat( PpScript, va("%s ", token));
+                                if (token[0] == '{' || token[0] == '}')
+                                        strcat( PpScript, va("\n%s\n", token));
+                                else
+                                        strcat( PpScript, va("%s\t", token));
                         }    
                 }   
         }    
 
         // copy preprocessed scriptAI into the original script
         strcpy(script, PpScript);
+        //G_Printf("%s\n", PpScript);
 }
 

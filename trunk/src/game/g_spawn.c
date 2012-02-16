@@ -983,7 +983,7 @@ qboolean G_LoadEntsFile( void )
 
         // preprocess the ents file
         // disable for now
-        //G_ScriptPreprocess( level.extraEntsScript );
+        G_ScriptPreprocess( level.extraEntsScript );
 
         return qtrue;
 }
