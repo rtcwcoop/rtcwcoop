@@ -46,6 +46,16 @@ typedef struct {
 int remapCount = 0;
 shaderRemap_t remappedShaders[MAX_SHADER_REMAPS];
 
+// script preprocessor definitions
+typedef struct ppdef_s {
+        char        *name;
+        int         value;    
+        struct ppdef_s *hashNext;
+} ppdef_t;
+
+#define FILE_HASH_SIZE      1024
+static ppdef_t     *hashTable[FILE_HASH_SIZE];
+
 void AddRemap( const char *oldShader, const char *newShader, float timeOffset ) {
 	int i;
 
@@ -825,3 +835,172 @@ int DebugLine( vec3_t start, vec3_t end, int color ) {
 
 	return trap_DebugPolygonCreate( color, 4, points );
 }
+
+/*
+================
+return a hash value for the filename
+================
+*/
+static long generateHashValue( const char *fname ) { 
+        int i;
+        long hash;
+        char letter;
+
+        if ( !fname ) { 
+                exit(1);
+        }   
+        hash = 0;
+        i = 0;
+        while ( fname[i] != '\0' ) { 
+                letter = tolower( fname[i] );
+                hash += (long)( letter ) * ( i + 119 );
+                i++;
+        }   
+        hash &= ( FILE_HASH_SIZE - 1 );
+        return hash;
+}
+
+static ppdef_t *findppdef( const char *def_name ) { 
+        ppdef_t *def;
+        long hash;
+
+        hash = generateHashValue( def_name );
+
+        for ( def = hashTable[hash] ; def ; def = def->hashNext ) {
+                if ( !strcmp( def_name, def->name ) ) {
+                        return def;
+                }
+        }
+
+        return NULL;
+}
+
+char *CopyString( const char *in ) {
+        char    *out;
+
+        out = G_Alloc( strlen( in ) + 1 );
+        strcpy( out, in );
+        return out;
+}
+
+static void registerppdef(char *name, int value)
+{
+        ppdef_t *def;
+        long hash;
+
+        def = malloc(sizeof(ppdef_t));
+        def->name = CopyString( name );
+        def->value = value;
+
+        hash = generateHashValue( name );
+        def->hashNext = hashTable[hash];
+        hashTable[hash] = def;
+}
+
+
+/*
+================
+G_ScriptPreprocess 
+
+This adds a c/c++ alike preprocesser option to the script files, so we can write scripts 
+can do things based on cvars
+
+is ment to be used with .script, .ai and .ents files
+
+syntax:
+
+ #if <cvarname> ==/<=/>=/</> <value>
+
+ #else
+
+ #endif
+
+Will extend this later
+================
+*/
+void G_ScriptPreprocess( char *script )
+{
+        char        *pScript;
+        char        *token;
+        char        *PpScript;
+        qboolean    copy;
+        char *condition;
+        int cvar, value;
+        ppdef_t         *def;
+
+        if ( !script )
+                return;
+
+        pScript = script;
+
+        PpScript = G_Alloc( strlen(script)+1 );
+
+        COM_BeginParseSession( "G_ScriptPreprocess" );
+        while ( 1 ) 
+        {   
+                token = COM_Parse( &pScript );
+
+                if ( !token[0] ) { 
+                        break;
+                } else if ( !Q_strcasecmp(token, "#define") ) {
+                        token = COM_Parse( &pScript );
+                        registerppdef(token, atoi(COM_Parse( &pScript )));
+                } else if ( !Q_strcasecmp(token, "#if") ) { 
+
+                        token = COM_Parse( &pScript );
+                        cvar = trap_Cvar_VariableIntegerValue( token );
+
+                        condition = va("%s", COM_Parse( &pScript) );
+
+                        token = COM_Parse( &pScript );
+                        def = findppdef(token);
+                        if (!def)
+                                value = atoi(token);
+                        else
+                                value = def->value;
+
+                        // based on the condition, set copy to false or true
+                        if (!Q_strcasecmp(condition, "==")) {
+                                if (cvar == value)
+                                        copy = qtrue;
+                                else
+                                        copy = qfalse;
+                        } else if (!Q_strcasecmp(condition, "<=")) {
+                                if (cvar <= value)
+                                        copy = qtrue;
+                                else
+                                        copy = qfalse;
+                        } else if (!Q_strcasecmp(condition, ">=")) {
+                                if (cvar >= value)
+                                        copy = qtrue;
+                                else
+                                        copy = qfalse;
+                        } else if (!Q_strcasecmp(condition, "<")) {
+                                if (cvar < value)
+                                        copy = qtrue;
+                                else
+                                        copy = qfalse;
+                        } else if (!Q_strcasecmp(condition, ">")) {
+                                if (cvar > value)
+                                        copy = qtrue;
+                                else
+                                        copy = qfalse;
+                        } else {
+                                G_Error( "G_ScriptPreprocess(), Error (line %d): Unknown condition, must be ==, <=,  >=, < or >.\n", COM_GetCurrentParseLine() );
+                        }   
+
+                } else if ( !Q_strcasecmp(token, "#else") ) { 
+                        copy = !copy;
+                } else if ( !Q_strcasecmp(token, "#endif") ) { 
+                        copy = qtrue;
+                } else {
+                        if (copy) {
+                                strcat( PpScript, va("%s ", token));
+                        }    
+                }   
+        }    
+
+        // copy preprocessed scriptAI into the original script
+        strcpy(script, PpScript);
+}
+

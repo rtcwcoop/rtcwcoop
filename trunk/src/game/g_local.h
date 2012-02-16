@@ -850,6 +850,9 @@ void G_SetAngle( gentity_t *ent, vec3_t angle );
 qboolean infront( gentity_t *self, gentity_t *other );
 
 void G_ProcessTagConnect( gentity_t *ent, qboolean clearAngles );
+// fretn
+char *CopyString( const char *in );
+void G_ScriptPreprocess( char *script );
 
 //
 // g_combat.c
@@ -1413,3 +1416,5 @@ typedef enum
 	shard_ceramic,
 	shard_rubble
 } shards_t;
+
+
