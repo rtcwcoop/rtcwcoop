@@ -928,6 +928,9 @@ void G_ScriptPreprocess( char *script )
         int cvar, value;
         ppdef_t         *def;
 
+        // disabled
+        return;
+
         if ( !script )
                 return;
 
