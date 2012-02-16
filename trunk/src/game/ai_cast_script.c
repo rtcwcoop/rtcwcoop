@@ -350,6 +350,7 @@ AICast_ScriptLoad
   Loads the script for the current level into the buffer
 =============
 */
+qboolean AICast_ScriptPreprocess( void );
 void AICast_ScriptLoad( void ) {
 	char filename[MAX_QPATH];
 	vmCvar_t mapname;
@@ -399,91 +400,6 @@ void AICast_ScriptLoad( void ) {
 
 	return;
 }
-
-#if 0
-/*
-syntax:
-
- #if <cvarname> ==/<=/>= <value>
-
- #endif
-*/
-qboolean G_ScriptPreprocess( char *script )
-{
-	char        *pScript;
-	char        *token;
-        char        *PpScriptAI;
-        qboolean    copy;
-        char *condition;
-        int cvar, value;
-
-        //if ( !level.scriptAI )
-        if ( !script )
-                return qfalse;
-
-        //pScript = level.scriptAI;
-        pScript = script;
-
-        //PpScriptAI = G_Alloc( strlen(level.scriptAI)+1 );
-        PpScriptAI = G_Alloc( strlen(script)+1 );
-
-        COM_BeginParseSession( "G_ScriptPreprocess" );
-	while ( 1 )
-	{
-                token = COM_Parse( &pScript );
-
-		if ( !token[0] ) {
-                        break;
-		} else if ( !Q_strcasecmp(token, "#if") ) {
-
-                        token = COM_Parse( &pScript );
-                        cvar = trap_Cvar_VariableIntegerValue( token );
-
-                        condition = va("%s", COM_Parse( &pScript) );
-
-                        token = COM_Parse( &pScript );
-                        value = atoi(token);
-
-                        // based on the condition, set copy to false or true
-                        if (!Q_strcasecmp(condition, "==")) {
-                                if (cvar == value)
-                                        copy = qtrue;
-                                else
-                                        copy = qfalse;
-                        } else if (!Q_strcasecmp(condition, "<=")) {
-                                if (cvar <= value)
-                                        copy = qtrue;
-                                else
-                                        copy = qfalse;
-                        } else if (!Q_strcasecmp(condition, ">=")) {
-                                if (cvar >= value)
-                                        copy = qtrue;
-                                else
-                                        copy = qfalse;
-                        } else {
-                                G_Error( "G_ScriptPreprocess(), Error (line %d): Unknown condition, must be ==, <= or >=.\n", COM_GetCurrentParseLine() );
-                        }
-
-                        //G_Printf("%d %s %d\n", cvar, condition, value);
-
-		} else if ( !Q_strcasecmp(token, "#else") ) {
-                        copy = !copy;
-		} else if ( !Q_strcasecmp(token, "#endif") ) {
-                        copy = qtrue;
-                } else {
-                        if (copy) {
-                                strcat( PpScriptAI, va("%s ", token));
-                        }                        
-                }
-        }        
-
-        // copy preprocessed scriptAI into level.scriptAI
-        //strcpy(level.scriptAI, PpScriptAI);
-        strcpy(script, PpScriptAI);
-        return qtrue;
-}
-
-#endif
 
 /*
 ==============

@@ -1116,6 +1116,7 @@ extern vmCvar_t g_skipcutscenes;
 extern vmCvar_t g_maxlives;
 extern vmCvar_t g_sharedlives;
 extern vmCvar_t g_limbotime;
+extern vmCvar_t g_reinforce;
 
 // Rafael gameskill
 extern vmCvar_t g_gameskill;
