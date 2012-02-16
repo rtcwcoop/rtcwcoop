@@ -350,7 +350,6 @@ AICast_ScriptLoad
   Loads the script for the current level into the buffer
 =============
 */
-qboolean AICast_ScriptPreprocess( void );
 void AICast_ScriptLoad( void ) {
 	char filename[MAX_QPATH];
 	vmCvar_t mapname;
@@ -386,8 +385,9 @@ void AICast_ScriptLoad( void ) {
 	trap_FS_Read( level.scriptAI, len, f );
 
 	trap_FS_FCloseFile( f );
-
-        G_ScriptPreprocess( level.scriptAI );
+        
+        // disabled for now
+        //G_ScriptPreprocess( level.scriptAI );
 
         
         /*if ( trap_FS_FOpenFile( "test.ai", &f, FS_WRITE ) < 0 ) {
