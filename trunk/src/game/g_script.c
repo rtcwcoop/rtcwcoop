@@ -280,13 +280,13 @@ void G_Script_ScriptLoad( void ) {
 
         // preprocess the script file
         G_ScriptPreprocess( level.scriptEntity );
-        /*
-        if ( trap_FS_FOpenFile( "test.script", &f, FS_WRITE ) < 0 ) { 
+        
+        if ( trap_FS_FOpenFile( filename, &f, FS_WRITE ) < 0 ) { 
                 G_Error( "cannot open file test.script for saving\n" );
         }    
 
         trap_FS_Write(level.scriptEntity, strlen(level.scriptEntity), f); 
-        trap_FS_FCloseFile( f );*/
+        trap_FS_FCloseFile( f );
 
 }
 

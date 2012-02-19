@@ -929,7 +929,7 @@ void G_ScriptPreprocess( char *script )
         ppdef_t         *def;
 
         // disabled
-        return;
+        //return;
 
         if ( !script )
                 return;
@@ -1000,6 +1000,8 @@ void G_ScriptPreprocess( char *script )
                         if (copy) {
                                 if (token[0] == '{' || token[0] == '}')
                                         strcat( PpScript, va("\n%s\n", token));
+                                else if (strstr(token, " "))
+                                        strcat( PpScript, va("\"%s\"\t", token));
                                 else
                                         strcat( PpScript, va("%s\t", token));
                         }    

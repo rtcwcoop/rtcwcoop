@@ -982,8 +982,15 @@ qboolean G_LoadEntsFile( void )
         trap_FS_FCloseFile( f );
 
         // preprocess the ents file
-        // disable for now
         G_ScriptPreprocess( level.extraEntsScript );
+
+          
+        if ( trap_FS_FOpenFile( filename, &f, FS_WRITE ) < 0 ) { 
+                G_Error( "cannot open file test.script for saving\n" );
+        }    
+
+        trap_FS_Write(level.extraEntsScript, strlen(level.extraEntsScript), f); 
+        trap_FS_FCloseFile( f );
 
         return qtrue;
 }
