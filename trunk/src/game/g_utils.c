@@ -929,7 +929,7 @@ void G_ScriptPreprocess( char *script )
         ppdef_t         *def;
 
         // disabled
-        //return;
+        return;
 
         if ( !script )
                 return;
