@@ -206,24 +206,6 @@ itemDef {
 	mouseExit { setitemcolor leave backcolor .4 .4 .4 .6  }
 	}
  
-itemDef {
-	name about
-	rect 10 460 256 20
-	type 4
-      style 0	
-	text "Version:"
-	cvar version 
-	maxPaintChars 32
-//	textalign ITEM_ALIGN_LEFT		
-    textalignx 30
-    textaligny 12
-	textalign 0    
-	textscale .18     
-    forecolor 1 1 1 1
-    visible 1
-	decoration
-	}
-
 }
 
 }
