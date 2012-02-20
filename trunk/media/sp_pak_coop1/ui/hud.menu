@@ -138,8 +138,8 @@
 			textscale .5
 			forecolor .63 .47 .25 1	// orange
 			ownerdraw CG_PLAYER_LIVES
-			addColorRange 2 999 .63 .47 .25 1	// orange
-			addColorRange 0 1 1 0 0 1	// hurting
+			addColorRange 1 999 .63 .47 .25 1	// orange
+			addColorRange 0 0 1 0 0 1			// red
 		}
 		
 	// lives text
