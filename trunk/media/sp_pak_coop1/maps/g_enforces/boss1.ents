@@ -1,0 +1,165 @@
+{
+"classname" "info_player_coop"
+"origin" "-2654 125 80"
+"angle" "5"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2647 57 80"
+"angle" "5"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2641 2 80"
+"angle" "5"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2596 6 80"
+"angle" "5"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2599 40 80"
+"angle" "5"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2605 106 80"
+"angle" "5"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2540 113 80"
+"angle" "5"
+}
+
+{
+"classname" "info_player_coop"
+"origin" "-2534 58 80"
+"angle" "5"
+}
+
+{
+"classname" "ai_zombie"
+"origin" "-2763 -948 24"
+"ainame" "coop_ai_zombie_1"
+"angle" "91"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2767 -826 24"
+"ainame" "coop_ai_zombie_2"
+"angle" "89"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2762 -715 24"
+"ainame" "coop_ai_zombie_3"
+"angle" "76"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2363 -979 24"
+"ainame" "coop_ai_zombie_4"
+"angle" "88"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2361 -866 24"
+"ainame" "coop_ai_zombie_5"
+"angle" "88"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2359 -717 24"
+"ainame" "coop_ai_zombie_6"
+"angle" "92"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2597 -931 48"
+"ainame" "coop_ai_zombie_7"
+"targetname" "coop_ai_zombie_7"
+"angle" "89"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2501 -856 48"
+"ainame" "coop_ai_zombie_8"
+"targetname" "coop_ai_zombie_8"
+"angle" "85"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2569 -754 48"
+"ainame" "coop_ai_zombie_9"
+"targetname" "coop_ai_zombie_9"
+"angle" "96"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2564 -615 36"
+"ainame" "coop_ai_zombie_10"
+"angle" "75"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2707 -439 24"
+"ainame" "coop_ai_zombie_11"
+"angle" "26"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2429 -442 24"
+"ainame" "coop_ai_zombie_12"
+"angle" "-4"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2399 -553 24"
+"ainame" "coop_ai_zombie_13"
+"angle" "12"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2107 -162 24"
+"ainame" "coop_ai_zombie_14"
+"angle" "-4"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2143 325 24"
+"ainame" "coop_ai_zombie_15"
+"angle" "-14"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1107 63 24"
+"ainame" "coop_ai_zombie_16"
+"angle" "177"
+"spawnflags" "1"
+}
+
+
