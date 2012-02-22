@@ -145,7 +145,7 @@
 	// lives text
 		itemDef {
  			name "a"
-			text "LIVES"
+			text "RESPAWNS"
 			type 1
 			rect 84 32 32 32
 			textstyle 6
@@ -175,7 +175,7 @@
 	// score text
 		itemDef {
  			name "a"
-			text "SCORES"
+			text "POINTS"
 			type 1
 			rect 164 32 32 32
 			textstyle 6
