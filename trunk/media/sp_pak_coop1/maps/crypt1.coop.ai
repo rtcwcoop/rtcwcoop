@@ -205,6 +205,8 @@ player
 
 	trigger action4d
 	{
+		alertentity coop_ai_zombie_9
+		alertentity coop_ai_zombie_10
 	}
 
 	// Spawns in the following AI

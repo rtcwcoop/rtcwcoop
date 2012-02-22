@@ -422,6 +422,10 @@ radar
 		trigger radar fall3
 		wait 5
 		trigger radar fall4
+		alertentity coop_ai_soldier_33
+		alertentity coop_ai_soldier_34
+		alertentity coop_ai_soldier_35
+		alertentity coop_ai_soldier_36
 	}
 	
 	trigger fall1

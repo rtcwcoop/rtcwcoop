@@ -30,7 +30,7 @@ bigblock
 		alertentity coop_ai_soldier_17
 		alertentity coop_ai_soldier_18
 		alertentity coop_ai_soldier_19
-		alertentity coop_ai_soldier_20 
+		alertentity coop_ai_soldier_20
 	}
 
 	trigger ready

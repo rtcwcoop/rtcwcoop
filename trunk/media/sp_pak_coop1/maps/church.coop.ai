@@ -15,6 +15,9 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
+		
+		alertentity coop_ai_soldier_1
+		alertentity coop_ai_soldier_2
 	}
 
 	playerstart

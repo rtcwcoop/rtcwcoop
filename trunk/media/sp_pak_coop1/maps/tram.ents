@@ -46,7 +46,6 @@
 "angle" "-88"
 }
 
-
 {
 "classname" "ai_soldier"
 "origin" "3573 1548 1272"
@@ -308,6 +307,7 @@
 "classname" "ai_soldier"
 "origin" "-2942 -1134 -615"
 "ainame" "coop_ai_soldier_30"
+"targetname" "coop_ai_soldier_30"
 "skin" "infantryss/village1"
 "head" "village3"
 "spawnflags" "1" 
@@ -317,6 +317,7 @@
 "classname" "ai_soldier"
 "origin" "-3164 -962 -615"
 "ainame" "coop_ai_soldier_31"
+"targetname" "coop_ai_soldier_31"
 "skin" "infantryss/village1"
 "head" "village5"
 "spawnflags" "1" 
@@ -326,8 +327,9 @@
 "classname" "ai_soldier"
 "origin" "-2917 -985 -615"
 "ainame" "coop_ai_soldier_32"
+"targetname" "coop_ai_soldier_32"
 "skin" "infantryss/village2"
 "head" "village2"
 "spawnflags" "1" 
 "angle" "-133"
-}
+} 

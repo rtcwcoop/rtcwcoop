@@ -39,7 +39,6 @@ coffincover1a
 		alertentity dust3
 	}
 
-
 	trigger objective3
 	{
 		accum 0 inc 1

@@ -21,6 +21,7 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_2
+
 	}
 
 	playerstart
@@ -41,7 +42,6 @@ player
 			setclip weapon_mauserrifle 10
 		giveweapon weapon_snooperrifle
 
-
 		// Ammo
 		setammo ammo_9mm 216
 		setammo ammo_792mm 10
@@ -52,7 +52,11 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 
-
+		alertentity coop_ai_soldier_1
+		alertentity coop_ai_soldier_2
+		alertentity coop_ai_soldier_3
+		alertentity coop_ai_soldier_4
+		alertentity coop_ai_soldier_5
 	}
 
 	// ---Start Music section---
@@ -184,6 +188,8 @@ player
 	{
 		alertentity nazi4
 		alertentity nazi5
+		alertentity coop_ai_soldier_6
+		alertentity coop_ai_soldier_7
 	}
 
 	trigger action1b	// Used for nazi2, see if they can spawn in below the stairs.
@@ -212,6 +218,8 @@ player
 		trigger mech2 on_sighta
 		trigger nazi8 on_sighta
 		trigger mech2 hearing_on
+		alertentity coop_ai_soldier_8
+		alertentity coop_ai_soldier_9
 	}
 
 	trigger toggle_ldoor1
@@ -241,6 +249,8 @@ player
 		trigger counter5 snd_fueling
 		trigger nazi2a go_down_elevator1
 		trigger nazi8 hearing_on
+		alertentity coop_ai_soldier_10
+		alertentity coop_ai_soldier_11
 	}
 
 	trigger action3a
@@ -266,6 +276,9 @@ player
 	{
 		alertentity nazi9
 		alertentity nazi10
+		alertentity coop_ai_soldier_12
+		alertentity coop_ai_soldier_13
+		alertentity coop_ai_soldier_14
 	}
 
 	trigger action7
@@ -274,6 +287,7 @@ player
 		alertentity nazi13
 		alertentity mech3
 		trigger counter2 v2_countdown
+		alertentity coop_ai_soldier_15
 	}
 
 	trigger failed
@@ -287,6 +301,7 @@ player
 		alertentity mech5
 		alertentity mech4
 		alertentity nazi15
+		alertentity coop_ai_soldier_16
 	}
 
 	trigger action9
@@ -302,6 +317,8 @@ player
 		alertentity scientist2
 		alertentity scientist3
 		alertentity v2_smoke1
+		alertentity coop_ai_soldier_18
+		alertentity coop_ai_soldier_19
 	}
 
 	trigger action10
@@ -311,6 +328,7 @@ player
 		alertentity scientist6
 		alertentity nazi15a
 		objectivemet 1
+		alertentity coop_ai_soldier_20
 	}
 
 	trigger abort_launch
@@ -318,6 +336,7 @@ player
 		objectivemet 2
 		trigger v2_button push
 		trigger beam2 swingloop
+		alertentity coop_ai_soldier_21
 	}
 
 	trigger v2_door1_open
@@ -329,6 +348,7 @@ player
 	{
 //		trigger elevator2 fall
 //		alertentity kill_user_v2_door
+		alertentity coop_ai_soldier_17
 	}
 
 	trigger action11
@@ -347,7 +367,11 @@ player
 	trigger action13
 	{
 		alertentity nazi23
-		alertentity nazi24		
+		alertentity nazi24	
+		alertentity coop_ai_soldier_22
+		alertentity coop_ai_soldier_23
+		alertentity coop_ai_soldier_24
+		alertentity coop_ai_soldier_25
 	}
 
 	trigger action14
@@ -355,12 +379,16 @@ player
 		alertentity nazi25
 		alertentity nazi26
 		alertentity nazi27
-		alertentity nazi28		
+		alertentity nazi28
+		alertentity coop_ai_soldier_26
+		alertentity coop_ai_soldier_27
 	}
 
 	trigger action16
 	{
 		alertentity nazi29
+		alertentity coop_ai_soldier_28
+		alertentity coop_ai_soldier_29
 	}
 
 	trigger action17
@@ -383,12 +411,17 @@ player
 		trigger nazi36 go
 		mu_queue sound/music/m_grave
 		mu_fade 0 1000
+		alertentity coop_ai_soldier_30
+		alertentity coop_ai_soldier_31
 	}
 
 	trigger action18a
 	{
 //		trigger sus_bridge go1b
 		alertentity nazi38
+		alertentity coop_ai_soldier_32
+		alertentity coop_ai_soldier_33
+		alertentity coop_ai_soldier_34
 	}
 
 	trigger action18b
@@ -417,6 +450,12 @@ player
 		objectivemet 3
 		alertentity nazi40
 		alertentity nazi40a
+		alertentity coop_ai_soldier_35
+		alertentity coop_ai_soldier_36
+		alertentity coop_ai_soldier_37
+		alertentity coop_ai_soldier_38
+		alertentity coop_ai_soldier_39
+		alertentity coop_ai_soldier_40
 	}
 
 	trigger action21b
@@ -5441,3 +5480,713 @@ nazi44
 		trigger counter5 deadman_count2
 	}
 }
+
+
+
+coop_ai_soldier_1		// Boxes1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_2		// Boxes2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_3		// PB
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_4		// front of Guard
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_5		// with Worker
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_6		// Barrack 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_7		// Barrack 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_8		// end of hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_9		// down on the elevator
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_10		// down area 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_11		// down area 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_12		// out of cave
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_13		// in cave 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_14		// in cave 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_15		// dead end
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_16		// upper floor, near the elevator
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_17		// behind the ladder
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_18		// with scients 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_19		// with scients 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_20		// launcher room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_21		// near the rocket
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_22		// after bridge1 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_23		// after bridge1 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_24		// below the stairs 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_25		// below the stairs 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_26		// on bridge2 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_27		// on bridge2 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_28		// ammo room 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_29		// ammo room 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_30		// before bridge 3 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_31		// before bridge 3 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_32		// office1 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_33		// office1 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_34		// hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_35		// office2 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_36		// office2 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_37		// office2 upper floor 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_38		// office2 upper floor 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_39		// exit 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999	// Mauser Rifle, FG42
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_40		// exit 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+

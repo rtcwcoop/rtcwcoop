@@ -77,6 +77,7 @@
 "classname" "ai_zombie"
 "origin" "-215 -384 344"
 "ainame" "coop_ai_zombie_4"
+"targetname" "coop_ai_zombie_4"
 "angle" "0"
 }
 {

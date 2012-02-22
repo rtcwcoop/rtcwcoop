@@ -566,6 +566,9 @@ zone1
 		alertentity nazi26
 		alertentity nazi27
 		alertentity nazi28
+		alertentity coop_ai_soldier_30
+		alertentity coop_ai_soldier_31
+		alertentity coop_ai_soldier_32
 	}
 
 	trigger reset

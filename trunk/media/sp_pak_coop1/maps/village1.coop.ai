@@ -163,7 +163,6 @@ player
 	{
 		trigger gunner1 1bitset0
 		alertentity coop_ai_soldier_8
-		alertentity coop_ai_soldier_9
 	}
 
 	trigger secret1

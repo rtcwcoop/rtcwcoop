@@ -161,6 +161,7 @@
 "angle" "-6"
 "spawnflags" "1"
 "skin" "venom/factory1"
+"head" "factory1"
 }
 {
 "classname" "ai_blackguard"
@@ -176,6 +177,7 @@
 "angle" "-86"
 "spawnflags" "1"
 "skin" "venom/factory1"
+"head" "factory1"
 }
 {
 "classname" "ai_soldier"
@@ -319,6 +321,7 @@
 "angle" "-177"
 "spawnflags" "1"
 "skin" "venom/factory1"
+"head" "factory1"
 }
 {
 "classname" "ai_blackguard"

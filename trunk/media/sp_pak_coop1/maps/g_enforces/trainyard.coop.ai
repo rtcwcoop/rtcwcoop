@@ -67,8 +67,8 @@ player
 	{
 		trigger black1 startoff
 		alertentity black2
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_2
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 	}
 
 	trigger action2
@@ -79,12 +79,12 @@ player
 		alertentity black3
 		alertentity black4
 		alertentity black5
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_blackguard_4
-		alertentity coop_ai_blackguard_5
-		alertentity coop_ai_soldier_7
-		alertentity coop_ai_soldier_8
-		alertentity coop_ai_soldier_34
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_4 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_5 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_34 #endif
 	}
 
 	trigger action3
@@ -92,7 +92,7 @@ player
 		alertentity black6
 		alertentity black7
 		alertentity black8
-		alertentity coop_ai_blackguard_6
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_6 #endif
 	}
 
 	trigger action4
@@ -101,9 +101,9 @@ player
 		alertentity black10
 		alertentity black11
 		alertentity opendoor1
-		alertentity coop_ai_blackguard_9
-		alertentity coop_ai_soldier_10
-		alertentity coop_ai_soldier_11
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_9 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
 	}
 
 	trigger action5
@@ -119,15 +119,15 @@ player
 		alertentity guard1
 		alertentity guard2
 		alertentity guard3
-		alertentity coop_ai_soldier_13
-		alertentity coop_ai_venom_14
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_14 #endif
 		objectivemet 1	// mission objective complete
 	}
 
 	trigger action11
 	{
 		trigger elevator spawnerg1
-		alertentity coop_ai_soldier_12
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
 	}
 
 	trigger action12
@@ -152,20 +152,20 @@ player
 
 		alertentity lab1
 		alertentity guard8
-		alertentity coop_ai_venom_15
+		#if g_reinforce >= 2 alertentity coop_ai_venom_15 #endif
 	}
 
 	trigger action16
 	{
 		alertentity guard9
-		alertentity coop_ai_soldier_16
-		alertentity coop_ai_soldier_17
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_17 #endif
 	}
 
 	trigger action17 // entering security office
 	{
 		alertentity guard10
-		alertentity coop_ai_blackguard_18
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_18 #endif
 	}
 
 	trigger action18
@@ -174,10 +174,10 @@ player
 		alertentity lab2
 		alertentity lab3
 		trigger elevator labtalk
-		alertentity coop_ai_soldier_19
-		alertentity coop_ai_venom_20
-		alertentity coop_ai_blackguard_21
-		alertentity coop_ai_soldier_22
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_20 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
 	}
 
 	trigger action19
@@ -185,10 +185,10 @@ player
 		alertentity guard11
 		alertentity guard12
 		alertentity guard13
-		alertentity coop_ai_venom_23
-		alertentity coop_ai_blackguard_29
-		alertentity coop_ai_soldier_30
-		alertentity coop_ai_blackguard_31
+		#if g_reinforce >= 1 alertentity coop_ai_venom_23 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_29 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_30 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_31 #endif
 	}
 
 	trigger action20
@@ -200,9 +200,9 @@ player
 		alertentity guard14
 		alertentity guard15
 		
-		alertentity coop_ai_soldier_24
-		alertentity coop_ai_soldier_25
-		alertentity coop_ai_blackguard_26
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_26 #endif
 	}
 
 	trigger action21
@@ -214,23 +214,23 @@ player
 		alertentity guard14
 		alertentity guard15
 		
-		alertentity coop_ai_soldier_24
-		alertentity coop_ai_soldier_25
-		alertentity coop_ai_blackguard_26
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_26 #endif
 	}
 
 	trigger action22
 	{
 		alertentity guard16
-		alertentity coop_ai_blackguard_32
-		alertentity coop_ai_blackguard_33
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_32 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_33 #endif
 	}
 
 	trigger action23
 	{
 		trigger guard16 fire16
-		alertentity coop_ai_soldier_27
-		alertentity coop_ai_soldier_28
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_27 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_28 #endif
 	}
 
 	trigger action24

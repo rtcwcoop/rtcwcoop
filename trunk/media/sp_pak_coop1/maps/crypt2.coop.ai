@@ -40,6 +40,9 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+		
+		alertentity coop_ai_zombie_4
+		
 	}
 
 	playerstart
@@ -147,7 +150,7 @@ player
 		alertentity coop_ai_zombie_23
 		alertentity coop_ai_zombie_24
 		alertentity coop_ai_zombie_25
-	}
+			}
 
 	trigger z16reset
 	{

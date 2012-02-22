@@ -17,7 +17,6 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
-
 	}
 
 	playerstart
@@ -43,6 +42,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+		
+		alertentity coop_ai_soldier_3
 
 	}
 
@@ -87,8 +88,8 @@ player
 		trigger nazi8 march8
 		trigger officer2 clearorders	// should only be used when alarm triggered
 		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_9		
-		alertentity coop_ai_soldier_26		
+		alertentity coop_ai_soldier_9
+		alertentity coop_ai_soldier_26
 		alertentity coop_ai_soldier_27
 		alertentity coop_ai_soldier_28
 	}

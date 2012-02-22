@@ -18,7 +18,6 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
-
 	}
 
 	playerstart
@@ -44,6 +43,12 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+
+		
+		alertentity coop_ai_soldier_1
+		alertentity coop_ai_soldier_2
+		alertentity coop_ai_soldier_3
+		alertentity coop_ai_soldier_4
 
 	}
 
@@ -195,9 +200,6 @@ player
 		alertentity coop_ai_soldier_27
 		alertentity coop_ai_soldier_28
 		alertentity coop_ai_soldier_29
-		alertentity coop_ai_soldier_30
-		alertentity coop_ai_soldier_31
-		alertentity coop_ai_soldier_32
 	}
 
 	trigger action8

@@ -19,7 +19,6 @@ player
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
-
 	}
 
 	playerstart
@@ -32,14 +31,18 @@ player
 		
 		// Weapons
 		giveweapon weapon_knife
+		giveweapon weapon_luger
+			setclip weapon_luger 8
 
+		alertentity coop_ai_soldier_1
+		alertentity coop_ai_soldier_2
 	}
 
 	trigger fix_bitset0
 	{
 		accum 0 bitset 0 // post cutscene cell door should only trigger once
 		giveweapon weapon_knife
-		selectweapon weapon_knife
+		selectweapon weapon_luger
 	}
 
 	// ---Start Camera Section---
@@ -241,7 +244,6 @@ player
 		trigger nazi9 longrun9
 		trigger nazi17 clear17
 		trigger nazi18 clear18
-		alertentity coop_ai_soldier_16
 	}
 
 	trigger action12
