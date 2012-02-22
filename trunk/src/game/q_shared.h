@@ -1035,8 +1035,8 @@ typedef enum {
 #define MAX_CLIENTS         128     // absolute limit
 #define MAX_LOCATIONS       64
 
-#define GENTITYNUM_BITS     10      // don't need to send any more
-//#define	GENTITYNUM_BITS		11		// don't need to send any more		(SA) upped 4/21/2001 adjusted: tr_local.h (802-822), tr_main.c (1501), sv_snapshot (206)
+//#define GENTITYNUM_BITS     10      // don't need to send any more
+#define	GENTITYNUM_BITS		11		// don't need to send any more		(SA) upped 4/21/2001 adjusted: tr_local.h (802-822), tr_main.c (1501), sv_snapshot (206)
 #define MAX_GENTITIES       ( 1 << GENTITYNUM_BITS )
 
 // entitynums are communicated with GENTITY_BITS, so any reserved
