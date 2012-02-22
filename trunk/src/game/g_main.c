@@ -1062,32 +1062,47 @@ G_SendMissionStats
 int G_SendMissionStats() {
 	char cmd[MAX_QPATH];
 	gentity_t   *player;
-	int i, attempts = 0, playtime = 0, minutes, objs = 0, sec = 0, treas = 0;
+	int i, j, attempts = 0, playtime = 0, minutes, objs = 0, sec = 0, treas = 0;
 	int canExit = 0;
 
-	player = AICast_FindEntityForName( "player" );
-	if ( player ) {
-		attempts = AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
-		AICast_AgePlayTime( player->s.number );
-		playtime = AICast_PlayTime( player->s.number );
+        if (g_gametype.integer > GT_COOP) {
+            player = AICast_FindEntityForName( "player" );
+            if ( player ) {
+                    attempts = AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
+                    AICast_AgePlayTime( player->s.number );
+                    playtime = AICast_PlayTime( player->s.number );
 
-		for ( i = 0; i < 8; i++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
-			if ( player->missionObjectives & ( 1 << i ) ) {
-				objs++;
-			}
-		}
-		sec = player->numSecretsFound;
-		treas = player->numTreasureFound;
-	}
+                    for ( i = 0; i < 8; i++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
+                            if ( player->missionObjectives & ( 1 << i ) ) {
+                                    objs++;
+                            }
+                    }
+                    sec = player->numSecretsFound;
+                    treas = player->numTreasureFound;
+            }
+        } else { // in coop, we have to loop through all the players not only the first player
+                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                        player = &g_entities[i];
+
+                        if (player->r.svFlags & SVF_CASTAI)
+                                continue;
 
 
-        //G_Printf("before playtime: %d\n", playtime);
-        // fretn - coop
-        if (g_gametype.integer <= GT_COOP)
+                        if ( player ) {
+                                attempts += AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
+
+                                for ( j = 0; j < 8; j++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
+                                        if ( player->missionObjectives & ( 1 << j ) ) {
+                                                objs++;
+                                        }
+                                }
+                                sec += player->numSecretsFound;
+                                treas += player->numTreasureFound;
+                        }
+                }
+
                 playtime = level.time - level.startTime;
-
-        //G_Printf("after playtime: %d\n", playtime);
-
+        }
 	memset( cmd, 0, sizeof( cmd ) );
 	Q_strcat( cmd, sizeof( cmd ), "s=" );
 
