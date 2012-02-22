@@ -2277,6 +2277,7 @@ AICast_ScriptAction_ChangeLevel
 
 ====================
 */
+// fretn: TODO, speedrun needs to save the leveltime
 qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	int i;
 	char *pch, *pch2, *newstr;
@@ -2387,9 +2388,9 @@ AICast_ScriptAction_FoundSecret
 */
 qboolean AICast_ScriptAction_FoundSecret( cast_state_t *cs, char *params ) {
 	gentity_t *player = AICast_FindEntityForName( "player" );
-//	level.numSecretsFound++;
-	player->numSecretsFound++;
-	trap_SendServerCommand( -1, "cp secretarea" );
+	level.numSecretsFound++;
+	//player->numSecretsFound++;
+	trap_SendServerCommand( cs->entityNum, "cp secretarea" );
 	G_SendMissionStats();
 	return qtrue;
 }

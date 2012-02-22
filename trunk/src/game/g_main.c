@@ -1077,7 +1077,7 @@ int G_SendMissionStats() {
                                     objs++;
                             }
                     }
-                    sec = player->numSecretsFound;
+                    sec = level.numSecretsFound;
                     treas = player->numTreasureFound;
             }
         } else { // in coop, we have to loop through all the players not only the first player
@@ -1096,7 +1096,7 @@ int G_SendMissionStats() {
                                                 objs++;
                                         }
                                 }
-                                sec += player->numSecretsFound;
+                                sec = level.numSecretsFound;
                                 treas += player->numTreasureFound;
                         }
                 }
