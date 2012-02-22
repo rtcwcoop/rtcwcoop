@@ -723,6 +723,8 @@ typedef struct {
 	int numTreasure;
 	int numArtifacts;
 	int numObjectives;
+
+        int numSecretsFound;
 //----(SA)	end
 
 	int knifeSound[4];
