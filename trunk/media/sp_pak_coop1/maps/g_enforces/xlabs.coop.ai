@@ -59,9 +59,9 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_14
-		alertentity coop_ai_soldier_15
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
 	}
 
 	// --- Start Camera triggers ---
@@ -152,16 +152,16 @@ player
 		trigger nazi2 reset
 		alertentity nazi9
 		alertentity nazi10
-		alertentity coop_ai_soldier_2
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_soldier_4
-		alertentity coop_ai_soldier_5
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_4 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_5 #endif
 	}
 
 	trigger action1
 	{
 		trigger loper1 look_at_player
-		alertentity coop_ai_loper_6
+		#if g_reinforce >= 2 alertentity coop_ai_loper_6 #endif
 	}
 
 	trigger action2
@@ -172,7 +172,7 @@ player
 	trigger action3
 	{
 		trigger loper1 go2
-		alertentity coop_ai_soldier_9
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
 	}
 
 	trigger action4
@@ -180,8 +180,8 @@ player
 		mu_fade 0 1000
 		mu_queue sound/music/x_military
 		trigger counter2 open_cages
-		alertentity coop_ai_soldier_7
-		alertentity coop_ai_soldier_8
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_8 #endif
 	}
 
 	trigger action5
@@ -192,11 +192,11 @@ player
 		alertentity scientist11
 		alertentity loper6
 		alertentity loper7
-		alertentity coop_ai_loper_13
+		#if g_reinforce >= 1 alertentity coop_ai_loper_13 #endif
 		alertentity scientist12
 		alertentity scientist12a
 		trigger counter1 sci11_scene
-		alertentity coop_ai_loper_10		
+		#if g_reinforce >= 2 alertentity coop_ai_loper_10 #endif	
 	}
 
 	trigger action6
@@ -209,9 +209,9 @@ player
 	trigger action7
 	{
 		alertentity proto1
-		alertentity coop_ai_loper_11
-		alertentity coop_ai_protosoldier_12
-		alertentity coop_ai_protosoldier_16
+		#if g_reinforce >= 1 alertentity coop_ai_loper_11 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_16 #endif
 	}
 
 	trigger action8
@@ -260,11 +260,11 @@ player
 		alertentity nazi17
 		alertentity nazi18
 		alertentity loper11
-		alertentity coop_ai_soldier_17
-		alertentity coop_ai_soldier_18
-		alertentity coop_ai_soldier_19
-		alertentity coop_ai_loper_20
-		alertentity coop_ai_protosoldier_21
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_18 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_loper_20 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_21 #endif
 	}
 
 	trigger get_objective2
