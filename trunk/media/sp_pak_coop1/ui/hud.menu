@@ -145,7 +145,7 @@
 	// lives text
 		itemDef {
  			name "a"
-			text "RESPAWNS"
+			text "LIVES"
 			type 1
 			rect 84 32 32 32
 			textstyle 6
