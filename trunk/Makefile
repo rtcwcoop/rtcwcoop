@@ -964,8 +964,8 @@ WOLFCGOBJ_ = \
   \
   $(B)/main/ui/ui_shared.o \
   \
-  $(B)/main/qcommon/q_math.o \
-  $(B)/main/qcommon/q_shared.o
+  $(B)/main/cgame/q_math.o \
+  $(B)/main/cgame/q_shared.o
 
 WOLFCGOBJ = $(WOLFCGOBJ_) $(B)/main/cgame/cg_syscalls.o
 WOLFCGVMOBJ = $(WOLFCGOBJ_:%.o=%.asm)
@@ -1029,8 +1029,8 @@ WOLFGOBJ_ = \
   $(B)/main/game/g_utils.o \
   $(B)/main/game/g_weapon.o \
   \
-  $(B)/main/qcommon/q_math.o \
-  $(B)/main/qcommon/q_shared.o
+  $(B)/main/game/q_math.o \
+  $(B)/main/game/q_shared.o
 
 WOLFGOBJ = $(WOLFGOBJ_) $(B)/main/game/g_syscalls.o
 WOLFGVMOBJ = $(WOLFGOBJ_:%.o=%.asm)
@@ -1052,8 +1052,8 @@ WOLFUIOBJ_ = \
   \
   $(B)/main/ui/bg_misc.o \
   \
-  $(B)/main/qcommon/q_math.o \
-  $(B)/main/qcommon/q_shared.o
+  $(B)/main/ui/q_math.o \
+  $(B)/main/ui/q_shared.o
 
 WOLFUIOBJ = $(WOLFUIOBJ_) $(B)/main/ui/ui_syscalls.o
 WOLFUIVMOBJ = $(WOLFUIOBJ_:%.o=%.asm)
@@ -1191,10 +1191,22 @@ $(B)/main/qcommon/%.asm: $(CMDIR)/%.c $(WOLFLCC)
 	$(DO_WOLFLCC)
 
 # fretn
-$(B)/main/qcommon/q_math.o: $(GDIR)/q_math.c
+$(B)/main/cgame/q_math.o: $(GDIR)/q_math.c
 	$(DO_CGAME_CC)
-$(B)/main/qcommon/q_shared.o: $(GDIR)/q_shared.c
+$(B)/main/cgame/q_shared.o: $(GDIR)/q_shared.c
 	$(DO_CGAME_CC)
+
+# fretn
+$(B)/main/game/q_math.o: $(GDIR)/q_math.c
+	$(DO_GAME_CC)
+$(B)/main/game/q_shared.o: $(GDIR)/q_shared.c
+	$(DO_GAME_CC)
+
+# fretn
+$(B)/main/ui/q_math.o: $(GDIR)/q_math.c
+	$(DO_UI_CC)
+$(B)/main/ui/q_shared.o: $(GDIR)/q_shared.c
+	$(DO_UI_CC)
 
 $(B)/main/game/%.o: $(BAIDIR)/%.c
 	$(DO_GAME_CC)

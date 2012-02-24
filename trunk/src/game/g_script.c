@@ -277,17 +277,6 @@ void G_Script_ScriptLoad( void ) {
 	trap_FS_Read( level.scriptEntity, len, f );
 
 	trap_FS_FCloseFile( f );
-
-        // preprocess the script file
-        G_ScriptPreprocess( level.scriptEntity );
-        
-        if ( trap_FS_FOpenFile( filename, &f, FS_WRITE ) < 0 ) { 
-                G_Error( "cannot open file test.script for saving\n" );
-        }    
-
-        trap_FS_Write(level.scriptEntity, strlen(level.scriptEntity), f); 
-        trap_FS_FCloseFile( f );
-
 }
 
 /*

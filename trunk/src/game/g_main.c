@@ -1087,7 +1087,6 @@ int G_SendMissionStats() {
                         if (player->r.svFlags & SVF_CASTAI)
                                 continue;
 
-
                         if ( player ) {
                                 attempts += AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
 

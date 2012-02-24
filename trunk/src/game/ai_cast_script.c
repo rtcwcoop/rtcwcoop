@@ -386,19 +386,6 @@ void AICast_ScriptLoad( void ) {
 
 	trap_FS_FCloseFile( f );
         
-        // disabled for now
-        G_ScriptPreprocess( level.scriptAI );
-
-        /* 
-        if ( trap_FS_FOpenFile( "test.ai", &f, FS_WRITE ) < 0 ) {
-                G_Error( "G_SaveGame: cannot open file for saving\n" );
-        }    
-
-        trap_FS_Write(level.scriptAI, strlen(level.scriptAI), f);
-        trap_FS_FCloseFile( f );
-        */
-
-
 	return;
 }
 
