@@ -145,15 +145,15 @@ big_door1_lever
 		accum 0 bitset 0
 		faceangles 90 0 0 500
 		faceangles 180 0 0 500
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_2
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_soldier_4
-		alertentity coop_ai_soldier_5
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_7
-		alertentity coop_ai_soldier_8
-		alertentity coop_ai_protosoldier_20
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_4 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_8 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_20 #endif
 		alertentity big_door1_sound
 		trigger big_door1 up
 		wait 2000
