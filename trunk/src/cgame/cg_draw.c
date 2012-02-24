@@ -830,6 +830,7 @@ static void CG_DrawPickupItem( void ) {
 	float   *fadeColor;
 	char pickupText[256];
 	float color[4];
+        int w = 0;
 
 	value = cg.itemPickup;
 	if ( value ) {
@@ -861,7 +862,9 @@ static void CG_DrawPickupItem( void ) {
 			//----(SA)	trying smaller text
 			color[0] = color[1] = color[2] = 1.0;
 			color[3] = fadeColor[0];
-			CG_DrawStringExt2( ICON_SIZE + 16, 398, pickupText, color, qfalse, qtrue, 10, 10, 0 );
+			//CG_DrawStringExt2( ICON_SIZE + 16, 398, pickupText, color, qfalse, qtrue, 10, 10, 0 );
+                        w = CG_DrawStrlen( pickupText );
+			CG_DrawStringExt2( 320-(w/2), 455, pickupText, color, qfalse, qtrue, 10, 10, 0 );
 //			CG_Text_Paint(ICON_SIZE + 16, 398, 2, 0.3f, color, pickupText, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 
 
