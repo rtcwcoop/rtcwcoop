@@ -21,9 +21,11 @@ New entities for mappers and other information for mappers.
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
 "origin" "3826 1997 1272"
 "angle" "-88"
+"spawnflags" "1"
+// spawnflags 1 means enabled
 }
 }}}
 
