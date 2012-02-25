@@ -73,6 +73,9 @@ friends are: civilians and the other coop players
 == g_limbotime ==
 When playing the Speedrun gametype, you respawn at fixed intervals, this interval is set by g_limbotime, default value is 30000 (30 seconds).
 
+== g_reinforce ==
+This cvar controls the amount of enemies. Values are 0, 1 or 2. The higher the number the more enemies that spawn. We handle this in the .ents, .ai and .script files
+
 = Cmds =
 ==+dropweapon==
  drop your current weapon so your coop friend can pick it up
