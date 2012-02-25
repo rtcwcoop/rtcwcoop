@@ -65,8 +65,8 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 		
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_11
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
 
 	}
 
@@ -75,17 +75,17 @@ player
 		trigger nazi1 takeaction1
 		trigger nazi2 takeaction2
 		alertentity nazi3
-		alertentity coop_ai_soldier_2
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_soldier_4
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_4 #endif
 	}
 
 	trigger action2
 	{
 		alertentity nazi4
 		alertentity nazi6
-		alertentity coop_ai_soldier_5
-		alertentity coop_ai_soldier_8
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
 	}
 
 	trigger action3
@@ -96,10 +96,10 @@ player
 		alertentity nazi7
 		alertentity nazi13
 		alertentity nazi14
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_7
-		alertentity coop_ai_soldier_9
-		alertentity coop_ai_soldier_10
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
 	}
 
 	trigger action4 // wakeup guys i have asleep but spawned in. note ... need to do this in forest.
@@ -107,9 +107,9 @@ player
 		trigger nazi7 nowactive7
 		trigger nazi13 nowactive13
 		trigger nazi14 mountmg14
-		alertentity coop_ai_soldier_12
-		alertentity coop_ai_venom_13
-		alertentity coop_ai_blackguard_14
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_14 #endif
 	}
 
 	trigger action5
@@ -124,9 +124,9 @@ player
 		alertentity nazi11
 		alertentity venom1
 		alertentity nazi12		
-		alertentity coop_ai_soldier_8
-		alertentity coop_ai_venom_15
-		alertentity coop_ai_soldier_16
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_15 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
 		
 		
 	}
@@ -143,10 +143,10 @@ player
 		accum 0 bitreset 5
 		alertentity black1
 		alertentity black2
-		alertentity coop_ai_venom_15
-		alertentity coop_ai_soldier_16
-		alertentity coop_ai_soldier_17
-		alertentity coop_ai_blackguard_18
+		#if g_reinforce >= 2 alertentity coop_ai_venom_15 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_18 #endif
 	}
 
 	trigger action7 // wake up here guys from action 3
@@ -159,20 +159,20 @@ player
 		trigger nazi7 nowactive7
 		trigger nazi13 nowactive13
 		trigger nazi14 nowactive14
-		alertentity coop_ai_soldier_9
-		alertentity coop_ai_soldier_10
-		alertentity coop_ai_soldier_12
-		alertentity coop_ai_venom_13
-		alertentity coop_ai_blackguard_14
-		alertentity coop_ai_soldier_17
-		alertentity coop_ai_blackguard_18
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_14 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_18 #endif
 	}
 
 	trigger action8
 	{
 		trigger nazi10 releasegun2
-		alertentity coop_ai_soldier_19
-		alertentity coop_ai_soldier_20
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_20 #endif
 	}
 
 	trigger action9
@@ -183,9 +183,9 @@ player
 	trigger action10
 	{
 		alertentity black4
-		alertentity coop_ai_blackguard_21
-		alertentity coop_ai_blackguard_22
-		alertentity coop_ai_blackguard_23
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_22 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_23 #endif
 	}
 
 	trigger action10b
@@ -204,8 +204,8 @@ player
 	{
 		trigger spawner detonate
 		wait 100
-		alertentity coop_ai_soldier_24
-		alertentity coop_ai_soldier_25
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
 	}
 
 	trigger action12
@@ -219,9 +219,9 @@ player
 		alertentity black10
 		alertentity black11
 		alertentity black12
-		alertentity coop_ai_blackguard_26
-		alertentity coop_ai_soldier_27
-		alertentity coop_ai_blackguard_28
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_26 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_27 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_28 #endif
 		
 	}
 
@@ -232,12 +232,12 @@ player
 		trigger black10 nowactive10
 		trigger black11 nowactive11
 		trigger black12 nowactive12
-		alertentity coop_ai_blackguard_29
-		alertentity coop_ai_blackguard_30
-		alertentity coop_ai_blackguard_31
-		alertentity coop_ai_soldier_32
-		alertentity coop_ai_venom_33
-		alertentity coop_ai_blackguard_34
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_29 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_30 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_31 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_venom_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_34 #endif
 	}
 
 	trigger action14

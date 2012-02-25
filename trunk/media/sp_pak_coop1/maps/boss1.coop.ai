@@ -959,19 +959,19 @@ helga_zombie	// reincarnation of helga
 		alertentity zombie6
 		alertentity zombie7
 		alertentity zombie8
-		alertentity coop_ai_zombie_1
-		alertentity coop_ai_zombie_2
-		alertentity coop_ai_zombie_3
-		alertentity coop_ai_zombie_4
-		alertentity coop_ai_zombie_5
-		alertentity coop_ai_zombie_6
-		alertentity coop_ai_zombie_10
-		alertentity coop_ai_zombie_11
-		alertentity coop_ai_zombie_12
-		alertentity coop_ai_zombie_13
-		alertentity coop_ai_zombie_14
-		alertentity coop_ai_zombie_15
-		alertentity coop_ai_zombie_16
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_3 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_4 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_5 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_10 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_11 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_13 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_14 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_15 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_16 #endif
 		trigger counter1 killed_total
 		accum 2 abort_if_not_equal 0
 		alertentity blowfence

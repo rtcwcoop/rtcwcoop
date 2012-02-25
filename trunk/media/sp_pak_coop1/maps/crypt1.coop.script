@@ -516,11 +516,11 @@ counter1	//MISC Counter
 		alertentity flame1_kill_push
 		wait 5
 		alertentity flamezombie
-		alertentity coop_ai_zombie_28
-		alertentity coop_ai_zombie_29
-		alertentity coop_ai_zombie_30
-		alertentity coop_ai_zombie_31
-		alertentity coop_ai_zombie_32
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_28 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_29 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_30 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_31 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_32 #endif
 	}
 }
 

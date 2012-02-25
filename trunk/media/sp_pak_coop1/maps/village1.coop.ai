@@ -95,9 +95,9 @@ player
 		alertentity nazi5
 		alertentity fem1
 		alertentity nazi6
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_2
-		alertentity coop_ai_soldier_3
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
 	}
 
 	trigger action4 // Triggers nazi5 to walk to walk away from the bar.
@@ -139,10 +139,10 @@ player
 	{
 		trigger nazi0 go
 		accum 4 abort_if_greater_than 0
-		alertentity coop_ai_soldier_4
-		alertentity coop_ai_soldier_5
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_7
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_4 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
 	}
 
 	trigger sten_pickup
@@ -162,7 +162,7 @@ player
 	trigger action5b
 	{
 		trigger gunner1 1bitset0
-		alertentity coop_ai_soldier_8
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_8 #endif
 	}
 
 	trigger secret1
@@ -202,9 +202,9 @@ player
 		alertentity nazi12
 		alertentity nazi13
 		alertentity killsniptrig
-		alertentity coop_ai_soldier_9
-		alertentity coop_ai_soldier_10
-		alertentity coop_ai_soldier_11
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
 	}
 
 	trigger action7 // This will trigger if the player tries to go up the ladder against Sniper1
@@ -221,16 +221,16 @@ player
 	{
 		alertentity nazi16
 		alertentity nazi17
-		alertentity coop_ai_soldier_15
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_15 #endif
 	}
 
 	trigger action8b // This will alert the following
 	{
 		alertentity nazi14
 		alertentity nazi15
-		alertentity coop_ai_soldier_16
-		alertentity coop_ai_soldier_17
-		alertentity coop_ai_soldier_21
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_21 #endif
 	}
 
 	trigger action8c
@@ -238,12 +238,12 @@ player
 		alertentity nazi19
 		alertentity fem2
 		alertentity nazi19a
-		alertentity coop_ai_soldier_12
-		alertentity coop_ai_soldier_13
-		alertentity coop_ai_soldier_14
-		alertentity coop_ai_soldier_18
-		alertentity coop_ai_soldier_19
-		alertentity coop_ai_soldier_20
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_14 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
 	}
 
 	trigger action9	// This will alert the following
@@ -252,14 +252,14 @@ player
 		alertentity nazi20
 		alertentity nazi21
 		alertentity nazi22
-		alertentity coop_ai_soldier_22
-		alertentity coop_ai_soldier_23
-		alertentity coop_ai_soldier_24
-		alertentity coop_ai_soldier_25
-		alertentity coop_ai_soldier_26
-		alertentity coop_ai_soldier_27
-		alertentity coop_ai_soldier_28
-		alertentity coop_ai_soldier_30
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_22 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_23 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_26 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_27 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_28 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_30 #endif
 	}
 
 	trigger action10	// This will alert the following
@@ -276,14 +276,14 @@ player
 	trigger action11
 	{
 		trigger officer1 talk1
-		alertentity coop_ai_soldier_31
-		alertentity coop_ai_soldier_32
-		alertentity coop_ai_soldier_33
-		alertentity coop_ai_soldier_34
-		alertentity coop_ai_soldier_35
-		alertentity coop_ai_soldier_36
-		alertentity coop_ai_soldier_37
-		alertentity coop_ai_soldier_38
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_31 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_36 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_37 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_38 #endif
 	}
 
 	trigger got_objective2

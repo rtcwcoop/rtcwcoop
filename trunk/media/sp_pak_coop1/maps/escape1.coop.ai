@@ -34,8 +34,8 @@ player
 		giveweapon weapon_luger
 			setclip weapon_luger 8
 
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_2
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 	}
 
 	trigger fix_bitset0
@@ -124,7 +124,7 @@ player
 	trigger action1b
 	{
 		trigger nazi1 hands1
-		alertentity coop_ai_soldier_20
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_20 #endif
 	}
 
 	trigger action2
@@ -141,8 +141,8 @@ player
 		trigger spawner zone1calm
 		trigger nazi2 nohelp
 		trigger alarm exitcells
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_soldier_4
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_4 #endif
 	}
 
 	trigger lowernoise
@@ -158,11 +158,11 @@ player
 	{
 		trigger nazi2 getballs2
 		trigger nazi5 inhall5
-		alertentity coop_ai_soldier_5
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_21
-		alertentity coop_ai_soldier_22
-		alertentity coop_ai_soldier_23
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_23 #endif
 	}
 
 	trigger action5
@@ -171,10 +171,10 @@ player
 		alertentity nazi7
 		alertentity nazi8
 		alertentity nazi9
-		alertentity coop_ai_soldier_10
-		alertentity coop_ai_soldier_7
-		alertentity coop_ai_soldier_24
-		alertentity coop_ai_soldier_25
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
 	}
 
 	trigger action6
@@ -192,10 +192,10 @@ player
 		trigger nazi6 snuckby
 		trigger nazi8 useattackd
 		trigger dialog radiotalk
-		alertentity coop_ai_soldier_9
-		alertentity coop_ai_soldier_11
-		alertentity coop_ai_soldier_12
-		alertentity coop_ai_soldier_26
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_11 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_26 #endif
 	}
 
 	trigger wake_radio
@@ -215,8 +215,8 @@ player
 		trigger spawner meetingroom
 		trigger nazi7 moveposition7
 		trigger nazi8 moveposition8
-		alertentity coop_ai_soldier_13
-		alertentity coop_ai_soldier_14
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
 	}
 	
 	trigger action10a
@@ -226,7 +226,7 @@ player
 		alertentity nazi17
 		alertentity nazi18
 		alertentity nazi15
-		alertentity coop_ai_soldier_15
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
 		alertentity fakewall
 		trigger player musicmoving
 	}
@@ -262,7 +262,7 @@ player
 	trigger action14
 	{
 		objectivemet 2
-		alertentity coop_ai_soldier_19
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
 	}
 
 	trigger action16
@@ -273,7 +273,7 @@ player
 	trigger action17
 	{
 		trigger spawner barracks
-		alertentity coop_ai_soldier_8
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
 	}
 
 	trigger action18
@@ -289,15 +289,15 @@ player
 	trigger action20
 	{
 		trigger zone3thru5 exitz3
-		alertentity coop_ai_soldier_16
-		alertentity coop_ai_soldier_27
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_27 #endif
 	}
 
 	trigger action21
 	{
 		trigger nazi23 freeup23
-		alertentity coop_ai_soldier_17
-		alertentity coop_ai_soldier_18
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_18 #endif
 	}
 
 	trigger callalarm

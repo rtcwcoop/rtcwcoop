@@ -74,7 +74,7 @@ player
 		mu_queue sound/music/x_action
 	}
 
-//	trigger 0bitset0
+	trigger 0bitset0
 //	{
 //		accum 0 bitset 0
 //	}
@@ -90,17 +90,17 @@ player
 	{
 		alertentity nazi1
 		alertentity nazi2
-		alertentity coop_ai_soldier_9
-		alertentity coop_ai_soldier_10
-		alertentity coop_ai_soldier_11
-		alertentity coop_ai_venom_12
-		alertentity coop_ai_soldier_13
-		alertentity coop_ai_soldier_14
-		alertentity coop_ai_soldier_15
-		alertentity coop_ai_soldier_16
-		alertentity coop_ai_venom_17
-		alertentity coop_ai_venom_18
-		alertentity coop_ai_venom_19
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_11 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_14 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_15 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_venom_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_18 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_venom_19 #endif
 	}
 
 	trigger action2
@@ -199,8 +199,8 @@ player
 	trigger action4
 	{
 		alertentity kill_clip
-		alertentity coop_ai_venom_42
-		alertentity coop_ai_venom_43
+		#if g_reinforce >= 1 alertentity coop_ai_venom_42 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_43 #endif
 	}
 
 	trigger e1_toggle_upbtn	// This triggers while the player is NOT on the elevator.
@@ -223,8 +223,8 @@ player
 		accum 0 abort_if_not_bitset 2
 		trigger e1lever1 toggle
 		wait 8000
-		alertentity coop_ai_venom_44
-		alertentity coop_ai_venom_45
+		#if g_reinforce >= 1 alertentity coop_ai_venom_44 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_45 #endif
 	}
 
 	trigger enable_e1downlever
@@ -614,16 +614,16 @@ proto2
 	death
 	{
 		alertentity scientist00
-		alertentity coop_ai_soldier_21
-		alertentity coop_ai_soldier_22
-		alertentity coop_ai_soldier_23
-		alertentity coop_ai_soldier_24
-		alertentity coop_ai_soldier_25
-		alertentity coop_ai_soldier_26
-		alertentity coop_ai_soldier_27
-		alertentity coop_ai_soldier_28
-		alertentity coop_ai_soldier_29
-		alertentity coop_ai_soldier_30
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_23 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_25 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_26 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_27 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_28 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_29 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_30 #endif
 	}
 }
 
@@ -821,7 +821,7 @@ super1
 {
 	attributes
 	{
-		starting_health 2000
+		starting_health 1800
 		aim_accuracy 1.0
 		aggression 1.0
 		tactical 1.0
@@ -1072,32 +1072,32 @@ super1
 		accum 0 bitreset 7
 	}
 
-	pain 1200
+	pain 1650
 	{
 		alertentity clown1
 	}
 
-	pain 1000
+	pain 1500
 	{
 		alertentity clown2
 	}
 
-	pain 800
+	pain 1350
 	{
 		alertentity clown3
 	}
 
-	pain 600
+	pain 1200
 	{
 		alertentity clown4
 	}
 
-	pain 450
+	pain 1050
 	{
 		alertentity clown5
 	}
 
-	pain 300
+	pain 900
 	{
 		alertentity clown6
 		accum 0 bitset 6
@@ -1109,15 +1109,24 @@ super1
 		trigger deathshead no_taunt
 	}
 
-	pain 100
+	pain 800
 	{
 		trigger deathshead no_taunt
-		alertentity coop_ai_venom_40
 	}
 
-	pain 200
+	pain 600
 	{
 		trigger deathshead losing1
+	}
+	
+	pain 400
+	{
+		#if g_reinforce >= 1 alertentity coop_ai_venom_42 #endif
+	}
+	
+	pain 200
+	{
+		#if g_reinforce >= 2 alertentity coop_ai_venom_43 #endif
 	}
 
 	inspectfriendlycombatstart
@@ -1149,16 +1158,18 @@ super1
 		trigger player music1
 		objectivemet 2
 		trigger deathshead defeat
-		alertentity coop_ai_soldier_31
-		alertentity coop_ai_soldier_32
-		alertentity coop_ai_soldier_33
-		alertentity coop_ai_soldier_34
-		alertentity coop_ai_soldier_35
-		alertentity coop_ai_soldier_36
-		alertentity coop_ai_soldier_37
-		alertentity coop_ai_soldier_38
-		alertentity coop_ai_venom_39
-		alertentity coop_ai_protosoldier_41
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_31 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_36 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_37 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_38 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_39 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_venom_42 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_41 #endif		
+		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_46 #endif
 		alertentity lastdoor2
 		trigger ldoor1 open
 	}
@@ -2766,12 +2777,12 @@ coop_ai_venom_40		// stairway 2
 }
 
 
-coop_ai_protosoldier_41		// last room
+coop_ai_protosoldier_41		// after-super
 {
 	attributes
 	{
 		fov 360
-		starting_health 600
+		starting_health 450
 		aggression 1.0
 	}
 
@@ -2859,5 +2870,25 @@ coop_ai_venom_45		// elev up 2
 		setammo ammo_fuel 999
 		selectweapon weapon_flamethrower
 		statetype alert
+	}
+}
+
+coop_ai_protosoldier_46		// after-super 2
+{
+	attributes
+	{
+		fov 360
+		starting_health 450
+		aggression 1.0
+	}
+
+	spawn
+	{
+		knockback off
+		statetype alert
+		takeweapon all
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 999
+		selectweapon weapon_panzerfaust
 	}
 }

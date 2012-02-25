@@ -52,11 +52,11 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_2
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_soldier_4
-		alertentity coop_ai_soldier_5
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_4 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_5 #endif
 	}
 
 	// ---Start Music section---
@@ -188,8 +188,8 @@ player
 	{
 		alertentity nazi4
 		alertentity nazi5
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_7
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
 	}
 
 	trigger action1b	// Used for nazi2, see if they can spawn in below the stairs.
@@ -218,8 +218,8 @@ player
 		trigger mech2 on_sighta
 		trigger nazi8 on_sighta
 		trigger mech2 hearing_on
-		alertentity coop_ai_soldier_8
-		alertentity coop_ai_soldier_9
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_9 #endif
 	}
 
 	trigger toggle_ldoor1
@@ -249,8 +249,8 @@ player
 		trigger counter5 snd_fueling
 		trigger nazi2a go_down_elevator1
 		trigger nazi8 hearing_on
-		alertentity coop_ai_soldier_10
-		alertentity coop_ai_soldier_11
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_11 #endif
 	}
 
 	trigger action3a
@@ -276,9 +276,9 @@ player
 	{
 		alertentity nazi9
 		alertentity nazi10
-		alertentity coop_ai_soldier_12
-		alertentity coop_ai_soldier_13
-		alertentity coop_ai_soldier_14
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_14 #endif
 	}
 
 	trigger action7
@@ -287,7 +287,7 @@ player
 		alertentity nazi13
 		alertentity mech3
 		trigger counter2 v2_countdown
-		alertentity coop_ai_soldier_15
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
 	}
 
 	trigger failed
@@ -301,7 +301,7 @@ player
 		alertentity mech5
 		alertentity mech4
 		alertentity nazi15
-		alertentity coop_ai_soldier_16
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
 	}
 
 	trigger action9
@@ -317,8 +317,8 @@ player
 		alertentity scientist2
 		alertentity scientist3
 		alertentity v2_smoke1
-		alertentity coop_ai_soldier_18
-		alertentity coop_ai_soldier_19
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_18 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
 	}
 
 	trigger action10
@@ -328,7 +328,7 @@ player
 		alertentity scientist6
 		alertentity nazi15a
 		objectivemet 1
-		alertentity coop_ai_soldier_20
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_20 #endif
 	}
 
 	trigger abort_launch
@@ -336,7 +336,7 @@ player
 		objectivemet 2
 		trigger v2_button push
 		trigger beam2 swingloop
-		alertentity coop_ai_soldier_21
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_21 #endif
 	}
 
 	trigger v2_door1_open
@@ -348,7 +348,7 @@ player
 	{
 //		trigger elevator2 fall
 //		alertentity kill_user_v2_door
-		alertentity coop_ai_soldier_17
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
 	}
 
 	trigger action11
@@ -368,10 +368,10 @@ player
 	{
 		alertentity nazi23
 		alertentity nazi24	
-		alertentity coop_ai_soldier_22
-		alertentity coop_ai_soldier_23
-		alertentity coop_ai_soldier_24
-		alertentity coop_ai_soldier_25
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_22 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_23 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
 	}
 
 	trigger action14
@@ -380,15 +380,15 @@ player
 		alertentity nazi26
 		alertentity nazi27
 		alertentity nazi28
-		alertentity coop_ai_soldier_26
-		alertentity coop_ai_soldier_27
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_26 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_27 #endif
 	}
 
 	trigger action16
 	{
 		alertentity nazi29
-		alertentity coop_ai_soldier_28
-		alertentity coop_ai_soldier_29
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_28 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_29 #endif
 	}
 
 	trigger action17
@@ -411,17 +411,17 @@ player
 		trigger nazi36 go
 		mu_queue sound/music/m_grave
 		mu_fade 0 1000
-		alertentity coop_ai_soldier_30
-		alertentity coop_ai_soldier_31
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_30 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_31 #endif
 	}
 
 	trigger action18a
 	{
 //		trigger sus_bridge go1b
 		alertentity nazi38
-		alertentity coop_ai_soldier_32
-		alertentity coop_ai_soldier_33
-		alertentity coop_ai_soldier_34
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_34 #endif
 	}
 
 	trigger action18b
@@ -450,12 +450,12 @@ player
 		objectivemet 3
 		alertentity nazi40
 		alertentity nazi40a
-		alertentity coop_ai_soldier_35
-		alertentity coop_ai_soldier_36
-		alertentity coop_ai_soldier_37
-		alertentity coop_ai_soldier_38
-		alertentity coop_ai_soldier_39
-		alertentity coop_ai_soldier_40
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_36 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_37 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_38 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_39 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_40 #endif
 	}
 
 	trigger action21b

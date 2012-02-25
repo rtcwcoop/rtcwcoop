@@ -422,10 +422,10 @@ radar
 		trigger radar fall3
 		wait 5
 		trigger radar fall4
-		alertentity coop_ai_soldier_33
-		alertentity coop_ai_soldier_34
-		alertentity coop_ai_soldier_35
-		alertentity coop_ai_soldier_36
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_36 #endif
 	}
 	
 	trigger fall1

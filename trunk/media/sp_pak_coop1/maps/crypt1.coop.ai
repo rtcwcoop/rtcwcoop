@@ -157,18 +157,18 @@ player
 	{
 		trigger warzombie3c go
 		trigger warzombie3d go
-		alertentity coop_ai_zombie_1
-		alertentity coop_ai_zombie_2
-		alertentity coop_ai_zombie_3		
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_2 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_3 #endif		
 	}
 
 	// Spawns Zombie4
 	trigger action3		
 	{
 		trigger counter1 action3_choose
-		alertentity coop_ai_zombie_4
-		alertentity coop_ai_zombie_5
-		alertentity coop_ai_zombie_6
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_4 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_5 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_6 #endif
 	}
 
 	// Triggers wall to explode and then tells Zombie6 to stand.
@@ -183,8 +183,8 @@ player
 		alertentity zombie6a
 		alertentity zombie6b
 		alertentity zombie5
-		alertentity coop_ai_zombie_7
-		alertentity coop_ai_zombie_8
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_7 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_8 #endif
 	}
 
 	trigger action4a1
@@ -205,19 +205,19 @@ player
 
 	trigger action4d
 	{
-		alertentity coop_ai_zombie_9
-		alertentity coop_ai_zombie_10
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_10 #endif
 	}
 
 	// Spawns in the following AI
 	trigger action5		
 	{
-		alertentity coop_ai_zombie_11
-		alertentity coop_ai_zombie_12
-		alertentity coop_ai_zombie_13
-		alertentity coop_ai_zombie_14
-		alertentity coop_ai_zombie_15
-		alertentity coop_ai_zombie_16
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_11 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_14 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_15 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_16 #endif
 		trigger zombie6a go
 		trigger zombie6b go
 	}
@@ -242,9 +242,9 @@ player
 	{
 		trigger zombie9 getup	
 		trigger zombie11 getup
-		alertentity coop_ai_zombie_17
-		alertentity coop_ai_zombie_18
-		alertentity coop_ai_zombie_19
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_18 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_19 #endif
 	}
 
 	// After Zombie 9 & 11 die this will trigger alert warzombie 11 & 11a
@@ -257,9 +257,9 @@ player
 	{
 		alertentity nazi4
 		alertentity nazi5
-		alertentity coop_ai_soldier_20
-		alertentity coop_ai_soldier_21
-		alertentity coop_ai_soldier_22
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
 		alertentity warzombie14
 		alertentity warzombie15
 		alertentity secret_debris
@@ -276,8 +276,8 @@ player
 		alertentity zombie12
 		alertentity zombie13
 		alertentity kill_clip1
-		alertentity coop_ai_zombie_23
-		alertentity coop_ai_zombie_24
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_23 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_24 #endif
 	}
 
 	// Spawns in zombie15
@@ -294,9 +294,9 @@ player
 	trigger action8b	// Secret button room.
 	{
 		trigger counter1 action8b_choose
-		alertentity coop_ai_zombie_25
-		alertentity coop_ai_zombie_26
-		alertentity coop_ai_zombie_27
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_25 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_26 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_27 #endif
 	}
 
 	// Spawns in the following AI

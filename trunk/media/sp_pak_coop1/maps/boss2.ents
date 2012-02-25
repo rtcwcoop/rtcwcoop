@@ -417,9 +417,9 @@
 }
 {
 "classname" "ai_protosoldier"
-"origin" "0 2653 -103"
+"origin" "50 2057 -103"
 "ainame" "coop_ai_protosoldier_41"
-"angle" "-89"
+"angle" "-90"
 "spawnflags" "1"
 }
 {
@@ -453,4 +453,11 @@
 "angle" "177"
 "spawnflags" "1"
 "skin" "venom/factory1"
+}
+{
+"classname" "ai_protosoldier"
+"origin" "-44 2057 -103"
+"ainame" "coop_ai_protosoldier_46"
+"angle" "-90"
+"spawnflags" "1"
 }

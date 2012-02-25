@@ -41,7 +41,7 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_mp40
 		
-		alertentity coop_ai_zombie_4
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_4 #endif
 		
 	}
 
@@ -79,9 +79,9 @@ player
 
 	trigger nazi2help
 	{
-		alertentity coop_ai_zombie_1
-		alertentity coop_ai_zombie_2
-		alertentity coop_ai_zombie_3
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_1 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_2 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_3 #endif
 	}
 
 	trigger action0a
@@ -108,10 +108,10 @@ player
 		trigger nazi3 reset
 		trigger nazi5 reset
 		alertentity bnazi1
-		alertentity coop_ai_zombie_7
-		alertentity coop_ai_zombie_8
-		alertentity coop_ai_zombie_9
-		alertentity coop_ai_zombie_10
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_7 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_8 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_10 #endif
 	}
 
 	trigger action2
@@ -135,21 +135,21 @@ player
 	trigger action3
 	{
 		trigger counter1 action3
-		alertentity coop_ai_zombie_11
-		alertentity coop_ai_zombie_12
-		alertentity coop_ai_zombie_13
-		alertentity coop_ai_zombie_14
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_11 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_13 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_14 #endif
 	}
 
 	trigger action4
 	{
 		alertentity zombie15
 		alertentity zombie16
-		alertentity coop_ai_zombie_21
-		alertentity coop_ai_zombie_22
-		alertentity coop_ai_zombie_23
-		alertentity coop_ai_zombie_24
-		alertentity coop_ai_zombie_25
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_22 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_23 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_24 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_25 #endif
 			}
 
 	trigger z16reset
@@ -178,15 +178,15 @@ player
 	{
 		trigger counter1 go
 		trigger spikes go
-		alertentity coop_ai_zombie_26
-		alertentity coop_ai_zombie_27
-		alertentity coop_ai_zombie_28
-		alertentity coop_ai_zombie_29
-		alertentity coop_ai_zombie_30
-		alertentity coop_ai_zombie_31
-		alertentity coop_ai_zombie_32
-		alertentity coop_ai_zombie_33
-		alertentity coop_ai_zombie_34
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_26 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_27 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_28 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_29 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_30 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_31 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_34 #endif
 	}
 
 	trigger razorsgo
@@ -244,8 +244,8 @@ player
 	trigger secret1
 	{	
 		foundsecret
-		alertentity coop_ai_zombie_5
-		alertentity coop_ai_zombie_6
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_5 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_6 #endif
 	}
 
 	trigger pass_mission

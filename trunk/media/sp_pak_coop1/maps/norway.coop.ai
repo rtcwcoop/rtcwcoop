@@ -60,8 +60,8 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 		
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_2
+		#if g_enforce >=1 alertentity coop_ai_soldier_1 #endif
+		#if g_enforce >=2 alertentity coop_ai_soldier_2 #endif
 	}
 
 	trigger first_conversation 
@@ -90,10 +90,10 @@ player
 	trigger second_conversation
 	{
 		trigger truck_nazi6 talk1
-		alertentity coop_ai_soldier_5
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_7
-		alertentity coop_ai_blackguard_8
+		#if g_enforce >=1 alertentity coop_ai_soldier_5 #endif
+		#if g_enforce >=2 alertentity coop_ai_soldier_6 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_7 #endif
+		#if g_enforce >=2 alertentity coop_ai_blackguard_8 #endif
 	}
 
 	trigger truck_nazis				// This activates truck nazis...
@@ -104,15 +104,15 @@ player
 //		alertentity truck_nazi7 
 		trigger checker1 in_zone1
 		//trigger checker1
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_soldier_4
+		#if g_enforce >=1 alertentity coop_ai_soldier_3 #endif
+		#if g_enforce >=2 alertentity coop_ai_soldier_4 #endif
 	}
  
 	trigger balcony_before_mechanics
 	{
 		alertentity balcony1_guard1
-		alertentity coop_ai_blackguard_9
-		alertentity coop_ai_soldier_10
+		#if g_enforce >=1 alertentity coop_ai_blackguard_9 #endif
+		#if g_enforce >=2 alertentity coop_ai_soldier_10 #endif
 	}
 
 	trigger sniper1				// This activates the first encountered sniper..
@@ -124,15 +124,15 @@ player
 		alertentity blackguard1
 		alertentity blackguard2
 		alertentity blackguard3
-		alertentity coop_ai_blackguard_11
-		alertentity coop_ai_soldier_12
-		alertentity coop_ai_soldier_13
-		alertentity coop_ai_soldier_14
-		alertentity coop_ai_blackguard_15
-		alertentity coop_ai_blackguard_16
-		alertentity coop_ai_soldier_17
-		alertentity coop_ai_soldier_18
-		alertentity coop_ai_soldier_19
+		#if g_enforce >=2 alertentity coop_ai_blackguard_11 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_12 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_13 #endif
+		#if g_enforce >=2 alertentity coop_ai_soldier_14 #endif
+		#if g_enforce >=1 alertentity coop_ai_blackguard_15 #endif
+		#if g_enforce >=2 alertentity coop_ai_blackguard_16 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_17 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_18 #endif
+		#if g_enforce >=2 alertentity coop_ai_soldier_19 #endif
 	}
 
 	trigger mg42nest			// This activates the nest...
@@ -145,15 +145,15 @@ player
 		// Test I need to add a trigger for these guys...
 		alertentity tower_nazi1
 		//alertentity tower_nazi2
-		alertentity coop_ai_soldier_20
-		alertentity coop_ai_blackguard_21
+		#if g_enforce >=2 alertentity coop_ai_soldier_20 #endif
+		#if g_enforce >=1 alertentity coop_ai_blackguard_21 #endif
 	}
 
 	trigger enter_mg42_nest
 	{
 		trigger nest_nazi1 unmount
-		alertentity coop_ai_venom_23
-		alertentity coop_ai_venom_28
+		#if g_enforce >=1 alertentity coop_ai_venom_23 #endif
+		#if g_enforce >=2 alertentity coop_ai_venom_28 #endif
 	}
 
 	trigger trigger_after_nest
@@ -163,34 +163,34 @@ player
 	//	alertentity radio_nazi1
 		alertentity radio_nazi2
 		trigger checker1 zone2_backup_spawn
-		alertentity coop_ai_venom_22		
-		alertentity coop_ai_venom_24
-		alertentity coop_ai_soldier_25
-		alertentity coop_ai_blackguard_26
-		alertentity coop_ai_blackguard_27
+		#if g_enforce >=2 alertentity coop_ai_venom_22 #endif	
+		#if g_enforce >=2 alertentity coop_ai_venom_24 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_25 #endif
+		#if g_enforce >=2 alertentity coop_ai_blackguard_26 #endif
+		#if g_enforce >=1 alertentity coop_ai_blackguard_27 #endif
 	}
 
 	trigger stroopers
 	{
 		trigger checker1 stroopers_go
-		alertentity coop_ai_venom_29
-		alertentity coop_ai_blackguard_30
-		alertentity coop_ai_blackguard_31
-		alertentity coop_ai_soldier_32
-		alertentity coop_ai_soldier_33
-		alertentity coop_ai_venom_34
-		alertentity coop_ai_venom_35
+		#if g_enforce >=2 alertentity coop_ai_venom_29 #endif
+		#if g_enforce >=1 alertentity coop_ai_blackguard_30 #endif
+		#if g_enforce >=2 alertentity coop_ai_blackguard_31 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_32 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_33 #endif
+		#if g_enforce >=1 alertentity coop_ai_venom_34 #endif
+		#if g_enforce >=2 alertentity coop_ai_venom_35 #endif
 	}
 
 	trigger trigger_before_last_door
 	{
 		trigger checker1 in_zone3
 		trigger checker1 before_last_door
-		alertentity coop_ai_venom_36
-		alertentity coop_ai_venom_37
-		alertentity coop_ai_soldier_38
-		alertentity coop_ai_soldier_39
-		alertentity coop_ai_blackguard_40	
+		#if g_enforce >=2 alertentity coop_ai_venom_36 #endif
+		#if g_enforce >=2 alertentity coop_ai_venom_37 #endif
+		#if g_enforce >=1 alertentity coop_ai_soldier_38 #endif
+		#if g_enforce >=2 alertentity coop_ai_soldier_39 #endif
+		#if g_enforce >=1 alertentity coop_ai_blackguard_40 #endif
 	}
 
 	trigger radio_destroyed1

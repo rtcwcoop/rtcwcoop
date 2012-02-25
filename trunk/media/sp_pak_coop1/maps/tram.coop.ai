@@ -45,10 +45,10 @@ player
 		selectweapon weapon_mp40
 
 		
-		alertentity coop_ai_soldier_1
-		alertentity coop_ai_soldier_2
-		alertentity coop_ai_soldier_3
-		alertentity coop_ai_soldier_4
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_4 #endif
 
 	}
 
@@ -70,8 +70,8 @@ player
 		accum 0 bitreset 0
 		alertentity nazi6
 		alertentity nazi7
-		alertentity coop_ai_soldier_12
-		alertentity coop_ai_soldier_13
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
 	}
 
 	trigger tramgo
@@ -85,12 +85,12 @@ player
 		alertentity nazi13
 		alertentity nazi14
 		alertentity nazi23
-		alertentity coop_ai_soldier_14
-		alertentity coop_ai_soldier_16
-		alertentity coop_ai_soldier_17
-		alertentity coop_ai_soldier_18
-		alertentity coop_ai_soldier_19
-		alertentity coop_ai_soldier_20
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
 		accum 1 abort_if_equal 2
 		accum 1 set 2
 		mu_fade 0 500
@@ -105,10 +105,10 @@ player
 		accum 0 bitreset 2
 		alertentity nazi16
 		alertentity nazi17
-		alertentity coop_ai_soldier_21
-		alertentity coop_ai_soldier_22
-		alertentity coop_ai_soldier_23
-		alertentity coop_ai_soldier_24
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_21 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_22 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_23 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_24 #endif
 	}
 
 	trigger powermid
@@ -141,11 +141,11 @@ player
 		alertentity nazi2
 		alertentity nazi3
 		alertentity nazi4
-		alertentity coop_ai_soldier_5
-		alertentity coop_ai_soldier_6
-		alertentity coop_ai_soldier_7
-		alertentity coop_ai_soldier_8
-		alertentity coop_ai_soldier_9
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_8 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_9 #endif
 	}
 
 	trigger lookout
@@ -156,8 +156,8 @@ player
 	trigger action2
 	{
 		trigger zone1 loweralarm
-		alertentity coop_ai_soldier_10
-		alertentity coop_ai_soldier_11
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
 	}
 
 	trigger action3
@@ -169,7 +169,7 @@ player
 	trigger action4
 	{
 		alertentity nazi15
-		alertentity coop_ai_soldier_15
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
 	}
 
 	trigger action5
@@ -183,13 +183,13 @@ player
 	trigger action6a // lower entrance
 	{
 		trigger nazi24 blowbarrel24
-		alertentity coop_ai_soldier_25
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
 	}
 
 	trigger action6b // upper entrance
 	{
 		trigger nazi24 clearorders24
-		alertentity coop_ai_soldier_26
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_26 #endif
 	}
 
 	trigger action7
@@ -197,9 +197,9 @@ player
 		alertentity nazi20
 		alertentity nazi21
 		alertentity nazi22
-		alertentity coop_ai_soldier_27
-		alertentity coop_ai_soldier_28
-		alertentity coop_ai_soldier_29
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_27 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_28 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_29 #endif
 	}
 
 	trigger action8
