@@ -89,11 +89,16 @@ player
 	{	
 		alertentity sniper1
 		alertentity nazi5
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
 	}
-
+	
 	trigger eva_and_officer1
 	{
 		trigger officer1 talk1
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_4 #endif
 	}
 
 	trigger vincent				//  THIS STARTS VINCENT WITH HIS EXPERIEMENTS
@@ -118,7 +123,12 @@ player
 	{
 		alertentity nazi8
 		alertentity officer3
-		alertentity alarm_nazi11		
+		alertentity alarm_nazi11
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
 	}
 
 	trigger action4				// To do			
@@ -132,6 +142,10 @@ player
 		alertentity nazi9		// Looking at whine
 		alertentity nazi10		// Drunk
 		// need to add alertentity kill nazi help
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_20 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
 	}
 
 	trigger out_of_underground			// This triggers event out of ground...
@@ -153,6 +167,18 @@ player
 		alertentity kill_nazi11
 		alertentity nazi11_offduty
 		//trigger alarm_nazi11 enter_house
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_23 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_26 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_27 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_28 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_29 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_30 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_31 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
 	}
 
 	trigger destroyed_player			// This has officer2 get upset about his record player... 
@@ -166,6 +192,20 @@ player
 		alertentity nazi14
 		alertentity nazi15
 		alertentity nazi16
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_37 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_38 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_39 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_40 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_41 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_42 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_43 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_44 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_45 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_46 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_47 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_48 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_49 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_50 #endif
 	}
 
 	trigger moonlight			// This is to make sure that moonlight guys does his thang...
@@ -174,6 +214,9 @@ player
 		alertentity 04_help1
 		alertentity officer4
 		//trigger officer4 moonlight
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
 	}
 
 	trigger officer5_willy
@@ -191,11 +234,15 @@ player
 		trigger inge1 surprise
 //		trigger checker1 can_nazi6_talk
 		trigger nazi6 talk1
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
 	}
 
 	trigger inge2_hide			// This makes inge2 hide
 	{
 		trigger inge2 surprise
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_36 #endif
 	}
 
 	trigger startwall1			// This is for the first secret...
@@ -208,9 +255,11 @@ player
 		trigger wall2 start
 	}
 
-	trigger car1				// This will trigger the car to come running by...
+	trigger car
 	{
-//		trigger car1 drive_relaxed
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
 	}
 
 	trigger drz_come_out  			// this activates when the player goes into sniper room...
@@ -5013,5 +5062,889 @@ nazi16						// This is the last nazi that can be set off the last alarm...
 	{
 		resetscript
 		runtocast player
+	}
+}
+
+
+
+coop_ai_soldier_1		// after car
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_2		// stairway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_3		// hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_4		// near officer1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_5		// door1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_6		// understairs
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_7		// door2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_8		// after corner
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_9		// house2 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_10		// house2 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_11		// near officer2 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_12		// near officer2 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_13		// balcony
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_14		// near house3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_15		// near officer3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_16		// garden entrance 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_17		// garden entrance 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_18		// basement-door
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_19		// basement 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_20		// basement 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_21		// basement 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_22		// basement 4
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_23		// bedroom
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_24		// near bedroom
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_25		// garden2 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_26		// garden2 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_27		// garden2 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_28		// garden2 4
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_29		// fireplace
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_30		// hallway
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_31		// near officer4
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_32		// exitroom
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_33		// near officer5 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_34		// near officer5 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_35		// small room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_36		// bedroom
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_37		// garden3 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_38		// garden3 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_39		// garden3 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_40		// aftergarden3 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_41		// aftergarden3 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_42		// aftergarden3 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_43		// chateau garden 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_44		// chateau garden 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_45		// chateau garden 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_46		// chateau garden 4
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_47		// chateau garden 5
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_48		// chateau garden 6
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_49		// chateau garden 7
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
+	}
+}
+
+coop_ai_soldier_50		// chateau garden 8
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
+		statetype alert
 	}
 }
