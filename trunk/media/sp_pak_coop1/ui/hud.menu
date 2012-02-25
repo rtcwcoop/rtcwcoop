@@ -71,8 +71,13 @@
 			textalign ITEM_ALIGN_CENTER
 			decoration
 			textscale .5
-			forecolor .63 .47 .25 .5	// orange
+			//forecolor .63 .47 .25 .5	// orange
 			ownerdraw CG_PLAYER_ARMOR_VALUE
+			addColorRange 76 100 .63 .47 .25 1
+			addColorRange 51 75 .63 .47 .25 .75
+			addColorRange 26 50 .63 .47 .25 .5
+			addColorRange 1 25 .63 .47 .25 .25
+			addColorRange 0 0 .63 .47 .25 0
 		}
 
 	// armor text
