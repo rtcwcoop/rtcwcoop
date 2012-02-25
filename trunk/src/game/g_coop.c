@@ -30,6 +30,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "g_local.h"
 #include "g_coop.h"
 
+#define SPAWNPOINT_ENABLED 1
+
 // fretn - set weapons when player spawns in coop
 // in the map dam, the player gets all the weapons, bug !
 void SetCoopSpawnWeapons( gclient_t *client ) {
@@ -183,16 +185,22 @@ gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
         count = 0; 
         spot = NULL;
 
-        while ( ( spot = G_Find( spot, FOFS( classname ), "info_player_coop" ) ) != NULL ) {
+        while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
                 if ( SpotWouldTelefrag( spot ) ) {
                         continue;
                 }    
-                spots[ count ] = spot;
-                count++;
+
+                if (spot->spawnflags & SPAWNPOINT_ENABLED) {
+                    spots[ count ] = spot;
+                    count++;
+                }
         }    
 
         if ( !count ) { // no spots that won't telefrag
-                spot = G_Find( NULL, FOFS( classname ), "info_player_coop" );
+                spot = G_Find( NULL, FOFS( classname ), "coop_spawnpoint" );
+                if ( !(spot->spawnflags & SPAWNPOINT_ENABLED)) {
+                        return NULL;
+                }
 
                 if (spot)
                 {
@@ -274,5 +282,190 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
                 }
         CalculateRanks();
         //}
+}
+
+void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace );
+
+#define WCP_ANIM_NOFLAG             0
+#define WCP_ANIM_RAISE_NAZI         1
+#define WCP_ANIM_RAISE_AMERICAN     2
+#define WCP_ANIM_NAZI_RAISED        3
+#define WCP_ANIM_AMERICAN_RAISED    4
+#define WCP_ANIM_NAZI_TO_AMERICAN   5
+#define WCP_ANIM_AMERICAN_TO_NAZI   6
+
+void spawnpoint_trigger_use( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
+        spawnpoint_trigger_touch( ent, activator, NULL );
+}
+
+void spawnpoint_trigger_think( gentity_t *self ) {
+
+        switch ( self->s.frame ) {
+
+        case WCP_ANIM_NOFLAG:
+                break;
+        case WCP_ANIM_RAISE_NAZI:
+                self->s.frame = WCP_ANIM_NAZI_RAISED;
+                break;
+        case WCP_ANIM_RAISE_AMERICAN:
+                self->s.frame = WCP_ANIM_AMERICAN_RAISED;
+                break;
+        case WCP_ANIM_NAZI_RAISED:
+                break;
+        case WCP_ANIM_AMERICAN_RAISED:
+                break;
+        case WCP_ANIM_NAZI_TO_AMERICAN:
+                self->s.frame = WCP_ANIM_AMERICAN_RAISED;
+                break;
+        case WCP_ANIM_AMERICAN_TO_NAZI:
+                self->s.frame = WCP_ANIM_NAZI_RAISED;
+                break;
+        default:
+                break;
+
+        }
+
+        self->touch = spawnpoint_trigger_touch;
+        self->nextthink = 0;
+}
+
+
+void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
+        gentity_t *ent = NULL;
+
+        /*if ( self->count == other->client->sess.sessionTeam ) {
+                return;
+        }*/
+
+        // TODO: AI's should be able to recapture the flags
+        if (other->r.svFlags & SVF_CASTAI)
+                return;
+
+        // TODO: send a centerprint to everyone, so we know spawnpoints changed
+
+
+        // Set controlling team
+        self->count = other->client->sess.sessionTeam;
+
+        if ( self->s.frame == WCP_ANIM_NOFLAG ) {
+                self->s.frame = WCP_ANIM_RAISE_AMERICAN;
+                // Play a sound
+                G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+        } else if ( self->s.frame == WCP_ANIM_NAZI_RAISED ) {
+                self->s.frame = WCP_ANIM_NAZI_TO_AMERICAN;
+                // Play a sound
+                G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+        } else {
+                self->s.frame = WCP_ANIM_AMERICAN_RAISED;
+        }    
+
+
+        // Don't allow touch again until animation is finished
+        self->touch = NULL;
+
+        self->think = spawnpoint_trigger_think;
+        self->nextthink = level.time + 1000;
+
+
+        // activate all targets
+        if ( self->target ) {
+                // if you touch a pole, all spawnpoints connected to it are enabled, others are disabled
+                // so we first have to disable all of them, and then enable the ones we are targetting
+                // we also have to get the other flags down
+
+                // disable all the spawnpoints
+                while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
+                        if ( !ent ) {
+                                break;
+                        }    
+                        
+                        ent->spawnflags &= ~SPAWNPOINT_ENABLED;
+                } 
+
+                // now disable all the other flags
+                while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint_trigger" ) ) != NULL ) {
+                        if ( !ent ) {
+                                break;
+                        }    
+
+                        if ( ent == self)
+                                continue;
+
+                        ent->s.frame = WCP_ANIM_NOFLAG;
+                }
+
+                // now enable the spawnpoints where targetname == coop_spawnpoint_trigger->target
+                while ( 1 ) {
+                        ent = G_Find( ent, FOFS( targetname ), self->target );
+                        if ( !ent ) {
+                                break;
+                        }    
+
+                        if ( !strcmp( ent->classname,"coop_spawnpoint" ) ) {
+                                ent->spawnflags |= SPAWNPOINT_ENABLED;
+                        }    
+
+                }    
+        }    
+
+
+}
+
+
+/*QUAKED coop_spawnpoint_trigger (.6 .9 .6) (-16 -16 0) (16 16 128) spawnpoint
+This is the flagpole players touch enable spawnpoints which are set with with
+the same 'targetname' as the 'target' of this entity
+
+
+It will call specific trigger funtions in the map script for this object.
+When allies capture, it will call "allied_capture".
+When axis capture, it will call "axis_capture".
+
+*/
+void SP_coop_spawnpoint_trigger( gentity_t *ent ) {
+        char *capture_sound;
+
+        /*if ( !ent->scriptName ) {
+                G_Error( "team_WOLF_checkpoint must have a \"scriptname\"\n" );
+        }*/
+
+        // Make sure the ET_TRAP entity type stays valid
+        ent->s.eType        = ET_TRAP;
+
+        // Model is user assignable, but it will always try and use the animations for flagpole.md3
+        if ( ent->model ) {
+                ent->s.modelindex   = G_ModelIndex( ent->model );
+        } else {
+                ent->s.modelindex   = G_ModelIndex( "models/multiplayer/flagpole/flagpole.md3" );
+        }
+
+        G_SpawnString( "noise", "sound/movers/doors/door6_open.wav", &capture_sound );
+        ent->soundPos1  = G_SoundIndex( capture_sound );
+
+        ent->clipmask   = CONTENTS_SOLID;
+        ent->r.contents = CONTENTS_SOLID;
+
+        VectorSet( ent->r.mins, -8, -8, 0 );
+        VectorSet( ent->r.maxs, 8, 8, 128 );
+
+        G_SetOrigin( ent, ent->s.origin );
+        G_SetAngle( ent, ent->s.angles );
+
+        // s.frame is the animation number
+        ent->s.frame    = WCP_ANIM_NOFLAG;
+
+        // s.teamNum is which set of animations to use ( only 1 right now )
+        ent->s.teamNum  = 1;
+
+        // Used later to set animations (and delay between captures)
+        ent->nextthink = 0;
+
+        // 'count' signifies which team holds the checkpoint
+        ent->count = -1;
+
+        ent->touch      = spawnpoint_trigger_touch;
+        ent->use        = spawnpoint_trigger_use;       // allow 'capture' from trigger
+
+        trap_LinkEntity( ent );
 }
 

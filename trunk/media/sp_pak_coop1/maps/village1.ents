@@ -1,47 +1,55 @@
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2534 -367 -167"
 "angle" "-89"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2600 -367 -167"
 "angle" "-89"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2663 -367 -167"
 "angle" "-89"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2717 -367 -167"
 "angle" "-89"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2717 -415 -167"
 "angle" "-89"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2667 -415 -167"
 "angle" "-89"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2599 -415 -167"
 "angle" "-89"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-2702 -495 -167"
 "angle" "-89"
 }

@@ -1,5 +1,6 @@
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "-5320 -6024 472"
 "angle" "0"
 }

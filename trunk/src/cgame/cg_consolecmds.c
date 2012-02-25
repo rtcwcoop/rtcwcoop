@@ -594,7 +594,7 @@ static void CG_DumpLocation_f( void ) {
 ===================
 CG_DumpCoopSpawnpoint_f
 
-Dump a info_player_coop definition to a file
+Dump a coop_spawnpoint definition to a file
 ===================
 */
 static void CG_DumpCoopSpawnpoint_f( void ) { 
@@ -617,13 +617,13 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
         }   
 
         // Build the entity definition
-        buffptr = va(   "{\n\"classname\" \"info_player_coop\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
+        buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"1\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
                                         (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW]);
 
         // And write out/acknowledge
         trap_FS_Write( buffptr, strlen( buffptr ), f );
         trap_FS_FCloseFile( f );
-        CG_Printf( "info_player_coop dumped to '%s' (%i %i %i).\n", entsfilename,
+        CG_Printf( "coop_spawnpoint dumped to '%s' (%i %i %i).\n", entsfilename,
                            (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
 }
 

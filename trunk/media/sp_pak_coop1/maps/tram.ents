@@ -1,50 +1,205 @@
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3826 1997 1272"
 "angle" "-88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3901 1998 1272"
 "angle" "-88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3949 1980 1272"
 "angle" "-88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3949 1943 1272"
 "angle" "-88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3893 1941 1272"
 "angle" "-88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3830 1939 1272"
 "angle" "-88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3829 1874 1272"
 "angle" "-88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "3891 1875 1272"
 "angle" "-88"
 }
+
+#if g_gametype == 0
+{
+"angle" "225" 
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "generator_spawn"
+"origin" "3370 -131 670"
+"classname" "coop_spawnpoint_trigger"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3565 -12 728"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3483 -8 728"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3388 -3 728"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3257 -3 728"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3135 -3 728"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3107 -84 728"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3104 -171 728"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3117 -274 728"
+}
+
+{
+"origin" "-177 34 105"
+"angle" "225" 
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "tower_spawn"
+"classname" "coop_spawnpoint_trigger"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "64 361 472"
+"angle" "-91"
+"targetname" "tower_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "68 276 472"
+"angle" "-87"
+"targetname" "tower_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "71 195 472"
+"angle" "-87"
+"targetname" "tower_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "65 126 472"
+"angle" "-87"
+"targetname" "tower_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "69 46 472"
+"angle" "-87"
+"targetname" "tower_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "71 -38 472"
+"angle" "-94"
+"targetname" "tower_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "12 -93 472"
+"angle" "-179"
+"targetname" "tower_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0" 
+"origin" "-81 -93 472"
+"targetname" "tower_spawn"
+"angle" "-179"
+}
+
+#endif
 
 {
 "classname" "ai_soldier"

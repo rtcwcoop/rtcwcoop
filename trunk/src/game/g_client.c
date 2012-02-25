@@ -80,10 +80,10 @@ void SP_info_player_start( gentity_t *ent ) {
 	SP_info_player_deathmatch( ent );
 }
 
-/*QUAKED info_player_coop (1 0 0) (-16 -16 -24) (16 16 32)
+/*QUAKED coop_spawnpoint (1 0 0) (-16 -16 -24) (16 16 32)
 spawnpoint for coop
 */
-void SP_info_player_coop( gentity_t *ent ) {
+void SP_coop_spawnpoint( gentity_t *ent ) {
         int i;
         vec3_t dir; 
 
@@ -1693,9 +1693,13 @@ void ClientSpawn( gentity_t *ent ) {
 					// don't spawn near existing origin if possible
                                         else
                                         {
-					        spawnPoint = SelectSpawnPoint(
-						        client->ps.origin,
-						        spawn_origin, spawn_angles );
+
+                                                spawnPoint = SelectRandomCoopSpawnPoint(spawn_origin, spawn_angles);
+                                                if (!spawnPoint) {
+                                                        spawnPoint = SelectSpawnPoint(
+                                                                client->ps.origin,
+                                                                spawn_origin, spawn_angles );
+                                                }
                                         }
 				}
 

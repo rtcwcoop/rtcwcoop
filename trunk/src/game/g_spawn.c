@@ -201,7 +201,7 @@ typedef struct {
 } spawn_t;
 
 void SP_info_player_start( gentity_t *ent );
-void SP_info_player_coop( gentity_t *ent );
+void SP_coop_spawnpoint( gentity_t *ent );
 void SP_info_player_deathmatch( gentity_t *ent );
 void SP_info_player_intermission( gentity_t *ent );
 void SP_info_firstplace( gentity_t *ent );
@@ -300,6 +300,9 @@ void SP_team_WOLF_objective( gentity_t *ent );
 // jpw
 
 void SP_team_WOLF_checkpoint( gentity_t *ent );     // DHM - Nerve
+
+// fretn
+void SP_coop_spawnpoint_trigger( gentity_t *ent );
 
 // JOSEPH 1-18-00
 void SP_props_box_32( gentity_t *self );
@@ -434,7 +437,7 @@ spawn_t spawns[] = {
 	// info entities don't do anything at all, but provide positional
 	// information for things controlled by other processes
 	{"info_player_start", SP_info_player_start},
-	{"info_player_coop", SP_info_player_coop},
+	{"coop_spawnpoint", SP_coop_spawnpoint},
 	{"info_player_deathmatch", SP_info_player_deathmatch},
 	{"info_player_intermission", SP_info_player_intermission},
 	{"info_null", SP_info_null},
@@ -575,6 +578,9 @@ spawn_t spawns[] = {
 // jpw
 
 	{"team_WOLF_checkpoint", SP_team_WOLF_checkpoint},       // DHM - Nerve
+        
+        // fretn
+	{"coop_spawnpoint_trigger", SP_coop_spawnpoint_trigger},       // DHM - Nerve
 
 	// Ridah
 	{"ai_soldier", SP_ai_soldier},
