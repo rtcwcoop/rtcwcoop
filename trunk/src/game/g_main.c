@@ -2256,7 +2256,7 @@ void G_RunFrame( int levelTime ) {
 
         // fretn
 
-        if (level.lastSpawnSave <= level.time && g_spawnpoints.integer == 0)
+        if (level.lastSpawnSave <= level.time && g_spawnpoints.integer == 0 && g_gametype.integer == GT_COOP)
         {    
                 level.lastSpawnSave = level.time + 30000;
                 newSpawns = qtrue;

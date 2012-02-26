@@ -522,7 +522,8 @@ void Cmd_Notarget_f( gentity_t *ent ) {
 
 void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         
-        if ( g_gametype.integer > GT_COOP )
+        // single player and coop speedrun can't set spawnpoints
+        if ( g_gametype.integer != GT_COOP )
                 return;
 
         if ( ent->health <= 0 )
@@ -1259,7 +1260,8 @@ void Cmd_StartCamera_f( gentity_t *ent ) {
 	ent->s.eFlags |= EF_VIEWING_CAMERA;
 
 //fretn
-        if (g_gametype.integer <= GT_COOP && g_skipcutscenes.integer)
+        //if (g_gametype.integer <= GT_COOP && g_skipcutscenes.integer)
+        if (g_skipcutscenes.integer)
                 AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
 
 // (SA) trying this in client to avoid 1 frame of player drawing
