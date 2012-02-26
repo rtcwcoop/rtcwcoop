@@ -541,7 +541,6 @@ reinforce
 */
 void reinforce( gentity_t *ent ) {
         int p, team; // numDeployable=0, finished=0; // TTimo unused
-        char *classname;
         gclient_t *rclient;
 
         if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
@@ -1618,7 +1617,7 @@ void ClientBegin( int clientNum ) {
 		tent->s.clientNum = ent->s.clientNum;
 
                 // Ridah
-                if ( !(ent->r.svFlags & SVF_CASTAI) ) {
+                if ( !(ent->r.svFlags & SVF_CASTAI) && !(client->pers.localClient) ) {
                         // done.
                         trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
                 }
