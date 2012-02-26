@@ -2261,7 +2261,7 @@ void G_RunFrame( int levelTime ) {
                 level.lastSpawnSave = level.time + 30000;
                 newSpawns = qtrue;
                 //trap_SendServerCommand( -1, va( "cp \"Saved current position as \nthe next spawnpoint\n\"" ) );
-                trap_SendServerCommand( -1, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
+                //trap_SendServerCommand( -1, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
         } 
 	//
 	// go through all allocated objects
@@ -2380,10 +2380,12 @@ void G_RunFrame( int levelTime ) {
                         // fretn
                         if (newSpawns && !(ent->r.svFlags & SVF_CASTAI && !(ent->client->ps.eFlags & EF_DEAD)))
                         {
-                                VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
-                                VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
-                                ent->client->hasCoopSpawn = qtrue;
-                                //G_Printf("New Spawnpoint saved\n");
+                                if ( !(ent->client->cameraPortal) ) {
+                                        VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
+                                        VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
+                                        ent->client->hasCoopSpawn = qtrue;
+                                        trap_SendServerCommand( i, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
+                                }
                         }
 			G_RunClient( ent );
 			continue;

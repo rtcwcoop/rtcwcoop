@@ -1741,21 +1741,23 @@ void ClientSpawn( gentity_t *ent ) {
 
 	if ( g_gametype.integer <= GT_COOP )
         {
-            // fretn: save weapons for respawn
-            savedWeapon = client->ps.weapon;
-            savedWeaponstate = client->ps.weaponstate;
-            for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
-                    savedAmmo[i] = client->ps.ammo[i];
-                    savedAmmoclip[i] = client->ps.ammoclip[i];
-            }
-            for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
-                    savedWeapons[i] = client->ps.weapons[i];
-            }
+                // fretn: save weapons for respawn
+                savedWeapon = client->ps.weapon;
+                savedWeaponstate = client->ps.weaponstate;
+                for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
+                        savedAmmo[i] = client->ps.ammo[i];
+                        savedAmmoclip[i] = client->ps.ammoclip[i];
+                }
+                for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                        savedWeapons[i] = client->ps.weapons[i];
+                }
 
-                // save the spawnpoint
-                VectorCopy(client->coopSpawnPointOrigin, saved_spawn_origin);                      
-                VectorCopy(client->coopSpawnPointAngles, saved_spawn_angles);                      
-                savedHasCoopSpawn = client->hasCoopSpawn;
+                if ( g_gametype.integer == GT_COOP ) {
+                        // save the spawnpoint
+                        VectorCopy(client->coopSpawnPointOrigin, saved_spawn_origin);                      
+                        VectorCopy(client->coopSpawnPointAngles, saved_spawn_angles);                      
+                        savedHasCoopSpawn = client->hasCoopSpawn;
+                }
         }
 
         // clear everything
@@ -1771,20 +1773,22 @@ void ClientSpawn( gentity_t *ent ) {
 
 	if ( g_gametype.integer <= GT_COOP )
         {
-            // fretn: restore weapons after a respawn
-            client->ps.weapon = savedWeapon;
-            client->ps.weaponstate = savedWeaponstate;
-            for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
-                    client->ps.ammo[i] = savedAmmo[i];
-                    client->ps.ammoclip[i] = savedAmmoclip[i];
-            }
-            for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
-                    client->ps.weapons[i] = savedWeapons[i];
-            }
-                // restorethe spawnpoint
-                VectorCopy(saved_spawn_origin, client->coopSpawnPointOrigin);                      
-                VectorCopy(saved_spawn_angles, client->coopSpawnPointAngles);                      
-                client->hasCoopSpawn = savedHasCoopSpawn;
+                // fretn: restore weapons after a respawn
+                client->ps.weapon = savedWeapon;
+                client->ps.weaponstate = savedWeaponstate;
+                for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
+                        client->ps.ammo[i] = savedAmmo[i];
+                        client->ps.ammoclip[i] = savedAmmoclip[i];
+                }
+                for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                        client->ps.weapons[i] = savedWeapons[i];
+                }
+                if ( g_gametype.integer == GT_COOP ) {
+                        // restorethe spawnpoint
+                        VectorCopy(saved_spawn_origin, client->coopSpawnPointOrigin);                      
+                        VectorCopy(saved_spawn_angles, client->coopSpawnPointAngles);                      
+                        client->hasCoopSpawn = savedHasCoopSpawn;
+                }
         }
 
 	// increment the spawncount so the client will detect the respawn
