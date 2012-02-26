@@ -389,6 +389,29 @@ void CopyToBodyQue( gentity_t *ent ) {
 		body->s.events[i] = 0;
 	body->s.eventSequence = 0;
 
+
+        // DHM - Nerve
+        if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+                // change the animation to the last-frame only, so the sequence
+                // doesn't repeat anew for the body
+                switch ( body->s.legsAnim & ~ANIM_TOGGLEBIT ) {
+                case BOTH_DEATH1:
+                case BOTH_DEAD1:
+                        body->s.torsoAnim = body->s.legsAnim = BOTH_DEAD1;
+                        break;
+                case BOTH_DEATH2:
+                case BOTH_DEAD2:
+                        body->s.torsoAnim = body->s.legsAnim = BOTH_DEAD2;
+                        break;
+                case BOTH_DEATH3:
+                case BOTH_DEAD3:
+                default:
+                        body->s.torsoAnim = body->s.legsAnim = BOTH_DEAD3;
+                        break;
+                }    
+        }    
+        // dhm
+
 	body->r.svFlags = ent->r.svFlags;
 	VectorCopy( ent->r.mins, body->r.mins );
 	VectorCopy( ent->r.maxs, body->r.maxs );
