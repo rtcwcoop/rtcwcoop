@@ -17,7 +17,7 @@ on the bottom right corner.
 On windows you have to connect to the ip 127.0.0.1 if you want to connect to a local server.
 On Mac OS X its 0.0.0.0 that you need to connect to.
 
-In a coop game, the items (ammo, armor, health) in the maps automaticly respawn 
+Or just use the menus.
 
 = Console =
 
