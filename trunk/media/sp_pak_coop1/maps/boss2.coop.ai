@@ -615,14 +615,8 @@ proto2
 	{
 		alertentity scientist00
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_21 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_23 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_24 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_25 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_26 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_27 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_28 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_29 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_30 #endif
 	}
 }
@@ -1072,32 +1066,32 @@ super1
 		accum 0 bitreset 7
 	}
 
-	pain 1650
+	pain 1600
 	{
 		alertentity clown1
 	}
 
-	pain 1500
+	pain 1400
 	{
 		alertentity clown2
 	}
 
-	pain 1350
+	pain 1200
 	{
 		alertentity clown3
 	}
 
-	pain 1200
+	pain 1000
 	{
 		alertentity clown4
 	}
 
-	pain 1050
+	pain 800
 	{
 		alertentity clown5
 	}
 
-	pain 900
+	pain 600
 	{
 		alertentity clown6
 		accum 0 bitset 6
@@ -1109,24 +1103,14 @@ super1
 		trigger deathshead no_taunt
 	}
 
-	pain 800
+	pain 400
 	{
 		trigger deathshead no_taunt
 	}
 
-	pain 600
-	{
-		trigger deathshead losing1
-	}
-	
-	pain 400
-	{
-		#if g_reinforce >= 1 alertentity coop_ai_venom_42 #endif
-	}
-	
 	pain 200
 	{
-		#if g_reinforce >= 2 alertentity coop_ai_venom_43 #endif
+		trigger deathshead losing1
 	}
 
 	inspectfriendlycombatstart
@@ -1167,7 +1151,6 @@ super1
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_37 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_38 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_venom_39 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_venom_42 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_41 #endif		
 		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_46 #endif
 		alertentity lastdoor2
@@ -2432,60 +2415,6 @@ coop_ai_soldier_21		// round hallway 1
 	}
 }
 
-coop_ai_soldier_22		// round hallway 2
-{
-	attributes
-	{
-		aim_accuracy 0.6
-		starting_health 60
-		aggression 1.0
-		camper 1
-	}
-
-	spawn
-	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
-	}
-}
-
-coop_ai_soldier_23		// round hallway 3
-{
-	attributes
-	{
-		aim_accuracy 0.6
-		starting_health 60
-		aggression 1.0
-		camper 1
-	}
-
-	spawn
-	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
-	}
-}
-
-coop_ai_soldier_24		// round hallway 4
-{
-	attributes
-	{
-		aim_accuracy 0.6
-		starting_health 60
-		aggression 1.0
-		camper 1
-	}
-
-	spawn
-	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
-	}
-}
-
 coop_ai_soldier_25		// round hallway 5
 {
 	attributes
@@ -2505,60 +2434,6 @@ coop_ai_soldier_25		// round hallway 5
 }
 
 coop_ai_soldier_26		// round hallway 6
-{
-	attributes
-	{
-		aim_accuracy 0.6
-		starting_health 60
-		aggression 1.0
-		camper 1
-	}
-
-	spawn
-	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
-	}
-}
-
-coop_ai_soldier_27		// round hallway 7
-{
-	attributes
-	{
-		aim_accuracy 0.6
-		starting_health 60
-		aggression 1.0
-		camper 1
-	}
-
-	spawn
-	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
-	}
-}
-
-coop_ai_soldier_28		// round hallway 8
-{
-	attributes
-	{
-		aim_accuracy 0.6
-		starting_health 60
-		aggression 1.0
-		camper 1
-	}
-
-	spawn
-	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
-	}
-}
-
-coop_ai_soldier_29		// round hallway 9
 {
 	attributes
 	{

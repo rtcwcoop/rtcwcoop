@@ -1,47 +1,55 @@
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "814 -2436 -39"
 "angle" "88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "703 -2432 -39"
 "angle" "88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "706 -2347 -39"
 "angle" "88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "805 -2350 -39"
 "angle" "88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "776 -2271 -39"
 "angle" "88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "699 -2268 -39"
 "angle" "88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "702 -2169 -39"
 "angle" "88"
 }
 
 {
-"classname" "info_player_coop"
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
 "origin" "766 -2171 -39"
 "angle" "88"
 }
@@ -167,7 +175,7 @@
 }
 {
 "classname" "ai_soldier"
-"origin" "406 -1447 56"
+"origin" "406 -1431 56"
 "targetname" "coop_ai_soldier_13"
 "angle" "178"
 "spawnflags" "1"
@@ -250,33 +258,6 @@
 }
 {
 "classname" "ai_soldier"
-"origin" "372 118 56"
-"ainame" "coop_ai_soldier_22"
-"angle" "-179"
-"spawnflags" "1"
-"skin" "infantryss/xlab1"
-"head" "xlab1"
-}
-{
-"classname" "ai_soldier"
-"origin" "398 338 56"
-"ainame" "coop_ai_soldier_23"
-"angle" "-90"
-"spawnflags" "1"
-"skin" "infantryss/xlab1"
-"head" "xlab2"
-}
-{
-"classname" "ai_soldier"
-"origin" "248 384 56"
-"ainame" "coop_ai_soldier_24"
-"angle" "0"
-"spawnflags" "1"
-"skin" "infantryss/xlab1"
-"head" "xlab3"
-}
-{
-"classname" "ai_soldier"
 "origin" "126 384 56"
 "ainame" "coop_ai_soldier_25"
 "angle" "-2"
@@ -292,33 +273,6 @@
 "spawnflags" "1"
 "skin" "infantryss/xlab1"
 "head" "xlab1"
-}
-{
-"classname" "ai_soldier"
-"origin" "-386 129 56"
-"ainame" "coop_ai_soldier_27"
-"angle" "1"
-"spawnflags" "1"
-"skin" "infantryss/xlab1"
-"head" "xlab2"
-}
-{
-"classname" "ai_soldier"
-"origin" "-363 358 56"
-"ainame" "coop_ai_soldier_28"
-"angle" "-95"
-"spawnflags" "1"
-"skin" "infantryss/xlab1"
-"head" "xlab3"
-}
-{
-"classname" "ai_soldier"
-"origin" "-224 383 56"
-"ainame" "coop_ai_soldier_29"
-"angle" "-176"
-"spawnflags" "1"
-"skin" "infantryss/xlab1"
-"head" "xlab4"
 }
 {
 "classname" "ai_soldier"
@@ -407,6 +361,7 @@
 "ainame" "coop_ai_venom_39"
 "angle" "3"
 "spawnflags" "1"
+"skin" "venom/factory1"
 }
 {
 "classname" "ai_venom"
@@ -414,6 +369,7 @@
 "ainame" "coop_ai_venom_40"
 "angle" "-85"
 "spawnflags" "1"
+"skin" "venom/factory1"
 }
 {
 "classname" "ai_protosoldier"
