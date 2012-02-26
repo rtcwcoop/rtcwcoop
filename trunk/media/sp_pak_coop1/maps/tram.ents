@@ -207,6 +207,7 @@
 "ainame" "coop_ai_soldier_1"
 "skin" "infantryss/village2"
 "head" "village1"
+"spawnflags" "1" 
 "angle" "-176"
 }
 {
@@ -215,6 +216,7 @@
 "ainame" "coop_ai_soldier_2"
 "skin" "infantryss/village1"
 "head" "village2"
+"spawnflags" "1" 
 "angle" "-81"
 }
 {
@@ -223,6 +225,7 @@
 "ainame" "coop_ai_soldier_3"
 "skin" "infantryss/village2"
 "head" "village3" 
+"spawnflags" "1" 
 "angle" "-77"
 }
 {
@@ -231,6 +234,7 @@
 "ainame" "coop_ai_soldier_4"
 "skin" "infantryss/village1"
 "head" "village1"
+"spawnflags" "1" 
 "angle" "15"
 }
 {
