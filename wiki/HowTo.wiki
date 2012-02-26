@@ -1,8 +1,10 @@
 #labels howto,coop,cvars,cmds,readme
 = Introduction =
 
-Put all the rtcw pk3 files in the main folder.
-Put the pk3 files found in the other_files dir (see svn) also into the main folder.
+Copy all your wolfenstein pk3 files to the main folder of this game.
+You also have to create our pk3 file. Do this with create_pk3.sh (for linux and mac) or with create_pk3.bat for windows.
+
+The pk3 will be placed inside the media folder, copy this folder to your main folder
 
 You can start a server through the menus.
 Or by using the console:
@@ -24,7 +26,9 @@ use shift-escape to open the console
 = PK3 Files =
 
 Copy all your wolfenstein pk3 files to the main folder of this game.
-Also copy our pk3 files (you can find them in other_files in the svn) to that same main folder.
+You also have to create our pk3 file. Do this with create_pk3.sh (for linux and mac) or with create_pk3.bat for windows.
+
+The pk3 will be placed inside the media folder, copy this folder to your main folder
 
 = Cvars =
 
