@@ -609,7 +609,7 @@ checker1
 		resetscript 
 		alertentity nazi7
 		alertentity nazi7a
-//		alertentity nazi13			//This officer will be alerted if room is relaxed... NO longer needed
+		#if g_reinforce >= 1 alertentity nazi13 #endif			//This officer will be alerted if room is relaxed... NO longer needed
 		alertentity nazi8		// Guard with back to officers talking...
 	}
 
@@ -920,7 +920,7 @@ checker1
 	{
 		accum 0 abort_if_bitset 15
 		resetscript
-//		alertentity last_backup3
+		#if g_reinforce >= 2 alertentity last_backup3 #endif
 	}	
 }
 
@@ -962,9 +962,9 @@ last_table
 		alertentity unlock_door3
 		alertentity last_backup1
 		alertentity last_backup2
-	//	alertentity last_backup3
-	//	alertentity last_backup4
-	//	alertentity last_backup5
+		#if g_reinforce >= 2 alertentity last_backup3 #endif
+		#if g_reinforce >= 1 alertentity last_backup4 #endif
+//		alertentity last_backup5
 	}
 }
 
