@@ -31,7 +31,7 @@ player
 		trigger cs_eg1 go1
 		trigger cs_nazi1 go1
 		trigger cs_nazi2 go1
-		trigger player cam_darktemp
+//		trigger player cam_darktemp
 		trigger checker1 cinematic1
 
 		// Weapons
@@ -76,37 +76,37 @@ player
 
 	trigger cam_darktemp
 	{
-		startcam cs15_01
+//		startcam cs15_01
 	}
 
 	trigger cam2
 	{
-		startcam cs15_02
+//		startcam cs15_02
 	}
 
 	trigger cam3
 	{
-		startcam cs15_03
+//		startcam cs15_03
 	}
 
 	trigger cam4
 	{
-		startcam cs15_04
+//		startcam cs15_04
 	}
 
 	trigger cam5
 	{
-		startcam cs15_05
+//		startcam cs15_05
 	}
 
 	trigger cam6
 	{
-		startcam cs15_06
+//		startcam cs15_06
 	}
 
 	trigger cam6d
 	{
-		startcam cs15_06d
+//		startcam cs15_06d
 	}
 
 	trigger camerainterrupt
@@ -125,6 +125,17 @@ player
 		alertentity courtyard_light
 		wait 1000
 		alertentity thunder
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_4 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif		
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_14 #endif
+		
 	}
 
 	trigger tunnel_nazi_blow
@@ -137,6 +148,8 @@ player
 	{
 		alertentity tunnel_nazi1
 		alertentity tunnel_nazi2
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_11 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
 	}
 
 	trigger encounter1
@@ -148,6 +161,11 @@ player
 		alertentity eg1
 		alertentity eg1a
 		alertentity eg1b
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_15 #endif		
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_18 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
 	}
 
 	trigger encounter2		// Sniper and camper at first house
@@ -156,7 +174,15 @@ player
 		alertentity eg3		// sniper
 		trigger checker1 in_zone2
 		wait 5
-		trigger eg1 ambush
+		trigger eg1 ambush	
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_20 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_21 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_22 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_23 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_25 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_26 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_27 #endif
 	}
 
 	trigger inside_house1		// eg behind house will check this to see if player is inside of it...
@@ -170,6 +196,9 @@ player
 	{
 		alertentity eg4
 		alertentity eg4a
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_28 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_29 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_30 #endif
 	}
 
 	trigger encounter4		// Mg42 at bridge...
@@ -184,6 +213,8 @@ player
 		alertentity chiminey_light
 		wait 2000
 		alertentity thunder
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_31 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
 	}
 
 	trigger bridge_fallover
@@ -202,6 +233,14 @@ player
 		accum 1 abort_if_equal 1 
 		alertentity truck_nazi1
 		alertentity truck_nazi2
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_36 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_37 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_38 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_39 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_40 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_41 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_42 #endif
 	}
 
 	trigger zap
@@ -212,13 +251,12 @@ player
 		missionsuccess 1	// mission objective complete
 //		alertentity first_light_off	//new entity
 //		alertentity zap_in_effect
-	//	alertentity zapper1
+//		alertentity zapper1
 		alertentity ss1
+		#if g_reinforce >= 2 alertentity coop_ai_supersoldier_43 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_supersoldier_44 #endif
 //		trigger checker1 lightning_start
 		wait 5
-//		trigger leftside fall1
-//		trigger leftsideb fall1
-		// You also need to make it so that the two elite guards dissapear when this trigger happens.
 	}
 
 	trigger backups
@@ -337,6 +375,11 @@ player
 	{
 	}
 
+	trigger got_objective2
+	{
+		objectivemet 2
+	}	
+	
 	trigger endmap			// level transition
 	{
 		changelevel dig persistent
@@ -2471,13 +2514,11 @@ ss1					// This is eg who hides behind wall in second house
 
 	death
 	{
-//		missionsuccess 2	// mission objective complete
-//		missionsuccess 3	// mission objective complete
 		alertentity thunder
 		alertentity ss2blowup 
 		trigger checker1 ss_death_check_in
 		trigger checker1 last_explosion
-//		trigger checker1 backup_for_zone2
+		trigger checker1 objective2
 	}
 }
 
@@ -2618,12 +2659,11 @@ ss2					// This is eg who hides behind wall in second house
 
 	death
 	{
-		objectivemet 2
+//		objectivemet 2
 		alertentity thunder
 		trigger checker1 ss_death_check_in
 		trigger checker2 endmap_loop
-//		trigger checker1 last_explosion
-//		trigger checker1 backup_for_zone2
+		trigger checker1 objective2
 	}
 }
 
@@ -3660,5 +3700,770 @@ cs_eg3					// This is eg who hides behind wall in second house
 
 	death
 	{
+	}
+}
+
+
+
+
+coop_ai_soldier_1		// right of door 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_2		// right of door 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_3		// left of door 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_4		// left of door 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_5		// boxes
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_6		// terrace right
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_9		// Lion Right
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_10		// Lion Left
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_11		// Tunnel 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_12		// Tunnel 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_13		// Trees
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_14		// Sniper behind the wall
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 60
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sniperscope
+		setammo ammo_792mm 999
+		selectweapon weapon_sniperscope
+		statetype alert
+	}
+}
+
+coop_ai_soldier_15		// wall 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_16		// wall 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_eliteguard_17		// after corner 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_18		// after corner 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_soldier_19		// sniper secret door
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 60
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sniperscope
+		setammo ammo_792mm 999
+		selectweapon weapon_sniperscope
+		statetype alert
+	}
+}
+
+coop_ai_eliteguard_20		// house 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_21		// house 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_22		// behind house 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_23		// behind house 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_24		// behind house wall 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_25		// behind house wall 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_soldier_26		// sniper wall2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 60
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sniperscope
+		setammo ammo_792mm 999
+		selectweapon weapon_sniperscope
+		statetype alert
+	}
+}
+
+coop_ai_soldier_27		// wall2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_eliteguard_28		// house2 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_29		// house2 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_30		// house2 3
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_soldier_31		// sniper bridge 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 60
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sniperscope
+		setammo ammo_792mm 999
+		selectweapon weapon_sniperscope
+		statetype alert
+	}
+}
+
+coop_ai_soldier_32		// sniper bridge 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 60
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sniperscope
+		setammo ammo_792mm 999
+		selectweapon weapon_sniperscope
+		statetype alert
+	}
+}
+
+coop_ai_soldier_35		// behind truck2 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_36		// behind truck2 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_37		// behind truck2 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_38		// behind truck2 4
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_39		// behind truck2 5
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_40		// behind truck2 6
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_41		// behind truck2 7
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_42		// behind truck2 8
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 55
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_supersoldier_43
+{
+	attributes
+	{
+		starting_health 1300
+		aim_accuracy 0.8
+		tactical 1.0
+		aggression 1.0
+		hearing_scale 5.0
+		inner_detection_radius 500
+		alertness 2500		
+	}
+
+	spawn
+	{
+		knockback off
+		takeweapon all
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 999
+		selectweapon weapon_panzerfaust
+		setclip weapon_panzerfaust 999
+	}
+	
+	death
+	{
+		alertentity thunder
+		trigger checker1 ss_death_check_in
+		trigger checker1 objective2
+	}
+}
+
+coop_ai_supersoldier_44
+{
+	attributes
+	{
+		starting_health 1300
+		aim_accuracy 0.8
+		tactical 1.0
+		aggression 1.0
+		hearing_scale 5.0
+		inner_detection_radius 500
+		alertness 2500		
+	}
+
+	spawn
+	{
+		knockback off
+		takeweapon all
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 999
+		selectweapon weapon_panzerfaust
+		setclip weapon_panzerfaust 999
+	}
+	
+	death
+	{
+		alertentity thunder
+		trigger checker1 ss_death_check_in
+		trigger checker1 objective2
 	}
 }
