@@ -126,6 +126,7 @@ cvar_t  *r_stencilbits;
 cvar_t  *r_depthbits;
 cvar_t  *r_ext_multisample;
 cvar_t  *r_stereoEnabled;
+cvar_t  *r_greyscale;
 cvar_t  *r_colorbits;
 cvar_t  *r_stereo;
 cvar_t  *r_primitives;
@@ -990,6 +991,7 @@ void R_Register( void ) {
 	r_texturebits = ri.Cvar_Get( "r_texturebits", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_colorbits = ri.Cvar_Get( "r_colorbits", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_stereo = ri.Cvar_Get( "r_stereo", "0", CVAR_ARCHIVE | CVAR_LATCH );
+        r_greyscale = ri.Cvar_Get("r_greyscale", "0", CVAR_ARCHIVE | CVAR_LATCH);
 #if defined  ( __linux__ )
 	r_stencilbits = ri.Cvar_Get( "r_stencilbits", "0", CVAR_ARCHIVE | CVAR_LATCH );
 #elif defined ( __MACOS__ )
@@ -1421,6 +1423,10 @@ refexport_t *GetRefAPI( int apiVersion, refimport_t *rimp ) {
 
 	// RF
 	re.ZombieFXAddNewHit = RB_ZombieFXAddNewHit;
+
+        re.GetTextureId = R_GetTextureId;
+        // fretn
+        re.RenderToTexture = RE_RenderToTexture;
 
 	return &re;
 }

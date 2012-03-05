@@ -554,3 +554,30 @@ void RE_EndFrame( int *frontEndMsec, int *backEndMsec ) {
 	backEnd.pc.msec = 0;
 }
 
+//bani
+/*
+==================
+RE_RenderToTexture
+==================
+*/
+void RE_RenderToTexture( int textureid, int x, int y, int w, int h ) { 
+        renderToTextureCommand_t    *cmd;
+
+//      ri.Printf( PRINT_ALL, "RE_RenderToTexture\n" );
+
+        if ( textureid > tr.numImages || textureid < 0 ) { 
+                ri.Printf( PRINT_ALL, "Warning: trap_R_RenderToTexture textureid %d out of range.\n", textureid );
+                return;
+        }   
+
+        cmd = R_GetCommandBuffer( sizeof( *cmd ) );
+        if ( !cmd ) { 
+                return;
+        }   
+        cmd->commandId = RC_RENDERTOTEXTURE;
+        cmd->image = tr.images[textureid];
+        cmd->x = x;
+        cmd->y = y;
+        cmd->w = w;
+        cmd->h = h;
+}

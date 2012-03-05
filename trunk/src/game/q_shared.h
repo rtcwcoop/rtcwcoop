@@ -1591,4 +1591,7 @@ int Q_CountChar(const char *string, char tocount);
 int Com_HexStrToInt( const char *str );
 const char      *Q_stristr( const char *s, const char *find);
 
+#define LERP( a, b, w ) ( ( a ) * ( 1.0f - ( w ) ) + ( b ) * ( w ) )
+#define LUMA( red, green, blue ) ( 0.2126f * ( red ) + 0.7152f * ( green ) + 0.0722f * ( blue ) )
+
 #endif  // __Q_SHARED_H

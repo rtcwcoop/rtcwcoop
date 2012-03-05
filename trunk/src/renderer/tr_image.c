@@ -735,6 +735,26 @@ static void Upload32(   unsigned *data,
 	c = width * height;
 	scan = ( (byte *)data );
 	samples = 3;
+        if( r_greyscale->integer == 1)
+        {
+                for ( i = 0; i < c; i++ )
+                {
+                        byte luma = LUMA(scan[i*4], scan[i*4 + 1], scan[i*4 + 2]);
+                        scan[i*4] = luma;
+                        scan[i*4 + 1] = luma;
+                        scan[i*4 + 2] = luma;
+                }
+        }
+        else if( r_greyscale->value && r_greyscale->integer < 1)
+        {
+                for ( i = 0; i < c; i++ )
+                {
+                        float luma = LUMA(scan[i*4], scan[i*4 + 1], scan[i*4 + 2]);
+                        scan[i*4] = LERP(scan[i*4], luma, r_greyscale->value);
+                        scan[i*4 + 1] = LERP(scan[i*4 + 1], luma, r_greyscale->value);
+                        scan[i*4 + 2] = LERP(scan[i*4 + 2], luma, r_greyscale->value);
+                }
+        }
 	if ( !lightMap ) {
 		for ( i = 0; i < c; i++ )
 		{
@@ -754,34 +774,61 @@ static void Upload32(   unsigned *data,
 		}
 		// select proper internal format
 		if ( samples == 3 ) {
-			if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
-				// TODO: which format is best for which textures?
-				internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-			} else if ( !noCompress && glConfig.textureCompression == TC_S3TC )   {
-				internalFormat = GL_RGB4_S3TC;
-			} else if ( r_texturebits->integer == 16 )   {
-				internalFormat = GL_RGB5;
-			} else if ( r_texturebits->integer == 32 )   {
-				internalFormat = GL_RGB8;
-			} else
-			{
-				internalFormat = 3;
-			}
+                        if(r_greyscale->integer == 1)
+                        {
+                                if(r_texturebits->integer == 16)
+                                        internalFormat = GL_LUMINANCE8;
+                                else if(r_texturebits->integer == 32)
+                                        internalFormat = GL_LUMINANCE16;
+                                else
+                                        internalFormat = GL_LUMINANCE;
+                        }
+                        else
+                        {
+                                if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
+                                        // TODO: which format is best for which textures?
+                                        internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+                                } else if ( !noCompress && glConfig.textureCompression == TC_S3TC )   {
+                                        internalFormat = GL_RGB4_S3TC;
+                                } else if ( r_texturebits->integer == 16 )   {
+                                        internalFormat = GL_RGB5;
+                                } else if ( r_texturebits->integer == 32 )   {
+                                        internalFormat = GL_RGB8;
+                                } else
+                                {
+                                        internalFormat = 3;
+                                }
+                        } 
 		} else if ( samples == 4 )   {
-			if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
-				// TODO: which format is best for which textures?
-				internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-			} else if ( r_texturebits->integer == 16 )   {
-				internalFormat = GL_RGBA4;
-			} else if ( r_texturebits->integer == 32 )   {
-				internalFormat = GL_RGBA8;
-			} else
-			{
-				internalFormat = 4;
+                        if(r_greyscale->integer == 1)
+                        {
+                                if(r_texturebits->integer == 16)
+                                        internalFormat = GL_LUMINANCE8_ALPHA8;
+                                else if(r_texturebits->integer == 32)
+                                        internalFormat = GL_LUMINANCE16_ALPHA16;
+                                else
+                                        internalFormat = GL_LUMINANCE_ALPHA;
+                        }
+                        else
+                        {
+                                if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
+                                        // TODO: which format is best for which textures?
+                                        internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+                                } else if ( r_texturebits->integer == 16 )   {
+                                        internalFormat = GL_RGBA4;
+                                } else if ( r_texturebits->integer == 32 )   {
+                                        internalFormat = GL_RGBA8;
+                                } else
+                                {
+                                        internalFormat = 4;
+                                }
 			}
 		}
 	} else {
-		internalFormat = 3;
+                if(r_greyscale->integer == 1)
+                        internalFormat = GL_LUMINANCE;
+                else 
+                        internalFormat = 3;
 	}
 	// copy or resample data as appropriate for first MIP level
 	if ( ( scaled_width == width ) &&
@@ -3629,6 +3676,26 @@ image_t *R_FindCachedImage( const char *name, int hash ) {
 	}
 
 	return NULL;
+}
+
+//bani
+/*
+R_GetTextureId
+*/
+int R_GetTextureId( const char *name ) {
+        int i;
+
+//      ri.Printf( PRINT_ALL, "R_GetTextureId [%s].\n", name );
+
+        for ( i = 0 ; i < tr.numImages ; i++ ) {
+                if ( !strcmp( name, tr.images[ i ]->imgName ) ) {
+//                      ri.Printf( PRINT_ALL, "Found textureid %d\n", i );
+                        return i;
+                }    
+        }    
+
+//      ri.Printf( PRINT_ALL, "Image not found.\n" );
+        return -1;
 }
 
 /*

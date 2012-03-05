@@ -1565,6 +1565,34 @@ const void  *RB_SwapBuffers( const void *data ) {
 	return (const void *)( cmd + 1 );
 }
 
+//bani
+/*
+=============
+RB_RenderToTexture
+
+=============
+*/
+const void  *RB_RenderToTexture( const void *data ) {
+        const renderToTextureCommand_t  *cmd;
+
+//      ri.Printf( PRINT_ALL, "RB_RenderToTexture\n" );
+
+        cmd = (const renderToTextureCommand_t *)data;
+
+        GL_Bind( cmd->image );
+        qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR );
+        qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR );
+        qglTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE );
+
+        if (r_greyscale->integer == 2)
+                qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_LUMINANCE, cmd->x, cmd->y, cmd->w, cmd->h, 0 ); 
+        else
+                qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, cmd->x, cmd->y, cmd->w, cmd->h, 0 ); 
+//      qglCopyTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, cmd->x, cmd->y, cmd->w, cmd->h );
+
+        return (const void *)( cmd + 1 ); 
+}
+
 /*
 ====================
 RB_ExecuteRenderCommands
@@ -1604,6 +1632,10 @@ void RB_ExecuteRenderCommands( const void *data ) {
 		case RC_SWAP_BUFFERS:
 			data = RB_SwapBuffers( data );
 			break;
+                        //bani
+                case RC_RENDERTOTEXTURE:
+                        data = RB_RenderToTexture( data );
+                        break;
 
 		case RC_END_OF_LIST:
 		default:

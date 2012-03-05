@@ -116,6 +116,10 @@ typedef struct {
 	void ( *ZombieFXAddNewHit )( int entityNum, const vec3_t hitPos, const vec3_t hitDir );
 
 	qboolean ( *GetEntityToken )( char *buffer, int size );
+        // fretn
+        void ( *RenderToTexture )( int textureid, int x, int y, int w, int h );
+        //bani
+        int ( *GetTextureId )( const char *imagename );
 } refexport_t;
 
 //

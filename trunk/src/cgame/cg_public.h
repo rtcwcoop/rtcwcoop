@@ -216,6 +216,13 @@ typedef enum {
 	CG_INGAME_CLOSEPOPUP,   // NERVE - SMF
 	CG_LIMBOCHAT,           // NERVE - SMF
 
+        // fretn
+        CG_R_RENDERTOTEXTURE,
+        // -fretn
+        // bani
+        CG_R_GETTEXTUREID,
+        // -bani
+
 	CG_GETMODELINFO
 } cgameImport_t;
 

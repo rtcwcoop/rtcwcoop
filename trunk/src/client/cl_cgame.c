@@ -894,6 +894,15 @@ int CL_CgameSystemCalls( int *args ) {
                 // doesn't work for COOP mode
 		return SV_GetModelInfo( args[1], VMA( 2 ), VMA( 3 ) );
 
+                // fretn - render to texture
+        case CG_R_RENDERTOTEXTURE:
+                re.RenderToTexture( args[1], args[2], args[3], args[4], args[5] );
+                return 0;
+                //bani
+        case CG_R_GETTEXTUREID:
+                return re.GetTextureId( VMA( 1 ) ); 
+                //bani - flush gl rendering buffers
+
 	default:
 		Com_Error( ERR_DROP, "Bad cgame system trap: %i", args[0] );
 	}

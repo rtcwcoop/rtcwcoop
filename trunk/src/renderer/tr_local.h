@@ -1075,6 +1075,7 @@ extern cvar_t   *r_zfar;                // far Z clip plane
 extern cvar_t   *r_stencilbits;         // number of desired stencil bits
 extern cvar_t   *r_depthbits;           // number of desired depth bits
 extern cvar_t   *r_stereoEnabled;    
+extern  cvar_t  *r_greyscale;
 extern cvar_t   *r_colorbits;           // number of desired color bits, only relevant for fullscreen
 extern cvar_t   *r_stereo;              // desired pixelformat stereo flag
 extern cvar_t   *r_texturebits;         // number of desired texture bits
@@ -1368,6 +1369,11 @@ shader_t *R_FindShaderByName( const char *name );
 void        R_InitShaders( void );
 void        R_ShaderList_f( void );
 void    R_RemapShader( const char *oldShader, const char *newShader, const char *timeOffset );
+
+// fretn - renderToTexture
+void RE_RenderToTexture( int textureid, int x, int y, int w, int h ); 
+// bani
+int R_GetTextureId( const char *name );
 
 /*
 ====================================================================
@@ -1697,6 +1703,21 @@ typedef struct {
 	int numDrawSurfs;
 } drawSurfsCommand_t;
 
+//bani
+typedef struct {
+        int commandId;
+        image_t *image;
+        int x;
+        int y;
+        int w;
+        int h;
+} renderToTextureCommand_t;
+
+//bani
+typedef struct {
+        int commandId;
+} renderFinishCommand_t;
+
 typedef enum {
 	RC_END_OF_LIST,
 	RC_SET_COLOR,
@@ -1704,6 +1725,7 @@ typedef enum {
 	RC_STRETCH_PIC_GRADIENT,    // (SA) added
 	RC_DRAW_SURFS,
 	RC_DRAW_BUFFER,
+        RC_RENDERTOTEXTURE,
 	RC_SWAP_BUFFERS
 } renderCommand_t;
 

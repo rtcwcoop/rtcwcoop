@@ -342,6 +342,15 @@ void    trap_R_RenderScene( const refdef_t *fd ) {
 	syscall( CG_R_RENDERSCENE, fd );
 }
 
+// fretn - render to texture
+void trap_R_RenderToTexture( int textureid, int x, int y, int w, int h ) { 
+        syscall( CG_R_RENDERTOTEXTURE, textureid, x, y, w, h );
+}
+
+int trap_R_GetTextureId( const char *name ) { 
+        return syscall( CG_R_GETTEXTUREID, name );
+}
+
 void    trap_R_SetColor( const float *rgba ) {
 	syscall( CG_R_SETCOLOR, rgba );
 }
