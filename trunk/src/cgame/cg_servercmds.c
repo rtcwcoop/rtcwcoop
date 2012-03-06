@@ -44,7 +44,7 @@ CG_ParseScores
 */
 static void CG_ParseScores( void ) {
 	int i, powerups;
-        int respawnsLeft;
+        //int respawnsLeft;
 
 	cg.numScores = atoi( CG_Argv( 1 ) );
 	if ( cg.numScores > MAX_CLIENTS ) {

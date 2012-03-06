@@ -2387,7 +2387,7 @@ AICast_ScriptAction_FoundSecret
 ==================
 */
 qboolean AICast_ScriptAction_FoundSecret( cast_state_t *cs, char *params ) {
-	gentity_t *player = AICast_FindEntityForName( "player" );
+	//gentity_t *player = AICast_FindEntityForName( "player" );
 	level.numSecretsFound++;
 	//player->numSecretsFound++;
 	trap_SendServerCommand( cs->entityNum, "cp secretarea" );
