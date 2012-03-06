@@ -2965,18 +2965,14 @@ void CG_DrawActive( stereoFrame_t stereoView ) {
 
         if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.stats[STAT_HEALTH] <= 0 ) {
                 static int texid = 0; 
-                static int shaderid = 0;
                 
-                if ( !shaderid )
-                        shaderid = trap_R_RegisterShader( "textures/rtt.tga" );
-
                 if ( !texid ) {
                         texid = trap_R_GetTextureId( "textures/rtt.tga" );
                 }    
 
                 trap_R_RenderToTexture( texid, 0, 0, cg.refdef.width, cg.refdef.height);
                 trap_R_ClearScene();
-                trap_R_DrawStretchPic( 0, 0, cg.refdef.width, cg.refdef.height, 0, 1, 1, 0, shaderid);
+                trap_R_DrawStretchPic( 0, 0, cg.refdef.width, cg.refdef.height, 0, 1, 1, 0, cgs.media.rtt);
         }
 
 	// restore original viewpoint if running stereo

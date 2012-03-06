@@ -1462,6 +1462,9 @@ typedef struct {
 	qhandle_t selectCursor;
 	qhandle_t sizeCursor;
 
+        // fretn
+        qhandle_t rtt;
+
 } cgMedia_t;
 
 

@@ -1505,6 +1505,8 @@ static void CG_RegisterGraphics( void ) {
 //	cgs.media.cursor = trap_R_RegisterShaderNoMip( "menu/art/3_cursor2" );
 	cgs.media.sizeCursor = trap_R_RegisterShaderNoMip( "ui/assets/sizecursor.tga" );
 	cgs.media.selectCursor = trap_R_RegisterShaderNoMip( "ui/assets/selectcursor.tga" );
+
+        cgs.media.rtt = trap_R_RegisterShader( "textures/rtt.tga" );
 	CG_LoadingString( " - game media done" );
 
 }
