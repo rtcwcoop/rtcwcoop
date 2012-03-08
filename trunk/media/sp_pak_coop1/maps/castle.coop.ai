@@ -97,10 +97,17 @@ player
 	{
 		alertentity zombie6
 		alertentity zombie7
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_3 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_5 #endif
 	}
 
 	trigger action5
 	{
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_7 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_8 #endif
 		alertentity zombie8
 		alertentity zombie9
 		wait 2000
@@ -110,6 +117,7 @@ player
 	trigger action6 /// (head roll)
 	{
 		trigger head roll1
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_9 #endif
 	}
 
 	trigger action7
@@ -122,6 +130,11 @@ player
 
 	trigger action8
 	{
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_10 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_11 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_17 #endif
 		alertentity door1
 		alertentity warrior4
 		alertentity nazi2
@@ -133,6 +146,9 @@ player
 
 	trigger action9
 	{
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_14 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_15 #endif
 		wait 3000
 		alertentity zombie12
 		alertentity zombie13
@@ -151,6 +167,9 @@ player
 		alertentity elite1
 		alertentity nazi17
 		alertentity nazi18
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_14 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_15 #endif
 	}
 
 	trigger action12
@@ -163,6 +182,11 @@ player
 		alertentity elite2
 		//alertentity zombie15
 		alertentity zombie16
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_18 #endif		
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_19 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_20 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_21 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_22 #endif
 	}
 
 	trigger action13
@@ -183,6 +207,11 @@ player
 		alertentity nazi8
 		alertentity nazi9
 		alertentity nazi10
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_23 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_24 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_25 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_26 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_27 #endif
 	}
 
 	trigger action16
@@ -190,18 +219,31 @@ player
 		alertentity elite5
 		alertentity nazi11
 		alertentity nazi12
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_28 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_29 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_30 #endif
 	}
 
 	trigger action17
 	{
 		alertentity elite6
 		alertentity nazi13
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_31 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_34 #endif
 	}
 
 	trigger action18
 	{
 		alertentity nazi14
 		alertentity nazi15
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_35 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_36 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_37 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_38 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_39 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_40 #endif
 	}
 		
 	trigger action19
@@ -221,6 +263,7 @@ player
 	trigger secret1
 	{
 		foundsecret
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_4 #endif
 	}
 
 	trigger secret2
@@ -1742,3 +1785,714 @@ elite6 /// (elite guard in stairway)
 		resetscript
 	}
 }
+
+
+
+coop_ai_zombie_1		// 3rd room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		hearing_scale 1.0
+	}
+
+	spawn
+	{
+		noaidamage on
+		knockback off
+		playanim off_hole both
+		sight
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_2		// 3rd room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		hearing_scale 1.0
+	}
+
+	spawn
+	{
+		noaidamage on
+		knockback off
+		playanim off_hole both
+		sight
+		resetscript
+		attack player
+	}
+}
+
+coop_ai_zombie_3		// stairs 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_4		// secret
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_soldier_5		// stairs up
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_6		// eating room 1
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_7		// eating room 2
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_8		// circlestairs down
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_zombie_9		// circle stairs up
+{
+	attributes
+	{
+		fov 240
+		starting_health 100
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+}
+
+coop_ai_blackguard_10		// square1 up 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_11		// square1 up 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_12		// square1 up 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_eliteguard_13		// upper roound 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_14		// upper round 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_blackguard_15		// downer round 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_16		// statue 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_17		// statue 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_eliteguard_18		// church 1
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_19		// church 2
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_blackguard_20		// church 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_21		// near church 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_22		// near church 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_23		// square2 up 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_24		// square2 up 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_25		// square2 up 3
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_26		// square2 up 4
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_27		// square2 up 5
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_28		// square2 down 1 
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_29		// square2 down 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_eliteguard_30		// hallway
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_blackguard_31		// upper room 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_32		// upper room 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_eliteguard_33		// upper room 3
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_34		// upper room 4
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_blackguard_35		// upper ladder 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_36		// upper ladder 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_37		// lever 1
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_38		// lever 2
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_eliteguard_39		// exit
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_40		// exit
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
