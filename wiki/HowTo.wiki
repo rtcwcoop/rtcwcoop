@@ -43,9 +43,15 @@ The pk3 will be placed inside the media folder, copy this folder to your main fo
  Set to 1 if you want to see info about your teamplayers: playername, ammo, ammoclip and health, its like in the multiplayer.
  Set to 2 if you also want to see a bar that shows the armor, just like the health bar, but  below it
 
+
+== r_greyscale ==
+ set to 1 and everything is rendered in greyscale
+ set it to a float value, eg: 0.5, then its 50 percent grey. 
+ set it to 2 and only the world (not the hud and the menus) is rendered to greyscale (via rendertotexture)  when you are dead or in limbo
+
+
 == cg_drawteamoverlay ==
  Set to 1 to see playerweapon, playername and health
-
  Set to 2 to see playerweapon, playername, location and health
 
  The playerweapon is just one character, K (knife), P (pistol), S (submachinegun), E (explosive), R (rifle), H (heavy weapon). 
