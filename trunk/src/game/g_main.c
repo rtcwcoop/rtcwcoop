@@ -1112,9 +1112,13 @@ int G_SendMissionStats() {
 	Q_strcat( cmd, sizeof( cmd ), "s=" );
 
         // fretn - store the maptime in a cvar
-        if (!maptime_saved && g_gametype.integer == GT_COOP_SPEEDRUN) {
+        if (!maptime_saved && objs >= level.numObjectives && g_gametype.integer == GT_COOP_SPEEDRUN) {
+                float newtime = ( level.time - level.startTime ) / 60000.f;
                 trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) ); 
-                trap_Cvar_Register( &maptime, va("g_%s_timelimit", mapname), va("%d", playtime), CVAR_ROM | CVAR_ARCHIVE);
+                //trap_Cvar_Register( &maptime, va("g_%s_timelimit", mapname), va("%d", playtime), CVAR_ROM | CVAR_ARCHIVE);
+                trap_Cvar_Register( &maptime, va("g_%s_timelimit", mapname), "20", CVAR_ROM | CVAR_ARCHIVE);
+                maptime.value = newtime;
+                maptime_saved = qtrue;
         }
 
 
@@ -1251,18 +1255,19 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
                 char mapname[MAX_QPATH];
                 char maptimelimit[MAX_QPATH];
 
-                int newtimelimit = 0;
+                float newtimelimit = 0.0;
 
                 trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
                 trap_Cvar_VariableStringBuffer( va("g_%s_timelimit", mapname), maptimelimit, sizeof( maptimelimit ) );
 
-                newtimelimit = atoi(maptimelimit);
+                newtimelimit = atof(maptimelimit);
 
                 if (newtimelimit) {
-                        trap_Cvar_Set("timelimit", va("%d", (int)newtimelimit/60000));
+                        trap_Cvar_Set("timelimit", va("%f", newtimelimit));
                 } else {
                         trap_Cvar_Set("timelimit", "20");
                 }
+                G_Printf("Timelimit is: %f\n", g_timelimit.value);
 
         }
 
