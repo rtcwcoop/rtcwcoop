@@ -1065,6 +1065,12 @@ int G_SendMissionStats() {
 	int i, j, attempts = 0, playtime = 0, minutes, objs = 0, sec = 0, treas = 0;
 	int canExit = 0;
 
+        // fretn
+        vmCvar_t maptime;
+        char mapname[MAX_QPATH];
+        static qboolean maptime_saved = qfalse;
+
+
         if (g_gametype.integer > GT_COOP) {
             player = AICast_FindEntityForName( "player" );
             if ( player ) {
@@ -1104,6 +1110,13 @@ int G_SendMissionStats() {
         }
 	memset( cmd, 0, sizeof( cmd ) );
 	Q_strcat( cmd, sizeof( cmd ), "s=" );
+
+        // fretn - store the maptime in a cvar
+        if (!maptime_saved && g_gametype.integer == GT_COOP_SPEEDRUN) {
+                trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) ); 
+                trap_Cvar_Register( &maptime, va("g_%s_timelimit", mapname), va("%d", playtime), CVAR_ROM | CVAR_ARCHIVE);
+        }
+
 
 	// 'kills' no longer tracked
 
@@ -1233,6 +1246,26 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 		}
 		trap_Cvar_Set( "cg_yougotMail", "0" );
 	}
+
+        if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
+                char mapname[MAX_QPATH];
+                char maptimelimit[MAX_QPATH];
+
+                int newtimelimit = 0;
+
+                trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+                trap_Cvar_VariableStringBuffer( va("g_%s_timelimit", mapname), maptimelimit, sizeof( maptimelimit ) );
+
+                newtimelimit = atoi(maptimelimit);
+
+                if (newtimelimit) {
+                        trap_Cvar_Set("timelimit", va("%d", (int)newtimelimit/60000));
+                } else {
+                        trap_Cvar_Set("timelimit", "20");
+                }
+
+        }
+
 	G_Script_ScriptLoad();
 	// done.
 
@@ -2021,7 +2054,7 @@ void CheckExitRules( void ) {
 		return;
 	}
 
-	if ( g_timelimit.integer && !level.warmupTime && g_gametype.integer != GT_COOP ) {
+	if ( g_timelimit.integer && !level.warmupTime && g_gametype.integer == GT_COOP_SPEEDRUN ) {
 		if ( level.time - level.startTime >= g_timelimit.integer * 60000 ) {
 			// check for sudden death
 			// DHM - Nerve :: exclude GT_WOLF
