@@ -1377,16 +1377,29 @@ void ClientUserinfoChanged( int clientNum ) {
 
         if ( g_gametype.integer <= GT_COOP &&  !(ent->r.svFlags & SVF_CASTAI))
         {
+                int skinno = 0; 
+
                 // get skin number:
-                Q_strncpyz( skin, Info_ValueForKey( userinfo, "skin" ), sizeof( skin ) );
+                Q_strncpyz( skin, Info_ValueForKey( userinfo, "skin" ), sizeof( skin ) ); 
+                skinno = atoi(skin);
 
-		Q_strncpyz( model, COOP_MODEL, MAX_QPATH );
-		Q_strcat( model, MAX_QPATH, "/" );
+                if (skinno <= 0)
+                        skinno = 1; 
 
-		SetCoopSkin( client, model, atoi(skin) );
+                if (skinno > 3) 
+                        skinno = 3; 
 
-		Q_strncpyz( head, "", MAX_QPATH );
-		SetCoopSkin( client, head, atoi(skin)  );
+                Q_strncpyz( model, COOP_MODEL, MAX_QPATH );
+                Q_strcat( model, MAX_QPATH, "/" );
+
+                SetCoopSkin( client, model, skinno );
+
+                Q_strncpyz( head, "", MAX_QPATH );
+                // fretn : scoreboard leader gets bj his skin !
+                if (clientNum == level.clients[ level.sortedClients[0] ].ps.clientNum)
+                        SetCoopSkin( client, head, 0  );
+                else 
+                        SetCoopSkin( client, head, skinno );
         }
 
 	// strip the skin name
