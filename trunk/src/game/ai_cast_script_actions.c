@@ -1019,7 +1019,15 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 	char *pString, *token;
 	int weapon;
 	int i;
+	gentity_t   *ent = &g_entities[cs->entityNum];
 
+        // fretn
+        // existing players don't receive
+        // the weapons and ammo from the ai scripts on a mapchange
+        // on a mapchange we give everyone at least one point, so we can identify new players
+        if ( g_gametype.integer <= GT_COOP )
+                if ( ent->inuse && !(ent->r.svFlags & SVF_CASTAI) && ent->client->ps.persistant[PERS_SCORE] != 0)
+                        return qtrue;
 	pString = params;
 
 	token = COM_ParseExt( &pString, qfalse );
@@ -1305,6 +1313,15 @@ qboolean AICast_ScriptAction_GiveWeapon( cast_state_t *cs, char *params ) {
 	int weapon;
 	int i;
 	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        // fretn
+        // existing players don't receive
+        // the weapons and ammo from the ai scripts on a mapchange
+        // on a mapchange we give everyone at least one point, so we can identify new players
+        if ( g_gametype.integer <= GT_COOP )
+                if ( ent->inuse && !(ent->r.svFlags & SVF_CASTAI) && ent->client->ps.persistant[PERS_SCORE] != 0)
+                        return qtrue;
+
 
 	weapon = WP_NONE;
 
@@ -2277,7 +2294,7 @@ AICast_ScriptAction_ChangeLevel
 
 ====================
 */
-// fretn: TODO, speedrun needs to save the leveltime
+// fretn: TODO, speedrun needs to restart the map, so they can 'try again' ?
 qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	int i;
 	char *pch, *pch2, *newstr;
@@ -2291,6 +2308,7 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 		return qtrue;   // get out of here
 
 	}
+
 	// don't process if already changing
 //	if(reloading)
 	if ( g_reloading.integer ) {
@@ -2368,6 +2386,20 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 
 	if ( endgame ) {
 		trap_Cvar_Set( "g_reloading", va( "%d", RELOAD_ENDGAME ) );
+
+                // fretn - give the players a point for finishing the map
+                // we need to do this because, existing players don't receive
+                // the weapons and ammo from the ai scripts on a mapchange
+                if (g_gametype.integer <= GT_COOP) {
+                        gentity_t *ent;
+ 
+                        for ( i = 0; i < g_maxclients.integer; i++ ) { 
+                                ent = g_entities + i;
+                                if ( ent->inuse && !(ent->r.svFlags & SVF_CASTAI) ) { 
+                                        ent->client->ps.persistant[PERS_SCORE] += 1;
+                                }   
+                        }  
+                }
 		return qtrue;
 	}
 
