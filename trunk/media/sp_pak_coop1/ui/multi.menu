@@ -124,7 +124,7 @@ itemDef {
 
 	itemDef {
 		name			Join_Server
-		text			"JOIN SERVER" 	
+		text			"JOIN  GAME" 	
 		textfont		UI_FONT_NORMAL
 		bordercolor		1 1 1 1
 		style			0	
@@ -145,7 +145,7 @@ itemDef {
 
 	itemDef {
 		name			create_server
-		text			"CREATE SERVER"
+		text			"NEW  GAME"
 		textfont		UI_FONT_NORMAL
 		type			1
 		style			0	
