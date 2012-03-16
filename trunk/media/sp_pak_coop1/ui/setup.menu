@@ -154,7 +154,7 @@ itemDef {
  	type 1
 	style 0	
 	textstyle 6
-	rect 35 90 64 14 
+	rect 45 90 64 14 
 	textalign 0
 	textfont	UI_FONT_NORMAL
 	textscale .25		
@@ -167,17 +167,12 @@ itemDef {
 	close system_menu ;
 	close options_menu ; 
 	close cdkey_menu ;
-	close default_menu ;   
-	close mods_menu ;
+	close default_menu ;
 	open control_menu }
 	mouseenter { show message_controls }
 	mouseexit { hide message_controls }
 	}
 	
-
-
-
-
 // 	System		//
 
 itemDef {
@@ -186,7 +181,7 @@ itemDef {
  	type 1
 	style 0	
 	textstyle 6
-	rect 161 90 52 14 
+	rect 205 90 52 14 
 	textalign 0
 	textfont	UI_FONT_NORMAL
 	textscale .25		
@@ -199,8 +194,7 @@ itemDef {
 	close system_menu ;
 	close options_menu ; 
 	close cdkey_menu ;
-	close default_menu ;   
-	close mods_menu ;
+	close default_menu ;
 	open system_menu }	
 	mouseenter { show message_system }
 	mouseexit { hide message_system }	
@@ -216,7 +210,7 @@ itemDef {
  	type 1
 	style 0	
 	textstyle 6
-	rect 276 90 90 14 
+	rect 340 90 90 14 
 	textalign 0
 	textfont	UI_FONT_NORMAL
 	textscale .25		
@@ -229,42 +223,11 @@ itemDef {
 	close system_menu ;
 	close options_menu ; 
 	close cdkey_menu ;
-	close default_menu ;   
-	close mods_menu ; 
+	close default_menu ;
 	open options_menu }	
 	mouseenter { show message_gameoptions }
 	mouseexit { hide message_gameoptions }
 	}
-
-
-// MOD Options	//
-
-itemDef {
-      name modoptions
-      text "MODS"
- 	type 1
-	style 0	
-	textstyle 6
-	rect 437 90 90 14 
-	textalign 0
-	textfont	UI_FONT_NORMAL
-	textscale .25		
-	textalignx 2
-	textaligny 12
-	forecolor .9 .9 .9 .9
-	visible 1 
-	action { play "sound/misc/kcaction.wav" ; 
-	close control_menu ; 
-	close system_menu ;
-	close options_menu ; 
-	close cdkey_menu ;
-	close default_menu ;   
-	close mods_menu ;
-	open mods_menu }	
-	mouseenter { show message_modsoptions }
-	mouseexit { hide message_modsoptions }
-	}
-	
 
 // Reset Defaults	//
 
@@ -274,7 +237,7 @@ itemDef {
  	type 1
 	style 0	
 	textstyle 6
-	rect 540 90 66 14 
+	rect 520 90 66 14 
 	textalign 0
 	textfont	UI_FONT_NORMAL
 	textscale .25		
@@ -289,8 +252,7 @@ itemDef {
 	close system_menu ;
 	close options_menu ; 
 	close cdkey_menu ;
-	close default_menu ;   
-	close mods_menu ;
+	close default_menu ;
 	open default_menu }
 	}
 
@@ -355,7 +317,6 @@ itemDef {
 	close options_menu ; 
 	close default_menu ; 
 	close resetscore_menu ;
-	close mods_menu ;
 	open main }
 	mouseEnter { hide back ; show back_alt ; show message_back }
     	}

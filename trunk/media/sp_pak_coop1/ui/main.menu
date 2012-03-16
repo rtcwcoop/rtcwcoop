@@ -252,26 +252,39 @@ menuDef {
 
 	itemDef {
 		name play
+		text "SINGLE PLAYER GAME"		
+		textfont UI_FONT_NORMAL
+		textalign ITEM_ALIGN_CENTER
+		textalignx 0
+		textaligny 14
+		textscale .25
+		rect 180 140 73 14
+		style 0
+		textstyle 6
+		forecolor .8 .8 .8 .8
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name loadgame
 		text "NEW GAME"
 		type 1
-		style 0	
+		style 0
 		textstyle 6
-		rect 120 140 73 14
-		textalign ITEM_ALIGN_LEFT
+		rect 180 160 72 14
+		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
 		textaligny 14
-		forecolor .9 .9 .9 1
-		visible 1
+		forecolor 1 1 1 1
+		visible 1 
 		textfont UI_FONT_NORMAL
 		mouseEnter {  fadein message_accept }
 		action { play "sound/misc/zap.wav" ; 
 		close main ; 
 		open play_menu }
-		}
-
-
-
+    	}
 
 	itemDef {
 		name loadgame
@@ -279,12 +292,12 @@ menuDef {
 		type 1
 		style 0
 		textstyle 6
-		rect 120 180 72 14
-		textalign ITEM_ALIGN_LEFT
+		rect 180 180 72 14
+		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
 		textaligny 14
-		forecolor .9 .9 .9 .9
+		forecolor 1 1 1 1
 		visible 1 
 		textfont UI_FONT_NORMAL
 		mouseEnter { fadein message_accept }
@@ -294,17 +307,56 @@ menuDef {
 
 itemDef {
       	name playselection
-      	text "COOPERATIVE GAME"
+		text "COOPERATIVE GAME"		
+		textfont UI_FONT_NORMAL
+		textalign ITEM_ALIGN_CENTER
+		textalignx 0
+		textaligny 14
+		textscale .25
+		rect 180 220 73 14
+		style 0
+		textstyle 6
+		forecolor .8 .8 .8 .8
+		visible 1
+		decoration
+    	}
+
+itemDef {
+      	name playselection
+      	text "CREATE SERVER"
 		type 1
 		style 0	
 		textstyle 6
-		rect 120 220 137 14 
-		textalign ITEM_ALIGN_LEFT
+		rect 180 240 137 14 
+		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
 		textaligny 14
 		textfont UI_FONT_NORMAL
-		forecolor .9 .9 .9 1
+		forecolor 1 1 1 1
+		visible 1  
+		mouseEnter {
+		fadein message_accept}
+    	action {
+			play "sound/misc/zap.wav" ;
+			close main ;
+ 			open create_menu;
+			uiScript loadArenas }
+    	}
+
+itemDef {
+      	name playselection
+      	text "JOIN GAME"
+		type 1
+		style 0	
+		textstyle 6
+		rect 180 260 137 14 
+		textalign ITEM_ALIGN_CENTER
+		textscale .25	
+		textalignx 0
+		textaligny 14
+		textfont UI_FONT_NORMAL
+		forecolor 1 1 1 1
 		visible 1  
 		mouseEnter {
 		fadein message_accept}
@@ -313,8 +365,7 @@ itemDef {
 			close main ;
  			open multi_menu;
 			uiScript RefreshServers ;
-			uiScript RefreshFilter ;
-		}
+			uiScript RefreshFilter }
     	}
 
 itemDef {
@@ -323,12 +374,12 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 120 260 56 14 
-		textalign ITEM_ALIGN_LEFT
+		rect 180 300 56 14 
+		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
 		textaligny 14
-		forecolor .9 .9 .9 1
+		forecolor 1 1 1 1
 		visible 1
 		textfont UI_FONT_NORMAL 
 		mouseEnter {fadein message_accept }
@@ -344,36 +395,17 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 120 300 56 14
-		textalign ITEM_ALIGN_LEFT
+		rect 180 320 56 14
+		textalign ITEM_ALIGN_CENTER
 		textscale .25		
 		textalignx 0
 		textaligny 14
 		textfont UI_FONT_NORMAL
-		forecolor .99 .99 .99 .99
+		forecolor 1 1 1 1
 		visible 1 
 		mouseEnter { fadein message_accept }
 		action {close main;
 		open credit } 
-	}
-
-itemDef {
-	name testing
-	text "TESTING"
-		type 1
-		style 0	
-		textstyle 6
-		rect 120 360 56 14
-		textalign ITEM_ALIGN_LEFT
-		textscale .25		
-		textalignx 0
-		textaligny 14
-		textfont UI_FONT_NORMAL
-		forecolor .99 .99 .99 .99
-		visible 1 
-		mouseEnter { fadein message_accept }
-		action {
-		open ingame } 
 	}
 	
 	
@@ -383,13 +415,13 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 600 420 32 14
-		textalign ITEM_ALIGN_LEFT
+		rect 180 360 32 14 
+		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
 		textaligny 14
 		textfont UI_FONT_NORMAL
-		forecolor .6 .6 .6 .6
+		forecolor 1 1 1 1
 		visible 1
 		action { play "sound/misc/nomenu.wav"; 
 		close main ;

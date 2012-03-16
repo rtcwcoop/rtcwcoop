@@ -9,6 +9,7 @@
 // COOP menu
 
 	loadMenu { "ui/multi.menu" }
+	loadMenu { "ui/create.menu" }
 	loadMenu { "ui/ingame.menu" }
 	loadMenu { "ui/ingame_callvote.menu" }
 	loadMenu { "ui/ingame_quick.menu" }
