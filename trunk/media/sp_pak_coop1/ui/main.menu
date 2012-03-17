@@ -56,11 +56,37 @@ menuDef {
 		visible 1
 		decoration
 		}
+		
+	itemDef {
+		name testmodel_bj
+		type ITEM_TYPE_MODEL
+		rect 0 -110 800 800  
+		model_angle 120
+		asset_model "models/mapobjects/bjui/bjui_c.MD3"
+		model_animplay 0 200 0 5
+		model_fovx 99
+		model_fovy 90
+		visible 1
+		decoration
+		}
 
 	itemDef {
 		name testmodel_bj
 		type ITEM_TYPE_MODEL
-		rect 60 -120 800 800  
+		rect 80 -120 800 800  
+		model_angle 60
+		asset_model "models/mapobjects/bjui/bjui_c.MD3"
+		model_animplay 0 200 0 8
+		model_fovx 88
+		model_fovy 80
+		visible 1
+		decoration
+		}
+		
+	itemDef {
+		name testmodel_bj
+		type ITEM_TYPE_MODEL
+		rect 40 -120 800 800  
 		model_angle -120
 		asset_model "models/mapobjects/bjui/bjui_c.MD3"
 		model_animplay 0 200 0 20
@@ -69,15 +95,6 @@ menuDef {
 		visible 1
 		decoration
 		}
-
-	itemDef {
-      	name video_over1					// video_over1
-      	style WINDOW_STYLE_SHADER
-      	rect 230 0 410 480
- 	    	background "video_over1"
-      	visible 1
-		decoration
-    		}
 
 	itemDef {
 		name testmodel_aflag1
@@ -160,6 +177,7 @@ menuDef {
 		visible 1
 		decoration
 		}
+		
 	itemDef {
 		name testmodel_icon_burn
 		type ITEM_TYPE_MODEL

@@ -475,16 +475,8 @@ menuDef {
 			textaligny 11
 			forecolor 1 1 1 1
 			backcolor .3 .5 .2 .3
-			visible 1 
-			action { play "sound/misc/nomenu.wav" ; 
-			uiScript ServerSort 0 ; 
-			setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
-			setitemcolor server backcolor .1 .2 .37 1 ; 
-			setitemcolor grpColumn backcolor 0 0 0 0 ; 
-			setitemcolor serverColumn backcolor 0 0 0.8 .25 }
-			mouseEnter { show message_sort ; setitemcolor serverColumn bordercolor 1 1 1 1 }
-			mouseExit { hide message_sort ; setitemcolor serverColumn bordercolor .5 .5 .5 .5 }  
-			}
+			visible 1
+			decoration
 
 		itemDef {
 			name map
@@ -502,16 +494,8 @@ menuDef {
 			bordercolor .5 .5 .5 .5
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
-			visible 1 
-			action { play "sound/misc/nomenu.wav" ; 
-			uiScript ServerSort 1 ; 
-			setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
-			setitemcolor map backcolor .1 .2 .37 1 ; 
-			setitemcolor grpColumn backcolor 0 0 0 0 ; 
-			setitemcolor mapColumn backcolor 0 0 1 .25 }
-			mouseEnter { show message_sort ; setitemcolor mapColumn bordercolor 1 1 1 1 }
-			mouseExit { hide message_sort ; setitemcolor mapColumn bordercolor .5 .5 .5 .5 }	  	  
-			}
+			visible 1
+			decoration
 
 		itemDef {
 			name Skill
@@ -529,16 +513,8 @@ menuDef {
 			textaligny 11
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
-			visible 1 
-			action { play "sound/misc/nomenu.wav" ; 
-				uiScript ServerSort 2 ;
-				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
-				setitemcolor Skill backcolor .1 .2 .37 1 ;  
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor skillColumn backcolor 0 0 1 .25 }
-				mouseEnter { show message_sort ; setitemcolor skillColumn bordercolor 1 1 1 1 }
-				mouseExit { hide message_sort ; setitemcolor skillColumn bordercolor .5 .5 .5 .5 }	  
-			}
+			visible 1
+			decoration
 
 		itemDef {
 			name Players
@@ -556,16 +532,8 @@ menuDef {
 			bordercolor .5 .5 .5 .5
 			forecolor 1 1 1 1
 			backcolor .3 .5 .2 .3
-			visible 1 
-			action { play "sound/misc/nomenu.wav" ; 
-				uiScript ServerSort 3 ;
-				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
-				setitemcolor Players backcolor .1 .2 .37 1 ;  
-				setitemcolor grpColumn backcolor 0 0 0 0 ; 
-				setitemcolor playerColumn backcolor 0 0 1 .25 }
-				mouseEnter { show message_sort ; setitemcolor playerColumn bordercolor 1 1 1 1 }
-				mouseExit { hide message_sort ; setitemcolor playerColumn bordercolor .5 .5 .5 .5 }  	  
-			}
+			visible 1
+			decoration
 
 		itemDef {
 			name Type
@@ -583,16 +551,8 @@ menuDef {
 			bordercolor .5 .5 .5 .5
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
-			visible 1 
-			action { play "sound/misc/nomenu.wav" ; 
-				uiScript ServerSort 4 ;
-				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
-				setitemcolor Type backcolor .1 .2 .37 1 ;  
-				setitemcolor grpColumn backcolor 0 0 0 0 ; 
-				setitemcolor typeColumn backcolor 0 0 1 .25 }
-				mouseEnter { show message_sort ; setitemcolor typeColumn bordercolor 1 1 1 1 }
-				mouseExit { hide message_sort ; setitemcolor typeColumn bordercolor .5 .5 .5 .5 }	  	  
-			}
+			visible 1
+			decoration
 
 		itemDef {
 			name Ping
@@ -610,16 +570,8 @@ menuDef {
 			textaligny 10
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
-			visible 1 
-			action { play "sound/misc/nomenu.wav" ; 
-				uiScript ServerSort 5 ;
-				setitemcolor grpTabs backcolor .3 .5 .2 .3 ; 
-				setitemcolor Ping backcolor .1 .2 .37 1 ;  
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor pingColumn backcolor 0 0 1 .25 }
-				mouseEnter { show message_sort ; setitemcolor pingColumn bordercolor 1 1 1 1 }
-				mouseExit { hide message_sort ; setitemcolor pingColumn bordercolor .5 .5 .5 .5 }	  
-			}
+			visible 1
+			decoration
 
 
 // End of Join Server Section
