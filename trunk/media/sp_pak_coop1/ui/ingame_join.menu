@@ -477,6 +477,7 @@ menuDef {
 			backcolor .3 .5 .2 .3
 			visible 1
 			decoration
+                }
 
 		itemDef {
 			name map
@@ -496,6 +497,7 @@ menuDef {
 			forecolor 1 1 1 1
 			visible 1
 			decoration
+                }
 
 		itemDef {
 			name Skill
@@ -515,6 +517,7 @@ menuDef {
 			forecolor 1 1 1 1
 			visible 1
 			decoration
+                }
 
 		itemDef {
 			name Players
@@ -534,6 +537,7 @@ menuDef {
 			backcolor .3 .5 .2 .3
 			visible 1
 			decoration
+                }
 
 		itemDef {
 			name Type
@@ -553,6 +557,7 @@ menuDef {
 			forecolor 1 1 1 1
 			visible 1
 			decoration
+                }
 
 		itemDef {
 			name Ping
