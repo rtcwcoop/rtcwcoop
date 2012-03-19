@@ -1018,24 +1018,63 @@ static void CG_ServerCommand( void ) {
 
 	if ( !strcmp( cmd, "rockandroll" ) ) {   // map loaded, game is ready to begin.
                 char buf[64];
-                static int num = 0;
+                if ( cgs.gametype != GT_COOP_SPEEDRUN ) {
+                        static int num = 0;
 
-                if (num) // the first client receives this twice, so ignore it the second time
+                        if (num) {
+                                num = 0;
+                                trap_Cvar_Set( "cg_norender", "0" );
+                                trap_SendClientCommand("playerstart");
                                 return;
+                        }
 
-		CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black
-		trap_UI_Popup( "pregame" );                // start pregame menu
-		trap_Cvar_Set( "cg_norender", "1" );    // don't render the world until the player clicks in and the 'playerstart' func has been called (g_main in G_UpdateCvars() ~ilne 949)
+                        CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black
+                        trap_UI_Popup( "pregame" );                // start pregame menu
+                        trap_Cvar_Set( "cg_norender", "1" );    // don't render the world until the player clicks in and the 'playerstart' func has been called (g_main in G_UpdateCvars() ~ilne 949)
+                        if ( cgs.gametype == GT_COOP ) {
+                                trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
+                                coop_ParseFog(buf);
+                        }
 
-		trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
-
-                if ( cgs.gametype != GT_SINGLE_PLAYER) {
-                        // add fog
+                        trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
+                        num ++;
+                } else {
+                        // set fog
                         trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
                         coop_ParseFog(buf);
+                        // skip the pregame menu and start the game
+                        trap_Cvar_Set( "cg_norender", "0" );
+                        trap_SendClientCommand("playerstart");
                 }
+                /*
+                char buf[64];
+                static int num = 0;
 
-                num++;
+                if ( cgs.gametype == GT_COOP_SPEEDRUN) {
+                        trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
+                        coop_ParseFog(buf);
+                        trap_SendClientCommand("playerstart");
+                } else {
+
+                        if (num) {// the first client receives this twice, so ignore it the second time
+                                trap_SendClientCommand("playerstart");
+                                num = 0;
+                                return;
+                        }
+
+                        CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black
+                        trap_UI_Popup( "pregame" );                // start pregame menu
+                        trap_Cvar_Set( "cg_norender", "1" );    // don't render the world until the player clicks in and the 'playerstart' func has been called (g_main in G_UpdateCvars() ~ilne 949)
+                        if ( cgs.gametype == GT_COOP) { // add fog
+                                trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
+                                coop_ParseFog(buf);
+                        }
+
+                        trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
+
+                        num++;
+                }
+                */
 		return;
 	}
 

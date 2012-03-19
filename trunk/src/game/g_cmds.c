@@ -694,7 +694,13 @@ void SetTeam( gentity_t *ent, char *s ) {
 	// they go to the end of the line for tournements
 	if ( team == TEAM_SPECTATOR ) {
 		client->sess.spectatorTime = level.time;
-	}
+                if (ent->client->ps.persistant[PERS_SCORE] >= 0)
+                        ent->client->ps.persistant[PERS_SCORE] = -1000;
+	} else {
+                // fretn: if you have a very low score, and you go to spectator and back to the game you get one point
+                // this can be abused to reset your score in case its bad, need to fix this
+                ent->client->ps.persistant[PERS_SCORE] = 1;
+        }
 
 	client->sess.sessionTeam = team;
 	client->sess.spectatorState = specState;

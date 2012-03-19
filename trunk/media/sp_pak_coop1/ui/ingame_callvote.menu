@@ -177,7 +177,7 @@ itemDef {
 	textaligny 14
 	forecolor 1 1 1 1
 	visible 0
-	action { exec "cmd callvote restart" ; uiScript closeingame }
+	action { exec "cmd callvote map_restart" ; uiScript closeingame }
 	}
 
 itemDef {

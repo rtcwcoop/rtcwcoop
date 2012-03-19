@@ -1523,7 +1523,7 @@ int QDECL SortRanks( const void *a, const void *b ) {
 
 
 	// then spectators
-/*
+
 	if ( ca->sess.sessionTeam == TEAM_SPECTATOR && cb->sess.sessionTeam == TEAM_SPECTATOR ) {
 		if ( ca->sess.spectatorTime < cb->sess.spectatorTime ) {
 			return -1;
@@ -1539,7 +1539,7 @@ int QDECL SortRanks( const void *a, const void *b ) {
 	if ( cb->sess.sessionTeam == TEAM_SPECTATOR ) {
 		return -1;
 	}
-*/
+
 
 	// then sort by score
 	if ( ca->ps.persistant[PERS_SCORE]
@@ -1586,7 +1586,7 @@ void CalculateRanks( void ) {
 			level.sortedClients[level.numConnectedClients] = i;
 			level.numConnectedClients++;
 
-			//if ( level.clients[i].sess.sessionTeam != TEAM_SPECTATOR ) {
+			if ( level.clients[i].sess.sessionTeam != TEAM_SPECTATOR ) {
 				level.numNonSpectatorClients++;
 
 				// decide if this should be auto-followed
@@ -1612,7 +1612,7 @@ void CalculateRanks( void ) {
 						level.follow2 = i;
 					}
 				}
-			//}
+			}
 		}
 	}
 
@@ -1810,12 +1810,11 @@ void ExitLevel( void ) {
 	int i;
 	gclient_t *cl;
 
-        if ( g_gametype.integer <= GT_COOP) {
-                char mapname[1024];
-                trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
-                trap_Cvar_Set( "nextmap", va("coopmap %s", mapname) );
-                // fretn: should be this, but I'm having problems with the pregame menu if I do this
-                //Cvar_Set( "nextmap", "map_restart 0" );
+        if ( g_gametype.integer <= GT_COOP_SPEEDRUN) {
+                //char mapname[1024];
+                //trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+                //trap_Cvar_Set( "nextmap", va("coopmap %s", mapname) );
+                trap_Cvar_Set( "nextmap", "map_restart 0" );
         }
 
 	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
@@ -2303,7 +2302,7 @@ void G_RunFrame( int levelTime ) {
 
         // fretn
 
-        if (level.lastSpawnSave <= level.time && g_spawnpoints.integer == 0 && g_gametype.integer == GT_COOP)
+        if (level.lastSpawnSave <= level.time && g_spawnpoints.integer == 0 && g_gametype.integer <= GT_COOP)
         {    
                 level.lastSpawnSave = level.time + 30000;
                 newSpawns = qtrue;
