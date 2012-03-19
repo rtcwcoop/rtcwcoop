@@ -1,0 +1,31 @@
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
+"origin" "-2128 3507 108"
+"angle" "-44"
+}
+
+{
+"classname" "ai_soldier"
+"origin" "1293 3539 680"
+"ainame" "soldier_fw_bunker_1"
+"angle" "-180"
+"spawnflags" "0" 
+}
+
+{
+"classname" "ai_soldier"
+"origin" "1219 3378 680"
+"ainame" "soldier_fw_bunker_2"
+"angle" "-180"
+"spawnflags" "0"
+}
+
+{
+"classname" "ai_soldier"
+"origin" "2453 3166 1176"
+"ainame" "soldier_u_bunker_1"
+"angle" "-180"
+"spawnflags" "0"
+}
+
