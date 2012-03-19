@@ -2110,8 +2110,6 @@ CG_DrawWarmup
 static void CG_DrawWarmup( void ) {
 	int w;
 	int sec;
-	int i;
-	clientInfo_t    *ci1, *ci2;
 	int cw;
 	const char  *s;
 
@@ -2133,70 +2131,21 @@ static void CG_DrawWarmup( void ) {
 	}
 
 
-	// find the two active players
-	ci1 = NULL;
-	ci2 = NULL;
-	for ( i = 0 ; i < cgs.maxclients ; i++ ) {
-		if ( cgs.clientinfo[i].infoValid && cgs.clientinfo[i].team == TEAM_FREE ) {
-			if ( !ci1 ) {
-				ci1 = &cgs.clientinfo[i];
-			} else {
-				ci2 = &cgs.clientinfo[i];
-			}
-		}
-	}
-
-	if ( ci1 && ci2 ) {
-		s = va( "%s vs %s", ci1->name, ci2->name );
-		w = CG_DrawStrlen( s );
-		if ( w > 640 / GIANT_WIDTH ) {
-			cw = 640 / w;
-		} else {
-			cw = GIANT_WIDTH;
-		}
-		CG_DrawStringExt( 320 - w * cw / 2, 20,s, colorWhite,
-						  qfalse, qtrue, cw, (int)( cw * 1.5 ), 0 );
-	}
-
-
 	sec = ( sec - cg.time ) / 1000;
 	if ( sec < 0 ) {
 		sec = 0;
 	}
-	s = va( "Starts in: %i", sec + 1 );
-	if ( sec != cg.warmupCount ) {
-		cg.warmupCount = sec;
-		switch ( sec ) {
-		case 0:
-			trap_S_StartLocalSound( cgs.media.count1Sound, CHAN_ANNOUNCER );
-			break;
-		case 1:
-			trap_S_StartLocalSound( cgs.media.count2Sound, CHAN_ANNOUNCER );
-			break;
-		case 2:
-			trap_S_StartLocalSound( cgs.media.count3Sound, CHAN_ANNOUNCER );
-			break;
-		default:
-			break;
-		}
-	}
-	switch ( cg.warmupCount ) {
-	case 0:
-		cw = 28;
-		break;
-	case 1:
-		cw = 24;
-		break;
-	case 2:
-		cw = 20;
-		break;
-	default:
-		cw = 16;
-		break;
-	}
+
+        if ( sec == 0 ) {
+	        s = va( "FIGHT !!");
+        } else {
+	        s = va( "Game starts in: %i", sec + 1 );
+        }
+
+        cw = 16;
 
 	w = CG_DrawStrlen( s );
-	CG_DrawStringExt( 320 - w * cw / 2, 70, s, colorWhite,
+	CG_DrawStringExt( 320 - w * cw / 2, 120, s, colorWhite,
 					  qfalse, qtrue, cw, (int)( cw * 1.5 ), 0 );
 }
 
