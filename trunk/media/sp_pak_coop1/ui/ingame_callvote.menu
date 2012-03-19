@@ -16,7 +16,7 @@ menuDef {
 					hide grpType ;
 					hide grpKick ;
 					hide grpMap ;
-					uiScript clientShowVote ;
+					//uiScript clientShowVote ;
 					uiScript loadArenas }
 //		onClose { hide misc }
 //		onEsc { hide misc }
@@ -73,7 +73,7 @@ itemDef {
 				hide grpType ;
 				hide grpKick ;
 				hide grpMap ;
-				uiScript clientShowVote
+				//uiScript clientShowVote
 				}
 	mouseEnter { setitemcolor ctr_misc backcolor .1 .37 .1 1 }
    	mouseExit { setitemcolor ctr_misc backcolor .37 .1 .1 1 }
