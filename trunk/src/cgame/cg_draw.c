@@ -2832,6 +2832,40 @@ void CG_ApplyShakeCamera() {
 	AnglesToAxis( cg.refdefViewAngles, cg.refdef.viewaxis );
 }
 
+// NERVE - SMF
+void CG_CoopStartShakeCamera( float p ) {
+        cg.cameraShakeScale = p; 
+
+        cg.cameraShakeLength = 1000 * ( p * p ); 
+        cg.cameraShakeTime = cg.time + cg.cameraShakeLength;
+        cg.cameraShakePhase = crandom() * M_PI; // start chain in random dir
+}
+
+void CG_ShakeCamera() {
+        float x, val; 
+
+        if ( cg.time > cg.cameraShakeTime ) {
+                cg.cameraShakeScale = 0; // JPW NERVE all pending explosions resolved, so reset shakescale
+                return;
+        }    
+
+        // JPW NERVE starts at 1, approaches 0 over time
+        x = ( cg.cameraShakeTime - cg.time ) / cg.cameraShakeLength;
+
+        // up/down
+        val = sin( M_PI * 8 * x + cg.cameraShakePhase ) * x * 18.0f * cg.cameraShakeScale;
+        cg.refdefViewAngles[0] += val;
+
+        // left/right
+        val = sin( M_PI * 15 * x + cg.cameraShakePhase ) * x * 16.0f * cg.cameraShakeScale;
+        cg.refdefViewAngles[1] += val;
+
+        AnglesToAxis( cg.refdefViewAngles, cg.refdef.viewaxis );
+}
+// -NERVE - SMF
+
+
+
 /*
 =====================
 CG_DrawActive

@@ -1,5 +1,9 @@
 // g_coop.h
 
+#define AXIS_OBJECTIVE      1
+#define ALLIED_OBJECTIVE    2
+#define OBJECTIVE_DESTROYED 4
+
 void SetCoopSpawnWeapons( gclient_t *client );
 void CoopInfoMessage( gentity_t *ent );
 void CheckCoopStatus( void );

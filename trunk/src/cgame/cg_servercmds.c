@@ -35,6 +35,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "cg_local.h"
 #include "../ui/ui_shared.h" // bk001205 - for Q3_ui as well
 
+void CG_CoopStartShakeCamera( float param ); 
+
 
 /*
 =================
@@ -866,6 +868,11 @@ static void CG_ServerCommand( void ) {
 		CG_ConfigStringModified();
 		return;
 	}
+
+        if ( !strcmp( cmd, "shake" ) ) {
+                CG_CoopStartShakeCamera( atof( CG_Argv( 1 ) ) ); 
+                return;
+        } 
 
 	if ( !strcmp( cmd, "print" ) ) {
 		CG_Printf( "%s", CG_Argv( 1 ) );

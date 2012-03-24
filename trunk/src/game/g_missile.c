@@ -417,6 +417,66 @@ void M_think( gentity_t *ent ) {
 
 }
 
+// JPW NERVE
+// think func for below
+void Shaker_think( gentity_t *ent ) {
+        vec3_t vec;      // muzzlebounce, JPW NERVE no longer used
+        gentity_t   *player;
+        float len, radius = ent->splashDamage, bounceamt;
+        int i;
+        char cmd[64];       //DAJ
+        ent->think = G_FreeEntity;
+        ent->nextthink = level.time + FRAMETIME;
+
+        for ( i = 0; i < level.maxclients; i++ ) {
+                // skip if not connected
+                if ( level.clients[i].pers.connected != CON_CONNECTED ) {
+                        continue;
+                }
+                // skip if in limbo
+                if ( level.clients[i].ps.pm_flags & PMF_LIMBO ) {
+                        continue;
+                }
+                // skip if not on same team
+                if ( level.clients[i].sess.sessionTeam == TEAM_SPECTATOR ) {
+                        continue;
+                }
+
+                // found a live one
+                player = &g_entities[i];
+                VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );
+                len = VectorLength( vec );
+
+                if ( len > radius ) { // largest bomb blast = 600
+                        continue;
+                }
+
+                // NERVE - SMF - client side camera shake
+                bounceamt = min( 1.0f, 1.0f - ( len / radius ) );
+                sprintf( cmd, "shake %.4f", bounceamt );   //DAJ
+                trap_SendServerCommand( player->s.clientNum, cmd );
+        }
+}
+// jpw
+/*
+=============
+Ground_Shaker
+        like concussive_fx but means it
+=============
+*/
+void Ground_Shaker( vec3_t origin, float range ) {
+        gentity_t *concussive;
+
+        concussive = G_Spawn();
+        VectorCopy( origin, concussive->s.origin );
+        concussive->think = Shaker_think;
+        concussive->nextthink = level.time + FRAMETIME;
+        concussive->splashDamage = range;
+        concussive->delay = level.time + 200;       // NERVE - SMF - changed from 1000 to 200
+        return;
+}
+
+
 /*
 ================
 G_ExplodeMissile
@@ -480,6 +540,63 @@ void G_ExplodeMissile( gentity_t *ent ) {
 
 	trap_LinkEntity( ent );
 
+
+        if ( etype == ET_MISSILE ) {
+                if ( g_gametype.integer <= GT_COOP ) {
+                                if ( ent->s.weapon == WP_DYNAMITE ) { // do some scoring
+// check if dynamite is in trigger_objective_info field
+                                        vec3_t mins, maxs;
+                                        //static vec3_t range = { 18, 18, 18 }; // NOTE can use this to massage throw distance outside trigger field // TTimo unused
+                                        int i,num,touch[MAX_GENTITIES];
+                                        gentity_t   *hit;
+
+                                        // NERVE - SMF - made this the actual bounding box of dynamite instead of range
+                                        VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
+                                        VectorAdd( ent->r.currentOrigin, ent->r.maxs, maxs );
+                                        num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+                                        VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
+                                        VectorAdd( ent->r.currentOrigin, ent->r.maxs, maxs );
+
+                                        for ( i = 0 ; i < num ; i++ ) {
+                                                hit = &g_entities[touch[i]];
+                                                if ( !hit->target ) {
+                                                        continue;
+                                                }    
+
+                                                if ( !( hit->r.contents & CONTENTS_TRIGGER ) ) {
+                                                        continue;
+                                                }    
+                                                if ( !strcmp( hit->classname,"trigger_objective_info" ) ) {
+                                                       if ( !( hit->spawnflags & ( AXIS_OBJECTIVE | ALLIED_OBJECTIVE ) ) ) {
+                                                                continue;
+                                                        }
+
+                                                        if ( hit->spawnflags & AXIS_OBJECTIVE || hit->spawnflags & ALLIED_OBJECTIVE) {
+                                                        //if ( ( ( hit->spawnflags & AXIS_OBJECTIVE ) && ( ent->s.teamNum == TEAM_BLUE ) ) ||
+                                                         //        ( ( hit->spawnflags & ALLIED_OBJECTIVE ) && ( ent->s.teamNum == TEAM_RED ) ) ) {
+                                                                G_UseTargets( hit,ent );
+                                                                hit->think = G_FreeEntity;
+                                                                hit->nextthink = level.time + FRAMETIME;
+
+                                                                if ( ent->parent->client ) {
+                                                                        if ( ent->s.teamNum == ent->parent->client->sess.sessionTeam ) { // make sure player hasn't changed teams -- per atvi req
+                                                                                AddScore( ent->parent, hit->accuracy ); // set from map, see g_trigger
+                                                                        }
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
+                        // give big weapons the shakey shakey
+                        if ( ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_PANZERFAUST || ent->s.weapon == WP_GRENADE_LAUNCHER ||
+                                 ent->s.weapon == WP_GRENADE_PINEAPPLE || ent->s.weapon == WP_MORTAR ) {
+                                Ground_Shaker( ent->r.currentOrigin, ent->splashDamage * 4 );
+                        }
+                        return;
+// jpw
+        }
+
 	if ( !zombiespit ) {
 		gentity_t *Msmoke;
 
@@ -499,6 +616,7 @@ void G_ExplodeMissile( gentity_t *ent ) {
 
 		Concussive_fx( Msmoke->s.origin );
 	}
+
 }
 
 /*

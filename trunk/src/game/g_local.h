@@ -34,6 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "bg_public.h"
 #include "g_public.h"
 
+
 //==================================================================
 
 // the "gameversion" client command will print this plus compile date
@@ -1421,3 +1422,5 @@ typedef enum
 } shards_t;
 
 
+
+#include "g_coop.h"

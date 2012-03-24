@@ -1001,6 +1001,10 @@ typedef struct {
 	float cameraShakePhase;
 	vec3_t cameraShakeAngles;
 
+        int cameraShakeTime;
+        float cameraShakeScale;
+        float cameraShakeLength;
+
 	float rumbleScale;          //RUMBLE FX using new shakeCamera code
 
 } cg_t;
