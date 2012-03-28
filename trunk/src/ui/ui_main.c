@@ -4634,6 +4634,10 @@ static void UI_RunMenuScript( char **args ) {
 			// -NERVE - SMF
 		} else if ( Q_stricmp( name, "setrecommended" ) == 0 ) {
 			trap_Cmd_ExecuteText( EXEC_APPEND, "setRecommended 1\n" );
+                } else if ( Q_stricmp( name, "joingame" ) == 0 ) {
+                        trap_Cmd_ExecuteText( EXEC_APPEND, "team free\n" );
+                } else if ( Q_stricmp( name, "joinspectators" ) == 0 ) {
+                        trap_Cmd_ExecuteText( EXEC_APPEND, "team s1\n" );
 		} else {
 			Com_Printf( "unknown UI script %s\n", name );
 		}
