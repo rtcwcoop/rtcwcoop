@@ -395,12 +395,16 @@ void Con_Init( void ) {
 Con_Linefeed
 ===============
 */
-void Con_Linefeed( void ) {
+void Con_Linefeed( qboolean skipnotify ) {
 	int i;
 
 	// mark time for transparent overlay
 	if ( con.current >= 0 ) {
-		con.times[con.current % NUM_CON_TIMES] = cls.realtime;
+                if ( skipnotify ) { 
+                        con.times[con.current % NUM_CON_TIMES] = 0;
+                } else {
+                        con.times[con.current % NUM_CON_TIMES] = cls.realtime;
+                } 
 	}
 
 	con.x = 0;
@@ -425,6 +429,14 @@ void CL_ConsolePrint( char *txt ) {
 	int y;
 	int c, l;
 	int color;
+        qboolean skipnotify = qfalse;
+        int prev;
+
+        // NERVE - SMF - work around for text that shows up in console but not in notify
+        if ( !Q_strncmp( txt, "[skipnotify]", 12 ) ) {
+                skipnotify = qtrue;
+                txt += 12;
+        }
 
 	// for some demos we don't want to ever show anything on the console
 	if ( cl_noprint && cl_noprint->integer ) {
@@ -460,7 +472,7 @@ void CL_ConsolePrint( char *txt ) {
 
 		// word wrap
 		if ( l != con.linewidth && ( con.x + l >= con.linewidth ) ) {
-			Con_Linefeed();
+			Con_Linefeed( skipnotify );
 
 		}
 
@@ -469,7 +481,7 @@ void CL_ConsolePrint( char *txt ) {
 		switch ( c )
 		{
 		case '\n':
-			Con_Linefeed();
+			Con_Linefeed( skipnotify );
 			break;
 		case '\r':
 			con.x = 0;
@@ -480,7 +492,7 @@ void CL_ConsolePrint( char *txt ) {
 			con.x++;
 			if ( con.x >= con.linewidth ) {
 
-				Con_Linefeed();
+				Con_Linefeed( skipnotify );
 				con.x = 0;
 			}
 			break;
@@ -491,7 +503,17 @@ void CL_ConsolePrint( char *txt ) {
 	// mark time for transparent overlay
 
 	if ( con.current >= 0 ) {
-		con.times[con.current % NUM_CON_TIMES] = cls.realtime;
+                // NERVE - SMF
+                if ( skipnotify ) {
+                        prev = con.current % NUM_CON_TIMES - 1;
+                        if ( prev < 0 ) {
+                                prev = NUM_CON_TIMES - 1;
+                        }
+                        con.times[prev] = 0;
+                } else {
+                        // -NERVE - SMF
+                        con.times[con.current % NUM_CON_TIMES] = cls.realtime;
+                }
 	}
 }
 

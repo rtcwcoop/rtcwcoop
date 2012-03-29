@@ -259,6 +259,8 @@ vmCvar_t cg_waitForFire;
 
 vmCvar_t cg_loadWeaponSelect;
 
+vmCvar_t cg_drawNotifyText;
+
 // NERVE - SMF - Wolf multiplayer configuration cvars
 vmCvar_t mp_playerType;
 vmCvar_t mp_team;
@@ -442,6 +444,7 @@ cvarTable_t cvarTable[] = {
 	{ &cg_animState, "cg_animState", "0", CVAR_CHEAT},
 	{ &cg_missionStats, "g_missionStats", "0", CVAR_ROM},
 	{ &cg_waitForFire, "cl_waitForFire", "0", CVAR_ROM},
+        { &cg_drawNotifyText, "cg_drawNotifyText", "1", CVAR_ARCHIVE },
 
 	{ &cg_loadWeaponSelect, "cg_loadWeaponSelect", "0", CVAR_ROM},
 
@@ -551,14 +554,28 @@ int CG_LastAttacker( void ) {
 }
 
 void QDECL CG_Printf( const char *msg, ... ) {
-	va_list argptr;
-	char text[1024];
+        va_list argptr;
+        char text[1024];
 
-	va_start( argptr, msg );
-	vsprintf( text, msg, argptr );
-	va_end( argptr );
+        va_start( argptr, msg );
+        Q_vsnprintf( text, sizeof( text ), msg, argptr );
+        va_end( argptr );
+        if ( !Q_strncmp( text, "[cgnotify]", 10 ) ) {
+                char buf[1024];
 
-	trap_Print( text );
+                if ( !cg_drawNotifyText.integer ) {
+                        Q_strncpyz( buf, &text[10], 1013 );
+                        trap_Print( buf );
+                        return;
+                }    
+
+                CG_AddToNotify( &text[10] );
+                Q_strncpyz( buf, &text[10], 1013 );
+                Q_strncpyz( text, "[skipnotify]", 13 );
+                Q_strcat( text, 1011, buf );
+        }    
+
+        trap_Print( text );
 }
 
 void QDECL CG_Error( const char *msg, ... ) {

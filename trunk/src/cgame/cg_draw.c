@@ -874,6 +874,79 @@ static void CG_DrawPickupItem( void ) {
 }
 //----(SA)	end
 
+/*
+=================
+CG_DrawNotify
+=================
+*/
+#define NOTIFYLOC_Y 42 // bottom end
+#define NOTIFYLOC_X 0
+
+static void CG_DrawNotify( void ) {
+        int w, h;
+        int i, len; 
+        vec4_t hcolor;
+        int chatHeight;
+        float alphapercent;
+        char var[MAX_TOKEN_CHARS];
+        float notifytime = 1.0f;
+
+        trap_Cvar_VariableStringBuffer( "con_notifytime", var, sizeof( var ) ); 
+        notifytime = atof( var ) * 1000;
+
+        if ( notifytime <= 100.f ) {
+                notifytime = 100.0f;
+        }    
+
+        chatHeight = NOTIFY_HEIGHT;
+
+        if ( cgs.notifyLastPos != cgs.notifyPos ) {
+                if ( cg.time - cgs.notifyMsgTimes[cgs.notifyLastPos % chatHeight] > notifytime ) {
+                        cgs.notifyLastPos++;
+                }    
+
+                h = ( cgs.notifyPos - cgs.notifyLastPos ) * TINYCHAR_HEIGHT;
+
+                w = 0; 
+
+                for ( i = cgs.notifyLastPos; i < cgs.notifyPos; i++ ) {
+                        len = CG_DrawStrlen( cgs.notifyMsgs[i % chatHeight] );
+                        if ( len > w ) {
+                                w = len; 
+                        }    
+                }    
+                w *= TINYCHAR_WIDTH;
+                w += TINYCHAR_WIDTH * 2;
+
+                if ( maxCharsBeforeOverlay <= 0 ) {
+                        maxCharsBeforeOverlay = 80;
+                }
+
+                for ( i = cgs.notifyPos - 1; i >= cgs.notifyLastPos; i-- ) {
+                        alphapercent = 1.0f - ( ( cg.time - cgs.notifyMsgTimes[i % chatHeight] ) / notifytime );
+                        if ( alphapercent > 0.5f ) {
+                                alphapercent = 1.0f;
+                        } else {
+                                alphapercent *= 2;
+                        }
+
+                        if ( alphapercent < 0.f ) {
+                                alphapercent = 0.f;
+                        }
+
+                        hcolor[0] = hcolor[1] = hcolor[2] = 1.0;
+                        hcolor[3] = alphapercent;
+                        trap_R_SetColor( hcolor );
+
+                        CG_DrawStringExt( NOTIFYLOC_X + TINYCHAR_WIDTH,
+                                                          NOTIFYLOC_Y - ( cgs.notifyPos - i ) * TINYCHAR_HEIGHT,
+                                                          cgs.notifyMsgs[i % chatHeight], hcolor, qfalse, qfalse,
+                                                          TINYCHAR_WIDTH, TINYCHAR_HEIGHT, maxCharsBeforeOverlay );
+                }
+        }
+}
+
+
 
 /*
 ===================
@@ -2726,6 +2799,8 @@ static void CG_Draw2D( void ) {
 
 	// don't draw center string if scoreboard is up
 	if ( !CG_DrawScoreboard() ) {
+                CG_DrawNotify();
+
 		CG_DrawCenterString();
 
 		CG_DrawObjectiveInfo();     // NERVE - SMF

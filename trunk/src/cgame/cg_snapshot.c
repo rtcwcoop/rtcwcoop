@@ -330,10 +330,10 @@ static snapshot_t *CG_ReadNextSnapshot( void ) {
 	qboolean r;
 	snapshot_t  *dest;
 
-	if ( cg.latestSnapshotNum > cgs.processedSnapshotNum + 1000 ) {
-		CG_Printf( "WARNING: CG_ReadNextSnapshot: way out of range, %i > %i",
-				   cg.latestSnapshotNum, cgs.processedSnapshotNum );
-	}
+        if ( cg.latestSnapshotNum > cgs.processedSnapshotNum + 1000 ) { 
+                CG_Printf( "[skipnotify]WARNING: CG_ReadNextSnapshot: way out of range, %i > %i\n",
+                                   cg.latestSnapshotNum, cgs.processedSnapshotNum );
+        }
 
 	while ( cgs.processedSnapshotNum < cg.latestSnapshotNum ) {
 		// decide which of the two slots to load it into

@@ -83,6 +83,9 @@ If you have questions concerning this license or the applicable additional terms
 #define TEAMCHAT_WIDTH      80
 #define TEAMCHAT_HEIGHT     8
 
+#define NOTIFY_WIDTH        80
+#define NOTIFY_HEIGHT       5
+
 // very large characters
 #define GIANT_WIDTH         32
 #define GIANT_HEIGHT        48
@@ -1595,6 +1598,12 @@ typedef struct {
 
 	char itemPrintNames[MAX_ITEMS][32];             //----(SA)	added
 
+        // New notify mechanism for obits
+        char notifyMsgs[NOTIFY_HEIGHT][NOTIFY_WIDTH * 3 + 1];
+        int notifyMsgTimes[NOTIFY_HEIGHT];
+        int notifyPos;
+        int notifyLastPos;
+
 	int cursorX;
 	int cursorY;
 	qboolean eventHandling;
@@ -1778,6 +1787,7 @@ extern vmCvar_t cg_notebookpages;           // bitflags for the currently access
 extern vmCvar_t cg_animState;
 extern vmCvar_t cg_missionStats;
 extern vmCvar_t cg_waitForFire;
+extern vmCvar_t cg_drawNotifyText;
 
 extern vmCvar_t cg_loadWeaponSelect;
 
@@ -2208,6 +2218,7 @@ void CG_ParseServerinfo( void );
 void CG_SetConfigValues( void );
 void CG_ShaderStateChanged( void );
 void CG_SendMoveSpeed( animation_t *animList, int numAnims, char *modelName );
+void CG_AddToNotify( const char *str );
 
 //
 // cg_playerstate.c

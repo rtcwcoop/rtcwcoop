@@ -586,6 +586,89 @@ static void CG_AddToTeamChat( const char *str ) {
 }
 
 /*
+=======================
+CG_AddToNotify
+
+=======================
+*/
+void CG_AddToNotify( const char *str ) {
+        int len; 
+        char *p, *ls; 
+        int lastcolor;
+        int chatHeight;
+        float notifytime;
+        char var[MAX_TOKEN_CHARS];
+
+        trap_Cvar_VariableStringBuffer( "con_notifytime", var, sizeof( var ) ); 
+        notifytime = atof( var ) * 1000;
+
+        chatHeight = NOTIFY_HEIGHT;
+
+        if ( chatHeight <= 0 || notifytime <= 0 ) {
+                // team chat disabled, dump into normal chat
+                cgs.notifyPos = cgs.notifyLastPos = 0; 
+                return;
+        }    
+
+        len = 0; 
+
+        p = cgs.notifyMsgs[cgs.notifyPos % chatHeight];
+        *p = 0; 
+
+        lastcolor = '7'; 
+
+        ls = NULL;
+        while ( *str ) {
+                if ( len > NOTIFY_WIDTH - 1 || ( *str == '\n' && ( *( str + 1 ) != 0 ) ) ) {
+                        if ( ls ) {
+                                str -= ( p - ls );
+                                str++;
+                                p -= ( p - ls );
+                        }    
+                        *p = 0; 
+                        cgs.notifyMsgTimes[cgs.notifyPos % chatHeight] = cg.time;
+
+                        cgs.notifyPos++;
+                        p = cgs.notifyMsgs[cgs.notifyPos % chatHeight];
+                        *p = 0;
+                        *p++ = Q_COLOR_ESCAPE;
+                        *p++ = lastcolor;
+                        len = 0;
+                        ls = NULL;
+                }
+
+                if ( Q_IsColorString( str ) ) {
+                        *p++ = *str++;
+                        lastcolor = *str;
+                        *p++ = *str++;
+                        continue;
+                }
+                if ( *str == ' ' ) {
+                        ls = p;
+                }
+                while ( *str == '\n' ) {
+                        // TTimo gcc warning: value computed is not used
+                        // was *str++;
+                        str++;
+                }
+
+                if ( *str ) {
+                        *p++ = *str++;
+                        len++;
+                }
+        }
+        *p = 0;
+
+        cgs.notifyMsgTimes[cgs.notifyPos % chatHeight] = cg.time;
+        cgs.notifyPos++;
+
+        if ( cgs.notifyPos - cgs.notifyLastPos > chatHeight ) {
+                cgs.notifyLastPos = cgs.notifyPos - chatHeight;
+        }
+}
+
+
+/*
 ===============
 CG_SendMoveSpeed
 ===============
@@ -880,6 +963,7 @@ static void CG_ServerCommand( void ) {
 	}
 
 	if ( !strcmp( cmd, "chat" ) ) {
+/*
 		if ( !cg_teamChatsOnly.integer ) {
 			trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
 			Q_strncpyz( text, CG_Argv( 1 ), MAX_SAY_TEXT );
@@ -887,15 +971,51 @@ static void CG_ServerCommand( void ) {
 			CG_Printf( "%s\n", text );
 		}
 		return;
+*/
+                const char *s;
+
+                if ( cg_teamChatsOnly.integer ) {
+                        return;
+                }    
+
+                //if ( atoi( CG_Argv( 2 ) ) ) {
+                //        s = CG_LocalizeServerCommand( CG_Argv( 1 ) ); 
+                //} else {
+                        s = CG_Argv( 1 ); 
+                //}    
+
+                trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
+                Q_strncpyz( text, s, MAX_SAY_TEXT );
+                CG_RemoveChatEscapeChar( text );
+                CG_AddToTeamChat( text ); // JPW NERVE
+                CG_Printf( "[skipnotify]%s\n", text ); // JPW NERVE
+                return;
 	}
 
 	if ( !strcmp( cmd, "tchat" ) ) {
+/*
 		trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
 		Q_strncpyz( text, CG_Argv( 1 ), MAX_SAY_TEXT );
 		CG_RemoveChatEscapeChar( text );
 		CG_AddToTeamChat( text );
 		CG_Printf( "%s\n", text );
 		return;
+*/
+                const char *s;
+
+                //if ( atoi( CG_Argv( 2 ) ) ) {
+                //        s = CG_LocalizeServerCommand( CG_Argv( 1 ) ); 
+                //} else {
+                        s = CG_Argv( 1 ); 
+                //}    
+
+                trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
+                Q_strncpyz( text, s, MAX_SAY_TEXT );
+                CG_RemoveChatEscapeChar( text );
+                CG_AddToTeamChat( text );
+                CG_Printf( "[skipnotify]%s\n", text ); // JPW NERVE
+                return;
+
 	}
 
 	// NERVE - SMF - limbo chat
