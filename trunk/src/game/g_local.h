@@ -414,6 +414,9 @@ struct gentity_s {
 
 	// -------------------------------------------------------------------------------------------
 	// if working on a post release patch, new variables should ONLY be inserted after this point
+
+        int voiceChatSquelch;                   // DHM - Nerve
+        int voiceChatPreviousTime;              // DHM - Nerve
 };
 
 // Ridah

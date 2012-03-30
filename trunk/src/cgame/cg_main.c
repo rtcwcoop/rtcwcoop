@@ -103,6 +103,11 @@ centity_t cg_entities[MAX_GENTITIES];
 weaponInfo_t cg_weapons[MAX_WEAPONS];
 itemInfo_t cg_items[MAX_ITEMS];
 
+vmCvar_t cg_noVoiceChats;           // NERVE - SMF
+vmCvar_t cg_noVoiceText;
+vmCvar_t cg_noTaunt;                // NERVE - SMF
+vmCvar_t cg_voiceSpriteTime;
+vmCvar_t cg_quickMessageAlt;
 
 vmCvar_t cg_railTrailTime;
 vmCvar_t cg_centertime;
@@ -345,6 +350,12 @@ cvarTable_t cvarTable[] = {
 	{ &cg_bobup, "cg_bobup", "0.005", CVAR_ARCHIVE },
 	{ &cg_bobpitch, "cg_bobpitch", "0.002", CVAR_ARCHIVE },
 	{ &cg_bobroll, "cg_bobroll", "0.002", CVAR_ARCHIVE },
+        
+        { &cg_quickMessageAlt, "cg_quickMessageAlt", "1", CVAR_ARCHIVE },
+        { &cg_noTaunt, "cg_noTaunt", "0", CVAR_ARCHIVE},                      // NERVE - SMF
+        { &cg_voiceSpriteTime, "cg_voiceSpriteTime", "6000", CVAR_ARCHIVE},       // DHM - Nerve
+        { &cg_noVoiceChats, "cg_noVoiceChats", "0", CVAR_ARCHIVE },               // NERVE - SMF
+        { &cg_noVoiceText, "cg_noVoiceText", "0", CVAR_ARCHIVE },
 
 	// JOSEPH 10-27-99
 	{ &cg_autoactivate, "cg_autoactivate", "1", CVAR_ARCHIVE },
@@ -856,6 +867,8 @@ static void CG_RegisterSounds( void ) {
 	CG_SoundInit();
 	// done.
 
+        CG_LoadVoiceChats();
+
 	cgs.media.n_health = trap_S_RegisterSound( "sound/items/n_health.wav" );
 	cgs.media.noFireUnderwater = trap_S_RegisterSound( "sound/weapons/underwaterfire.wav" ); //----(SA)	added
 
@@ -1261,6 +1274,8 @@ static void CG_RegisterGraphics( void ) {
 		cgs.media.blueFlagModel = trap_R_RegisterModel( "models/flags/b_flag.md3" );
 	}
 
+        cgs.media.teamStatusBar = trap_R_RegisterShader( "gfx/2d/colorbar.tga" );
+
 	CG_LoadingString( " - models" );
 
 	cgs.media.machinegunBrassModel = trap_R_RegisterModel( "models/weapons2/shells/m_shell.md3" );
@@ -1297,6 +1312,7 @@ static void CG_RegisterGraphics( void ) {
 
 //	cgs.media.medicReviveShader = trap_R_RegisterShader( "sprites/medic_revive" );	//----(SA)	commented out from MP
 	cgs.media.balloonShader = trap_R_RegisterShader( "sprites/balloon3" );
+        cgs.media.voiceChatShader = trap_R_RegisterShader( "sprites/voiceChat" );
 
 	for ( i = 0; i < MAX_AISTATES; i++ ) {
 		cgs.media.aiStateShaders[i] = trap_R_RegisterShader( va( "sprites/aistate%i", i + 1 ) );

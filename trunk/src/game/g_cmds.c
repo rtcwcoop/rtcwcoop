@@ -1059,6 +1059,112 @@ static void Cmd_Tell_f( gentity_t *ent ) {
 	G_Say( ent, ent, SAY_TELL, p );
 }
 
+// NERVE - SMF
+static void G_VoiceTo( gentity_t *ent, gentity_t *other, int mode, const char *id, qboolean voiceonly ) {
+        int color;
+        char *cmd;
+
+        if ( !other ) {
+                return;
+        }    
+        if ( !other->inuse ) {
+                return;
+        }    
+        if ( !other->client ) {
+                return;
+        }    
+        /*if ( mode == SAY_TEAM && !OnSameTeam( ent, other ) ) {
+                return;
+        }*/
+        // no chatting to players in sp
+        if ( ( g_gametype.integer == GT_SINGLE_PLAYER ) ) {
+                return;
+        }    
+
+        if ( mode == SAY_TEAM ) {
+                color = COLOR_CYAN;
+                cmd = "vtchat";
+        } else if ( mode == SAY_TELL )     {    
+                color = COLOR_MAGENTA;
+                cmd = "vtell";
+        } else {
+                color = COLOR_GREEN;
+                cmd = "vchat";
+        }    
+
+        trap_SendServerCommand( other - g_entities, va( "%s %d %d %d %s %i %i %i", cmd, voiceonly, ent->s.number, color, id,
+                                                                                                        (int)ent->s.pos.trBase[0], (int)ent->s.pos.trBase[1], (int)ent->s.pos.trBase[2] ) ); 
+}
+void G_Voice( gentity_t *ent, gentity_t *target, int mode, const char *id, qboolean voiceonly ) {
+        int j;
+        gentity_t   *other;
+
+        /*if ( g_gametype.integer < GT_TEAM && mode == SAY_TEAM ) {
+                mode = SAY_ALL;
+        }
+        */
+
+        // DHM - Nerve :: Don't allow excessive spamming of voice chats
+        ent->voiceChatSquelch -= ( level.time - ent->voiceChatPreviousTime );
+        ent->voiceChatPreviousTime = level.time;
+
+        if ( ent->voiceChatSquelch < 0 ) {
+                ent->voiceChatSquelch = 0; 
+        }    
+
+        if ( ent->voiceChatSquelch >= 30000 ) {
+                trap_SendServerCommand( ent - g_entities, "print \"^1Spam Protection^7: VoiceChat ignored\n\"" );
+                return;
+        }    
+
+        /*   
+        if ( g_voiceChatsAllowed.integer ) {
+                ent->voiceChatSquelch += ( 34000 / g_voiceChatsAllowed.integer );
+        } else {
+                return;
+        }*/
+        ent->voiceChatSquelch += ( 34000 / 4 ); 
+        // dhm
+
+        if ( target ) {
+                G_VoiceTo( ent, target, mode, id, voiceonly );
+                return;
+        }    
+
+        // echo the text to the console
+        if ( g_dedicated.integer ) {
+                G_Printf( "voice: %s %s\n", ent->client->pers.netname, id );
+        }    
+
+        // send it to all the apropriate clients
+        for ( j = 0; j < level.maxclients; j++ ) {
+                other = &g_entities[j];
+                G_VoiceTo( ent, other, mode, id, voiceonly );
+        }    
+}
+
+/*
+==================
+Cmd_Voice_f
+==================
+*/
+static void Cmd_Voice_f( gentity_t *ent, int mode, qboolean arg0, qboolean voiceonly ) {
+        char        *p;  
+
+        if ( trap_Argc() < 2 && !arg0 ) {
+                return;
+        }    
+
+        if ( arg0 ) {
+                p = ConcatArgs( 0 ); 
+        } else 
+        {    
+                p = ConcatArgs( 1 ); 
+        }    
+
+        G_Voice( ent, NULL, mode, p, voiceonly );
+}
+
 
 static char *gc_orders[] = {
 	"hold your position",
@@ -2100,6 +2206,14 @@ void ClientCommand( int clientNum ) {
 	}
 	// done.
 
+        if ( Q_stricmp( cmd, "vsay" ) == 0 ) {
+                Cmd_Voice_f( ent, SAY_ALL, qfalse, qfalse );
+                return;
+        }
+        if ( Q_stricmp( cmd, "vsay_team" ) == 0 ) {
+                Cmd_Voice_f( ent, SAY_TEAM, qfalse, qfalse );
+                return;
+        }
 	if ( Q_stricmp( cmd, "say" ) == 0 ) {
 		Cmd_Say_f( ent, SAY_ALL, qfalse );
 		return;

@@ -67,6 +67,12 @@ int menuCount = 0;               // how many
 menuDef_t *menuStack[MAX_OPEN_MENUS];
 int openMenuCount = 0;
 
+// TTimo
+// a stack for modal menus only, stores the menus to come back to
+// (an item can be NULL, goes back to main menu / no action required)
+menuDef_t *modalMenuStack[MAX_MODAL_MENUS];
+int modalMenuCount = 0; 
+
 static qboolean debugMode = qfalse;
 
 #define DOUBLE_CLICK_DELAY 300
@@ -1156,7 +1162,7 @@ void Menus_ShowByName( const char *p ) {
 }
 
 void Menus_OpenByName( const char *p ) {
-	Menus_ActivateByName( p );
+	Menus_ActivateByName( p, qtrue );
 }
 
 static void Menu_RunCloseScript( menuDef_t *menu ) {
@@ -1168,11 +1174,30 @@ static void Menu_RunCloseScript( menuDef_t *menu ) {
 }
 
 void Menus_CloseByName( const char *p ) {
+/*
 	menuDef_t *menu = Menus_FindByName( p );
 	if ( menu != NULL ) {
 		Menu_RunCloseScript( menu );
 		menu->window.flags &= ~( WINDOW_VISIBLE | WINDOW_HASFOCUS );
 	}
+*/
+        menuDef_t *menu = Menus_FindByName( p ); 
+        if ( menu != NULL ) {
+                Menu_RunCloseScript( menu );
+                menu->window.flags &= ~( WINDOW_VISIBLE | WINDOW_HASFOCUS );
+                if ( menu->window.flags & WINDOW_MODAL ) {
+                        if ( modalMenuCount <= 0 ) {
+                                Com_Printf( S_COLOR_YELLOW "WARNING: tried closing a modal window with an empty modal stack!\n" );
+                        } else 
+                        {    
+                                modalMenuCount--;
+                                // if modal doesn't have a parent, the stack item may be NULL .. just go back to the main menu then
+                                if ( modalMenuStack[modalMenuCount] ) {
+                                        Menus_ActivateByName( modalMenuStack[modalMenuCount]->window.name, qfalse ); // don't try to push the one we are opening to the stack
+                                }
+                        }            
+                }            
+        } 
 }
 
 void Menus_CloseAll() {
@@ -4519,6 +4544,8 @@ qboolean Menus_AnyFullScreenVisible() {
 	return qfalse;
 }
 
+menuDef_t *Menus_ActivateByName( const char *p, qboolean modalStack ) {
+/*
 menuDef_t *Menus_ActivateByName( const char *p ) {
 	int i;
 	menuDef_t *m = NULL;
@@ -4536,6 +4563,26 @@ menuDef_t *Menus_ActivateByName( const char *p ) {
 	}
 	Display_CloseCinematics();
 	return m;
+*/
+        int i;
+        menuDef_t *m = NULL;
+        menuDef_t *focus = Menu_GetFocused();
+        for ( i = 0; i < menuCount; i++ ) {
+                if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
+                        m = &Menus[i];
+                        Menus_Activate( m );
+                        if ( modalStack && m->window.flags & WINDOW_MODAL ) {
+                                if ( modalMenuCount >= MAX_MODAL_MENUS ) {
+                                        Com_Error( ERR_DROP, "MAX_MODAL_MENUS exceeded\n" );
+                                }
+                                modalMenuStack[modalMenuCount++] = focus;
+                        }
+                } else {
+                        Menus[i].window.flags &= ~WINDOW_HASFOCUS;
+                }
+        }
+        Display_CloseCinematics();
+        return m;
 }
 
 
@@ -4950,6 +4997,24 @@ qboolean ItemParse_rect( itemDef_t *item, int handle ) {
 	}
 	return qtrue;
 }
+
+// origin <integer, integer>
+qboolean ItemParse_origin( itemDef_t *item, int handle ) {
+        int x, y;
+
+        if ( !PC_Int_Parse( handle, &x ) ) {
+                return qfalse;
+        }    
+        if ( !PC_Int_Parse( handle, &y ) ) {
+                return qfalse;
+        }    
+
+        item->window.rectClient.x += x;
+        item->window.rectClient.y += y;
+
+        return qtrue;
+}
+
 
 // style <integer>
 qboolean ItemParse_style( itemDef_t *item, int handle ) {
@@ -5583,6 +5648,7 @@ keywordHash_t itemParseKeywords[] = {
 	{"model_animplay", ItemParse_model_animplay, NULL},
 	{"rect", ItemParse_rect, NULL},
 	{"style", ItemParse_style, NULL},
+        {"origin", ItemParse_origin, NULL},
 	{"decoration", ItemParse_decoration, NULL},
 	{"notselectable", ItemParse_notselectable, NULL},
 	{"wrapped", ItemParse_wrapped, NULL},
@@ -6049,6 +6115,13 @@ qboolean MenuParse_execKeyInt( itemDef_t *item, int handle ) {
 	}
 	return qtrue;
 }
+
+qboolean MenuParse_modal( itemDef_t *item, int handle ) {
+        menuDef_t *menu = (menuDef_t*)item;
+        menu->window.flags |= WINDOW_MODAL;
+        return qtrue;
+}
+
 // -NERVE - SMF
 
 keywordHash_t menuParseKeywords[] = {
@@ -6083,6 +6156,7 @@ keywordHash_t menuParseKeywords[] = {
 	{"fadeAmount", MenuParse_fadeAmount, NULL},
 	{"execKey", MenuParse_execKey, NULL},                // NERVE - SMF
 	{"execKeyInt", MenuParse_execKeyInt, NULL},          // NERVE - SMF
+        {"modal", MenuParse_modal, NULL },
 	{NULL, NULL, NULL}
 };
 

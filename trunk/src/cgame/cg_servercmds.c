@@ -698,6 +698,430 @@ void CG_SendMoveSpeed( animation_t *animList, int numAnims, char *modelName ) {
 	trap_SendMoveSpeedsToGame( 0, text );
 }
 
+// NERVE - SMF
+#define MAX_VOICEFILESIZE   16384
+#define MAX_VOICEFILES      8
+#define MAX_VOICECHATS      64
+#define MAX_VOICESOUNDS     64
+#define MAX_CHATSIZE        64
+#define MAX_HEADMODELS      64
+
+typedef struct voiceChat_s
+{
+        char id[64];
+        int numSounds;
+        sfxHandle_t sounds[MAX_VOICESOUNDS];
+        char chats[MAX_VOICESOUNDS][MAX_CHATSIZE];
+        qhandle_t sprite[MAX_VOICESOUNDS];          // DHM - Nerve
+} voiceChat_t;
+
+typedef struct voiceChatList_s
+{
+        char name[64];
+        int gender;
+        int numVoiceChats;
+        voiceChat_t voiceChats[MAX_VOICECHATS];
+} voiceChatList_t;
+
+typedef struct headModelVoiceChat_s
+{
+        char headmodel[64];
+        int voiceChatNum;
+} headModelVoiceChat_t;
+
+voiceChatList_t voiceChatLists[MAX_VOICEFILES];
+headModelVoiceChat_t headModelVoiceChat[MAX_HEADMODELS];
+
+/*
+=================
+CG_ParseVoiceChats
+=================
+*/
+int CG_ParseVoiceChats( const char *filename, voiceChatList_t *voiceChatList, int maxVoiceChats ) {
+        int len, i;
+        int current = 0;
+        fileHandle_t f;
+        char buf[MAX_VOICEFILESIZE];
+        char **p, *ptr;
+        char *token;
+        voiceChat_t *voiceChats;
+        qboolean compress;
+
+        compress = qtrue;
+        if ( cg_buildScript.integer ) {
+                compress = qfalse;
+        }
+
+        len = trap_FS_FOpenFile( filename, &f, FS_READ );
+        if ( !f ) {
+                trap_Print( va( S_COLOR_RED "voice chat file not found: %s\n", filename ) );
+                return qfalse;
+        }
+        if ( len >= MAX_VOICEFILESIZE ) {
+                trap_Print( va( S_COLOR_RED "voice chat file too large: %s is %i, max allowed is %i", filename, len, MAX_VOICEFILESIZE ) );
+                trap_FS_FCloseFile( f );
+                return qfalse;
+        }
+
+        trap_FS_Read( buf, len, f );
+        buf[len] = 0;
+        trap_FS_FCloseFile( f );
+
+        ptr = buf;
+        p = &ptr;
+
+        Com_sprintf( voiceChatList->name, sizeof( voiceChatList->name ), "%s", filename );
+        voiceChats = voiceChatList->voiceChats;
+        for ( i = 0; i < maxVoiceChats; i++ ) {
+                voiceChats[i].id[0] = 0;
+        }
+        token = COM_ParseExt( p, qtrue );
+        if ( !token || token[0] == 0 ) {
+                return qtrue;
+        }
+        if ( !Q_stricmp( token, "female" ) ) {
+                voiceChatList->gender = GENDER_FEMALE;
+        } else if ( !Q_stricmp( token, "male" ) )        {
+                voiceChatList->gender = GENDER_MALE;
+        } else if ( !Q_stricmp( token, "neuter" ) )        {
+                voiceChatList->gender = GENDER_NEUTER;
+        } else {
+                trap_Print( va( S_COLOR_RED "expected gender not found in voice chat file: %s\n", filename ) );
+                return qfalse;
+        }
+
+        voiceChatList->numVoiceChats = 0;
+        while ( 1 ) {
+                token = COM_ParseExt( p, qtrue );
+                if ( !token || token[0] == 0 ) {
+                        return qtrue;
+                }
+                Com_sprintf( voiceChats[voiceChatList->numVoiceChats].id, sizeof( voiceChats[voiceChatList->numVoiceChats].id ), "%s", token );
+                token = COM_ParseExt( p, qtrue );
+                if ( Q_stricmp( token, "{" ) ) {
+                        trap_Print( va( S_COLOR_RED "expected { found %s in voice chat file: %s\n", token, filename ) );
+                        return qfalse;
+                }
+                voiceChats[voiceChatList->numVoiceChats].numSounds = 0;
+                current = voiceChats[voiceChatList->numVoiceChats].numSounds;
+                while ( 1 ) {
+                        token = COM_ParseExt( p, qtrue );
+                        if ( !token || token[0] == 0 ) {
+                                return qtrue;
+                        }
+                        if ( !Q_stricmp( token, "}" ) ) {
+                                break;
+                        }
+                        voiceChats[voiceChatList->numVoiceChats].sounds[current] = trap_S_RegisterSound( token /*, compress */ );
+                        token = COM_ParseExt( p, qtrue );
+                        if ( !token || token[0] == 0 ) {
+                                return qtrue;
+                        }
+                        Com_sprintf( voiceChats[voiceChatList->numVoiceChats].chats[current], MAX_CHATSIZE, "%s", token );
+
+                        // DHM - Nerve :: Specify sprite shader to show above player's head
+                        token = COM_ParseExt( p, qfalse );
+                        if ( !Q_stricmp( token, "}" ) || !token || token[0] == 0 ) {
+                                voiceChats[voiceChatList->numVoiceChats].sprite[current] = trap_R_RegisterShader( "sprites/voiceChat" );
+                                COM_RestoreParseSession( p );
+                        } else {
+                                voiceChats[voiceChatList->numVoiceChats].sprite[current] = trap_R_RegisterShader( token );
+                                if ( voiceChats[voiceChatList->numVoiceChats].sprite[current] == 0 ) {
+                                        voiceChats[voiceChatList->numVoiceChats].sprite[current] = trap_R_RegisterShader( "sprites/voiceChat" );
+                                }
+                        }
+                        // dhm - end
+
+                        voiceChats[voiceChatList->numVoiceChats].numSounds++;
+                        current = voiceChats[voiceChatList->numVoiceChats].numSounds;
+
+                        if ( voiceChats[voiceChatList->numVoiceChats].numSounds >= MAX_VOICESOUNDS ) {
+                                break;
+                        }
+                }
+
+                voiceChatList->numVoiceChats++;
+                if ( voiceChatList->numVoiceChats >= maxVoiceChats ) {
+                        return qtrue;
+                      }
+        }
+        return qtrue;
+}
+
+/*
+=================
+CG_LoadVoiceChats
+=================
+*/
+void CG_LoadVoiceChats( void ) {
+        int size;
+
+        size = trap_MemoryRemaining();
+        CG_ParseVoiceChats( "scripts/wm_axis_chat.voice", &voiceChatLists[0], MAX_VOICECHATS );
+        CG_ParseVoiceChats( "scripts/wm_allies_chat.voice", &voiceChatLists[1], MAX_VOICECHATS );
+        CG_Printf( "voice chat memory size = %d\n", size - trap_MemoryRemaining() );
+}
+
+/*
+=================
+CG_HeadModelVoiceChats
+=================
+*/
+int CG_HeadModelVoiceChats( char *filename ) {
+        int len, i;
+        fileHandle_t f;
+        char buf[MAX_VOICEFILESIZE];
+        char **p, *ptr;
+        char *token;
+
+        len = trap_FS_FOpenFile( filename, &f, FS_READ );
+        if ( !f ) {
+                trap_Print( va( "voice chat file not found: %s\n", filename ) );
+                return -1;
+        }
+        if ( len >= MAX_VOICEFILESIZE ) {
+                trap_Print( va( S_COLOR_RED "voice chat file too large: %s is %i, max allowed is %i", filename, len, MAX_VOICEFILESIZE ) );
+                trap_FS_FCloseFile( f );
+                return -1;
+        }
+
+        trap_FS_Read( buf, len, f );
+        buf[len] = 0;
+        trap_FS_FCloseFile( f );
+
+        ptr = buf;
+        p = &ptr;
+
+        token = COM_ParseExt( p, qtrue );
+        if ( !token || token[0] == 0 ) {
+                return -1;
+        }
+
+        for ( i = 0; i < MAX_VOICEFILES; i++ ) {
+                if ( !Q_stricmp( token, voiceChatLists[i].name ) ) {
+                        return i;
+                }
+        }
+
+        //FIXME: maybe try to load the .voice file which name is stored in token?
+
+        return -1;
+}
+
+
+/*
+=================
+CG_GetVoiceChat
+=================
+*/
+int CG_GetVoiceChat( voiceChatList_t *voiceChatList, const char *id, sfxHandle_t *snd, qhandle_t *sprite, char **chat ) {
+        int i, rnd;
+
+        for ( i = 0; i < voiceChatList->numVoiceChats; i++ ) {
+                if ( !Q_stricmp( id, voiceChatList->voiceChats[i].id ) ) {
+                        rnd = random() * voiceChatList->voiceChats[i].numSounds;
+                        *snd = voiceChatList->voiceChats[i].sounds[rnd];
+                        *sprite = voiceChatList->voiceChats[i].sprite[rnd];
+                        *chat = voiceChatList->voiceChats[i].chats[rnd];
+                        return qtrue;
+                }
+        }
+        return qfalse;
+}
+
+/*
+=================
+CG_VoiceChatListForClient
+=================
+*/
+voiceChatList_t *CG_VoiceChatListForClient( int clientNum ) {
+        return &voiceChatLists[1]; // fretn - allies ?
+}
+
+
+#define MAX_VOICECHATBUFFER     32
+
+typedef struct bufferedVoiceChat_s
+{
+        int clientNum;
+        sfxHandle_t snd;
+        qhandle_t sprite;
+        int voiceOnly;
+        char cmd[MAX_SAY_TEXT];
+        char message[MAX_SAY_TEXT];
+        vec3_t origin;          // NERVE - SMF
+} bufferedVoiceChat_t;
+
+bufferedVoiceChat_t voiceChatBuffer[MAX_VOICECHATBUFFER];
+
+/*
+=================
+CG_PlayVoiceChat
+=================
+*/
+void CG_PlayVoiceChat( bufferedVoiceChat_t *vchat ) {
+        if ( !cg_noVoiceChats.integer ) {
+                trap_S_StartLocalSound( vchat->snd, CHAN_VOICE );
+
+                // DHM - Nerve :: Show icon above head
+                if ( vchat->clientNum == cg.snap->ps.clientNum ) {
+                        cg.predictedPlayerEntity.voiceChatSprite = vchat->sprite;
+                        if ( vchat->sprite == cgs.media.voiceChatShader ) {
+                                cg.predictedPlayerEntity.voiceChatSpriteTime = cg.time + cg_voiceSpriteTime.integer;
+                        } else {
+                                cg.predictedPlayerEntity.voiceChatSpriteTime = cg.time + cg_voiceSpriteTime.integer * 2;
+                        }
+                } else {
+                        cg_entities[ vchat->clientNum ].voiceChatSprite = vchat->sprite;
+                        VectorCopy( vchat->origin, cg_entities[ vchat->clientNum ].lerpOrigin );            // NERVE - SMF
+                        if ( vchat->sprite == cgs.media.voiceChatShader ) {
+                                cg_entities[ vchat->clientNum ].voiceChatSpriteTime = cg.time + cg_voiceSpriteTime.integer;
+                        } else {
+                                cg_entities[ vchat->clientNum ].voiceChatSpriteTime = cg.time + cg_voiceSpriteTime.integer * 2;
+                        }
+                }
+                // dhm - end
+        }
+        if ( !vchat->voiceOnly && !cg_noVoiceText.integer ) {
+                CG_AddToTeamChat( vchat->message );
+                CG_Printf( va( "[skipnotify]: %s\n", vchat->message ) ); // JPW NERVE
+                //CG_Printf( va( "%s\n", vchat->message ) ); // JPW NERVE
+        }
+        voiceChatBuffer[cg.voiceChatBufferOut].snd = 0;
+}
+
+/*
+=====================
+CG_PlayBufferedVoieChats
+=====================
+*/
+void CG_PlayBufferedVoiceChats( void ) {
+        if ( cg.voiceChatTime < cg.time ) {
+                if ( cg.voiceChatBufferOut != cg.voiceChatBufferIn && voiceChatBuffer[cg.voiceChatBufferOut].snd ) {
+                        //
+                        CG_PlayVoiceChat( &voiceChatBuffer[cg.voiceChatBufferOut] );
+                        //
+                        cg.voiceChatBufferOut = ( cg.voiceChatBufferOut + 1 ) % MAX_VOICECHATBUFFER;
+                        cg.voiceChatTime = cg.time + 1000;
+                }
+        }
+}
+
+/*
+=====================
+CG_AddBufferedVoiceChat
+=====================
+*/
+void CG_AddBufferedVoiceChat( bufferedVoiceChat_t *vchat ) {
+        memcpy( &voiceChatBuffer[0],vchat,sizeof( bufferedVoiceChat_t ) );
+        cg.voiceChatBufferIn = 0;
+        CG_PlayVoiceChat( &voiceChatBuffer[0] );
+}
+
+
+/*
+=================
+CG_VoiceChatLocal
+=================
+*/
+void CG_VoiceChatLocal( int mode, qboolean voiceOnly, int clientNum, int color, const char *cmd, vec3_t origin ) {
+        char *chat;
+        voiceChatList_t *voiceChatList;
+        clientInfo_t *ci; 
+        sfxHandle_t snd; 
+        qhandle_t sprite;
+        bufferedVoiceChat_t vchat;
+        const char *loc;            // NERVE - SMF
+
+/*      // NERVE - SMF - don't do this in wolfMP
+        // if we are going into the intermission, don't start any voices
+        if ( cg.intermissionStarted ) {
+                return;
+        }
+*/
+
+        if ( clientNum < 0 || clientNum >= MAX_CLIENTS ) {
+                clientNum = 0; 
+        }    
+        ci = &cgs.clientinfo[ clientNum ];
+
+        cgs.currentVoiceClient = clientNum;
+
+        voiceChatList = CG_VoiceChatListForClient( clientNum );
+
+        if ( CG_GetVoiceChat( voiceChatList, cmd, &snd, &sprite, &chat ) ) {
+                //   
+                if ( mode == SAY_TEAM || !cg_teamChatsOnly.integer ) {
+                        vchat.clientNum = clientNum;
+                        vchat.snd = snd; 
+                        vchat.sprite = sprite;
+                        vchat.voiceOnly = voiceOnly;
+                        VectorCopy( origin, vchat.origin );     // NERVE - SMF
+                        Q_strncpyz( vchat.cmd, cmd, sizeof( vchat.cmd ) ); 
+
+                        // NERVE - SMF - get location
+                        loc = CG_ConfigString( CS_LOCATIONS + ci->location );
+                        if ( !loc || !*loc ) {
+                                if ( mode == SAY_TELL ) {
+                                        Com_sprintf( vchat.message, sizeof( vchat.message ), "[%s]%c%c: %c%c%s",
+                                                                ci->name, Q_COLOR_ESCAPE, COLOR_YELLOW, Q_COLOR_ESCAPE, color, chat );
+                                } else if ( mode == SAY_TEAM )   {
+                                        Com_sprintf( vchat.message, sizeof( vchat.message ), "(%s)%c%c: %c%c%s",
+                                                                ci->name, Q_COLOR_ESCAPE, COLOR_YELLOW, Q_COLOR_ESCAPE, color, chat );
+                                } else {
+                                        Com_sprintf( vchat.message, sizeof( vchat.message ), "%s %c%c: %c%c%s",
+                                                                ci->name, Q_COLOR_ESCAPE, COLOR_YELLOW, Q_COLOR_ESCAPE, color, chat );
+                                }    
+                        } else { 
+                        // -NERVE - SMF
+                                if ( mode == SAY_TELL ) {
+                                        Com_sprintf( vchat.message, sizeof( vchat.message ), "[%s]%c%c[%s]: %c%c%s",
+                                                                ci->name, Q_COLOR_ESCAPE, COLOR_YELLOW, loc, Q_COLOR_ESCAPE, color, chat );
+                                } else if ( mode == SAY_TEAM )   {
+                                        Com_sprintf( vchat.message, sizeof( vchat.message ), "(%s)%c%c(%s): %c%c%s",
+                                                                ci->name, Q_COLOR_ESCAPE, COLOR_YELLOW, loc, Q_COLOR_ESCAPE, color, chat );
+                                } else {
+                                        Com_sprintf( vchat.message, sizeof( vchat.message ), "%s %c%c(%s): %c%c%s",
+                                                                ci->name, Q_COLOR_ESCAPE, COLOR_YELLOW, loc, Q_COLOR_ESCAPE, color, chat );
+                                }    
+                        }
+                        CG_AddBufferedVoiceChat( &vchat );
+                }    
+        }    
+}
+
+/*
+=================
+CG_VoiceChat
+=================
+*/
+void CG_VoiceChat( int mode ) {
+        const char *cmd;
+        int clientNum, color;
+        qboolean voiceOnly;
+        vec3_t origin;          // NERVE - SMF
+
+        voiceOnly = atoi( CG_Argv( 1 ) ); 
+        clientNum = atoi( CG_Argv( 2 ) ); 
+        color = atoi( CG_Argv( 3 ) ); 
+
+        // NERVE - SMF - added origin
+        origin[0] = atoi( CG_Argv( 5 ) ); 
+        origin[1] = atoi( CG_Argv( 6 ) ); 
+        origin[2] = atoi( CG_Argv( 7 ) ); 
+
+        cmd = CG_Argv( 4 ); 
+
+        if ( cg_noTaunt.integer != 0 ) {
+                if ( !strcmp( cmd, VOICECHAT_KILLINSULT )  || !strcmp( cmd, VOICECHAT_TAUNT ) || !strcmp( cmd, VOICECHAT_DEATHINSULT ) || !strcmp( cmd, VOICECHAT_KILLGAUNTLET ) || !strcmp( cmd, VOICECHAT_PRAISE ) ) {
+                        return;
+                }    
+        }    
+
+        CG_VoiceChatLocal( mode, voiceOnly, clientNum, color, cmd, origin );
+}
+
+
 /*
 ===============
 CG_SendMoveSpeeds
@@ -1031,17 +1455,17 @@ static void CG_ServerCommand( void ) {
 	// -NERVE - SMF
 
 	if ( !strcmp( cmd, "vchat" ) ) {
-//		CG_VoiceChat( SAY_ALL );
+		CG_VoiceChat( SAY_ALL );
 		return;
 	}
 
 	if ( !strcmp( cmd, "vtchat" ) ) {
-//		CG_VoiceChat( SAY_TEAM );
+		CG_VoiceChat( SAY_TEAM );
 		return;
 	}
 
 	if ( !strcmp( cmd, "vtell" ) ) {
-//		CG_VoiceChat( SAY_TELL );
+		CG_VoiceChat( SAY_TELL );
 		return;
 	}
 
@@ -1168,6 +1592,7 @@ static void CG_ServerCommand( void ) {
                         trap_Cvar_Set( "cg_norender", "0" );
                         trap_SendClientCommand("playerstart");
                         trap_Cvar_Set( "_pregame", "0" );
+                        trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
                 }    
                 return;
 	}

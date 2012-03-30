@@ -342,6 +342,10 @@ typedef struct centity_s {
 	refEntity_t refEnt;
 	int processedFrame;                 // frame we were last added to the scene
 
+        int voiceChatSprite;                    // DHM - Nerve
+        int voiceChatSpriteTime;                // DHM - Nerve
+
+
 	// client-side lightning
 	int boltTimes[MAX_TESLA_BOLTS];
 	vec3_t boltLocs[MAX_TESLA_BOLTS];
@@ -988,6 +992,11 @@ typedef struct {
 	qboolean cameraMode;        // if rendering from a camera
 	// Duffy end
 
+        // for voice chat buffer
+        int voiceChatTime;
+        int voiceChatBufferIn;
+        int voiceChatBufferOut;
+
 	unsigned int cld;           // NERVE - SMF
 	qboolean limboMenu;         // NERVE - SMF
 
@@ -1071,6 +1080,7 @@ typedef struct {
 
 	qhandle_t lightningShader;
 
+        qhandle_t voiceChatShader;
 	qhandle_t friendShader;
 
 //	qhandle_t	medicReviveShader;	//----(SA)	commented out from MP
@@ -1624,6 +1634,8 @@ typedef struct {
 	// player/AI model scripting (client repository)
 	animScriptData_t animScriptData;
 
+        int currentVoiceClient;
+
 } cgs_t;
 
 //==============================================================================
@@ -1636,6 +1648,11 @@ extern itemInfo_t cg_items[MAX_ITEMS];
 extern markPoly_t cg_markPolys[MAX_MARK_POLYS];
 
 extern vmCvar_t cg_centertime;
+extern vmCvar_t cg_noVoiceChats;           // NERVE - SMF
+extern vmCvar_t cg_noVoiceText;            // NERVE - SMF
+extern vmCvar_t cg_noTaunt;                // NERVE - SMF
+extern vmCvar_t cg_voiceSpriteTime;    // DHM - Nerve
+extern vmCvar_t cg_quickMessageAlt;
 extern vmCvar_t cg_runpitch;
 extern vmCvar_t cg_runroll;
 extern vmCvar_t cg_bobup;
@@ -2219,6 +2236,8 @@ void CG_SetConfigValues( void );
 void CG_ShaderStateChanged( void );
 void CG_SendMoveSpeed( animation_t *animList, int numAnims, char *modelName );
 void CG_AddToNotify( const char *str );
+void CG_PlayBufferedVoiceChats( void );
+void CG_LoadVoiceChats( void );
 
 //
 // cg_playerstate.c

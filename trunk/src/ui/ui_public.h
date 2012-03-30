@@ -175,6 +175,7 @@ typedef enum {
 	UIMENU_WM_PICKTEAM,     // NERVE - SMF - for multiplayer only
 	UIMENU_WM_PICKPLAYER,   // NERVE - SMF - for multiplayer only
 	UIMENU_WM_QUICKMESSAGE, // NERVE - SMF
+	UIMENU_WM_QUICKMESSAGEALT, // NERVE - SMF
 	UIMENU_WM_LIMBO,        // NERVE - SMF
 	UIMENU_BRIEFING         //----(SA)	added
 } uiMenuCommand_t;

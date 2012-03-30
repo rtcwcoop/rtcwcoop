@@ -1568,6 +1568,7 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView, qboolean demo
 		CG_DamageBlendBlob();
 	}
 
+        CG_PlayBufferedVoiceChats();
 	DEBUGTIME
 
 	// build the render lists

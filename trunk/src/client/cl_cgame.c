@@ -859,6 +859,8 @@ int CL_CgameSystemCalls( int *args ) {
 				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_PICKPLAYER );
 			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKMESSAGE" ) )    {
 				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKMESSAGE );
+			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKMESSAGEALT" ) )    {
+				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKMESSAGEALT );
 			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_LIMBO" ) )    {
 				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_LIMBO );
 			}

@@ -380,11 +380,61 @@ static void CG_PickPlayer_f( void ) {
 }
 */
 
+static void CG_VoiceChat_f( void ) { 
+        char chatCmd[64];
+
+        if ( cgs.gametype == GT_SINGLE_PLAYER || trap_Argc() != 2 ) { 
+                return;
+        }   
+
+        // NERVE - SMF - don't let spectators voice chat
+        // NOTE - This cg.snap will be the person you are following, but its just for intermission test
+        if ( cg.snap && ( cg.snap->ps.pm_type != PM_INTERMISSION ) ) { 
+                //if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE ) {
+                if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) { 
+                        CG_Printf( "Can't voice chat as a spectator.\n" );
+                        return;
+                }   
+        }   
+
+        trap_Argv( 1, chatCmd, 64 );
+
+        trap_SendConsoleCommand( va( "cmd vsay %s\n", chatCmd ) );
+}
+
+static void CG_TeamVoiceChat_f( void ) { 
+        char chatCmd[64];
+
+        if ( cgs.gametype == GT_SINGLE_PLAYER || trap_Argc() != 2 ) { 
+                return;
+        }   
+
+        // NERVE - SMF - don't let spectators voice chat
+        // NOTE - This cg.snap will be the person you are following, but its just for intermission test
+        if ( cg.snap && ( cg.snap->ps.pm_type != PM_INTERMISSION ) ) { 
+                //if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE ) {
+                if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) { 
+                        CG_Printf( "Can't team voice chat as a spectator.\n" );
+                        return;
+                }   
+        }   
+
+        trap_Argv( 1, chatCmd, 64 );
+
+        trap_SendConsoleCommand( va( "cmd vsay_team %s\n", chatCmd ) );
+}
+
+
+
 static void CG_QuickMessage_f( void ) {
-	if ( cgs.gametype <= GT_SINGLE_PLAYER ) {
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;
 	}
-	trap_UI_Popup( "UIMENU_WM_QUICKMESSAGE" );
+        if ( cg_quickMessageAlt.integer ) { 
+                trap_UI_Popup( "UIMENU_WM_QUICKMESSAGEALT" );
+        } else {
+                trap_UI_Popup( "UIMENU_WM_QUICKMESSAGE" );
+        } 
 }
 
 static void CG_OpenLimbo_f( void ) {
@@ -676,6 +726,8 @@ static consoleCommand_t commands[] = {
 	{ "OpenLimboMenu", CG_OpenLimbo_f },
 	{ "CloseLimboMenu", CG_CloseLimbo_f },
 	{ "LimboMessage", CG_LimboMessage_f },
+        { "VoiceChat", CG_VoiceChat_f },
+        { "VoiceTeamChat", CG_TeamVoiceChat_f },
 	// -NERVE - SMF
         { "dumploc", CG_DumpLocation_f },
         { "dumpcastai", CG_DumpCastAi_f },

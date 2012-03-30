@@ -819,6 +819,95 @@ static void CG_DrawUpperRight( void ) {
 ===========================================================================================
 */
 
+/*
+=================
+CG_DrawTeamInfo
+=================
+*/
+static void CG_DrawTeamInfo( void ) {
+        int w, h;
+        int i, len; 
+        vec4_t hcolor;
+        int chatHeight;
+        float alphapercent;
+
+#define CHATLOC_Y 385 // bottom end
+#define CHATLOC_X 0
+
+        if ( cg_teamChatHeight.integer < TEAMCHAT_HEIGHT ) {
+                chatHeight = cg_teamChatHeight.integer;
+        } else {
+                chatHeight = TEAMCHAT_HEIGHT;
+        }    
+        if ( chatHeight <= 0 ) {
+                return; // disabled
+
+        }    
+        if ( cgs.teamLastChatPos != cgs.teamChatPos ) {
+                if ( cg.time - cgs.teamChatMsgTimes[cgs.teamLastChatPos % chatHeight] > cg_teamChatTime.integer ) {
+                        cgs.teamLastChatPos++;
+                }    
+
+                h = ( cgs.teamChatPos - cgs.teamLastChatPos ) * TINYCHAR_HEIGHT;
+
+                w = 0; 
+
+                for ( i = cgs.teamLastChatPos; i < cgs.teamChatPos; i++ ) {
+                        len = CG_DrawStrlen( cgs.teamChatMsgs[i % chatHeight] );
+                        if ( len > w ) {
+                                w = len; 
+                        }    
+                }    
+                w *= TINYCHAR_WIDTH;
+                w += TINYCHAR_WIDTH * 2; 
+// JPW NERVE rewritten to support first pass at fading chat messages
+                for ( i = cgs.teamChatPos - 1; i >= cgs.teamLastChatPos; i-- ) {
+                        alphapercent = 1.0f - ( cg.time - cgs.teamChatMsgTimes[i % chatHeight] ) / (float)( cg_teamChatTime.integer );
+                        if ( alphapercent > 1.0f ) {
+                                alphapercent = 1.0f;
+                        } else if ( alphapercent < 0.f ) {
+                                alphapercent = 0.f;
+                        }
+
+                        if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_RED ) {
+                                hcolor[0] = 1;
+                                hcolor[1] = 0;
+                                hcolor[2] = 0;
+//                      hcolor[3] = 0.33;
+                        } else if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_BLUE ) {
+                                hcolor[0] = 0;
+                                hcolor[1] = 0;
+                                hcolor[2] = 1;
+//                      hcolor[3] = 0.33;
+                        } else {
+                                hcolor[0] = 0;
+                                hcolor[1] = 1;
+                                hcolor[2] = 0;
+//                      hcolor[3] = 0.33;
+                        }
+
+                        hcolor[3] = 0.33f * alphapercent;
+
+                        trap_R_SetColor( hcolor );
+                        CG_DrawPic( CHATLOC_X, CHATLOC_Y - ( cgs.teamChatPos - i ) * TINYCHAR_HEIGHT, 640, TINYCHAR_HEIGHT, cgs.media.teamStatusBar );
+
+                        hcolor[0] = hcolor[1] = hcolor[2] = 1.0;
+                        hcolor[3] = alphapercent;
+                        trap_R_SetColor( hcolor );
+
+                        CG_DrawStringExt( CHATLOC_X + TINYCHAR_WIDTH,
+                                                          CHATLOC_Y - ( cgs.teamChatPos - i ) * TINYCHAR_HEIGHT,
+                                                          cgs.teamChatMsgs[i % chatHeight], hcolor, qfalse, qfalse,
+                                                          TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 0 );
+//                      CG_DrawSmallString( CHATLOC_X + SMALLCHAR_WIDTH,
+//                              CHATLOC_Y - (cgs.teamChatPos - i)*SMALLCHAR_HEIGHT,
+//                              cgs.teamChatMsgs[i % TEAMCHAT_HEIGHT], 1.0F );
+                }
+// jpw
+        }
+}
+
+
 //----(SA)	modified
 /*
 ===================
@@ -2760,6 +2849,8 @@ static void CG_Draw2D( void ) {
 		CG_DrawSpectator();
 		CG_DrawCrosshair();
 		CG_DrawCrosshairNames();
+                if ( cgs.gametype != GT_SINGLE_PLAYER )
+                        CG_DrawTeamInfo();
 	} else {
 		// don't draw any status if dead
 		if ( cg.snap->ps.stats[STAT_HEALTH] > 0 ) {
@@ -2770,6 +2861,9 @@ static void CG_Draw2D( void ) {
 				Menu_PaintAll();
 				CG_DrawTimedMenus();
 			}
+
+                        if ( cgs.gametype != GT_SINGLE_PLAYER )
+                                CG_DrawTeamInfo();
 
 //			CG_DrawStatusBar();
 			CG_DrawAmmoWarning();

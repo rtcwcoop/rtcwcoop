@@ -29,6 +29,8 @@
 
 // INGAME menus
 
+        loadMenu { "ui_mp/wm_quickmessage.menu" }
+        loadMenu { "ui_mp/wm_quickmessageAlt.menu" }
 
 // OTHER menus
 
