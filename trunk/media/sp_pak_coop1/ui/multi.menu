@@ -570,12 +570,12 @@ itemDef {
 			outlinecolor .7 .7 0 .25
 			visible 1
 			// 	numcols     xpos  xwitdth   textlen
-			columns 6       0     40        40
-							168	  40        40
-							364   5         10
-							400   20        10
-							467   20        20
-							544   20		20
+			columns 6             0     40        28 
+					      171   40        40
+					      364   5         10
+					      400   20        10
+					      467   20        20
+					      544   20        20
 			doubleClick { uiScript JoinServer }
 			}
 

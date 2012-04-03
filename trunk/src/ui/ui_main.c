@@ -5498,7 +5498,7 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                                 
 				if ( game >= 0 && game < numTeamArenaGameTypes ) {
                                         if (coop >= 0 && coop < numCoopGameTypes)
-					        return coopGameTypes[coop];
+					        return coopGameTypes[game];
                                         else 
                                                 return teamArenaGameTypes[game];
 				} else {
