@@ -481,6 +481,17 @@ void limbo( gentity_t *ent, qboolean makeCorpse ) {
                 // DHM - Nerve :: First save off persistant info we'll need for respawn
                 for ( i = 0; i < MAX_PERSISTANT; i++ )
                         ent->client->saved_persistant[i] = ent->client->ps.persistant[i];
+
+                // fretn
+                ent->client->savedWeapon = ent->client->ps.weapon;
+                ent->client->savedWeaponstate = ent->client->ps.weaponstate;
+                for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
+                        ent->client->savedAmmo[i] = ent->client->ps.ammo[i];
+                        ent->client->savedAmmoclip[i] = ent->client->ps.ammoclip[i];
+                }    
+                for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                        ent->client->savedWeapons[i] = ent->client->ps.weapons[i];
+                }
                 // dhm
 
                 ent->client->ps.pm_flags |= PMF_LIMBO;
@@ -541,6 +552,7 @@ reinforce
 */
 void reinforce( gentity_t *ent ) {
         int p, team; // numDeployable=0, finished=0; // TTimo unused
+        int i = 0;
         gclient_t *rclient;
 
         if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
@@ -568,6 +580,16 @@ void reinforce( gentity_t *ent ) {
         rclient = ent->client;
         for ( p = 0; p < MAX_PERSISTANT; p++ )
                 rclient->ps.persistant[p] = rclient->saved_persistant[p];
+
+        rclient->ps.weapon = ent->client->savedWeapon;
+        rclient->ps.weaponstate = ent->client->savedWeaponstate;
+        for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
+                rclient->ps.ammo[i] = ent->client->savedAmmo[i];
+                rclient->ps.ammoclip[i] = ent->client->savedAmmoclip[i];
+        }
+        for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                rclient->ps.weapons[i] = ent->client->savedWeapons[i];
+        }
         // dhm
 
         respawn( ent );
@@ -1787,7 +1809,8 @@ void ClientSpawn( gentity_t *ent ) {
                         savedWeapons[i] = client->ps.weapons[i];
                 }
 
-                if ( g_gametype.integer == GT_COOP ) {
+                // fretn - later on, we will disable this for speedrun
+                if ( g_gametype.integer <= GT_COOP ) {
                         // save the spawnpoint
                         VectorCopy(client->coopSpawnPointOrigin, saved_spawn_origin);                      
                         VectorCopy(client->coopSpawnPointAngles, saved_spawn_angles);                      
@@ -1818,7 +1841,9 @@ void ClientSpawn( gentity_t *ent ) {
                 for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
                         client->ps.weapons[i] = savedWeapons[i];
                 }
-                if ( g_gametype.integer == GT_COOP ) {
+        
+                // fretn - later on, we will disable this for speedrun
+                if ( g_gametype.integer <= GT_COOP ) {
                         // restorethe spawnpoint
                         VectorCopy(saved_spawn_origin, client->coopSpawnPointOrigin);                      
                         VectorCopy(saved_spawn_angles, client->coopSpawnPointAngles);                      

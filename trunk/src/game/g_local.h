@@ -613,6 +613,12 @@ struct gclient_s {
 	int saved_persistant[MAX_PERSISTANT];           // DHM - Nerve :: Save ps->persistant here during Limbo
 
         // fretn
+        int savedAmmo[MAX_WEAPONS];
+        int savedAmmoclip[MAX_WEAPONS];
+        int savedWeapon, savedWeaponstate;
+        int savedWeapons[MAX_WEAPONS];
+
+        // fretn
         vec3_t coopSpawnPointOrigin;
         vec3_t coopSpawnPointAngles;
         qboolean hasCoopSpawn;
