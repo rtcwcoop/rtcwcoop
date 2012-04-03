@@ -2424,7 +2424,7 @@ void G_RunFrame( int levelTime ) {
 
 		if ( i < MAX_CLIENTS ) {
                         // fretn
-                        if (newSpawns && !(ent->r.svFlags & SVF_CASTAI) && !(ent->client->ps.eFlags & EF_DEAD))
+                        if (newSpawns && !(ent->r.svFlags & SVF_CASTAI) && !(ent->client->ps.eFlags & EF_DEAD) && !( ent->client->ps.pm_flags & PMF_LIMBO ))
                         {
                                 if ( !(ent->client->cameraPortal) ) {
                                         VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
