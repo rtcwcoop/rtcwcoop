@@ -294,7 +294,7 @@ PROTOCOL
 //#define AUTHORIZE_SERVER_NAME   "authorize.gmistudios.com"
 
 #define UPDATE_SERVER_NAME      "localhost"
-#define MASTER_SERVER_NAME      "dpmaster.deathmask.net"
+#define MASTER_SERVER_NAME      "88.159.160.153"
 #define AUTHORIZE_SERVER_NAME   "localhost"
 
 #define PORT_MASTER         27950

@@ -1361,7 +1361,7 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
                         if (cgs.gametype <= GT_COOP) {
                                 // go totally default
                                 if ( !CG_RegisterClientModelname( ci, DEFAULT_COOP_MODEL, "default" ) ) {
-                                        CG_Error( "DEFAULT_COOP_MODEL (%s/default) failed to register", DEFAULT_MODEL );
+                                        CG_Error( "DEFAULT_COOP_MODEL (%s/default) failed to register", DEFAULT_COOP_MODEL );
                                 }
 
                                 // fall back to default head

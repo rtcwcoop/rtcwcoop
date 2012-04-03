@@ -362,6 +362,7 @@ extern cvar_t  *cl_recoilPitch;     // RF
 
 extern cvar_t  *cl_sensitivity;
 extern cvar_t  *cl_freelook;
+extern cvar_t  *cl_master;
 
 extern cvar_t  *cl_mouseAccel;
 extern cvar_t  *cl_showMouseRate;

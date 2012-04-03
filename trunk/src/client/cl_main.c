@@ -78,6 +78,7 @@ cvar_t  *cl_serverStatusResendTime;
 cvar_t  *cl_trn;
 cvar_t  *cl_missionStats;
 cvar_t  *cl_waitForFire;
+cvar_t  *cl_master;
 
 // NERVE - SMF - localization
 cvar_t  *cl_language;
@@ -1646,8 +1647,6 @@ void CL_ServersResponsePacket( netadr_t from, msg_t *msg ) {
 	byte*           buffptr;
 	byte*           buffend;
 
-	Com_Printf( "CL_ServersResponsePacket\n" );
-
 	if ( cls.numglobalservers == -1 ) {
 		// state to detect lack of servers or lack of response
 		cls.numglobalservers = 0;
@@ -2506,6 +2505,7 @@ void CL_Init( void ) {
 	cl_sensitivity = Cvar_Get( "sensitivity", "5", CVAR_ARCHIVE );
 	cl_mouseAccel = Cvar_Get( "cl_mouseAccel", "0", CVAR_ARCHIVE );
 	cl_freelook = Cvar_Get( "cl_freelook", "1", CVAR_ARCHIVE );
+	cl_master = Cvar_Get( "cl_master", "88.159.160.153", CVAR_ARCHIVE );
 
 	cl_showMouseRate = Cvar_Get( "cl_showmouserate", "0", 0 );
         cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);  // fretn
@@ -3126,7 +3126,7 @@ void CL_GlobalServers_f( void ) {
 	if ( cls.masterNum == 1 ) {
 		//NET_StringToAdr( "wolfmaster.idsoftware.com", &to );
                 // fretn - idsoftware master is dead ?
-		NET_StringToAdr( "dpmaster.deathmask.net", &to );
+		NET_StringToAdr( cl_master->string, &to );
 		cls.nummplayerservers = -1;
 		cls.pingUpdateSource = AS_MPLAYER;
 	} else {
