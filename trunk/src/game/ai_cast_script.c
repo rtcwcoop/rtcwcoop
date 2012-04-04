@@ -70,6 +70,7 @@ qboolean AICast_ScriptAction_ClearAnim( cast_state_t *cs, char *params );
 qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params );
 qboolean AICast_ScriptAction_SetClip( cast_state_t *cs, char *params );         //----(SA)	added
 qboolean AICast_ScriptAction_SelectWeapon( cast_state_t *cs, char *params );
+qboolean AICast_ScriptAction_PlayerName( cast_state_t *cs, char *params );      // fretn
 qboolean AICast_ScriptAction_GiveArmor( cast_state_t *cs, char *params );       //----(SA)	added
 qboolean AICast_ScriptAction_SetArmor( cast_state_t *cs, char *params );        //----(SA)	added
 qboolean AICast_ScriptAction_SuggestWeapon( cast_state_t *cs, char *params );   //----(SA)	added
@@ -154,6 +155,7 @@ cast_script_stack_action_t scriptActions[] =
 	{"setammo",          AICast_ScriptAction_SetAmmo},
 	{"setclip",          AICast_ScriptAction_SetClip},           //----(SA)	added
 	{"selectweapon", AICast_ScriptAction_SelectWeapon},
+        {"playername", AICast_ScriptAction_PlayerName},
 	{"noattack",     AICast_ScriptAction_NoAttack},
 	{"suggestweapon",    AICast_ScriptAction_SuggestWeapon},     //----(SA)	added
 	{"attack",           AICast_ScriptAction_Attack},

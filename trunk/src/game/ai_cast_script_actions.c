@@ -1185,6 +1185,34 @@ qboolean AICast_ScriptAction_SuggestWeapon( cast_state_t *cs, char *params ) {
 
 }
 
+/*
+=================
+AICast_ScriptAction_PlayerName
+
+  syntax: playername <name>
+        this is used for the kill messages in coop
+=================
+*/
+qboolean AICast_ScriptAction_PlayerName( cast_state_t *cs, char *params ) {
+        gclient_t *client;
+        char userinfo[MAX_INFO_STRING];
+        char *s;
+
+        client = &level.clients[cs->entityNum];
+
+        trap_GetUserinfo( cs->entityNum, userinfo, sizeof( userinfo ) );
+
+        s = va( "n\\%s\\t\\%i\\model\\%s\\head\\%s\\c1\\%s\\hc\\%i\\w\\%i\\l\\%i\\skill\\%s",
+                params, client->sess.sessionTeam, Info_ValueForKey( userinfo, "model" ), 
+                Info_ValueForKey( userinfo, "head" ), Info_ValueForKey( userinfo, "c1" ),
+                client->pers.maxHealth, client->sess.wins, client->sess.losses,
+                Info_ValueForKey( userinfo, "skill" ) ); 
+
+        trap_SetConfigstring( CS_PLAYERS + cs->entityNum, s );
+
+        return qtrue;
+
+}
 
 /*
 =================

@@ -3003,6 +3003,7 @@ coop_ai_soldier_1		// below the cages
 		setammo ammo_9mm 999
 		selectweapon weapon_luger
 		statetype alert
+                playername Johnny
 	}
 }
 
@@ -3017,6 +3018,7 @@ coop_ai_soldier_2		// below the cages
 
 	spawn
 	{
+                playername ^5Wosty
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
 		giveweapon weapon_luger
