@@ -256,6 +256,7 @@ static void CG_Obituary( entityState_t *ent ) {
                         message = "was stabbed by";
                         message2 = "'s knife";
                         break;
+                case MOD_SILENCER:
                 case MOD_LUGER:
                         //message = "borrowed some bullets from ";
                         //message2 = "'s Luger Parabellum 9mm";
@@ -296,13 +297,26 @@ static void CG_Obituary( entityState_t *ent ) {
                         message = "was killed by";
                         message2 = "'s sniper rifle";
                         break;
+                case MOD_FG42:
+                        message = "was killed by";
+                        message2 = "'s FG42";
+                        break;
+                case MOD_FG42SCOPE:
+                        message = "was killed by";
+                        message2 = "'s Scoped FG42";
+                        break;
                 case MOD_GARAND:
                         //message = "was killed (garand) by";
+                        message = "was killed by";
+                        message2 = "'s garand rifle";
                         break;
                 case MOD_SNOOPERSCOPE:
-                        //message = "was killed (snooper) by";
+                        message = "was killed by";
+                        message2 = "'s snooper rifle";
                         break;
                 case MOD_AKIMBO:
+                        message = "was killed by";
+                        message2 = "'s Akimbo .45ACP 1911s";
                         //message = "was killed (dual colts) by";
                         break;
 // JPW NERVE - per atvi req
