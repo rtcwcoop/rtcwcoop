@@ -1375,7 +1375,8 @@ void AIChar_spawn( gentity_t *ent ) {
 	// create the character
 
 	// (there will always be an ent->aiSkin (SA))
-	newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, aiCharDefaults->name, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
+	//newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, aiCharDefaults->name, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
+	newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, ent->aiName, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
 
 	if ( !newent ) {
 		G_FreeEntity( ent );

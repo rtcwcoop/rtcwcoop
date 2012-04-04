@@ -156,6 +156,7 @@ AICast_Die
 ============
 */
 void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath ) {
+        gentity_t *ent;
 	int contents;
 	int killer;
 	cast_state_t    *cs;
@@ -184,6 +185,13 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
                             AddScore( attacker, 1 ); 
                     }
             }
+
+            // broadcast the death event to everyone
+            ent = G_TempEntity( self->r.currentOrigin, EV_OBITUARY );
+            ent->s.eventParm = meansOfDeath;
+            ent->s.otherEntityNum = self->s.number;
+            ent->s.otherEntityNum2 = killer;
+            ent->r.svFlags = SVF_BROADCAST; // send to everyone
         }
 
 
