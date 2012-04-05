@@ -122,7 +122,7 @@ itemDef {
 
 	itemDef {
 		name			create_server
-		text			"PLEASE DON'T FORGET TO OPEN THESE PORTS ON YOUR ROUTER: 27950 & 27960 [TCP/UDP]"
+		text			"PLEASE DON'T FORGET TO OPEN THIS PORT ON YOUR ROUTER: 27960 [TCP/UDP]"
 		textfont		UI_FONT_NORMAL
 		textalign		ITEM_ALIGN_CENTER
 		textalignx		0
