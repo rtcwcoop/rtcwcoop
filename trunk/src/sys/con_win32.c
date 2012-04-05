@@ -129,6 +129,13 @@ static void CON_HistNext( void )
 	qconsole_linelen = strlen( qconsole_line );
 }
 
+void CON_ShowConsole( int visLevel ) {
+        if (visLevel) {
+                ShowWindow( GetConsoleWindow(), SW_SHOW );
+        } else {
+                ShowWindow( GetConsoleWindow(), SW_HIDE );
+        }
+}
 
 /*
 ==================
@@ -190,6 +197,8 @@ void CON_Shutdown( void )
 	SetConsoleCursorInfo( qconsole_hout, &qconsole_orig_cursorinfo );
 	CloseHandle( qconsole_hout );
 	CloseHandle( qconsole_hin );
+
+        FreeConsole();
 }
 
 /*
@@ -202,6 +211,11 @@ void CON_Init( void )
 	CONSOLE_CURSOR_INFO curs;
 	CONSOLE_SCREEN_BUFFER_INFO info;
 	int i;
+
+        AllocConsole( );
+        freopen("CONIN$","rb",stdin);   // reopen stdin handle as console window input
+        freopen("CONOUT$","wb",stdout);  // reopen stout handle as console window output
+        freopen("CONOUT$","wb",stderr); // reopen stderr handle as console window output
 
 	// handle Ctrl-C or other console termination
 	SetConsoleCtrlHandler( CON_CtrlHandler, TRUE );

@@ -128,6 +128,9 @@ char *Sys_ConsoleInput(void)
 }
 
 void Sys_ShowConsole( int visLevel, qboolean quitOnClose ) { 
+#ifdef _WIN32
+        CON_ShowConsole(visLevel);
+#endif
 }
 
 

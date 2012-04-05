@@ -39,6 +39,9 @@ void CON_Shutdown( void );
 void CON_Init( void );
 char *CON_Input( void );
 void CON_Print( const char *message );
+#ifdef _WIN32
+void CON_ShowConsole( int visLevel );
+#endif
 
 unsigned int CON_LogSize( void );
 unsigned int CON_LogWrite( const char *in );

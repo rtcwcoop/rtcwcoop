@@ -4138,11 +4138,7 @@ static void UI_RunMenuScript( char **args ) {
 			trap_Cvar_Set( "cg_thirdPerson", "0" );
 			trap_Cvar_Set( "cg_cameraOrbit", "0" );
 			//trap_Cvar_Set( "ui_singlePlayerActive", "0" );
-// fretn: you cannot switch to a dedicated server on windows, you need to launch
-// it separately for now
-#ifndef _WIN32
 			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
-#endif
 			trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 1, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
 			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
 			skill = trap_Cvar_VariableValue( "g_spSkill" );
