@@ -285,6 +285,7 @@ void Concussive_think( gentity_t *ent ) {
 	float grav = 24;
 	vec3_t vec;
 	float len;
+        int i;
 
 	if ( level.time > ent->delay ) {
 		ent->think = G_FreeEntity;
@@ -292,38 +293,42 @@ void Concussive_think( gentity_t *ent ) {
 
 	ent->nextthink = level.time + FRAMETIME;
 
-	player = AICast_FindEntityForName( "player" );
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
 
-	if ( !player ) {
-		return;
-	}
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
 
-	VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );
-	len = VectorLength( vec );
+                if ( !player )
+                        continue;
 
-//	G_Printf ("len = %5.3f\n", len);
+                VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );
+                len = VectorLength( vec );
 
-	if ( len > 512 ) {
-		return;
-	}
+        //	G_Printf ("len = %5.3f\n", len);
 
-	VectorSet( dir, 0, 0, 1 );
-	VectorScale( dir, grav, kvel );
-	VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
+                if ( len > 512 ) {
+                        return;
+                }
 
-	if ( !player->client->ps.pm_time ) {
-		int t;
+                VectorSet( dir, 0, 0, 1 );
+                VectorScale( dir, grav, kvel );
+                VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
 
-		t = grav * 2;
-		if ( t < 50 ) {
-			t = 50;
-		}
-		if ( t > 200 ) {
-			t = 200;
-		}
-		player->client->ps.pm_time = t;
-		player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
-	}
+                if ( !player->client->ps.pm_time ) {
+                        int t;
+
+                        t = grav * 2;
+                        if ( t < 50 ) {
+                                t = 50;
+                        }
+                        if ( t > 200 ) {
+                                t = 200;
+                        }
+                        player->client->ps.pm_time = t;
+                        player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
+                }
+        }
 
 }
 
@@ -354,24 +359,6 @@ void Concussive_fx( vec3_t origin ) {
 	concussive->delay = level.time + 500;
 
 	return;
-
-// Grenade and bomb flinching event
-/*
-	player = AICast_FindEntityForName( "player" );
-
-	if (!player)
-		return;
-
-	if ( trap_InPVS (player->r.currentOrigin, ent->s.origin) )
-	{
-		tent = G_TempEntity (ent->s.origin, EV_CONCUSSIVE);
-		VectorCopy (ent->s.origin, tent->s.origin);
-		tent->s.density = player->s.number;
-
-		// G_Printf ("sending concussive event\n");
-	}
-*/
-
 }
 
 /*

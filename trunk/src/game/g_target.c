@@ -936,12 +936,22 @@ when used it will fire its targets
 */
 void target_script_trigger_use( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 	gentity_t   *player;
+        int i;
 
 	if ( ent->aiName ) {
-		player = AICast_FindEntityForName( "player" );
-		if ( player ) {
-			AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-		}
+                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                        player = &g_entities[i];
+
+                        if (player->r.svFlags & SVF_CASTAI)
+                                continue;
+
+                        if ( !player )
+                                continue;
+
+                        if ( player ) {
+                                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
+                        }
+                }
 	}
 
 	G_UseTargets( ent, other );

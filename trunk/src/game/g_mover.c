@@ -921,6 +921,7 @@ void ReturnToPos1Rotate( gentity_t *ent ) {
 
 	MatchTeam( ent, MOVER_2TO1ROTATE, level.time );
 
+        // hmm doesn't matter if I change this or not, the sound will play for every one ?
 	player = AICast_FindEntityForName( "player" );
 
 	if ( player ) {
@@ -1049,6 +1050,7 @@ void Reached_BinaryMover( gentity_t *ent ) {
 			qboolean inPVS = qfalse;
 			gentity_t *player;
 
+                        // hmm doesn't matter if I change this or not, the sound will play for every one ?
 			player = AICast_FindEntityForName( "player" );
 
 			if ( player ) {
@@ -4601,6 +4603,7 @@ they /don't/ need to be all uppercase
 
 void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 	gentity_t *player;
+        int i;
 
 	if ( ent->wait < level.time ) {
 		ent->wait = level.time + ent->delay;
@@ -4618,10 +4621,19 @@ void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator 
 
 		if ( ent->spawnflags & 2 && !( ent->spawnflags & 1 ) ) {
 			if ( ent->aiName ) {
-				player = AICast_FindEntityForName( "player" );
-				if ( player ) {
-					AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-				}
+                                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                                        player = &g_entities[i];
+
+                                        if (player->r.svFlags & SVF_CASTAI)
+                                                continue;
+
+                                        if ( !player )
+                                                continue;
+
+                                        if ( player ) {
+                                                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
+                                        }
+                                }
 			}
 
 			G_UseTargets( ent, other );
@@ -4641,10 +4653,19 @@ void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator 
 	}
 
 	if ( ent->aiName ) {
-		player = AICast_FindEntityForName( "player" );
-		if ( player ) {
-			AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-		}
+                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                        player = &g_entities[i];
+
+                        if (player->r.svFlags & SVF_CASTAI)
+                                continue;
+
+                        if ( !player )
+                                continue;
+
+                        if ( player ) {
+                                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
+                        }
+                }
 	}
 
 	G_UseTargets( ent, other ); //----(SA)	how about this so the triggered targets have an 'activator' as well as an 'other'?

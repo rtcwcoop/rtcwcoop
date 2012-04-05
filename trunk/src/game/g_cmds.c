@@ -118,12 +118,12 @@ Starts the coop game
 ==================
 */
 void Cmd_PlayerStart_f( gentity_t *ent ) {
-        gentity_t *player;
+        //gentity_t *player;
 
         if ( g_gametype.integer > GT_COOP )
                 return;
 
-        player = AICast_FindEntityForName( "player" );
+        //player = AICast_FindEntityForName( "player" );
         //if ( player ) {
                 trap_Cvar_Set( "g_playerstart", "1" ); 
                 //AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "playerstart", "" );

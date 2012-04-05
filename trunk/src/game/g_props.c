@@ -880,6 +880,7 @@ void Just_Got_Thrown( gentity_t *self ) {
 	float len;
 	vec3_t vec;
 	qboolean prop_hits = qfalse;
+        int i;
 
 	len = 0;
 
@@ -889,16 +890,24 @@ void Just_Got_Thrown( gentity_t *self ) {
 		if ( self->enemy ) {
 			gentity_t *player;
 
-			player = AICast_FindEntityForName( "player" );
+                        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                                player = &g_entities[i];
 
-			if ( player && player != self->enemy ) {
-				prop_hits = qtrue;
-				G_Damage( self->enemy, self, player, NULL, NULL, 5, 0, MOD_CRUSH );
+                                if (player->r.svFlags & SVF_CASTAI)
+                                        continue;
 
-				self->die = Props_Chair_Die;
+                                if ( !player )
+                                        continue;
 
-				self->die( self, self, NULL, 10, 0 );
-			}
+                                if ( player && player != self->enemy ) {
+                                        prop_hits = qtrue;
+                                        G_Damage( self->enemy, self, player, NULL, NULL, 5, 0, MOD_CRUSH );
+
+                                        self->die = Props_Chair_Die;
+
+                                        self->die( self, self, NULL, 10, 0 );
+                                }
+                        }
 		}
 
 		return;
@@ -926,45 +935,53 @@ void Just_Got_Thrown( gentity_t *self ) {
 			traceEnt = &g_entities[ trace.entityNum ];
 
 			if ( trace.startsolid ) {
-				player = AICast_FindEntityForName( "player" );
+                                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                                        player = &g_entities[i];
 
-				// only player can catch
-				if ( traceEnt != player ) {
-					reGrab = qfalse;
-				}
+                                        if (player->r.svFlags & SVF_CASTAI)
+                                                continue;
 
-				// no catch when dead
-				if ( traceEnt->health <= 0 ) {
-					reGrab = qfalse;
-				}
+                                        if ( !player )
+                                                continue;
 
-				// player can throw, then switch to a two handed weapon before catching.
-				// need to catch this (no pun intended)
-				if ( player->s.weapon && !( WEAPS_ONE_HANDED & ( 1 << ( player->s.weapon ) ) ) ) {
-					reGrab = qfalse;
-				}
+                                        // only player can catch
+                                        if ( traceEnt != player ) {
+                                                reGrab = qfalse;
+                                        }
 
-				if ( reGrab ) {
-					// pick the chair back up
-					self->active = qtrue;
-					self->r.ownerNum = player->s.number;
-					player->active = qtrue;
-					player->melee = self;
-					self->nextthink = level.time + 50;
+                                        // no catch when dead
+                                        if ( traceEnt->health <= 0 ) {
+                                                reGrab = qfalse;
+                                        }
 
-					self->think = Props_Chair_Think;
-					self->touch = NULL;
-					self->die = Props_Chair_Die;
-					self->s.eType = ET_MOVER;
+                                        // player can throw, then switch to a two handed weapon before catching.
+                                        // need to catch this (no pun intended)
+                                        if ( player->s.weapon && !( WEAPS_ONE_HANDED & ( 1 << ( player->s.weapon ) ) ) ) {
+                                                reGrab = qfalse;
+                                        }
 
-					player->client->ps.eFlags |= EF_MELEE_ACTIVE;
+                                        if ( reGrab ) {
+                                                // pick the chair back up
+                                                self->active = qtrue;
+                                                self->r.ownerNum = player->s.number;
+                                                player->active = qtrue;
+                                                player->melee = self;
+                                                self->nextthink = level.time + 50;
 
-					trap_LinkEntity( self );
-					return;
-				} else {
-					len = 9999;
-				}
-			}
+                                                self->think = Props_Chair_Think;
+                                                self->touch = NULL;
+                                                self->die = Props_Chair_Die;
+                                                self->s.eType = ET_MOVER;
+
+                                                player->client->ps.eFlags |= EF_MELEE_ACTIVE;
+
+                                                trap_LinkEntity( self );
+                                                return;
+                                        } else {
+                                                len = 9999;
+                                        }
+                                }
+                        }
 		}
 
 	}
@@ -1452,23 +1469,33 @@ void Props_Chair_Die( gentity_t *ent, gentity_t *inflictor, gentity_t *attacker,
 	int quantity;
 	int type;
 	int deathSound;
+        int i;
 
 	// if (ent->active)
 	{
 		gentity_t *player;
 
-		player = AICast_FindEntityForName( "player" );
+                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                        player = &g_entities[i];
 
-		if ( player && player->melee == ent ) {
-			player->melee = NULL;
-			player->active = qfalse;
-			player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
+                        if (player->r.svFlags & SVF_CASTAI)
+                                continue;
 
-		} else if ( player && player->s.number == ent->r.ownerNum )     {
-			player->active = qfalse;
-			player->melee = NULL;
-			player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
-		}
+                        if ( !player )
+                                continue;
+
+
+                        if ( player && player->melee == ent ) {
+                                player->melee = NULL;
+                                player->active = qfalse;
+                                player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
+
+                        } else if ( player && player->s.number == ent->r.ownerNum )     {
+                                player->active = qfalse;
+                                player->melee = NULL;
+                                player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
+                        }
+                }
 	}
 
 	ent->think = Props_Chair_Animate;
@@ -1512,20 +1539,29 @@ void Props_Chair_Die( gentity_t *ent, gentity_t *inflictor, gentity_t *attacker,
 }
 
 void Props_Chair_Skyboxtouch( gentity_t *ent ) {
-
+        int i;
 	gentity_t *player;
 
-	player = AICast_FindEntityForName( "player" );
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
 
-	if ( player && player->melee == ent ) {
-		player->melee = NULL;
-		player->active = qfalse;
-		player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
-	} else if ( player && player->s.number == ent->r.ownerNum )     {
-		player->active = qfalse;
-		player->melee = NULL;
-		player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
-	}
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
+
+                if ( !player )
+                        continue;
+
+
+                if ( player && player->melee == ent ) {
+                        player->melee = NULL;
+                        player->active = qfalse;
+                        player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
+                } else if ( player && player->s.number == ent->r.ownerNum )     {
+                        player->active = qfalse;
+                        player->melee = NULL;
+                        player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
+                }
+        }
 
 	ent->think = G_FreeEntity;
 
@@ -2148,39 +2184,48 @@ void Props_OilSlickSlippery( gentity_t *ent ) {
 	gentity_t *player;
 	vec3_t vec, kvel, dir;
 	float len;
+        int i;
 
-	player = AICast_FindEntityForName( "player" );
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
 
-	if ( player ) {
-		VectorSubtract( player->r.currentOrigin, ent->r.currentOrigin, vec );
-		len = VectorLength( vec );
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
 
-		if ( len < 64 && player->s.groundEntityNum != -1 ) {
-			len = VectorLength( player->client->ps.velocity );
+                if ( !player )
+                        continue;
 
-			if ( len && !( player->client->ps.pm_time ) ) {
-				VectorSet( dir, fabs( crandom() ), fabs( crandom() ), 0 );
-				VectorScale( dir, 32, kvel );
-				VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
+                if ( player ) {
+                        VectorSubtract( player->r.currentOrigin, ent->r.currentOrigin, vec );
+                        len = VectorLength( vec );
 
-				{
-					int t;
+                        if ( len < 64 && player->s.groundEntityNum != -1 ) {
+                                len = VectorLength( player->client->ps.velocity );
 
-					t = 32 * 2;
-					if ( t < 50 ) {
-						t = 50;
-					}
-					if ( t > 200 ) {
-						t = 200;
-					}
-					player->client->ps.pm_time = t;
-					player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
-				}
+                                if ( len && !( player->client->ps.pm_time ) ) {
+                                        VectorSet( dir, fabs( crandom() ), fabs( crandom() ), 0 );
+                                        VectorScale( dir, 32, kvel );
+                                        VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
 
-			}
+                                        {
+                                                int t;
 
-		}
-	}
+                                                t = 32 * 2;
+                                                if ( t < 50 ) {
+                                                        t = 50;
+                                                }
+                                                if ( t > 200 ) {
+                                                        t = 200;
+                                                }
+                                                player->client->ps.pm_time = t;
+                                                player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
+                                        }
+
+                                }
+
+                        }
+                }
+        }
 }
 
 void Props_Barrel_Think( gentity_t *self ) {

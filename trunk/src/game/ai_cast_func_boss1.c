@@ -284,11 +284,23 @@ AIFunc_FlameZombie_Portal
 ==============
 */
 char *AIFunc_FlameZombie_Portal( cast_state_t *cs ) {
+        int i;
+        gentity_t       *player;
 	gentity_t *ent = &g_entities[cs->entityNum];
 	//
 	if ( cs->thinkFuncChangeTime < level.time - PORTAL_ZOMBIE_SPAWNTIME ) {
 		// HACK, make them aware of the player
-		AICast_UpdateVisibility( &g_entities[cs->entityNum], AICast_FindEntityForName( "player" ), qfalse, qtrue );
+                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                        player = &g_entities[i];
+
+                        if (player->r.svFlags & SVF_CASTAI)
+                                continue;
+
+                        if ( !player )
+                                continue;
+
+                        AICast_UpdateVisibility( &g_entities[cs->entityNum], player, qfalse, qtrue );
+                }
 		ent->s.time2 = 0;   // turn spawning effect off
 		return AIFunc_DefaultStart( cs );
 	}

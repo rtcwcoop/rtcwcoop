@@ -794,6 +794,7 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 	vmCvar_t cvar;
 	int lvl;
 	char *pString, *token;
+        int i;
 
 	pString = params;
 
@@ -802,12 +803,21 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 		G_Error( "AI Scripting: missionsuccess requires a mission_level identifier\n" );
 	}
 
-	player = AICast_FindEntityForName( "player" );
-	// double check that they are still alive
-	if ( player->health <= 0 ) {
-		return qfalse;  // hold the script here
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
 
-	}
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
+
+                if ( !player )
+                        continue;
+
+                // double check that they are still alive
+                if ( player->health <= 0 ) {
+                        return qfalse;  // hold the script here
+
+                }
+        }
 	lvl = atoi( token );
 
         if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
@@ -1079,7 +1089,6 @@ G_ScriptAction_StartCam
 */
 qboolean G_ScriptAction_StartCam( gentity_t *ent, char *params ) {
 	char *pString, *token;
-	gentity_t *player;
 
 	pString = params;
 	token = COM_Parse( &pString );
@@ -1090,12 +1099,8 @@ qboolean G_ScriptAction_StartCam( gentity_t *ent, char *params ) {
 	// turn off noclient flag
 	ent->r.svFlags &= ~SVF_NOCLIENT;
 
-	// issue a start camera command to the client
-	player = AICast_FindEntityForName( "player" );
-	if ( !player ) {
-		G_Error( "player not found, perhaps you should give them more time to spawn in" );
-	}
-	trap_SendServerCommand( player->s.number, va( "startCam %s", token ) );
+	// issue a start camera command to the clients
+	trap_SendServerCommand( -1, va( "startCam %s", token ) );
 
 	return qtrue;
 }

@@ -1078,69 +1078,77 @@ void brush_activate_sniper( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 	float dist;
 	vec3_t vec;
 	gentity_t *player;
+        int i;
 
-	player = AICast_FindEntityForName( "player" );
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) { 
+                player = &g_entities[i];
 
-	if ( player && player != other ) {
-		// G_Printf ("other: %s\n", other->aiName);
-		return;
-	}
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
 
-	if ( other->client ) {
-		ent->enemy = other;
-	}
+                if ( !player )
+                        continue;
 
-	sniper = G_Find( NULL, FOFS( targetname ), ent->target );
+                if ( player && player != other ) {
+                        continue;
+                }
 
-	if ( !sniper ) {
-		G_Printf( "sniper not found: %s\n" );
-	} else
-	{
-		if ( visible( sniper, other ) ) {
-			if ( sniper->wait < level.time ) {
-				if ( sniper->count == 0 ) {
-					sniper->count = 1;
-					sniper->wait = level.time + sniper->delay;
-					// record enemypos pos
-					VectorCopy( ent->enemy->r.currentOrigin, ent->pos1 );
-				} else if ( sniper->count == 1 )     {
-					VectorSubtract( ent->enemy->r.currentOrigin, ent->pos1, vec );
-					dist = VectorLength( vec );
-					if ( dist < sniper->radius ) {
-						// ok the enemy is still inside the radius take a shot
-						sniper->enemy = other;
-						sniper->use( sniper, other, other );
-						G_UseTargets( ent, other );
+                if ( other->client ) {
+                        ent->enemy = other;
+                }
 
-						// added sniper shot
+                sniper = G_Find( NULL, FOFS( targetname ), ent->target );
 
-						G_AddEvent( player, EV_GENERAL_SOUND, sniper_sound );
+                if ( !sniper ) {
+                        G_Printf( "sniper not found: %s\n" );
+                } else
+                {
+                        if ( visible( sniper, other ) ) {
+                                if ( sniper->wait < level.time ) {
+                                        if ( sniper->count == 0 ) {
+                                                sniper->count = 1;
+                                                sniper->wait = level.time + sniper->delay;
+                                                // record enemypos pos
+                                                VectorCopy( ent->enemy->r.currentOrigin, ent->pos1 );
+                                        } else if ( sniper->count == 1 )     {
+                                                VectorSubtract( ent->enemy->r.currentOrigin, ent->pos1, vec );
+                                                dist = VectorLength( vec );
+                                                if ( dist < sniper->radius ) {
+                                                        // ok the enemy is still inside the radius take a shot
+                                                        sniper->enemy = other;
+                                                        sniper->use( sniper, other, other );
+                                                        G_UseTargets( ent, other );
 
-					}
+                                                        // added sniper shot
 
-					// reset the sniper delay
-					sniper->count = 0;
-					sniper->wait = level.time + sniper->delay;
-				}
-			}
-		} else
-		{
-			//sniper->wait = level.time + sniper->delay;
-			sniper->count = 0;
-		}
-	}
+                                                        G_AddEvent( player, EV_GENERAL_SOUND, sniper_sound );
+
+                                                }
+
+                                                // reset the sniper delay
+                                                sniper->count = 0;
+                                                sniper->wait = level.time + sniper->delay;
+                                        }
+                                }
+                        } else
+                        {
+                                //sniper->wait = level.time + sniper->delay;
+                                sniper->count = 0;
+                        }
+                }
+        }
 
 }
 
 void sniper_brush_init( gentity_t *ent ) {
-	vec3_t center;
+        vec3_t center;
 
-	if ( !ent->target ) {
-		VectorSubtract( ent->r.maxs, ent->r.mins, center );
-		VectorScale( center, 0.5, center );
+        if ( !ent->target ) {
+            VectorSubtract( ent->r.maxs, ent->r.mins, center );
+            VectorScale( center, 0.5, center );
 
-		G_Printf( "sniper_brush at %s without a target\n", vtos( center ) );
-	}
+            G_Printf( "sniper_brush at %s without a target\n", vtos( center ) );
+        }
 }
 
 extern void InitTrigger( gentity_t *self );
@@ -1437,41 +1445,51 @@ void snowInPVS( gentity_t *ent ) {
 	gentity_t *player;
 	qboolean inPVS = qfalse;
 	qboolean oldactive;
+        int i;
 
 	oldactive = ent->active;
 
 	ent->nextthink = level.time + FRAMETIME;
 
-	player = AICast_FindEntityForName( "player" );
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
 
-	if ( player ) {
-		inPVS = trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin );
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
 
-		if ( inPVS ) {
-			ent->active = qtrue;
-		} else {
-			ent->active = qfalse;
-		}
-	} else {
-		return;
-	}
+                if ( !player )
+                        continue;
 
-	// there hasn't been a change so bail
-	if ( oldactive == ent->active ) {
-		return;
-	}
 
-	if ( ent->active ) {
-		tent = G_TempEntity( player->r.currentOrigin, EV_SNOW_ON );
-// G_Printf( "on\n");
-	} else
-	{
-		tent = G_TempEntity( player->r.currentOrigin, EV_SNOW_OFF );
-// G_Printf( "off\n");
-	}
+                if ( player ) {
+                        inPVS = trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin );
 
-	tent->s.frame = ent->s.number;
-	trap_LinkEntity( ent );
+                        if ( inPVS ) {
+                                ent->active = qtrue;
+                        } else {
+                                ent->active = qfalse;
+                        }
+                } else {
+                        continue;
+                }
+
+                // there hasn't been a change so bail
+                if ( oldactive == ent->active ) {
+                        continue;
+                }
+
+                if ( ent->active ) {
+                        tent = G_TempEntity( player->r.currentOrigin, EV_SNOW_ON );
+        // G_Printf( "on\n");
+                } else
+                {
+                        tent = G_TempEntity( player->r.currentOrigin, EV_SNOW_OFF );
+        // G_Printf( "off\n");
+                }
+
+                tent->s.frame = ent->s.number;
+                trap_LinkEntity( ent );
+        }
 }
 
 void snow_think( gentity_t *ent ) {
@@ -2132,36 +2150,6 @@ void mg42_think( gentity_t *self ) {
 				clamp_playerbehindgun( self, owner, vec3_origin );
 			}
 
-//G_Printf ("len %5.2f\n", len);
-/*
-			if (owner->r.svFlags & SVF_CASTAI)
-			{
-				gentity_t *player;
-				vec3_t	temp;
-
-				player = AICast_FindEntityForName ("player");
-
-				if (player)
-				{
-					VectorCopy (self->s.angles, temp);
-					VectorCopy (self->s.angles2, self->s.angles);
-					if (!(infront (self, player)))
-					{
-
-						if (visible (player, self))
-						{
-							self->use (self, NULL, NULL);
-							// G_Printf ("force use dismount cause not infront\n");
-						}
-
-					}
-
-					VectorCopy (temp, self->s.angles);
-
-				}
-
-			}
-*/
 			return;
 		}
 

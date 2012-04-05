@@ -2023,6 +2023,7 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 	vmCvar_t cvar;
 	int lvl;
 	char *pString, *token;
+        int i;
 
 	pString = params;
 
@@ -2031,26 +2032,34 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 		G_Error( "AI Scripting: missionsuccess requires a num_objective identifier\n" );
 	}
 
-	player = AICast_FindEntityForName( "player" );
-	// double check that they are still alive
-	if ( player->health <= 0 ) {
-		return qfalse;  // hold the script here
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
 
-	}
-	lvl = atoi( token );
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
+
+                if ( !player )
+                        continue;
+
+                // double check that they are still alive
+                if ( player->health <= 0 ) {
+                        return qfalse;  // hold the script here
+                }    
+        }    
+        lvl = atoi( token );
 
         if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
                 // if you've already got it, just return.  don't need to set 'yougotmail'
                 if ( player->missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
                         return qtrue;
-                }
+                }    
 
                 player->missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
         } else {
                 // if you've already got it, just return.  don't need to set 'yougotmail'
                 if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
                         return qtrue;
-                }
+                }    
 
                 level.missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
         }
@@ -2339,12 +2348,21 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	qboolean silent = qfalse, endgame = qfalse, savepersist = qfalse;
 	int exitTime = 8000;
 
-	player = AICast_FindEntityForName( "player" );
-	// double check that they are still alive
-	if ( player->health <= 0 ) {
-		return qtrue;   // get out of here
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
 
-	}
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
+
+                if ( !player )
+                        continue;
+
+                // double check that they are still alive
+                if ( player->health <= 0 ) {
+                        return qtrue;  // get out of here
+
+                }    
+        }    
 
 	// don't process if already changing
 //	if(reloading)
