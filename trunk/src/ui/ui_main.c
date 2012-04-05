@@ -4416,7 +4416,7 @@ static void UI_RunMenuScript( char **args ) {
 			Menus_CloseAll();
 		} else if ( Q_stricmp( name, "voteMap" ) == 0 ) {
 			if ( ui_currentNetMap.integer >= 0 && ui_currentNetMap.integer < uiInfo.mapCount ) {
-				trap_Cmd_ExecuteText( EXEC_APPEND, va( "callvote map %s\n",uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
+				trap_Cmd_ExecuteText( EXEC_APPEND, va( "callvote coopmap %s\n",uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
 			}
 		} else if ( Q_stricmp( name, "voteKick" ) == 0 ) {
 			if ( uiInfo.playerIndex >= 0 && uiInfo.playerIndex < uiInfo.playerCount ) {
