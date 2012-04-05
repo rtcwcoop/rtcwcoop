@@ -733,8 +733,10 @@ typedef struct {
 	int numTreasure;
 	int numArtifacts;
 	int numObjectives;
+        int missionObjectives; // fretn
 
         int numSecretsFound;
+        int numTreasureFound;
 //----(SA)	end
 
 	int knifeSound[4];

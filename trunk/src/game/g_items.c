@@ -145,8 +145,7 @@ Pickup_Treasure
 ==============
 */
 int Pickup_Treasure( gentity_t *ent, gentity_t *other ) {
-	gentity_t *player = AICast_FindEntityForName( "player" );
-	player->numTreasureFound++;
+        level.numTreasureFound++;
 	G_SendMissionStats();
 	return RESPAWN_SP;  // no respawn
 }

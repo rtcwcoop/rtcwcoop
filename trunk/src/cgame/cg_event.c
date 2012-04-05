@@ -219,7 +219,7 @@ static void CG_Obituary( entityState_t *ent ) {
 
 
                 // teams don't exist in coop, so we have to check if we kill an ai or not
-                if  ( tcent->currentState.aiChar == acent->currentState.aiChar ) {
+                if  ( tcent->currentState.aiChar == 0 && acent->currentState.aiChar == 0 ) {
                         //s = va( "%s %s", CG_TranslateString( "You killed ^1TEAMMATE^7" ), targetName );
                         s = va( "%s %s", "You killed ^1TEAMMATE^7", targetName );
                 } else {
@@ -396,7 +396,7 @@ static void CG_Obituary( entityState_t *ent ) {
 
 // JPW NERVE if attacker != target but on same team
                 // teams don't exist in coop, so we have to check if we kill an ai or not
-                if ( tcent->currentState.aiChar == acent->currentState.aiChar ) {
+                if ( tcent->currentState.aiChar == 0 && acent->currentState.aiChar == 0) {
                         message = "^1WAS KILLED BY TEAMMATE^7";
                         message2 = "";
                 }

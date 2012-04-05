@@ -1072,42 +1072,31 @@ int G_SendMissionStats() {
 
 
         if (g_gametype.integer > GT_COOP) {
-            player = AICast_FindEntityForName( "player" );
-            if ( player ) {
-                    attempts = AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
-                    AICast_AgePlayTime( player->s.number );
-                    playtime = AICast_PlayTime( player->s.number );
+                player = AICast_FindEntityForName( "player" );
+                if ( player ) {
+                        attempts = AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
+                        AICast_AgePlayTime( player->s.number );
+                        playtime = AICast_PlayTime( player->s.number );
 
-                    for ( i = 0; i < 8; i++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
-                            if ( player->missionObjectives & ( 1 << i ) ) {
-                                    objs++;
-                            }
-                    }
-                    sec = level.numSecretsFound;
-                    treas = player->numTreasureFound;
-            }
-        } else { // in coop, we have to loop through all the players not only the first player
-                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                        player = &g_entities[i];
-
-                        if (player->r.svFlags & SVF_CASTAI)
-                                continue;
-
-                        if ( player ) {
-                                attempts += AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
-
-                                for ( j = 0; j < 8; j++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
-                                        if ( player->missionObjectives & ( 1 << j ) ) {
-                                                objs++;
-                                        }
+                        for ( i = 0; i < 8; i++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
+                                if ( player->missionObjectives & ( 1 << i ) ) {
+                                        objs++;
                                 }
-                                sec = level.numSecretsFound;
-                                treas += player->numTreasureFound;
                         }
                 }
-
+        } else {
                 playtime = level.time - level.startTime;
+
+                for ( j = 0; j < 8; j++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
+                        if ( level.missionObjectives & ( 1 << j ) ) {
+                                objs++;
+                        }
+                }
         }
+
+        sec = level.numSecretsFound;
+        treas = level.numTreasureFound;
+
 	memset( cmd, 0, sizeof( cmd ) );
 	Q_strcat( cmd, sizeof( cmd ), "s=" );
 
@@ -1145,7 +1134,10 @@ int G_SendMissionStats() {
 	Q_strcat( cmd, sizeof( cmd ), va( ",%i,%i", treas, level.numTreasure ) );
 
 	// attempts
-	Q_strcat( cmd, sizeof( cmd ), va( ",%i", attempts ) );
+        if ( g_gametype.integer > GT_COOP )
+                Q_strcat( cmd, sizeof( cmd ), va( ",%i", attempts ) );
+        else
+                Q_strcat( cmd, sizeof( cmd ), va( ",0" ) );
 
 //	trap_Cvar_Set( "g_missionStats", cmd );
 	// changing to a configstring (should help w/ savegame, no?)

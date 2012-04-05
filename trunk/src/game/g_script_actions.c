@@ -810,12 +810,21 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 	}
 	lvl = atoi( token );
 
-// if you've already got it, just return.  don't need to set 'yougotmail'
-	if ( player->missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
-		return qtrue;
-	}
+        if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+                // if you've already got it, just return.  don't need to set 'yougotmail'
+                if ( player->missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+                        return qtrue;
+                }    
 
-	player->missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+                player->missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+        } else {
+                // if you've already got it, just return.  don't need to set 'yougotmail'
+                if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+                        return qtrue;
+                }    
+
+                level.missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+        }
 
 	//set g_objective<n> cvar
 	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );

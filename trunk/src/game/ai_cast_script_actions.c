@@ -2039,12 +2039,21 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 	}
 	lvl = atoi( token );
 
-// if you've already got it, just return.  don't need to set 'yougotmail'
-	if ( player->missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
-		return qtrue;
-	}
+        if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+                // if you've already got it, just return.  don't need to set 'yougotmail'
+                if ( player->missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+                        return qtrue;
+                }
 
-	player->missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+                player->missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+        } else {
+                // if you've already got it, just return.  don't need to set 'yougotmail'
+                if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+                        return qtrue;
+                }
+
+                level.missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+        }
 
 	//set g_objective<n> cvar
 	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );
@@ -2386,10 +2395,17 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 
 		// check for missing objectives
 		for ( i = 0; i < level.numObjectives; i++ ) {
-			if ( !( player->missionObjectives & ( 1 << i ) ) ) {
-				trap_SendServerCommand( -1, "cp objectivesnotcomplete" );
-				return qtrue;
-			}
+                        if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+                                if ( !( player->missionObjectives & ( 1 << i ) ) ) {
+                                        trap_SendServerCommand( -1, "cp objectivesnotcomplete" );
+                                        return qtrue;
+                                }
+                        } else {
+                                if ( !( level.missionObjectives & ( 1 << i ) ) ) {
+                                        trap_SendServerCommand( -1, "cp objectivesnotcomplete" );
+                                        return qtrue;
+                                }
+                        }
 		}
 
 		if ( savepersist ) {
@@ -2447,9 +2463,7 @@ AICast_ScriptAction_FoundSecret
 ==================
 */
 qboolean AICast_ScriptAction_FoundSecret( cast_state_t *cs, char *params ) {
-	//gentity_t *player = AICast_FindEntityForName( "player" );
 	level.numSecretsFound++;
-	//player->numSecretsFound++;
 	trap_SendServerCommand( cs->entityNum, "cp secretarea" );
 	G_SendMissionStats();
 	return qtrue;
