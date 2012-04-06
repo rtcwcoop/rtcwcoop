@@ -1552,7 +1552,7 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	}
 
 	// get and distribute relevent paramters
-	G_LogPrintf( "ClientConnect: %i\n", clientNum );
+	//G_LogPrintf( "ClientConnect: %i\n", clientNum );
 	ClientUserinfoChanged( clientNum );
 
 	// don't do the "xxx connected" messages if they were caried over from previous level
@@ -1657,7 +1657,7 @@ void ClientBegin( int clientNum ) {
                         trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
                 }
 	}
-	G_LogPrintf( "ClientBegin: %i\n", clientNum );
+	//G_LogPrintf( "ClientBegin: %i\n", clientNum );
 
 	// count current clients and rank for scoreboard
 	CalculateRanks();

@@ -291,7 +291,7 @@ coop_ParseFog
 	int		time
 ==============
 */
-static void coop_ParseFog( const char *info ) {
+void coop_ParseFog( const char *info ) {
 	char *token;
 	float ne, fa, r, g, b, density;
 	int time;
@@ -1576,10 +1576,11 @@ static void CG_ServerCommand( void ) {
                         return;
 
                 // set the fog - only needed for non listen servers
-                if ( cgs.gametype <= GT_COOP ) {
+                // moved to CG_Init
+                /*if ( cgs.gametype <= GT_COOP ) {
                         trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) ); 
                         coop_ParseFog(buf);
-                }    
+                }*/
      
                 if ( cgs.gametype != GT_COOP_SPEEDRUN ) {
                         CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black

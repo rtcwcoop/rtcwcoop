@@ -2337,6 +2337,14 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 //	trap_S_StartBackgroundTrack( "sound/music/fla_mp03.wav", "sound/music/fla_mp03.wav", 1 );
 
 
+        // when you are not a local client, fog is gone after a vid_restart, this initializes the fog always
+        if ( cgs.gametype != GT_SINGLE_PLAYER ) {
+                char buf[64];
+                trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) ); 
+                coop_ParseFog(buf);
+        }    
+
+
 }
 
 /*
