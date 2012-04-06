@@ -81,7 +81,7 @@ If you have questions concerning this license or the applicable additional terms
 #define TEXT_ICON_SPACE     4
 
 #define TEAMCHAT_WIDTH      80
-#define TEAMCHAT_HEIGHT     8
+#define TEAMCHAT_HEIGHT     16
 
 #define NOTIFY_WIDTH        80
 #define NOTIFY_HEIGHT       5
@@ -2238,6 +2238,7 @@ void CG_SendMoveSpeed( animation_t *animList, int numAnims, char *modelName );
 void CG_AddToNotify( const char *str );
 void CG_PlayBufferedVoiceChats( void );
 void CG_LoadVoiceChats( void );
+void coop_ParseFog( const char *info );
 
 //
 // cg_playerstate.c
