@@ -416,7 +416,7 @@ static void CG_Obituary( entityState_t *ent ) {
 // JPW NERVE added mod check for machinegun (prolly mortar here too)
         switch ( mod ) {
         case MOD_MACHINEGUN:
-                CG_Printf( "[cgnotify]%s was riddled by machinegun fire\n",targetName );
+                CG_Printf( "[cgnotify]%s was riddled by %s's machinegun fire\n",targetName, attackerName );
                 break;
         default:
                 CG_Printf( "[cgnotify]%s died.\n", targetName );
