@@ -178,13 +178,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
         if (g_gametype.integer <= GT_COOP)
         {
-            if ( attacker && attacker->client ) {
-                    if ( attacker == self || OnSameTeam( self, attacker ) ) {
-                            AddScore( attacker, -1 );
-                    } else {
-                            AddScore( attacker, 1 ); 
-                    }
-            }
+            Coop_AddStats( self, attacker, damage, meansOfDeath );
 
             // broadcast the death event to everyone
             ent = G_TempEntity( self->r.currentOrigin, EV_OBITUARY );
