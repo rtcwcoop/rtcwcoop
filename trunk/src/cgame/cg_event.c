@@ -93,6 +93,7 @@ static void CG_Obituary( entityState_t *ent ) {
         int killtype = 0;               // DHM - Nerve :: 0==Axis; 1==Allied; 2==your kill
         char        *message;
         char        *message2;
+        char *prefix;
         const char  *targetInfo;
         const char  *attackerInfo;
         char targetName[32];
@@ -224,7 +225,11 @@ static void CG_Obituary( entityState_t *ent ) {
                         s = va( "%s %s", "You killed ^1TEAMMATE^7", targetName );
                 } else {
                         //s = va( "%s %s", CG_TranslateString( "You killed" ), targetName );
-                        s = va( "%s %s", "You killed", targetName );
+                        if (targetName[0] == 'a' || targetName[0] == 'e' || targetName[0] == 'i' || targetName[0] == 'o' || targetName[0] == 'u')
+                                prefix = "an";
+                        else
+                                prefix = "a";
+                        s = va( "%s %s %s", "You killed", prefix, targetName );
                 }
                 //CG_PriorityCenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6, 1 );
                 CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
@@ -399,6 +404,8 @@ static void CG_Obituary( entityState_t *ent ) {
                 if ( tcent->currentState.aiChar == 0 && acent->currentState.aiChar == 0) {
                         message = "^1WAS KILLED BY TEAMMATE^7";
                         message2 = "";
+                        CG_Printf( "[cgnotify]%s %s %s%s\n", targetName, message, attackerName, message2 );
+                        return;
                 }
 // jpw
 
@@ -407,22 +414,40 @@ static void CG_Obituary( entityState_t *ent ) {
                         //if ( message2 ) {
                                 //message2 = CG_TranslateString( message2 );
                         //}
-                        CG_Printf( "[cgnotify]%s %s %s%s\n", targetName, message, attackerName, message2 );
+                        if (acent->currentState.aiChar && tcent->currentState.aiChar) {
+                                char *prefix2;
+                                if (attackerName[0] == 'a' || attackerName[0] == 'e' || attackerName[0] == 'i' || attackerName[0] == 'o' || attackerName[0] == 'u')
+                                        prefix = "an";
+                                else
+                                        prefix = "a";
+                                if (targetName[0] == 'a' || targetName[0] == 'e' || targetName[0] == 'i' || targetName[0] == 'o' || targetName[0] == 'u')
+                                        prefix2 = "An";
+                                else
+                                        prefix2 = "A";
+                                CG_Printf( "[cgnotify]%s %s %s %s %s%s\n", prefix2, targetName, message, prefix, attackerName, message2 );
+                        } else if (acent->currentState.aiChar) {
+                                if (attackerName[0] == 'a' || attackerName[0] == 'e' || attackerName[0] == 'i' || attackerName[0] == 'o' || attackerName[0] == 'u')
+                                        prefix = "an";
+                                else
+                                        prefix = "a";
+                                CG_Printf( "[cgnotify]%s %s %s %s%s\n", targetName, message, prefix, attackerName, message2 );
+                                return;
+                        } else if (tcent->currentState.aiChar) {
+                                if (targetName[0] == 'a' || targetName[0] == 'e' || targetName[0] == 'i' || targetName[0] == 'o' || targetName[0] == 'u')
+                                        prefix = "An";
+                                else
+                                        prefix = "A";
+                                CG_Printf( "[cgnotify]%s %s %s %s%s\n", prefix, targetName, message, attackerName, message2 );
+                                return;
+                        } else {
+                                CG_Printf( "[cgnotify]%s %s %s%s\n", targetName, message, attackerName, message2 );
+                                return;
+                        }
                         return;
                 }
         }
 
-        // we don't know what it was
-// JPW NERVE added mod check for machinegun (prolly mortar here too)
-        switch ( mod ) {
-        case MOD_MACHINEGUN:
-                CG_Printf( "[cgnotify]%s was riddled by %s's machinegun fire\n",targetName, attackerName );
-                break;
-        default:
-                CG_Printf( "[cgnotify]%s died.\n", targetName );
-                break;
-        }
-// jpw
+        CG_Printf( "[cgnotify]%s died.\n", targetName );
 }
 
 

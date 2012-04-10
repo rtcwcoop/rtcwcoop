@@ -1314,6 +1314,7 @@ void AIChar_spawn( gentity_t *ent ) {
 	int i;
 	static int lastCall;
 	static int numCalls;
+        char *name;
 
 	// if there are other cast's waiting to spawn before us, wait for them
 	for ( i = MAX_CLIENTS, newent = &g_entities[MAX_CLIENTS]; i < MAX_GENTITIES; i++, newent++ ) {
@@ -1376,7 +1377,40 @@ void AIChar_spawn( gentity_t *ent ) {
 
 	// (there will always be an ent->aiSkin (SA))
 	//newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, aiCharDefaults->name, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
-        newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, ent->aiName, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
+        //newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, ent->aiName, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
+        name = "dummy";
+        if (!strcmp(ent->classname, "ai_soldier"))
+                name = "soldier";
+        if (!strcmp(ent->classname, "ai_american"))
+                name = "american";
+        if (!strcmp(ent->classname, "ai_zombie"))
+                name = "zombie";
+        if (!strcmp(ent->classname, "ai_warzombie"))
+                name = "warzombie";
+        if (!strcmp(ent->classname, "ai_boss_helga"))
+                name = "helga";
+        if (!strcmp(ent->classname, "ai_boss_heinrich"))
+                name = "heinrich";
+        if (!strcmp(ent->classname, "ai_eliteguard"))
+                name = "eliteguard";
+        if (!strcmp(ent->classname, "ai_stimsoldier dual"))
+                name = "dual stimsoldier";
+        if (!strcmp(ent->classname, "ai_stimsoldier_rocket"))
+                name = "rocket stimsoldier";
+        if (!strcmp(ent->classname, "ai_stimsoldier_tesla"))
+                name = "tesla stimsoldier";
+        if (!strcmp(ent->classname, "ai_supersoldier"))
+                name = "super soldier";
+        if (!strcmp(ent->classname, "ai_frogman"))
+                name = "frogman";
+        if (!strcmp(ent->classname, "ai_blackguard"))
+                name = "blackguard";
+        if (!strcmp(ent->classname, "ai_partisan"))
+                name = "partisan";
+        if (!strcmp(ent->classname, "ai_civilian"))
+                name = "civilian";
+
+        newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, name, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
 
 	if ( !newent ) {
 		G_FreeEntity( ent );
