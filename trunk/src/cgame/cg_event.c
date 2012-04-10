@@ -2073,7 +2073,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 		// TTimo
 		// show_bug.cgi?id=417
-		if ( ( newweap ) && ( cgs.gametype <= GT_SINGLE_PLAYER ) ) {
+		if ( ( newweap ) && ( cgs.gametype == GT_SINGLE_PLAYER ) ) {
 			CG_FinishWeaponChange( es->weapon, newweap );
 		}
 
