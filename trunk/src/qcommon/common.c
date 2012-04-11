@@ -2205,8 +2205,9 @@ void Com_Init( char *commandLine ) {
 	com_dedicated->modified = qfalse;
 	if ( !com_dedicated->integer ) {
 		CL_Init();
-		Sys_ShowConsole( com_viewlog->integer, qfalse );
 	}
+
+        Sys_ShowConsole( com_viewlog->integer, qfalse );
 
 	// set com_frameTime so that if a map is started on the
 	// command line it will still be able to count on com_frameTime
