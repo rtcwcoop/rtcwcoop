@@ -211,7 +211,7 @@ menuDef {
 			name quick
 			text "Crosshair:"
 			type 1	
-			rect -30 180 60 12
+			rect 40 180 60 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_CENTER
 			textalignx 130
@@ -224,9 +224,9 @@ menuDef {
 
 		itemDef {
 			name quick
-			rect 74 195 50 50
+			rect 145 195 50 50
 			ownerdraw UI_CROSSHAIR
-			textalign ITEM_ALIGN_RIGHT
+			textalign ITEM_ALIGN_LEFT
 			textalignx 0 
 			textaligny 50  
 			style 0
@@ -237,7 +237,7 @@ menuDef {
 
 		itemDef {
 			name			quick
-			rect			-30 255 220 12
+			rect			-30 180 220 12
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_MULTI
 			style			0
@@ -255,7 +255,7 @@ menuDef {
 		
 		itemDef {
 			name			quick
-			rect			-30 270 220 12
+			rect			-30 195 220 12
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_MULTI
 			style			WINDOW_STYLE_FILLED
@@ -271,48 +271,43 @@ menuDef {
 			visible			1
 			}
 
-                itemDef {
-                        name                    joingame
-                        text                    "Join Game"
-                        type                    ITEM_TYPE_BUTTON
-                        textscale               .25 
-                        style                   WINDOW_STYLE_FILLED    
-                        border                  1   
-                        bordercolor             .5 .5 .5 .5
-			rect			-30 285 220 12
-                        textalign               1   
-                        textalignx              52              // center
-                        textaligny              11  
-                        textfont                UI_FONT_NORMAL
-                        backcolor               .3 .5 .2 .3
-                        forecolor               1 1 1 1 
-                        visible                 1   
-    
-                        action                  { uiScript joingame 
-                                                        }    
-                        }  
+		itemDef {
+			name                    joingame
+			text                    "Join Game"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					3 267 105 20
+			textalign               ITEM_ALIGN_CENTER
+			textalignx              54              // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			action                  { uiScript joingame }    
+			}  
 
-                itemDef {
-                        name                    joinspec
-                        text                    "Join Spectators"
-                        type                    ITEM_TYPE_BUTTON
-                        textscale               .25 
-                        style                   WINDOW_STYLE_FILLED    
-                        border                  1   
-                        bordercolor             .5 .5 .5 .5
-			rect			230 285 220 12
-                        textalign               1   
-                        textalignx              52              // center
-                        textaligny              11  
-                        textfont                UI_FONT_NORMAL
-                        backcolor               .3 .5 .2 .3
-                        forecolor               1 1 1 1 
-                        visible                 1   
-    
-                        action                  { 
-                                                        uiScript joinspectators;
-                                                        }    
-                        }
+		itemDef {
+			name                    joinspec
+			text                    "Join Spectators"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					112 267 105 20
+			textalign               ITEM_ALIGN_CENTER 
+			textalignx              54             // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			action                  { uiScript joinspectators }    
+			}
 
 }
 
