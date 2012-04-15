@@ -1438,7 +1438,7 @@ void ClientUserinfoChanged( int clientNum ) {
 		}
 	}
 
-        if ( ent->r.svFlags & SVF_CASTAI ) {
+        if ( g_gametype.integer > GT_COOP || ent->r.svFlags & SVF_CASTAI ) {
 //----(SA) added this for head separation
 		// set head
 		if ( g_forceModel.integer ) {
