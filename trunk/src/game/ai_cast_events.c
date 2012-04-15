@@ -176,7 +176,8 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		killer = ENTITYNUM_WORLD;
 	}
 
-        if (g_gametype.integer <= GT_COOP)
+	// cs: only if !EF_DEAD. fixes multiple obits for zombies
+	if (g_gametype.integer <= GT_COOP && (self->client && !(self->client->ps.eFlags & EF_DEAD)))
         {
             Coop_AddStats( self, attacker, damage, meansOfDeath );
 
