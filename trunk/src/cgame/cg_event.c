@@ -1795,7 +1795,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_FALL_DMG_10:
 		DEBUGNAME( "EV_FALL_DMG_10" );
-		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "*fall1.wav" ) );
+		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "/sound/player/bj2/fall1.wav" ) );
 		// use normal pain sound trap_S_StartSound( NULL, es->number, CHAN_VOICE, CG_CustomSound( es->number, "*pain100_1.wav" ) );
 		if ( clientNum == cg.predictedPlayerState.clientNum ) {
 			// smooth landing z changes
@@ -1807,7 +1807,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_FALL_DMG_15:
 		DEBUGNAME( "EV_FALL_DMG_15" );
-		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "*fall1.wav" ) );
+		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "/sound/player/bj2/fall1.wav" ) );
 		// use normal pain sound trap_S_StartSound( NULL, es->number, CHAN_VOICE, CG_CustomSound( es->number, "*pain100_1.wav" ) );
 		if ( clientNum == cg.predictedPlayerState.clientNum ) {
 			// smooth landing z changes
@@ -1819,7 +1819,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_FALL_DMG_25:
 		DEBUGNAME( "EV_FALL_DMG_25" );
-		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "*fall2.wav" ) );
+		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "/sound/player/bj2/fall2.wav" ) );
 		cent->pe.painTime = cg.time;    // don't play a pain sound right after this
 		if ( clientNum == cg.predictedPlayerState.clientNum ) {
 			// smooth landing z changes
@@ -1831,7 +1831,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_FALL_DMG_50:
 		DEBUGNAME( "EV_FALL_DMG_50" );
-		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "*fall2.wav" ) );
+		trap_S_StartSound( NULL, es->number, CHAN_AUTO, CG_CustomSound( es->number, "/sound/player/bj2/fall2.wav" ) );
 		cent->pe.painTime = cg.time;    // don't play a pain sound right after this
 		if ( clientNum == cg.predictedPlayerState.clientNum ) {
 			// smooth landing z changes
