@@ -1530,7 +1530,8 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView, qboolean demo
 
 	// if we have been told not to render, don't
 	if ( cg_norender.integer ) {
-		return;
+                if (!demoPlayback) 
+		        return;
 	}
 
 	// this counter will be bumped for every valid scene we generate
