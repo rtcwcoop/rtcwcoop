@@ -2213,8 +2213,7 @@ void CG_PlayerTeslaCoilFire( centity_t *cent, vec3_t flashorigin ) {
 */                                                                                                                              //
 				if ( ctrav->currentState.aiChar &&
 					 ( ctrav != cent ) &&
-					 /*( ctrav->currentState.teamNum != playerTeam ) && */
-					 ( ctrav->currentState.aiChar > AICHAR_NONE ) && // cs: replaced team check with this (some ai are same team as humans).
+					 ( ctrav->currentState.teamNum != playerTeam ) && 
 					 !( ctrav->currentState.eFlags & EF_DEAD ) &&
 					 ctrav->currentValid && // is in the visible frame
 					 ( Distance( tagPos, ctrav->lerpOrigin ) < TESLA_LIGHTNING_MAX_DIST ) ) {

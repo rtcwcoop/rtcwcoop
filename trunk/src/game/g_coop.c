@@ -46,7 +46,7 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         client->ps.stats[STAT_PLAYER_CLASS] = pc;
 
         // Abuse teamNum to store player class as well (can't see stats for all clients in cgame)
-        client->ps.teamNum = pc;
+        //client->ps.teamNum = pc;
 
         // All players start with a knife (not OR-ing so that it clears previous weapons)
         //client->ps.weapons[0] = 0; 
