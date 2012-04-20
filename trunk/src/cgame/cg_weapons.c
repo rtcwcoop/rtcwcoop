@@ -2200,7 +2200,8 @@ void CG_PlayerTeslaCoilFire( centity_t *cent, vec3_t flashorigin ) {
 			}
 		}
 
-		if ( cgs.localServer && cgs.gametype <= GT_SINGLE_PLAYER ) {
+		// cs: commenting out local server check. TODO: needs testing on dedicated server.
+		if ( /*cgs.localServer &&*/ cgs.gametype <= GT_SINGLE_PLAYER ) {
 			// check for AI's getting hurt (TODO: bot support?)
 			for ( ctrav = cg_entities, i = 0; i < cgs.maxclients && numEnemies < 16; ctrav++, i++ ) {
 				// RF, proto and supersoldier are invulnerable to tesla
@@ -2212,7 +2213,8 @@ void CG_PlayerTeslaCoilFire( centity_t *cent, vec3_t flashorigin ) {
 */                                                                                                                              //
 				if ( ctrav->currentState.aiChar &&
 					 ( ctrav != cent ) &&
-					 ( ctrav->currentState.teamNum != playerTeam ) &&
+					 /*( ctrav->currentState.teamNum != playerTeam ) && */
+					 ( ctrav->currentState.aiChar > AICHAR_NONE ) && // cs: replaced team check with this (some ai are same team as humans).
 					 !( ctrav->currentState.eFlags & EF_DEAD ) &&
 					 ctrav->currentValid && // is in the visible frame
 					 ( Distance( tagPos, ctrav->lerpOrigin ) < TESLA_LIGHTNING_MAX_DIST ) ) {
