@@ -287,7 +287,7 @@ menuDef {
 			backcolor               .3 .5 .2 .3
 			forecolor               1 1 1 1 
 			visible                 1   
-			action                  { uiScript joingame }    
+			action                  { exec "cmd team free" ; uiScript closeingame }    
 			}  
 
 		itemDef {
@@ -306,7 +306,7 @@ menuDef {
 			backcolor               .3 .5 .2 .3
 			forecolor               1 1 1 1 
 			visible                 1   
-			action                  { uiScript joinspectators }    
+			action                  { exec "cmd team s" ; uiScript closeingame }    
 			}
 
 }
