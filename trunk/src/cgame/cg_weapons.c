@@ -5195,6 +5195,8 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 		shakeRad = 8192;
 
 		if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
+
+			VectorScale( dir, 16, sprVel );
 			for ( i = 0; i < 5; i++ ) {
 				for ( j = 0; j < 3; j++ )
 					sprOrg[j] = origin[j] + 64 * dir[j] + 24 * crandom();
