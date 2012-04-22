@@ -672,7 +672,7 @@ heinrich
 	{
 		explicit_routing on
 		sight
-		//giveweapon monsterattack3
+//		giveweapon monsterattack3
 		runtomarker hspot1
 		gotocast player
 	}

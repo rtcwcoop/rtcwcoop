@@ -25,12 +25,12 @@ bigblock
 		playsound sound/movers/doors/door2_locked.wav
 		alertentity platdust
 		alertentity blocktrig
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_17 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
+//		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
+//		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
+//		#if g_reinforce >= 2 alertentity coop_ai_soldier_17 #endif
+//		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
+//		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
+//		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
 	}
 
 	trigger ready
