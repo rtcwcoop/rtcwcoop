@@ -25,12 +25,8 @@ bigblock
 		playsound sound/movers/doors/door2_locked.wav
 		alertentity platdust
 		alertentity blocktrig
-//		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
-//		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
-//		#if g_reinforce >= 2 alertentity coop_ai_soldier_17 #endif
-//		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
-//		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
-//		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
 	}
 
 	trigger ready
@@ -42,18 +38,30 @@ bigblock
 		playsound sound/scenaric/crypt2/pillar_raise_loop.wav looping
 		gotomarker blockspot5 75 deccel wait
 		stopsound
-		wait 15000
+		wait 5000
 		alertentity drawbridge
 		wait 5000
 		gotomarker blockspot1 100 accel wait
 		stopsound
 		playsound sound/movers/doors/door2_locked.wav
-		trigger 1st_btn go_back
-		trigger 3rd_btn go_back
-		trigger big_wall1 go_back
-		trigger big_wall2 go_back
-		trigger secretdummy reset
-		accum 0 set 0
+//		trigger 1st_btn go_back
+//		trigger 3rd_btn go_back
+//		trigger big_wall1 go_back
+//		trigger big_wall2 go_back
+//		trigger secretdummy reset
+//		accum 0 set 0
+		trigger bigblock repeat
+	}
+	
+	trigger repeat
+	{
+		alertentity thump
+		playsound sound/scenaric/crypt2/pillar_raise_loop.wav looping
+		gotomarker blockspot2 100 accel wait
+		stopsound
+		playsound sound/movers/doors/door2_locked.wav
+		alertentity platdust
+		alertentity blocktrig
 	}
 
 	trigger flame1_go
