@@ -863,10 +863,10 @@ void ExplodePlaneSndFx( gentity_t *self ) {
                 for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                         player = &g_entities[i];
 
-                        if (player->r.svFlags & SVF_CASTAI)
+                        if ( !player || !player->inuse )
                                 continue;
 
-                        if ( !player )
+                        if (player->r.svFlags & SVF_CASTAI)
                                 continue;
 
                         VectorSubtract( player->s.origin, self->r.currentOrigin, vec );
@@ -997,42 +997,33 @@ void props_me109_think( gentity_t *self ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
+                if ( !player || !player->inuse )
+                        continue;
+
                 if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
-                if ( !player )
-                        continue;
+                in_PVS = trap_InPVS( player->r.currentOrigin, self->s.pos.trBase );
+				self->melee->s.eType = ET_GENERAL;
 
-                if ( player ) {
-                        in_PVS = trap_InPVS( player->r.currentOrigin, self->s.pos.trBase );
+                if ( in_PVS ) {        
+                    float len;
+                    vec3_t vec;
+                    vec3_t forward;
+                    vec3_t dir;
+                    vec3_t point;
 
-                        if ( in_PVS ) {
-                                self->melee->s.eType = ET_GENERAL;
+                    VectorCopy( player->r.currentOrigin, point );
+                    VectorSubtract( player->r.currentOrigin, self->r.currentOrigin, vec );
+                    len = VectorLength( vec );
+                    vectoangles( vec, dir );
+                    AngleVectors( dir, forward, NULL, NULL );
+                    VectorMA( point, len * 0.1, forward, point );
 
-                                {
-                                        float len;
-                                        vec3_t vec;
-                                        vec3_t forward;
-                                        vec3_t dir;
-                                        vec3_t point;
-
-                                        VectorCopy( player->r.currentOrigin, point );
-                                        VectorSubtract( player->r.currentOrigin, self->r.currentOrigin, vec );
-                                        len = VectorLength( vec );
-                                        vectoangles( vec, dir );
-                                        AngleVectors( dir, forward, NULL, NULL );
-                                        VectorMA( point, len * 0.1, forward, point );
-
-                                        G_SetOrigin( self->melee, point );
-                                }
-                        } else
-                        {
-                                self->melee->s.eType = ET_GENERAL;
-                        }
-
-                        trap_LinkEntity( self->melee );
+                    G_SetOrigin( self->melee, point );
                 }
 
+                trap_LinkEntity( self->melee );
                 Plane_Attack( self, in_PVS );
         }
 
@@ -1257,14 +1248,13 @@ void truck_cam_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
+                if ( !player || !player->inuse )
+                        continue;
+
                 if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
-                if ( !player )
-                        continue;
-
-
-                if ( player && player != other ) {
+                if ( player != other ) {
                         // G_Printf ("other: %s\n", other->aiName);
                         continue;
                 }
@@ -1411,10 +1401,10 @@ void camera_cam_think( gentity_t *ent ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
-                if (player->r.svFlags & SVF_CASTAI)
+                if ( !player || !player->inuse )
                         continue;
 
-                if ( !player )
+                if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
                 if ( ent->spawnflags & 2 ) { // tracking
@@ -1469,10 +1459,10 @@ void camera_cam_use( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
-                if (player->r.svFlags & SVF_CASTAI)
+                if ( !player || !player->inuse )
                         continue;
 
-                if ( !player )
+                if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
                 if ( !( ent->spawnflags & 1 ) ) {
@@ -1484,8 +1474,7 @@ void camera_cam_use( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
                                 player->client->ps.viewlocked = 4;
                                 player->client->ps.viewlocked_entNum = ent->s.number;
                         }
-                } else
-                {
+                } else {
                         ent->spawnflags &= ~1;
                         ent->think = NULL;
                         {
@@ -1597,10 +1586,10 @@ void mark_players_pos( gentity_t *ent, gentity_t *other, trace_t *trace ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
-                if (player->r.svFlags & SVF_CASTAI)
+                if ( !player || !player->inuse )
                         continue;
 
-                if ( !player )
+                if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
                 if ( player == other ) {
@@ -1619,10 +1608,10 @@ void reset_players_pos( gentity_t *ent, gentity_t *other, gentity_t *activator )
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
-                if (player->r.svFlags & SVF_CASTAI)
+                if ( !player || !player->inuse )
                         continue;
 
-                if ( !player )
+                if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
                 trap_UnlinkEntity( player );

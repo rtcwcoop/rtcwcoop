@@ -4624,15 +4624,13 @@ void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator 
                                 for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                                         player = &g_entities[i];
 
+                                        if ( !player || !player->inuse )
+                                                continue;
+
                                         if (player->r.svFlags & SVF_CASTAI)
                                                 continue;
 
-                                        if ( !player )
-                                                continue;
-
-                                        if ( player ) {
-                                                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-                                        }
+                                        AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
                                 }
 			}
 
@@ -4656,15 +4654,13 @@ void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator 
                 for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                         player = &g_entities[i];
 
+                        if ( !player || !player->inuse )
+                                continue;
+
                         if (player->r.svFlags & SVF_CASTAI)
                                 continue;
 
-                        if ( !player )
-                                continue;
-
-                        if ( player ) {
-                                AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-                        }
+                        AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
                 }
 	}
 

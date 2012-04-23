@@ -293,10 +293,10 @@ char *AIFunc_FlameZombie_Portal( cast_state_t *cs ) {
                 for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                         player = &g_entities[i];
 
-                        if (player->r.svFlags & SVF_CASTAI)
+                        if ( !player || !player->inuse )
                                 continue;
 
-                        if ( !player )
+                        if (player->r.svFlags & SVF_CASTAI)
                                 continue;
 
                         AICast_UpdateVisibility( &g_entities[cs->entityNum], player, qfalse, qtrue );

@@ -806,10 +806,10 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
-                if (player->r.svFlags & SVF_CASTAI)
+                if ( !player || !player->inuse )
                         continue;
 
-                if ( !player )
+                if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
                 // double check that they are still alive

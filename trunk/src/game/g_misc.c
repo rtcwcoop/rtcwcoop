@@ -1083,13 +1083,13 @@ void brush_activate_sniper( gentity_t *ent, gentity_t *other, trace_t *trace ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) { 
                 player = &g_entities[i];
 
+                if ( !player || !player->inuse )
+                        continue;
+
                 if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
-                if ( !player )
-                        continue;
-
-                if ( player && player != other ) {
+                if ( player != other ) {
                         continue;
                 }
 
@@ -1454,23 +1454,18 @@ void snowInPVS( gentity_t *ent ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
+                if ( !player || !player->inuse )
+                        continue;
+
                 if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
-                if ( !player )
-                        continue;
+                inPVS = trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin );
 
-
-                if ( player ) {
-                        inPVS = trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin );
-
-                        if ( inPVS ) {
-                                ent->active = qtrue;
-                        } else {
-                                ent->active = qfalse;
-                        }
+                if ( inPVS ) {
+                        ent->active = qtrue;
                 } else {
-                        continue;
+                        ent->active = qfalse;
                 }
 
                 // there hasn't been a change so bail

@@ -296,10 +296,10 @@ void Concussive_think( gentity_t *ent ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
-                if (player->r.svFlags & SVF_CASTAI)
+                if ( !player || !player->inuse )
                         continue;
 
-                if ( !player )
+                if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
                 VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );

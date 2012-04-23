@@ -893,13 +893,13 @@ void Just_Got_Thrown( gentity_t *self ) {
                         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                                 player = &g_entities[i];
 
+                                if ( !player || !player->inuse )
+                                        continue;
+
                                 if (player->r.svFlags & SVF_CASTAI)
                                         continue;
 
-                                if ( !player )
-                                        continue;
-
-                                if ( player && player != self->enemy ) {
+                                if ( player != self->enemy ) {
                                         prop_hits = qtrue;
                                         G_Damage( self->enemy, self, player, NULL, NULL, 5, 0, MOD_CRUSH );
 
@@ -938,10 +938,10 @@ void Just_Got_Thrown( gentity_t *self ) {
                                 for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                                         player = &g_entities[i];
 
-                                        if (player->r.svFlags & SVF_CASTAI)
+										if ( !player || !player->inuse )
                                                 continue;
 
-                                        if ( !player )
+                                        if (player->r.svFlags & SVF_CASTAI)
                                                 continue;
 
                                         // only player can catch
@@ -1478,19 +1478,18 @@ void Props_Chair_Die( gentity_t *ent, gentity_t *inflictor, gentity_t *attacker,
                 for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                         player = &g_entities[i];
 
+                        if ( !player || !player->inuse )
+                                continue;
+
                         if (player->r.svFlags & SVF_CASTAI)
                                 continue;
 
-                        if ( !player )
-                                continue;
-
-
-                        if ( player && player->melee == ent ) {
+                        if ( player->melee == ent ) {
                                 player->melee = NULL;
                                 player->active = qfalse;
                                 player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
 
-                        } else if ( player && player->s.number == ent->r.ownerNum )     {
+                        } else if ( player->s.number == ent->r.ownerNum )     {
                                 player->active = qfalse;
                                 player->melee = NULL;
                                 player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
@@ -1545,18 +1544,17 @@ void Props_Chair_Skyboxtouch( gentity_t *ent ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
+                if ( !player || !player->inuse )
+                        continue;
+
                 if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
-                if ( !player )
-                        continue;
-
-
-                if ( player && player->melee == ent ) {
+                if ( player->melee == ent ) {
                         player->melee = NULL;
                         player->active = qfalse;
                         player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
-                } else if ( player && player->s.number == ent->r.ownerNum )     {
+                } else if ( player->s.number == ent->r.ownerNum )     {
                         player->active = qfalse;
                         player->melee = NULL;
                         player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
@@ -2189,41 +2187,39 @@ void Props_OilSlickSlippery( gentity_t *ent ) {
         for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
                 player = &g_entities[i];
 
+                if ( !player || !player->inuse )
+                        continue;
+
                 if (player->r.svFlags & SVF_CASTAI)
                         continue;
 
-                if ( !player )
-                        continue;
+                VectorSubtract( player->r.currentOrigin, ent->r.currentOrigin, vec );
+                len = VectorLength( vec );
 
-                if ( player ) {
-                        VectorSubtract( player->r.currentOrigin, ent->r.currentOrigin, vec );
-                        len = VectorLength( vec );
+                if ( len < 64 && player->s.groundEntityNum != -1 ) {
+                        len = VectorLength( player->client->ps.velocity );
 
-                        if ( len < 64 && player->s.groundEntityNum != -1 ) {
-                                len = VectorLength( player->client->ps.velocity );
+                        if ( len && !( player->client->ps.pm_time ) ) {
+                                VectorSet( dir, fabs( crandom() ), fabs( crandom() ), 0 );
+                                VectorScale( dir, 32, kvel );
+                                VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
 
-                                if ( len && !( player->client->ps.pm_time ) ) {
-                                        VectorSet( dir, fabs( crandom() ), fabs( crandom() ), 0 );
-                                        VectorScale( dir, 32, kvel );
-                                        VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
+                                {
+                                        int t;
 
-                                        {
-                                                int t;
-
-                                                t = 32 * 2;
-                                                if ( t < 50 ) {
-                                                        t = 50;
-                                                }
-                                                if ( t > 200 ) {
-                                                        t = 200;
-                                                }
-                                                player->client->ps.pm_time = t;
-                                                player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
+                                        t = 32 * 2;
+                                        if ( t < 50 ) {
+                                                t = 50;
                                         }
-
+                                        if ( t > 200 ) {
+                                                t = 200;
+                                        }
+                                        player->client->ps.pm_time = t;
+                                        player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
                                 }
 
                         }
+
                 }
         }
 }
