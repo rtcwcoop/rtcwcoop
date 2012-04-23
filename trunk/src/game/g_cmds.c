@@ -2104,6 +2104,7 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         int     ammo_in_clip;
         trace_t tr;
         int weapon;
+        weapon_t ammo_for_weapon;
         
         if (!ent->client)
                 return;
@@ -2119,7 +2120,13 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         if (weapon == WP_KNIFE)
                 return;
 
-        ammo_in_clip = client->ps.ammoclip[BG_FindClipForWeapon( client->ps.weapon )];
+		ammo_for_weapon = BG_FindAmmoForWeapon( (weapon_t)client->ps.weapon );
+		ammo_in_clip = client->ps.ammo[ ammo_for_weapon ];
+
+		if (ammo_in_clip < 1) {
+			trap_SendServerCommand( ent - g_entities, va( "print \"You do not have any extra ammo to drop.\n\"" ) );
+			return;
+		}
 
         item = BG_FindItemForAmmo( BG_FindAmmoForWeapon(weapon) );
         VectorCopy( client->ps.viewangles, angles );
@@ -2151,7 +2158,7 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         ent2->item->quantity = ammo_in_clip;
         
         // remove ammo from clip
-        client->ps.ammoclip[BG_FindClipForWeapon( weapon )] -= ammo_in_clip;
+        client->ps.ammo[ ammo_for_weapon ] -= ammo_in_clip;
 
 }
 // NERVE - SMF
