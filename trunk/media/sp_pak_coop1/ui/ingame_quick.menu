@@ -209,9 +209,26 @@ menuDef {
 
 		itemDef {
 			name quick
+			group grpControls
+			type ITEM_TYPE_SLIDER
+			text "Mouse Sensit.:"
+			cvarfloat "sensitivity" 5 1 30
+			rect -30 180 220 12
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0           
+			forecolor 1 1 1 1
+			visible 1
+			}
+						
+		itemDef {
+			name quick
 			text "Crosshair:"
 			type 1	
-			rect 40 180 60 12
+			rect 40 195 60 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_CENTER
 			textalignx 130
@@ -224,7 +241,7 @@ menuDef {
 
 		itemDef {
 			name quick
-			rect 145 195 50 50
+			rect 145 210 50 50
 			ownerdraw UI_CROSSHAIR
 			textalign ITEM_ALIGN_LEFT
 			textalignx 0 
@@ -237,7 +254,7 @@ menuDef {
 
 		itemDef {
 			name			quick
-			rect			-30 180 220 12
+			rect			-30 195 220 12
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_MULTI
 			style			0
@@ -255,7 +272,7 @@ menuDef {
 		
 		itemDef {
 			name			quick
-			rect			-30 195 220 12
+			rect			-30 210 220 12
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_MULTI
 			style			WINDOW_STYLE_FILLED
