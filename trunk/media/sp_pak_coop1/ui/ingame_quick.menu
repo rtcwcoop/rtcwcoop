@@ -211,7 +211,7 @@ menuDef {
 			name quick
 			group grpControls
 			type ITEM_TYPE_SLIDER
-			text "Mouse Sensit.:"
+			text "Sensitivity:"
 			cvarfloat "sensitivity" 5 1 30
 			rect -30 180 220 12
 			textalign ITEM_ALIGN_RIGHT
