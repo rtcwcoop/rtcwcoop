@@ -526,6 +526,9 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         if ( g_gametype.integer != GT_COOP )
                 return;
 
+        if ( ent->client->ps.pm_flags & PMF_LIMBO )
+                return;
+
         if ( ent->health <= 0 )
                 return;
 
