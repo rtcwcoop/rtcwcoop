@@ -2419,10 +2419,13 @@ void G_RunFrame( int levelTime ) {
                         if (newSpawns && !(ent->r.svFlags & SVF_CASTAI) && !(ent->client->ps.eFlags & EF_DEAD) && !( ent->client->ps.pm_flags & PMF_LIMBO ))
                         {
                                 if ( !(ent->client->cameraPortal) ) {
-                                        VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
-                                        VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
-                                        ent->client->hasCoopSpawn = qtrue;
-                                        trap_SendServerCommand( i, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
+                                        // don't save a spawnpoint if the player is not on the ground
+                                        if (ent->s.groundEntityNum != ENTITYNUM_NONE) {
+                                                VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
+                                                VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
+                                                ent->client->hasCoopSpawn = qtrue;
+                                                trap_SendServerCommand( i, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
+                                        }
                                 }
                         }
 			G_RunClient( ent );

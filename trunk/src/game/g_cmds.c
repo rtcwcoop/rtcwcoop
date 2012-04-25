@@ -529,6 +529,10 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         if ( ent->health <= 0 )
                 return;
 
+        // don't save spawns when not on the ground
+        if ( ent->s.groundEntityNum == ENTITYNUM_NONE)
+                return;
+
         // if automatic spawnpoints are enabled, don't allow manual saving
         if (g_spawnpoints.integer != 1)
         {
