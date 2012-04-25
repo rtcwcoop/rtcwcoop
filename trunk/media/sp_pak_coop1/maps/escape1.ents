@@ -260,3 +260,75 @@
 "angle" "-10"
 }
 
+#if g_gametype == 0
+{
+"angle" "225" 
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "roof_spawn"
+"origin" "462 418 646"
+"classname" "coop_spawnpoint_trigger"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "260 901 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "249 817 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "236 715 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "225 627 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "353 610 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "367 714 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "383 831 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "398 947 696"
+"angle" "172"
+"targetname" "roof_spawn"
+}
+#endif
