@@ -2424,7 +2424,7 @@ void G_RunFrame( int levelTime ) {
                                                 VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
                                                 VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
                                                 ent->client->hasCoopSpawn = qtrue;
-                                                trap_SendServerCommand( i, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
+                                                trap_SendServerCommand( i, va( "print \"[skipnotify]Saved current position as the next spawnpoint\n\"" ) );
                                         }
                                 }
                         }
