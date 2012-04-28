@@ -2110,7 +2110,7 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         vec3_t angles, velocity, offset, mins, maxs, org;
         int     ammo_in_clip;
         trace_t tr;
-        int weapon;
+        weapon_t weapon;
         weapon_t ammo_for_weapon;
         
         if (!ent->client)
@@ -2122,12 +2122,12 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         if (client->ps.weaponstate == WEAPON_RELOADING)
                 return;
 
-        weapon = client->ps.weapon;
+        weapon = (weapon_t)client->ps.weapon;
 
         if (weapon == WP_KNIFE)
                 return;
 
-		ammo_for_weapon = BG_FindAmmoForWeapon( (weapon_t)client->ps.weapon );
+		ammo_for_weapon = BG_FindAmmoForWeapon( weapon );
 		ammo_in_clip = client->ps.ammo[ ammo_for_weapon ];
 
 		if (ammo_in_clip < 1) {
@@ -2135,7 +2135,11 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
 			return;
 		}
 
-        item = BG_FindItemForAmmo( BG_FindAmmoForWeapon(weapon) );
+		if (ammo_in_clip > ammoTable[weapon].maxclip) {
+			ammo_in_clip = ammoTable[weapon].maxclip;
+		}
+
+        item = BG_FindItemForAmmo( ammo_for_weapon );
         VectorCopy( client->ps.viewangles, angles );
 
         // clamp pitch

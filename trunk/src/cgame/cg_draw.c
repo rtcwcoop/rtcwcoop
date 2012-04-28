@@ -938,11 +938,12 @@ static void CG_DrawPickupItem( void ) {
 					// FIXME: print the correct amount for multi-stage
 					Com_sprintf( pickupText, sizeof( pickupText ), "%s", cgs.itemPrintNames[ value ] );
 				} else {
-					if ( bg_itemlist[ value ].gameskillnumber[cg_gameSkill.integer] > 1 ) {
-						Com_sprintf( pickupText, sizeof( pickupText ), "%i  %s", bg_itemlist[ value ].gameskillnumber[cg_gameSkill.integer], cgs.itemPrintNames[ value ] );
-					} else {
+					// cs: removing print of the hardcoded values for pickups since there is a dropammo command with an arbitrary amount.
+					//if ( bg_itemlist[ value ].gameskillnumber[cg_gameSkill.integer] > 1 ) {
+					//	Com_sprintf( pickupText, sizeof( pickupText ), "%i  %s", bg_itemlist[ value ].gameskillnumber[cg_gameSkill.integer], cgs.itemPrintNames[ value ] );
+					//} else {
 						Com_sprintf( pickupText, sizeof( pickupText ), "%s", cgs.itemPrintNames[value] );
-					}
+					//}
 				}
 			} else {
 				Com_sprintf( pickupText, sizeof( pickupText ), "%s", cgs.itemPrintNames[value] );
