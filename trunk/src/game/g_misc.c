@@ -1666,7 +1666,7 @@ void Fire_Lead( gentity_t *ent, gentity_t *activator, float spread, int damage )
 
 	// cs: et sdk antilag
 	//trap_Trace( &tr, lead_muzzle, NULL, NULL, end, ent->s.number, MASK_SHOT );
-	G_HistoricalTrace( activator, &tr, muzzle, NULL, NULL, end, ent->s.number, MASK_SHOT );
+	G_HistoricalTrace( activator, &tr, muzzle, NULL, NULL, end, ent->s.number, MASK_SHOT_NOCORPSE );
 	// end
 
 	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
