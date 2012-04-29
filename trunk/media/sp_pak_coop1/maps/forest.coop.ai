@@ -195,24 +195,24 @@ player
 }
 
 // Cinematic1 AI section
-bj
-{
-	attributes
-	{
-		hearing_scale 0.0
-	}
+//bj
+//{
+//	attributes
+//	{
+//		hearing_scale 0.0
+//	}
 
-	spawn
-	{
-		noavoid on
-		nosight 99999
-		headlook off
-		godmode on
-		knockback off
-		playanim idle both HOLDFRAME FOREVER
-		wait 5 spotn24b
-	}
-}
+//	spawn
+//	{
+//		noavoid on
+//		nosight 99999
+//		headlook off
+//		godmode on
+//		knockback off
+//		playanim idle both HOLDFRAME FOREVER
+//		wait 5 spotn24b
+//	}
+//}
 // END Cinematic1 AI section
 
 nazi1
