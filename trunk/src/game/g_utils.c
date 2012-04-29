@@ -825,3 +825,12 @@ int DebugLine( vec3_t start, vec3_t end, int color ) {
 
 	return trap_DebugPolygonCreate( color, 4, points );
 }
+
+// cs: et sdk antilag
+void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out ) {
+	vec3_t dist;
+
+	VectorSubtract( end, start, dist );
+	VectorMA( start, frac, dist, out );
+}
+// end

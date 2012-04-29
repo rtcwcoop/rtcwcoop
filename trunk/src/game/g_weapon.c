@@ -80,7 +80,11 @@ void Weapon_Knife( gentity_t *ent ) {
 	AngleVectors( ent->client->ps.viewangles, forward, right, up );
 	CalcMuzzlePoint( ent, ent->s.weapon, forward, right, up, muzzleTrace );
 	VectorMA( muzzleTrace, KNIFE_DIST, forward, end );
-	trap_Trace( &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT );
+
+	// cs: et sdk antilag
+	//trap_Trace( &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT );
+	G_HistoricalTrace(ent, &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT);
+	// end
 
 	if ( tr.surfaceFlags & SURF_NOIMPACT ) {
 		return;
@@ -866,7 +870,20 @@ void Bullet_Fire( gentity_t *ent, float spread, int damage ) {
 	vec3_t end;
 
 	Bullet_Endpos( ent, spread, &end );
+
+	// cs: et sdk antilag
+	if ( g_antilag.integer && g_gametype.integer != GT_SINGLE_PLAYER ) {
+		G_HistoricalTraceBegin( ent );
+	}
+	// end
+
 	Bullet_Fire_Extended( ent, ent, muzzleTrace, end, spread, damage, 0 );
+
+	// cs: et sdk antilag
+	if ( g_antilag.integer && g_gametype.integer != GT_SINGLE_PLAYER ) { 
+		G_HistoricalTraceEnd( ent );
+	}
+	// end
 }
 
 
@@ -900,10 +917,14 @@ void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start,
 
 	// (SA) changed so player could shoot his own dynamite.
 	// (SA) whoops, but that broke bullets going through explosives...
-	trap_Trace( &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT );
+//	trap_Trace( &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT ); // cs: this was the original used line
 //	trap_Trace (&tr, start, NULL, NULL, end, ENTITYNUM_NONE, MASK_SHOT);
 
-        AICast_ProcessBullet( attacker, start, tr.endpos );
+	// cs: et sdk antilag 
+	G_Trace(source, &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT);
+	// end
+
+    AICast_ProcessBullet( attacker, start, tr.endpos );
 
 	// bullet debugging using Q3A's railtrail
 	if ( g_debugBullets.integer & 1 ) {

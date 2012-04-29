@@ -1353,6 +1353,10 @@ typedef enum {
 
 	ET_FLAMETHROWER_PROP,
 
+	// cs: et sdk antilag
+	ET_TEMPHEAD,
+	// end
+
 	ET_EVENTS               // any of the EV_* events can be added freestanding
 							// by setting eType to ET_EVENTS + eventNum
 							// this avoids having to set eFlags and eventNum

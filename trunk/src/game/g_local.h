@@ -521,6 +521,20 @@ typedef struct {
 	qboolean teamInfo;              // send team overlay updates?
 } clientPersistant_t;
 
+// cs: et sdk antilag
+typedef struct {
+	vec3_t mins;
+	vec3_t maxs;
+
+	vec3_t origin;
+
+	int time;
+	int servertime;
+} clientMarker_t;
+
+#define MAX_CLIENT_MARKERS 10
+// end 
+
 
 // this structure is cleared on each ClientSpawn(),
 // except for 'client->pers' and 'client->sess'
@@ -622,6 +636,13 @@ struct gclient_s {
         vec3_t coopSpawnPointOrigin;
         vec3_t coopSpawnPointAngles;
         qboolean hasCoopSpawn;
+
+	// cs: et sdk antilag
+	int topMarker;
+	clientMarker_t clientMarkers[MAX_CLIENT_MARKERS];
+	clientMarker_t backupMarker;
+	gentity_t       *tempHead;
+	// end
 };
 
 
@@ -876,6 +897,9 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, vec3_
 qboolean G_RadiusDamage( vec3_t origin, gentity_t *attacker, float damage, float radius, gentity_t *ignore, int mod );
 void body_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath );
 void TossClientItems( gentity_t *self );
+// cs: et sdk antilag
+gentity_t* G_BuildHead( gentity_t *ent );
+// end
 
 // damage flags
 #define DAMAGE_RADIUS               0x00000001  // damage was indirect
@@ -1207,6 +1231,9 @@ extern vmCvar_t g_footstepAudibleRange;
 
 extern vmCvar_t g_playerStart;      //----(SA)	added
 
+// cs: et sdk antilag
+extern vmCvar_t g_antilag;
+// end
 
 void    trap_Printf( const char *fmt );
 void    trap_Error( const char *fmt );
@@ -1433,5 +1460,14 @@ typedef enum
 } shards_t;
 
 
+// cs: et sdk antilag
+void G_StoreClientPosition( gentity_t* ent );
+void G_ResetMarkers( gentity_t* ent );
+void G_HistoricalTrace( gentity_t* ent, trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentmask );
+void G_HistoricalTraceBegin( gentity_t *ent );
+void G_HistoricalTraceEnd( gentity_t *ent );
+void G_Trace( gentity_t* ent, trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentmask );
+void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
+// end
 
 #include "g_coop.h"

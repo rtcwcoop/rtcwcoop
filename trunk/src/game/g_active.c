@@ -1702,4 +1702,8 @@ void ClientEndFrame( gentity_t *ent ) {
 		}
 	}
 	// dhm
+
+	// cs: et sdk antilag
+	G_StoreClientPosition( ent );
+	// end
 }

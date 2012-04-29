@@ -138,6 +138,10 @@ vmCvar_t g_footstepAudibleRange;
 vmCvar_t g_playerStart;         // set when the player enters the game
 vmCvar_t g_spawnpoints;
 
+// cs: et sdk antilag
+vmCvar_t g_antilag;
+// end
+
 cvarTable_t gameCvarTable[] = {
 	// don't override the cheat state set by the system
 	{ &g_cheats, "sv_cheats", "", 0, qfalse },
@@ -242,6 +246,10 @@ cvarTable_t gameCvarTable[] = {
 
 	{&g_scriptName, "g_scriptName", "", CVAR_ROM, 0, qfalse},
 	{&ai_scriptName, "ai_scriptName", "", CVAR_ROM, 0, qfalse},
+
+	// cs: et sdk antilag
+	{ &g_antilag, "g_antilag", "1", 0, 0, qfalse },
+	// end
 };
 
 // bk001129 - made static to avoid aliasing

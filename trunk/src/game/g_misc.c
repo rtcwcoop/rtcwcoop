@@ -1664,7 +1664,10 @@ void Fire_Lead( gentity_t *ent, gentity_t *activator, float spread, int damage )
 	VectorMA( end, r, right, end );
 	VectorMA( end, u, up, end );
 
-	trap_Trace( &tr, lead_muzzle, NULL, NULL, end, ent->s.number, MASK_SHOT );
+	// cs: et sdk antilag
+	//trap_Trace( &tr, lead_muzzle, NULL, NULL, end, ent->s.number, MASK_SHOT );
+	G_HistoricalTrace( activator, &tr, muzzle, NULL, NULL, end, ent->s.number, MASK_SHOT );
+	// end
 
 	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 		AICast_ProcessBullet( activator, lead_muzzle, tr.endpos );
