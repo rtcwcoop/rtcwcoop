@@ -1250,11 +1250,26 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	} else if ( !Q_stricmp( arg1, "coopmap" ) ) {
 	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
 	} else if ( !Q_stricmp( arg1, "kick" ) ) {
+	} else if ( !Q_stricmp( arg1, "nextmap" ) ) {
 	} else {
 		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\n\"" );
 		return;
 	}
-	Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %s", arg1, arg2 );
+
+	if ( !Q_stricmp( arg1, "nextmap" ) ) {
+		char s[MAX_STRING_CHARS];
+
+		trap_Cvar_VariableStringBuffer( "nextmap", s, sizeof( s ) );
+		if ( !*s ) {
+			trap_SendServerCommand( ent - g_entities, "print \"nextmap not set.\n\"" );
+			return;
+		}
+		Com_sprintf( level.voteString, sizeof( level.voteString ), "coopmap %s", s );
+		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
+	}
+	else {
+		Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %s", arg1, arg2 );
+	}
 
 	trap_SendServerCommand( -1, va( "print \"%s called a vote.\n\"", ent->client->pers.netname ) );
 

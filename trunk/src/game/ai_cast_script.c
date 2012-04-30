@@ -562,6 +562,12 @@ void AICast_ScriptParse( cast_state_t *cs ) {
 //							if(weap)
 							RegisterItem( weap );   // don't be nice, just do it.  if it can't find it, you'll bomb out to the error menu
 						}
+
+						// cs: need to get this for callvote nextmap
+						if ( !Q_stricmp( action->actionString, "changelevel" ) ) {
+							Q_strncpyz( level.nextMap, token, sizeof( level.nextMap ) );
+							trap_Cvar_Set( "nextmap", level.nextMap );
+						}
 //----(SA)	end
 					}
 
