@@ -613,6 +613,9 @@ typedef struct {
 	vec3_t playermodelScale;            //----(SA)	set in the skin.  client-side only
 
 	int blinkTime;              //----(SA)
+
+        int lastkilltime;
+        int lastteamkilltime;
 } clientInfo_t;
 
 
@@ -1780,6 +1783,7 @@ extern vmCvar_t cg_wolfparticles;
 extern vmCvar_t cg_gameType;
 //fretn
 extern vmCvar_t cg_entityEditCounter;
+extern vmCvar_t cg_obituaries;
 extern vmCvar_t cg_limbotime;
 
 extern vmCvar_t cg_bloodTime;

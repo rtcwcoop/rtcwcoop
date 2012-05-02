@@ -90,10 +90,8 @@ CG_Obituary
 static void CG_Obituary( entityState_t *ent ) {
         int mod; 
         int target, attacker;
-        int killtype = 0;               // DHM - Nerve :: 0==Axis; 1==Allied; 2==your kill
         char        *message;
         char        *message2;
-        char *prefix;
         const char  *targetInfo;
         const char  *attackerInfo;
         char targetName[32];
@@ -105,6 +103,9 @@ static void CG_Obituary( entityState_t *ent ) {
         if ( cgs.gametype == GT_SINGLE_PLAYER ) {
                 return;
         }    
+
+        if ( !cg_obituaries.integer )
+                return;
 
         target = ent->otherEntityNum;
         attacker = ent->otherEntityNum2;
@@ -119,9 +120,12 @@ static void CG_Obituary( entityState_t *ent ) {
         tcent = &cg_entities[ci->clientNum];
         acent = &cg_entities[ca->clientNum];
 
-        //CG_Printf("target: %d\n", tcent->currentState.aiChar);
-        //CG_Printf("attacker: %d\n", acent->currentState.aiChar);
-
+        if (target != attacker) {
+                if (tcent->currentState.aiChar == acent->currentState.aiChar)
+                        ca->lastteamkilltime = cg.time;
+                else
+                        ca->lastkilltime = cg.time;
+        }
 
         if ( attacker < 0 || attacker >= MAX_CLIENTS ) {
                 attacker = ENTITYNUM_WORLD;
@@ -138,15 +142,6 @@ static void CG_Obituary( entityState_t *ent ) {
         strcat( targetName, S_COLOR_WHITE );
 
         message2 = "";
-
-        // DHM - Nerve :: Set killtype
-        if ( attacker == cg.snap->ps.clientNum ) {
-                killtype = 2;
-        } else if ( ci->team == TEAM_BLUE ) {
-                killtype = 1;
-        } else {
-                killtype = 0;
-        }
 
         // check for single client messages
 
@@ -166,12 +161,6 @@ static void CG_Obituary( entityState_t *ent ) {
         case MOD_SLIME:
                 message = "died by toxic materials";
                 break;
-                //case MOD_LAVA:
-                //message = "does a back flip into the lava";
-                //break;
-                //case MOD_TARGET_LASER:
-                //message = "saw the light";
-                //break;
         case MOD_TRIGGER_HURT:
                 message = "was killed";
                 break;
@@ -197,9 +186,6 @@ static void CG_Obituary( entityState_t *ent ) {
                 case MOD_AIRSTRIKE:
                         message = "obliterated himself";
                         break;
-                        //case MOD_BFG_SPLASH:
-                        //message = "should have used a smaller gun";
-                        //break;
                 case MOD_EXPLOSIVE:
                         message = "died in his own explosion";
                         break;
@@ -223,17 +209,12 @@ static void CG_Obituary( entityState_t *ent ) {
                 if  ( tcent->currentState.aiChar == 0 && acent->currentState.aiChar == 0 ) {
                         //s = va( "%s %s", CG_TranslateString( "You killed ^1TEAMMATE^7" ), targetName );
                         s = va( "%s %s", "You killed ^1TEAMMATE^7", targetName );
-                } else {
-                        //s = va( "%s %s", CG_TranslateString( "You killed" ), targetName );
-                        if (targetName[0] == 'a' || targetName[0] == 'e' || targetName[0] == 'i' || targetName[0] == 'o' || targetName[0] == 'u')
-                                prefix = "an";
-                        else
-                                prefix = "a";
-                        s = va( "%s %s %s", "You killed", prefix, targetName );
+                        ca->lastteamkilltime = cg.time;
+
+                        if (cg_obituaries.integer == 2)
+                                CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
                 }
-                //CG_PriorityCenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6, 1 );
-                CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
-                // print the text message as well
+
         }
 
         // check for double client messages
@@ -248,206 +229,6 @@ static void CG_Obituary( entityState_t *ent ) {
                         Q_strncpyz( cg.killerName, attackerName, sizeof( cg.killerName ) );
                 }
         }
-
-        if ( attacker != ENTITYNUM_WORLD ) {
-                switch ( mod ) {
-
-                        // TODO: put real text here.  these are just placeholders
-
-                case MOD_KNIFE_STEALTH:
-                case MOD_KNIFE:
-                case MOD_KNIFE2:
-                        //message = "was stabbed to death by";
-                        message = "was stabbed by";
-                        message2 = "'s knife";
-                        break;
-                case MOD_SILENCER:
-                case MOD_LUGER:
-                        //message = "borrowed some bullets from ";
-                        //message2 = "'s Luger Parabellum 9mm";
-                        message = "was killed by";
-                        message2 = "'s Luger 9mm";
-                        break;
-                case MOD_COLT:
-                        //message = "'s face was the unwilling recipient of";
-                        //message2 = "'s .45ACP 1911 rounds";
-                        message = "was killed by";
-                        message2 = " 's .45ACP 1911";
-                        break;
-                case MOD_MP40:
-                        //message = "was force fed a magazine of";
-                        //message2 = "'s MP40 slugs";
-                        message = "was killed by";
-                        message2 = "'s MP40";
-                        break;
-                case MOD_THOMPSON:
-                        //message = "was hit by a fusillade from";
-                        //message2 = "'s Thompson";
-                        message = "was killed by";
-                        message2 = "'s Thompson";
-                        break;
-                case MOD_STEN:
-                        //message = "was quietly zapped by";
-                        //message2 = "'s Sten";
-                        message = "was killed by";
-                        message2 = "'s Sten";
-                        break;
-                case MOD_MAUSER:
-                        //message = "took a rifle gut shot from";
-                        message = "was killed by";
-                        message2 = "'s Mauser";
-                        break;
-                case MOD_SNIPERRIFLE:
-                        //message = "caught a sniper round in the teeth from";
-                        message = "was killed by";
-                        message2 = "'s sniper rifle";
-                        break;
-                case MOD_FG42:
-                        message = "was killed by";
-                        message2 = "'s FG42";
-                        break;
-                case MOD_FG42SCOPE:
-                        message = "was killed by";
-                        message2 = "'s Scoped FG42";
-                        break;
-                case MOD_GARAND:
-                        //message = "was killed (garand) by";
-                        message = "was killed by";
-                        message2 = "'s garand rifle";
-                        break;
-                case MOD_SNOOPERSCOPE:
-                        message = "was killed by";
-                        message2 = "'s snooper rifle";
-                        break;
-                case MOD_AKIMBO:
-                        message = "was killed by";
-                        message2 = "'s Akimbo .45ACP 1911s";
-                        //message = "was killed (dual colts) by";
-                        break;
-// JPW NERVE - per atvi req
-                case MOD_DYNAMITE:
-                case MOD_DYNAMITE_SPLASH:
-                        message = "was blasted by";
-                        message2 = "'s dynamite";
-                        break;
-// jpw
-                case MOD_ROCKET_LAUNCHER:
-                case MOD_ROCKET_SPLASH:
-                        //message = "was vaporized by";
-                        //message2 = "'s Panzerfaust";
-                        message = "was blasted by";
-                        message2 = "'s Panzerfaust";
-                        break;
-                case MOD_GRENADE_LAUNCHER:
-                case MOD_GRENADE_SPLASH:
-                case MOD_GRENADE_PINEAPPLE:
-                        //message = "was blown to bits by";
-                        //message2 = "'s potato masher";
-                        message = "was exploded by";
-                        message2 = "'s grenade";
-                        break;
-                case MOD_VENOM:
-                        //message = "was ventilated by";
-                        message = "was ventilated by";
-                        message2 = "'s Venom";
-                        break;
-                case MOD_VENOM_FULL:
-                        //message = "was killed (venom shot) by";
-                        break;
-                case MOD_FLAMETHROWER:
-                        //message = "was roasted on the barbie by";
-                        message = "was cooked by";
-                        message2 = "'s flamethrower";
-                        break;
-                case MOD_TESLA:
-                        //message = "was killed (tesla) by";
-                        break;
-                case MOD_SPEARGUN:
-                        //message = "was killed (spear) by";
-                        break;
-                case MOD_SPEARGUN_CO2:
-                        //message = "was killed (co2 spear) by";
-                        break;
-                case MOD_MACHINEGUN:
-                        //message = "was perforated by";
-                        //message2 = "'s crew-served mg42";
-                        message = "was perforated by";
-                        message2 = "'s crew-served MG42";
-                        break;
-                case MOD_CROSS:
-                        //message = "was killed (cross) by";
-                        break;
-// JPW NERVE
-                case MOD_AIRSTRIKE:
-                        //message = "stood under";
-                        //message2 = "'s air strike";
-                        message = "was blasted by";
-                        message2 = "'s support fire"; // JPW NERVE changed since it gets called for both air strikes and artillery
-                        break;
-// jpw
-// (SA) leaving a sample of two part obit's
-//              case MOD_ROCKET:
-//                      message = "ate";
-//                      message2 = "'s rocket";
-//                      break;
-//              case MOD_ROCKET_SPLASH:
-//                      message = "almost dodged";
-//                      message2 = "'s rocket";
-//                      break;
-                default:
-                        message = "was killed by";
-                        break;
-                }
-
-// JPW NERVE if attacker != target but on same team
-                // teams don't exist in coop, so we have to check if we kill an ai or not
-                if ( tcent->currentState.aiChar == 0 && acent->currentState.aiChar == 0) {
-                        message = "^1WAS KILLED BY TEAMMATE^7";
-                        message2 = "";
-                        CG_Printf( "[cgnotify]%s %s %s%s\n", targetName, message, attackerName, message2 );
-                        return;
-                }
-// jpw
-
-                if ( message ) {
-                        //message = CG_TranslateString( message );
-                        //if ( message2 ) {
-                                //message2 = CG_TranslateString( message2 );
-                        //}
-                        if (acent->currentState.aiChar && tcent->currentState.aiChar) {
-                                char *prefix2;
-                                if (attackerName[0] == 'a' || attackerName[0] == 'e' || attackerName[0] == 'i' || attackerName[0] == 'o' || attackerName[0] == 'u')
-                                        prefix = "an";
-                                else
-                                        prefix = "a";
-                                if (targetName[0] == 'a' || targetName[0] == 'e' || targetName[0] == 'i' || targetName[0] == 'o' || targetName[0] == 'u')
-                                        prefix2 = "An";
-                                else
-                                        prefix2 = "A";
-                                CG_Printf( "[cgnotify]%s %s %s %s %s%s\n", prefix2, targetName, message, prefix, attackerName, message2 );
-                        } else if (acent->currentState.aiChar) {
-                                if (attackerName[0] == 'a' || attackerName[0] == 'e' || attackerName[0] == 'i' || attackerName[0] == 'o' || attackerName[0] == 'u')
-                                        prefix = "an";
-                                else
-                                        prefix = "a";
-                                CG_Printf( "[cgnotify]%s %s %s %s%s\n", targetName, message, prefix, attackerName, message2 );
-                                return;
-                        } else if (tcent->currentState.aiChar) {
-                                if (targetName[0] == 'a' || targetName[0] == 'e' || targetName[0] == 'i' || targetName[0] == 'o' || targetName[0] == 'u')
-                                        prefix = "An";
-                                else
-                                        prefix = "A";
-                                CG_Printf( "[cgnotify]%s %s %s %s%s\n", prefix, targetName, message, attackerName, message2 );
-                                return;
-                        } else {
-                                CG_Printf( "[cgnotify]%s %s %s%s\n", targetName, message, attackerName, message2 );
-                                return;
-                        }
-                        return;
-                }
-        }
-
-        CG_Printf( "[cgnotify]%s died.\n", targetName );
 }
 
 

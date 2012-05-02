@@ -226,6 +226,7 @@ vmCvar_t cg_gameType;
 //fretn
 vmCvar_t cg_entityEditCounter;
 vmCvar_t cg_limbotime;
+vmCvar_t cg_obituaries;
 
 vmCvar_t cg_bloodTime;
 vmCvar_t cg_norender;
@@ -438,6 +439,7 @@ cvarTable_t cvarTable[] = {
 	// Ridah
 	{ &cg_gameType, "g_gametype", "0", 0 }, // communicated by systeminfo
         //fretn
+	{ &cg_obituaries, "cg_obituaries", "0", CVAR_ARCHIVE },
         { &cg_entityEditCounter, "cg_entityEditCounter", "0", CVAR_ARCHIVE | CVAR_ROM },
         { &cg_limbotime,        "", "30000", 0 },
 

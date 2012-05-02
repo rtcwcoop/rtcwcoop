@@ -559,7 +559,7 @@ static float CG_DrawCoopOverlay( float y ) {
         int x, w, h, xx;
         int i, len; 
         const char *p;
-        vec4_t hcolor;
+        vec4_t hcolor, bgcolor;
         int pwidth, lwidth;
         int plyrs;
         char st[16];
@@ -694,6 +694,7 @@ static float CG_DrawCoopOverlay( float y ) {
 
                         xx = x + TINYCHAR_WIDTH;
 
+
                         hcolor[0] = hcolor[1] = 1.0;
                         hcolor[2] = 0.0;
                         hcolor[3] = cg_hudAlpha.value;
@@ -716,6 +717,20 @@ static float CG_DrawCoopOverlay( float y ) {
                                 pcolor = deathcolor;
                         }
                         // jpw
+
+                        // if that guy killed someone flash his name green
+                        if (ci->lastteamkilltime + 5000 >= cg.time) {
+                                bgcolor[0] = 1.0;
+                                bgcolor[1] = 0.0;
+                                bgcolor[2] = 0.0;
+                                bgcolor[3] = cg_hudAlpha.value;
+                                CG_FillRect( xx, y+1, CG_DrawStrlen(ci->name) * TINYCHAR_WIDTH, TINYCHAR_HEIGHT-1, bgcolor );
+                        } else if (ci->lastkilltime + 1000 >= cg.time) {
+                                pcolor[0] = 0.0;
+                                pcolor[1] = 1.0;
+                                pcolor[2] = 0.0;
+                        }                        
+
 
                         CG_DrawStringExt( xx, y,
                                                           ci->name, pcolor, qtrue, qfalse,
