@@ -2306,6 +2306,14 @@ static void CG_CalcEntityLerpPositions( centity_t *cent ) {
 		return;
 	}
 
+	// first see if we can interpolate between two snaps for
+	// linear extrapolated clients
+	if ( cent->interpolate && cent->currentState.pos.trType == TR_LINEAR_STOP &&
+		 cent->currentState.number < MAX_CLIENTS ) {
+		CG_InterpolateEntityPosition( cent );
+		return;
+	}
+
 	// just use the current frame and evaluate as best we can
 	BG_EvaluateTrajectory( &cent->currentState.pos, cg.time, cent->lerpOrigin );
 	BG_EvaluateTrajectory( &cent->currentState.apos, cg.time, cent->lerpAngles );
