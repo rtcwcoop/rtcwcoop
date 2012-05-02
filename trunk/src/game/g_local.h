@@ -415,8 +415,9 @@ struct gentity_s {
 	// -------------------------------------------------------------------------------------------
 	// if working on a post release patch, new variables should ONLY be inserted after this point
 
-        int voiceChatSquelch;                   // DHM - Nerve
-        int voiceChatPreviousTime;              // DHM - Nerve
+	int voiceChatSquelch;                   // DHM - Nerve
+	int voiceChatPreviousTime;              // DHM - Nerve
+	int lastBurnedFrameNumber;              // JPW - Nerve   : to fix FT instant-kill exploit
 };
 
 // Ridah
@@ -919,11 +920,15 @@ int G_PredictMissile( gentity_t *ent, int duration, vec3_t endPos, qboolean allo
 void G_RunSpit( gentity_t *ent );
 void G_RunDebris( gentity_t *ent );
 
+//DHM - Nerve :: server side flamethrower collision
+void G_RunFlamechunk( gentity_t *ent );
+
 void G_RunCrowbar( gentity_t *ent );
 
 //----(SA) removed unused q3a weapon firing
 gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t aimdir, int grenadeWPID );
 gentity_t *fire_rocket( gentity_t *self, vec3_t start, vec3_t dir );
+gentity_t *fire_flamechunk( gentity_t *self, vec3_t start, vec3_t dir );
 
 
 // Rafael sniper
@@ -1012,6 +1017,7 @@ qboolean G_FilterPacket( char *from );
 //
 // g_weapon.c
 //
+void G_BurnMeGood( gentity_t *self, gentity_t *body );
 void FireWeapon( gentity_t *ent );
 
 //

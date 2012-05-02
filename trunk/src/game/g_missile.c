@@ -976,6 +976,259 @@ void G_RunCrowbar( gentity_t *ent ) {
 }
 
 //=============================================================================
+// DHM - Nerve :: Server side Flamethrower
+//=============================================================================
+
+// copied from cg_flamethrower.c
+#define FLAME_START_SIZE        1.0
+#define FLAME_START_MAX_SIZE    100.0   // when the flame is spawned, it should endevour to reach this size
+#define FLAME_START_SPEED       1200.0  // speed of flame as it leaves the nozzle
+#define FLAME_MIN_SPEED         60.0
+
+// these are calculated (don't change)
+#define FLAME_LENGTH            ( FLAMETHROWER_RANGE + 50.0 ) // NOTE: only modify the range, since this should always reflect that range
+
+#define FLAME_LIFETIME          (int)( ( FLAME_LENGTH / FLAME_START_SPEED ) * 1000 )    // life duration in milliseconds
+#define FLAME_FRICTION_PER_SEC  ( 2.0f * FLAME_START_SPEED )
+#define GET_FLAME_SIZE_SPEED( x ) ( ( (float)x / FLAME_LIFETIME ) / 0.3 ) // x is the current sizeMax
+
+#define FLAME_THRESHOLD 50
+
+void G_FlameDamage( gentity_t *self ) {
+	gentity_t   *body;
+	int entityList[MAX_GENTITIES];
+	int i, e, numListedEntities;
+	float radius, boxradius, dist;
+	vec3_t mins, maxs, point, v;
+	trace_t tr;
+
+	radius = self->speed;
+	boxradius = 1.41421356 * radius; // radius * sqrt(2) for bounding box enlargement
+
+	for ( i = 0 ; i < 3 ; i++ ) {
+		mins[i] = self->r.currentOrigin[i] - boxradius;
+		maxs[i] = self->r.currentOrigin[i] + boxradius;
+	}
+
+	numListedEntities = trap_EntitiesInBox( mins, maxs, entityList, MAX_GENTITIES );
+
+	for ( e = 0 ; e < numListedEntities ; e++ ) {
+		body = &g_entities[entityList[ e ]];
+
+		if ( !body->takedamage ) {
+			continue;
+		}
+
+// JPW NERVE don't catch fire if invulnerable or same team in no FF
+		if ( body->client ) {
+			if ( body->client->ps.powerups[PW_INVULNERABLE] >= level.time ) {
+				body->flameQuota = 0;
+				body->s.onFireEnd = level.time - 1;
+				continue;
+			}
+			if ( !( g_friendlyFire.integer ) && OnSameTeam( body,self->parent ) ) {
+				continue;
+			}
+		}
+// jpw
+
+// JPW NERVE don't catch fire if under water or invulnerable
+		if ( body->waterlevel >= 3 ) {
+			body->flameQuota = 0;
+			body->s.onFireEnd = level.time - 1;
+			continue;
+		}
+// jpw
+
+		if ( !body->r.bmodel ) {
+			VectorCopy( body->r.currentOrigin, point );
+			if ( body->client ) {
+				point[2] += body->client->ps.viewheight;
+			}
+			VectorSubtract( point, self->r.currentOrigin, v );
+		} else {
+			for ( i = 0 ; i < 3 ; i++ ) {
+				if ( self->s.origin[i] < body->r.absmin[i] ) {
+					v[i] = body->r.absmin[i] - self->r.currentOrigin[i];
+				} else if ( self->r.currentOrigin[i] > body->r.absmax[i] ) {
+					v[i] = self->r.currentOrigin[i] - body->r.absmax[i];
+				} else {
+					v[i] = 0;
+				}
+			}
+		}
+
+		dist = VectorLength( v );
+
+		// The person who shot the flame only burns when within 1/2 the radius
+		if ( body->s.number == self->r.ownerNum && dist >= ( radius * 0.5 ) ) {
+			continue;
+		}
+		if ( dist >= radius ) {
+			continue;
+		}
+
+		// Non-clients that take damage get damaged here
+		if ( !body->client ) {
+			if ( body->health > 0 ) {
+				G_Damage( body, self->parent, self->parent, vec3_origin, self->r.currentOrigin, 2, 0, MOD_FLAMETHROWER );
+			}
+			continue;
+		}
+
+		// JPW NERVE -- do a trace to see if there's a wall btwn. body & flame centroid -- prevents damage through walls
+		trap_Trace( &tr, self->r.currentOrigin, NULL, NULL, point, body->s.number, MASK_SHOT );
+		if ( tr.fraction < 1.0 ) {
+			continue;
+		}
+		// jpw
+
+		// now check the damageQuota to see if we should play a pain animation
+		// first reduce the current damageQuota with time
+		if ( body->flameQuotaTime && body->flameQuota > 0 ) {
+			body->flameQuota -= (int)( ( (float)( level.time - body->flameQuotaTime ) / 1000 ) * 2.5f );
+			if ( body->flameQuota < 0 ) {
+				body->flameQuota = 0;
+			}
+		}
+
+		G_BurnMeGood( self, body );
+	}
+}
+
+void G_RunFlamechunk( gentity_t *ent ) {
+	vec3_t vel, add;
+	vec3_t neworg;
+	trace_t tr;
+	float speed;
+
+	VectorCopy( ent->s.pos.trDelta, vel );
+
+	// Adust the current speed of the chunk
+	if ( level.time - ent->timestamp > 50 ) {
+		speed = VectorNormalize( vel );
+		speed -= ( 50.f / 1000.f ) * FLAME_FRICTION_PER_SEC;
+
+		if ( speed < FLAME_MIN_SPEED ) {
+			speed = FLAME_MIN_SPEED;
+		}
+
+		VectorScale( vel, speed, ent->s.pos.trDelta );
+	} else {
+		speed = FLAME_START_SPEED;
+	}
+
+	// Move the chunk
+	VectorScale( ent->s.pos.trDelta, 50.f / 1000.f, add );
+	VectorAdd( ent->r.currentOrigin, add, neworg );
+
+	trap_Trace( &tr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, neworg, ent->r.ownerNum, MASK_SHOT | MASK_WATER ); // JPW NERVE
+
+	if ( tr.startsolid ) {
+		VectorCopy( vec3_origin, ent->s.pos.trDelta );
+	} else if ( tr.fraction != 1.0f && !( tr.surfaceFlags & SURF_NOIMPACT ) ) {
+		float dot;
+		VectorCopy( tr.endpos, ent->r.currentOrigin );
+
+		dot = DotProduct( vel, tr.plane.normal );
+		VectorMA( vel, -2 * dot, tr.plane.normal, vel );
+		VectorNormalize( vel );
+		speed *= 0.5 * ( 0.25 + 0.75 * ( ( dot + 1.0 ) * 0.5 ) );
+		VectorScale( vel, speed, ent->s.pos.trDelta );
+	} else {
+		VectorCopy( neworg, ent->r.currentOrigin );
+	}
+
+	// Do damage to nearby entities, every 100ms
+	if ( ent->flameQuotaTime <= level.time ) {
+		ent->flameQuotaTime = level.time + 100;
+		G_FlameDamage( ent );
+	}
+
+	// Show debugging bbox
+	if ( g_debugBullets.integer > 3 ) {
+		gentity_t *bboxEnt;
+		float size = ent->speed / 2;
+		vec3_t b1, b2;
+		vec3_t temp;
+		VectorSet( temp, -size, -size, -size );
+		VectorCopy( ent->r.currentOrigin, b1 );
+		VectorCopy( ent->r.currentOrigin, b2 );
+		VectorAdd( b1, temp, b1 );
+		VectorSet( temp, size, size, size );
+		VectorAdd( b2, temp, b2 );
+		bboxEnt = G_TempEntity( b1, EV_RAILTRAIL );
+		VectorCopy( b2, bboxEnt->s.origin2 );
+		bboxEnt->s.dmgFlags = 1;    // ("type")
+	}
+
+	// Adjust the size
+	if ( ent->speed < FLAME_START_MAX_SIZE ) {
+		ent->speed += 10.f;
+
+		if ( ent->speed > FLAME_START_MAX_SIZE ) {
+			ent->speed = FLAME_START_MAX_SIZE;
+		}
+	}
+
+	// Remove after 2 seconds
+	if ( level.time - ent->timestamp > ( FLAME_LIFETIME - 150 ) ) { // JPW NERVE increased to 350 from 250 to match visuals better
+		G_FreeEntity( ent );
+		return;
+	}
+
+	G_RunThink( ent );
+}
+
+/*
+=================
+fire_flamechunk
+=================
+*/
+gentity_t *fire_flamechunk( gentity_t *self, vec3_t start, vec3_t dir ) {
+	gentity_t   *bolt;
+
+	// Only spawn every other frame
+	if ( self->count2 ) {
+		self->count2--;
+		return NULL;
+	}
+
+	self->count2 = 1;
+	VectorNormalize( dir );
+
+	bolt = G_Spawn();
+	bolt->classname = "flamechunk";
+
+	bolt->timestamp = level.time;
+	bolt->flameQuotaTime = level.time + 50;
+	bolt->s.eType = ET_FLAMETHROWER_CHUNK;
+	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN | SVF_NOCLIENT;
+	bolt->s.weapon = self->s.weapon;
+	bolt->r.ownerNum = self->s.number;
+	bolt->parent = self;
+	bolt->methodOfDeath = MOD_FLAMETHROWER;
+	bolt->clipmask = MASK_MISSILESHOT;
+
+	bolt->s.pos.trType = TR_DECCELERATE;
+	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME;     // move a bit on the very first frame
+	bolt->s.pos.trDuration = 800;
+
+	// 'speed' will be the current size radius of the chunk
+	bolt->speed = FLAME_START_SIZE;
+	VectorSet( bolt->r.mins, -4, -4, -4 );
+	VectorSet( bolt->r.maxs, 4, 4, 4 );
+	VectorCopy( start, bolt->s.pos.trBase );
+	VectorScale( dir, FLAME_START_SPEED, bolt->s.pos.trDelta );
+
+	SnapVector( bolt->s.pos.trDelta );          // save net bandwidth
+	VectorCopy( start, bolt->r.currentOrigin );
+
+	return bolt;
+}
+
+
+//=============================================================================
 
 //----(SA) removed unused quake3 weapons.
 

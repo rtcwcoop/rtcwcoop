@@ -2394,6 +2394,12 @@ void G_RunFrame( int levelTime ) {
 			continue;
 		}
 
+		// DHM - Nerve :: Server-side collision for flamethrower
+		if ( ent->s.eType == ET_FLAMETHROWER_CHUNK ) {
+			G_RunFlamechunk( ent );
+			continue;
+		}
+
 		if ( ent->s.eType == ET_ZOMBIESPIT ) {
 			G_RunSpit( ent );
 			continue;

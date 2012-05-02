@@ -1982,48 +1982,6 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 			}
 		}
 		break;
-	case CLDMG_FLAMETHROWER:
-		if ( ent->takedamage && !AICast_NoFlameDamage( ent->s.number ) ) {
-			#define FLAME_THRESHOLD 50
-			int damage = 5;
-
-			// RF, only do damage once they start burning
-			//if (ent->health > 0)	// don't explode from flamethrower
-			//	G_Damage( traceEnt, ent, ent, forward, tr.endpos, 1, 0, MOD_LIGHTNING);
-
-			// now check the damageQuota to see if we should play a pain animation
-			// first reduce the current damageQuota with time
-			if ( ent->flameQuotaTime && ent->flameQuota > 0 ) {
-				ent->flameQuota -= (int)( ( (float)( level.time - ent->flameQuotaTime ) / 1000 ) * (float)damage / 2.0 );
-				if ( ent->flameQuota < 0 ) {
-					ent->flameQuota = 0;
-				}
-			}
-
-			// add the new damage
-			ent->flameQuota += damage;
-			ent->flameQuotaTime = level.time;
-
-			// Ridah, make em burn
-			if ( ent->client && ( /*g_gametype.integer != GT_SINGLE_PLAYER ||*/ !( ent->r.svFlags & SVF_CASTAI ) || ent->health <= 0 || ent->flameQuota > FLAME_THRESHOLD ) ) {
-				if ( ent->s.onFireEnd < level.time ) {
-					ent->s.onFireStart = level.time;
-				}
-				if ( ent->health <= 0 || !( ent->r.svFlags & SVF_CASTAI ) ) {
-					if ( ent->r.svFlags & SVF_CASTAI ) {
-						ent->s.onFireEnd = level.time + 6000;
-					} else {
-						ent->s.onFireEnd = level.time + FIRE_FLASH_TIME;
-					}
-				} else {
-					ent->s.onFireEnd = level.time + 99999;  // make sure it goes for longer than they need to die
-				}
-				ent->flameBurnEnt = enemy->s.number;
-				// add to playerState for client-side effect
-				ent->client->ps.onFireStart = level.time;
-			}
-		}
-		break;
 	}
 }
 // -NERVE - SMF
