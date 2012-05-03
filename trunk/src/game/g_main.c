@@ -2433,8 +2433,10 @@ void G_RunFrame( int levelTime ) {
                         if (newSpawns && !(ent->r.svFlags & SVF_CASTAI) && !(ent->client->ps.eFlags & EF_DEAD) && !( ent->client->ps.pm_flags & PMF_LIMBO ))
                         {
                                 if ( !(ent->client->cameraPortal) ) {
+                                        gentity_t *groundEnt = &g_entities[ent->client->ps.groundEntityNum];
                                         // don't save a spawnpoint if the player is not on the ground
-                                        if (ent->s.groundEntityNum != ENTITYNUM_NONE) {
+                                        // or on a mover
+                                        if (ent->s.groundEntityNum != ENTITYNUM_NONE && groundEnt->s.eType != ET_MOVER) {
                                                 VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
                                                 VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
                                                 ent->client->hasCoopSpawn = qtrue;

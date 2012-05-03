@@ -521,6 +521,7 @@ void Cmd_Notarget_f( gentity_t *ent ) {
 
 
 void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
+        gentity_t *groundEnt = &g_entities[ent->client->ps.groundEntityNum];
         
         // single player and coop speedrun can't set spawnpoints
         if ( g_gametype.integer != GT_COOP )
@@ -535,6 +536,11 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         // don't save spawns when not on the ground
         if ( ent->s.groundEntityNum == ENTITYNUM_NONE)
                 return;
+
+        // the same counts for a mover
+        if ( groundEnt->s.eType == ET_MOVER ) {
+                return;
+        }
 
         // if automatic spawnpoints are enabled, don't allow manual saving
         if (g_spawnpoints.integer != 1)
