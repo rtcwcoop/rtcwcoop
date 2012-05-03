@@ -2058,8 +2058,10 @@ server system housekeeping.
 */
 void ClientDisconnect( int clientNum ) {
 	gentity_t   *ent;
+	gentity_t   *player;
 	gentity_t   *tent;
 	int i;
+        int count = 0;
 
 	ent = g_entities + clientNum;
 	if ( !ent->client ) {
@@ -2112,6 +2114,22 @@ void ClientDisconnect( int clientNum ) {
 	if ( ent->r.svFlags & SVF_BOT ) {
 		BotAIShutdownClient( clientNum );
 	}
+
+        
+        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                player = &g_entities[i];
+
+                if ( !player || !player->inuse )
+                        continue;
+
+                if (player->r.svFlags & SVF_CASTAI)
+                        continue;
+
+                count++;
+        }
+
+        if (count == 0)
+                trap_SendConsoleCommand( EXEC_INSERT, "map_restart\n" );
 }
 
 
