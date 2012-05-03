@@ -391,6 +391,9 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 	}
 
+        if ( g_gameskill.integer == GSKILL_MAX )
+                cs->rebirthTime = level.time + 5000 + rand() % 2000;
+
 	trap_LinkEntity( self );
 
 	// kill, instanly, any streaming sound the character had going
