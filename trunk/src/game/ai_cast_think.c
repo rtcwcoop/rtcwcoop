@@ -507,6 +507,33 @@ void AICast_Think( int client, float thinktime ) {
 			vec3_t mins, maxs;
 			int touch[10], numTouch;
 			float oldmaxZ;
+                        int i;
+                        gentity_t *player;
+                        qboolean inPVS = qfalse;
+
+                        // fretn - if we respawn, make sure we are not in their pvs
+                        if (ent->aiCharacter != AICHAR_ZOMBIE && ent->aiCharacter != AICHAR_HELGA 
+                                && ent->aiCharacter != AICHAR_HEINRICH ) {
+
+                                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                                        player = &g_entities[i];
+
+                                        if ( !player || !player->inuse )
+                                                continue;
+
+                                        if (player->r.svFlags & SVF_CASTAI)
+                                                continue;
+
+                                        if (trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin )) {
+                                                inPVS = qtrue;
+                                                break;
+                                        }
+                                }
+                        }
+
+                        // we are in the PVS, wait a bit before we respawn again
+                        if (inPVS)
+                                cs->rebirthTime = level.time + 5000 + rand() % 2000;
 
 			oldmaxZ = ent->r.maxs[2];
 
@@ -531,7 +558,7 @@ void AICast_Think( int client, float thinktime ) {
 				}
 			}
 
-			if ( numTouch == 0 ) {    // ok to spawn
+			if ( numTouch == 0 && !inPVS) {    // ok to spawn
 
 				// give them health when they start reviving, so we won't gib after
 				// just a couple shots while reviving
