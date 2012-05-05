@@ -371,12 +371,12 @@ void SV_DirectConnect( netadr_t from ) {
 
 	for ( i = startIndex ; i < sv_maxclients->integer ; i++ ) {
 		cl = &svs.clients[i];
-		if ( cl->state == CS_FREE && cl->gentity && !(cl->gentity->r.svFlags & SVF_CASTAI ))
+		if ( cl->gentity && !(cl->gentity->r.svFlags & SVF_CASTAI ))
                         cnt++;
                 
         }
         
-        if (cnt > sv_maxcoopclients->integer)
+        if (cnt == sv_maxcoopclients->integer)
                 newcl = NULL;
 
 	if ( !newcl ) {
