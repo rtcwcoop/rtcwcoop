@@ -4,7 +4,7 @@ void G_StoreClientPosition( gentity_t* ent ) {
 	int	top;
 
 	if(!( ent->inuse && 
- 		(ent->client->sess.sessionTeam == TEAM_RED || ent->client->sess.sessionTeam == TEAM_BLUE) && 
+		(ent->aiTeam >= 0) &&
  		ent->r.linked &&
  		(ent->health > 0) &&
  		!(ent->client->ps.pm_flags & PMF_LIMBO) &&
@@ -100,7 +100,7 @@ void G_AdjustClientPositions( gentity_t* ent, int time, qboolean forward ) {
 		// Gordon: ok lets test everything under the sun
  		if( list->client && 
  			list->inuse && 
- 			list->client->sess.sessionTeam != TEAM_SPECTATOR && 
+			(list->aiTeam >= 0) &&
  			(list != ent) &&
  			list->r.linked &&
  			(list->health > 0) &&
@@ -147,7 +147,7 @@ void G_AttachBodyParts(gentity_t* ent) {
 		list = g_entities + level.sortedClients[i];
 		// Gordon: ok lets test everything under the sun
 	 	if( list->inuse && 
- 			list->client->sess.sessionTeam != TEAM_SPECTATOR && 
+ 			(list->aiTeam >= 0) &&
  			(list != ent) &&
  			list->r.linked &&
  			(list->health > 0) &&
