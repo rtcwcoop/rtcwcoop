@@ -2911,29 +2911,20 @@ static void CG_PlayerSprites( centity_t *cent ) {
 	//					dead players that are not in limbo yet.
 	team = cgs.clientinfo[ cent->currentState.clientNum ].team;
 
-	// DHM - Nerve :: not using, gives away position if chatting to coordinate attack
-//	if ( cent->currentState.eFlags & EF_TALK ) {
-//		CG_PlayerFloatSprite( cent, cgs.media.balloonShader, 48 );
-//		return;
-//	}
 
-//----(SA) commented out
-//	if ( cent->currentState.eFlags & EF_AWARD_IMPRESSIVE ) {
-//		CG_PlayerFloatSprite( cent, cgs.media.medalImpressive, 48 );
-//		return;
-//	}
+        // DHM - Nerve :: show voice chat signal so players know who's talking
+        if ( cgs.gametype <= GT_COOP && cent->voiceChatSpriteTime > cg.time
+                 && cg.snap->ps.persistant[PERS_TEAM] == team ) {
+                CG_PlayerFloatSprite( cent, cent->voiceChatSprite, 56 );
+                return;
+        }    
 
-//----(SA) commented out
-//	if ( cent->currentState.eFlags & EF_AWARD_EXCELLENT ) {
-//		CG_PlayerFloatSprite( cent, cgs.media.medalExcellent, 48 );
-//		return;
-//	}
+        // DHM - Nerve :: only show talk icon to team-mates
+        if ( cent->currentState.eFlags & EF_TALK && cg.snap->ps.persistant[PERS_TEAM] == team ) {
+                CG_PlayerFloatSprite( cent, cgs.media.balloonShader, 48 );
+                return;
+        }  
 
-//----(SA) commented out
-//	if ( cent->currentState.eFlags & EF_AWARD_GAUNTLET ) {
-//		CG_PlayerFloatSprite( cent, cgs.media.medalGauntlet, 48 );
-//		return;
-//	}
         // fretn: draw friendly sprites in coop ?
 	if ( cgs.gametype > GT_SINGLE_PLAYER && 
 		 !( cent->currentState.eFlags & EF_DEAD ) &&
