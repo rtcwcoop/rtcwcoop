@@ -281,6 +281,19 @@ void CG_DrawPic( float x, float y, float width, float height, qhandle_t hShader 
 	trap_R_DrawStretchPic( x, y, width, height, 0, 0, 1, 1, hShader );
 }
 
+/*
+================
+CG_DrawRotatedPic
+
+Coordinates are 640*480 virtual values
+=================
+*/
+void CG_DrawRotatedPic( float x, float y, float width, float height, qhandle_t hShader, float angle ) {
+        CG_AdjustFrom640( &x, &y, &width, &height );
+        trap_R_DrawRotatedPic( x, y, width, height, 0, 0, 1, 1, hShader, angle );
+}
+
+
 
 
 /*

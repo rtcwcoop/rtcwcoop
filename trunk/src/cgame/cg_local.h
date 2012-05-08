@@ -1877,6 +1877,7 @@ void CG_DrawString( float x, float y, const char *string,
 					float charWidth, float charHeight, const float *modulate );
 
 
+void CG_DrawRotatedPic( float x, float y, float width, float height, qhandle_t hShader, float angle );
 void CG_DrawStringExt( int x, int y, const char *string, const float *setColor,
 					   qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars );
 // JOSEPH 4-17-00
@@ -2397,6 +2398,8 @@ void        trap_R_RenderScene( const refdef_t *fd );
 void        trap_R_SetColor( const float *rgba );   // NULL = 1,1,1,1
 void        trap_R_DrawStretchPic( float x, float y, float w, float h,
 								   float s1, float t1, float s2, float t2, qhandle_t hShader );
+void        trap_R_DrawRotatedPic( float x, float y, float w, float h,
+                                                                   float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );
 void        trap_R_DrawStretchPicGradient( float x, float y, float w, float h,
 										   float s1, float t1, float s2, float t2, qhandle_t hShader, const float *gradientColor, int gradientType );
 

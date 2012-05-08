@@ -253,6 +253,23 @@
 	}
 
 
+        // COMPASS
+        menuDef {
+                name "Compass"
+                fullScreen MENU_FALSE
+                visible MENU_TRUE
+    	        rect 510 410 114 65
+                itemDef {
+                        name "compassicon"
+                        visible MENU_TRUE
+                        decoration
+                        ownerdraw CG_PLAYER_COMPASS
+			rect 40 0 80 15		// horizontal version
+			align HUD_HORIZONTAL
+                }
+        }
+
+
 //	AMMO	//
 	menuDef {
     	name "Ammo"

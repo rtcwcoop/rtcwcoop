@@ -1410,6 +1410,7 @@ refexport_t *GetRefAPI( int apiVersion, refimport_t *rimp ) {
 
 	re.SetColor         = RE_SetColor;
 	re.DrawStretchPic   = RE_StretchPic;
+        re.DrawRotatedPic   = RE_RotatedPic;
 	re.DrawStretchPicGradient   = RE_StretchPicGradient;
 	re.DrawStretchRaw   = RE_StretchRaw;
 	re.UploadCinematic  = RE_UploadCinematic;

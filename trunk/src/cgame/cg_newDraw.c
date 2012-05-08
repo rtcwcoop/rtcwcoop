@@ -1546,6 +1546,94 @@ static void CG_DrawFatigue( rectDef_t *rect, vec4_t color, int align ) {
 	}
 }
 
+/*
+=================
+CG_DrawCompassIcon
+
+NERVE - SMF
+=================
+*/
+void CG_DrawCompassIcon( int x, int y, int w, int h, vec3_t origin, vec3_t dest, qhandle_t shader ) {
+        float angle, pi2 = M_PI * 2;
+        vec3_t v1, angles;
+        float len;
+
+        VectorCopy( dest, v1 );
+        VectorSubtract( origin, v1, v1 );
+        len = VectorLength( v1 );
+        VectorNormalize( v1 );
+        vectoangles( v1, angles );
+
+        if ( v1[0] == 0 && v1[1] == 0 && v1[2] == 0 ) {
+                return;
+        }
+
+        angles[YAW] = AngleSubtract( cg.snap->ps.viewangles[YAW], angles[YAW] );
+
+        angle = ( ( angles[YAW] + 180.f ) / 360.f - ( 0.50 / 2.f ) ) * pi2;
+
+        w /= 2;
+        h /= 2;
+
+        x += w;
+        y += h;
+
+        w = sqrt( ( w * w ) + ( h * h ) ) / 3.f * 2.f * 0.9f;
+
+        x = x + ( cos( angle ) * w );
+        y = y + ( sin( angle ) * w );
+
+        len = 1 - min( 1.f, len / 2000.f );
+
+        CG_DrawPic( x - ( 14 * len + 4 ) / 2, y - ( 14 * len + 4 ) / 2, 14 * len + 4, 14 * len + 4, shader );
+}
+
+
+/*
+=================
+CG_DrawCompass
+
+NERVE - SMF
+=================
+*/
+static void CG_DrawCompass( void ) {
+        float basex = 290, basey = 420; 
+        float basew = 60, baseh = 60;
+        vec4_t hcolor;
+        float angle;
+        int i;
+
+        if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+                return;
+        }    
+
+        if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
+                return;
+        }    
+
+        angle = ( cg.snap->ps.viewangles[YAW] + 180.f ) / 360.f - ( 0.25 / 2.f );
+
+        VectorSet( hcolor, 1.f,1.f,1.f );
+        hcolor[3] = cg_hudAlpha.value;
+        trap_R_SetColor( hcolor );
+
+        CG_DrawRotatedPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass2.tga" ), angle );
+        CG_DrawPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass.tga" ) ); 
+
+        // draw voice chats
+        for ( i = 0; i < MAX_CLIENTS; i++ ) {
+                centity_t *cent = &cg_entities[i];
+
+                if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.aiChar != 0) {
+                        continue;
+                }    
+
+                CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+        }
+}
+// -NERVE - SMF
+
+
 
 /*
 ==============
@@ -1569,6 +1657,9 @@ void CG_OwnerDraw( float x, float y, float w, float h, float text_x, float text_
 	rect.h = h;
 
 	switch ( ownerDraw ) {
+        case CG_PLAYER_COMPASS:
+                CG_DrawCompass();
+                break;
 	case CG_PLAYER_WEAPON_ICON2D:
 		CG_DrawPlayerWeaponIcon( &rect, ownerDrawFlags & CG_SHOW_HIGHLIGHTED, align );
 		break;
