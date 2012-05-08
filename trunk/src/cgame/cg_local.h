@@ -1095,6 +1095,7 @@ typedef struct {
 	qhandle_t selectShader;
 	qhandle_t viewBloodShader;
 	qhandle_t tracerShader;
+        qhandle_t spawnInvincibleShader;
 	qhandle_t crosshairShader[NUM_CROSSHAIRS];
 	qhandle_t crosshairFriendly;    //----(SA)	added
 	qhandle_t lagometerShader;

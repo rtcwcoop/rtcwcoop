@@ -2907,6 +2907,11 @@ static void CG_PlayerSprites( centity_t *cent ) {
 		return;
 	}
 
+        if ( cent->currentState.powerups & ( 1 << PW_INVULNERABLE ) ) {
+                CG_PlayerFloatSprite( cent, cgs.media.spawnInvincibleShader, 56 );
+                return;
+        } 
+
 	// DHM - Nerve :: If this client is a medic, draw a 'revive' icon over
 	//					dead players that are not in limbo yet.
 	team = cgs.clientinfo[ cent->currentState.clientNum ].team;
