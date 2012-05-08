@@ -203,7 +203,7 @@
     	name "Cursorhints"
     	fullScreen MENU_FALSE
     	visible MENU_TRUE
-    	rect 296 420 48 48
+    	rect 296 360 48 48
 
 		itemDef {
 			name "chRect"
