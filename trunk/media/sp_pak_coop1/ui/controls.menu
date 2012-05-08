@@ -1360,6 +1360,45 @@ itemDef {
 		mouseexit { hide keyBindStatus }
 	}
 
+       itemDef {
+                name misc 
+                group grpControls
+                type ITEM_TYPE_BIND
+                text "Quick Chat:"
+                cvar "mp_quickmessage"
+                rect 82 300 290 12
+                textalign ITEM_ALIGN_RIGHT
+                textalignx 142
+                textaligny 10
+                textscale .23
+                style WINDOW_STYLE_FILLED
+                backcolor 1 1 1 .07
+                forecolor 1 1 1 1
+                visible 0 
+                mouseenter { show keyBindStatus }
+                mouseexit { hide keyBindStatus }
+        }  
+
+       itemDef {
+                name misc 
+                group grpControls
+                type ITEM_TYPE_MULTI
+                text "Quick Chat Mode:"
+                cvar "cg_quickMessageAlt"
+                cvarFloatList { "Alpha" 0 "Numeric" 1 }
+                rect 82 315 290 12
+                textalign ITEM_ALIGN_RIGHT
+                textalignx 142
+                textaligny 10
+                textscale .23
+                style WINDOW_STYLE_FILLED
+                backcolor 1 1 1 .07
+                forecolor 1 1 1 1
+                visible 0 
+                mouseenter { show keyBindStatus }
+                mouseexit { hide keyBindStatus }
+        } 
+
 ///////////////// end misc
 
 
