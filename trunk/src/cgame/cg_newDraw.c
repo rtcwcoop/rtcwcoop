@@ -1624,9 +1624,10 @@ static void CG_DrawCompass( void ) {
         for ( i = 0; i < MAX_CLIENTS; i++ ) {
                 centity_t *cent = &cg_entities[i];
 
-                if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.aiChar != 0) {
+                if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.teamNum != cg.snap->ps.teamNum) {
                         continue;
                 }    
+
 
                 CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
         }
