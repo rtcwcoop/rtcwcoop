@@ -34,7 +34,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "../cgame/tr_types.h"
 #include "keycodes.h"
 
-#include "../../main/ui/menudef.h"
+//#include "../../main/ui/menudef.h"
+// fretn - after every release we have to change this
+#include "../../media/sp_pak_coop1/ui/menudef.h"
 
 #define MAX_MENUNAME 32
 #define MAX_ITEMTEXT 64
