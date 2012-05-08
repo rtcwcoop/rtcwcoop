@@ -367,7 +367,8 @@ void SVC_Status( netadr_t from ) {
 
 	for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
 		cl = &svs.clients[i];
-		if ( cl->state >= CS_CONNECTED ) {
+                // fretn - we don't care about bots so don't display them
+		if ( cl->state >= CS_CONNECTED && !(cl->gentity->r.svFlags & SVF_CASTAI) ) {
 			ps = SV_GameClientNum( i );
 			Com_sprintf( player, sizeof( player ), "%i %i \"%s\"\n",
 						 ps->persistant[PERS_SCORE], cl->ping, cl->name );
