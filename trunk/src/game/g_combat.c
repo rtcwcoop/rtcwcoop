@@ -922,6 +922,19 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		return;
 	}
 
+        // fretn - touching a player with a knife unfreezes them
+        if (targ && targ->client && attacker) {
+                if ( g_gametype.integer <= GT_COOP && g_freeze.integer == 1 && targ->client->ps.eFlags & EF_FROZEN) {
+                        if (mod == MOD_KNIFE && !(attacker->r.svFlags & SVF_CASTAI)) {
+                                targ->client->ps.eFlags &= ~EF_FROZEN;
+                                targ->flags &= ~FL_NOTARGET;
+                                targ->client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
+                                return;
+                        }
+                        return;
+                }
+        }
+
 	// RF, track pain for player
 	// This is used by AI to determine how long it has been since their enemy was injured
 

@@ -380,6 +380,7 @@ typedef enum {
 #define EF_FIRING           0x00000100      // for lightning gun
 #define EF_INHERITSHADER    EF_FIRING       // some ents will never use EF_FIRING, hijack it for "USESHADER"
 #define EF_BOUNCE_HEAVY     0x00000200      // more realistic bounce.  not as rubbery as above (currently for c4)
+#define EF_FROZEN           EF_BOUNCE_HEAVY // fretn: if g_freeze is on, freeze players after respawn
 #define EF_SPINNING         0x00000400      // (SA) added for level editor control of spinning pickup items
 #define EF_BREATH           EF_SPINNING     // Characters will not have EF_SPINNING set, hijack for drawing character breath
 
@@ -400,6 +401,8 @@ typedef enum {
 
 #define EF_ZOOMING          0x00400000      // client is zooming
 #define EF_NOSWINGANGLES    0x00800000      // try and keep all parts facing same direction
+
+// !! NOTE: only place flags that don't need to go to the client beyond 0x00800000
 
 #define EF_DUMMY_PMOVE      0x01000000
 #define EF_VOTED            0x02000000      // already cast a vote

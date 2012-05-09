@@ -37,7 +37,9 @@ If you have questions concerning this license or the applicable additional terms
 void SetCoopSpawnWeapons( gclient_t *client ) {
 
         int pc = client->sess.playerType;
-        client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
+
+        if ( !client->ps.eFlags & EF_FROZEN )
+                client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
 
         // zero out all ammo counts
         //memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) ); 

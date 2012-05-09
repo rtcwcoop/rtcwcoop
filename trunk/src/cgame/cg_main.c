@@ -1314,7 +1314,7 @@ static void CG_RegisterGraphics( void ) {
 
 	//----(SA) end
 
-//	cgs.media.medicReviveShader = trap_R_RegisterShader( "sprites/medic_revive" );	//----(SA)	commented out from MP
+	cgs.media.frozenShader = trap_R_RegisterShader( "sprites/voiceMedic" );
 	cgs.media.balloonShader = trap_R_RegisterShader( "sprites/balloon3" );
         cgs.media.voiceChatShader = trap_R_RegisterShader( "sprites/voiceChat" );
 

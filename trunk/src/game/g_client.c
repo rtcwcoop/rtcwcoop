@@ -1884,6 +1884,35 @@ void ClientSpawn( gentity_t *ent ) {
 	ent->watertype = 0;
 	ent->flags = 0;
 
+        // fretn : freeze the players if needed
+        if ( g_freeze.integer && g_gametype.integer <= GT_COOP && !(ent->r.svFlags & SVF_CASTAI)) {
+                int frozen = 0;
+                int i = 0;
+                gentity_t *player;
+
+                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                        player = &g_entities[i];
+        
+                        if ( !player || !player->inuse || player == ent)
+                                continue;
+        
+                        if (player->r.svFlags & SVF_CASTAI)
+                                continue;
+        
+                        if ( player->client->ps.eFlags & EF_FROZEN) 
+                                continue;
+
+                        frozen++;
+                }
+
+                // only freeze them when there are still others not frozen
+                if (frozen && client->ps.persistant[PERS_SPAWN_COUNT] > 1) {
+                        client->ps.eFlags |= EF_FROZEN;
+                        ent->flags |= FL_NOTARGET;
+                }
+
+        }
+
 	VectorCopy( playerMins, ent->r.mins );
 	VectorCopy( playerMaxs, ent->r.maxs );
 

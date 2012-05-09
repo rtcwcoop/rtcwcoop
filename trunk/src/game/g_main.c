@@ -59,6 +59,7 @@ vmCvar_t g_maxlives;
 vmCvar_t g_sharedlives;
 vmCvar_t g_limbotime;
 vmCvar_t g_reinforce;
+vmCvar_t g_freeze;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
@@ -168,6 +169,7 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
         { &g_limbotime, "g_limbotime", "10000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
         { &g_reinforce, "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_freeze, "g_freeze", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_maxGameClients, "g_maxGameClients", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
@@ -564,6 +566,14 @@ void G_CheckForCursorHints( gentity_t *ent ) {
                                         hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
                                 }
                         }
+
+                        /*
+                        if ( traceEnt->client->ps.eFlags == EF_FROZEN )
+                        {
+                                hintType = HINT_KNIFE;
+                                hintDist = CH_FRIENDLY_DIST;
+                        }
+                        */
                 }
 	}
 	//

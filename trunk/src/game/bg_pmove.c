@@ -4165,7 +4165,7 @@ int Pmove( pmove_t *pmove ) {
 	if ( pmove->ps->eFlags & EF_DUMMY_PMOVE ) {
 		PmoveSingle( pmove );
 		return ( 0 );
-	} else if ( pmove->ps->pm_flags & PMF_IGNORE_INPUT ) {
+	} else if ( pmove->ps->pm_flags & PMF_IGNORE_INPUT || pmove->ps->eFlags & EF_FROZEN ) {
 		pmove->cmd.forwardmove = 0;
 		pmove->cmd.rightmove = 0;
 		pmove->cmd.upmove = 0;

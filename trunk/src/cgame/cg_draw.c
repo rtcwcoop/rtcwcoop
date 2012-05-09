@@ -1356,6 +1356,28 @@ static void CG_DrawLagometer( void ) {
 	CG_DrawDisconnect();
 }
 
+void CG_DrawFreeze(void) {
+        int w, y, x;
+        vec4_t color;
+        char *linebuffer = va("You are frozen");
+
+        if (!(cg.snap->ps.eFlags & EF_FROZEN))
+                return;
+
+        y = 320;
+
+        color[0] = 1;
+        color[1] = 1;
+        color[2] = 1;
+        color[3] = 1;
+
+        w = BIGCHAR_WIDTH * CG_DrawStrlen( linebuffer );
+ 
+        x = ( SCREEN_WIDTH - w ) / 2;
+ 
+        CG_DrawStringExt( x, y, linebuffer, color, qfalse, qtrue, BIGCHAR_WIDTH, BIGCHAR_WIDTH, 0 );
+}
+
 
 /*
 ===============================================================================
@@ -1914,6 +1936,7 @@ static void CG_DrawCoopCrosshairNames( void ) {
         float barFrac;
         int armor;
         // -NERVE - SMF
+        centity_t *cent;
 
         if ( cg_drawCrosshair.integer < 0 ) {
                 return;
@@ -1953,30 +1976,26 @@ static void CG_DrawCoopCrosshairNames( void ) {
                 return;
         }
 
+        cent = &cg_entities[ cg.crosshairClientNum ];
+
+        // fretn: todo make this look nice
+        if (cent->currentState.eFlags & EF_FROZEN) {
+                s = va("Player is frozen.");
+                w = CG_DrawStrlen( s ) * SMALLCHAR_WIDTH;
+                CG_DrawSmallStringColor( 320 - w / 2, 170, s, color );
+
+                s = va("Stab him with knife to respawn him.");
+                w = CG_DrawStrlen( s ) * SMALLCHAR_WIDTH;
+                CG_DrawSmallStringColor( 320 - w / 2, 170 + SMALLCHAR_HEIGHT + 5, s, color );
+                return;
+        }
+
         playerHealth = cgs.clientinfo[ cg.crosshairClientNum ].health;
         
         if (playerHealth <= 0)
                 return;
 
         val = cgs.clientinfo[ cg.crosshairClientNum ].curWeapon;
-/*
-        if ( val == WP_KNIFE ) {
-                playerClass = "K"; // knife
-        } else if ( val == WP_LUGER || val == WP_COLT || val == WP_AKIMBO || val == WP_SILENCER ) {
-                playerClass = "P"; // pistol
-        } else if ( val == WP_THOMPSON || val == WP_MP40 || val == WP_STEN ) {
-                playerClass = "S"; // smg
-        } else if ( val == WP_GRENADE_LAUNCHER || val == WP_GRENADE_PINEAPPLE || val == WP_DYNAMITE ) {
-                playerClass = "E"; // explosive
-        } else if ( val == WP_MAUSER || val == WP_GARAND || val == WP_SNIPERRIFLE || val == WP_SNOOPERSCOPE || val == WP_FG42SCOPE || val == WP_FG42 || val == WP_SNIPER ) {
-                playerClass = "R"; // rifle
-        } else if ( val == WP_PANZERFAUST || val == WP_VENOM || val == WP_FLAMETHROWER || val == WP_TESLA ) {
-                playerClass = "H"; // heavy weapon
-        } else {
-                playerClass = "X"; // ERROR !
-        }    
-
-*/
         name = cgs.clientinfo[ cg.crosshairClientNum ].name;
         armor = cgs.clientinfo[ cg.crosshairClientNum ].armor;
 
@@ -2918,6 +2937,9 @@ static void CG_Draw2D( void ) {
 
 	// Ridah, draw flash blends now
 	CG_DrawFlashBlend();
+
+        // fretn
+        CG_DrawFreeze();
 }
 
 /*
@@ -3131,7 +3153,7 @@ void CG_DrawActive( stereoFrame_t stereoView ) {
 
 	trap_R_RenderScene( &cg.refdef );
 
-        if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.stats[STAT_HEALTH] <= 0 ) {
+        if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.stats[STAT_HEALTH] <= 0 || cg.snap->ps.eFlags & EF_FROZEN) {
                 static int texid = 0; 
                 
                 if ( !texid ) {

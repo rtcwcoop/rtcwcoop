@@ -2907,6 +2907,11 @@ static void CG_PlayerSprites( centity_t *cent ) {
 		return;
 	}
 
+        if ( cent->currentState.eFlags & EF_FROZEN ) {
+                CG_PlayerFloatSprite( cent, cgs.media.frozenShader, 56 );
+                return;
+        }
+
         if ( cent->currentState.powerups & ( 1 << PW_INVULNERABLE ) ) {
                 CG_PlayerFloatSprite( cent, cgs.media.spawnInvincibleShader, 56 );
                 return;

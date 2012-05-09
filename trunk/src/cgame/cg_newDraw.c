@@ -335,6 +335,9 @@ static void CG_DrawCursorhint( rectDef_t *rect ) {
 	case HINT_FORCENONE:
 		icon = 0;
 		break;
+        //case HINT_KNIFE:
+        //        icon = cgs.media.hintShaders[HINT_KNIFE];
+        //        break;
 	case HINT_BREAKABLE_DYNAMITE:
 		icon = cgs.media.hintShaders[HINT_BREAKABLE];
 		break;

@@ -1086,7 +1086,7 @@ typedef struct {
         qhandle_t voiceChatShader;
 	qhandle_t friendShader;
 
-//	qhandle_t	medicReviveShader;	//----(SA)	commented out from MP
+	qhandle_t frozenShader;
 	qhandle_t balloonShader;
 	qhandle_t connectionShader;
 
