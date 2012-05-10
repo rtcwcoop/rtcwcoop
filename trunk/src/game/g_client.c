@@ -1707,12 +1707,14 @@ void ClientSpawn( gentity_t *ent ) {
 		VectorCopy( ent->s.origin, spawn_origin );
 		spawn_origin[2] += 9;   // spawns seem to be sunk into ground?
 		VectorCopy( ent->s.angles, spawn_angles );
-	} else
-	{
-		ent->aiName = "player";  // needed for script AI
-		ent->aiTeam = 1;        // member of allies
-		ent->client->ps.teamNum = ent->aiTeam;
-		AICast_ScriptParse( AICast_GetCastState( ent->s.number ) );
+	} else {
+		if ( !ent->client->pers.initialSpawn ) {
+			ent->aiName = "player";  // needed for script AI
+			ent->aiTeam = 1;        // member of allies
+			ent->client->ps.teamNum = ent->aiTeam;
+			AICast_ScriptParse( AICast_GetCastState( ent->s.number ) );
+		}
+
 		// done.
 		if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
 			spawnPoint = SelectSpectatorSpawnPoint(
