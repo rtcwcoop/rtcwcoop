@@ -4602,8 +4602,6 @@ they /don't/ need to be all uppercase
 */
 
 void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
-	gentity_t *player;
-        int i;
 
 	if ( ent->wait < level.time ) {
 		ent->wait = level.time + ent->delay;
@@ -4621,17 +4619,8 @@ void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator 
 
 		if ( ent->spawnflags & 2 && !( ent->spawnflags & 1 ) ) {
 			if ( ent->aiName ) {
-                                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                                        player = &g_entities[i];
-
-                                        if ( !player || !player->inuse )
-                                                continue;
-
-                                        if (player->r.svFlags & SVF_CASTAI)
-                                                continue;
-
-                                        AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-                                }
+				// cs: need a test map / ent for this
+				ScriptEventForPlayer(activator, "trigger", ent->target);
 			}
 
 			G_UseTargets( ent, other );
@@ -4651,17 +4640,8 @@ void use_invisible_user( gentity_t *ent, gentity_t *other, gentity_t *activator 
 	}
 
 	if ( ent->aiName ) {
-                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                        player = &g_entities[i];
-
-                        if ( !player || !player->inuse )
-                                continue;
-
-                        if (player->r.svFlags & SVF_CASTAI)
-                                continue;
-
-                        AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-                }
+		// cs: need a test map / ent for this
+		ScriptEventForPlayer(other, "trigger", ent->target);
 	}
 
 	G_UseTargets( ent, other ); //----(SA)	how about this so the triggered targets have an 'activator' as well as an 'other'?

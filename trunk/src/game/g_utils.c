@@ -834,3 +834,25 @@ void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out ) {
 	VectorMA( start, frac, dist, out );
 }
 // end
+
+/*
+================
+ScriptEventForPlayer
+
+  Call script event if the passed in entity is a player
+================
+*/
+qboolean ScriptEventForPlayer(gentity_t *activator, char *eventStr, char *params)
+{
+	if ( activator
+		&& activator->inuse
+		&& activator->client
+		&& activator->aiName
+		&&  !Q_stricmp( activator->aiName, "player" ) )
+	{
+		AICast_ScriptEvent( AICast_GetCastState( activator->s.number ), eventStr, params );
+		return qtrue;
+	}
+
+	return qfalse;
+}

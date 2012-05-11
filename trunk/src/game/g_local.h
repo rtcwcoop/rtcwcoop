@@ -890,6 +890,9 @@ void G_ProcessTagConnect( gentity_t *ent, qboolean clearAngles );
 char *CopyString( const char *in );
 void G_ScriptPreprocess( char *script );
 
+// cs
+qboolean ScriptEventForPlayer(gentity_t *activator, char *eventStr, char *params);
+
 //
 // g_combat.c
 //

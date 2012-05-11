@@ -935,25 +935,14 @@ must have a target
 when used it will fire its targets
 */
 void target_script_trigger_use( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
-	gentity_t   *player;
-        int i;
-
 	if ( ent->aiName ) {
-                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                        player = &g_entities[i];
-
-                        if ( !player || !player->inuse )
-                                continue;
-
-                        if (player->r.svFlags & SVF_CASTAI)
-                                continue;
-
-                         AICast_ScriptEvent( AICast_GetCastState( player->s.number ), "trigger", ent->target );
-                }
+		// cs: fairly certain it's activator always, but not 100% sure
+		if ( !ScriptEventForPlayer(activator, "trigger", ent->target) ) {
+			ScriptEventForPlayer(other, "trigger", ent->target);
+		}
 	}
 
 	G_UseTargets( ent, other );
-
 }
 
 void SP_target_script_trigger( gentity_t *ent ) {
