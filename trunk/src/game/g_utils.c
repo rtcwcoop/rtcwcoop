@@ -837,22 +837,66 @@ void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out ) {
 
 /*
 ================
+IsPlayerEnt
+
+  Returns whether or not the passed entity is a player
+
+================
+*/
+qboolean IsPlayerEnt( gentity_t *ent )
+{
+	if ( ent
+		&& ent->inuse
+		&& ent->client
+		&& ent->aiName
+		&& !(ent->r.svFlags & SVF_CASTAI)
+		&&  !Q_stricmp( ent->aiName, "player" ) )
+	{
+		return qtrue;
+	}
+
+	return qfalse;
+}
+
+/*
+================
 ScriptEventForPlayer
 
   Call script event if the passed in entity is a player
 ================
 */
-qboolean ScriptEventForPlayer(gentity_t *activator, char *eventStr, char *params)
+qboolean ScriptEventForPlayer( gentity_t *activator, char *eventStr, char *params )
 {
-	if ( activator
-		&& activator->inuse
-		&& activator->client
-		&& activator->aiName
-		&&  !Q_stricmp( activator->aiName, "player" ) )
+	if ( IsPlayerEnt(activator) )
 	{
 		AICast_ScriptEvent( AICast_GetCastState( activator->s.number ), eventStr, params );
 		return qtrue;
 	}
 
 	return qfalse;
+}
+
+/*
+================
+GetFirstValidPlayer
+
+  Returns the first valid player. 
+  For triggers / actions that are entity independent.
+
+================
+*/
+gentity_t *GetFirstValidPlayer( qboolean checkHealth ) {
+	gentity_t *trav;
+	int i;
+
+	for ( trav = g_entities, i = 0; i < g_maxclients.integer; i++, trav++ ) {
+		if ( !IsPlayerEnt(trav) ) {
+			continue;
+		}
+		if ( checkHealth && trav->health <= 0 ) {
+			continue;
+		}
+		return trav;
+	}
+	return NULL;
 }

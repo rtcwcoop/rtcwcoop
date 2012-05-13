@@ -891,7 +891,10 @@ char *CopyString( const char *in );
 void G_ScriptPreprocess( char *script );
 
 // cs
-qboolean ScriptEventForPlayer(gentity_t *activator, char *eventStr, char *params);
+qboolean IsPlayerEnt( gentity_t *ent );
+qboolean ScriptEventForPlayer( gentity_t *activator, char *eventStr, char *params );
+gentity_t *GetFirstValidPlayer( qboolean checkHealth );
+
 
 //
 // g_combat.c

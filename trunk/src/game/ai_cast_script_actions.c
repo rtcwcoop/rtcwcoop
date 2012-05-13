@@ -2031,12 +2031,11 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 		G_Error( "AI Scripting: missionsuccess requires a num_objective identifier\n" );
 	}
 
-	player = AICast_FindEntityForName( "player" );
-	// double check that they are still alive
-	if ( player->health <= 0 ) {
+	player = GetFirstValidPlayer(qtrue);
+	if ( !player ) {
 		return qfalse;  // hold the script here
-
 	}
+
 	lvl = atoi( token );
 
         if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
@@ -2339,11 +2338,9 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	qboolean silent = qfalse, endgame = qfalse, savepersist = qfalse;
 	int exitTime = 8000;
 
-	player = AICast_FindEntityForName( "player" );
-	// double check that they are still alive
-	if ( player->health <= 0 ) {
-		return qtrue;   // get out of here
-
+	player = GetFirstValidPlayer(qtrue);
+	if ( !player ) {
+		return qtrue;  // get out of here
 	}
 
 	// don't process if already changing

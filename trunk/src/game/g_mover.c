@@ -921,8 +921,7 @@ void ReturnToPos1Rotate( gentity_t *ent ) {
 
 	MatchTeam( ent, MOVER_2TO1ROTATE, level.time );
 
-        // hmm doesn't matter if I change this or not, the sound will play for every one ?
-	player = AICast_FindEntityForName( "player" );
+	player = GetFirstValidPlayer(qfalse);
 
 	if ( player ) {
 		inPVS = trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin );
@@ -1050,8 +1049,7 @@ void Reached_BinaryMover( gentity_t *ent ) {
 			qboolean inPVS = qfalse;
 			gentity_t *player;
 
-                        // hmm doesn't matter if I change this or not, the sound will play for every one ?
-			player = AICast_FindEntityForName( "player" );
+			player = GetFirstValidPlayer(qfalse);
 
 			if ( player ) {
 				inPVS = trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin );

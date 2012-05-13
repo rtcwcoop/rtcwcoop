@@ -1242,51 +1242,27 @@ void SP_props_me109( gentity_t *ent ) {
 /*QUAKED truck_cam (.7 .3 .1) ? START_ON TOGGLE - -
 */
 void truck_cam_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
-	gentity_t *player;
-        int i;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	if ( IsPlayerEnt(other) ) {
+        vec3_t point;
 
-                if ( !player || !player->inuse )
-                        continue;
+        trap_UnlinkEntity( other );
 
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
+        // VectorCopy ( self->r.currentOrigin, other->client->ps.origin );
+        VectorCopy( self->r.currentOrigin, point );
+        point[2] = other->client->ps.origin[2];
+        VectorCopy( point, other->client->ps.origin );
 
-                if ( player != other ) {
-                        // G_Printf ("other: %s\n", other->aiName);
-                        continue;
-                }
+        // save results of pmove
+        BG_PlayerStateToEntityState( &other->client->ps, &other->s, qtrue );
 
-                if ( !self->nextTrain ) {
-                        self->touch = NULL;
-                        continue;
-                }
+        // use the precise origin for linking
+        VectorCopy( other->client->ps.origin, other->r.currentOrigin );
 
-                // lock the player to the moving truck
-                {
-                        vec3_t point;
+        other->client->ps.persistant[PERS_HWEAPON_USE] = 1;
 
-                        trap_UnlinkEntity( other );
-
-                        // VectorCopy ( self->r.currentOrigin, other->client->ps.origin );
-                        VectorCopy( self->r.currentOrigin, point );
-                        point[2] = other->client->ps.origin[2];
-                        VectorCopy( point, other->client->ps.origin );
-
-                        // save results of pmove
-                        BG_PlayerStateToEntityState( &other->client->ps, &other->s, qtrue );
-
-                        // use the precise origin for linking
-                        VectorCopy( other->client->ps.origin, other->r.currentOrigin );
-
-                        other->client->ps.persistant[PERS_HWEAPON_USE] = 1;
-
-                        trap_LinkEntity( other );
-                }
-        }
-
+        trap_LinkEntity( other );
+	}
 }
 
 void truck_cam_think( gentity_t *ent ) {

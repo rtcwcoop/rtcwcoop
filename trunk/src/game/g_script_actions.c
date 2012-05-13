@@ -794,7 +794,6 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 	vmCvar_t cvar;
 	int lvl;
 	char *pString, *token;
-        int i;
 
 	pString = params;
 
@@ -803,21 +802,11 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 		G_Error( "AI Scripting: missionsuccess requires a mission_level identifier\n" );
 	}
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	player = GetFirstValidPlayer(qtrue);
+	if (!player) {
+		return qfalse;  // hold the script here
+	}
 
-                if ( !player || !player->inuse )
-                        continue;
-
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
-
-                // double check that they are still alive
-                if ( player->health <= 0 ) {
-                        return qfalse;  // hold the script here
-
-                }
-        }
 	lvl = atoi( token );
 
         if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
