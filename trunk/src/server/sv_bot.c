@@ -55,11 +55,14 @@ SV_BotAllocateClient
 int SV_BotAllocateClient( void ) {
 	int i;
 	client_t    *cl;
+	int botStartSlot;
+
+	botStartSlot = sv_maxcoopclients->integer > 0 ? sv_maxcoopclients->integer : 1;
 
 	// find a client slot
 	for ( i = 0, cl = svs.clients; i < sv_maxclients->integer; i++, cl++ ) {
 		// Wolfenstein, never use the first slot, otherwise if a bot connects before the first client on a listen server, game won't start
-		if ( i < 1 ) {
+		if ( i < botStartSlot ) {
 			continue;
 		}
 		// done.
