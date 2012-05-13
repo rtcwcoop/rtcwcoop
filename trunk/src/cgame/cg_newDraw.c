@@ -1610,6 +1610,9 @@ static void CG_DrawCompass( void ) {
                 return;
         }    
 
+        if ( !cg_drawcompass.integer )
+                return;
+
         if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
                 return;
         }    
