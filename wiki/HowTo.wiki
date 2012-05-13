@@ -60,6 +60,9 @@ The pk3 will be placed inside the media folder, copy this folder to your main fo
 
  http://bzzwolfsp.googlecode.com/svn/trunk/screenshots/rtcw_coop_teamoverlay.jpg
 
+== g_freeze == 
+freezes freshly respawn players, they need to be activated by a stab of a knife of a friend
+
 == g_gameskill ==
  In a coop game the aim_accuracy, aim_skill, attack_skill and health of the aicast is raised by raising g_gameskill ( 0 - 2 ).
  In single player these are set in the mapname.ai script files for each aicast, the coop mode ignores these  values in the scripts.
@@ -72,6 +75,9 @@ The number of the times a player can die before he can't play anymore. Set to 0 
 
 == g_sharedlives ==
 If set to 1 then the g_maxlives is a teamvalue
+
+== cg_drawcompass ==
+1 or 0 Toggles the compass
 
 == g_friendlyfire ==
 value 0: you can't hit friends
