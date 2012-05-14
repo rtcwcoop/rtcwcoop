@@ -2065,7 +2065,11 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 			G_Error( "AI Scripting: missionsuccess with unknown parameter: %s\n", token );
 		}
 	} else {    // show on-screen information
-		trap_Cvar_Set( "cg_youGotMail", "2" ); // set flag to draw icon
+                if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+                        trap_Cvar_Set( "cg_youGotMail", "2" ); // set flag to draw icon
+                } else {
+                        trap_SendServerCommand( -1 , "yougotmail 2\n" );
+                }
 	}
 
 	return qtrue;

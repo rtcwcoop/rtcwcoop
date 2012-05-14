@@ -1508,6 +1508,12 @@ static void CG_ServerCommand( void ) {
 		return;
 	}
 
+        // fretn
+	if ( !strcmp( cmd, "yougotmail" ) ) {
+                cg_youGotMail.integer = atoi(CG_Argv( 1 ));
+                return;
+        }
+
 	// NERVE - SMF
 	if ( !Q_stricmp( cmd, "oid" ) ) {
 		CG_ObjectivePrint( CG_Argv( 2 ), SMALLCHAR_WIDTH, atoi( CG_Argv( 1 ) ) );

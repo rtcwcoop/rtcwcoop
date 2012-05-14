@@ -1258,7 +1258,11 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 		for ( i = 0; i < 8; i++ )     {  // max objective cvars: 8 (FIXME: use #define somewhere)
 			trap_Cvar_Set( va( "g_objective%i", i + 1 ), "0" );   // clear the objective ROM cvars
 		}
-		trap_Cvar_Set( "cg_yougotMail", "0" );
+                if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+                        trap_Cvar_Set( "cg_youGotMail", "0" ); // set flag to draw icon
+                } else {
+                        trap_SendServerCommand( -1 , "yougotmail 0\n" );
+                }
 	}
 
         if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
