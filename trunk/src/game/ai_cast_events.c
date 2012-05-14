@@ -392,7 +392,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	}
 
         if ( g_gameskill.integer == GSKILL_MAX && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-                && self->aiCharacter != AICHAR_HEINRICH )
+                && self->aiCharacter != AICHAR_HEINRICH && nogib )
                 cs->rebirthTime = level.time + 15000 + rand() % 2000;
 
 	trap_LinkEntity( self );
@@ -414,7 +414,11 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 	} else {
 		// really dead now, so call the script
-		AICast_ScriptEvent( cs, "fakedeath", "" );
+                if ( g_gameskill.integer == GSKILL_MAX && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
+                                && self->aiCharacter != AICHAR_HEINRICH && nogib )
+		        AICast_ScriptEvent( cs, "death", "" );
+                else
+		        AICast_ScriptEvent( cs, "fakedeath", "" );
 		// call the deathfunc for this cast, so we can play associated sounds, or do any character-specific things
 		if ( !( cs->aiFlags & AIFL_DENYACTION ) && cs->deathfunc ) {
 			cs->deathfunc( self, attacker, damage, meansOfDeath );   //----(SA)	added mod
