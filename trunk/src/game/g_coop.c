@@ -38,7 +38,7 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 
         int pc = client->sess.playerType;
 
-        if ( !client->ps.eFlags & EF_FROZEN )
+        if ( !(client->ps.eFlags & EF_FROZEN) )
                 client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
 
         // zero out all ammo counts
