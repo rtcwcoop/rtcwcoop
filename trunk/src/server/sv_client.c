@@ -89,7 +89,10 @@ void SV_GetChallenge( netadr_t from ) {
 	}
 
 	// if they are on a lan address, send the challengeResponse immediately
-	if ( Sys_IsLANAddress( from ) ) {
+	// fretn: currently for coop games disable the authorization, I have no idea
+	// if the id auth server is still up, and currently I don't feel like testing
+	// this code if it works or not
+	if ( Sys_IsLANAddress( from ) || Cvar_VariableValue( "g_gametype" ) <= GT_COOP) {
 		challenge->pingTime = svs.time;
 		NET_OutOfBandPrint( NS_SERVER, from, "challengeResponse %i", challenge->challenge );
 		return;
