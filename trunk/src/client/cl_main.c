@@ -1519,9 +1519,13 @@ void CL_CheckForResend( void ) {
 	switch ( cls.state ) {
 	case CA_CONNECTING:
 		// requesting a challenge
-		if ( !Sys_IsLANAddress( clc.serverAddress ) ) {
-			CL_RequestAuthorization();
-		}
+                
+                // fretn: currently for coop games disable the authorization, I have no idea
+                // if the id auth server is still up, and currently I don't feel like testing
+                // this code if it works or not
+		//if ( !Sys_IsLANAddress( clc.serverAddress ) ) {
+		//	CL_RequestAuthorization();
+		//}
 		NET_OutOfBandPrint( NS_CLIENT, clc.serverAddress, "getchallenge" );
 		break;
 
