@@ -37,7 +37,6 @@ If you have questions concerning this license or the applicable additional terms
 //----(SA) end
 
 extern displayContextDef_t cgDC;
-menuDef_t *menuScoreboard = NULL;
 
 int sortedTeamPlayers[TEAM_MAXOVERLAY];
 int numSortedTeamPlayers;

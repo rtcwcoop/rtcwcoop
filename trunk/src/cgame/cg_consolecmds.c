@@ -37,7 +37,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "cg_local.h"
 #include "../ui/ui_shared.h"
 
-
+menuDef_t *menuScoreboard = NULL;
 
 void CG_TargetCommand_f( void ) {
 	int targetNum;
@@ -120,8 +120,6 @@ static void CG_ScoresUp_f( void ) {
 }
 
 
-extern menuDef_t *menuScoreboard;
-void Menu_Reset();          // FIXME: add to right include file
 
 static void CG_LoadHud_f( void ) {
 	char buff[1024];
@@ -140,49 +138,6 @@ static void CG_LoadHud_f( void ) {
 	CG_LoadMenus( hudSet );
 	menuScoreboard = NULL;
 }
-
-// TTimo: defined but not used
-/*
-static void CG_scrollScoresDown_f( void) {
-	if (menuScoreboard && cg.scoreBoardShowing) {
-		Menu_ScrollFeeder(menuScoreboard, FEEDER_SCOREBOARD, qtrue);
-		Menu_ScrollFeeder(menuScoreboard, FEEDER_REDTEAM_LIST, qtrue);
-		Menu_ScrollFeeder(menuScoreboard, FEEDER_BLUETEAM_LIST, qtrue);
-	}
-}
-
-
-static void CG_scrollScoresUp_f( void) {
-	if (menuScoreboard && cg.scoreBoardShowing) {
-		Menu_ScrollFeeder(menuScoreboard, FEEDER_SCOREBOARD, qfalse);
-		Menu_ScrollFeeder(menuScoreboard, FEEDER_REDTEAM_LIST, qfalse);
-		Menu_ScrollFeeder(menuScoreboard, FEEDER_BLUETEAM_LIST, qfalse);
-	}
-}
-
-
-static void CG_spWin_f( void) {
-	trap_Cvar_Set("cg_cameraOrbit", "2");
-	trap_Cvar_Set("cg_cameraOrbitDelay", "35");
-	trap_Cvar_Set("cg_thirdPerson", "1");
-	trap_Cvar_Set("cg_thirdPersonAngle", "0");
-	trap_Cvar_Set("cg_thirdPersonRange", "100");
-//	CG_AddBufferedSound(cgs.media.winnerSound);
-	//trap_S_StartLocalSound(cgs.media.winnerSound, CHAN_ANNOUNCER);
-	CG_CenterPrint("YOU WIN!", SCREEN_HEIGHT * .30, 0);
-}
-
-static void CG_spLose_f( void) {
-	trap_Cvar_Set("cg_cameraOrbit", "2");
-	trap_Cvar_Set("cg_cameraOrbitDelay", "35");
-	trap_Cvar_Set("cg_thirdPerson", "1");
-	trap_Cvar_Set("cg_thirdPersonAngle", "0");
-	trap_Cvar_Set("cg_thirdPersonRange", "100");
-//	CG_AddBufferedSound(cgs.media.loserSound);
-	//trap_S_StartLocalSound(cgs.media.loserSound, CHAN_ANNOUNCER);
-	CG_CenterPrint("YOU LOSE...", SCREEN_HEIGHT * .30, 0);
-}
-*/
 
 //----(SA)	item (key/pickup) drawing
 static void CG_InventoryDown_f( void ) {
@@ -225,17 +180,6 @@ static void CG_TellAttacker_f( void ) {
 	Com_sprintf( command, 128, "tell %i %s", clientNum, message );
 	trap_SendClientCommand( command );
 }
-
-// TTimo: unused
-/*
-static void CG_NextTeamMember_f( void ) {
-  CG_SelectNextPlayer();
-}
-
-static void CG_PrevTeamMember_f( void ) {
-  CG_SelectPrevPlayer();
-}
-*/
 
 /////////// cameras
 
@@ -294,7 +238,7 @@ void CG_StartCamera( const char *name, qboolean startBlack ) {
 
 /*
 ==============
-CG_SopCamera
+CG_StopCamera
 ==============
 */
 void CG_StopCamera( void ) {
@@ -337,48 +281,6 @@ static void CG_PlayerStart_f( void ) {
         trap_SendClientCommand( "playerstart" );
 	trap_Cvar_Set( "cg_norender", "0" );
 }
-
-// TTimo unused
-/*
-// NERVE - SMF
-static void CG_PickTeam_f( void ) {
-	const char	*s;
-	char buf[144];
-
-	if(cgs.gametype != GT_WOLF)
-		return;
-
-	// set map title
-	trap_Cvar_VariableStringBuffer( "sv_mapname", buf, sizeof( buf ) );
-	trap_Cvar_Set( "mp_mapTitle", "MAP" ); //buf );
-
-	// set map description
-	s = CG_ConfigString( CS_MULTI_MAPDESC );
-	if ( s )
-		trap_Cvar_Set( "mp_mapDesc", s );
-
-	trap_UI_Popup( "UIMENU_WM_PICKTEAM" );
-}
-
-static void CG_PickPlayer_f( void ) {
-	const char	*s;
-	char buf[144];
-
-	if(cgs.gametype != GT_WOLF)
-		return;
-
-	// set map title
-	trap_Cvar_VariableStringBuffer( "sv_mapname", buf, sizeof( buf ) );
-	trap_Cvar_Set( "mp_mapTitle", "MAP" ); //buf );
-
-	// set map description
-	s = CG_ConfigString( CS_MULTI_MAPDESC );
-	if ( s )
-		trap_Cvar_Set( "mp_mapDesc", s );
-
-	trap_UI_Popup( "UIMENU_WM_PICKPLAYER" );
-}
-*/
 
 static void CG_VoiceChat_f( void ) { 
         char chatCmd[64];
@@ -695,8 +597,6 @@ static consoleCommand_t commands[] = {
 	{ "-scores", CG_ScoresUp_f },
 	{ "+inventory", CG_InventoryDown_f },
 	{ "-inventory", CG_InventoryUp_f },
-//	{ "+zoom", CG_ZoomDown_f },		// (SA) zoom moved to a wbutton so server can determine weapon firing based on zoom status
-//	{ "-zoom", CG_ZoomUp_f },
 	{ "zoomin", CG_ZoomIn_f },
 	{ "zoomout", CG_ZoomOut_f },
 	{ "sizeup", CG_SizeUp_f },
@@ -784,8 +684,8 @@ void CG_InitConsoleCommands( void ) {
 	trap_AddCommand( "say_team" );
 	trap_AddCommand( "say_limbo" );           // NERVE - SMF
 	trap_AddCommand( "tell" );
-//	trap_AddCommand ("vsay");
-//	trap_AddCommand ("vsay_team");
+	trap_AddCommand ("vsay");
+	trap_AddCommand ("vsay_team");
 //	trap_AddCommand ("vtell");
 //	trap_AddCommand ("vtaunt");
 //	trap_AddCommand ("vosay");
@@ -815,6 +715,9 @@ void CG_InitConsoleCommands( void ) {
 
 	// Rafael
 	trap_AddCommand( "nofatigue" );
-
 	trap_AddCommand( "setspawnpt" );          // NERVE - SMF
+
+        // coop
+	trap_AddCommand( "spawnpoint" );
+	trap_AddCommand( "dropammo" );          // fretn
 }
