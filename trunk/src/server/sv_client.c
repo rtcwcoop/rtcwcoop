@@ -68,7 +68,7 @@ void SV_GetChallenge( netadr_t from ) {
 	// see if we already have a challenge for this ip
 	challenge = &svs.challenges[0];
 	for ( i = 0 ; i < MAX_CHALLENGES ; i++, challenge++ ) {
-		if ( NET_CompareAdr( from, challenge->adr ) ) {
+		if ( !challenge->connected && NET_CompareAdr( from, challenge->adr ) ) {
 			break;
 		}
 		if ( challenge->time < oldestTime ) {
@@ -85,6 +85,7 @@ void SV_GetChallenge( netadr_t from ) {
 		challenge->adr = from;
 		challenge->time = svs.time;
 		challenge->firstTime = svs.time;
+                challenge->connected = qfalse;
 		i = oldest;
 	}
 
@@ -298,6 +299,7 @@ void SV_DirectConnect( netadr_t from ) {
 
 		ping = svs.time - svs.challenges[i].pingTime;
 		Com_Printf( "Client %i connecting with %i challenge ping\n", i, ping );
+                svs.challenges[i].connected = qtrue;
 
 		// never reject a LAN client based on ping
 		if ( !Sys_IsLANAddress( from ) ) {
@@ -488,10 +490,23 @@ or crashing -- SV_FinalMessage() will handle that
 */
 void SV_DropClient( client_t *drop, const char *reason ) {
 	int i;
+        challenge_t *challenge;
 
 	if ( drop->state == CS_ZOMBIE ) {
 		return;     // already dropped
 	}
+
+        if ( !drop->gentity || (!( drop->gentity->r.svFlags & SVF_BOT ) && !( drop->gentity->r.svFlags & SVF_CASTAI )) ) {
+                // see if we already have a challenge for this ip
+                challenge = &svs.challenges[0];
+
+                for ( i = 0 ; i < MAX_CHALLENGES ; i++, challenge++ ) {
+                        if ( NET_CompareAdr( drop->netchan.remoteAddress, challenge->adr ) ) {
+                                challenge->connected = qfalse;
+                                break;
+                        }    
+                }    
+        } 
 
 	// Kill any download
 	SV_CloseDownload( drop );
