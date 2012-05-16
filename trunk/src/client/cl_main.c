@@ -2213,21 +2213,6 @@ static void CL_Cache_EndGather_f( void ) {
 
 /*
 ================
-CL_MapRestart_f
-================
-*/
-void CL_MapRestart_f( void ) {
-	if ( !com_cl_running ) {
-		return;
-	}
-	if ( !com_cl_running->integer ) {
-		return;
-	}
-	Com_Printf( "This command is no longer functional.\nUse \"loadgame current\" to load the current map." );
-}
-
-/*
-================
 CL_SetRecommended_f
 ================
 */
@@ -2409,18 +2394,6 @@ void CL_InitRef( void ) {
 void CL_ClientDamageCommand( void ) {
 	// do nothing
 }
-
-// NERVE - SMF
-void CL_startMultiplayer_f( void ) {
-#ifdef __MACOS__    //DAJ
-	Sys_StartProcess( "Wolfenstein MP", qtrue );
-#elif defined( __linux__ )
-	Sys_StartProcess( "./wolf.x86", qtrue );
-#else
-	Sys_StartProcess( "WolfMP.exe", qtrue );
-#endif
-}
-// -NERVE - SMF
 
 //----(SA) added
 /*
@@ -2610,17 +2583,13 @@ void CL_Init( void ) {
 	// done.
 
 	// RF, add this command so clients can't bind a key to send client damage commands to the server
+        // fretn ... this mess needs to be cleaned up
 	Cmd_AddCommand( "cld", CL_ClientDamageCommand );
-
-	Cmd_AddCommand( "startMultiplayer", CL_startMultiplayer_f );        // NERVE - SMF
 
 	// TTimo
 	// show_bug.cgi?id=447
 	Cmd_AddCommand( "shellExecute", CL_ShellExecute_URL_f );
 	//Cmd_AddCommand ( "shellExecute", CL_ShellExecute_f );	//----(SA) added (mainly for opening web pages from the menu)
-
-	// RF, prevent users from issuing a map_restart manually
-	Cmd_AddCommand( "map_restart", CL_MapRestart_f );
 
 	Cmd_AddCommand( "setRecommended", CL_SetRecommended_f );
 
