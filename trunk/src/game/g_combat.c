@@ -138,7 +138,7 @@ void TossClientItems( gentity_t *self ) {
 		}
 	}
 
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {  // dropped items stay forever in SP
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_gameskill.integer < GSKILL_MAX ) {  // dropped items stay forever in SP
 		if ( drop ) {
 			drop->nextthink = 0;
 		}
