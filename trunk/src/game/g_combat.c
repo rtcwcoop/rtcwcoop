@@ -138,7 +138,8 @@ void TossClientItems( gentity_t *self ) {
 		}
 	}
 
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_gameskill.integer < GSKILL_MAX ) {  // dropped items stay forever in SP
+	// dropped items stay forever in SP and coop games where NPC's do not respawn
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_gameskill.integer < GSKILL_MAX ) {  
 		if ( drop ) {
 			drop->nextthink = 0;
 		}
@@ -779,6 +780,7 @@ gentity_t* G_BuildHead( gentity_t *ent ) {
 	head->r.contents = CONTENTS_SOLID;
 	head->parent = ent;
 	head->s.eType = ET_TEMPHEAD;
+	head->classname = "playerhead";
 
 	trap_LinkEntity( head );
 

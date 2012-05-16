@@ -448,7 +448,7 @@ gentity_t *G_Spawn( void ) {
 	}
 	if ( i == ENTITYNUM_MAX_NORMAL ) {
 		for ( i = 0; i < MAX_GENTITIES; i++ ) {
-			G_Printf( "%4i: %s\n", i, g_entities[i].classname );
+			G_Printf( "%4i: eType: %i class: %s\n", i, g_entities[i].s.eType, g_entities[i].classname );
 		}
 		G_Error( "G_Spawn: no free entities" );
 	}
