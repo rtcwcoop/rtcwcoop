@@ -1523,11 +1523,13 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	// check to see if they are on the banned IP list
 	value = Info_ValueForKey( userinfo, "ip" );
 
-	// check for a password
-	value = Info_ValueForKey( userinfo, "password" );
-	if ( g_password.string[0] && strcmp( g_password.string, value ) != 0 ) {
-		return "Invalid password";
-	}
+        if ( IsPlayerEnt(ent) && ( strcmp( Info_ValueForKey( userinfo, "ip" ), "localhost" ) != 0 ) ) {
+                // check for a password
+                value = Info_ValueForKey( userinfo, "password" );
+                if ( g_password.string[0] && strcmp( g_password.string, value ) != 0 ) {
+                        return "Invalid password";
+                }
+        }
 
 	// they can connect
 	ent->client = level.clients + clientNum;

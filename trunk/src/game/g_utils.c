@@ -850,6 +850,7 @@ qboolean IsPlayerEnt( gentity_t *ent )
 		&& ent->client
 		&& ent->aiName
 		&& !(ent->r.svFlags & SVF_CASTAI)
+		&& !(ent->r.svFlags & SVF_BOT)
 		&&  !Q_stricmp( ent->aiName, "player" ) )
 	{
 		return qtrue;
