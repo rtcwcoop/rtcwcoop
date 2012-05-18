@@ -442,7 +442,8 @@ gentity_t *G_Spawn( void ) {
 			G_InitGentity( e );
 			return e;
 		}
-		if ( i != MAX_GENTITIES ) {
+
+		if ( i != ENTITYNUM_MAX_NORMAL ) { // cs: was MAX_GENTITIES, but that could never be the case
 			break;
 		}
 	}
