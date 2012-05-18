@@ -414,6 +414,7 @@ void Text_Paint( float x, float y, int font, float scale, vec4_t color, const ch
 	vec4_t newColor;
 	glyphInfo_t *glyph;
 	float useScale;
+        int index;
 
 	fontInfo_t *fnt = &uiInfo.uiDC.Assets.textFont;
 	if ( font == UI_FONT_DEFAULT ) {
@@ -441,7 +442,17 @@ void Text_Paint( float x, float y, int font, float scale, vec4_t color, const ch
 		}
 		count = 0;
 		while ( s && *s && count < len ) {
-			glyph = &fnt->glyphs[*s];
+                        index = (unsigned char)*s;
+
+                        // NERVE - SMF - don't draw tabs and newlines
+                        if ( index < 20 ) {
+                                s++; 
+                                count++;
+                                continue;
+                        }    
+
+                        glyph = &fnt->glyphs[index];           // NERVE - SMF - this needs to be an unsigned cast for localization
+			//glyph = &fnt->glyphs[*s];
 			//int yadj = Assets.textFont.glyphs[text[i]].bottom + Assets.textFont.glyphs[text[i]].top;
 			//float yadj = scale * (Assets.textFont.glyphs[text[i]].imageHeight - Assets.textFont.glyphs[text[i]].height);
 			if ( Q_IsColorString( s ) ) {
@@ -6758,6 +6769,7 @@ This will also be overlaid on the cgame info screen during loading
 to prevent it from blinking away too rapidly on local or lan games.
 ========================
 */
+#define CP_LINEWIDTH 50
 void UI_DrawConnectScreen( qboolean overlay ) {
 	char            *s;
 	uiClientState_t cstate;
