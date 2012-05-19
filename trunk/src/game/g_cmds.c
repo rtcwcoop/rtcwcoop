@@ -2193,6 +2193,7 @@ void Cmd_DrawSpawns_f( gentity_t *clent ) {
 			VectorCopy(playerMaxs, tempEnt->s.angles2); // maxs
 			tempEnt->s.time = 999999; // duration
 			tempEnt->s.solid = 6; // sides
+                        tempEnt->r.svFlags |= SVF_BROADCAST;
 		}
 	}
 }
