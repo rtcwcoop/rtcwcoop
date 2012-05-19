@@ -1352,6 +1352,11 @@ void CG_SpawnSpirit( centity_t *cent ) {
 
 }
 
+// cs: for debug text. these need to match the order of debugText_t
+char *classNameMap[] = {
+    "coop_spawnpoint"
+};
+
 /*
 ==============
 CG_EntityEvent
@@ -2603,6 +2608,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_DBG_AABB:
 		DrawDebugAABB( es->origin, es->angles, es->angles2, es->time, colorRed, es->solid );
+		DrawDebugText( es->origin, classNameMap[es->time2], 999999, 99 );
 		break;
 
 	default:

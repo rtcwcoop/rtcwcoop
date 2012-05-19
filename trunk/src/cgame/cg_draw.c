@@ -2853,6 +2853,7 @@ static void CG_ScreenFade( void ) {
 CG_Draw2D
 =================
 */
+void CG_DrawOnScreenText(void);
 static void CG_Draw2D( void ) {
 
 	// if we are taking a levelshot for the menu, don't draw anything
@@ -2878,6 +2879,7 @@ static void CG_Draw2D( void ) {
 	}
 
 	CG_DrawFlashBlendBehindHUD();
+	CG_DrawOnScreenText();
 
 	if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
 		CG_DrawSpectator();
@@ -3329,6 +3331,15 @@ void CG_InitWorldText( void ) {
 	freeworldtext = &WorldText[0];
 	activeworldtext = NULL;
 }
+
+void CG_ClearWorldText( void ) {
+    int i;
+
+    for( i = 0; i < MAX_WORLDTEXT - 1; i++ ) {
+	activeworldtext[i].endtime = cg.time;
+    }
+}
+
 /*
 ================
 CG_WorldToScreen
@@ -3397,7 +3408,7 @@ void CG_DrawOnScreenText(void) {
 	union 
 	{
 		char		m_RGBA[4];
-		int			m_RGBAi;
+		int		m_RGBAi;
 	} ColorUnion;
 	ColorUnion.m_RGBAi = 0xFFFFFFFF;
 
@@ -3418,7 +3429,7 @@ void CG_DrawOnScreenText(void) {
 			continue;
 		}
 		
-		if( CG_WorldToScreen(worldtext->origin, &x, &y) && DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST )
+		if( CG_WorldToScreen(worldtext->origin, &x, &y) /*&& DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST*/ )
 		{
 			//CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, worldtext->origin, -1, CONTENTS_SOLID);
 
@@ -3446,10 +3457,10 @@ void CG_DrawOnScreenText(void) {
 				vec4_t v4Color;
 				fontInfo_t *font = &cgDC.Assets.bigFont;
 
-				v4Color[0] = (float)ColorUnion.m_RGBA[0]/255.f;
-				v4Color[1] = (float)ColorUnion.m_RGBA[1]/255.f;
-				v4Color[2] = (float)ColorUnion.m_RGBA[2]/255.f;
-				v4Color[3] = (float)ColorUnion.m_RGBA[3]/255.f;				
+				v4Color[0] = 1.0f; /*(float)ColorUnion.m_RGBA[0]/255.f;*/
+				v4Color[1] = 1.0f; /*(float)ColorUnion.m_RGBA[1]/255.f;*/
+				v4Color[2] = 1.0f; /*(float)ColorUnion.m_RGBA[2]/255.f;*/
+				v4Color[3] = 1.0f; /*(float)ColorUnion.m_RGBA[3]/255.f;*/				
 				
 				Q_strncpyz(temp,worldtext->text,1024);
 				tok = strtok(temp,tokens);

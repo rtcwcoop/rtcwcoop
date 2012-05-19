@@ -1738,6 +1738,12 @@ typedef enum
 	NUM_ANIM_COND_IMPACTPOINT
 } animScriptImpactPoint_t;
 
+// cs: to send the class name with event. maps are defined in classNameMap[] (cg_local.h)
+typedef enum
+{
+    COOP_SPAWNPOINT
+} debugText_t;
+
 //------------------------------------------------------------------
 // Global Function Decs
 

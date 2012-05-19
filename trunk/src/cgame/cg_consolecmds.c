@@ -580,12 +580,13 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
 
         // draw the new spawnpoint
         DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorBlue, 6);
+	DrawDebugText(cg.snap->ps.origin, "coop_spawnpoint", 999999, 999);
 }
 
-void OmnibotDisableDrawing();
 static void CG_DisableDebugLines_f( void )
 {
 	OmnibotDisableDrawing();
+	CG_ClearWorldText();
 }
 
 typedef struct {
