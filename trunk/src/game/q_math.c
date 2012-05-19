@@ -284,6 +284,41 @@ qboolean PlaneFromPoints( vec4_t plane, const vec3_t a, const vec3_t b, const ve
 
 /*
 ===============
+RotatePointArountVertex
+
+Rotate a point around a vertex
+===============
+*/
+void RotatePointAroundVertex( vec3_t pnt, float rot_x, float rot_y, float rot_z, const vec3_t origin ) {
+	float tmp[11];
+
+	// move pnt to rel{0,0,0}
+	VectorSubtract( pnt, origin, pnt );
+
+	// init temp values
+	tmp[0] = sin( rot_x );
+	tmp[1] = cos( rot_x );
+	tmp[2] = sin( rot_y );
+	tmp[3] = cos( rot_y );
+	tmp[4] = sin( rot_z );
+	tmp[5] = cos( rot_z );
+	tmp[6] = pnt[1] * tmp[5];
+	tmp[7] = pnt[0] * tmp[4];
+	tmp[8] = pnt[0] * tmp[5];
+	tmp[9] = pnt[1] * tmp[4];
+	tmp[10] = pnt[2] * tmp[3];
+
+	// rotate point
+	pnt[0] = ( tmp[3] * ( tmp[8] - tmp[9] ) + tmp[3] * tmp[2] );
+	pnt[1] = ( tmp[0] * ( tmp[2] * tmp[8] - tmp[2] * tmp[9] - tmp[10] ) + tmp[1] * ( tmp[7] + tmp[6] ) );
+	pnt[2] = ( tmp[1] * ( -tmp[2] * tmp[8] + tmp[2] * tmp[9] + tmp[10] ) + tmp[0] * ( tmp[7] + tmp[6] ) );
+
+	// move pnt back
+	VectorAdd( pnt, origin, pnt );
+}
+
+/*
+===============
 RotatePointAroundVector
 
 This is not implemented very well...

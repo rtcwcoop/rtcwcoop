@@ -827,6 +827,9 @@ typedef enum {
 	EV_CLOSEMENU,   //----(SA)	added
 	EV_SPAWN_SPIRIT,
 
+	// cs: debug rendering
+	EV_DBG_AABB,
+
 	EV_MAX_EVENTS   // just added as an 'endcap'
 
 } entity_event_t;

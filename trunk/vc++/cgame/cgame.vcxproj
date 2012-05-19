@@ -90,6 +90,7 @@
     <ClCompile Include="..\..\src\cgame\cg_main.c" />
     <ClCompile Include="..\..\src\cgame\cg_marks.c" />
     <ClCompile Include="..\..\src\cgame\cg_newDraw.c" />
+    <ClCompile Include="..\..\src\cgame\cg_omnibot.c" />
     <ClCompile Include="..\..\src\cgame\cg_particles.c" />
     <ClCompile Include="..\..\src\cgame\cg_players.c" />
     <ClCompile Include="..\..\src\cgame\cg_playerstate.c" />

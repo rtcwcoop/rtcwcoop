@@ -108,6 +108,9 @@
     <ClCompile Include="..\..\src\game\bg_slidemove.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\cgame\cg_omnibot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\cgame\cg_local.h">

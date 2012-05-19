@@ -2601,6 +2601,10 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_SpawnSpirit( cent );
 		break;
 
+	case EV_DBG_AABB:
+		DrawDebugAABB( es->origin, es->angles, es->angles2, es->time, colorRed, es->solid );
+		break;
+
 	default:
 		DEBUGNAME( "UNKNOWN" );
 		CG_Error( "Unknown event: %i", event );

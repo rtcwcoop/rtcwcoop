@@ -1848,6 +1848,11 @@ qboolean CG_GetTag( int clientNum, char *tagname, orientation_t * or );
 qboolean CG_GetWeaponTag( int clientNum, char *tagname, orientation_t * or );
 
 //
+// cg_omnibot.c
+//
+void DrawDebugAABB( vec3_t origin, float *mins, float *_maxs, int _duration, vec4_t _color, int _side );
+
+//
 // cg_view.c
 //
 void CG_TestModel_f( void );
@@ -1928,6 +1933,8 @@ void CG_ObjectivePrint( const char *str, int charWidth, int team );     // NERVE
 void CG_DrawHead( float x, float y, float w, float h, int clientNum, vec3_t headAngles );
 void CG_DrawActive( stereoFrame_t stereoView );
 void CG_DrawFlagModel( float x, float y, float w, float h, int team );
+
+#define CPri(x) CG_CenterPrint(x, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.2), SMALLCHAR_WIDTH);
 
 void CG_DrawTeamBackground( int x, int y, int w, int h, float alpha, int team );
 void CG_OwnerDraw( float x, float y, float w, float h, float text_x, float text_y, int ownerDraw, int ownerDrawFlags, int align, float special, int font, float scale, vec4_t color, qhandle_t shader, int textStyle );

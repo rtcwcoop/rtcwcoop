@@ -577,8 +577,16 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
         trap_FS_FCloseFile( f );
         CG_Printf( "coop_spawnpoint dumped to '%s' (%i %i %i).\n", entsfilename,
                            (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
+
+        // draw the new spawnpoint
+        DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorBlue, 6);
 }
 
+void OmnibotDisableDrawing();
+static void CG_DisableDebugLines_f( void )
+{
+	OmnibotDisableDrawing();
+}
 
 typedef struct {
 	char    *cmd;
@@ -631,7 +639,9 @@ static consoleCommand_t commands[] = {
 	// -NERVE - SMF
         { "dumploc", CG_DumpLocation_f },
         { "dumpcastai", CG_DumpCastAi_f },
-        { "dumpcoopspawnpoint", CG_DumpCoopSpawnpoint_f }
+        { "dumpcoopspawnpoint", CG_DumpCoopSpawnpoint_f },
+
+	{ "nodebuglines", CG_DisableDebugLines_f }
 };
 
 

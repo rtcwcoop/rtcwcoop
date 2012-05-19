@@ -3177,3 +3177,310 @@ void CG_DrawActive( stereoFrame_t stereoView ) {
 }
 
 
+// cs: omnibot 3d text
+#define COLOR_NULL      '*' // probably should move to q_shared.h
+
+int CG_Text_Width_Ext( const char *text, float scale, int limit, fontInfo_t* font ) {
+	glyphInfo_t *glyph;
+	const char *s = text;
+	float out, useScale = scale * font->glyphScale;
+	
+	out = 0;
+	if( text ) {
+		int len = strlen( text );
+		int count = 0;
+
+		if (limit > 0 && len > limit) {
+			len = limit;
+		}
+
+		while (s && *s && count < len) {
+			if ( Q_IsColorString(s) ) {
+				s += 2;
+				continue;
+			} else {
+				glyph = &font->glyphs[(unsigned char)*s];
+				out += glyph->xSkip;
+				s++;
+				count++;
+			}
+		}
+	}
+
+	return out * useScale;
+}
+
+int CG_Text_Height_Ext( const char *text, float scale, int limit, fontInfo_t* font ) {
+	float max;
+	glyphInfo_t *glyph;
+	float useScale;
+	const char *s = text;
+
+	useScale = scale * font->glyphScale;
+	max = 0;
+	if (text) {
+		int len = strlen( text );
+		int count = 0;
+
+		if (limit > 0 && len > limit) {
+			len = limit;
+		}
+
+		while (s && *s && count < len) {
+			if ( Q_IsColorString(s) ) {
+				s += 2;
+				continue;
+			} else {
+				glyph = &font->glyphs[(unsigned char)*s];
+
+				if (max < glyph->height) {
+					max = glyph->height;
+				}
+
+				s++;
+				count++;
+			}
+		}
+	}
+	return max * useScale;
+}
+
+void CG_Text_PaintChar_Ext(float x, float y, float w, float h, float scalex, float scaley, float s, float t, float s2, float t2, qhandle_t hShader) {
+	w *= scalex;
+	h *= scaley;
+	CG_AdjustFrom640( &x, &y, &w, &h );
+	trap_R_DrawStretchPic( x, y, w, h, s, t, s2, t2, hShader );
+}
+
+void CG_Text_Paint_Ext( float x, float y, float scalex, float scaley, vec4_t color, const char *text, float adjust, int limit, int style, fontInfo_t* font ) {
+	int len, count;
+	vec4_t newColor;
+	glyphInfo_t *glyph;
+
+	scalex *= font->glyphScale;
+	scaley *= font->glyphScale;
+
+	if (text) {
+		const char *s = text;
+		trap_R_SetColor( color );
+		memcpy(&newColor[0], &color[0], sizeof(vec4_t));
+		len = strlen(text);
+		if (limit > 0 && len > limit) {
+			len = limit;
+		}
+		count = 0;
+		while (s && *s && count < len) {
+			glyph = &font->glyphs[(unsigned char)*s];
+			if ( Q_IsColorString( s ) ) {
+				if( *(s+1) == COLOR_NULL ) {
+					memcpy( newColor, color, sizeof(newColor) );
+				} else {
+					memcpy( newColor, g_color_table[ColorIndex(*(s+1))], sizeof( newColor ) );
+					newColor[3] = color[3];
+				}
+				trap_R_SetColor( newColor );
+				s += 2;
+				continue;
+			} else {
+				float yadj = scaley * glyph->top;
+				if (style == ITEM_TEXTSTYLE_SHADOWED || style == ITEM_TEXTSTYLE_SHADOWEDMORE) {
+					int ofs = style == ITEM_TEXTSTYLE_SHADOWED ? 1 : 2;
+					colorBlack[3] = newColor[3];
+					trap_R_SetColor( colorBlack );
+					CG_Text_PaintChar_Ext(x + (glyph->pitch * scalex) + ofs, y - yadj + ofs, glyph->imageWidth, glyph->imageHeight, scalex, scaley, glyph->s, glyph->t, glyph->s2, glyph->t2, glyph->glyph);
+					colorBlack[3] = 1.0;
+					trap_R_SetColor( newColor );
+				}
+				CG_Text_PaintChar_Ext(x + (/*glyph->pitch **/ scalex), y - yadj, glyph->imageWidth, glyph->imageHeight, scalex, scaley, glyph->s, glyph->t, glyph->s2, glyph->t2, glyph->glyph);
+				x += (glyph->xSkip * scalex) + adjust;
+				s++;
+				count++;
+			}
+		}
+		trap_R_SetColor( NULL );
+	}
+}
+
+#define MAX_WORLDTEXT 64
+#define MAX_TEXTLENGTH 256 // fix for 3d waypoint text
+#define MAX_RENDERDIST 2500
+
+typedef struct onsText_s 
+{
+	struct onsText_s *next;
+	int			endtime;
+	int			color;
+	char		text[MAX_TEXTLENGTH];
+	vec3_t		origin;
+} onsText_t;
+
+static onsText_t WorldText[MAX_WORLDTEXT];
+static onsText_t * freeworldtext;			// List of world text
+static onsText_t * activeworldtext;			// List of world text
+
+void CG_InitWorldText( void ) {
+	int i;
+
+	memset( &WorldText, 0, sizeof(WorldText) );
+	for( i = 0; i < MAX_WORLDTEXT - 1; i++ ) {
+		WorldText[i].next = &WorldText[i+1];
+	}
+
+	freeworldtext = &WorldText[0];
+	activeworldtext = NULL;
+}
+/*
+================
+CG_WorldToScreen
+================
+*/
+qboolean CG_WorldToScreen(vec3_t point, float *x, float *y)
+{
+	vec3_t          trans;
+	float           xc, yc;
+	float           px, py;
+	float           z;
+
+	px = tan(cg.refdef.fov_x * M_PI / 360.0);
+	py = tan(cg.refdef.fov_y * M_PI / 360.0);
+
+	VectorSubtract(point, cg.refdef.vieworg, trans);
+
+	xc = 640.0f / 2.0f;
+	yc = 480.0f / 2.0f;
+
+	z = DotProduct(trans, cg.refdef.viewaxis[0]);
+	if(z <= 0.001f)
+		return qfalse;
+
+	if(x)
+		*x = xc - DotProduct(trans, cg.refdef.viewaxis[1]) * xc / (z * px);
+
+	if(y)
+		*y = yc - DotProduct(trans, cg.refdef.viewaxis[2]) * yc / (z * py);
+
+	return qtrue;
+}
+
+qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float duration )
+{
+	onsText_t *worldtext = freeworldtext;
+	if (!worldtext) return qfalse;
+
+	freeworldtext = worldtext->next;
+	worldtext->next=activeworldtext;
+	activeworldtext=worldtext;
+
+	/*With persistance, it doesn't make sense to cull it
+	if(!CG_WorldToScreen(origin, &x, &y)) {
+		activeworldtext=worldtext->next;
+		worldtext->next=freeworldtext;
+		freeworldtext=worldtext;
+		return qfalse;
+	}*/
+
+	VectorCopy(origin, worldtext->origin);
+	/*worldtext->x = x;
+	worldtext->y = y;*/
+	worldtext->endtime = cg.time + (int)((float)duration * 1000.f);
+	worldtext->color = _color;
+	Q_strncpyz(worldtext->text,text,MAX_TEXTLENGTH);
+	return qtrue;
+}
+
+void CG_DrawOnScreenText(void) {
+	onsText_t *worldtext;
+	onsText_t * * whereworldtext;
+	//trace_t	tr;
+	const float fTxtScale = 0.17f;
+	float x,y;
+	union 
+	{
+		char		m_RGBA[4];
+		int			m_RGBAi;
+	} ColorUnion;
+	ColorUnion.m_RGBAi = 0xFFFFFFFF;
+
+	/* Render/Move the world text */
+	worldtext = activeworldtext;
+	whereworldtext=&activeworldtext;
+
+	while( worldtext ) 
+	{
+		/* Check for expiration */
+		if(worldtext->endtime < cg.time) 
+		{
+			/* Clear up this world text */
+			*whereworldtext=worldtext->next;
+			worldtext->next=freeworldtext;
+			freeworldtext=worldtext;
+			worldtext=*whereworldtext;
+			continue;
+		}
+		
+		if( CG_WorldToScreen(worldtext->origin, &x, &y) && DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST )
+		{
+			//CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, worldtext->origin, -1, CONTENTS_SOLID);
+
+			///* Check for in a solid */
+			//if(tr.fraction < 1.0f) 
+			//{
+			//	/* Clear up this world text */
+			//	*whereworldtext=worldtext->next;
+			//	worldtext->next=freeworldtext;
+			//	freeworldtext=worldtext;
+			//	worldtext=*whereworldtext;
+			//	continue;
+			//}
+
+			ColorUnion.m_RGBAi = worldtext->color;
+
+			//FIXME - use correct function for each game, and handle new lines as well.
+			//FIXME - need to make the text follow around instead of creating a new paint each time...
+
+			{
+				const char *tokens = "\n";
+				const char *tok = 0;
+				char temp[1024];
+				int heightOffset = 0;
+				vec4_t v4Color;
+				fontInfo_t *font = &cgDC.Assets.bigFont;
+
+				v4Color[0] = (float)ColorUnion.m_RGBA[0]/255.f;
+				v4Color[1] = (float)ColorUnion.m_RGBA[1]/255.f;
+				v4Color[2] = (float)ColorUnion.m_RGBA[2]/255.f;
+				v4Color[3] = (float)ColorUnion.m_RGBA[3]/255.f;				
+				
+				Q_strncpyz(temp,worldtext->text,1024);
+				tok = strtok(temp,tokens);
+				while(tok)
+				{
+					const int width = CG_Text_Width_Ext(tok,fTxtScale,0, font);
+					const int height = CG_Text_Height_Ext(tok,fTxtScale,0, font);
+
+					CG_Text_Paint_Ext(
+						x - (width * 0.5), 
+						y + heightOffset,
+						fTxtScale,
+						fTxtScale,
+						v4Color, 
+						tok, 
+						0, 0, 
+						ITEM_TEXTSTYLE_NORMAL,
+						font);
+
+					heightOffset += height*1.5;
+					tok = strtok(NULL,tokens);
+				}
+			}
+		}		
+
+		/*CG_Text_Paint(worldtext->x, worldtext->y, fTxtScale, colorWhite, worldtext->text, 
+			0, 0, ITEM_TEXTSTYLE_NORMAL);*/
+		trap_R_SetColor(NULL);
+
+		whereworldtext=&worldtext->next;
+		worldtext = worldtext->next;
+	}
+}
+

@@ -950,6 +950,7 @@ WOLFCGOBJ_ = \
   $(B)/main/cgame/cg_localents.o \
   $(B)/main/cgame/cg_marks.o \
   $(B)/main/cgame/cg_newDraw.o \
+  $(B)/main/cgame/cg_omnibot.o \
   $(B)/main/cgame/cg_particles.o \
   $(B)/main/cgame/cg_players.o \
   $(B)/main/cgame/cg_playerstate.o \

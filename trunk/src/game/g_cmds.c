@@ -2171,6 +2171,34 @@ void Cmd_SetSpawnPoint_f( gentity_t *clent ) {
 // -NERVE - SMF
 
 /*
+============
+Cmd_DrawSpawns_f
+============
+*/
+void Cmd_DrawSpawns_f( gentity_t *clent ) {
+	gentity_t *ent;
+	gentity_t *tempEnt;
+	int i;
+	vec3_t playerMins = {-18, -18, -24};
+	vec3_t playerMaxs = {18, 18, 48};
+	
+	ent = g_entities + MAX_CLIENTS;
+	for ( i = MAX_CLIENTS; i < MAX_GENTITIES; i++, ent++ ) {
+		if ( !Q_stricmp(ent->classname, "coop_spawnpoint") ) {
+			tempEnt = G_TempEntity(ent->r.currentOrigin, EV_DBG_AABB);
+
+			// in the spirit of this sdk, abuse some existing fields ...
+			VectorCopy(ent->r.currentOrigin, tempEnt->s.origin);
+			VectorCopy(playerMins, tempEnt->s.angles); // mins
+			VectorCopy(playerMaxs, tempEnt->s.angles2); // maxs
+			tempEnt->s.time = 999999; // duration
+			tempEnt->s.solid = 6; // sides
+		}
+	}
+}
+
+
+/*
 =================
 ClientCommand
 =================
@@ -2300,6 +2328,8 @@ void ClientCommand( int clientNum ) {
 		Cmd_SetSpawnPoint_f( ent );
 	} else if ( Q_stricmp( cmd, "dropammo" ) == 0 ) {
                 Cmd_DropAmmo_f( ent );
+	} else if ( Q_stricmp( cmd, "drawspawns" ) == 0 ) {
+                Cmd_DrawSpawns_f( ent );
 	} else {
 		trap_SendServerCommand( clientNum, va( "print \"unknown cmd %s\n\"", cmd ) );
 	}
