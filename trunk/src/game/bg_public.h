@@ -1738,7 +1738,7 @@ typedef enum
 	NUM_ANIM_COND_IMPACTPOINT
 } animScriptImpactPoint_t;
 
-// cs: to send the class name with event. maps are defined in classNameMap[] (cg_local.h)
+// cs: to send the class name with event. maps are defined in classNameMap[] (cg_event.c)
 typedef enum
 {
     COOP_SPAWNPOINT
