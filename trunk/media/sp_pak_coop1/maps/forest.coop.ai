@@ -183,7 +183,7 @@ player
 
 	trigger endmap
 	{
-		accum 1 abort_if_not_equal 4
+		accum 1 abort_if_less_than 4
 		trigger dialog ending
 	}
 
