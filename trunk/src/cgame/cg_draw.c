@@ -2879,7 +2879,10 @@ static void CG_Draw2D( void ) {
 	}
 
 	CG_DrawFlashBlendBehindHUD();
-	CG_DrawOnScreenText();
+
+	if ( cgs.localServer ) {
+	    CG_DrawOnScreenText();
+	}
 
 	if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
 		CG_DrawSpectator();
@@ -3303,8 +3306,8 @@ void CG_Text_Paint_Ext( float x, float y, float scalex, float scaley, vec4_t col
 	}
 }
 
-#define MAX_WORLDTEXT 64
-#define MAX_TEXTLENGTH 256 // fix for 3d waypoint text
+#define MAX_WORLDTEXT 128
+#define MAX_TEXTLENGTH 512 // fix for 3d waypoint text
 #define MAX_RENDERDIST 2500
 
 typedef struct onsText_s 
@@ -3336,6 +3339,7 @@ void CG_ClearWorldText( void ) {
     int i;
 
     for( i = 0; i < MAX_WORLDTEXT - 1; i++ ) {
+	WorldText[i].endtime = cg.time;
 	activeworldtext[i].endtime = cg.time;
     }
 }
@@ -3429,7 +3433,7 @@ void CG_DrawOnScreenText(void) {
 			continue;
 		}
 		
-		if( CG_WorldToScreen(worldtext->origin, &x, &y) /*&& DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST*/ )
+		if( CG_WorldToScreen(worldtext->origin, &x, &y) && DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST )
 		{
 			//CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, worldtext->origin, -1, CONTENTS_SOLID);
 

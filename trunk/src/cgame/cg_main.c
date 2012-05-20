@@ -2350,7 +2350,9 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
                 coop_ParseFog(buf);
         }    
 
-	CG_InitWorldText();
+	if ( cgs.localServer ) {
+	    CG_InitWorldText();
+	}
 }
 
 /*

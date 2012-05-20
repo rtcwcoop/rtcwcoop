@@ -582,6 +582,7 @@ void DrawDebugText(float *_start, const char *_msg, int _duration, int _color)
 		int			m_RGBAi;
 	} ColorUnion;
 	ColorUnion.m_RGBAi = 0xFFFFFFFF;
+
 	if(_start && !VectorCompare(_start, vec3_origin))
 	{
 		vec3_t v3;

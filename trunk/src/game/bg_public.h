@@ -1741,7 +1741,8 @@ typedef enum
 // cs: to send the class name with event. maps are defined in classNameMap[] (cg_event.c)
 typedef enum
 {
-    COOP_SPAWNPOINT
+    COOP_SPAWNPOINT,
+    AI_TRIGGER
 } debugText_t;
 
 //------------------------------------------------------------------

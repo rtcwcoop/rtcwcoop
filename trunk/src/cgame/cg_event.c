@@ -1354,7 +1354,8 @@ void CG_SpawnSpirit( centity_t *cent ) {
 
 // cs: for debug text. these need to match the order of debugText_t
 char *classNameMap[] = {
-    "coop_spawnpoint"
+    "coop_spawnpoint",
+    "ai_trigger"
 };
 
 /*
@@ -2607,9 +2608,24 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		break;
 
 	case EV_DBG_AABB:
+	    if ( !cgs.localServer ) {
+		return;
+	    }
+
+	    {
+		vec3_t origin;
 		DrawDebugAABB( es->origin, es->angles, es->angles2, es->time, colorRed, es->solid );
-		DrawDebugText( es->origin, classNameMap[es->time2], 999999, 99 );
-		break;
+
+		VectorCopy(es->origin, origin);
+		if (origin[0] == 0 && origin[1] == 0 && origin[2] == 0) {
+		    origin[0] = (es->angles2[0] + es->angles[0]) * 0.5f;
+		    origin[1] = (es->angles2[1] + es->angles[1]) * 0.5f;
+		    origin[2] = (es->angles2[2] + es->angles[2]) * 0.5f;
+		}
+
+		DrawDebugText( origin, classNameMap[es->time2], 999999, 99 );
+	    }
+	    break;
 
 	default:
 		DEBUGNAME( "UNKNOWN" );
