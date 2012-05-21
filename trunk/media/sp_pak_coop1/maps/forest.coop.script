@@ -135,12 +135,13 @@ dialog
 		accum 1 set 0 // 1 = cutscene started
 		accum 2 set 0 // 1 = house 2 dead
 		accum 3 set 0 // 1 = stop cutscene from starting
+		accum 4 set 0 // objectives
 	}	
 
 	trigger alarmon
 	{
-		accum 0 set 1 // 1 = alarmset no new ambient dialog.
-		resetscript // stop current dialog
+		//accum 0 set 1 // 1 = alarmset no new ambient dialog.
+		//resetscript // stop current dialog
 	}
 
 	trigger parachute
@@ -206,7 +207,7 @@ dialog
 		wait 400
 		trigger alarm incutscene
 		trigger player endcamera1
-		alertentity bj
+		//alertentity bj
 		trigger player movetruck
 		wait 10000
 		trigger player endcamera2
@@ -216,13 +217,40 @@ dialog
 
 	trigger clearend
 	{
-		accum 3 set 1 // dont let cutscene start
-		accum 1 abort_if_not_equal 1
-		resetscript
-		trigger player clearcam
+		//accum 3 set 1 // dont let cutscene start
+		//accum 1 abort_if_not_equal 1
+		//resetscript
+		//trigger player clearcam
 	}
 
+	trigger gamemanager
+	{
+		accum 4 abort_if_not_bitset 0
+		accum 4 abort_if_not_bitset 1
+		accum 4 abort_if_not_bitset 2
+		accum 4 abort_if_not_bitset 3
+		trigger dialog ending
+	}
+	
+	trigger objective1
+	{
+		accum 4 bitset 0
+	}
 
+	trigger objective2
+	{
+		accum 4 bitset 1
+	}
+
+	trigger objective3
+	{
+		accum 4 bitset 2
+	}
+
+	trigger objective4
+	{
+		accum 4 bitset 3
+	}
 }
 
 post1
