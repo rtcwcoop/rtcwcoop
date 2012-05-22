@@ -3340,8 +3340,9 @@ void CG_ClearWorldText( void ) {
 
     for( i = 0; i < MAX_WORLDTEXT - 1; i++ ) {
 	WorldText[i].endtime = cg.time;
-	activeworldtext[i].endtime = cg.time;
     }
+
+    activeworldtext = NULL;
 }
 
 /*
@@ -3433,7 +3434,7 @@ void CG_DrawOnScreenText(void) {
 			continue;
 		}
 		
-		if( CG_WorldToScreen(worldtext->origin, &x, &y) && DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST )
+		if( CG_WorldToScreen(worldtext->origin, &x, &y) && PointVisible(worldtext->origin) && DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST )
 		{
 			//CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, worldtext->origin, -1, CONTENTS_SOLID);
 

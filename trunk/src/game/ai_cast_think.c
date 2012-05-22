@@ -585,7 +585,10 @@ void AICast_Think( int client, float thinktime ) {
 				ent->client->ps.eFlags |= EF_NO_TURN_ANIM;
 
 				// play the revive animation
-				cs->revivingTime = level.time + BG_AnimScriptEvent( &ent->client->ps, ANIM_ET_REVIVE, qfalse, qtrue );;
+				cs->revivingTime = level.time + BG_AnimScriptEvent( &ent->client->ps, ANIM_ET_REVIVE, qfalse, qtrue );
+
+				AICast_StateChange( cs, AISTATE_ALERT );
+				cs->enemyNum = -1;
 			} else {
 				// can't spawn yet, so set bbox back, and wait
 				ent->r.maxs[2] = oldmaxZ;

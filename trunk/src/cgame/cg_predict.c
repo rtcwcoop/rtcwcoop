@@ -182,6 +182,29 @@ void    CG_Trace( trace_t *result, const vec3_t start, const vec3_t mins, const 
 	*result = t;
 }
 
+void	CG_Trace_World( trace_t *result, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, 
+					 int skipNumber, int mask ) {
+	trace_t	t;
+
+	trap_CM_BoxTrace ( &t, start, end, mins, maxs, 0, mask );
+	t.entityNum = t.fraction != 1.0 ? ENTITYNUM_WORLD : ENTITYNUM_NONE;
+
+	*result = t;
+}
+
+qboolean PointVisible( vec3_t point ) {
+    trace_t trace;
+    //vec3_t tmp;
+
+    CG_Trace_World( &trace, cg.refdef.vieworg, NULL, NULL, point, 0, MASK_SOLID );
+
+    if ( trace.fraction != 1.0 ) {
+	return qfalse;
+    }
+
+    return qtrue;
+} 
+
 /*
 ================
 CG_TraceCapsule
@@ -236,7 +259,6 @@ int     CG_PointContents( const vec3_t point, int passEntityNum ) {
 
 	return contents;
 }
-
 
 /*
 ========================
