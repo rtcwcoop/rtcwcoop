@@ -124,7 +124,6 @@ itemDef {
 	backcolor .4 .4 .4 .6  
 	visible 1 
 	action {
-			uiScript clientCheckVote ;
 			open ingame_callvote ; close ingame_quick }
 	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
 	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
