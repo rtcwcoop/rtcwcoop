@@ -44,7 +44,7 @@ menuDef
 	{
 		name window
 		group grpControlbutton
-		rect 0 2 443 300	
+		rect 0 2 443 325
 		style WINDOW_STYLE_FILLED
 		border 1
 		bordercolor .5 .5 .5 .5

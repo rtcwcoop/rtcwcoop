@@ -23,7 +23,7 @@ menuDef {
 itemDef {
 	name window
 	group ingamebox	
-	rect 0 2 443 315
+	rect 0 2 443 330
 	style WINDOW_STYLE_FILLED
 	border 1
 	bordercolor .5 .5 .5 .5
