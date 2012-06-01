@@ -3024,7 +3024,7 @@ void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 					DC->setOverstrikeMode( qtrue );
 				}
 			} else {
-				if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
+				if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) || Rect_ContainsPoint( Item_CorrectedTextRect(item) , DC->cursorx, DC->cursory )) {
 					Item_Action( item );
 				}
 			}
@@ -4635,8 +4635,7 @@ void Menu_HandleMouseMove( menuDef_t *menu, float x, float y ) {
 			}
 
 
-
-			if ( Rect_ContainsPoint( &menu->items[i]->window.rect, x, y ) ) {
+			if ( Rect_ContainsPoint( &menu->items[i]->window.rect, x, y ) || Rect_ContainsPoint( Item_CorrectedTextRect( menu->items[i] ), x, y )) {
 				if ( pass == 1 ) {
 					overItem = menu->items[i];
 					if ( overItem->type == ITEM_TYPE_TEXT && overItem->text ) {

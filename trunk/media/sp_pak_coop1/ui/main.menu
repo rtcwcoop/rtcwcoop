@@ -275,7 +275,7 @@ menuDef {
 		type 1
 		style 0
 		textstyle 6
-		rect 180 160 72 14
+		rect 180 160 14 14
 		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
@@ -295,7 +295,7 @@ menuDef {
 		type 1
 		style 0
 		textstyle 6
-		rect 180 180 72 14
+		rect 180 180 14 14
 		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
@@ -330,7 +330,7 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 180 240 137 14 
+		rect 180 240 14 14 
 		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
@@ -353,7 +353,7 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 180 260 137 14 
+		rect 180 260 14 14 
 		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
@@ -377,7 +377,7 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 180 300 56 14 
+		rect 180 300 1414141414141414141414141414 14 
 		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
@@ -398,7 +398,7 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 180 320 56 14
+		rect 180 320 14 14
 		textalign ITEM_ALIGN_CENTER
 		textscale .25		
 		textalignx 0
@@ -418,7 +418,7 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 180 360 32 14 
+		rect 180 360 14 14 
 		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
