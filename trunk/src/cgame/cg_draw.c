@@ -547,10 +547,6 @@ CG_DrawCoopOverlay
 
 int maxCharsBeforeOverlay;
 
-// set in CG_ParseTeamInfo
-int sortedTeamPlayers[TEAM_MAXOVERLAY];
-int numSortedTeamPlayers;
-
 #define TEAM_OVERLAY_MAXNAME_WIDTH  16
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  20
 
