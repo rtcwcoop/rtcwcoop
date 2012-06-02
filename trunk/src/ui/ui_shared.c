@@ -2975,6 +2975,7 @@ void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 	// default handling
 	switch ( key ) {
 
+        case K_CTRL:
 	case K_F11:
 		if ( DC->getCVarValue( "developer" ) ) {
 			debugMode ^= 1;
