@@ -587,7 +587,7 @@ void AICast_Think( int client, float thinktime ) {
 				// play the revive animation
 				cs->revivingTime = level.time + BG_AnimScriptEvent( &ent->client->ps, ANIM_ET_REVIVE, qfalse, qtrue );
 
-				AICast_StateChange( cs, AISTATE_ALERT );
+				AICast_StateChange( cs, AISTATE_RELAXED );
 				cs->enemyNum = -1;
 			} else {
 				// can't spawn yet, so set bbox back, and wait

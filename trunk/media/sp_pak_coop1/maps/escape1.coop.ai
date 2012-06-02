@@ -138,6 +138,7 @@ player
 	trigger action3
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		trigger spawner zone1calm
 		trigger nazi2 nohelp
 		trigger alarm exitcells
@@ -372,6 +373,11 @@ player
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+	}
+	
+	trigger exitmap
 	{
 		changelevel escape2 persistent
 	}

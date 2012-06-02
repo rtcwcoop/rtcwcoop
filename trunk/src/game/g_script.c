@@ -873,8 +873,11 @@ void SP_script_multiplayer( gentity_t *ent ) {
 		G_Error( "%s must have a \"scriptname\"\n", ent->classname );
 	}
 
-	ent->s.eType = ET_INVISIBLE;
+	if ( Q_stricmp( ent->scriptName, "game_manager" ) ) {
+		G_Error( "%s must have a \"scriptname\" of 'game_manager'\n", ent->classname );
+	}
 
+	ent->s.eType = ET_INVISIBLE;
 	ent->r.svFlags |= SVF_NOCLIENT;     // only broadcast when in use
 }
 

@@ -915,7 +915,7 @@ void ClientThink_real( gentity_t *ent ) {
                                                 // drop the current weapon
 						weapon = client->ps.weapon;
 
-						if ( COM_BitCheck( client->ps.weapons,weapon ) && weapon != WP_KNIFE) {
+						if ( COM_BitCheck( client->ps.weapons,weapon ) && weapon != WP_KNIFE && weapon != WP_NONE ) {
 
 							item = BG_FindItemForWeapon( weapon );
 							VectorCopy( client->ps.viewangles, angles );

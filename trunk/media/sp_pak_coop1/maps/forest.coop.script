@@ -3,6 +3,42 @@
 //Map: Forest
 //Last edited by: Dan
 //
+game_manager
+{
+	spawn
+	{
+		accum 0 set 0 // objectives
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_not_bitset 3
+		accum 0 abort_if_not_bitset 4
+		trigger dialog ending
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+
+	trigger objective3
+	{
+		accum 0 bitset 3
+	}
+
+	trigger objective4
+	{
+		accum 0 bitset 4
+	}
+}
 
 spawner
 {
@@ -222,35 +258,6 @@ dialog
 		//resetscript
 		//trigger player clearcam
 	}
-
-	trigger gamemanager
-	{
-		accum 4 abort_if_not_bitset 0
-		accum 4 abort_if_not_bitset 1
-		accum 4 abort_if_not_bitset 2
-		accum 4 abort_if_not_bitset 3
-		trigger dialog ending
-	}
-	
-	trigger objective1
-	{
-		accum 4 bitset 0
-	}
-
-	trigger objective2
-	{
-		accum 4 bitset 1
-	}
-
-	trigger objective3
-	{
-		accum 4 bitset 2
-	}
-
-	trigger objective4
-	{
-		accum 4 bitset 3
-	}
 }
 
 post1
@@ -280,7 +287,8 @@ t2body
 
 	trigger nazi4nogate
 	{
-		accum 0 set 1
+		// cs: we don't ever want the truck stuck at first gate
+		//accum 0 set 1
 	}
 
 	trigger begin2
