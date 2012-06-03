@@ -82,13 +82,13 @@ LineList g_DebugLines = { 0,0,0 };
 
 //////////////////////////////////////////////////////////////////////////
 
-void OmnibotDisableDrawing() {
+void OmnibotDisableDrawing(void) {
 	ClearLineList( &g_DebugLines, qtrue );
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void OmnibotRenderDebugLines() {
+void OmnibotRenderDebugLines(void) {
 	int i;
 
 	for ( i = 0; i < g_DebugLines.m_NumDebugLines; ++i )
@@ -396,7 +396,7 @@ void CG_DrawDebugPolygon( UdpDebugPolygonMessage *_polyinfo ) {
 
 //////////////////////////////////////////////////////////////////////////
 
-void SetupLineList() {
+void SetupLineList(void) {
 	InitLineList(&g_DebugLines, 1000);
 }
 
@@ -565,7 +565,6 @@ void DrawDebugPolygon( vec3_t *verts, int _numverts, int _duration, int _color )
 
 int             cg_LastScreenMessageTime = 0; // ensiform's fix for fpinfo render
 
-qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float duration );
 //void DrawDebugText(const float *_start, const char *_msg, int _duration, int _color)
 //{
 //	vec3_t v3;// = { _start[0],_start[1],_start[2] };

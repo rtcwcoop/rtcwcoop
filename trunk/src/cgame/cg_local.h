@@ -1852,7 +1852,8 @@ qboolean CG_GetWeaponTag( int clientNum, char *tagname, orientation_t * or );
 //
 void DrawDebugAABB( vec3_t origin, float *mins, float *_maxs, int _duration, vec4_t _color, int _side );
 void DrawDebugText(float *_start, const char *_msg, int _duration, int _color);
-void OmnibotDisableDrawing();
+void OmnibotDisableDrawing(void);
+void OmnibotRenderDebugLines(void);
 
 //
 // cg_view.c
@@ -1967,6 +1968,7 @@ void CG_ApplyShakeCamera();
 
 void CG_InitWorldText( void );
 void CG_ClearWorldText( void );
+qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float duration );
 
 //
 // cg_player.c
