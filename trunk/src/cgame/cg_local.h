@@ -1642,6 +1642,13 @@ typedef struct {
 
 } cgs_t;
 
+
+typedef struct omnicolor_s
+{    
+        char            m_RGBA[4];
+        int             m_RGBAi;
+} omnicolor_t;
+
 //==============================================================================
 
 extern cgs_t cgs;
@@ -1969,6 +1976,7 @@ void CG_ApplyShakeCamera();
 void CG_InitWorldText( void );
 void CG_ClearWorldText( void );
 qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float duration );
+void CG_DrawOnScreenText(void);
 
 //
 // cg_player.c

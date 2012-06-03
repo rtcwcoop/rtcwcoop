@@ -2849,7 +2849,6 @@ static void CG_ScreenFade( void ) {
 CG_Draw2D
 =================
 */
-void CG_DrawOnScreenText(void);
 static void CG_Draw2D( void ) {
 
 	// if we are taking a levelshot for the menu, don't draw anything
@@ -3404,13 +3403,10 @@ void CG_DrawOnScreenText(void) {
 	onsText_t *worldtext;
 	onsText_t * * whereworldtext;
 	//trace_t	tr;
-	const float fTxtScale = 0.17f;
+	//const float fTxtScale = 0.17f;
+	const float fTxtScale = 0.25f;
 	float x,y;
-	union 
-	{
-		char		m_RGBA[4];
-		int		m_RGBAi;
-	} ColorUnion;
+        omnicolor_t ColorUnion;
 	ColorUnion.m_RGBAi = 0xFFFFFFFF;
 
 	/* Render/Move the world text */

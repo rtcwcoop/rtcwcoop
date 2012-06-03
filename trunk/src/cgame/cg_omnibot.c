@@ -575,11 +575,8 @@ int             cg_LastScreenMessageTime = 0; // ensiform's fix for fpinfo rende
 // ensiform's updated func to fix fpinfo
 void DrawDebugText(float *_start, const char *_msg, int _duration, int _color)
 {
-	union 
-	{
-		char		m_RGBA[4];
-		int			m_RGBAi;
-	} ColorUnion;
+        omnicolor_t ColorUnion;
+
 	ColorUnion.m_RGBAi = 0xFFFFFFFF;
 
 	if(_start && !VectorCompare(_start, vec3_origin))
