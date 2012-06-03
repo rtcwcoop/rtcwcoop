@@ -377,7 +377,7 @@ itemDef {
 		type 1
 		style 0	
 		textstyle 6
-		rect 180 300 1414141414141414141414141414 14 
+		rect 180 300 1414 14 
 		textalign ITEM_ALIGN_CENTER
 		textscale .25	
 		textalignx 0
