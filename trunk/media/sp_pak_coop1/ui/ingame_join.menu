@@ -577,6 +577,7 @@ menuDef {
 			forecolor 1 1 1 1
 			visible 1
 			decoration
+                }
 
 
 // End of Join Server Section
