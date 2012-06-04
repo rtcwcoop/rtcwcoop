@@ -492,6 +492,7 @@ void CG_RegisterCvars( void ) {
 	char var[MAX_TOKEN_CHARS];
 
 	trap_Cvar_Set( "cg_letterbox", "0" ); // force this for people who might have it in their
+	trap_Cvar_Set( "_pregame", "0" ); // cs: this needs reset every time
 
 	for ( i = 0, cv = cvarTable ; i < cvarTableSize ; i++, cv++ ) {
 		trap_Cvar_Register( cv->vmCvar, cv->cvarName,
