@@ -3309,7 +3309,7 @@ typedef struct onsText_s
 {
 	struct onsText_s *next;
 	int			endtime;
-	int			color;
+	vec4_t			color;
 	char		text[MAX_TEXTLENGTH];
 	vec3_t		origin;
 } onsText_t;
@@ -3373,7 +3373,7 @@ qboolean CG_WorldToScreen(vec3_t point, float *x, float *y)
 	return qtrue;
 }
 
-qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float duration )
+qboolean CG_AddOnScreenText( const char *text, vec3_t origin, vec4_t color, float duration )
 {
 	onsText_t *worldtext = freeworldtext;
 	if (!worldtext) return qfalse;
@@ -3382,19 +3382,9 @@ qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float 
 	worldtext->next=activeworldtext;
 	activeworldtext=worldtext;
 
-	/*With persistance, it doesn't make sense to cull it
-	if(!CG_WorldToScreen(origin, &x, &y)) {
-		activeworldtext=worldtext->next;
-		worldtext->next=freeworldtext;
-		freeworldtext=worldtext;
-		return qfalse;
-	}*/
-
 	VectorCopy(origin, worldtext->origin);
-	/*worldtext->x = x;
-	worldtext->y = y;*/
 	worldtext->endtime = cg.time + (int)((float)duration * 1000.f);
-	worldtext->color = _color;
+	VectorCopy4(color, worldtext->color);
 	Q_strncpyz(worldtext->text,text,MAX_TEXTLENGTH);
 	return qtrue;
 }
@@ -3402,12 +3392,8 @@ qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float 
 void CG_DrawOnScreenText(void) {
 	onsText_t *worldtext;
 	onsText_t * * whereworldtext;
-	//trace_t	tr;
-	//const float fTxtScale = 0.17f;
 	const float fTxtScale = 0.25f;
 	float x,y;
-        omnicolor_t ColorUnion;
-	ColorUnion.m_RGBAi = 0xFFFFFFFF;
 
 	/* Render/Move the world text */
 	worldtext = activeworldtext;
@@ -3428,63 +3414,35 @@ void CG_DrawOnScreenText(void) {
 		
 		if( CG_WorldToScreen(worldtext->origin, &x, &y) && PointVisible(worldtext->origin) && DistanceSquared(cg.refdef.vieworg, worldtext->origin) < MAX_RENDERDIST * MAX_RENDERDIST )
 		{
-			//CG_Trace(&tr, cg.refdef.vieworg, NULL, NULL, worldtext->origin, -1, CONTENTS_SOLID);
-
-			///* Check for in a solid */
-			//if(tr.fraction < 1.0f) 
-			//{
-			//	/* Clear up this world text */
-			//	*whereworldtext=worldtext->next;
-			//	worldtext->next=freeworldtext;
-			//	freeworldtext=worldtext;
-			//	worldtext=*whereworldtext;
-			//	continue;
-			//}
-
-			ColorUnion.m_RGBAi = worldtext->color;
-
-			//FIXME - use correct function for each game, and handle new lines as well.
-			//FIXME - need to make the text follow around instead of creating a new paint each time...
-
-			{
-				const char *tokens = "\n";
-				const char *tok = 0;
-				char temp[1024];
-				int heightOffset = 0;
-				vec4_t v4Color;
-				fontInfo_t *font = &cgDC.Assets.bigFont;
-
-				v4Color[0] = 1.0f; /*(float)ColorUnion.m_RGBA[0]/255.f;*/
-				v4Color[1] = 1.0f; /*(float)ColorUnion.m_RGBA[1]/255.f;*/
-				v4Color[2] = 1.0f; /*(float)ColorUnion.m_RGBA[2]/255.f;*/
-				v4Color[3] = 1.0f; /*(float)ColorUnion.m_RGBA[3]/255.f;*/				
+			const char *tokens = "\n";
+			const char *tok = 0;
+			char temp[1024];
+			int heightOffset = 0;
+			fontInfo_t *font = &cgDC.Assets.bigFont;			
 				
-				Q_strncpyz(temp,worldtext->text,1024);
-				tok = strtok(temp,tokens);
-				while(tok)
-				{
-					const int width = CG_Text_Width_Ext(tok,fTxtScale,0, font);
-					const int height = CG_Text_Height_Ext(tok,fTxtScale,0, font);
+			Q_strncpyz(temp,worldtext->text,1024);
+			tok = strtok(temp,tokens);
+			while(tok)
+			{
+				const int width = CG_Text_Width_Ext(tok,fTxtScale,0, font);
+				const int height = CG_Text_Height_Ext(tok,fTxtScale,0, font);
 
-					CG_Text_Paint_Ext(
-						x - (width * 0.5), 
-						y + heightOffset,
-						fTxtScale,
-						fTxtScale,
-						v4Color, 
-						tok, 
-						0, 0, 
-						ITEM_TEXTSTYLE_NORMAL,
-						font);
+				CG_Text_Paint_Ext(
+					x - (width * 0.5), 
+					y + heightOffset,
+					fTxtScale,
+					fTxtScale,
+					worldtext->color, 
+					tok, 
+					0, 0, 
+					ITEM_TEXTSTYLE_NORMAL,
+					font);
 
-					heightOffset += height*1.5;
-					tok = strtok(NULL,tokens);
-				}
+				heightOffset += height*1.5;
+				tok = strtok(NULL,tokens);
 			}
 		}		
 
-		/*CG_Text_Paint(worldtext->x, worldtext->y, fTxtScale, colorWhite, worldtext->text, 
-			0, 0, ITEM_TEXTSTYLE_NORMAL);*/
 		trap_R_SetColor(NULL);
 
 		whereworldtext=&worldtext->next;

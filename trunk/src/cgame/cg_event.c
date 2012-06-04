@@ -2623,7 +2623,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		    origin[2] = (es->angles2[2] + es->angles[2]) * 0.5f;
 		}
 
-		DrawDebugText( origin, va("%s\n%.1f %.1f %.1f", classNameMap[es->time2], origin[0], origin[1], origin[2]), 999999, 99 );
+		DrawDebugText( origin, va("%s\n%.1f %.1f %.1f", classNameMap[es->time2], origin[0], origin[1], origin[2]), 999999, colorWhite );
 	    }
 	    break;
 

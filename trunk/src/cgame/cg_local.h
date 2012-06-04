@@ -1642,13 +1642,6 @@ typedef struct {
 
 } cgs_t;
 
-
-typedef struct omnicolor_s
-{    
-        char            m_RGBA[4];
-        int             m_RGBAi;
-} omnicolor_t;
-
 //==============================================================================
 
 extern cgs_t cgs;
@@ -1857,8 +1850,11 @@ qboolean CG_GetWeaponTag( int clientNum, char *tagname, orientation_t * or );
 //
 // cg_omnibot.c
 //
+void DrawDebugLine( float *_start, float *_end, int _duration, vec4_t _color );
+void DrawDebugRadius( float *_start, float _radius, int _duration, vec4_t _color );
+void DrawDebugPolygon( vec3_t *verts, int _numverts, int _duration, vec4_t _color );
 void DrawDebugAABB( vec3_t origin, float *mins, float *_maxs, int _duration, vec4_t _color, int _side );
-void DrawDebugText(float *_start, const char *_msg, int _duration, int _color);
+void DrawDebugText(float *_start, const char *_msg, int _duration, vec4_t _color);
 void OmnibotDisableDrawing(void);
 void OmnibotRenderDebugLines(void);
 
@@ -1975,7 +1971,7 @@ void CG_ApplyShakeCamera();
 
 void CG_InitWorldText( void );
 void CG_ClearWorldText( void );
-qboolean CG_AddOnScreenText( const char *text, vec3_t origin, int _color, float duration );
+qboolean CG_AddOnScreenText( const char *text, vec3_t origin, vec4_t color, float duration );
 void CG_DrawOnScreenText(void);
 
 //

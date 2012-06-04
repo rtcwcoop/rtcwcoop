@@ -455,21 +455,9 @@ void ClearLineList( LineList *_list, qboolean _freememory ) {
 //////////////////////////////////////////////////////////////////////////
 // Interprocess callback functions
 
-typedef struct
-{
-	union cdatatype
-	{
-		unsigned char m_RGBA[4];
-		int m_RGBAi;
-	} cdata;
-} ColorStruct;
-
-void DrawDebugLine( float *_start, float *_end, int _duration, int _color ) {
+void DrawDebugLine( float *_start, float *_end, int _duration, vec4_t _color ) {
 	int i;
 	UdpDebugLines_t lne;
-
-	ColorStruct c;
-	c.cdata.m_RGBAi = _color;
 
 	lne.debugtype = DBG_LINE;
 	lne.expiretime = cg.time + _duration;
@@ -480,20 +468,17 @@ void DrawDebugLine( float *_start, float *_end, int _duration, int _color ) {
 		lne.info.line.end[i] = _end[i];
 	}
 
-	lne.info.line.r = c.cdata.m_RGBA[0];
-	lne.info.line.g = c.cdata.m_RGBA[1];
-	lne.info.line.b = c.cdata.m_RGBA[2];
-	lne.info.line.a = c.cdata.m_RGBA[3];
+	lne.info.line.r = _color[0] * 255;
+	lne.info.line.g = _color[1] * 255;
+	lne.info.line.b = _color[2] * 255;
+	lne.info.line.a = _color[3] * 255;
 
 	AddToLineList( &g_DebugLines, &lne );
 }
 
-void DrawDebugRadius( float *_start, float _radius, int _duration, int _color ) {
+void DrawDebugRadius( float *_start, float _radius, int _duration, vec4_t _color ) {
 	int i;
 	UdpDebugLines_t lne;
-
-	ColorStruct c;
-	c.cdata.m_RGBAi = _color;
 
 	lne.debugtype = DBG_RADIUS;
 	lne.expiretime = cg.time + _duration;
@@ -502,10 +487,10 @@ void DrawDebugRadius( float *_start, float _radius, int _duration, int _color ) 
 		lne.info.radius.pos[i] = _start[i];
 	lne.info.radius.radius = _radius;
 
-	lne.info.radius.r = c.cdata.m_RGBA[0];
-	lne.info.radius.g = c.cdata.m_RGBA[1];
-	lne.info.radius.b = c.cdata.m_RGBA[2];
-	lne.info.radius.a = c.cdata.m_RGBA[3];
+	lne.info.radius.r = _color[0] * 255;
+	lne.info.radius.g = _color[1] * 255;
+	lne.info.radius.b = _color[2] * 255;
+	lne.info.radius.a = _color[3] * 255;
 
 	AddToLineList( &g_DebugLines, &lne );
 }
@@ -513,9 +498,6 @@ void DrawDebugRadius( float *_start, float _radius, int _duration, int _color ) 
 void DrawDebugAABB( vec3_t origin, float *mins, float *_maxs, int _duration, vec4_t _color, int _side ) {
 	int i;
 	UdpDebugLines_t lne;
-
-	//ColorStruct c;
-	//c.cdata.m_RGBAi = _color;
 
 	lne.debugtype = DBG_AABB;
 	lne.expiretime = cg.time + _duration;
@@ -537,12 +519,9 @@ void DrawDebugAABB( vec3_t origin, float *mins, float *_maxs, int _duration, vec
 	AddToLineList( &g_DebugLines, &lne );
 }
 
-void DrawDebugPolygon( vec3_t *verts, int _numverts, int _duration, int _color ) {
+void DrawDebugPolygon( vec3_t *verts, int _numverts, int _duration, vec4_t _color ) {
 	int i;
 	UdpDebugLines_t lne;
-
-	ColorStruct c;
-	c.cdata.m_RGBAi = _color;
 
 	lne.debugtype = DBG_POLYGON;
 	lne.expiretime = cg.time + _duration;
@@ -555,30 +534,19 @@ void DrawDebugPolygon( vec3_t *verts, int _numverts, int _duration, int _color )
 		lne.info.poly.verts[i][2] = verts[i][2];
 	}
 
-	lne.info.poly.r = c.cdata.m_RGBA[0];
-	lne.info.poly.g = c.cdata.m_RGBA[1];
-	lne.info.poly.b = c.cdata.m_RGBA[2];
-	lne.info.poly.a = c.cdata.m_RGBA[3];
+	lne.info.poly.r = _color[0] * 255;
+	lne.info.poly.g = _color[1] * 255;
+	lne.info.poly.b = _color[2] * 255;
+	lne.info.poly.a = _color[3] * 255;
 
 	AddToLineList( &g_DebugLines, &lne );
 }
 
 int             cg_LastScreenMessageTime = 0; // ensiform's fix for fpinfo render
 
-//void DrawDebugText(const float *_start, const char *_msg, int _duration, int _color)
-//{
-//	vec3_t v3;// = { _start[0],_start[1],_start[2] };
-//	VectorCopy(_start,v3);
-//	CG_AddOnScreenText(_msg,v3,_color,(float)_duration/1000.f);
-//}
-
 // ensiform's updated func to fix fpinfo
-void DrawDebugText(float *_start, const char *_msg, int _duration, int _color)
+void DrawDebugText(float *_start, const char *_msg, int _duration, vec4_t _color)
 {
-        omnicolor_t ColorUnion;
-
-	ColorUnion.m_RGBAi = 0xFFFFFFFF;
-
 	if(_start && !VectorCompare(_start, vec3_origin))
 	{
 		vec3_t v3;
@@ -589,16 +557,7 @@ void DrawDebugText(float *_start, const char *_msg, int _duration, int _color)
 	{
 		if(cg_LastScreenMessageTime != cg.time)
 		{
-			vec4_t          v4Color = { 0.f, 0.f, 0.f, 0.f };
-
-			ColorUnion.m_RGBAi = _color;
-
-			Vector4Set(v4Color, (float)ColorUnion.m_RGBA[0]/255.f,
-				(float)ColorUnion.m_RGBA[1]/255.f,
-				(float)ColorUnion.m_RGBA[2]/255.f,
-				(float)ColorUnion.m_RGBA[3]/255.f);
-
-			trap_R_SetColor(v4Color);
+			trap_R_SetColor(_color);
 			CPri(_msg);
 			cg_LastScreenMessageTime = cg.time;
 			trap_R_SetColor(NULL);
