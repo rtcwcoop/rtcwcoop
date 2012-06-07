@@ -131,6 +131,10 @@ ai_soldier ai_american ai_zombie ai_warzombie ai_venom ai_loper ai_boss_helga ai
  This dumps a info_player_coop entity to the mapname.ents file
  This entity is used as an initial spawnpoint for coop games. If there are multiple of this one, a random entity is chosen. Make sure if a player spawns on this place he triggers the ai scripts when he starts walking
 
+==drawspawns==
+==drawtriggers==
+ These commands draw the spawnpoints and the triggers
+
 = ents file support =
 
 if you put a file in the maps folder with the name: mapname.ents then this file will be loaded and all the entities will be spawned into the map.
