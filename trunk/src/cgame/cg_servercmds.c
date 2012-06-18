@@ -1587,7 +1587,11 @@ static void CG_ServerCommand( void ) {
                         trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) ); 
                         coop_ParseFog(buf);
                 }*/
-     
+
+                // fretn: this menu still has bugs, and I'm sick of it 
+                // so its disabled for now, we dont care about the story
+                // we just want to shoot !
+                /*
                 if ( cgs.gametype != GT_COOP_SPEEDRUN ) {
                         CG_Fade( 0, 0, 0, 255, cg.time, 0 );      // go black
                         trap_UI_Popup( "pregame" );                // start pregame menu
@@ -1595,12 +1599,13 @@ static void CG_ServerCommand( void ) {
                         trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
                         trap_Cvar_Set( "_pregame", "1" );
                 } else {
+                */
                         // skip the pregame menu and start the game
                         trap_Cvar_Set( "cg_norender", "0" );
                         trap_SendClientCommand("playerstart");
                         trap_Cvar_Set( "_pregame", "0" );
                         trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
-                }    
+                //}    
                 return;
 	}
 
