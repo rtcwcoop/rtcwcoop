@@ -64,7 +64,7 @@ typedef struct {
 											// making the snapshot current
 } clSnapshot_t;
 
-
+extern int cl_connectedToPureServer;
 
 /*
 =============================================================================

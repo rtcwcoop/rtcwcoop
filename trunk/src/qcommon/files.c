@@ -1940,6 +1940,115 @@ static pack_t *FS_LoadZipFile( char *zipfile, const char *basename ) {
 	return pack;
 }
 
+// TTimo
+// relevant to client only
+#if !defined( DEDICATED )
+/*
+==================
+FS_CL_ExtractFromPakFile
+
+NERVE - SMF - Extracts the latest file from a pak file.
+
+Compares packed file against extracted file. If no differences, does not copy.
+This is necessary for exe/dlls which may or may not be locked.
+
+NOTE TTimo:
+  fullpath gives the full OS path to the dll that will potentially be loaded
+        on win32 it's always in fs_basepath/<fs_game>/
+        on linux it can be in fs_homepath/<fs_game>/ or fs_basepath/<fs_game>/
+  the dll is extracted to fs_homepath (== fs_basepath on win32) if needed
+
+  the return value doesn't tell wether file was extracted or not, it just says wether it's ok to continue
+  (i.e. either the right file was extracted successfully, or it was already present)
+
+  cvar_lastVersion is the optional name of a CVAR_ARCHIVE used to store the wolf version for the last extracted .so
+  show_bug.cgi?id=463
+
+==================
+*/
+qboolean FS_CL_ExtractFromPakFile( const char *fullpath, const char *gamedir, const char *filename, const char *cvar_lastVersion ) {
+        int srcLength;
+        int destLength;
+        unsigned char   *srcData;
+        unsigned char   *destData;
+        qboolean needToCopy;
+        FILE            *destHandle;
+
+        needToCopy = qtrue;
+
+        // read in compressed file
+        srcLength = FS_ReadFile( filename, (void **)&srcData );
+
+        // if its not in the pak, we bail
+        if ( srcLength == -1 ) {
+                return qfalse;
+        }
+
+        // read in local file
+        destHandle = fopen( fullpath, "rb" );
+
+        // if we have a local file, we need to compare the two
+        if ( destHandle ) {
+                fseek( destHandle, 0, SEEK_END );
+                destLength = ftell( destHandle );
+                fseek( destHandle, 0, SEEK_SET );
+
+                if ( destLength > 0 ) {
+                        destData = (unsigned char*)Z_Malloc( destLength );
+
+                        fread( destData, 1, destLength, destHandle );
+
+                        // compare files
+                        if ( destLength == srcLength ) {
+                                int i;
+
+                                for ( i = 0; i < destLength; i++ ) {
+                                        if ( destData[i] != srcData[i] ) {
+                                                break;
+                                        }
+                                }
+
+                                if ( i == destLength ) {
+                                        needToCopy = qfalse;
+                                }
+                        }
+
+                        Z_Free( destData ); // TTimo
+                }
+
+                fclose( destHandle );
+        }
+
+        // write file
+        if ( needToCopy ) {
+                fileHandle_t f;
+
+                // Com_DPrintf("FS_ExtractFromPakFile: FS_FOpenFileWrite '%s'\n", filename);
+                f = FS_FOpenFileWrite( filename );
+                if ( !f ) {
+                        Com_Printf( "Failed to open %s\n", filename );
+                        return qfalse;
+                }
+
+                FS_Write( srcData, srcLength, f );
+
+                FS_FCloseFile( f );
+
+#ifdef __linux__
+                // show_bug.cgi?id=463
+                // need to keep track of what versions we extract
+                if ( cvar_lastVersion ) {
+                        Cvar_Set( cvar_lastVersion, Cvar_VariableString( "version" ) );
+                }
+#endif
+        }
+
+        FS_FreeFile( srcData );
+        return qtrue;
+}
+#endif
+
+
 /*
 =================================================================================
 

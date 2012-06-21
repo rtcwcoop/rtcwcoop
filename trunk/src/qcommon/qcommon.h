@@ -580,6 +580,8 @@ qboolean FS_Initialized();
 void    FS_InitFilesystem( void );
 void    FS_Shutdown( qboolean closemfp );
 
+qboolean FS_CL_ExtractFromPakFile( const char *fullpath, const char *gamedir, const char *filename, const char *cvar_lastVersion );
+
 qboolean    FS_ConditionalRestart( int checksumFeed );
 void    FS_Restart( int checksumFeed );
 // shutdown and restart the filesystem so changes to fs_gamedir can take effect

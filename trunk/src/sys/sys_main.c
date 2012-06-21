@@ -47,6 +47,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../game/q_shared.h"
 #include "../qcommon/qcommon.h"
 
+#include "../client/client.h"
+
 static char binaryPath[ MAX_OSPATH ] = { 0 };
 static char installPath[ MAX_OSPATH ] = { 0 };
 
@@ -426,6 +428,21 @@ static void* Sys_TryLibraryLoad(const char* base, const char* gamedir, const cha
 	char* fn;
 
 	fn = FS_BuildOSPath( base, gamedir, fname );
+
+        // TTimo - this is only relevant for full client
+        // if a full client runs a dedicated server, it's not affected by this
+#if !defined( DEDICATED )
+        // NERVE - SMF - extract dlls from pak file for security
+        // we have to handle the game dll a little differently
+        // TTimo - passing the exact path to check against
+        //   (compatibility with other OSes loading procedure)
+        if ( cl_connectedToPureServer && Q_strncmp( fname, "qagame", 6 ) ) {
+                if ( !FS_CL_ExtractFromPakFile( fn, gamedir, fname, NULL ) ) {
+                        Com_Error( ERR_DROP, "Game code(%s) failed Pure Server check", fname );
+                }    
+        }    
+#endif
+
 	Com_DPrintf( "Sys_LoadDll(%s)... \n", fn );
 
 	libHandle = Sys_LoadLibrary(fn);
