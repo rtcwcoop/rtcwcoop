@@ -5,6 +5,25 @@
 // DO NOT EDIT WITHOUT SPEAKING TO CHAD.  I DON'T CARE WHO YOU ARE.
 //
 
+game_manager
+{
+	spawn
+	{
+		accum 0 set 0 // objectives
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+}
+
 counter1
 {
 	spawn

@@ -1,4 +1,9 @@
 {
+"classname" "script_multiplayer"
+"scriptname" "game_manager"
+}
+
+{
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "32 -4480 312"

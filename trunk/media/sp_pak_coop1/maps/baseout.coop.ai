@@ -8,6 +8,7 @@ player
 {
 	spawn
 	{
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 2
 		objectivesneeded 2
 		suggestweapon weapon_mp40
@@ -199,12 +200,14 @@ player
 	trigger blowradar
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		trigger radar blow
 	}
 
 	trigger got_objective2
 	{
 		objectivemet 2
+		trigger game_manager objective2
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_37 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_38 #endif
 	}
@@ -217,7 +220,13 @@ player
 
 	trigger endmap
 	{
-		changelevel assault persistent		
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
+	{
+		changelevel assault persistent
 	}
 }
 

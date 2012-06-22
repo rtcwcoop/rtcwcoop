@@ -13,6 +13,7 @@ player
 		accum 0 bitset 2 // action 13 only fired once
 		accum 0 bitset 3 // mission objective
 		accum 1 set 0 // controls streaming music
+		accum 2 set 0 // don't remove exit trigger
 		objectivesneeded 1
 
 		abort_if_loadgame
@@ -255,6 +256,7 @@ player
 		accum 0 abort_if_not_bitset 3
 		accum 0 bitreset 3
 		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
 	}
 
 	trigger secret1
@@ -278,6 +280,12 @@ player
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel tram persistent
 	}

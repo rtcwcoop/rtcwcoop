@@ -9,6 +9,7 @@ player
 {
 	spawn
 	{
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 5
 
 		objectivesneeded 2
@@ -246,6 +247,7 @@ player
 	trigger zap
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		mu_fade 0 3000
 		mu_queue sound/music/c_chant.wav
 		missionsuccess 1	// mission objective complete
@@ -378,9 +380,16 @@ player
 	trigger got_objective2
 	{
 		objectivemet 2
+		trigger game_manager objective2
 	}	
 	
 	trigger endmap			// level transition
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel dig persistent
 	}

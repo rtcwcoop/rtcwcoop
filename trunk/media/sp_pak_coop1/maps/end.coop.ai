@@ -13,6 +13,7 @@ player
 	spawn
 	{
 		accum 0 bitreset 0
+		accum 2 set 0 // don't remove exit trigger
 		abort_if_loadgame
 		mu_fade 0 1000
 		mu_queue sound/music/c_atmos
@@ -695,6 +696,14 @@ heinrich
 	{
 		trigger player 0bitset0
 		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
+		
+		// probably don't need this for last map
+		trigger game_manager checkexit
+	}
+	
+	trigger endgame
+	{
 		trigger counter1 himmler_cine1
 	}
 }

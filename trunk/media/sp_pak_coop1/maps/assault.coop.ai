@@ -10,6 +10,7 @@ player
 	spawn
 	{
 		accum 0 set 0
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 2
 		objectivesneeded 3
 		suggestweapon weapon_mauserRifle
@@ -154,6 +155,7 @@ player
 	trigger action5
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		trigger nazi14 comeout
 		trigger nazi10 comeout
 		trigger nazi11 comeout
@@ -281,6 +283,7 @@ player
 	trigger movedoorbutton
 	{
 		objectivemet 3
+		trigger game_manager objective3
 		trigger doorbutton checkstatus
 	}
 
@@ -323,10 +326,13 @@ player
 	trigger got_objective2
 	{
 		objectivemet 2
+		trigger game_manager objective2
 	}
 
 	trigger endmap
 	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
 		trigger table1 launch
 	}
 

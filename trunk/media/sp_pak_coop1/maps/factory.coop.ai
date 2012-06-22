@@ -14,6 +14,7 @@ player
 		accum 0 bitset 3 //control sewer spawn
 		accum 0 bitset 4 //control wakeing of last ai
 		accum 0 bitset 5 //control wakeing of black 1 & 2
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 3
 		objectivesneeded 2
 
@@ -254,14 +255,22 @@ player
 		accum 0 abort_if_not_bitset 2
 		accum 0 bitreset 2
 		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
 	}
 
 	trigger got_objective2
 	{
 		objectivemet 2	// mission objective complete
+		trigger game_manager objective2
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel trainyard persistent
 	}

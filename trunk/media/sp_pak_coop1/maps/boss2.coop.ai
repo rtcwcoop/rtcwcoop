@@ -9,6 +9,7 @@ player
 	spawn
 	{
 		accum 0 bitreset 0	// Used to wait a few seconds before you are able to skip cinematic.
+		accum 2 set 0 // don't remove exit trigger
 		accum 0 bitset 2
 		accum 0 bitreset 3
 		cvar g_episode 4
@@ -116,6 +117,7 @@ player
 	trigger action3
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		trigger counter1 cine1
 //		alertentity door1
 	}
@@ -286,6 +288,7 @@ player
 	trigger get_objective3
 	{
 		objectivemet 3
+		trigger game_manager objective3
 	}
 
 	trigger dest_tank1
@@ -319,6 +322,12 @@ player
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel dam persistent
 	}
@@ -1141,6 +1150,7 @@ super1
 	{
 		trigger player music1
 		objectivemet 2
+		trigger game_manager objective2
 		trigger deathshead defeat
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_31 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif

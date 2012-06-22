@@ -14,6 +14,7 @@ player
 		cvar g_episode 6
 		accum 0 set 0
 		accum 1 set 0
+		accum 2 set 0 // don't remove exit trigger
 		objectivesneeded 2
 		mu_fade 0 1000
 		mu_queue sound\music\x_atmos
@@ -229,10 +230,18 @@ player
 	trigger getobjective1
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		objectivemet 2
+		trigger game_manager objective2
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel castle persistent
 	}

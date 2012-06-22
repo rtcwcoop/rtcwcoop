@@ -14,6 +14,7 @@ player
 		accum 2 set 0
 		accum 3 set 0
 		accum 4 set 0
+		accum 5 set 0 // don't remove exit trigger
 
 	
 		// Weapons
@@ -334,6 +335,7 @@ player
 	trigger rocket
 	{
 		objectivemet 2
+		trigger game_manager objective2
 		alertentity last_rocket
 		trigger last_table fall1
 		alertentity rear_guard1
@@ -409,7 +411,13 @@ player
 
 	trigger endmap	
 	{
-		 changelevel dark persistent
+		trigger game_manager checkexit
+		accum 5 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
+	{
+		changelevel dark persistent
 	}
 }
 
@@ -4068,6 +4076,7 @@ nazi18								// This nazis are all hallway nazis...officer
 	death
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		trigger checker1 death_check_out
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out

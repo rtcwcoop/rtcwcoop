@@ -10,6 +10,7 @@ player
 	{
 		accum 0 set 0
 		accum 1 set 0
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 1
 		objectivesneeded 1
 		suggestweapon weapon_mp40
@@ -250,7 +251,8 @@ player
 
 	trigger pass_mission
 	{
-		objectivemet 1	
+		objectivemet 1
+		trigger game_manager objective1
 	}
 
 	trigger exitdoor
@@ -259,12 +261,16 @@ player
 		alertentity openexit
 	}
 
-
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+
+	trigger exitlevel
 	{
 		changelevel church persistent
 	}
-
 }
 
 bnazi1

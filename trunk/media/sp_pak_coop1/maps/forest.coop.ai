@@ -17,6 +17,7 @@ player
 		accum 0 bitset 6
 		accum 0 bitset 7
 		accum 1 set 0 // counts objectives met
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 2
 		objectivesneeded 4
 
@@ -189,6 +190,7 @@ player
 		//accum 1 abort_if_less_than 4
 		//trigger dialog ending
 		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
 	}
 
 	trigger clearcam

@@ -4,6 +4,30 @@
 //10/11/01
 //last edited by jeremy
 
+game_manager
+{
+	spawn
+	{
+		accum 0 set 0 // objectives
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+}
 
 fireplace
 {

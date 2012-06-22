@@ -9,6 +9,7 @@ player
 {
 	spawn
 	{
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 5
 		objectivesneeded 2		// taken down to 
 
@@ -212,6 +213,7 @@ player
 	trigger in_zone3
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		trigger checker1 in_zone3
 		alertentity nazi4
 		alertentity nazi5
@@ -452,9 +454,16 @@ player
 	trigger last_objective
 	{
 		objectivemet 2
+		trigger game_manager objective2
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel village2 persistent
 	}

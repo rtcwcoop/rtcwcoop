@@ -4,6 +4,36 @@
 //Last edited by: Mike (110501)
 //
 
+game_manager
+{
+	spawn
+	{
+		accum 0 set 0 // objectives
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_not_bitset 3
+		trigger player endmap
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+	
+	trigger objective3
+	{
+		accum 0 bitset 3
+	}
+}
 
 bandit1
 {

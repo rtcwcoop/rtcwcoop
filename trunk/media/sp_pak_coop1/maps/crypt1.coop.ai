@@ -11,6 +11,7 @@ player
 		accum 0 set 0
 		accum 1 set 0
 		accum 2 bitreset 0	// Used for if the player goes around which will skip the scooby doo scene.
+		accum 3 set 0 // don't remove exit trigger
 		cvar g_episode 1
 		objectivesneeded 2
 		suggestweapon weapon_mp40
@@ -355,11 +356,13 @@ player
 	trigger got_objective1
 	{
 		objectivemet 1
+		trigger game_manager objective1
 	}
 
 	trigger got_objective2
 	{
 		objectivemet 2
+		trigger game_manager objective2
 	}
 
 	trigger found_secret1
@@ -369,9 +372,14 @@ player
 
 	trigger endmap		// Triggers next map
 	{
-		changelevel crypt2 persistent
+		trigger game_manager checkexit
+		accum 3 abort_if_less_than 1
 	}
 
+	trigger exitlevel
+	{
+		changelevel crypt2 persistent
+	}
 }
 
 // --- Start Cinematic 1 AI ----

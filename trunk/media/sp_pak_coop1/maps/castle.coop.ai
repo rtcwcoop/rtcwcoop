@@ -10,7 +10,7 @@ player
 
 	spawn
 	{
-
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 6
 		objectivesneeded 1
 		mu_fade 0 1000
@@ -274,9 +274,16 @@ player
 	trigger getobjective1
 	{
 		objectivemet 1
+		trigger game_manager objective1
 	}
 	
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel end persistent
 	}

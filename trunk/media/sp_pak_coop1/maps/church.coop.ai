@@ -9,6 +9,7 @@ player
 
 	spawn
 	{
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 1
 		objectivesneeded 3
 		suggestweapon weapon_sten
@@ -264,16 +265,19 @@ player
 	trigger pass_mission1
 	{
 		objectivemet 1
+		trigger game_manager objective1
 	}
 
 	trigger pass_mission
 	{
 		objectivemet 2
+		trigger game_manager objective2
 	}
 
 	trigger got_objective3
 	{
 		objectivemet 3
+		trigger game_manager objective3
 	}
 	
 	trigger secret1
@@ -284,6 +288,12 @@ player
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel
 	{
 		changelevel boss1 persistent
 	}

@@ -12,6 +12,7 @@ player
 		accum 0 bitset 1
 		accum 0 bitset 2 // spawn helga once
 		accum 1 set 0
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 1
 		objectivesneeded 2
 
@@ -251,11 +252,13 @@ player
 	trigger got_objective2
 	{
 		objectivemet 2	// mission objective complete
+		trigger game_manager objective2
 	}
 
 	trigger endmap
 	{
-		trigger player endmap2
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
 //		resetscript
 //		startcam boss1end
 //		alertentity bj
@@ -951,6 +954,7 @@ helga_zombie	// reincarnation of helga
 	death
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		alertentity zombie1
 		alertentity zombie2
 		alertentity zombie3
