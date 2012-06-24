@@ -1101,6 +1101,24 @@ char *FS_ShiftedStrStr( const char *string, const char *substring, int shift ) {
 }
 
 /*
+==========
+FS_ShiftStr
+perform simple string shifting to avoid scanning from the exe
+==========
+*/
+char *FS_ShiftStr( const char *string, int shift ) {
+        static char buf[MAX_STRING_CHARS];
+        int i,l; 
+
+        l = strlen( string );
+        for ( i = 0; i < l; i++ ) {
+                buf[i] = string[i] + shift;
+        }    
+        buf[i] = '\0';
+        return buf; 
+}
+
+/*
 ===========
 FS_FOpenFileRead
 
@@ -1235,21 +1253,15 @@ int FS_FOpenFileRead( const char *filename, fileHandle_t *file, qboolean uniqueF
 						}
 					}
 
-					// qagame.qvm	- 13
-					// dTZT`X!di`
-					if ( !( pak->referenced & FS_QAGAME_REF ) && FS_ShiftedStrStr( filename, "dTZT`X!di`", 13 ) ) {
-						pak->referenced |= FS_QAGAME_REF;
-					}
-					// cgame.qvm	- 7
-					// \`Zf^'jof
-					if ( !( pak->referenced & FS_CGAME_REF ) && FS_ShiftedStrStr( filename, "\\`Zf^'jof", 7 ) ) {
-						pak->referenced |= FS_CGAME_REF;
-					}
-					// ui.qvm		- 5
-					// pd)lqh
-					if ( !( pak->referenced & FS_UI_REF ) && FS_ShiftedStrStr( filename, "pd)lqh", 5 ) ) {
-						pak->referenced |= FS_UI_REF;
-					}
+                                        // qagame dll
+                                        if ( !( pak->referenced & FS_QAGAME_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_QAGAME, -SYS_DLLNAME_QAGAME_SHIFT ) ) {                                                                      pak->referenced |= FS_QAGAME_REF;
+                                        }            
+                                        // cgame dll
+                                        if ( !( pak->referenced & FS_CGAME_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_CGAME, -SYS_DLLNAME_CGAME_SHIFT ) ) {                                                                         pak->referenced |= FS_CGAME_REF;
+                                        }            
+                                        // ui dll
+                                        if ( !( pak->referenced & FS_UI_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_UI, -SYS_DLLNAME_UI_SHIFT ) ) {                                                                                  pak->referenced |= FS_UI_REF;
+                                        } 
 
 					if ( uniqueFILE ) {
 						// open a new file on the pakfile
@@ -3287,33 +3299,45 @@ pure checksums code is not relevant to SP binary anyway
 =====================
 */
 const char *FS_ReferencedPakPureChecksums( void ) {
-	static char info[BIG_INFO_STRING];
-	searchpath_t    *search;
-	int nFlags, numPaks, checksum;
+        static char info[BIG_INFO_STRING];
+        searchpath_t    *search;
+        int nFlags, numPaks, checksum;
 
-	info[0] = 0;
-	checksum = fs_checksumFeed;
+        info[0] = 0; 
 
-	numPaks = 0;
-	for ( nFlags = FS_GENERAL_REF; nFlags; nFlags = nFlags >> 1 ) {
-		for ( search = fs_searchpaths ; search ; search = search->next ) {
-			// is the element a pak file and has it been referenced based on flag?
-			if ( search->pack && ( search->pack->referenced & nFlags ) ) {
-				Q_strcat( info, sizeof( info ), va( "%i ", search->pack->pure_checksum ) );
-				checksum ^= search->pack->pure_checksum;
-				numPaks++;
-			}
-		}
-		if ( fs_fakeChkSum != 0 ) {
-			// only added if a non-pure file is referenced
-			Q_strcat( info, sizeof( info ), va( "%i ", fs_fakeChkSum ) );
-		}
-	}
-	// last checksum is the encoded number of referenced pk3s
-	checksum ^= numPaks;
-	Q_strcat( info, sizeof( info ), va( "%i ", checksum ) );
+        checksum = fs_checksumFeed;
 
-	return info;
+        numPaks = 0; 
+        for ( nFlags = FS_CGAME_REF; nFlags; nFlags = nFlags >> 1 ) {
+                if ( nFlags & FS_GENERAL_REF ) {
+                        // add a delimter between must haves and general refs
+                        //Q_strcat(info, sizeof(info), "@ ");
+                        info[strlen( info ) + 1] = '\0';
+                        info[strlen( info ) + 2] = '\0';
+                        info[strlen( info )] = '@'; 
+                        info[strlen( info )] = ' '; 
+                }    
+                for ( search = fs_searchpaths ; search ; search = search->next ) {
+                        // is the element a pak file and has it been referenced based on flag?
+                        if ( search->pack && ( search->pack->referenced & nFlags ) ) {
+                                Q_strcat( info, sizeof( info ), va( "%i ", search->pack->pure_checksum ) ); 
+                                if ( nFlags & ( FS_CGAME_REF | FS_UI_REF ) ) {
+                                        break;
+                                }    
+                                checksum ^= search->pack->pure_checksum;
+                                numPaks++;
+                        }    
+                }    
+                if ( fs_fakeChkSum != 0 ) {
+                        // only added if a non-pure file is referenced
+                        Q_strcat( info, sizeof( info ), va( "%i ", fs_fakeChkSum ) ); 
+                }    
+        }    
+        // last checksum is the encoded number of referenced pk3s
+        checksum ^= numPaks;
+        Q_strcat( info, sizeof( info ), va( "%i ", checksum ) ); 
+
+        return info;
 }
 
 /*

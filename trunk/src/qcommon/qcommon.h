@@ -593,6 +593,7 @@ char    **FS_ListFiles( const char *directory, const char *extension, int *numfi
 
 void    FS_FreeFileList( char **list );
 
+char *FS_ShiftStr( const char *string, int shift );
 qboolean FS_FileExists( const char *file );
 
 int     FS_LoadStack();
@@ -1157,6 +1158,56 @@ extern huffman_t clientHuffTables;
 #define CL_ENCODE_START     12
 #define CL_DECODE_START     4
 
+// TTimo
+// dll checksuming stuff, centralizing OS-dependent parts
+// *_SHIFT is the shifting we applied to the reference string
+
+#if defined( _WIN32 )
+
+        // qagame_mp_x86.dll
+        #define SYS_DLLNAME_QAGAME_SHIFT 6
+        #define SYS_DLLNAME_QAGAME "wgmgskesve~><4jrr"
+
+        // cgame_mp_x86.dll
+        #define SYS_DLLNAME_CGAME_SHIFT 2
+        #define SYS_DLLNAME_CGAME "eicogaoraz:80fnn"
+
+        // ui_mp_x86.dll
+        #define SYS_DLLNAME_UI_SHIFT 5
+        #define SYS_DLLNAME_UI "zndrud}=;3iqq"
+
+#elif defined( __linux__ )
+
+        // qagame.mp.i386.so
+        #define SYS_DLLNAME_QAGAME_SHIFT 6
+        #define SYS_DLLNAME_QAGAME "wgmgsk4sv4o9><4yu"
+
+        // cgame.mp.i386.so
+        #define SYS_DLLNAME_CGAME_SHIFT 2
+        #define SYS_DLLNAME_CGAME "eicog0or0k5:80uq"
+
+        // ui.mp.i386.so
+        #define SYS_DLLNAME_UI_SHIFT 5
+        #define SYS_DLLNAME_UI "zn3ru3n8=;3xt"
+
+#elif defined( MACOS_X )
+
+        // fretn : todo, shift the strings
+        // qagame.mp.i386.so
+        #define SYS_DLLNAME_QAGAME_SHIFT 0 
+        #define SYS_DLLNAME_QAGAME "qagamei386.dylib"
+
+        // cgame.mp.i386.so
+        #define SYS_DLLNAME_CGAME_SHIFT 0 
+        #define SYS_DLLNAME_CGAME "cgamei386.dylib"
+
+        // ui.mp.i386.so
+        #define SYS_DLLNAME_UI_SHIFT 0  
+        #define SYS_DLLNAME_UI "uii386.dylib"
+
+#else
+#error unknown OS
+#endif
 void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
 
 #endif // _QCOMMON_H_

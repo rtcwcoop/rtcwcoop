@@ -13,3 +13,12 @@ if [ "`uname`" = "Linux" ]; then
 fi
 
 mv $PAKFILE ../
+
+
+if [ "`uname`" = "Darwin" ]; then
+        # currently, only debug versions
+        cd ../../build/debug-darwin-i386/main/
+        zip -r bin.pk3 *.dylib
+        cp bin.pk3 ~/Library/Application\ Support/Wolfenstein/main/
+        mv bin.pk3 ../../../media/sp_pak_coop1 
+fi

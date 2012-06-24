@@ -987,11 +987,12 @@ static void SV_VerifyPaks_f( client_t *cl ) {
 
 		bGood = qtrue;
 		nChkSum1 = nChkSum2 = 0;
-		// we run the game, so determine which cgame and ui the client "should" be running
-		bGood = ( FS_FileIsInPAK( "vm/cgame.qvm", &nChkSum1 ) == 1 );
-		if ( bGood ) {
-			bGood = ( FS_FileIsInPAK( "vm/ui.qvm", &nChkSum2 ) == 1 );
-		}
+Com_Printf("%s %s\n", FS_ShiftStr( SYS_DLLNAME_CGAME, -SYS_DLLNAME_CGAME_SHIFT ), FS_ShiftStr( SYS_DLLNAME_UI, -SYS_DLLNAME_UI_SHIFT ));
+
+                bGood = ( FS_FileIsInPAK( FS_ShiftStr( SYS_DLLNAME_CGAME, -SYS_DLLNAME_CGAME_SHIFT ), &nChkSum1 ) == 1 ); 
+                if ( bGood ) {
+                        bGood = ( FS_FileIsInPAK( FS_ShiftStr( SYS_DLLNAME_UI, -SYS_DLLNAME_UI_SHIFT ), &nChkSum2 ) == 1 ); 
+                } 
 
 		nClientPaks = Cmd_Argc();
 
@@ -1022,7 +1023,6 @@ static void SV_VerifyPaks_f( client_t *cl ) {
 			// should be sitting at the delimeter now
 			pArg = Cmd_Argv( nCurArg++ );
 			if ( *pArg != '@' ) {
-				bGood = qfalse;
 				break;
 			}
 			// store checksums since tokenization is not re-entrant
