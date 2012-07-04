@@ -947,7 +947,7 @@ void IN_Frame( void )
 	IN_ProcessEvents( );
 
 	// If not DISCONNECTED (main menu) or ACTIVE (in game), we're loading
-	loading = !!( cls.state != CA_DISCONNECTED && cls.state != CA_ACTIVE );
+	loading = ( cls.state != CA_DISCONNECTED && cls.state != CA_ACTIVE );
 
 	if( Cvar_VariableValue( "r_fullscreen" ) == 0 && ( Key_GetCatcher( ) & KEYCATCH_CONSOLE ) )
 	{
