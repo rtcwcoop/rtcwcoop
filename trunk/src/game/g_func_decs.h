@@ -985,7 +985,7 @@ extern int trap_Argc ( void ) ;
 extern int trap_Milliseconds ( void ) ;
 extern void trap_Endgame ( void ) ;
 extern void trap_Error ( const char * fmt ) ;
-extern void trap_Printf ( const char * fmt ) ;
+extern void trap_Print ( const char * fmt ) ;
 extern int PASSFLOAT ( float x ) ;
 extern void dllEntry ( int ( QDECL * syscallptr ) ( int arg , ... ) ) ;
 extern void G_RunFrame ( int levelTime ) ;

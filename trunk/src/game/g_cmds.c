@@ -152,11 +152,11 @@ CheatsOk
 */
 qboolean    CheatsOk( gentity_t *ent ) {
 	if ( !g_cheats.integer ) {
-		trap_SendServerCommand( ent - g_entities, va( "print \"Cheats are not enabled on this server.\n\"" ) );
+		trap_SendServerCommand( ent - g_entities, "print \"Cheats are not enabled on this server.\n\"" );
 		return qfalse;
 	}
 	if ( ent->health <= 0 ) {
-		trap_SendServerCommand( ent - g_entities, va( "print \"You must be alive to use this command.\n\"" ) );
+		trap_SendServerCommand( ent - g_entities, "print \"You must be alive to use this command.\n\"" );
 		return qfalse;
 	}
 	return qtrue;
@@ -545,7 +545,7 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         // if automatic spawnpoints are enabled, don't allow manual saving
         if (g_spawnpoints.integer != 1)
         {
-                trap_SendServerCommand( ent - g_entities, va( "cp \"Can't save spawnpoint, \nautosave is activated on the server\n\"" ) );
+                trap_SendServerCommand( ent - g_entities, "cp \"Can't save spawnpoint, \nautosave is activated on the server\n\"" );
                 return;
         }
 
@@ -555,7 +555,7 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
                 VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
                 VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
                 ent->client->hasCoopSpawn = qtrue;
-                trap_SendServerCommand( ent - g_entities, va( "cp \"Saved current position as \nnext spawnpoint\n\"" ) );
+                trap_SendServerCommand( ent - g_entities, "cp \"Saved current position as \nnext spawnpoint\n\"" );
                 ent->client->ps.lastcoopSpawnSaveTime = level.time + 5000;
         }
         else
@@ -1367,11 +1367,11 @@ void Cmd_SetViewpos_f( gentity_t *ent ) {
 	int i;
 
 	if ( !g_cheats.integer ) {
-		trap_SendServerCommand( ent - g_entities, va( "print \"Cheats are not enabled on this server.\n\"" ) );
+		trap_SendServerCommand( ent - g_entities, "print \"Cheats are not enabled on this server.\n\"" );
 		return;
 	}
 	if ( trap_Argc() != 5 ) {
-		trap_SendServerCommand( ent - g_entities, va( "print \"usage: setviewpos x y z yaw\n\"" ) );
+		trap_SendServerCommand( ent - g_entities, "print \"usage: setviewpos x y z yaw\n\"" );
 		return;
 	}
 
@@ -2110,7 +2110,7 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
 		ammo_in_clip = client->ps.ammo[ ammo_for_weapon ];
 
 		if (ammo_in_clip < 1) {
-			trap_SendServerCommand( ent - g_entities, va( "print \"You do not have any extra ammo to drop.\n\"" ) );
+			trap_SendServerCommand( ent - g_entities, "print \"You do not have any extra ammo to drop.\n\"" );
 			return;
 		}
 

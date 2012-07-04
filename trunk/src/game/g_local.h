@@ -1248,7 +1248,7 @@ extern vmCvar_t g_playerStart;      //----(SA)	added
 extern vmCvar_t g_antilag;
 // end
 
-void    trap_Printf( const char *fmt );
+void    trap_Print( const char *fmt );
 void    trap_Error( const char *fmt );
 void    trap_Endgame( void );   //----(SA)	added
 int     trap_Milliseconds( void );

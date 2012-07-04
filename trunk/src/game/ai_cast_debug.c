@@ -117,7 +117,7 @@ void AICast_DBG_RouteTable_f( vec3_t org, char *param ) {
 //	extern botlib_export_t botlib; // TTimo: unused
 
 	if ( !param || strlen( param ) < 1 ) {
-		trap_Printf( "You must specify 'src', 'dest' or 'show'\n" );
+		trap_Print( "You must specify 'src', 'dest' or 'show'\n" );
 		return;
 	}
 
@@ -139,7 +139,7 @@ void AICast_DBG_RouteTable_f( vec3_t org, char *param ) {
 		trap_AAS_RT_ShowRoute( org, srcarea - 1, dstarea - 1 );
 	} else
 	{
-		trap_Printf( "You must specify 'src' & 'dest' first\n" );
+		trap_Print( "You must specify 'src' & 'dest' first\n" );
 	}
 }
 

@@ -985,7 +985,7 @@ If you have questions concerning this license or the applicable additional terms
 {"trap_Milliseconds", (byte *)trap_Milliseconds},
 {"trap_Endgame", (byte *)trap_Endgame},
 {"trap_Error", (byte *)trap_Error},
-{"trap_Printf", (byte *)trap_Printf},
+{"trap_Print", (byte *)trap_Print},
 {"PASSFLOAT", (byte *)PASSFLOAT},
 {"dllEntry", (byte *)dllEntry},
 {"G_RunFrame", (byte *)G_RunFrame},
