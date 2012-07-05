@@ -21,11 +21,12 @@ BIN_OBJ="
 BIN_DEDOBJ="
 	build/$TARGET-darwin-i386/wolfspded.i386
 "
-BASE_OBJ="
-	build/$TARGET-darwin-i386/$BASEDIR/cgamei386.dylib
-	build/$TARGET-darwin-i386/$BASEDIR/uii386.dylib
-	build/$TARGET-darwin-i386/$BASEDIR/qagamei386.dylib
-"
+# fretn: we don't need these here, they are in a pk3
+#BASE_OBJ="
+#	build/$TARGET-darwin-i386/$BASEDIR/cgamei386.dylib
+#	build/$TARGET-darwin-i386/$BASEDIR/uii386.dylib
+#	build/$TARGET-darwin-i386/$BASEDIR/qagamei386.dylib
+#"
 
 OUTPUT=`svn diff media/sp_pak_coop1/`
 
@@ -145,7 +146,8 @@ echo "
 
 lipo -create -o $DESTDIR/$APPBUNDLE/Contents/MacOS/$BINARY $BIN_OBJ
 lipo -create -o $DESTDIR/$APPBUNDLE/Contents/MacOS/$DEDBIN $BIN_DEDOBJ
-cp $BASE_OBJ $DESTDIR/$APPBUNDLE/Contents/MacOS/$BASEDIR/
+# fretn: we don't need these here, they are in a pk3
+#cp $BASE_OBJ $DESTDIR/$APPBUNDLE/Contents/MacOS/$BASEDIR/
 cp src/libs/macosx/*.dylib $DESTDIR/$APPBUNDLE/Contents/MacOS/
 
 
