@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if [ "$1" = "release" ]; then
+        TARGET="release"
+else
+        TARGET="debug"
+fi
+
 PAKFILE=sp_pak_coop1.pk3
 cd media/sp_pak_coop1
 
@@ -14,11 +21,17 @@ fi
 
 mv $PAKFILE ../
 
+echo "Creating bin.pk3"
 
 if [ "`uname`" = "Darwin" ]; then
-        # currently, only debug versions
-        cd ../../build/debug-darwin-i386/main/
+        cd "../../build/$TARGET-darwin-i386/main/"
         zip -r bin.pk3 *.dylib
-        cp bin.pk3 ~/Library/Application\ Support/Wolfenstein/main/
-        mv bin.pk3 ../../../media/sp_pak_coop1 
+        cp bin.pk3 "~/Library/Application\ Support/Wolfenstein/main/"
+        mv bin.pk3 ../../../media/
+fi
+if [ "`uname`" = "Linux" ]; then
+        cd "../../build/$TARGET-linux-i386/main/"
+        zip -r bin.pk3 *.so
+        cp bin.pk3 ~/.wolf/main/
+        mv bin.pk3 ../../../media/
 fi
