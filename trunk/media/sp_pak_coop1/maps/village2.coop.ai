@@ -13,7 +13,8 @@ player
 		accum 1 set 0
 		accum 2 set 0
 		accum 3 set 0
-		accum 4 set 0 
+		accum 4 set 0
+		accum 5 set 0 // don't remove exit trigger
 
 		// Items
 
@@ -32,6 +33,7 @@ player
 	{
 		mu_stop 0 2000
 		objectivemet 6	// mission objective complete
+		trigger game_manager objective6
 
 		// Weapons
 		giveweapon weapon_knife
@@ -189,6 +191,7 @@ player
 	trigger last_two			// This trigger in the last three nazis the user encounters...
 	{
 		objectivemet 7	// mission objective complete
+		trigger game_manager objective7
 		alertentity nazi14
 		alertentity nazi15
 		alertentity nazi16
@@ -300,10 +303,16 @@ player
 		foundsecret		
 	}
 
-	trigger endmap
+	trigger exitlevel
 	{
 		changelevel chateau persistent 
 	}
+	
+	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 5 abort_if_less_than 1
+	}	
 }
 
 nazi1a						// First nazi seen by player... Has two patterns he can choose...
@@ -1483,6 +1492,7 @@ officer1						// Upstairts in first area
 	death
 	{
 		objectivemet 1
+		trigger game_manager objective1
 
 	}
 
@@ -2921,6 +2931,7 @@ officer2						// 2nd house, at top level listening to music
 	death
 	{
 		objectivemet 2
+		trigger game_manager objective2
 //		print Objective, Two completed !
 //		print General, Von Stauff eliminated!
 		trigger checker1 objective_complete
@@ -3186,6 +3197,7 @@ officer3						// 3rd house with crazy nazi8
 	death
 	{
 		objectivemet 3
+		trigger game_manager objective3
 		trigger checker1 objective_complete
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out
@@ -3389,6 +3401,7 @@ officer4						// 4th house, looking at moon
 	death
 	{
 		objectivemet 4
+		trigger game_manager objective4
 //		print General, Burkhalter eliminated!
 		trigger checker1 objective_complete
 		trigger 04_help1 runto_alarm
@@ -3678,6 +3691,7 @@ officer5	// to do need to put in markers					// 5th house last
 	{
 //		print Objective, Five completed !
 		objectivemet 5
+		trigger game_manager objective5
 		trigger checker1 print_objectives
 	}
 

@@ -14,6 +14,7 @@ player
 		accum 0 bitset 3
 		accum 0 bitset 4
 		accum 1 set 0
+		accum 2 set 0 // don't remove exit trigger
 		objectivesneeded 3
 
 		abort_if_loadgame
@@ -55,6 +56,7 @@ player
 	trigger switch1on
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		alertentity light1on
 		trigger gear1 on1
 		trigger gear2 on2		
@@ -82,6 +84,7 @@ player
 		accum 0 abort_if_not_bitset 1
 		accum 0 bitreset 1
 		objectivemet 2
+		trigger game_manager objective2
 		alertentity nazi13
 		alertentity nazi14
 		alertentity nazi23
@@ -254,15 +257,22 @@ player
 		trigger button2 pushbutton2
 	}
 
-	trigger endmap
+	trigger exitlevel
 	{
 		trigger kesler follow_me
 		changelevel village1 5000 persistent silent
 	}
+	
+	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}	
 
 	trigger got_objective3
 	{
 		objectivemet 3
+		trigger game_manager objective3
 	}
 
 	trigger cam1

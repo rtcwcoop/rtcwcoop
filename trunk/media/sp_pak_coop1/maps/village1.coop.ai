@@ -11,6 +11,7 @@ player
 		accum 1 set 0	// Accum 1 is used so that help1 only gets triggered once.
 		accum 4 set 0	// Accum 4 is used so that FEM1 will not play the "scared jump" animation after already in the scaredloop.
 		accum 5 set 0	// This will keep gunner1 from getting off of the gun if he has not seen the player.
+		accum 2 set 0 // don't remove exit trigger
 		
 		suggestweapon weapon_mp40
 		cvar g_episode 1
@@ -91,6 +92,7 @@ player
 	trigger action3
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		alertentity nazi3
 		alertentity nazi5
 		alertentity fem1
@@ -289,16 +291,23 @@ player
 	trigger got_objective2
 	{
 		objectivemet 2
+		trigger game_manager objective1
 	}
 
 	trigger endmap
 	{
 	}
 
-	trigger endmapb
+	trigger exitlevel
 	{
 		changelevel crypt1 4000 persistent
 	}
+	
+	trigger endmapb
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}	
 }
 
 cine1_bj

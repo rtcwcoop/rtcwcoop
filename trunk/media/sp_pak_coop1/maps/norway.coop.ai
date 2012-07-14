@@ -9,6 +9,8 @@ player
 {
 	spawn
 	{
+		accum 2 set 0 // don't remove exit trigger
+
 		// Objectives
 		cvar g_episode 4
 		objectivesneeded 2
@@ -118,6 +120,7 @@ player
 	trigger sniper1				// This activates the first encountered sniper..
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		alertentity mechanic1
 		alertentity mechanic2	
 		alertentity sniper
@@ -212,6 +215,7 @@ player
 	trigger turn_alarm_on
 	{
 		objectivemet 2
+		trigger game_manager objective2
 		trigger checker1 last_alarm
 	}
 	
@@ -255,7 +259,13 @@ player
 		foundsecret
 	}
 
-	trigger endmap				// transfer to the next level whixh is the xlabs...
+	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+	
+	trigger exitlevel				// transfer to the next level whixh is the xlabs...
 	{
 		changelevel xlabs persistent 
 	}

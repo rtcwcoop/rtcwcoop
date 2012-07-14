@@ -9,6 +9,7 @@ player
 	spawn
 	{
 		accum 0 bitset 0
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 3
 		objectivesneeded 2
 
@@ -240,6 +241,7 @@ player
 	trigger action15
 	{
 		objectivemet 1
+		trigger game_manager objective1
 		alertentity black2
 		alertentity black3
 		alertentity black4
@@ -268,6 +270,7 @@ player
 	trigger action18
 	{
 		objectivemet 2
+		trigger game_manager objective2
 		alertentity black6
 		alertentity black7
 		#if g_reinforce >= 2 alertentity coop_ai_venom_35 #endif
@@ -316,10 +319,16 @@ player
 	{
 	}
 
-	trigger endnow
+	trigger exitlevel
 	{
 		changelevel norway 4000 silent
 	}
+	
+	trigger endnow
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}	
 }
 
 cine_death

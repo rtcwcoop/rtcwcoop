@@ -8,6 +8,7 @@ player
 {
 	spawn
 	{
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 4
 		objectivesneeded 2
 		suggestweapon weapon_fg42
@@ -270,11 +271,13 @@ player
 	trigger get_objective2
 	{
 		objectivemet 1
+		trigger game_manager objective1
 	}
 
 	trigger big_door1_open
 	{
 		objectivemet 2
+		trigger game_manager objective2
 		trigger big_door1_lever open
 	}
 
@@ -283,10 +286,16 @@ player
 		trigger big_door2_lever open
 	}
 
-	trigger endmap // Triggers next map
+	trigger exitlevel // Triggers next map
 	{
 		changelevel boss2 persistent
 	}
+	
+	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}	
 }
 
 // --------CINEMATIC 1 START--------

@@ -10,6 +10,7 @@ player
 	{
 		accum 0 bitset 0
 		accum 1 set 1
+		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 3
 		objectivesneeded 2
 
@@ -122,6 +123,7 @@ player
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_venom_14 #endif
 		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
 	}
 
 	trigger action11
@@ -264,6 +266,7 @@ player
 	trigger exitopen
 	{
 		objectivemet 2	// mission objective complete
+		trigger game_manager objective2
 		trigger mechanic1 elev_working
 	}
 
@@ -272,10 +275,16 @@ player
 		trigger lever1 activate
 	}
 
-	trigger endmap
+	trigger exitlevel
 	{
 		changelevel swf persistent
 	}
+	
+	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}	
 }
 
 black1

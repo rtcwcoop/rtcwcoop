@@ -15,6 +15,7 @@ player
 		accum 0 bitset 2	// Used for elevator1's DOWN lever
 		accum 0 bitreset 3	// Used for elevator1's UP lever
 		accum 0 bitreset 4
+		accum 2 set 0 		// don't remove exit trigger
 		cvar g_episode 2
 		objectivesneeded 3
 		suggestweapon weapon_sten
@@ -328,12 +329,14 @@ player
 		alertentity scientist6
 		alertentity nazi15a
 		objectivemet 1
+		trigger game_manager objective1
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_20 #endif
 	}
 
 	trigger abort_launch
 	{
 		objectivemet 2
+		trigger game_manager objective2
 		trigger v2_button push
 		trigger beam2 swingloop
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_21 #endif
@@ -448,6 +451,7 @@ player
 		accum 0 abort_if_bitset 4
 		accum 0 bitset 4
 		objectivemet 3
+		trigger game_manager objective3
 		alertentity nazi40
 		alertentity nazi40a
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif
@@ -468,6 +472,7 @@ player
 		accum 0 bitset 0
 		accum 0 bitset 4
 		objectivemet 3
+		trigger game_manager objective3
 		alertentity nazi40
 		alertentity nazi40a
 		trigger front_door close2
@@ -486,6 +491,12 @@ player
 	}
 
 	trigger endmap
+	{
+		trigger game_manager checkexit
+		accum 2 abort_if_less_than 1
+	}
+
+	trigger exitlevel
 	{
 		alertentity d_battle
 		changelevel baseout 9000 persistent

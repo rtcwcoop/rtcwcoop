@@ -11,6 +11,7 @@ player
 		accum 0 set 1
 		accum 1 set 1
 		accum 2 set 0
+		accum 3 set 0 // don't remove exit trigger
 		cvar g_episode 3
 		objectivesneeded 4
 
@@ -250,21 +251,25 @@ player
 	trigger got_objective1
 	{
 		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
 	}
 
 	trigger got_objective2
 	{
 		objectivemet 2	// mission objective complete
+		trigger game_manager objective2
 	}
 
 	trigger got_objective3
 	{
 		objectivemet 3	// mission objective complete
+		trigger game_manager objective3
 	}
 
 	trigger got_objective4
 	{
 		objectivemet 4	// mission objective complete
+		trigger game_manager objective4
 	}
 
 	trigger secret1
@@ -276,10 +281,16 @@ player
 	{
 	}
 
-	trigger realend
+	trigger exitlevel
 	{
 		changelevel factory 2000 persistent
 	}
+	
+	trigger realend
+	{
+		trigger game_manager checkexit
+		accum 3 abort_if_less_than 1
+	}	
 }
 
 
