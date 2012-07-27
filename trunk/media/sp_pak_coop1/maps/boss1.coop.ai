@@ -12,7 +12,8 @@ player
 		accum 0 bitset 1
 		accum 0 bitset 2 // spawn helga once
 		accum 1 set 0
-		accum 2 set 0 // don't remove exit trigger
+		accum 2 set 0
+		accum 3 set 0 // don't remove exit trigger
 		cvar g_episode 1
 		objectivesneeded 2
 
@@ -661,6 +662,7 @@ zombie1
 
 	death
 	{
+		//print "killed zombie1"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -692,6 +694,7 @@ zombie2
 
 	death
 	{
+		//print "killed zombie2"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -723,6 +726,7 @@ zombie3
 
 	death
 	{
+		//print "killed zombie3"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -754,6 +758,7 @@ zombie4
 
 	death
 	{
+		//print "killed zombie4"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -785,6 +790,7 @@ zombie5
 
 	death
 	{
+		//print "killed zombie5"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -816,6 +822,7 @@ zombie6
 
 	death
 	{
+		//print "killed zombie6"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -847,6 +854,7 @@ zombie7
 
 	death
 	{
+		//print "killed zombie7"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -878,6 +886,7 @@ zombie8
 
 	death
 	{
+		//print "killed zombie8"
 		trigger player killed_zombie
 		trigger counter1 killed_total
 	}
@@ -953,6 +962,7 @@ helga_zombie	// reincarnation of helga
 
 	death
 	{
+		//print "killed helga"
 		objectivemet 1
 		trigger game_manager objective1
 		alertentity zombie1

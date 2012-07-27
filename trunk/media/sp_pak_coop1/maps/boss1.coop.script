@@ -39,7 +39,7 @@ counter1	// Used for cinematic syncronization.
 	trigger cinematic1
 	{
 		wait 5
-		alertentity opendoor
+		//alertentity opendoor // cs: keep it closed. otherwise the call in killed_total closes it (making it impossible to end).
 		wait 5400
 		trigger zemph anim1
 		wait 500
