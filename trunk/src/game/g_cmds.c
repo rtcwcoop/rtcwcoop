@@ -1556,7 +1556,8 @@ void Cmd_Activate_f( gentity_t *ent ) {
 
 	VectorMA( offset, 96, forward, end );
 
-	trap_Trace( &tr, offset, NULL, NULL, end, ent->s.number, ( CONTENTS_SOLID | CONTENTS_BODY | CONTENTS_CORPSE | CONTENTS_TRIGGER ) );
+	// cs: removed corpse since they can block doors.
+	trap_Trace( &tr, offset, NULL, NULL, end, ent->s.number, ( CONTENTS_SOLID | CONTENTS_BODY /*| CONTENTS_CORPSE*/ | CONTENTS_TRIGGER ) );
 
 	//----(SA)	removed erroneous code
 

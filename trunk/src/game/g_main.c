@@ -487,7 +487,8 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 	}
 
 	tr = &ps->serverCursorHintTrace;
-	trace_contents = ( CONTENTS_TRIGGER | CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_BODY | CONTENTS_CORPSE );   // SP fine checking corpses
+	// cs: removed corpse since they can block doors.
+	trace_contents = ( CONTENTS_TRIGGER | CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_BODY /*| CONTENTS_CORPSE*/ );   // SP fine checking corpses.
 	trap_Trace( tr, offset, NULL, NULL, end, ps->clientNum, trace_contents );
 
 	oldHintType = ps->serverCursorHint; // store the old one so we know when there's a transition
