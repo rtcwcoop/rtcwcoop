@@ -47,6 +47,8 @@ If you have questions concerning this license or the applicable additional terms
 // ver 1.2.b5	- Mac code merge in
 // ver 1.3		- patch 2 (02/13/02)
 
+#define MAX_COOP_CLIENTS 8
+
 #define NEW_ANIMS
 #define MAX_TEAMNAME    32
 

@@ -3580,6 +3580,7 @@ static bind_t g_bindings[] =
 	{"dropammo",  -1,             -1, -1, -1},
 	{"kill",         -1,             -1, -1, -1},
 	{"spawnpoint",  -1,             -1, -1, -1},
+	{"teleport",  -1,             -1, -1, -1},
 	{"vote yes",     -1,             -1, -1, -1},
 	{"vote no",          -1,             -1, -1, -1},
 };

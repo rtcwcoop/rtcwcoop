@@ -1389,6 +1389,104 @@ void Cmd_SetViewpos_f( gentity_t *ent ) {
 
 /*
 =================
+Cmd_Teleport_f
+=================
+ - if pointing at a player, teleport current player to other players spawnpoint
+ - if not pointing at a player, teleport to a random spawnpoint
+ - can only be activated once every 30 seconds
+ - will be usefull for cases where players are stuck behind closed doors, elevators
+*/
+void Cmd_Teleport_f( gentity_t *ent ) {
+        vec3_t start, end, forward, right, up;
+        trace_t trace;
+        gentity_t *newent = NULL;
+        qboolean foundPlayer = qtrue;
+        gentity_t *clients[MAX_COOP_CLIENTS];
+
+        // only in coop, not in speedrun
+        if ( g_gametype.integer != GT_COOP )
+                return;
+
+        // FIXME: in speedrun, we need to teleport to somewhere else ..
+
+        // not for dead people !
+        if ( ent->client->ps.eFlags & EF_DEAD )
+                return;
+
+        if ( ent->client->ps.pm_flags & PMF_LIMBO )
+                return;
+
+        if ( !(level.lastTeleportTime <= level.time) ) {
+                int seconds = (level.lastTeleportTime - level.time) / 1000;
+                trap_SendServerCommand( ent - g_entities, va( "cp \"You must wait %d seconds before \nteleporting again\n\"", seconds ) );
+                return;
+        }
+
+        // first check if we are pointing at a player:
+
+        AngleVectors( ent->client->ps.viewangles, forward, right, up );
+
+        VectorCopy( ent->r.currentOrigin, start );
+
+        start[2] += 24;
+        VectorMA( start, 17, forward, start );
+
+        VectorCopy( start, end );
+        VectorMA( end, 8192, forward, end );
+
+        trap_Trace( &trace, start, NULL, NULL, end, ent->s.number, MASK_SOLID | MASK_MISSILESHOT | CONTENTS_BODY );
+
+        newent = &g_entities[ trace.entityNum ];
+
+        if ( trace.fraction >= 1.0 )
+                foundPlayer = qfalse;
+
+        if ( !newent ) 
+                foundPlayer = qfalse;
+
+        if ( !newent->client )
+                foundPlayer = qfalse;
+
+        if ( newent->r.svFlags & SVF_CASTAI )
+                foundPlayer = qfalse;
+
+        // todo: teleporting should 'cost' something
+        if ( foundPlayer ) { // teleport to that player his personal spawnpoint
+                if ( newent->client->hasCoopSpawn )
+                        TeleportPlayer( ent, newent->client->coopSpawnPointOrigin, newent->client->coopSpawnPointAngles );
+                else
+                        newent = NULL;
+        } else { // teleport to a random player his personal spawnpoint
+                int count = 0, selection = 0, i = 0;
+
+                for (i=0; i<level.numConnectedClients; i++) {
+                        newent = &g_entities[level.sortedClients[i]];
+                        if ( !(newent->r.svFlags & SVF_CASTAI) && count <= MAX_COOP_CLIENTS && 
+                                newent != ent && newent->client && newent->client->hasCoopSpawn)
+                                clients[count++] = newent;
+                }
+
+                if (count) {
+                        selection = rand() % count;
+                        newent = clients[ selection ];
+                        if ( newent->client->hasCoopSpawn )
+                                TeleportPlayer( ent, newent->client->coopSpawnPointOrigin, newent->client->coopSpawnPointAngles );
+                } else {
+                        newent = NULL;
+                }
+        }
+
+        if (level.lastTeleportTime <= level.time)
+        {
+                if ( newent ) {
+                        trap_SendServerCommand( ent - g_entities, va( "cp \"You just teleported to \nthe spawnpoint of %s.\"", newent->client->pers.netname ) );
+                        level.lastTeleportTime = level.time + 120000;
+                }
+        }
+}
+
+/*
+=================
 Cmd_StartCamera_f
 =================
 */
@@ -2362,6 +2460,8 @@ void ClientCommand( int clientNum ) {
                 Cmd_DrawSpawns_f( ent );
 	} else if ( Q_stricmp( cmd, "drawtriggers" ) == 0 ) {
                 Cmd_DrawTriggers_f( ent );
+        } else if ( Q_stricmp( cmd, "teleport" ) == 0 ) {
+                Cmd_Teleport_f( ent );
 	} else {
 		trap_SendServerCommand( clientNum, va( "print \"unknown cmd %s\n\"", cmd ) );
 	}

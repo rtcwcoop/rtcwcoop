@@ -672,6 +672,26 @@ itemDef {
 		mouseexit { hide keyBindStatus }
 		}
 
+	itemDef {
+		name move
+		group grpControls
+		type ITEM_TYPE_BIND
+		text "Teleport:  "
+		cvar "teleport"
+		rect 82 240 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .23            
+		forecolor 1 1 1 1
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07
+		visible 0 
+		mouseenter { show keyBindStatus }
+		mouseexit { hide keyBindStatus }
+		}
+
+
 //////////////// end move
 
 

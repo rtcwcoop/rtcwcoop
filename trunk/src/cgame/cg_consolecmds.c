@@ -730,5 +730,5 @@ void CG_InitConsoleCommands( void ) {
 
         // coop
 	trap_AddCommand( "spawnpoint" );
-	trap_AddCommand( "dropammo" );          // fretn
+	trap_AddCommand( "teleport" );
 }

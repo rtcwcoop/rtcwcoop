@@ -788,6 +788,10 @@ typedef struct {
         // fretn: every x seconds save the current location of the players to use as a future spawnpoint
         int lastSpawnSave;
 
+        // fretn: only once every x (2 minutes) seconds a possible stuck player can use teleport
+        // to teleport to another player his spawnpoint
+        int lastTeleportTime;
+
         int numFinalDead;
 
 } level_locals_t;
