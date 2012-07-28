@@ -26,7 +26,7 @@ echo "Creating bin.pk3"
 if [ "`uname`" = "Darwin" ]; then
         cd "../../build/$TARGET-darwin-i386/main/"
         zip -r bin.pk3 *.dylib
-        cp bin.pk3 "~/Library/Application\ Support/Wolfenstein/main/"
+        cp bin.pk3 ~/Library/Application\ Support/Wolfenstein/main/
         mv bin.pk3 ../../../media/
 fi
 if [ "`uname`" = "Linux" ]; then
