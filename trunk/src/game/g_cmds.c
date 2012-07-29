@@ -549,13 +549,23 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
                 return;
         }
 
+        if ( ent->client->ps.persistant[PERS_SPAWNPOINT_COUNT] >= g_maxspawnpoints.integer && g_maxspawnpoints.integer != 0 ) {
+                trap_SendServerCommand( ent - g_entities, va( "cp \"Can't save spawnpoint, \nyou already dropped too many\nspawnpoints. The limit is %d\n\"", g_maxspawnpoints.integer) );
+                return;
+        }
+
         if (ent->client->ps.lastcoopSpawnSaveTime <= level.time)
         {
 
                 VectorCopy(ent->client->ps.origin, ent->client->coopSpawnPointOrigin);
                 VectorCopy(ent->client->ps.viewangles, ent->client->coopSpawnPointAngles);
                 ent->client->hasCoopSpawn = qtrue;
-                trap_SendServerCommand( ent - g_entities, "cp \"Saved current position as \nnext spawnpoint\n\"" );
+                if ( !g_maxspawnpoints.integer) {
+                        trap_SendServerCommand( ent - g_entities, "cp \"Saved current position as \nnext spawnpoint\n\"" );
+                } else { // only count the number of dropped spawnpoints when its enabled on the server
+                        ent->client->ps.persistant[PERS_SPAWNPOINT_COUNT]++;
+                        trap_SendServerCommand( ent - g_entities, va ("cp \"Saved current position as \nnext spawnpoint. %d saves left.\n\"", g_maxspawnpoints.integer - ent->client->ps.persistant[PERS_SPAWNPOINT_COUNT]) );
+                }
                 ent->client->ps.lastcoopSpawnSaveTime = level.time + 5000;
         }
         else

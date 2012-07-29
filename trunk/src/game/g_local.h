@@ -1163,6 +1163,7 @@ extern vmCvar_t g_gametype;
 //fretn
 extern vmCvar_t g_spawnpoints;
 extern vmCvar_t g_skipcutscenes;
+extern vmCvar_t g_maxspawnpoints;
 extern vmCvar_t g_maxlives;
 extern vmCvar_t g_sharedlives;
 extern vmCvar_t g_limbotime;

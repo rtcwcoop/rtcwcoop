@@ -55,6 +55,7 @@ extern int bg_pmove_gameskill_integer;
 
 vmCvar_t g_gametype;
 vmCvar_t g_skipcutscenes;
+vmCvar_t g_maxspawnpoints;
 vmCvar_t g_maxlives;
 vmCvar_t g_sharedlives;
 vmCvar_t g_limbotime;
@@ -164,6 +165,7 @@ cvarTable_t gameCvarTable[] = {
 
         //fretn
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
+	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE, 0, qtrue  },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
         { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
