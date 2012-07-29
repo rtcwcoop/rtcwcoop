@@ -135,6 +135,9 @@ ai_soldier ai_american ai_zombie ai_warzombie ai_venom ai_loper ai_boss_helga ai
 ==drawtriggers==
  These commands draw the spawnpoints and the triggers
 
+==teleport==
+ When using this you will be teleported to the spawnpoint of the player you are pointing at. If that player has no spawnpoint saved, then you will not teleport. If you don't point at a player, you will be teleported a t a spawnpoint from a random player.
+
 = ents file support =
 
 if you put a file in the maps folder with the name: mapname.ents then this file will be loaded and all the entities will be spawned into the map.
