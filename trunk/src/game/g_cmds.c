@@ -1416,8 +1416,8 @@ void Cmd_Teleport_f( gentity_t *ent ) {
         if ( ent->client->ps.pm_flags & PMF_LIMBO )
                 return;
 
-        if ( !(level.lastTeleportTime <= level.time) ) {
-                int seconds = (level.lastTeleportTime - level.time) / 1000;
+        if ( !(ent->client->ps.lastTeleportTime <= level.time) ) {
+                int seconds = (ent->client->ps.lastTeleportTime - level.time) / 1000;
                 trap_SendServerCommand( ent - g_entities, va( "cp \"You must wait %d seconds before \nteleporting again\n\"", seconds ) );
                 return;
         }
@@ -1476,11 +1476,11 @@ void Cmd_Teleport_f( gentity_t *ent ) {
                 }
         }
 
-        if (level.lastTeleportTime <= level.time)
+        if (ent->client->ps.lastTeleportTime <= level.time)
         {
                 if ( newent ) {
                         trap_SendServerCommand( ent - g_entities, va( "cp \"You just teleported to \nthe spawnpoint of %s.\"", newent->client->pers.netname ) );
-                        level.lastTeleportTime = level.time + 120000;
+                        ent->client->ps.lastTeleportTime = level.time + 120000;
                 }
         }
 }

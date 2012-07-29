@@ -1289,6 +1289,10 @@ typedef struct playerState_s {
         // fretn
         int lastcoopSpawnSaveTime;      // last time we saved a spawnpoint with a command
 
+        // fretn: only once every x (2 minutes) seconds a possible stuck player can use teleport
+        // to teleport to another player his spawnpoint
+        int lastTeleportTime;
+
 	int quickGrenTime;
 
 	int leanStopDebounceTime;
