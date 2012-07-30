@@ -749,6 +749,11 @@ Clients that are in the game can still send
 connectionless packets.
 =================
 */
+
+#ifndef DEDICATED
+void CL_ConnectionlessPacket( netadr_t from, msg_t *msg );
+#endif
+
 void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 	char    *s;
 	char    *c;
@@ -780,7 +785,15 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		// server disconnect messages when their new server sees our final
 		// sequenced messages to the old client
 	} else {
-		Com_DPrintf( "bad connectionless packet from %s:\n%s\n"
+#ifndef DEDICATED
+                // if a local game is running and we want to use the ingame
+                // server browser, the responses from the master server need to
+                // be forwarded to the client
+                if ( com_cl_running->integer )
+                        CL_ConnectionlessPacket( from, msg);
+                else
+#endif
+        		Com_DPrintf( "bad connectionless packet from %s:\n%s\n"
 					 , NET_AdrToString( from ), s );
 	}
 }
