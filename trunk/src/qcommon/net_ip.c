@@ -382,8 +382,7 @@ qboolean Sys_StringToAdr( const char *s, netadr_t *a ) {
 }
 
 /*
-===================
-NET_CompareBaseAdrMask
+=================== NET_CompareBaseAdrMask
 
 Compare without port, and up to the bit number given in netmask.
 ===================
@@ -484,7 +483,8 @@ const char	*NET_AdrToString (netadr_t a)
 		Sys_SockaddrToString(s, sizeof(s), (struct sockaddr *) &sadr);
 	}
 
-	return s;
+	//return s;
+	return (char *)va("%s:%hu", s, BigShort(a.port));
 }
 
 const char	*NET_AdrToStringwPort (netadr_t a)
