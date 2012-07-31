@@ -13,7 +13,7 @@ menuDef {
 		style 1
 		border 1
 		onOpen {
-//				setCvar cg_draw2D "0";
+				//setCvar cg_draw2D "0";
 				show grpJoin }
 		onClose { setCvar cg_draw2D "1" }
 		onEsc { setCvar cg_draw2D "1" }
@@ -51,7 +51,7 @@ menuDef {
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 145 105 15
+			rect			30 135 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -78,7 +78,7 @@ menuDef {
 			type			ITEM_TYPE_BUTTON
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 170 105 15
+			rect			30 160 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -102,7 +102,7 @@ menuDef {
 			style			WINDOW_STYLE_FILLED
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 195 105 15
+			rect			30 185 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -121,6 +121,30 @@ menuDef {
 				}
 
 
+                itemDef {
+                        name connect
+                        text "CONNECT"
+                        group grpJoin
+                        border 1
+                        bordercolor .5 .5 .5 .5
+                        type ITEM_TYPE_BUTTON
+                        style WINDOW_STYLE_FILLED
+                        textstyle 6
+			rect			30 210 105 15
+                        textfont        UI_FONT_NORMAL
+                        textscale .25    
+                        textalign 1
+                        textalignx 52
+                        textaligny 11
+                        forecolor 1 1 1 1
+                        visible 1 
+			backcolor .3 .5 .2 .3
+                        type ITEM_TYPE_BUTTON
+
+                        action {
+                                uiScript JoinServer
+                        }    
+                }
 
 	//  2ND COLUMN  //
 
@@ -128,7 +152,7 @@ menuDef {
 			name			window_limbo_name
 			group			grpJoin
 			visible			1
-			rect			160 145 130 15
+			rect			160 135 130 15
 			textstyle		6			
 			forecolor		1 1 1 1
 			outlinecolor	1 1 0 .5
@@ -152,7 +176,7 @@ menuDef {
 			style			0	
 			textfont		UI_FONT_NORMAL
 			ownerdraw		UI_NETSOURCE
-			rect			160 170 130 15 
+			rect			160 160 130 15 
 			textstyle		6
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
@@ -177,7 +201,7 @@ menuDef {
 			maxpaintchars	8
 			cvar			"password"
 			textfont		UI_FONT_NORMAL
-			rect			160 195 130 15
+			rect			160 185 130 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -200,7 +224,7 @@ menuDef {
 			name			window_limbo_model
 			group			grpJoin
 			visible			1
-			rect			310 145 150 15		
+			rect			310 135 150 15		
 			forecolor		1 1 1 1
 			backcolor		0 0 0 0
 			outlinecolor	1 1 0 .5
@@ -228,7 +252,7 @@ menuDef {
 			text			"Type:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
-			rect			310 170 100 15
+			rect			310 160 100 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -250,7 +274,7 @@ menuDef {
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
-			rect			310 195 100 15
+			rect			310 185 100 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0
 			textaligny		14
@@ -456,6 +480,7 @@ menuDef {
 							544   20		20
 			doubleClick { uiScript JoinServer }
 			}
+
 
 	//	SERVER BROWSER - COLUMN TITLES	//
 
