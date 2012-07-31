@@ -483,8 +483,7 @@ const char	*NET_AdrToString (netadr_t a)
 		Sys_SockaddrToString(s, sizeof(s), (struct sockaddr *) &sadr);
 	}
 
-	//return s;
-	return (char *)va("%s:%hu", s, BigShort(a.port));
+	return s;
 }
 
 const char	*NET_AdrToStringwPort (netadr_t a)
