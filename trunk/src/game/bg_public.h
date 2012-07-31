@@ -353,7 +353,7 @@ typedef enum {
 	PERS_ATTACKER,                  // clientnum of last damage inflicter
 	PERS_KILLED,                    // count of the number of times you died
         PERS_RESPAWNS_LEFT,             // number of remaining respawns
-        PERS_SPAWNPOINT_COUNT,          // number of times a player dropped a spawnpoint
+        PERS_SPAWNPOINTS_LEFT,           // number of droppable spawnpoints left
 	// these were added for single player awards tracking
 	PERS_ACCURACY_SHOTS,
 	PERS_ACCURACY_HITS,

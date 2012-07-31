@@ -876,6 +876,27 @@ static void CG_DrawSelectedPlayerHead( rectDef_t *rect, qboolean draw2D, qboolea
 	}
 }
 
+static void CG_DrawPlayerSpawnpoints( rectDef_t *rect, int font, float scale, vec4_t color, qhandle_t shader, int textStyle ) {
+	playerState_t   *ps;
+	int value;
+	char num[16];
+
+	ps = &cg.snap->ps;
+
+	value = ps->persistant[PERS_SPAWNPOINTS_LEFT] +1;
+
+	if ( shader ) {
+		trap_R_SetColor( color );
+		CG_DrawPic( rect->x, rect->y, rect->w, rect->h, shader );
+		trap_R_SetColor( NULL );
+	} else {
+		Com_sprintf( num, sizeof( num ), "%i", value );
+		value = CG_Text_Width( num, font, scale, 0 );
+		CG_Text_Paint( rect->x + ( rect->w - value ) / 2, rect->y + rect->h, font, scale, color, num, 0, 0, textStyle );
+	}
+
+}
+
 static void CG_DrawPlayerLives( rectDef_t *rect, int font, float scale, vec4_t color, qhandle_t shader, int textStyle ) {
 	playerState_t   *ps;
 	int value;
@@ -1083,6 +1104,9 @@ float CG_GetValue( int ownerDraw, int type ) {
 		break;
 	case CG_PLAYER_LIVES:
 		return ps->persistant[PERS_RESPAWNS_LEFT];
+		break;
+	case CG_PLAYER_SPAWNPOINTS:
+		return ps->persistant[PERS_SPAWNPOINTS_LEFT];
 		break;
 	case CG_PLAYER_HEALTH:
 		return ps->stats[STAT_HEALTH];
@@ -1747,6 +1771,9 @@ void CG_OwnerDraw( float x, float y, float w, float h, float text_x, float text_
 		break;
 	case CG_PLAYER_LIVES:
 		CG_DrawPlayerLives( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_PLAYER_SPAWNPOINTS:
+		CG_DrawPlayerSpawnpoints( &rect, font, scale, color, shader, textStyle );
 		break;
 	case CG_PLAYER_HEALTH:
 		CG_DrawPlayerHealth( &rect, font, scale, color, shader, textStyle );
