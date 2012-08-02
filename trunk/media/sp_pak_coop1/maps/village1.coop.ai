@@ -17,6 +17,7 @@ player
 		cvar g_episode 1
 		objectivesneeded 2
 
+
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_2
 	}
@@ -291,7 +292,7 @@ player
 	trigger got_objective2
 	{
 		objectivemet 2
-		trigger game_manager objective1
+		trigger game_manager objective2
 	}
 
 	trigger endmap
