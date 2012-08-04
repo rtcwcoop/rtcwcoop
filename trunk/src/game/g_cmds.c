@@ -151,6 +151,9 @@ CheatsOk
 ==================
 */
 qboolean    CheatsOk( gentity_t *ent ) {
+#ifdef _DEBUG
+	return qtrue;
+#endif
 	if ( !g_cheats.integer ) {
 		trap_SendServerCommand( ent - g_entities, "print \"Cheats are not enabled on this server.\n\"" );
 		return qfalse;
@@ -2334,6 +2337,40 @@ void Cmd_DrawTriggers_f( gentity_t *clent ) {
 	}
 }
 
+#ifdef _DEBUG
+void Cmd_AlertEntity_f() {
+	char targetName[MAX_STRING_TOKENS];
+	gentity_t   *alertent;
+
+	trap_Argv( 1, targetName, sizeof( targetName ) );
+
+	if ( !targetName[0] ) {
+		trap_Print( "Usage: alert <target>\n" );
+		return;
+	}
+
+	// find this targetname
+	alertent = G_Find( NULL, FOFS( targetname ), targetName );
+	if ( !alertent ) {
+		trap_Print( va("alert cannot find targetname \"%s\"\n", targetName) );
+		return;
+	}
+
+	if ( alertent->client ) {
+		// call this entity's AlertEntity function
+		if ( !alertent->AIScript_AlertEntity ) {
+			trap_Print( va("alert \"%s\" (classname = %s) doesn't have an \"AIScript_AlertEntity\" function\n", targetName, alertent->classname) );
+		}
+		alertent->AIScript_AlertEntity( alertent );
+	} else {
+		if ( !alertent->use ) {
+			trap_Print( va("alert \"%s\" (classname = %s) doesn't have a \"use\" function\n", targetName, alertent->classname) );
+		}
+		alertent->use( alertent, NULL, NULL );
+	}
+}
+#endif
+
 
 /*
 =================
@@ -2471,6 +2508,10 @@ void ClientCommand( int clientNum ) {
                 Cmd_DrawTriggers_f( ent );
         } else if ( Q_stricmp( cmd, "teleport" ) == 0 ) {
                 Cmd_Teleport_f( ent );
+#ifdef _DEBUG
+        } else if ( Q_stricmp( cmd, "alert" ) == 0 ) {
+                Cmd_AlertEntity_f();
+#endif
 	} else {
 		trap_SendServerCommand( clientNum, va( "print \"unknown cmd %s\n\"", cmd ) );
 	}

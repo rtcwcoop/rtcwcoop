@@ -914,7 +914,7 @@ helga_zombie	// reincarnation of helga
 		wait 100
 		runtomarker helga1 nostop
 		runtomarker helga2 nostop
-		alertentity closedoor
+		//alertentity closedoor		// cs: its left closed because the cinematic sequence is buggy
 		runtomarker helga3 nostop
 		runtomarker helga4 nostop
 		runtomarker helga5 nostop
