@@ -43,3 +43,5 @@ fi
 
 cd $ORIGINALFOLDER/$CMAKEFOLDER/main
 zip -r bin.pk3 *.so
+cp bin.pk3 ~/.wolf/main/
+cp bin.pk3 $ORIGINALFOLDER/media
