@@ -16,7 +16,7 @@ game_manager
 		accum 0 abort_if_not_bitset 1
 		accum 0 abort_if_not_bitset 2
 		accum 0 abort_if_not_bitset 3
-		trigger player endmap
+		trigger player endnow
 	}
 	
 	trigger objective1

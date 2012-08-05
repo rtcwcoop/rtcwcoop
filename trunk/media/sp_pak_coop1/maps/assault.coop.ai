@@ -333,7 +333,6 @@ player
 	{
 		trigger game_manager checkexit
 		accum 2 abort_if_less_than 1
-		trigger table1 launch
 	}
 
 	trigger endnow
