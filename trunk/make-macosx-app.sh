@@ -28,11 +28,6 @@ BIN_DEDOBJ="
 #	build/$TARGET-darwin-i386/$BASEDIR/qagamei386.dylib
 #"
 
-OUTPUT=`svn diff media/sp_pak_coop1/`
-
-if [ "$OUTPUT" != "" ]; then
-        sh create_pk3.sh
-fi
 
 cd `dirname $0`
 if [ ! -f Makefile ]; then
@@ -151,3 +146,11 @@ lipo -create -o $DESTDIR/$APPBUNDLE/Contents/MacOS/$DEDBIN $BIN_DEDOBJ
 cp src/libs/macosx/*.dylib $DESTDIR/$APPBUNDLE/Contents/MacOS/
 
 
+if [ "$1" = "pk3" ] || [ "$2" = "pk3" ]; then
+        # create pk3 file if needed
+        #OUTPUT=`svn diff media/sp_pak_coop1/`
+
+        #if [ "$OUTPUT" != "" ]; then
+                sh create_pk3.sh
+        #fi
+fi

@@ -20,9 +20,9 @@ if [ "`uname`" = "Darwin" ]; then
 fi
 if [ "`uname`" = "Linux" ]; then
         cp $PAKFILE ~/.wolf/main
+        cp $PAKFILE -t $ORIGINALFOLDER/$CMAKEFOLDER/main
 fi
 
-cp $PAKFILE -t $ORIGINALFOLDER/$CMAKEFOLDER/main
 
 mv $PAKFILE ../
 
@@ -39,9 +39,11 @@ if [ "`uname`" = "Linux" ]; then
         zip -r bin.pk3 *.so
         cp bin.pk3 ~/.wolf/main/
         mv bin.pk3 ../../../media/
+
+        # cmake
+        cd $ORIGINALFOLDER/$CMAKEFOLDER/main
+        zip -r bin.pk3 *.so
+        cp bin.pk3 ~/.wolf/main/
+        cp bin.pk3 $ORIGINALFOLDER/media
 fi
 
-cd $ORIGINALFOLDER/$CMAKEFOLDER/main
-zip -r bin.pk3 *.so
-cp bin.pk3 ~/.wolf/main/
-cp bin.pk3 $ORIGINALFOLDER/media
