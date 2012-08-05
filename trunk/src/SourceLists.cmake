@@ -143,16 +143,18 @@ set (BZZWOLFSP_SOURCES
 	src/splines/splines.cpp
 	src/splines/util_str.cpp
 	src/sys/con_log.c
-	src/sys/con_win32.c
 	src/sys/sys_main.c
 )
 
 if (UNIX)
-	set(BZZWOLFSP_SOURCES ${BZZWOLFSP_SOURCES} src/sys/sys_unix.c)
+	set (BZZWOLFSP_SOURCES ${BZZWOLFSP_SOURCES} src/sys/sys_unix.c
+	                                            src/sys/con_tty.c)
 elseif (WIN32)
-	set(BZZWOLFSP_SOURCES ${BZZWOLFSP_SOURCES} src/sys/sys_win32.c)
+	set (BZZWOLFSP_SOURCES ${BZZWOLFSP_SOURCES} src/sys/sys_win32.c
+	                                            src/sys/con_win32.c)
 elseif (APPLE)
-	set(BZZWOLFSP_SOURCES ${BZZWOLFSP_SOURCES} src/sys/sys_osx.m)
+	set (BZZWOLFSP_SOURCES ${BZZWOLFSP_SOURCES} src/sys/sys_osx.m
+	                                            src/sys/con_tty.c)
 endif ()
 
 set (BZZWOLFSP_INCLUDES
@@ -230,16 +232,18 @@ set (SERVER_SOURCES
 	src/server/sv_snapshot.c
 	src/server/sv_world.c
 	src/sys/con_log.c
-	src/sys/con_win32.c
 	src/sys/sys_main.c
 )
 
 if (UNIX)
-	set(SERVER_SOURCES ${SERVER_SOURCES} src/sys/sys_unix.c)
+	set (SERVER_SOURCES ${SERVER_SOURCES} src/sys/sys_unix.c
+	                                      src/sys/con_tty.c)
 elseif (WIN32)
-	set(SERVER_SOURCES ${SERVER_SOURCES} src/sys/sys_win32.c)
+	set (SERVER_SOURCES ${SERVER_SOURCES} src/sys/sys_win32.c
+	                                      src/sys/con_win32.c)
 elseif (APPLE)
-	set(SERVER_SOURCES ${SERVER_SOURCES} src/sys/sys_osx.m)
+	set (SERVER_SOURCES ${SERVER_SOURCES} src/sys/sys_osx.m
+	                                      src/sys/con_tty.c)
 endif ()
 
 
