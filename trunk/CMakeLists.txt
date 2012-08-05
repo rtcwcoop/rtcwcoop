@@ -17,7 +17,10 @@ set (CMAKE_BUILD_TYPE Debug)
 find_package (SDL 1.2 REQUIRED)
 find_package (OpenGL REQUIRED)
 
-include_directories (${SDL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
+if (NOT DEFINED USE_LOCAL_HEADERS AND DEFINED SDL_FOUND)
+	include_directories (${SDL_INCLUDE_DIR})
+endif ()
+include_directories (${OPENGL_INCLUDE_DIR})
 
 
 # This second file in src/ contains the list of source files
@@ -41,23 +44,33 @@ target_link_libraries (wolfspded ${SDL_LIBRARY})
 
 
 # Other parameters like output name, compiler flags, preprocessor...
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPRODUCT_VERSION=\"${RTCWCOOP_VERSION_MAJOR}.${RTCWCOOP_VERSION_MINOR}${RTCWCOOP_VERSION_PATCH}\"")
 set (CMAKE_EXECUTABLE_SUFFIX .i386)
 set (LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/main)
 
 set_target_properties (cgame PROPERTIES
-	COMPILE_FLAGS "-DCGAMEDLL")
+	COMPILE_FLAGS "-DCGAMEDLL -DCGAME_EXPORTS")
 set_target_properties (qagame PROPERTIES
-	COMPILE_FLAGS "-DGAMEDLL")
+	COMPILE_FLAGS "-DGAMEDLL -DGAME_EXPORTS")
+set_target_properties (ui PROPERTIES
+	COMPILE_FLAGS "-DUI_EXPORTS")
 set_target_properties (cgame qagame ui PROPERTIES
 	PREFIX ""
 	SUFFIX "i386.so")
+
+set_target_properties (wolfsp PROPERTIES
+	COMPILE_FLAGS "-DBOTLIB -DNO_VM_COMPILED -DC_ONLY -DUSE_ICON")
 set_target_properties (wolfspded PROPERTIES
-	COMPILE_FLAGS "-DDEDICATED")
+	COMPILE_FLAGS "-DDEDICATED -DBOTLIB -DNO_VM_COMPILED -DC_ONLY -DUSE_ICON -D_CONSOLE")
+
+if (USE_INTERNAL_ZLIB)	               
+	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DNO_GZIP")
+endif()
 
 
 # Build only 32-bit binaries
 if (CMAKE_COMPILER_IS_GNUCC)
-	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32 -DBOTLIB -DUSE_ICON -DC_ONLY -DNO_VM_COMPILED -DNO_GZIP -DUSE_LOCAL_HEADERS -DPRODUCT_VERSION=\"1.41_SVN588:589M\"")
+	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 if (APPLE)
