@@ -119,6 +119,7 @@ swingblade
 	spawn
 	{
 		accum 0 set 0	// Used to randomly choose a wait.
+		accum 1 set 0   // dont trigger stop twice
 		wait 5
 		faceangles 0 0 -140 1
 	}
@@ -270,6 +271,8 @@ swingblade
 
 	trigger stop
 	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
 		trigger player music_stop_1000
 		wait 5
 		trigger player music3_start

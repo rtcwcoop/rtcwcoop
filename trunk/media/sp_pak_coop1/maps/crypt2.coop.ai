@@ -11,6 +11,7 @@ player
 		accum 0 set 0
 		accum 1 set 0
 		accum 2 set 0 // don't remove exit trigger
+		accum 3 set 0 // don't spawn war zombies more than once
 		cvar g_episode 1
 		objectivesneeded 1
 		suggestweapon weapon_mp40
@@ -170,6 +171,8 @@ player
 
 	trigger swingbladestop
 	{
+		accum 3 abort_if_not_equal 0
+		accum 3 set 1
 		trigger swingblade stop
 		alertentity warboss1
 		alertentity warboss2
@@ -188,6 +191,8 @@ player
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_32 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_33 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_zombie_34 #endif
+		
+		trigger player swingbladestop // cs: no idea why this isn't triggered from map now ...
 	}
 
 	trigger razorsgo
