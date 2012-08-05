@@ -7,6 +7,9 @@ else
 fi
 
 PAKFILE=sp_pak_coop1.pk3
+ORIGINALFOLDER=$(pwd)
+CMAKEFOLDER=cmake
+
 cd media/sp_pak_coop1
 
 #zip -r $PAKFILE models/players/coop/* models/movespeeds/* maps/* scripts/* ui/* ./* levelshots/*
@@ -18,6 +21,8 @@ fi
 if [ "`uname`" = "Linux" ]; then
         cp $PAKFILE ~/.wolf/main
 fi
+
+cp $PAKFILE -t $ORIGINALFOLDER/$CMAKEFOLDER/main
 
 mv $PAKFILE ../
 
@@ -35,3 +40,6 @@ if [ "`uname`" = "Linux" ]; then
         cp bin.pk3 ~/.wolf/main/
         mv bin.pk3 ../../../media/
 fi
+
+cd $ORIGINALFOLDER/$CMAKEFOLDER/main
+zip -r bin.pk3 *.so
