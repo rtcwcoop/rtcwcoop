@@ -1415,8 +1415,7 @@ void Cmd_Teleport_f( gentity_t *ent ) {
         qboolean foundPlayer = qtrue;
         gentity_t *clients[MAX_COOP_CLIENTS];
 
-        // only in coop, not in speedrun
-        if ( g_gametype.integer != GT_COOP )
+        if ( g_gametype.integer == GT_COOP_SPEEDRUN || g_gametype.integer == GT_SINGLE_PLAYER )
                 return;
 
         // FIXME: in speedrun, we need to teleport to somewhere else ..

@@ -264,7 +264,7 @@ static void SV_Map_f( void ) {
 		//Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
 		//Cvar_SetValue( "g_coop", GV_COOP );
 		//Cvar_SetValue( "g_gametype", GT_COOP );
-		Cvar_SetValue( "g_doWarmup", 0 );
+		//Cvar_SetValue( "g_doWarmup", 0 );
 		// may not set sv_maxclients directly, always set latched
 		Cvar_SetLatched( "sv_maxclients", va("%d", MAX_CLIENTS) ); // Ridah, modified this
 		cmd += 4;

@@ -2315,7 +2315,10 @@ static void CG_DrawWarmup( void ) {
 	}
 
 	if ( sec < 0 ) {
-		s = "Waiting for players";
+                if ( cgs.gametype == GT_COOP_BATTLE )
+                        s = "Waiting for 1 player";
+                else
+                        s = "Waiting for players";
 		w = CG_DrawStrlen( s ) * BIGCHAR_WIDTH;
 		CG_DrawBigString( 320 - w / 2, 40, s, 1.0F );
 		cg.warmupCount = 0;

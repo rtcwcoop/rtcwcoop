@@ -396,21 +396,23 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	self->client->ps.persistant[PERS_KILLED]++;
 
-	if ( attacker && attacker->client ) {
-		if ( attacker == self || OnSameTeam( self, attacker ) ) {
-			AddScore( attacker, -1 );
-		} else {
-                        if (g_gametype.integer <= GT_COOP)
-			        AddScore( attacker, -2 );
-                        else
-			        AddScore( attacker, 1 );
+        if ( g_gametype.integer != GT_COOP_BATTLE) {
+                if ( attacker && attacker->client ) {
+                        if ( attacker == self || OnSameTeam( self, attacker ) ) {
+                                AddScore( attacker, -1 );
+                        } else {
+                                if (g_gametype.integer <= GT_COOP)
+                                        AddScore( attacker, -2 );
+                                else
+                                        AddScore( attacker, 1 );
 
-			// done.
-			attacker->client->lastKillTime = level.time;
-		}
-	} else {
-		AddScore( self, -1 );
-	}
+                                // done.
+                                attacker->client->lastKillTime = level.time;
+                        }
+                } else {
+                        AddScore( self, -1 );
+                }
+        }
 
 	// Add team bonuses
 	Team_FragBonuses( self, inflictor, attacker );

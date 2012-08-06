@@ -193,6 +193,9 @@ void UI_LoadArenas( void ) {
                          if ( strstr( type, "coop_speedrun" ) ) {
                                  uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_SPEEDRUN );
                          }
+                         if ( strstr( type, "coop_battle" ) ) {
+                                 uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_BATTLE );
+                         }
                          // -NERVE - SMF
                  } else {
                          uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );

@@ -1025,7 +1025,7 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
         // existing players don't receive
         // the weapons and ammo from the ai scripts on a mapchange
         // on a mapchange we give everyone at least one point, so we can identify new players
-        if ( g_gametype.integer <= GT_COOP )
+        if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE )
                 if ( ent->inuse && !(ent->r.svFlags & SVF_CASTAI) && ent->client->ps.persistant[PERS_SCORE] != 0)
                         return qtrue;
 	pString = params;
@@ -1346,7 +1346,7 @@ qboolean AICast_ScriptAction_GiveWeapon( cast_state_t *cs, char *params ) {
         // existing players don't receive
         // the weapons and ammo from the ai scripts on a mapchange
         // on a mapchange we give everyone at least one point, so we can identify new players
-        if ( g_gametype.integer <= GT_COOP )
+        if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE )
                 if ( ent->inuse && !(ent->r.svFlags & SVF_CASTAI) && ent->client->ps.persistant[PERS_SCORE] != 0)
                         return qtrue;
 
@@ -2342,6 +2342,7 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	qboolean silent = qfalse, endgame = qfalse, savepersist = qfalse;
 	int exitTime = 8000;
 
+
 	player = GetFirstValidPlayer(qtrue);
 	if ( !player ) {
 		return qtrue;  // get out of here
@@ -2435,7 +2436,7 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
                 // fretn - give the players a point for finishing the map
                 // we need to do this because, existing players don't receive
                 // the weapons and ammo from the ai scripts on a mapchange
-                if (g_gametype.integer <= GT_COOP) {
+                if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE ) {
                         gentity_t *ent;
  
                         for ( i = 0; i < g_maxclients.integer; i++ ) { 
@@ -2448,7 +2449,12 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 		return qtrue;
 	}
 
-	Q_strncpyz( level.nextMap, newstr, sizeof( level.nextMap ) );
+        // battle gametype just reloads the current level
+        if ( g_gametype.integer == GT_COOP_BATTLE) {
+                trap_Cvar_VariableStringBuffer( "mapname", level.nextMap, sizeof( level.nextMap) );
+        } else {
+                Q_strncpyz( level.nextMap, newstr, sizeof( level.nextMap ) );
+        }
 
 	//if (g_cheats.integer)
 	//	trap_SendConsoleCommand( EXEC_APPEND, va("spdevmap %s\n", newstr) );

@@ -685,6 +685,7 @@ typedef struct {
 	int numConnectedClients;
 	int numNonSpectatorClients;         // includes connecting clients
 	int numPlayingClients;              // connected, non-spectators
+	int numPlayingCoopClients;              // connected, non-spectators, non-ai
 	int sortedClients[MAX_CLIENTS];             // sorted by score
 	int follow1, follow2;               // clientNums for auto-follow spectators
 
@@ -787,6 +788,8 @@ typedef struct {
 
         // fretn: every x seconds save the current location of the players to use as a future spawnpoint
         int lastSpawnSave;
+
+        int lastBattleScorecheck;
 
         int numFinalDead;
 

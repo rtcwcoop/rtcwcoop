@@ -265,7 +265,7 @@
 "angle" "-10"
 }
 
-#if g_gametype == 0
+#if g_gametype == 1
 {
 "angle" "225" 
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"

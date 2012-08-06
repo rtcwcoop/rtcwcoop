@@ -1197,6 +1197,8 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	level.time = levelTime;
         // fretn
         level.lastSpawnSave = levelTime;
+        level.lastBattleScorecheck = levelTime;
+
 	level.startTime = levelTime;
 
 	level.numSecrets = 0;   //----(SA)	added
@@ -1267,6 +1269,17 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
                         trap_SendServerCommand( -1 , "yougotmail 0\n" );
                 }
 	}
+
+        if ( g_gametype.integer == GT_COOP_BATTLE ) {
+                trap_Cvar_Set("g_friendlyfire", "2");
+                trap_Cvar_Set("g_spawnpoints", "1");
+                trap_Cvar_Set("g_skipcutscenes", "1");
+                trap_Cvar_Set("g_freeze", "0");
+                trap_Cvar_Set("g_doWarmup", "1");
+                trap_Cvar_Set("g_reinforce", "0");
+                trap_Cvar_Set("sv_maxcoopclients", "2");
+
+        }
 
         if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
                 char mapname[MAX_QPATH];
@@ -1586,11 +1599,14 @@ void CalculateRanks( void ) {
 	int newScore;
 	gclient_t   *cl;
 
+        int time = (level.time - level.startTime) / 1000;
+
 	level.follow1 = -1;
 	level.follow2 = -1;
 	level.numConnectedClients = 0;
 	level.numNonSpectatorClients = 0;
 	level.numPlayingClients = 0;
+	level.numPlayingCoopClients = 0;
 	level.numVotingClients = 0;     // don't count bots
 
         level.numFinalDead = 0;
@@ -1611,6 +1627,24 @@ void CalculateRanks( void ) {
 					level.numPlayingClients++;
 					if ( !( g_entities[i].r.svFlags & SVF_BOT ) ) {
 						level.numVotingClients++;
+                                                if ( !( g_entities[i].r.svFlags & SVF_CASTAI ) && g_gametype.integer == GT_COOP_BATTLE) {
+                                                        float dr = (float)level.clients[i].sess.damage_received;
+                                                        float dg = (float)level.clients[i].sess.damage_given;
+                                                        float score = 0.0;
+                                                        if (dr == 0 && dg == 0) {
+                                                                level.clients[i].ps.persistant[PERS_SCORE] = 0;;
+                                                        } else {
+                                                                if (dr == 0)
+                                                                        dr = 1.0;
+                                                                if (dg == 0)
+                                                                        dg = 1.0;
+                                                                score = (dg/(dr*time))*1000.0;
+                                                                level.clients[i].ps.persistant[PERS_SCORE] = (int)score;
+                                                                //G_Printf("%f: %f %f %d\n", score, dg, dr, time);
+                                                        }
+
+                                                        level.numPlayingCoopClients++;
+                                                }
                                                 // fretn
                                                 if ( level.clients[i].ps.persistant[PERS_RESPAWNS_LEFT] == 0 
                                                             && g_entities[i].health <= 0 ) {
@@ -2153,6 +2187,72 @@ FUNCTIONS CALLED EVERY FRAME
 ========================================================================
 */
 
+void SetBattleScore( void ) {
+    if (level.lastBattleScorecheck + 1000 < level.time ) {
+            CalculateRanks();
+            level.lastBattleScorecheck= level.time;
+    }
+
+}
+
+void CheckCoopBattle( void ) {
+
+        if ( level.numPlayingCoopClients == 0 ) {
+                return;
+        }    
+
+        if ( g_gametype.integer == GT_COOP_BATTLE ) {
+
+                // pull in a spectator if needed
+                if ( level.numPlayingCoopClients < 2 ) {
+                        AddTournamentPlayer();
+                }    
+
+                // if we don't have two players, go back to "waiting for players"
+                if ( level.numPlayingCoopClients != 2 ) {
+                        if ( level.warmupTime != -1 ) {
+                                level.warmupTime = -1;
+                                trap_SetConfigstring( CS_WARMUP, va("%i", level.warmupTime) );
+                                G_LogPrintf( "Warmup:\n" );
+                        }    
+                        return;
+                }    
+
+                if ( level.warmupTime == 0 ) {
+                        return;
+                }    
+
+                // if the warmup is changed at the console, restart it
+                if ( g_warmup.modificationCount != level.warmupModificationCount ) {
+                        level.warmupModificationCount = g_warmup.modificationCount;
+                        level.warmupTime = -1;
+                }    
+
+                // if all players have arrived, start the countdown
+                if ( level.warmupTime < 0 ) {
+                        if ( level.numPlayingCoopClients == 2 ) {
+                                // fudge by -1 to account for extra delays
+                                if ( g_warmup.integer > 1 ) {
+                                        level.warmupTime = level.time + ( g_warmup.integer - 1 ) * 1000;
+                                } else {
+                                        level.warmupTime = 0;
+                                }
+
+                                trap_SetConfigstring( CS_WARMUP, va("%i", level.warmupTime) );
+                        }
+                        return;
+                }
+                // if the warmup time has counted down, restart
+                if ( level.time > level.warmupTime ) {
+                        level.warmupTime += 10000;
+                        trap_Cvar_Set( "g_restarted", "1" );
+                        trap_SendConsoleCommand( EXEC_APPEND, "map_restart 0\n" );
+                        level.restarted = qtrue;
+                        return;
+                }
+        }
+}
+
 
 /*
 ==================
@@ -2484,6 +2584,11 @@ void G_RunFrame( int levelTime ) {
 
 	// see if it is time to do a tournement restart
 //	CheckTournament();
+
+        // wait for 2 players
+        CheckCoopBattle();
+
+        SetBattleScore();
 
 	// see if it is time to end the level
 	CheckExitRules();

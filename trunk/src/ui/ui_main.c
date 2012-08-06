@@ -78,6 +78,7 @@ static const serverFilter_t serverFilters[] = {
 };
 
 static const char *coopGameTypes[] = {
+        "Battle",
         "Speedrun",
         "Cooperative"
 };
