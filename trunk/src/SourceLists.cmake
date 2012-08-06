@@ -1,5 +1,6 @@
 # Main binary
 set (BZZWOLFSP_SOURCES
+	src/sys/sys_main.c
 	src/botlib/be_aas_bspq3.c
 	src/botlib/be_aas_cluster.c
 	src/botlib/be_aas_debug.c
@@ -143,7 +144,6 @@ set (BZZWOLFSP_SOURCES
 	src/splines/splines.cpp
 	src/splines/util_str.cpp
 	src/sys/con_log.c
-	src/sys/sys_main.c
 )
 
 if (UNIX)
@@ -172,6 +172,7 @@ set (BZZWOLFSP_INCLUDES
 
 # Dedicated server
 set (SERVER_SOURCES
+	src/sys/sys_main.c
 	src/botlib/be_aas_bspq3.c
 	src/botlib/be_aas_cluster.c
 	src/botlib/be_aas_debug.c
@@ -232,7 +233,6 @@ set (SERVER_SOURCES
 	src/server/sv_snapshot.c
 	src/server/sv_world.c
 	src/sys/con_log.c
-	src/sys/sys_main.c
 )
 
 if (UNIX)
@@ -249,6 +249,7 @@ endif ()
 
 # "cgame" library
 set (CGAME_SOURCES
+	src/cgame/cg_main.c
 	src/cgame/cg_consolecmds.c
 	src/cgame/cg_draw.c
 	src/cgame/cg_drawtools.c
@@ -258,7 +259,6 @@ set (CGAME_SOURCES
 	src/cgame/cg_flamethrower.c
 	src/cgame/cg_info.c
 	src/cgame/cg_localents.c
-	src/cgame/cg_main.c
 	src/cgame/cg_marks.c
 	src/cgame/cg_newDraw.c
 	src/cgame/cg_omnibot.c
@@ -290,6 +290,7 @@ set (CGAME_INCLUDES
 
 # "qagame" library
 set (QAGAME_SOURCES
+	src/game/g_main.c
 	src/botai/ai_chat.c
 	src/botai/ai_cmd.c
 	src/botai/ai_dmnet.c
@@ -322,7 +323,6 @@ set (QAGAME_SOURCES
 	src/game/g_combat.c
 	src/game/g_coop.c
 	src/game/g_items.c
-	src/game/g_main.c
 	src/game/g_mem.c
 	src/game/g_misc.c
 	src/game/g_missile.c
@@ -353,13 +353,13 @@ set (QAGAME_INCLUDES
 
 # "ui" library
 set (UI_SOURCES
+	src/ui/ui_main.c
 	src/game/bg_animation.c
 	src/game/bg_misc.c
 	src/game/q_math.c
 	src/game/q_shared.c
 	src/ui/ui_atoms.c
 	src/ui/ui_gameinfo.c
-	src/ui/ui_main.c
 	src/ui/ui_players.c
 	src/ui/ui_shared.c
 	src/ui/ui_syscalls.c

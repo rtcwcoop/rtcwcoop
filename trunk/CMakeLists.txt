@@ -7,6 +7,7 @@ project (RTCWCOOP)
 set (RTCWCOOP_VERSION_MAJOR 1)
 set (RTCWCOOP_VERSION_MINOR 4)
 set (RTCWCOOP_VERSION_PATCH 1)
+set (RTCWCOOP_VERSION "${RTCWCOOP_VERSION_MAJOR}.${RTCWCOOP_VERSION_MINOR}${RTCWCOOP_VERSION_PATCH}\")
 
 
 # Build type can be None, Debug, Release, RelWithDebInfo or MinSizeRel
@@ -17,7 +18,7 @@ set (CMAKE_BUILD_TYPE Debug)
 find_package (SDL 1.2 REQUIRED)
 find_package (OpenGL REQUIRED)
 
-if (NOT DEFINED USE_LOCAL_HEADERS AND DEFINED SDL_FOUND)
+if (NOT DEFINED USE_LOCAL_HEADERS)
 	include_directories (${SDL_INCLUDE_DIR})
 endif ()
 include_directories (${OPENGL_INCLUDE_DIR})
@@ -28,9 +29,9 @@ include (src/SourceLists.cmake)
 
 
 # Targets (main binary and libraries)
-add_library (cgame ${CGAME_SOURCES})
-add_library (qagame ${QAGAME_SOURCES})
-add_library (ui ${UI_SOURCES})
+add_library (cgame SHARED ${CGAME_SOURCES})
+add_library (qagame SHARED ${QAGAME_SOURCES})
+add_library (ui SHARED ${UI_SOURCES})
 
 include_directories (${CGAME_INCLUDES} ${QAGAME_INCLUDES} ${UI_INCLUDES})
 
@@ -44,7 +45,7 @@ target_link_libraries (wolfspded ${SDL_LIBRARY})
 
 
 # Other parameters like output name, compiler flags, preprocessor...
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPRODUCT_VERSION=\"${RTCWCOOP_VERSION_MAJOR}.${RTCWCOOP_VERSION_MINOR}${RTCWCOOP_VERSION_PATCH}\"")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPRODUCT_VERSION=\"${RTCWCOOP_VERSION}}\")
 set (CMAKE_EXECUTABLE_SUFFIX .i386)
 set (LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/main)
 
@@ -66,16 +67,6 @@ set_target_properties (wolfspded PROPERTIES
 if (USE_INTERNAL_ZLIB)	               
 	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DNO_GZIP")
 endif()
-
-
-# Build only 32-bit binaries
-if (CMAKE_COMPILER_IS_GNUCC)
-	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
-endif (CMAKE_COMPILER_IS_GNUCC)
-
-if (APPLE)
-	set (CMAKE_OSX_ARCHITECTURES "i386")
-endif (APPLE)
 
 
 # Create "main" directory next to the binaries, for the .so and .pk3 files
