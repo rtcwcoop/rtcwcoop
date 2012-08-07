@@ -233,7 +233,7 @@
     	name "Cursorhints"
     	fullScreen MENU_FALSE
     	visible MENU_TRUE
-    	rect 296 360 48 48
+    	rect 296 336 48 48
 
 		itemDef {
 			name "chRect"
@@ -244,14 +244,29 @@
 		}
 	}
 
+        // COMPASS
+        menuDef {
+                name "Compass"
+                fullScreen MENU_FALSE
+                visible MENU_TRUE
+    	        rect 510 410 114 65
+                itemDef {
+                        name "compassicon"
+                        visible MENU_TRUE
+                        decoration
+                        ownerdraw CG_PLAYER_COMPASS
+			rect 40 0 80 15		// horizontal version
+			align HUD_HORIZONTAL
+                }
+        }
 
-
+/*
 //	NOTEBOOK notification
 	menuDef {
     	name "yougotmail"
     	fullScreen MENU_FALSE
     	visible MENU_TRUE
-  		rect 420 456 24 15
+  		rect 614 462 24 15
 
 		itemDef {
 			name "chRect"
@@ -261,7 +276,7 @@
 			ownerdraw CG_NEWMESSAGE
 		}
 	}
-
+*/
 
 	menuDef {
     	name "stability"
@@ -281,23 +296,6 @@
 			ownerdraw CG_PLAYER_WEAPON_STABILITY
 		}
 	}
-
-
-        // COMPASS
-        menuDef {
-                name "Compass"
-                fullScreen MENU_FALSE
-                visible MENU_TRUE
-    	        rect 510 410 114 65
-                itemDef {
-                        name "compassicon"
-                        visible MENU_TRUE
-                        decoration
-                        ownerdraw CG_PLAYER_COMPASS
-			rect 40 0 80 15		// horizontal version
-			align HUD_HORIZONTAL
-                }
-        }
 
 
 //	AMMO	//
