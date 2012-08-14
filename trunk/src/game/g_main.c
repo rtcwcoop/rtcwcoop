@@ -64,6 +64,7 @@ vmCvar_t g_freeze;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
+vmCvar_t g_airespawn;
 // done
 
 vmCvar_t g_reloading;       //----(SA)	added
@@ -164,6 +165,7 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_reloading, "g_reloading", "0", CVAR_ROM },   //----(SA)	added
 
         //fretn
+	{ &g_airespawn, "g_airespawn", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },  
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE, 0, qtrue  },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},

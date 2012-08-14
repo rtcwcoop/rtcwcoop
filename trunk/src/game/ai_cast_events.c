@@ -391,7 +391,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 	}
 
-        if ( g_gameskill.integer == GSKILL_MAX && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
+        if ( g_airespawn.integer && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
                 && self->aiCharacter != AICHAR_HEINRICH && nogib )
                 cs->rebirthTime = level.time + 15000 + rand() % 2000;
 
