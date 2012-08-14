@@ -46,6 +46,9 @@ The pk3 will be placed inside the media folder, copy this folder to your main fo
  Set to 1 if you want to see info about your teamplayers: playername, ammo, ammoclip and health, its like in the multiplayer.
  Set to 2 if you also want to see a bar that shows the armor, just like the health bar, but  below it
 
+== g_airespawn ==
+ Set to 1 to enable this. (might be buggy, needs a lot of testing)
+ Set to 0 to disable this.
 
 == r_greyscale ==
  set to 1 and everything is rendered in greyscale
