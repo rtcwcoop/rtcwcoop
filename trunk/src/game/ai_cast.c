@@ -635,6 +635,9 @@ void AIChar_AIScript_AlertEntity( gentity_t *ent ) {
 
 	cs = AICast_GetCastState( ent->s.number );
 
+        if ( !cs )
+                return;
+
 	// if the current bounding box is invalid, then wait
 	VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
 	VectorAdd( ent->r.currentOrigin, ent->r.maxs, maxs );
