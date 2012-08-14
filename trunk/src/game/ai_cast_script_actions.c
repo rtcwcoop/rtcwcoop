@@ -2358,6 +2358,32 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 		return qtrue;
 	}
 
+        if ( level.intermissionQueued ) {
+                return qtrue;
+        }
+
+        if ( g_gametype.integer == GT_COOP_BATTLE ) {
+
+                if (level.numPlayingCoopClients < 2) {
+                        return qtrue;
+                }
+
+		// check for missing objectives
+		for ( i = 0; i < level.numObjectives; i++ ) {
+                        if ( !( level.missionObjectives & ( 1 << i ) ) ) {
+                                trap_SendServerCommand( -1, "cp objectivesnotcomplete" );
+                                return qtrue;
+                        }
+                }
+
+                if ( level.intermissiontime ) {
+                        return qtrue;
+                }    
+
+                LogExit( "Battle EndRound." );
+                return qtrue;
+        }
+
 	// save persistent data if required
 	newstr = va( params );
 	pch = strstr( newstr, " persistent" ); // (SA) whoops, this was mis-spelled

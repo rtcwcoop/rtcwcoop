@@ -1251,6 +1251,8 @@ static void CG_MapRestart( void ) {
 
 	trap_S_ClearLoopingSounds( qtrue );
 
+        cg.latchVictorySound = qfalse;
+
 	// we really should clear more parts of cg here and stop sounds
 	cg.v_dmg_time = 0;
 	cg.v_noFireTime = 0;
@@ -1601,7 +1603,6 @@ static void CG_ServerCommand( void ) {
                         trap_Cvar_Set( "_pregame", "0" );
                         trap_S_FadeAllSound( 1.0f, 1000 );    // fade sound up
                 }
-
 
                 return;
 	}

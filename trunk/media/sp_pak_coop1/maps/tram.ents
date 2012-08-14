@@ -206,6 +206,7 @@
 
 #endif
 
+#if g_reinforce >= 1
 {
 "classname" "ai_soldier"
 "origin" "3573 1548 1272"
@@ -224,6 +225,7 @@
 "spawnflags" "1" 
 "angle" "-81"
 }
+#endif
 {
 "classname" "ai_soldier"
 "origin" "3623 1823 1272"

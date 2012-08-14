@@ -1022,6 +1022,8 @@ typedef struct {
 
 	float rumbleScale;          //RUMBLE FX using new shakeCamera code
 
+        qboolean latchVictorySound;
+
 } cg_t;
 
 #define NUM_FUNNEL_SPRITES  21

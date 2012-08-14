@@ -2327,6 +2327,7 @@ static void CG_DrawWarmup( void ) {
 
 
 	sec = ( sec - cg.time ) / 1000;
+
 	if ( sec < 0 ) {
 		sec = 0;
 	}
@@ -2334,7 +2335,8 @@ static void CG_DrawWarmup( void ) {
         if ( sec == 0 ) {
 	        s = va( "FIGHT !!");
         } else {
-	        s = va( "Game starts in: %i", sec + 1 );
+	        //s = va( "Game starts in: %i", sec + 1 );
+	        s = va( "Game starts in: %i", sec );
         }
 
         cw = 16;

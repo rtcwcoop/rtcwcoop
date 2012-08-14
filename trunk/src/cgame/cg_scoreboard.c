@@ -60,6 +60,22 @@ void CG_DrawCoopScoreboard( void )
                 return;
         }   
 
+        // draw winner
+        if (cg.predictedPlayerState.pm_type == PM_INTERMISSION && cgs.gametype == GT_COOP_BATTLE) {
+                const char *s, *buf;
+                int w;
+
+                s = CG_ConfigString( CS_BATTLE_INFO );
+                buf = Info_ValueForKey( s, "winner" );
+                w = CG_DrawStrlen( va("%s wins!", buf) ) * BIGCHAR_WIDTH;
+                CG_DrawBigString( 320 - (w / 2), 40, va("%s wins !", buf), 1.0F );
+
+                if ( !cg.latchVictorySound ) {
+                        cg.latchVictorySound = qtrue;
+                        trap_S_StartLocalSound( trap_S_RegisterSound( "sound/multiplayer/music/l_complete_2.wav" ), CHAN_LOCAL_SOUND );
+                }
+        }
+
         color2[3] = color[3];
 
 
@@ -192,7 +208,7 @@ qboolean CG_DrawScoreboard( void ) {
 	}
 
 	// don't draw scoreboard during death while warmup up
-	if ( cg.warmup && !cg.showScores ) {
+	if ( cg.warmup && !cg.showScores && cg.predictedPlayerState.pm_type != PM_INTERMISSION) {
 		return qfalse;
 	}
 

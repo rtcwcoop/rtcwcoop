@@ -1060,6 +1060,7 @@ void QDECL G_Error( const char *fmt, ... );
 void G_EndGame( void );
 int G_SendMissionStats( void );   // return '0' if objectives not met, '1' if met
 void G_ChangeLevel( char *mapName );
+void LogExit( const char *string );
 //----(SA)	end
 
 //

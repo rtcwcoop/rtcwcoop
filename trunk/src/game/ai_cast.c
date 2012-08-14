@@ -715,8 +715,8 @@ void AICast_DelayedSpawnCast( gentity_t *ent, int castType ) {
 	// now, if the game gets saved after the character spawns in, when it gets re-loaded, the client
 	// won't get spawned properly.
 	if ( ent->spawnflags & 1 ) { // TriggerSpawn
-		ent->AIScript_AlertEntity = AIChar_AIScript_AlertEntity;
-		ent->aiInactive = qtrue;
+                ent->AIScript_AlertEntity = AIChar_AIScript_AlertEntity;
+                ent->aiInactive = qtrue;
 	}
 
 	// RF, had to move this down since some dev maps don't properly spawn the guys in, so we

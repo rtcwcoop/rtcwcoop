@@ -623,7 +623,8 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 				//
 				if ( !Q_stricmp( traceEnt->classname, "ai_trigger" ) ) {
 					if ( ( !Q_stricmp( traceEnt->aiName, "player" ) ) &&
-						 ( !Q_stricmp( traceEnt->target, "endmap" ) ) ) {
+						 ( !Q_stricmp( traceEnt->target, "endmap" ) ) && 
+                                                g_gametype.integer != GT_COOP_BATTLE ) {
 
 						hintDist = CH_EXIT_DIST;
 
@@ -1276,7 +1277,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
                 trap_Cvar_Set("g_skipcutscenes", "1");
                 trap_Cvar_Set("g_freeze", "0");
                 trap_Cvar_Set("g_doWarmup", "1");
-                trap_Cvar_Set("g_reinforce", "0");
+                //trap_Cvar_Set("g_reinforce", "0");
                 trap_Cvar_Set("sv_maxcoopclients", "2");
 
         }
@@ -1627,7 +1628,7 @@ void CalculateRanks( void ) {
 					level.numPlayingClients++;
 					if ( !( g_entities[i].r.svFlags & SVF_BOT ) ) {
 						level.numVotingClients++;
-                                                if ( !( g_entities[i].r.svFlags & SVF_CASTAI ) && g_gametype.integer == GT_COOP_BATTLE) {
+                                                if ( !( g_entities[i].r.svFlags & SVF_CASTAI ) && g_gametype.integer == GT_COOP_BATTLE && !level.intermissiontime) {
                                                         float dr = (float)level.clients[i].sess.damage_received;
                                                         float dg = (float)level.clients[i].sess.damage_given;
                                                         float score = 0.0;
@@ -1950,7 +1951,7 @@ Append information about this game to the log file
 void LogExit( const char *string ) {
 	int i, numSorted;
 	gclient_t       *cl;
-
+        char cs[MAX_INFO_STRING];
 
 
 	G_LogPrintf( "Exit: %s\n", string );
@@ -1985,6 +1986,13 @@ void LogExit( const char *string ) {
 					 cl->ps.persistant[PERS_SCORE], ping, level.sortedClients[i],
 					 cl->pers.netname );
 	}
+
+        if ( g_gametype.integer == GT_COOP_BATTLE ) {
+                trap_GetConfigstring( CS_BATTLE_INFO, cs, sizeof( cs ) ); 
+                cl = &level.clients[level.sortedClients[0]];
+                Info_SetValueForKey( cs, "winner", va("%s", cl->pers.netname) ); // todo, clientnum of real winner
+                trap_SetConfigstring( CS_BATTLE_INFO, cs );
+        }
 }
 
 
