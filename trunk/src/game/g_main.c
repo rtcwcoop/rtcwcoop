@@ -2029,6 +2029,10 @@ void CheckIntermissionExit( void ) {
 			continue;
 		}
 
+		if ( g_entities[cl->ps.clientNum].r.svFlags & SVF_CASTAI ) {
+			continue;
+		}
+
 		if ( cl->readyToExit ) {
 			ready++;
 			if ( i < 16 ) {
