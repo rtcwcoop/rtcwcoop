@@ -2,10 +2,10 @@
 
 if [ "$1" = "release" ]; then
         TARGET="release"
-        APPBUNDLE=wolfsp.app
+        APPBUNDLE=rtcwcoop.app
 else
         TARGET="debug"
-        APPBUNDLE=wolfsp_debug.app
+        APPBUNDLE=rtcwcoop_debug.app
 fi
 
 BINARY=wolfsp.i386
