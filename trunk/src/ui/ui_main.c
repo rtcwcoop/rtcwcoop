@@ -4153,7 +4153,13 @@ static void UI_RunMenuScript( char **args ) {
 			trap_Cvar_Set( "cg_thirdPerson", "0" );
 			trap_Cvar_Set( "cg_cameraOrbit", "0" );
 			//trap_Cvar_Set( "ui_singlePlayerActive", "0" );
+#ifdef MACOS_X
+                        // fretn: currently its not possible to spawn a dedicated server on mac through the menus
+                        // You need to use Terminal.app to execute the dedicated binary
+			trap_Cvar_SetValue( "dedicated", 0 );
+#else
 			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
+#endif
 			trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 2, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
 			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
 			skill = trap_Cvar_VariableValue( "g_spSkill" );
