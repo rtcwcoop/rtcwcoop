@@ -6481,7 +6481,7 @@ uiMenuCommand_t _UI_GetActiveMenu( void ) {
 //----(SA)	end
 
 void _UI_SetActiveMenu( uiMenuCommand_t menu ) {
-	char buf[256];
+	char buf[4096];
 
 	// this should be the ONLY way the menu system is brought up
 	// enusure minumum menu data is cached
@@ -6504,6 +6504,7 @@ void _UI_SetActiveMenu( uiMenuCommand_t menu ) {
 
 			return;
 		case UIMENU_MAIN:
+        /*
 			//trap_Cvar_Set( "sv_killserver", "1" );
 			trap_Key_SetCatcher( KEYCATCH_UI );
 			//trap_S_StartLocalSound( trap_S_RegisterSound("sound/misc/menu_background.wav", qfalse) , CHAN_LOCAL_SOUND );
@@ -6522,6 +6523,35 @@ void _UI_SetActiveMenu( uiMenuCommand_t menu ) {
 
 			// ensure savegames are loadable
 			trap_Cvar_Set( "g_reloading", "0" );
+*/
+                        trap_Key_SetCatcher( KEYCATCH_UI );
+                        if ( uiInfo.inGameLoad ) {
+                                UI_LoadNonIngame();
+                        }    
+                        Menus_CloseAll();
+                        Menus_ActivateByName( "main", qtrue );
+                        trap_Cvar_VariableStringBuffer( "com_errorMessage", buf, sizeof( buf ) ); 
+                        // JPW NERVE stricmp() is silly but works, take a look at error.menu to see why.  I think this is bustified in q3ta                        // NOTE TTimo - I'm not sure Q_stricmp is useful to anything anymore
+                        // show_bug.cgi?id=507
+                        // TTimo - improved and tweaked that area a whole bunch
+                        if ( ( strlen( buf ) ) && ( Q_stricmp( buf,";" ) ) ) {
+                                trap_Cvar_Set( "com_errorMessage", buf );        // NERVE - SMF
+                                // hacky, wanted to have the printout of missing files
+                                // text printing limitations force us to keep it all in a single message
+                                // NOTE: this works thanks to flip flop in UI_Cvar_VariableString
+                                /*if ( UI_Cvar_VariableString( "com_errorDiagnoseIP" )[0] ) {
+                                        missing_files = UI_Cvar_VariableString( "com_missingFiles" );
+                                        if ( missing_files[0] ) {
+                                                trap_Cvar_Set( "com_errorMessage",
+                                                                           va( "%s\n\n%s\n%s",
+                                                                                   UI_Cvar_VariableString( "com_errorMessage" ),
+                                                                                   trap_TranslateString( MISSING_FILES_MSG ),
+                                                                                   missing_files ) );
+                                        }                                               
+                                }            */
+                                Menus_ActivateByName( "error_popmenu_diagnose", qtrue );
+                        }            
+                        return;
 
 			return;
 
