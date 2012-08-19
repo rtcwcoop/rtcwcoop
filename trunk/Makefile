@@ -12,6 +12,11 @@ ifeq ($(COMPILE_PLATFORM),darwin)
   # Apple does some things a little differently...
   COMPILE_ARCH=$(shell uname -p | sed -e s/i.86/i386/)
 endif
+# no 64bit support on linux, I'm sorry :)
+# but its on my todo list !
+ifeq ($(COMPILE_PLATFORM),linux)
+  COMPILE_ARCH=i386
+endif
 ifeq ($(COMPILE_PLATFORM),mingw32)
   ifeq ($(COMPILE_ARCH),i386)
     COMPILE_ARCH=x86
