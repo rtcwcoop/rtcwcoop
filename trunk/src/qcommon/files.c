@@ -2678,14 +2678,15 @@ void FS_Path_f( void ) {
 	Com_Printf( "Current search path:\n" );
 	for ( s = fs_searchpaths; s; s = s->next ) {
 		if ( s->pack ) {
-			Com_Printf( "%s (%i files)\n", s->pack->pakFilename, s->pack->numfiles );
+			Com_Printf( "%s (%i files)", s->pack->pakFilename, s->pack->numfiles );
 			if ( fs_numServerPaks ) {
 				if ( !FS_PakIsPure( s->pack ) ) {
-					Com_Printf( "    not on the pure list\n" );
+					Com_Printf( "    not on the pure list" );
 				} else {
-					Com_Printf( "    on the pure list\n" );
+					Com_Printf( "    on the pure list" );
 				}
 			}
+                        Com_Printf( "\n" );
 		} else {
 			Com_Printf( "%s/%s\n", s->dir->path, s->dir->gamedir );
 		}
