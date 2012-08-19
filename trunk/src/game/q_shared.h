@@ -39,7 +39,8 @@ If you have questions concerning this license or the applicable additional terms
 #define GAMENAME_FOR_MASTER           "wolfsp"
 
 
-#define Q3_VERSION      "Wolf 1.41"
+//#define Q3_VERSION      "Wolf 1.41"
+#define Q3_VERSION      "RTCWCoop 1.0"
 // ver 1.0.0	- release
 // ver 1.0.1	- post-release work
 // ver 1.1.0	- patch 1 (12/12/01)
