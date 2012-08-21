@@ -57,7 +57,6 @@ void SV_GetChallenge( netadr_t from ) {
 	challenge_t *challenge;
 
 	// ignore if we are in single player
-        //fretn COOP
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
 		return;
 	}
@@ -85,7 +84,7 @@ void SV_GetChallenge( netadr_t from ) {
 		challenge->adr = from;
 		challenge->time = svs.time;
 		challenge->firstTime = svs.time;
-                challenge->connected = qfalse;
+        challenge->connected = qfalse;
 		i = oldest;
 	}
 
@@ -581,6 +580,7 @@ void SV_SendClientGameState( client_t *client ) {
 	Com_DPrintf( "Going from CS_CONNECTED to CS_PRIMED for %s\n", client->name );
 	client->state = CS_PRIMED;
 	client->pureAuthentic = 0;
+        client->gotCP = qfalse;
 
 	// when we receive the first packet from the client, we will
 	// notice that it is from a different serverid and that the
@@ -983,6 +983,8 @@ static void SV_VerifyPaks_f( client_t *cl ) {
 	// certain pk3 files, namely we want the client to have loaded the
 	// ui and cgame that we think should be loaded based on the pure setting
 	//
+
+
 	if ( sv_pure->integer != 0 ) {
 
 		bGood = qtrue;
@@ -997,6 +999,21 @@ static void SV_VerifyPaks_f( client_t *cl ) {
 
 		// start at arg 1 ( skip cl_paks )
 		nCurArg = 1;
+
+		pArg = Cmd_Argv( nCurArg++ );
+
+		if ( !pArg ) {
+			bGood = qfalse;
+		} else
+		{
+			// show_bug.cgi?id=475
+			// we may get incoming cp sequences from a previous checksumFeed, which we need to ignore
+			// since serverId is a frame count, it always goes up
+			if ( atoi( pArg ) < sv.checksumFeedServerId ) {
+				Com_DPrintf( "ignoring outdated cp command from client %s\n", cl->name );
+				return;
+			}
+		}
 
 		// we basically use this while loop to avoid using 'goto' :)
 		while ( bGood ) {
@@ -1022,6 +1039,7 @@ static void SV_VerifyPaks_f( client_t *cl ) {
 			// should be sitting at the delimeter now
 			pArg = Cmd_Argv( nCurArg++ );
 			if ( *pArg != '@' ) {
+				bGood = qfalse;
 				break;
 			}
 			// store checksums since tokenization is not re-entrant
@@ -1095,6 +1113,8 @@ static void SV_VerifyPaks_f( client_t *cl ) {
 			break;
 		}
 
+                cl->gotCP = qtrue;
+
 		if ( bGood ) {
 			cl->pureAuthentic = 1;
 		} else {
@@ -1114,6 +1134,7 @@ SV_ResetPureClient_f
 */
 static void SV_ResetPureClient_f( client_t *cl ) {
 	cl->pureAuthentic = 0;
+        cl->gotCP = qfalse;
 }
 
 /*
@@ -1368,6 +1389,19 @@ static void SV_UserMove( client_t *cl, msg_t *msg, qboolean delta ) {
 
 	// save time for ping calculation
 	cl->frames[ cl->messageAcknowledge & PACKET_MASK ].messageAcked = svs.time;
+
+	// TTimo
+	// catch the no-cp-yet situation before SV_ClientEnterWorld
+	// if CS_ACTIVE, then it's time to trigger a new gamestate emission
+	// if not, then we are getting remaining parasite usermove commands, which we should ignore
+	if ( sv_pure->integer != 0 && cl->pureAuthentic == 0 && !cl->gotCP ) {
+		if ( cl->state == CS_ACTIVE ) {
+			// we didn't get a cp yet, don't assume anything and just send the gamestate all over again
+			Com_DPrintf( "%s: didn't get cp command, resending gamestate\n", cl->name, cl->state );
+			SV_SendClientGameState( cl );
+		}
+		return;
+	}
 
 	// if this is the first usercmd we have received
 	// this gamestate, put the client into the world

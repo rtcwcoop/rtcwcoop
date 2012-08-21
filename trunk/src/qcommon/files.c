@@ -298,6 +298,10 @@ typedef struct {
 
 static fileHandleData_t fsh[MAX_FILE_HANDLES];
 
+// TTimo - show_bug.cgi?id=540
+// wether we did a reorder on the current search path when joining the server
+static qboolean fs_reordered;
+
 // never load anything from pk3 files that are not present at the server when pure
 static int fs_numServerPaks;
 static int fs_serverPaks[MAX_SEARCH_PATHS];                     // checksums
@@ -1254,13 +1258,16 @@ int FS_FOpenFileRead( const char *filename, fileHandle_t *file, qboolean uniqueF
 					}
 
                                         // qagame dll
-                                        if ( !( pak->referenced & FS_QAGAME_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_QAGAME, -SYS_DLLNAME_QAGAME_SHIFT ) ) {                                                                      pak->referenced |= FS_QAGAME_REF;
+                                        if ( !( pak->referenced & FS_QAGAME_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_QAGAME, -SYS_DLLNAME_QAGAME_SHIFT ) ) {
+                                                pak->referenced |= FS_QAGAME_REF;
                                         }            
                                         // cgame dll
-                                        if ( !( pak->referenced & FS_CGAME_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_CGAME, -SYS_DLLNAME_CGAME_SHIFT ) ) {                                                                         pak->referenced |= FS_CGAME_REF;
+                                        if ( !( pak->referenced & FS_CGAME_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_CGAME, -SYS_DLLNAME_CGAME_SHIFT ) ) { 
+                                                pak->referenced |= FS_CGAME_REF;
                                         }            
                                         // ui dll
-                                        if ( !( pak->referenced & FS_UI_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_UI, -SYS_DLLNAME_UI_SHIFT ) ) {                                                                                  pak->referenced |= FS_UI_REF;
+                                        if ( !( pak->referenced & FS_UI_REF ) && FS_ShiftedStrStr( filename, SYS_DLLNAME_UI, -SYS_DLLNAME_UI_SHIFT ) ) {
+                                                pak->referenced |= FS_UI_REF;
                                         } 
 
 					if ( uniqueFILE ) {
@@ -2941,7 +2948,7 @@ qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring ) {
 		havepak = qfalse;
 
 		// never autodownload any of the id paks
-		if ( FS_idPak( fs_serverReferencedPakNames[i], "baseq3" ) || FS_idPak( fs_serverReferencedPakNames[i], "missionpack" ) ) {
+		if ( FS_idPak( fs_serverReferencedPakNames[i], "main" ) ) {
 			continue;
 		}
 
@@ -3047,6 +3054,45 @@ void FS_Shutdown( qboolean closemfp ) {
 void Com_AppendCDKey( const char *filename );
 void Com_ReadCDKey( const char *filename );
 #endif
+/*
+================
+FS_ReorderPurePaks
+NOTE TTimo: the reordering that happens here is not reflected in the cvars (\cvarlist *pak*)
+  this can lead to misleading situations, see show_bug.cgi?id=540
+================
+*/
+static void FS_ReorderPurePaks() {
+	searchpath_t *s;
+	int i;
+	searchpath_t **p_insert_index, // for linked list reordering
+	**p_previous;     // when doing the scan
+
+	// only relevant when connected to pure server
+	if ( !fs_numServerPaks ) {
+		return;
+	}
+
+	fs_reordered = qfalse;
+
+	p_insert_index = &fs_searchpaths; // we insert in order at the beginning of the list
+	for ( i = 0 ; i < fs_numServerPaks ; i++ ) {
+		p_previous = p_insert_index; // track the pointer-to-current-item
+		for ( s = *p_insert_index; s; s = s->next ) { // the part of the list before p_insert_index has been sorted already
+			if ( s->pack && fs_serverPaks[i] == s->pack->checksum ) {
+				fs_reordered = qtrue;
+				// move this element to the insert list
+				*p_previous = s->next;
+				s->next = *p_insert_index;
+				*p_insert_index = s;
+				// increment insert list
+				p_insert_index = &s->next;
+				break; // iterate to next server pack
+			}
+			p_previous = &s->next;
+		}
+	}
+
+}
 
 /*
 ================
@@ -3125,6 +3171,10 @@ static void FS_Startup( const char *gameName ) {
 	Cmd_AddCommand( "dir", FS_Dir_f );
 	Cmd_AddCommand( "fdir", FS_NewDir_f );
 	Cmd_AddCommand( "touchFile", FS_TouchFile_f );
+
+	// show_bug.cgi?id=506
+	// reorder the pure pk3 files according to server order
+	FS_ReorderPurePaks();
 
 	// print the current search paths
 	FS_Path_f();
@@ -3444,6 +3494,15 @@ void FS_PureServerSetLoadedPaks( const char *pakSums, const char *pakNames ) {
 
 	if ( fs_numServerPaks ) {
 		Com_DPrintf( "Connected to a pure server.\n" );
+	} else
+	{
+		if ( fs_reordered ) {
+			// show_bug.cgi?id=540
+			// force a restart to make sure the search order will be correct
+			Com_DPrintf( "FS search reorder is required\n" );
+			FS_Restart( fs_checksumFeed );
+			return;
+		}
 	}
 
 	for ( i = 0 ; i < c ; i++ ) {

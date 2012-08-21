@@ -65,6 +65,9 @@ typedef struct {
 	int serverId;                       // changes each server start
 	int restartedServerId;              // serverId before a map_restart
 	int checksumFeed;                   //
+        // show_bug.cgi?id=475
+        // the serverId associated with the current checksumFeed (always <= serverId)
+        int checksumFeedServerId;
 	int snapshotCounter;                // incremented for each snapshot built
 	int timeResidual;                   // <= 1000 / sv_frame->value
 	int nextFrameTime;                  // when time > nextFrameTime, process world
@@ -174,6 +177,7 @@ typedef struct client_s {
 	int snapshotMsec;                   // requests a snapshot every snapshotMsec unless rate choked
 	int pureAuthentic;
 	netchan_t netchan;
+        qboolean gotCP;  // TTimo - additional flag to distinguish between a bad pure checksum, and no cp command at all
         int oldServerTime;
 } client_t;
 

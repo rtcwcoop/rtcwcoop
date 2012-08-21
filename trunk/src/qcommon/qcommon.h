@@ -1165,46 +1165,45 @@ extern huffman_t clientHuffTables;
 
 #if defined( _WIN32 )
 
-        // qagame_mp_x86.dll
-        #define SYS_DLLNAME_QAGAME_SHIFT 6
-        #define SYS_DLLNAME_QAGAME "wgmgskesve~><4jrr"
+        // qagamex86.dll
+        #define SYS_DLLNAME_QAGAME_SHIFT 3
+        #define SYS_DLLNAME_QAGAME "tdjdph{;91go"
 
-        // cgame_mp_x86.dll
+        // cgamex86.dll
         #define SYS_DLLNAME_CGAME_SHIFT 2
-        #define SYS_DLLNAME_CGAME "eicogaoraz:80fnn"
+        #define SYS_DLLNAME_CGAME "eicogz:80fnn"
 
-        // ui_mp_x86.dll
+        // uix86.dll
         #define SYS_DLLNAME_UI_SHIFT 5
-        #define SYS_DLLNAME_UI "zndrud}=;3iqq"
+        #define SYS_DLLNAME_UI "zn}=;3iqq"
 
 #elif defined( __linux__ )
 
-        // qagame.mp.i386.so
-        #define SYS_DLLNAME_QAGAME_SHIFT 6
-        #define SYS_DLLNAME_QAGAME "wgmgsk4sv4o9><4yu"
+        // qagamei386.so
+        #define SYS_DLLNAME_QAGAME_SHIFT 3 
+        #define SYS_DLLNAME_QAGAME "tdjdphl6;91vr"
 
-        // cgame.mp.i386.so
+        // cgamei386.so
         #define SYS_DLLNAME_CGAME_SHIFT 2
-        #define SYS_DLLNAME_CGAME "eicog0or0k5:80uq"
+        #define SYS_DLLNAME_CGAME "eicogk5:80uq"
 
-        // ui.mp.i386.so
+        // uii386.so
         #define SYS_DLLNAME_UI_SHIFT 5
-        #define SYS_DLLNAME_UI "zn3ru3n8=;3xt"
+        #define SYS_DLLNAME_UI "znn8=;3xt"
 
 #elif defined( MACOS_X )
 
-        // fretn : todo, shift the strings
-        // qagame.mp.i386.so
-        #define SYS_DLLNAME_QAGAME_SHIFT 0 
-        #define SYS_DLLNAME_QAGAME "qagamei386.dylib"
+        // qagamei386.dylib
+        #define SYS_DLLNAME_QAGAME_SHIFT 3
+        #define SYS_DLLNAME_QAGAME "tdjdphl6;91g|ole"
 
-        // cgame.mp.i386.so
-        #define SYS_DLLNAME_CGAME_SHIFT 0 
-        #define SYS_DLLNAME_CGAME "cgamei386.dylib"
+        // cgamei386.dylib
+        #define SYS_DLLNAME_CGAME_SHIFT 2 
+        #define SYS_DLLNAME_CGAME "eicogk5:80f{nkd"
 
-        // ui.mp.i386.so
-        #define SYS_DLLNAME_UI_SHIFT 0  
-        #define SYS_DLLNAME_UI "uii386.dylib"
+        // uii386.dylib
+        #define SYS_DLLNAME_UI_SHIFT 5  
+        #define SYS_DLLNAME_UI "znn8=;3i~qng"
 
 #else
 #error unknown OS
