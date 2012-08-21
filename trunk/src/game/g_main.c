@@ -65,6 +65,7 @@ vmCvar_t g_freeze;
 // Rafael gameskill
 vmCvar_t g_gameskill;
 vmCvar_t g_airespawn;
+vmCvar_t g_teleporttime;
 // done
 
 vmCvar_t g_reloading;       //----(SA)	added
@@ -166,6 +167,7 @@ cvarTable_t gameCvarTable[] = {
 
         //fretn
 	{ &g_airespawn, "g_airespawn", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },  
+	{ &g_teleporttime, "g_teleporttime", "120000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // 2 minutes by default
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE, 0, qtrue  },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
@@ -1281,7 +1283,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
                 trap_Cvar_Set("g_doWarmup", "1");
                 //trap_Cvar_Set("g_reinforce", "0");
                 trap_Cvar_Set("sv_maxcoopclients", "2");
-
+                trap_Cvar_Set("g_teleporttime", "30000");
         }
 
         if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {

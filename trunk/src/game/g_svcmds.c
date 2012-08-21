@@ -446,6 +446,11 @@ qboolean    ConsoleCommand( void ) {
 	// Ridah, savegame
 	if ( Q_stricmp( cmd, "savegame" ) == 0 ) {
 
+                // only for single player games
+                if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+                        return qtrue;
+                }
+
 		// don't allow a manual savegame command while we are waiting for the game to start/exit
 		if ( g_reloading.integer ) {
 			return qtrue;

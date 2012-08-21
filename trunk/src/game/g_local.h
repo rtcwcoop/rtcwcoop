@@ -1177,6 +1177,7 @@ extern vmCvar_t g_freeze;
 // Rafael gameskill
 extern vmCvar_t g_gameskill;
 extern vmCvar_t g_airespawn;
+extern vmCvar_t g_teleporttime;
 // done
 
 extern vmCvar_t g_reloading;        //----(SA)	added

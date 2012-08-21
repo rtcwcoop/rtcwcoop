@@ -1630,6 +1630,9 @@ qboolean AICast_ScriptAction_SaveGame( cast_state_t *cs, char *params ) {
 	char *pString, *saveName;
 	pString = params;
 
+        if ( g_gametype.integer != GT_SINGLE_PLAYER )
+                return qtrue;
+
 	if ( cs->bs ) {
 		G_Error( "AI Scripting: savegame attempted on a non-player" );
 	}
