@@ -50,6 +50,9 @@ The pk3 will be placed inside the media folder, copy this folder to your main fo
  Set to 1 to enable this. (might be buggy, needs a lot of testing)
  Set to 0 to disable this.
 
+== g_teleporttime ==
+ Sets the minimum time between two teleports. In the Battle gametype its fixed at 30000 (30 seconds).
+
 == r_greyscale ==
  set to 1 and everything is rendered in greyscale
  set it to a float value, eg: 0.5, then its 50 percent grey. 
