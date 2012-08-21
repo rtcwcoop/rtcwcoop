@@ -6,7 +6,8 @@ New entities for mappers and other information for mappers.
 = Details =
 
 == New entities ==
-  * coop_spawnpoint: this entity is the initial spawn point for coop games, you can place multiple if you want, you can disable spawnpoints by setting their spawnflags to 0. Also you can connect flagpoles to spawnpoints by setting the flagpole's target the same as the targetname of a spawnpoint, touching the flagpole will enable all these spawnpoints and disable the others
+  * coop_spawnpoint: this entity is the initial spawn point for coop games, you can place multiple if you want, you can disable spawnpoints by setting their spawnflags to 0.
+ * coop_spawnpoint_trigger: this entity is a trigger which enables spawnpoints. The spawnpoints must be linked to it by setting their targetname the same as the classname of this trigger. Set spawnflags of these spawnpoints to 0 so they are not initial spawnpoints.
   * target_location: just like in the multiplayer, this entity is now supported.
 
 == Ents file support ==
