@@ -16,18 +16,76 @@ New entities for mappers and other information for mappers.
  example: tram.ents
 {{{
 {
-"classname" "target_location"
-"origin" "2637 -16 920"
-"message" "Tram entrance"
+"classname" "script_multiplayer"
+"scriptname" "game_manager"
 }
 
 {
 "classname" "coop_spawnpoint"
+"spawnflags" "1" 
 "origin" "3826 1997 1272"
 "angle" "-88"
-"spawnflags" "1"
-// spawnflags 1 means enabled
 }
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "1" 
+"origin" "3901 1998 1272"
+"angle" "-88"
+}
+#if g_gametype == 1
+{
+"angle" "225"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "generator_spawn"
+"origin" "3370 -131 670"
+"classname" "coop_spawnpoint_trigger"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"angle" "-69"
+"targetname" "generator_spawn"
+"origin" "3565 -12 728"
+}
+{
+"origin" "-177 34 105"
+"angle" "225"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "tower_spawn"
+"classname" "coop_spawnpoint_trigger"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "64 361 472"
+"angle" "-91"
+"targetname" "tower_spawn"
+}
+#endif
+#if g_reinforce >= 1
+{
+"classname" "ai_soldier"
+"origin" "3573 1548 1272"
+"ainame" "coop_ai_soldier_1"
+"skin" "infantryss/village2"
+"head" "village1"
+"spawnflags" "1"
+"angle" "-176"
+}
+{
+"classname" "ai_soldier"
+"origin" "3503 1643 1272"
+"ainame" "coop_ai_soldier_2"
+"skin" "infantryss/village1"
+"head" "village2"
+"spawnflags" "1"
+"angle" "-81"
+}
+#endif
+
 }}}
 
 == .ai scripts ==
