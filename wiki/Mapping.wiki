@@ -90,6 +90,12 @@ The .ents, .ai and .script file support #if #else and #endif for cvar conditions
 }
 #endif
 
+{
+"classname" "target_location"
+"origin" "-3922 -42 -599"
+"message" "Desk"
+}
+
 }}}
 
 == .ai scripts ==
