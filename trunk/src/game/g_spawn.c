@@ -932,7 +932,6 @@ This does not actually spawn an entity.
 ====================
 */
 
-char entsfiledata[MAX_TOKEN_CHARS];
 qboolean GetEntityToken( char *buffer, int size ) {
         const char  *s;  
 
@@ -942,7 +941,6 @@ qboolean GetEntityToken( char *buffer, int size ) {
 
         s = COM_Parse( &data );
         Q_strncpyz( buffer, s, size );
-        //if ( !&entsfiledata || !s[0] ) {
         if ( !s[0] ) {
                 return qfalse;
         } else {
@@ -983,7 +981,6 @@ qboolean G_LoadEntsFile( void )
 
         level.extraEntsScript = G_Alloc( len );
         trap_FS_Read( level.extraEntsScript, len, f );
-        trap_FS_Read( entsfiledata, len, f );
 
         trap_FS_FCloseFile( f );
 
