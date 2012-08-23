@@ -1997,6 +1997,11 @@ void LogExit( const char *string ) {
                 Info_SetValueForKey( cs, "winner", va("%s", cl->pers.netname) ); // todo, clientnum of real winner
                 trap_SetConfigstring( CS_BATTLE_INFO, cs );
         }
+
+        // fretn - an empty server needs to be restarted, or new connecting clients get disconnected
+        if ( g_gametype.integer == GT_COOP_SPEEDRUN && level.numPlayingCoopClients == 0 ) {
+                trap_SendConsoleCommand( EXEC_NOW, "map_restart 5\n" );
+        }
 }
 
 

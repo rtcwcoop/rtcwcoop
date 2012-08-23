@@ -2169,8 +2169,9 @@ void ClientDisconnect( int clientNum ) {
                 count++;
         }
 
-        if (count == 0)
-                trap_SendConsoleCommand( EXEC_INSERT, "map_restart\n" );
+        if (count == 0) {
+                trap_SendConsoleCommand( EXEC_NOW, "map_restart\n" );
+        }
 }
 
 
