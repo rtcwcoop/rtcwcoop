@@ -28,7 +28,9 @@ player
 		mu_fade 0 1500
 		mu_queue sound/music/c_military
 		trigger dummy cinematic1
-		trigger player cam1
+		stopcam
+		trigger dummy cine1_cleanup
+	
 		
 		// Weapons
 		giveweapon weapon_knife
