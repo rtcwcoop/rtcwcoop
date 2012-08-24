@@ -2777,7 +2777,11 @@ qboolean ScriptStartCam( cast_state_t *cs, char *params, qboolean black ) {
 	gentity_t *ent;
 
         // fretn
+#ifdef INGAME_CUTSCENES
         if (g_skipcutscenes.integer && g_gametype.integer != GT_SINGLE_PLAYER) {
+#else
+        if (g_gametype.integer != GT_SINGLE_PLAYER) {
+#endif
                 AICast_ScriptEvent( cs, "trigger", "cameraInterrupt" );
                 return qtrue;
         }

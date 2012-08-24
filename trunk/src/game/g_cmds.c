@@ -1517,7 +1517,11 @@ void Cmd_StartCamera_f( gentity_t *ent ) {
 	ent->client->ps.eFlags |= EF_VIEWING_CAMERA;
 	ent->s.eFlags |= EF_VIEWING_CAMERA;
 
+#ifdef INGAME_CUTSCENES
         if (g_skipcutscenes.integer && g_gametype.integer != GT_SINGLE_PLAYER ) {
+#else
+        if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+#endif
                 AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
         }
 

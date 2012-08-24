@@ -1168,7 +1168,9 @@ extern gentity_t       *g_camEnt;
 extern vmCvar_t g_gametype;
 //fretn
 extern vmCvar_t g_spawnpoints;
+#ifdef INGAME_CUTSCENES
 extern vmCvar_t g_skipcutscenes;
+#endif
 extern vmCvar_t g_maxspawnpoints;
 extern vmCvar_t g_maxlives;
 extern vmCvar_t g_sharedlives;

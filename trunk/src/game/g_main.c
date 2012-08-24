@@ -54,7 +54,9 @@ extern int bg_pmove_gameskill_integer;
 // done
 
 vmCvar_t g_gametype;
+#ifdef INGAME_CUTSCENES
 vmCvar_t g_skipcutscenes;
+#endif
 vmCvar_t g_maxspawnpoints;
 vmCvar_t g_maxlives;
 vmCvar_t g_sharedlives;
@@ -168,9 +170,9 @@ cvarTable_t gameCvarTable[] = {
         //fretn
 	{ &g_airespawn, "g_airespawn", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },  
 	{ &g_teleporttime, "g_teleporttime", "120000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // 2 minutes by default
-	//{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
-        // no more cutscenes in coop, too much problems
-	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ROM, 0, qtrue  },
+#ifdef INGAME_CUTSCENES
+	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
+#endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE, 0, qtrue  },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
         { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
@@ -1280,7 +1282,9 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
         if ( g_gametype.integer == GT_COOP_BATTLE ) {
                 trap_Cvar_Set("g_friendlyfire", "2");
                 trap_Cvar_Set("g_spawnpoints", "1");
+#ifdef INGAME_CUTSCENES
                 trap_Cvar_Set("g_skipcutscenes", "1");
+#endif
                 trap_Cvar_Set("g_freeze", "0");
                 trap_Cvar_Set("g_doWarmup", "1");
                 //trap_Cvar_Set("g_reinforce", "0");
