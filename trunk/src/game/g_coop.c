@@ -238,6 +238,8 @@ void Coop_DeleteStats( int clientnum ) {
         cl->sess.deaths = 0;
         cl->sess.kills = 0;
         cl->sess.suicides = 0;
+
+        cl->sess.lastBonusLifeScore = 0;
 }
 
 // Records accuracy, damage, and kill/death stats.
@@ -289,6 +291,7 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
                 }
         CalculateRanks();
         //}
+
 }
 
 void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace );

@@ -489,6 +489,8 @@ typedef struct {
         int deaths;
         int suicides;
 
+        int lastBonusLifeScore;
+
 } clientSession_t;
 
 //

@@ -168,7 +168,9 @@ cvarTable_t gameCvarTable[] = {
         //fretn
 	{ &g_airespawn, "g_airespawn", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },  
 	{ &g_teleporttime, "g_teleporttime", "120000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // 2 minutes by default
-	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
+	//{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
+        // no more cutscenes in coop, too much problems
+	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ROM, 0, qtrue  },
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE, 0, qtrue  },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
         { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
@@ -1650,6 +1652,17 @@ void CalculateRanks( void ) {
 
                                                         level.numPlayingCoopClients++;
                                                 }
+
+                                                if ( g_gametype.integer == GT_COOP && g_maxlives.integer ) { // every 1000 points, bonus life !
+                                                        int value = level.clients[i].ps.persistant[PERS_SCORE];
+                                                        int mod = value % 1000;
+                                                        int rounded = value - mod;
+                                                        if (level.clients[i].sess.lastBonusLifeScore != rounded) { // yes we scored a bonus life
+                                                                level.clients[i].sess.lastBonusLifeScore = rounded;
+                                                                level.clients[i].ps.persistant[PERS_RESPAWNS_LEFT]++;
+                                                        }
+                                                }
+
                                                 // fretn
                                                 if ( level.clients[i].ps.persistant[PERS_RESPAWNS_LEFT] == 0 
                                                             && g_entities[i].health <= 0 ) {
