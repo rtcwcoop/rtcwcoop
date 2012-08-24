@@ -5488,6 +5488,10 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                         //fretn
                         case SORT_SKILL:
 			        return Info_ValueForKey( info, "gameskill" );
+                        case SORT_AIRESPAWN:
+			        return Info_ValueForKey( info, "airespawn" );
+                        case SORT_REINFORCE:
+			        return Info_ValueForKey( info, "reinforce" );
 			case SORT_HOST:
 				if ( ping <= 0 ) {
 					return Info_ValueForKey( info, "addr" );

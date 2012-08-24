@@ -265,6 +265,8 @@ typedef struct {
 	char gameName[MAX_NAME_LENGTH];         // Arnout
         int coop;
         int gameskill;
+        int airespawn;
+        int reinforce;
 } serverInfo_t;
 
 typedef struct {

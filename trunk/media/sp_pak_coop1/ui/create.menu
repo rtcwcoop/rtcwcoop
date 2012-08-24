@@ -457,7 +457,7 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
-					text			"Skill of Enemies:  "
+					text			"Enemy skill:  "
 					cvar			"g_gameskill"
 					cvarFloatList	{ "1 - Easy" 1 "2 - Normal" 2 "3 - Hard" 3 }
 					rect			295 270 290 12
@@ -480,7 +480,7 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
-					text			"Respawn Enemy:  "
+					text			"Respawning enemies:  "
 					cvar			"g_airespawn"
 					rect			295 285 290 12
 				//	origin			ORIGIN_WINDOW1

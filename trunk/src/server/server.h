@@ -430,3 +430,5 @@ void SV_Netchan_TransmitNextFragment( netchan_t *chan );
 qboolean SV_Netchan_Process( client_t *client, msg_t *msg );
 
 extern cvar_t  *sv_maxlives;
+extern cvar_t  *sv_reinforce;
+extern cvar_t  *sv_airespawn;
