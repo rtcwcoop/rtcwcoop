@@ -39,9 +39,6 @@ The pk3 will be placed inside the media folder, copy this folder to your main fo
 == g_maxspawnpoints ==
  Limits the number of user droppable spawnpoints, to make the game more difficult. If you set it to zero then there is no limit at all
 
-== g_skipcutscenes ==
- set to 1 if you want to skip the cutscenes
-
 == cg_drawcrosshairnames ==
  Set to 1 if you want to see info about your teamplayers: playername, ammo, ammoclip and health, its like in the multiplayer.
  Set to 2 if you also want to see a bar that shows the armor, just like the health bar, but  below it
