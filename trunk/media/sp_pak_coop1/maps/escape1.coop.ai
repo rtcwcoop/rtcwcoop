@@ -28,9 +28,7 @@ player
 		mu_fade 0 1500
 		mu_queue sound/music/c_military
 		trigger dummy cinematic1
-		stopcam
-		trigger dummy cine1_cleanup
-	
+		trigger player cam1
 		
 		// Weapons
 		giveweapon weapon_knife
@@ -40,7 +38,7 @@ player
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 	}
-
+	
 	trigger fix_bitset0
 	{
 		accum 0 bitset 0 // post cutscene cell door should only trigger once
@@ -48,6 +46,7 @@ player
 		selectweapon weapon_luger
 	}
 
+	
 	// ---Start Camera Section---
 	trigger cam1
 	{
@@ -110,6 +109,7 @@ player
 	}
 
 	// ---End Camera Section---
+	
 
 	trigger camerainterrupt
 	{
