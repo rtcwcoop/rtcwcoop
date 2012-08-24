@@ -391,7 +391,7 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
-					text			"Amount of Enemy:  "
+					text			"Mass of Enemies:  "
 					cvar			"g_reinforce"
 					cvarFloatList	{ "1 - Basic" 0 "2 - More" 1 "3 - Many" 2 }
 					rect			295 205 290 12

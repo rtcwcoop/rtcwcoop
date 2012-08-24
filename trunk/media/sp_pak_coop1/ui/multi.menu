@@ -499,7 +499,31 @@ itemDef {
 			decoration
 			}
 		itemDef {
+			name massColumn
+			group grpJoin
+			rect 312 250 37 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
 			name skillColumn
+			group grpJoin
+			rect 348 250 37 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name respawnColumn
 			group grpJoin
 			rect 384 250 37 165
 			style WINDOW_STYLE_FILLED
@@ -546,7 +570,6 @@ itemDef {
 			visible 1
 			decoration
 			}
-
 			
 		 itemDef {
 			name serverlist
@@ -564,18 +587,20 @@ itemDef {
 			textaligny -3
 			textscale .25	
 			elementtype LISTBOX_TEXT
-			feeder FEEDER_SERVERS		
+			feeder FEEDER_SERVERS
 			forecolor 1 1 1 1
 			backcolor .5 .5 .5 .2
 			outlinecolor .7 .7 0 .25
 			visible 1
 			// 	numcols     xpos  xwitdth   textlen
-			columns 6             0     40        28 
-					      171   40        40
-					      364   5         10
-					      400   20        10
-					      467   20        20
-					      544   20        20
+			columns 8 	    0	40			28 
+						  171	40			40
+						  292	40			10
+						  328	40			10
+					      364   5			10
+					      400   20			10
+					      467   20			20
+					      544   20			20
 			doubleClick { uiScript JoinServer }
 			}
 
@@ -611,7 +636,7 @@ itemDef {
 			style WINDOW_STYLE_FILLED	
 			rect 188 235 197 15
 			textalign 1
-			textalignx 98		// center
+			textalignx 62		// center
 			textaligny 11
 			border 1
 			bordercolor .5 .5 .5 .5
@@ -619,6 +644,26 @@ itemDef {
 			forecolor 1 1 1 1
 			visible 1
 			decoration  	  
+			}
+			
+		itemDef {
+			name Mass
+			group grpJoin
+			text "Mass"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 312 235 37 15
+			textalign 1
+			textalignx 18		// center
+			textaligny 11
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
 			}
 
 		itemDef {
@@ -631,7 +676,7 @@ itemDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5	
-			rect 384 235 37 15
+			rect 348 235 37 15
 			textalign 1
 			textalignx 18		// center
 			textaligny 11
@@ -642,13 +687,33 @@ itemDef {
 			}
 
 		itemDef {
+			name Respawn
+			group grpJoin
+			text "Resp."
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 384 235 37 15
+			textalign ITEM_ALIGN_CENTER
+			textalignx 18		// center
+			textaligny 11
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
+			}
+			
+		itemDef {
 			name Players
 			group grpJoin
 			text "Players"
 			type ITEM_TYPE_BUTTON
 			textscale .25
 			style WINDOW_STYLE_FILLED	
-			textfont	UI_FONT_NORMAL
+			textfont UI_FONT_NORMAL
 			rect 420 235 65 15
 			textalign 1
 			textalignx 32		// center
@@ -716,8 +781,8 @@ itemDef {
 			textscale 0.4
 			textalign 0		// center
 			textalignx 60        	// x alignment point for text
-			 // use it to offset left/right text from the edge 
-			 // or to center the text on a different point
+			// use it to offset left/right text from the edge 
+			// or to center the text on a different point
 			textaligny 21        
 			style 2
 			border 4
