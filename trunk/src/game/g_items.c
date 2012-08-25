@@ -149,7 +149,7 @@ int Pickup_Treasure( gentity_t *ent, gentity_t *other ) {
 	G_SendMissionStats();
 
         if ( g_gametype.integer == GT_COOP ) {
-                other->client->ps.persistant[PERS_SCORE] += 500;
+                other->client->ps.persistant[PERS_SCORE] += 120;
         }
 
 	return RESPAWN_SP;  // no respawn

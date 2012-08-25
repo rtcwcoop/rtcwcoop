@@ -2503,9 +2503,18 @@ AICast_ScriptAction_FoundSecret
 ==================
 */
 qboolean AICast_ScriptAction_FoundSecret( cast_state_t *cs, char *params ) {
+        gentity_t *ent;
+
 	level.numSecretsFound++;
 	trap_SendServerCommand( cs->entityNum, "cp secretarea" );
 	G_SendMissionStats();
+
+        ent = &g_entities[cs->entityNum];
+
+        if ( g_gametype.integer == GT_COOP && ent && ent->client ) {
+                ent->client->ps.persistant[PERS_SCORE] += 80; 
+        }   
+
 	return qtrue;
 }
 
