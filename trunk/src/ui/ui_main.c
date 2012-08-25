@@ -5473,7 +5473,9 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 		return UI_SelectedMap( index, &actual );
 	} else if ( feederID == FEEDER_SERVERS ) {
 		if ( index >= 0 && index < uiInfo.serverStatus.numDisplayServers ) {
-			int ping, game, coop;
+			int ping, game, coop, skill, reinforce;
+                        static char skilltext[32];
+                        static char reinforcetext[32];
 			if ( lastServerColumn != column || lastServerTime > uiInfo.uiDC.realTime + 5000 ) {
 				trap_LAN_GetServerInfo( ui_netSource.integer, uiInfo.serverStatus.displayServers[index], info, MAX_STRING_CHARS );
 				lastServerColumn = column;
@@ -5487,11 +5489,31 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 			switch ( column ) {
                         //fretn
                         case SORT_SKILL:
-			        return Info_ValueForKey( info, "gameskill" );
+                                skill = atoi(Info_ValueForKey( info, "gameskill" ));
+                                if ( skill == 0 )
+                                       Com_sprintf(skilltext, sizeof(skilltext), "Noob"); 
+                                else if ( skill == 1 )
+                                       Com_sprintf(skilltext, sizeof(skilltext), "Easy"); 
+                                else if ( skill == 2 )
+                                       Com_sprintf(skilltext, sizeof(skilltext), "Normal"); 
+                                else if ( skill == 3 )
+                                       Com_sprintf(skilltext, sizeof(skilltext), "Hard"); 
+
+                                return skilltext;
+			 //       return Info_ValueForKey( info, "gameskill" );
                         case SORT_AIRESPAWN:
-			        return Info_ValueForKey( info, "airespawn" );
+                                return atoi(Info_ValueForKey( info, "airespawn" )) ? "Yes" : "No respawns";
+			 //       return Info_ValueForKey( info, "airespawn" );
                         case SORT_REINFORCE:
-			        return Info_ValueForKey( info, "reinforce" );
+                                reinforce= atoi(Info_ValueForKey( info, "reinforce" ));
+                                if ( reinforce== 0 )
+                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "Default"); 
+                                else if ( reinforce == 1 )
+                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "More"); 
+                                else if ( reinforce == 2 )
+                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "Many"); 
+
+			        return reinforcetext;
 			case SORT_HOST:
 				if ( ping <= 0 ) {
 					return Info_ValueForKey( info, "addr" );
@@ -5505,12 +5527,25 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 						return Info_ValueForKey( info, "hostname" );
 					}
 				}
-			case SORT_MAP: return Info_ValueForKey( info, "mapname" );
-			case SORT_CLIENTS:
-				Com_sprintf( clientBuff, sizeof( clientBuff ), "%s (%s)", Info_ValueForKey( info, "clients" ), Info_ValueForKey( info, "sv_maxclients" ) );
-				return clientBuff;
-			case SORT_GAME:
-				game = atoi( Info_ValueForKey( info, "gametype" ) );
+			case SORT_MAP: 
+                                game = atoi( Info_ValueForKey( info, "gametype" ) );
+				coop = atoi( Info_ValueForKey( info, "coop" ) );
+				Com_sprintf( clientBuff, sizeof( clientBuff ), "%s/%s", Info_ValueForKey( info, "clients" ), Info_ValueForKey( info, "sv_maxclients" ) );
+                                
+				if ( game >= 0 && game < numTeamArenaGameTypes ) {
+                                        if (coop >= 0 && coop < numCoopGameTypes)
+                                                return va("%s - %s (%s)", clientBuff, Info_ValueForKey( info, "mapname" ), coopGameTypes[game]);
+                                        else 
+                                                return va("%s - %s (%s)", clientBuff, Info_ValueForKey( info, "mapname" ), teamArenaGameTypes[game]);
+				} else {
+                                        return va("%s - %s", clientBuff, Info_ValueForKey( info, "mapname" ));
+                                }
+                                return Info_ValueForKey( info, "mapname" );
+			//case SORT_CLIENTS:
+			//	Com_sprintf( clientBuff, sizeof( clientBuff ), "%s (%s)", Info_ValueForKey( info, "clients" ), Info_ValueForKey( info, "sv_maxclients" ) );
+			//	return clientBuff;
+			//case SORT_GAME:
+			/*	game = atoi( Info_ValueForKey( info, "gametype" ) );
 				coop = atoi( Info_ValueForKey( info, "coop" ) );
                                 
 				if ( game >= 0 && game < numTeamArenaGameTypes ) {
@@ -5521,6 +5556,7 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 				} else {
 					return "Unknown";
 				}
+*/
 			case SORT_PING:
 				if ( ping <= 0 ) {
 					return "...";

@@ -499,33 +499,9 @@ itemDef {
 			decoration
 			}
 		itemDef {
-			name massColumn
-			group grpJoin
-			rect 312 250 37 165
-			style WINDOW_STYLE_FILLED
-			border 1
-			backcolor 0 0 0 0
-			bordersize 1
-			bordercolor .5 .5 .5 .5
-			visible 1
-			decoration
-			}
-		itemDef {
-			name skillColumn
-			group grpJoin
-			rect 348 250 37 165
-			style WINDOW_STYLE_FILLED
-			border 1
-			backcolor 0 0 0 0
-			bordersize 1
-			bordercolor .5 .5 .5 .5
-			visible 1
-			decoration
-			}
-		itemDef {
 			name respawnColumn
 			group grpJoin
-			rect 384 250 37 165
+			rect 312 250 100 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -593,14 +569,12 @@ itemDef {
 			outlinecolor .7 .7 0 .25
 			visible 1
 			// 	numcols     xpos  xwitdth   textlen
-			columns 8 	    0	40			28 
-						  171	40			40
-						  292	40			10
-						  328	40			10
-					      364   5			10
-					      400   20			10
-					      467   20			20
-					      544   20			20
+			columns 6 	    0	40			28 
+                                            170	80			80
+                                            290	250		        250	
+                                            360 250			250
+                                            460 250			250
+                                            560	40			10
 			doubleClick { uiScript JoinServer }
 			}
 
@@ -630,7 +604,7 @@ itemDef {
 			name map
 			group grpJoin
 			type ITEM_TYPE_BUTTON
-			text "Map Name"
+			text "Map Info"
 			textscale .25
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED	
@@ -647,9 +621,9 @@ itemDef {
 			}
 			
 		itemDef {
-			name Mass
+			name Respawn 
 			group grpJoin
-			text "Mass"
+			text "AI Respawn"
 			type ITEM_TYPE_BUTTON
 			textscale .25
 			textfont	UI_FONT_NORMAL
@@ -657,8 +631,8 @@ itemDef {
 			border 1
 			bordercolor .5 .5 .5 .5	
 			rect 312 235 37 15
-			textalign 1
-			textalignx 18		// center
+			textalign ITEM_ALIGN_LEFT 
+			textalignx 0		// center
 			textaligny 11
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
@@ -667,38 +641,18 @@ itemDef {
 			}
 
 		itemDef {
-			name Skill
+			name Reinforce 
 			group grpJoin
-			text "Skill"
-			type ITEM_TYPE_BUTTON
-			textscale .25
-			textfont	UI_FONT_NORMAL
-			style WINDOW_STYLE_FILLED
-			border 1
-			bordercolor .5 .5 .5 .5	
-			rect 348 235 37 15
-			textalign 1
-			textalignx 18		// center
-			textaligny 11
-			backcolor .3 .5 .2 .3
-			forecolor 1 1 1 1
-			visible 1
-			decoration
-			}
-
-		itemDef {
-			name Respawn
-			group grpJoin
-			text "Resp."
+			text "AI Reinforce"
 			type ITEM_TYPE_BUTTON
 			textscale .25
 			textfont UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5	
-			rect 384 235 37 15
-			textalign ITEM_ALIGN_CENTER
-			textalignx 18		// center
+			rect 384 235 100 15
+			textalign ITEM_ALIGN_LEFT
+			textalignx 0		// center
 			textaligny 11
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
@@ -707,29 +661,9 @@ itemDef {
 			}
 			
 		itemDef {
-			name Players
+			name Skill
 			group grpJoin
-			text "Players"
-			type ITEM_TYPE_BUTTON
-			textscale .25
-			style WINDOW_STYLE_FILLED	
-			textfont UI_FONT_NORMAL
-			rect 420 235 65 15
-			textalign 1
-			textalignx 32		// center
-			textaligny 11
-			border 1
-			bordercolor .5 .5 .5 .5
-			forecolor 1 1 1 1
-			backcolor .3 .5 .2 .3
-			visible 1
-			decoration	  
-			}
-
-		itemDef {
-			name Type
-			group grpJoin
-			text "Type"
+			text "Skill"
 			textfont	UI_FONT_NORMAL
 			textscale .25
 			type ITEM_TYPE_BUTTON
