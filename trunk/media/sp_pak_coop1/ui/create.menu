@@ -583,6 +583,10 @@ itemDef {
 					backcolor		1 1 1 .07 		  
 					forecolor		1 1 1 1
 					visible			1
+					
+					cvarTest		"g_maxlives"
+					hidecvar		{ "0" }
+					
 					mouseenter		{ show message_commonlives }
 					mouseexit		{ hide message_commonlives }
 					}	
