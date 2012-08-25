@@ -347,7 +347,7 @@ itemDef {
 			group			grpJoin
 			style			0	
 			textstyle		6
-			text			"Type:"
+			text			"Gametype:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
 			rect			310 170 100 15
@@ -477,7 +477,7 @@ itemDef {
 		itemDef {
 			name serverColumn
 			group grpJoin
-			rect 20 250 169 165
+			rect 20 250 161 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -489,7 +489,7 @@ itemDef {
 		itemDef {
 			name mapColumn
 			group grpJoin
-			rect 188 250 197 165
+			rect 180 250 181 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -501,7 +501,7 @@ itemDef {
 		itemDef {
 			name respawnColumn
 			group grpJoin
-			rect 312 250 100 165
+			rect 360 250 81 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -511,9 +511,9 @@ itemDef {
 			decoration
 			}
 		itemDef {
-			name playerColumn
+			name reinforceColumn
 			group grpJoin
-			rect 420 250 65 165
+			rect 440 250 81 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -523,9 +523,9 @@ itemDef {
 			decoration
 			}
 		itemDef {
-			name typeColumn
+			name skillColumn
 			group grpJoin
-			rect 484 250 84 165
+			rect 520 250 48 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -568,13 +568,13 @@ itemDef {
 			backcolor .5 .5 .5 .2
 			outlinecolor .7 .7 0 .25
 			visible 1
-			// 	numcols     xpos  xwitdth   textlen
-			columns 6 	    0	40			28 
-                                            170	80			80
-                                            290	250		        250	
-                                            360 250			250
-                                            460 250			250
-                                            560	40			10
+			// 	numcols     xpos	xwitdth   textlen
+			columns 6 	    0		40			28 
+							160		80			80
+							340		250		    250	
+							420		250			250
+							500		250			250
+							547		40			10
 			doubleClick { uiScript JoinServer }
 			}
 
@@ -590,9 +590,9 @@ itemDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5
-			rect 20 235 169 15
-			textalign 1
-			textalignx 85		// center
+			rect 20 235 161 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 80		// center
 			textaligny 11
 			forecolor 1 1 1 1
 			backcolor .3 .5 .2 .3
@@ -604,13 +604,13 @@ itemDef {
 			name map
 			group grpJoin
 			type ITEM_TYPE_BUTTON
-			text "Map Info"
+			text "Players - Map (Gametype)"
 			textscale .25
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED	
-			rect 188 235 197 15
-			textalign 1
-			textalignx 62		// center
+			rect 180 235 181 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 90		// center
 			textaligny 11
 			border 1
 			bordercolor .5 .5 .5 .5
@@ -630,9 +630,9 @@ itemDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5	
-			rect 312 235 37 15
-			textalign ITEM_ALIGN_LEFT 
-			textalignx 0		// center
+			rect 360 235 81 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 40		// center
 			textaligny 11
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
@@ -650,9 +650,9 @@ itemDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5	
-			rect 384 235 100 15
-			textalign ITEM_ALIGN_LEFT
-			textalignx 0		// center
+			rect 440 235 81 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 40		// center
 			textaligny 11
 			backcolor .3 .5 .2 .3
 			forecolor 1 1 1 1
@@ -668,9 +668,9 @@ itemDef {
 			textscale .25
 			type ITEM_TYPE_BUTTON
 			style WINDOW_STYLE_FILLED	
-			rect 484 235 84 15
-			textalign 1
-			textalignx 42		// center
+			rect 520 235 48 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 24		// center
 			textaligny 11
 			border 1	
 			bordercolor .5 .5 .5 .5
