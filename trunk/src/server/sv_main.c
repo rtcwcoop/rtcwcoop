@@ -665,7 +665,7 @@ void SVC_Info( netadr_t from ) {
 	// done
 
         Info_SetValueForKey( infostring, "maxlives", va( "%i", sv_maxlives->integer ? 1 : 0 ) );
-        Info_SetValueForKey( infostring, "reinforce", va( "%i", sv_reinforce->integer ? 1 : 0 ) );
+        Info_SetValueForKey( infostring, "reinforce", va( "%i", sv_reinforce->integer ) );
         Info_SetValueForKey( infostring, "airespawn", va( "%i", sv_airespawn->integer ? 1 : 0 ) );
 
 	NET_OutOfBandPrint( NS_SERVER, from, "infoResponse\n%s", infostring );
