@@ -1575,6 +1575,13 @@ static void CG_ServerCommand( void ) {
 		return;
 	}
 
+        if ( !strcmp( cmd, "bonuslife" ) ) {
+                int rnd = random() * 5;
+                trap_S_StartLocalSound( cgs.media.bonuslife[rnd], CHAN_ANNOUNCER );
+		CG_CenterPrint( "+1UP", SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.35 ), BIGCHAR_WIDTH );
+                return;
+        }
+
 	if ( !strcmp( cmd, "rockandroll" ) ) {   // map loaded, game is ready to begin.
                 char buf[64];
 

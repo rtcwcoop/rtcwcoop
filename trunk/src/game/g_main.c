@@ -1664,6 +1664,7 @@ void CalculateRanks( void ) {
                                                         if (level.clients[i].sess.lastBonusLifeScore != rounded) { // yes we scored a bonus life
                                                                 level.clients[i].sess.lastBonusLifeScore = rounded;
                                                                 level.clients[i].ps.persistant[PERS_RESPAWNS_LEFT]++;
+                                                                trap_SendServerCommand(level.clients[i].ps.clientNum, "bonuslife");
                                                         }
                                                 }
 

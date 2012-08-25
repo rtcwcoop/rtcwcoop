@@ -887,6 +887,12 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.gibBounce2Sound = trap_S_RegisterSound( "sound/player/gibimp2.wav" );
 	cgs.media.gibBounce3Sound = trap_S_RegisterSound( "sound/player/gibimp3.wav" );
 
+        cgs.media.bonuslife[0] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah1.WAV" ); 
+        cgs.media.bonuslife[1] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah2.WAV" ); 
+        cgs.media.bonuslife[2] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah3.WAV" ); 
+        cgs.media.bonuslife[3] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah4.WAV" ); 
+        cgs.media.bonuslife[4] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah5.WAV" ); 
+
 //	cgs.media.teleInSound = trap_S_RegisterSound( "sound/world/telein.wav" );
 //	cgs.media.teleOutSound = trap_S_RegisterSound( "sound/world/teleout.wav" );
 //	cgs.media.respawnSound = trap_S_RegisterSound( "sound/items/respawn1.wav" );
