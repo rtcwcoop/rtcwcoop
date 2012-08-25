@@ -1657,7 +1657,7 @@ void CalculateRanks( void ) {
                                                         level.numPlayingCoopClients++;
                                                 }
 
-                                                if ( g_gametype.integer == GT_COOP && g_maxlives.integer ) { // every 1000 points, bonus life !
+                                                if ( g_gametype.integer == GT_COOP && g_maxlives.integer && !g_sharedlives.integer ) { // every 1000 points, bonus life !
                                                         int value = level.clients[i].ps.persistant[PERS_SCORE];
                                                         int mod = value % 1000;
                                                         int rounded = value - mod;
