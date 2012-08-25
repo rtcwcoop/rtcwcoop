@@ -144,15 +144,15 @@ itemDef {
 
 				itemDef 
 					{
-					name window
-					group grpCreate
-					rect 20 115 600 300	
-					style WINDOW_STYLE_FILLED
-					border 1
-					bordercolor .5 .5 .5 .5
-					forecolor 1 1 1 1
-					backcolor 0 0 0 .25
-					visible 1
+					name			window
+					group			grpCreate
+					rect			20 115 600 300	
+					style			WINDOW_STYLE_FILLED
+					border 			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		0 0 0 .25
+					visible			1
 					decoration
 					}
 			
@@ -184,21 +184,21 @@ itemDef {
 	//  MAP PREVIEW  //
 
 				itemDef {
-					name			mappreview
-					group			grpCreate
-					ownerdraw		UI_NETMAPCINEMATIC
-					rect			29 146 151 114
-					visible			1 
+					name				mappreview
+					group				grpCreate
+					ownerdraw			UI_NETMAPCINEMATIC
+					rect				29 146 151 114
+					visible				1 
 					}
 				
 				itemDef {
-					name mappreview
-					group grpCreate
-					style WINDOW_STYLE_FILLED	
-					rect 28 145 152 115
-					border 1
-					bordercolor .5 .5 .5 .5
-					visible 1 
+					name				mappreview
+					group				grpCreate
+					style				WINDOW_STYLE_FILLED	
+					rect				28 145 152 115
+					border				1
+					bordercolor			.5 .5 .5 .5
+					visible				1 
 					}
 				
 						itemDef {
@@ -210,13 +210,13 @@ itemDef {
 							}
 							
 						itemDef {
-							name mappreview
-							group grpCreate
-							style WINDOW_STYLE_FILLED	
-							rect 185 145 73 55
-							border 1
-							bordercolor .5 .5 .5 .5
-							visible 1 
+							name			mappreview
+							group			grpCreate
+							style			WINDOW_STYLE_FILLED	
+							rect			185 145 73 55
+							border			1
+							bordercolor		.5 .5 .5 .5
+							visible			1 
 							}
 
 						itemDef {
@@ -228,13 +228,13 @@ itemDef {
 							}
 							
 						itemDef {
-							name mappreview
-							group grpCreate
-							style WINDOW_STYLE_FILLED	
-							rect 185 205 73 55
-							border 1
-							bordercolor .5 .5 .5 .5
-							visible 1 
+							name			mappreview
+							group			grpCreate
+							style			WINDOW_STYLE_FILLED	
+							rect			185 205 73 55
+							border			1
+							bordercolor		.5 .5 .5 .5
+							visible			1 
 							}
 
 				 itemDef {

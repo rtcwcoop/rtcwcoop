@@ -133,7 +133,8 @@
 			decoration
 		}
 
-	// lives value
+		
+	// score value
 		itemDef {
  			name "a"
 			rect 80 -12 32 32
@@ -141,16 +142,14 @@
 			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
 			decoration
 			textscale .5
-			forecolor .63 .47 .25 1	// orange
-			ownerdraw CG_PLAYER_LIVES
-			addColorRange 1 999 .63 .47 .25 1	// orange
-			addColorRange 0 0 1 0 0 1			// red
+			forecolor .63 .59 .57 1	// grey
+			ownerdraw CG_PLAYER_SCORE
 		}
 		
-	// lives text
+	// score text
 		itemDef {
  			name "a"
-			text "LIVES"
+			text "POINTS"
 			type 1
 			rect 84 32 32 32
 			textstyle 6
@@ -164,6 +163,44 @@
 			visible 1
 			decoration
 		}
+		
+	// lives value
+		itemDef {
+ 			name "a"
+			rect 160 -12 32 32
+			visible MENU_TRUE
+			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
+			decoration
+			textscale .5
+			forecolor .63 .47 .25 1	// orange
+			ownerdraw CG_PLAYER_LIVES
+			addColorRange 1 999 .63 .47 .25 1	// orange
+			addColorRange 0 0 1 0 0 1			// red
+			
+			cvarTest		"g_maxlives"
+			hidecvar		{ "0" }
+		}
+		
+	// lives text
+		itemDef {
+ 			name "a"
+			text "LIVES"
+			type 1
+			rect 164 32 32 32
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			textalignx 10
+			textaligny 0
+			textfont UI_FONT_NORMAL
+			textscale .15
+			forecolor .63 .59 .57 1	// grey
+			backcolor .4 .4 .4 .6 
+			visible 1
+			decoration
+			
+			cvarTest		"g_maxlives"
+			hidecvar		{ "0" }
+            }
 
 	// spawnpoints value
 		itemDef {
@@ -175,7 +212,10 @@
 			textscale .5
 			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_SPAWNPOINTS
-                }
+			
+			cvarTest		"g_spawnpoints"
+			showcvar		{ "1" }
+            }
 
 	// spawnpoints text
 		itemDef {
@@ -193,39 +233,11 @@
 			backcolor .4 .4 .4 .6 
 			visible 1
 			decoration
-                }
-		
-	// score value
-		itemDef {
- 			name "a"
-			rect 160 -12 32 32
-			visible MENU_TRUE
-			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
-			decoration
-			textscale .5
-			forecolor .63 .59 .57 1	// grey
-			ownerdraw CG_PLAYER_SCORE
+
+			cvarTest		"g_spawnpoints"
+			showcvar		{ "1" }
+            }
 		}
-		
-	// score text
-		itemDef {
- 			name "a"
-			text "POINTS"
-			type 1
-			rect 164 32 32 32
-			textstyle 6
-			textalign ITEM_ALIGN_CENTER
-			textalignx 10
-			textaligny 0
-			textfont UI_FONT_NORMAL
-			textscale .15
-			forecolor .63 .59 .57 1	// grey
-			backcolor .4 .4 .4 .6 
-			visible 1
-			decoration
-		}
-	
-	}		
 		
 
 //	CURSOR HINTS (LIKE HAND...ETC.)	//
