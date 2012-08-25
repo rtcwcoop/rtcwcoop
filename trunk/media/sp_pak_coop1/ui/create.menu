@@ -413,13 +413,13 @@ itemDef {
 				itemDef {
 					name			window
 					group			grpCreate
-					text			"Gameplay Options"
+					text			"Enemy Options"
 					textfont		UI_FONT_NORMAL
 					textalign		ITEM_ALIGN_CENTER
 					textalignx		145
 					textaligny		14
 					textscale		.25
-					rect			294 230 290 20	
+					rect			294 225 290 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
 					bordercolor		.5 .5 .5 .5
@@ -436,8 +436,8 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Amount of Enemies:  "
 					cvar			"g_reinforce"
-					cvarFloatList	{ "1 - Basic" 0 "2 - More" 1 "3 - Many" 2 }
-					rect			295 255 290 12
+					cvarFloatList	{ "1 - Default" 0 "2 - More" 1 "3 - Many" 2 }
+					rect			295 250 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -460,7 +460,7 @@ itemDef {
 					text			"Enemy skill:  "
 					cvar			"g_gameskill"
 					cvarFloatList	{ "1 - Easy" 1 "2 - Normal" 2 "3 - Hard" 3 }
-					rect			295 270 290 12
+					rect			295 265 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -482,7 +482,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Respawning enemies:  "
 					cvar			"g_airespawn"
-					rect			295 285 290 12
+					rect			295 280 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -500,7 +500,26 @@ itemDef {
 					mouseenter		{ show message_airespawn }
 					mouseexit		{ hide message_airespawn }
 					}	
-
+					
+					
+				itemDef {
+					name			window
+					group			grpCreate
+					text			"Player Options"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 300 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}	
 					
 				itemDef {
 					name			normal
@@ -509,8 +528,8 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Friendly Fire:  "
 					cvar			"g_friendlyFire"
-					cvarFloatList	{ "Off" 0 "On" 1 "On + Penalty" 2 "On + Brutal Penalty" 3}
-					rect			295 315 290 12
+					cvarFloatList	{ "Off" 0 "On" 1 "On + Penalty" 2 "On + Extra Penalty" 3}
+					rect			295 325 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -531,7 +550,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Number of Lives:  "
 					cvar			"g_maxlives"
-					rect			295 330 290 12
+					rect			295 340 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -554,7 +573,7 @@ itemDef {
 					text			"Shared Lives:  "
 					cvar			"g_sharedlives"
 					cvarFloatList	{ "yes" 1 "no" 0 }
-					rect			295 345 290 12
+					rect			295 355 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -576,7 +595,7 @@ itemDef {
 					text			"Respawn System:  "
 					cvar			"g_spawnpoints"
 					cvarFloatList	{ "Autosaved SpawnPoints" 0 "Dropped SpawnPoints" 1 "MP-Style SpawnZones" 2 }
-					rect			295 360 290 12
+					rect			295 370 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -598,7 +617,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"SpawnPoints / map:  "
 					cvar			"g_maxspawnpoints"
-					rect			295 375 290 12
+					rect			295 385 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -617,29 +636,6 @@ itemDef {
 					mouseexit		{ hide message_maxspawnpoints }
 					}					
 
-
-					
-				itemDef {
-					name			normal
-					group			grpCreate
-					type			ITEM_TYPE_MULTI	
-					textfont		UI_FONT_NORMAL
-					text			"Ingame Cutscenes:  "
-					cvar			"g_skipcutscenes"
-					cvarFloatList	{ "yes" 0 "no" 1 }
-					rect			295 405 290 12
-				//	origin			ORIGIN_WINDOW2
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145
-					textaligny		10
-					textscale		.25
-					backcolor		1 1 1 .07 		  
-					forecolor		1 1 1 1
-					visible			1
-					mouseenter		{ show message_cutscenes }
-					mouseexit		{ hide message_cutscenes }
-					}
 					
 				itemDef {
 					name				start
