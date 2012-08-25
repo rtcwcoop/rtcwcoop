@@ -1418,10 +1418,10 @@ void ClientUserinfoChanged( int clientNum ) {
 
                 Q_strncpyz( head, "", MAX_QPATH );
                 // fretn : scoreboard leader gets bj his skin !
-                if (clientNum == level.clients[ level.sortedClients[0] ].ps.clientNum)
-                        SetCoopSkin( client, head, 0  );
-                else 
-                        SetCoopSkin( client, head, skinno );
+                //if (clientNum == level.clients[ level.sortedClients[0] ].ps.clientNum)
+                //        SetCoopSkin( client, head, 0  );
+                //else 
+                SetCoopSkin( client, head, skinno );
         }
 
 	// strip the skin name
