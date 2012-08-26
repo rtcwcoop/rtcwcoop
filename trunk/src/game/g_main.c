@@ -1693,15 +1693,6 @@ void CalculateRanks( void ) {
 	qsort( level.sortedClients, level.numConnectedClients,
 		   sizeof( level.sortedClients[0] ), SortRanks );
 
-
-        // fretn - the player with the highest score gets BJ his skin
-        // the skinchanging is handled in clientuserinfochanged
-	for ( i = 0 ; i < level.maxclients ; i++ ) {
-		if ( level.clients[i].pers.connected != CON_DISCONNECTED && !(g_entities[i].r.svFlags & SVF_CASTAI) ) {
-                        ClientUserinfoChanged(i);
-                }
-        }
-
 	// set the rank value for all clients that are connected and not spectators
 	if (g_gametype.integer <= GT_SINGLE_PLAYER) {
 		rank = -1;
