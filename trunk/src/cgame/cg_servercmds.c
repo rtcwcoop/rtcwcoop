@@ -1578,7 +1578,7 @@ static void CG_ServerCommand( void ) {
         if ( !strcmp( cmd, "bonuslife" ) ) {
                 int rnd = random() * 5;
                 trap_S_StartLocalSound( cgs.media.bonuslife[rnd], CHAN_ANNOUNCER );
-		CG_CenterPrint( "^1+1UP", SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.35 ), BIGCHAR_WIDTH );
+		CG_CenterPrint( "^3Bonus life", SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.18 ), 12 );
                 return;
         }
 
