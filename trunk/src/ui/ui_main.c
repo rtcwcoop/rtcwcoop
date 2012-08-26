@@ -5502,12 +5502,12 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                                 return skilltext;
 			 //       return Info_ValueForKey( info, "gameskill" );
                         case SORT_AIRESPAWN:
-                                return atoi(Info_ValueForKey( info, "airespawn" )) ? "Yes" : "No respawns";
+                                return atoi(Info_ValueForKey( info, "airespawn" )) ? "Yes" : "No";
 			 //       return Info_ValueForKey( info, "airespawn" );
                         case SORT_REINFORCE:
                                 reinforce= atoi(Info_ValueForKey( info, "reinforce" ));
                                 if ( reinforce== 0 )
-                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "Default"); 
+                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "Original"); 
                                 else if ( reinforce == 1 )
                                        Com_sprintf(reinforcetext, sizeof(reinforcetext), "More"); 
                                 else if ( reinforce == 2 )

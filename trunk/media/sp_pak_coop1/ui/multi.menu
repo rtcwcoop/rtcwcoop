@@ -415,7 +415,7 @@ itemDef {
 			rect 21 251 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
-			backcolor .5 .5 .5 .25
+			backcolor .5 .5 .5 .1
 			visible 1
 			decoration
 		  }
@@ -426,7 +426,7 @@ itemDef {
 			rect 21 281 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
-			backcolor .5 .5 .5 .25
+			backcolor .5 .5 .5 .1
 			visible 1
 			decoration
 		  }
@@ -436,7 +436,7 @@ itemDef {
 			rect 21 311 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
-			backcolor .5 .5 .5 .25
+			backcolor .5 .5 .5 .1
 			visible 1
 			decoration
 		  }
@@ -446,7 +446,7 @@ itemDef {
 			rect 21 341 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
-			backcolor .5 .5 .5 .25
+			backcolor .5 .5 .5 .1
 			visible 1
 			decoration
 		  }
@@ -456,7 +456,7 @@ itemDef {
 			rect 21 371 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
-			backcolor .5 .5 .5 .25
+			backcolor .5 .5 .5 .1
 			visible 1
 			decoration
 		  }
@@ -466,7 +466,7 @@ itemDef {
 			rect 21 401 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
-			backcolor .5 .5 .5 .25
+			backcolor .5 .5 .5 .1
 			visible 1
 			decoration
 		  }
@@ -547,7 +547,7 @@ itemDef {
 			decoration
 			}
 			
-		 itemDef {
+		itemDef {
 			name serverlist
 			group grpJoin
 			rect 20 250 600 165
@@ -560,18 +560,18 @@ itemDef {
 			bordercolor .5 .5 .5 .5
 			textalign 1
 			textalignx 0
-			textaligny -3
+			textaligny 11
 			textscale .25	
 			elementtype LISTBOX_TEXT
 			feeder FEEDER_SERVERS
 			forecolor 1 1 1 1
 			backcolor .5 .5 .5 .2
-			outlinecolor .7 .7 0 .25
+			outlinecolor .7 .7 .0 .25
 			visible 1
 			// 	numcols     xpos	xwitdth   textlen
 			columns 6 	    0		40			28 
 							160		80			80
-							340		250		    250	
+							365		250		    250	
 							420		250			250
 							500		250			250
 							547		40			10
