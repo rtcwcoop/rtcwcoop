@@ -4919,7 +4919,7 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 				}
 			}
 */
-/*
+
 			if ( uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum != -1 ) {
 				game = atoi( Info_ValueForKey( info, "gametype" ) );
 				if ( game != uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum ) {
@@ -4927,7 +4927,7 @@ static void UI_BuildServerDisplayList( qboolean force ) {
 					continue;
 				}
 			}
-*/
+
 
 			if ( ui_serverFilterType.integer > 0 ) {
 				if ( Q_stricmp( Info_ValueForKey( info, "game" ), serverFilters[ui_serverFilterType.integer].basedir ) != 0 ) {
@@ -5545,7 +5545,8 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 			//	Com_sprintf( clientBuff, sizeof( clientBuff ), "%s (%s)", Info_ValueForKey( info, "clients" ), Info_ValueForKey( info, "sv_maxclients" ) );
 			//	return clientBuff;
 			//case SORT_GAME:
-			/*	game = atoi( Info_ValueForKey( info, "gametype" ) );
+                        /*                 
+				game = atoi( Info_ValueForKey( info, "gametype" ) );
 				coop = atoi( Info_ValueForKey( info, "coop" ) );
                                 
 				if ( game >= 0 && game < numTeamArenaGameTypes ) {
