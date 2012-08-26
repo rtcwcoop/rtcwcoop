@@ -91,14 +91,15 @@ itemDef {
 	mouseEnter { show message_look ; setitemcolor ctr_look backcolor .3 .6 .3 .0 } 
 	mouseExit { hide message_look ; setitemcolor ctr_look backcolor .1 .1 .1 0 } 
 	}
-
+	
 
 	itemDef {
 		name look
 		group grpControls
-		type ITEM_TYPE_BIND
-		text "Lookup:  "
-		cvar "+lookup"
+		type ITEM_TYPE_MULTI
+		text "Player View:  "
+		cvar "cg_thirdperson"
+		cvarFloatList { "1st Person" 0 "3rd Person" 1 }
 		rect 82 30 290 12 
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142 
@@ -115,67 +116,33 @@ itemDef {
 	itemDef {
 		name look
 		group grpControls
-		type ITEM_TYPE_BIND
-		text "Look Down:  "
-		cvar "+lookdown"
-		rect 82 45 290 12 
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142 
-		textaligny 10       
-		textscale .23           
-		forecolor 1 1 1 1
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07
-		visible 0 
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-		}
-
-	itemDef {
-		name look
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Mouse Look:  "
-		cvar "+mlook"
-		rect 82 60 290 12
+		type ITEM_TYPE_SLIDER
+		text "Distance:  "
+		cvarfloat "cg_thirdpersonrange" 40 1 100
+		rect 82 45 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
-		textscale .23           
-		forecolor 1 1 1 1
+		textscale .23
 		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07
-		visible 0 
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-		}
-	
-	itemDef {
-		name look
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Centerview:  "
-		cvar "centerview"
-		rect 82 75 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23           
+		backcolor 1 1 1 .07            
 		forecolor 1 1 1 1
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07
-		visible 0 
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-    		}
+		visible 0
 
+		cvarTest		"cg_thirdperson"
+		showcvar		{ "1" }
+		
+		mouseenter { show slider_message }
+		mouseexit { hide slider_message }
+    	}
+			
 	itemDef {
 		name look
 		group grpControls
 		type ITEM_TYPE_BIND
 		text "Binoculars:  "
 		cvar "+zoom"
-		rect 82 90 290 12
+		rect 82 60 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -194,7 +161,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Toggle Notebook:  "
 		cvar "notebook"
-		rect 82 105 290 12
+		rect 82 75 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142 
 		textaligny 10
@@ -212,7 +179,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Zoom In:  "
 		cvar "zoomin"
-		rect 82 120 290 12
+		rect 82 90 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -231,7 +198,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Zoom Out:  "
 		cvar "zoomout"
-		rect 82 135 290 12
+		rect 82 105 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -248,29 +215,9 @@ itemDef {
 		name look
 		group grpControls
 		type ITEM_TYPE_YESNO
-		text "Free Look:  "
-		cvar "cl_freelook"
-		rect 82 150 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23           
-		forecolor 1 1 1 1
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07
-		visible 0 
-		mouseenter { show yesno_message }
-		mouseexit { hide yesno_message }
-    		}
-			
-
-	itemDef {
-		name look
-		group grpControls
-		type ITEM_TYPE_YESNO
 		text "Invert Mouse:  "
 		cvar "ui_mousePitch"
-		rect 82 165 290 12
+		rect 82 120 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -290,7 +237,7 @@ itemDef {
 		type ITEM_TYPE_YESNO
 		text "Smooth Mouse:  "
 		cvar "m_filter"
-		rect 82 180 290 12
+		rect 82 135 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -308,8 +255,8 @@ itemDef {
 		group grpControls
 		type ITEM_TYPE_SLIDER
 		text "Mouse Sensitivity:  "
-		cvarfloat "sensitivity" 5 1 30
-		rect 82 195 290 12
+		cvarfloat "sensitivity" 5 1 50
+		rect 82 150 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -327,7 +274,7 @@ itemDef {
 		group grpControls
 		type ITEM_TYPE_TEXT
 		text "Use Weapon Cycle"
-		rect 96 225 290 12
+		rect 96 180 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 180
 		textaligny 10
@@ -344,7 +291,7 @@ itemDef {
 		text "For Zooming:  "
 		cvar "cg_useWeapsForZoom"
 		cvarFloatList { "Off" 0 "On (normal)" 1 "On (reverse)" 2 }
-		rect 82 240 290 12
+		rect 82 195 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -594,47 +541,9 @@ itemDef {
 		name move
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Turn Left:"
-		cvar "+left"
-		rect 82 195 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23            
-		forecolor 1 1 1 1
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07
-		visible 0 
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-    		}
-
-	itemDef {
-		name move
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Turn Right:"
-		cvar "+right"
-		rect 82 210 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23            
-		forecolor 1 1 1 1
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07
-		visible 0
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-    		}
-	
-	itemDef {
-		name move
-		group grpControls
-		type ITEM_TYPE_BIND
 		text "Strafe:"
 		cvar "+strafe"
-		rect 82 225 290 12
+		rect 82 195 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -652,7 +561,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Teleport:"
 		cvar "teleport"
-		rect 82 240 290 12
+		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
