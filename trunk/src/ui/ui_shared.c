@@ -4174,7 +4174,7 @@ void Item_ListBox_Paint( itemDef_t *item ) {
 						if ( optionalImage >= 0 ) {
 							DC->drawHandlePic( x + 4 + listPtr->columnInfo[j].pos, y - 1 + listPtr->elementHeight / 2, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage );
 						} else if ( text ) {
-							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y + listPtr->elementHeight, item->font, item->textscale, item->window.foreColor, text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
+							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y + listPtr->elementHeight-3, item->font, item->textscale, item->window.foreColor, text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
 						}
 					}
 				} else {
@@ -4187,7 +4187,8 @@ void Item_ListBox_Paint( itemDef_t *item ) {
 				}
 
 				if ( i == item->cursorPos ) {
-					DC->fillRect( x + 2, y + 2, item->window.rect.w - SCROLLBAR_SIZE - 4, listPtr->elementHeight, item->window.outlineColor );
+					//DC->fillRect( x + 2, y + 2, item->window.rect.w - SCROLLBAR_SIZE - 4, listPtr->elementHeight, item->window.outlineColor );
+					DC->fillRect( x, y, item->window.rect.w - SCROLLBAR_SIZE, listPtr->elementHeight, item->window.outlineColor );
 				}
 
 				size -= listPtr->elementHeight;
