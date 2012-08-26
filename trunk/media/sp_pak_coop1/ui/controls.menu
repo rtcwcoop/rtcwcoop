@@ -44,7 +44,7 @@ menuDef
 	{
 		name window
 		group grpControlbutton
-		rect 0 2 443 325
+		rect 0 2 443 300
 		style WINDOW_STYLE_FILLED
 		border 1
 		bordercolor .5 .5 .5 .5
@@ -56,12 +56,12 @@ menuDef
 
 	itemDef 
 	{
-		name window2
-		group grpControlbutton
+		name window
+		group ingamebox2
 		rect 2 4 439 20	
 		style WINDOW_STYLE_FILLED
 		border 1
-		bordercolor .1 .1 .1 .2
+		bordercolor .5 .5 .5 .5
 		forecolor 1 1 1 1
 		backcolor .3 0.5 0.2 .25
 		visible 1
@@ -121,7 +121,7 @@ itemDef {
 		type ITEM_TYPE_MULTI
 		text "Player View:  "
 		cvar "cg_thirdperson"
-		cvarFloatList { "1st Person" 0 "3rd Person" 1 }
+		cvarFloatList { "FPS" 0 "TPS" 1 }
 		rect 82 30 290 12 
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142 
@@ -139,7 +139,7 @@ itemDef {
 		name look
 		group grpControls
 		type ITEM_TYPE_SLIDER
-		text "Distance:  "
+		text "Distance in TPS:  "
 		cvarfloat "cg_thirdpersonrange" 40 1 100
 		rect 82 45 290 12
 		textalign ITEM_ALIGN_RIGHT
@@ -150,10 +150,6 @@ itemDef {
 		backcolor 1 1 1 .07            
 		forecolor 1 1 1 1
 		visible 0 
-
-		cvarTest		"cg_thirdperson"
-		showcvar		{ "1" }
-		
 		mouseenter { show slider_message }
 		mouseexit { hide slider_message }
     	}
@@ -585,7 +581,7 @@ itemDef {
 		name move
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Teleport:  "
+		text "Unstuck:  "
 		cvar "teleport"
 		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
@@ -934,6 +930,46 @@ itemDef {
 		mouseenter { show keyBindStatus }
 		mouseexit { hide keyBindStatus }
     		}
+			
+
+	itemDef {
+		name shoot
+		group grpControls
+		type ITEM_TYPE_BIND
+		text "Drop Weapon:  "
+		cvar "+dropweapon"
+		rect 82 270 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .23
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07           
+		forecolor 1 1 1 1
+		visible 0
+		mouseenter { show keyBindStatus }
+		mouseexit { hide keyBindStatus }
+		}
+
+	itemDef {
+		name shoot
+		group grpControls
+		type ITEM_TYPE_BIND
+		text "Drop Ammo:  "
+		cvar "dropammo"
+		rect 82 285 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .23
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07           
+		forecolor 1 1 1 1
+		visible 0
+		mouseenter { show keyBindStatus }
+		mouseexit { hide keyBindStatus }
+		}		
+				
 
 
 ////////////////	end shoot
@@ -1139,22 +1175,29 @@ itemDef {
 		mouseenter { show keyBindStatus }
 		mouseexit { hide keyBindStatus }
   	}
-
 	
+	
+
 	itemDef {
-		name misc
-		group grpControls
-		type ITEM_TYPE_TEXT
-		text "Cooperative Gameplay"
-		rect 50 180 290 12
-		textalign ITEM_ALIGN_CENTER
-		textalignx 180
-		textaligny 10
-		textscale .23           
-		forecolor 1 1 1 1
+		name			misc
+		group			grpControls
+		type			ITEM_TYPE_TEXT
+		text			"Multiplayer"
+		textfont		UI_FONT_NORMAL
+		textalign		ITEM_ALIGN_CENTER
+		textalignx		145
+		textaligny		13
+		textscale		.25
+		rect			82 170 290 20
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.5 .5 .5 .5
+		forecolor		1 1 1 1
+		backcolor		.3 0.5 0.2 .25
+		visible			0
 		decoration
-		visible 0 
 		}
+
 	
 	itemDef {
 		name misc
@@ -1176,49 +1219,50 @@ itemDef {
 		}
 
 	itemDef {
-		name misc
+		name misc 
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Drop SpawnPoint:  "
-		cvar "spawnpoint"
+		text "Voice Chat:  "
+		cvar "mp_quickmessage"
 		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
 		textscale .23
 		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07           
+		backcolor 1 1 1 .07
 		forecolor 1 1 1 1
-		visible 0
+		visible 0 
 		mouseenter { show keyBindStatus }
 		mouseexit { hide keyBindStatus }
-		}
+	}  
 
 	itemDef {
-		name misc
+		name misc 
 		group grpControls
-		type ITEM_TYPE_BIND
-		text "Drop Weapon:  "
-		cvar "+dropweapon"
+		type ITEM_TYPE_MULTI
+		text "Voice Chat Mode:  "
+		cvar "cg_quickMessageAlt"
+		cvarFloatList { "Alpha" 0 "Numeric" 1 }
 		rect 82 225 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
 		textscale .23
 		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07           
+		backcolor 1 1 1 .07
 		forecolor 1 1 1 1
-		visible 0
+		visible 0 
 		mouseenter { show keyBindStatus }
 		mouseexit { hide keyBindStatus }
-		}
+		} 
 
 	itemDef {
 		name misc
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Drop Ammo:  "
-		cvar "dropammo"
+		text "Drop SpawnPoint:  "
+		cvar "spawnpoint"
 		rect 82 240 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
@@ -1226,25 +1270,6 @@ itemDef {
 		textscale .23
 		style WINDOW_STYLE_FILLED
 		backcolor 1 1 1 .07           
-		forecolor 1 1 1 1
-		visible 0
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-		}		
-				
-	itemDef {
-		name misc
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Show Scores:  "
-		cvar "+scores"
-		rect 82 255 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07                    
 		forecolor 1 1 1 1
 		visible 0
 		mouseenter { show keyBindStatus }
@@ -1257,7 +1282,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Vote Yes:  "
 		cvar "vote yes"
-		rect 82 270 290 12
+		rect 82 255 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -1276,7 +1301,7 @@ itemDef {
 		type ITEM_TYPE_BIND
 		text "Vote No:  "
 		cvar "vote no"
-		rect 82 285 290 12
+		rect 82 270 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10
@@ -1289,45 +1314,25 @@ itemDef {
 		mouseexit { hide keyBindStatus }
 	}
 
-       itemDef {
-                name misc 
-                group grpControls
-                type ITEM_TYPE_BIND
-                text "Quick Chat:"
-                cvar "mp_quickmessage"
-                rect 82 300 290 12
-                textalign ITEM_ALIGN_RIGHT
-                textalignx 142
-                textaligny 10
-                textscale .23
-                style WINDOW_STYLE_FILLED
-                backcolor 1 1 1 .07
-                forecolor 1 1 1 1
-                visible 0 
-                mouseenter { show keyBindStatus }
-                mouseexit { hide keyBindStatus }
-        }  
-
-       itemDef {
-                name misc 
-                group grpControls
-                type ITEM_TYPE_MULTI
-                text "Quick Chat Mode:"
-                cvar "cg_quickMessageAlt"
-                cvarFloatList { "Alpha" 0 "Numeric" 1 }
-                rect 82 315 290 12
-                textalign ITEM_ALIGN_RIGHT
-                textalignx 142
-                textaligny 10
-                textscale .23
-                style WINDOW_STYLE_FILLED
-                backcolor 1 1 1 .07
-                forecolor 1 1 1 1
-                visible 0 
-                mouseenter { show keyBindStatus }
-                mouseexit { hide keyBindStatus }
-        } 
-
+	itemDef {
+		name misc
+		group grpControls
+		type ITEM_TYPE_BIND
+		text "Show Scoretable:  "
+		cvar "+scores"
+		rect 82 285 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .23
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07                    
+		forecolor 1 1 1 1
+		visible 0
+		mouseenter { show keyBindStatus }
+		mouseexit { hide keyBindStatus }
+		}
+		
 ///////////////// end misc
 
 
