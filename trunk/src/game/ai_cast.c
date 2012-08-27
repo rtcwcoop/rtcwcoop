@@ -380,6 +380,8 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
 	cs = AICast_GetCastState( newent->s.number );
 	//
 	cs->aiCharacter = ent->aiCharacter;
+        // used with g_airespawn
+        cs->died = qfalse;
 	client->ps.aiChar = ent->aiCharacter;
 	// setup the attributes
 	memcpy( cs->attributes, attributes, sizeof( cs->attributes ) );

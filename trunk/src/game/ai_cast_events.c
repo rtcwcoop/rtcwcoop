@@ -414,11 +414,16 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 	} else {
 		// really dead now, so call the script
-                if ( g_gameskill.integer == GSKILL_MAX && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-                                && self->aiCharacter != AICHAR_HEINRICH && nogib )
-		        AICast_ScriptEvent( cs, "death", "" );
-                else
+                if ( g_airespawn.integer && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
+                                && self->aiCharacter != AICHAR_HEINRICH && nogib ) {
+                        if (!cs->died) {
+                                G_UseTargets( self, self ); // fretn - testing
+                                AICast_ScriptEvent( cs, "death", "" );
+                                cs->died = qtrue;
+                        }
+                } else {
 		        AICast_ScriptEvent( cs, "fakedeath", "" );
+                }
 		// call the deathfunc for this cast, so we can play associated sounds, or do any character-specific things
 		if ( !( cs->aiFlags & AIFL_DENYACTION ) && cs->deathfunc ) {
 			cs->deathfunc( self, attacker, damage, meansOfDeath );   //----(SA)	added mod
