@@ -169,7 +169,7 @@ cvarTable_t gameCvarTable[] = {
 
         //fretn
 	{ &g_airespawn, "g_airespawn", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },  
-	{ &g_teleporttime, "g_teleporttime", "120000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // 2 minutes by default
+	{ &g_teleporttime, "g_teleporttime", "300000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // 5 minutes by default
 #ifdef INGAME_CUTSCENES
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
 #endif
@@ -1661,7 +1661,7 @@ void CalculateRanks( void ) {
                                                         int value = level.clients[i].ps.persistant[PERS_SCORE];
                                                         int mod = value % 1000;
                                                         int rounded = value - mod;
-                                                        if (level.clients[i].sess.lastBonusLifeScore != rounded) { // yes we scored a bonus life
+                                                        if (level.clients[i].sess.lastBonusLifeScore < rounded) { // yes we scored a bonus life
                                                                 level.clients[i].sess.lastBonusLifeScore = rounded;
                                                                 level.clients[i].ps.persistant[PERS_RESPAWNS_LEFT]++;
                                                                 trap_SendServerCommand(level.clients[i].ps.clientNum, "bonuslife");
