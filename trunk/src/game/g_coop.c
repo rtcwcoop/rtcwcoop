@@ -268,16 +268,16 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
         // General player stats
         //if ( mod != MOD_SYRINGE ) {
                 if  ( !(targ->r.svFlags & SVF_CASTAI) ) {
-                        if ( g_friendlyFire.integer == 3 ) {
+                        /*if ( g_friendlyFire.integer == 3 ) {
                                 attacker->client->sess.damage_given -= (dmg*2);
                                 if (g_gametype.integer != GT_COOP_BATTLE)
                                         attacker->client->ps.persistant[PERS_SCORE] -= (dmg*2);
-                        } else {
+                        } else {*/
                                 attacker->client->sess.damage_given -= dmg;
                                 if (g_gametype.integer != GT_COOP_BATTLE)
                                         attacker->client->ps.persistant[PERS_SCORE] -= dmg;
                                 targ->client->sess.damage_received += dmg;
-                        }
+                        //}
                 } else {
                         attacker->client->sess.damage_given += dmg;
                         if (g_gametype.integer != GT_COOP_BATTLE)
