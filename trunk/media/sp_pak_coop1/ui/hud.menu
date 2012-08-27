@@ -177,7 +177,7 @@
 			addColorRange 1 999 .63 .47 .25 1	// orange
 			addColorRange 0 0 1 0 0 1			// red
 			
-			cvarTest		"g_maxlives"
+			cvarTest		"cg_maxlives"
 			hidecvar		{ "0" }
 		}
 		
@@ -198,7 +198,7 @@
 			visible 1
 			decoration
 			
-			cvarTest		"g_maxlives"
+			cvarTest		"cg_maxlives"
 			hidecvar		{ "0" }
             }
 
@@ -213,7 +213,7 @@
 			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_SPAWNPOINTS
 			
-			cvarTest		"g_spawnpoints"
+			cvarTest		"cg_spawnpoints"
 			showcvar		{ "1" }
             }
 
@@ -234,7 +234,7 @@
 			visible 1
 			decoration
 
-			cvarTest		"g_spawnpoints"
+			cvarTest		"cg_spawnpoints"
 			showcvar		{ "1" }
             }
 		}

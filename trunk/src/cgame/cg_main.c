@@ -223,6 +223,8 @@ vmCvar_t cg_wolfparticles;
 
 // Ridah
 vmCvar_t cg_gameType;
+vmCvar_t cg_maxlives;
+vmCvar_t cg_spawnpoints;
 //fretn
 vmCvar_t cg_entityEditCounter;
 vmCvar_t cg_limbotime;
@@ -439,6 +441,8 @@ cvarTable_t cvarTable[] = {
 
 	// Ridah
 	{ &cg_gameType, "g_gametype", "0", 0 }, // communicated by systeminfo
+	{ &cg_maxlives, "g_maxlives", "0", 0 }, // communicated by systeminfo
+	{ &cg_spawnpoints, "g_spawnpoints", "0", 0 }, // communicated by systeminfo
         //fretn
 	{ &cg_obituaries, "cg_obituaries", "0", CVAR_ARCHIVE },
 	{ &cg_drawcompass, "cg_drawcompass", "1", CVAR_ARCHIVE },
