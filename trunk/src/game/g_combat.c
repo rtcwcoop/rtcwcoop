@@ -938,6 +938,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                         return;
                 }
         }
+     
 
 	// RF, track pain for player
 	// This is used by AI to determine how long it has been since their enemy was injured

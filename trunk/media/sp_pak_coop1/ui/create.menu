@@ -458,7 +458,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Enemy skill:  "
 					cvar			"g_gameskill"
-					cvarFloatList	{ "1 - Easy" 1 "2 - Normal" 2 "3 - Hard" 3 }
+					cvarFloatList	{ "* Test *" 0 "1 - Easy" 1 "2 - Normal" 2 "3 - Hard" 3 }
 					rect			295 265 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
@@ -527,7 +527,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Friendly Fire:  "
 					cvar			"g_friendlyFire"
-					cvarFloatList	{ "Off" 0 "On" 1 "On + Penalty" 2 "On + Extra Penalty" 3}
+					cvarFloatList	{ "Off" 0 "On" 1 "On + Health Penalty" 2 }
 					rect			295 325 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
@@ -571,7 +571,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Shared Lives:  "
 					cvar			"g_sharedlives"
-					cvarFloatList	{ "yes" 1 "no" 0 }
+					cvarFloatList	{ "yes (no bonus life!)" 1 "no" 0 }
 					rect			295 355 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED

@@ -4161,7 +4161,7 @@ static void UI_RunMenuScript( char **args ) {
 			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
 #endif
 			trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 2, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
-			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
+			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopdevmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
 			skill = trap_Cvar_VariableValue( "g_spSkill" );
 			// set max clients based on spots
 			clients = 0;
@@ -5491,7 +5491,7 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                         case SORT_SKILL:
                                 skill = atoi(Info_ValueForKey( info, "gameskill" ));
                                 if ( skill == 0 )
-                                       Com_sprintf(skilltext, sizeof(skilltext), "Noob"); 
+                                       Com_sprintf(skilltext, sizeof(skilltext), "* Test *"); 
                                 else if ( skill == 1 )
                                        Com_sprintf(skilltext, sizeof(skilltext), "Easy"); 
                                 else if ( skill == 2 )
