@@ -2274,6 +2274,12 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 
 	CG_InitConsoleCommands();
 
+        // fretn: this is an ugly workaround
+        if (cgs.gametype == GT_SINGLE_PLAYER)
+                trap_Cvar_Set("model", "bj2");
+        else if (cgs.gametype <= GT_COOP)
+                trap_Cvar_Set("model", "multi");
+
 //	cg.weaponSelect = WP_MP40;
 
 	// get the rendering configuration from the client system
