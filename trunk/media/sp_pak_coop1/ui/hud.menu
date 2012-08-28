@@ -177,7 +177,7 @@
 			addColorRange 1 999 .63 .47 .25 1	// orange
 			addColorRange 0 0 1 0 0 1			// red
 			
-			cvarTest		"cg_maxlives"
+			cvarTest		"g_maxlives"
 			hidecvar		{ "0" }
 		}
 		
@@ -198,7 +198,7 @@
 			visible 1
 			decoration
 			
-			cvarTest		"cg_maxlives"
+			cvarTest		"g_maxlives"
 			hidecvar		{ "0" }
             }
 
