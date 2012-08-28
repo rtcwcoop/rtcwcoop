@@ -2117,7 +2117,7 @@ void Com_Init( char *commandLine ) {
 	if ( !Com_SafeMode() ) {
 
 #ifdef DEDICATED
-		Cbuf_AddText( "exec wolfconfig_ded.cfg\n" );
+		Cbuf_AddText( "exec coop_config_ded.cfg\n" );
 #else
 		Cbuf_AddText( "exec coop_config.cfg\n" );
 #endif

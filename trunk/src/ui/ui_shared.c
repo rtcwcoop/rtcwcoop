@@ -3558,6 +3558,7 @@ static bind_t g_bindings[] =
 	{"scoresUp",     -1,             -1, -1, -1},
 	{"scoresDown",       -1,             -1, -1, -1},
 	{"messagemode",  -1,             -1, -1, -1},
+	{"mp_quickmessage",  -1,             -1, -1, -1},
 	{"messagemode2", -1,             -1, -1, -1},
 	{"messagemode3", -1,             -1, -1, -1},
 	{"messagemode4", -1,             -1, -1, -1},
