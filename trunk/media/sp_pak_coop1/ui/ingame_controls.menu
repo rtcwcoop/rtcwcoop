@@ -1190,7 +1190,7 @@ itemDef {
 		name misc 
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Voice Chat:  "
+		text "Quick Message:  "
 		cvar "mp_quickmessage"
 		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
@@ -1209,7 +1209,7 @@ itemDef {
 		name misc 
 		group grpControls
 		type ITEM_TYPE_MULTI
-		text "Voice Chat Mode:  "
+		text "Quick Message Mode:  "
 		cvar "cg_quickMessageAlt"
 		cvarFloatList { "Alpha" 0 "Numeric" 1 }
 		rect 82 225 290 12
