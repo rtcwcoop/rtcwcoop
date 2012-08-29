@@ -1785,8 +1785,6 @@ extern vmCvar_t cg_wolfparticles;
 
 // Ridah
 extern vmCvar_t cg_gameType;
-extern vmCvar_t cg_maxlives;
-extern vmCvar_t cg_spawnpoints;
 //fretn
 extern vmCvar_t cg_entityEditCounter;
 extern vmCvar_t cg_obituaries;

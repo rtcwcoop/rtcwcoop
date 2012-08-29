@@ -223,8 +223,6 @@ vmCvar_t cg_wolfparticles;
 
 // Ridah
 vmCvar_t cg_gameType;
-vmCvar_t cg_maxlives;
-vmCvar_t cg_spawnpoints;
 //fretn
 vmCvar_t cg_entityEditCounter;
 vmCvar_t cg_limbotime;
@@ -441,8 +439,6 @@ cvarTable_t cvarTable[] = {
 
 	// Ridah
 	{ &cg_gameType, "g_gametype", "0", 0 }, // communicated by systeminfo
-	{ &cg_maxlives, "g_maxlives", "0", 0 }, // communicated by systeminfo
-	{ &cg_spawnpoints, "g_spawnpoints", "0", 0 }, // communicated by systeminfo
         //fretn
 	{ &cg_obituaries, "cg_obituaries", "0", CVAR_ARCHIVE },
 	{ &cg_drawcompass, "cg_drawcompass", "1", CVAR_ARCHIVE },
@@ -2274,12 +2270,6 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 
 	CG_InitConsoleCommands();
 
-        // fretn: this is an ugly workaround
-        if (cgs.gametype == GT_SINGLE_PLAYER)
-                trap_Cvar_Set("model", "bj2");
-        else if (cgs.gametype <= GT_COOP)
-                trap_Cvar_Set("model", "multi");
-
 //	cg.weaponSelect = WP_MP40;
 
 	// get the rendering configuration from the client system
@@ -2370,6 +2360,13 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 	if ( cgs.localServer ) {
 	    CG_InitWorldText();
 	}
+
+        // fretn: this is an ugly workaround
+        if (cgs.gametype == GT_SINGLE_PLAYER)
+                trap_Cvar_Set("model", "bj2");
+        else if (cgs.gametype <= GT_COOP)
+                trap_Cvar_Set("model", "multi");
+
 }
 
 /*

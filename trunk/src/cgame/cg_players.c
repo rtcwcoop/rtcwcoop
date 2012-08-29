@@ -1862,7 +1862,7 @@ void CG_SetLerpFrameAnimationRate( centity_t *cent, clientInfo_t *ci, lerpFrame_
 	newAnimation &= ~ANIM_TOGGLEBIT;
 
 	if ( newAnimation < 0 || newAnimation >= ci->modelInfo->numAnimations ) {
-		CG_Error( "Bad animation number (CG_SLFAR): %i", newAnimation );
+		CG_Error( "Bad animation number (CG_SLFAR): %i (%s)", newAnimation, ci->modelName );
 	}
 
 	anim = &ci->modelInfo->animations[ newAnimation ];

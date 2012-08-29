@@ -1239,6 +1239,13 @@ void Cmd_Where_f( gentity_t *ent ) {
 	trap_SendServerCommand( ent - g_entities, va( "print \"%s\n\"", vtos( ent->s.origin ) ) );
 }
 
+static const char *gameNames[] = {
+        "Battle",
+        "Speedrun",
+        "Cooperative",
+        "Single Player"
+};
+
 
 /*
 ==================
@@ -1273,8 +1280,9 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	trap_Argv( 1, arg1, sizeof( arg1 ) );
 	trap_Argv( 2, arg2, sizeof( arg2 ) );
 
+Com_Printf("------------------------------- %s %s\n", arg1, arg2);
 	if ( !Q_stricmp( arg1, "map_restart" ) ) {
-	} else if ( !Q_stricmp( arg1, "coopmap" ) ) {
+	} else if ( !Q_stricmp( arg1, "map" ) ) {
 	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
 	} else if ( !Q_stricmp( arg1, "kick" ) ) {
 	} else if ( !Q_stricmp( arg1, "nextmap" ) ) {
@@ -1294,6 +1302,19 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "coopmap %s", s );
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
 	}
+        else if ( !Q_stricmp( arg1, "map") ) {
+		Com_sprintf( level.voteString, sizeof( level.voteString ), "coopmap %s", arg2 );
+		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
+        }
+	else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
+                i = atoi(arg2);
+                if ( i >= GT_SINGLE_PLAYER || i < 0 ) {
+                        trap_SendServerCommand( ent - g_entities, "print \"Invalid gametype.\n\"" );
+                        return;
+                }
+                Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %d; map_restart 5", arg1, i ); 
+                Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s %s", arg1, gameNames[i] );
+        }
 	else {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %s", arg1, arg2 );
 	}
