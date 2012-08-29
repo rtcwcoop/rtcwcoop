@@ -169,8 +169,8 @@ void CL_AddReliableCommand( const char *cmd ) {
 	// we must drop the connection
 //	if(cl.cameraMode)
 //		Com_Printf ("cmd: %s\n", cmd);
-        if (cl_paused->integer)
-                return;
+        //if (cl_paused->integer)
+        //        return;
 
 	if ( clc.reliableSequence - clc.reliableAcknowledge > MAX_RELIABLE_COMMANDS ) {
 		Com_Error( ERR_DROP, "Client command overflow" );
