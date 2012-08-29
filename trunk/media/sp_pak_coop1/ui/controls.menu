@@ -139,7 +139,7 @@ itemDef {
 		name look
 		group grpControls
 		type ITEM_TYPE_SLIDER
-		text "Distance in Third Person:  "
+		text "Third Person Offset:  "
 		cvarfloat "cg_thirdpersonrange" 40 1 100
 		rect 82 45 290 12
 		textalign ITEM_ALIGN_RIGHT
