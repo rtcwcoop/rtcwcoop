@@ -121,7 +121,7 @@ itemDef {
 		type ITEM_TYPE_MULTI
 		text "Player View:  "
 		cvar "cg_thirdperson"
-		cvarFloatList { "FPS" 0 "TPS" 1 }
+		cvarFloatList { "First Person" 0 "Third Person" 1 }
 		rect 82 30 290 12 
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142 
@@ -139,7 +139,7 @@ itemDef {
 		name look
 		group grpControls
 		type ITEM_TYPE_SLIDER
-		text "Distance in TPS:  "
+		text "Distance in Third Person:  "
 		cvarfloat "cg_thirdpersonrange" 40 1 100
 		rect 82 45 290 12
 		textalign ITEM_ALIGN_RIGHT
@@ -581,7 +581,7 @@ itemDef {
 		name move
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Unstuck:  "
+		text "Teleport when stuck:  "
 		cvar "teleport"
 		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
@@ -1318,7 +1318,7 @@ itemDef {
 		name misc
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Show Scoretable:  "
+		text "Show Scoreboard:  "
 		cvar "+scores"
 		rect 82 285 290 12
 		textalign ITEM_ALIGN_RIGHT
