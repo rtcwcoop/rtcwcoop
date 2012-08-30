@@ -327,8 +327,9 @@ If you have questions concerning this license or the applicable additional terms
 #define UI_SAVEGAMENAME             262
 #define UI_SAVEGAMEINFO             263
 
-#define UI_NETMAPPREVIEW_SMALL1     264
-#define UI_NETMAPPREVIEW_SMALL2     265
+#define UI_CREATEMAPPREVIEW_SMALL1  264
+#define UI_CREATEMAPPREVIEW_SMALL2  265
+#define UI_CREATEMAPPREVIEW         266
 
 #define VOICECHAT_GETFLAG           "getflag"                // command someone to get the flag
 #define VOICECHAT_OFFENSE           "offense"                // command someone to go on offense

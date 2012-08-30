@@ -4067,7 +4067,7 @@ void Item_ListBox_Paint( itemDef_t *item ) {
 	count = DC->feederCount( item->special );
 
         // make sure the UI knows that the first element is selected after the initialisation
-        if (item->special == FEEDER_SERVERS && !item->cursorPos)
+        if ((item->special == FEEDER_SERVERS || item->special == FEEDER_ALLMAPS)&& !item->cursorPos && count > 0)
                 DC->feederSelection( item->special, 0 );
 
 	// default is vertical if horizontal flag is not here

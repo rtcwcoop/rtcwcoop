@@ -186,7 +186,7 @@ itemDef {
 				itemDef {
 					name				mappreview
 					group				grpCreate
-					ownerdraw			UI_NETMAPCINEMATIC
+					ownerdraw		        UI_CREATEMAPPREVIEW	
 					rect				29 146 151 114
 					visible				1 
 					}
@@ -204,7 +204,7 @@ itemDef {
 						itemDef {
 							name			mappreview
 							group			grpCreate
-							ownerdraw		UI_NETMAPPREVIEW_SMALL1
+							ownerdraw		UI_CREATEMAPPREVIEW_SMALL1
 							rect			186 146 72 54
 							visible			1 
 							}
@@ -222,7 +222,7 @@ itemDef {
 						itemDef {
 							name			mappreview
 							group			grpCreate
-							ownerdraw		UI_NETMAPPREVIEW_SMALL2
+							ownerdraw		UI_CREATEMAPPREVIEW_SMALL2
 							rect			186 206 72 54
 							visible			1 
 							}
