@@ -1170,7 +1170,7 @@ itemDef {
 		name			misc
 		group			grpControls
 		type			ITEM_TYPE_TEXT
-		text			"Multiplayer"
+		text			"Cooperative"
 		textfont		UI_FONT_NORMAL
 		textalign		ITEM_ALIGN_CENTER
 		textalignx		145
