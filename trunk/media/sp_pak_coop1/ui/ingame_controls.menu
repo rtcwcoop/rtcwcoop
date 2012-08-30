@@ -264,13 +264,32 @@ itemDef {
 		mouseenter { show slider_message }
 		mouseexit { hide slider_message }
     		}
-			
-	 itemDef {
+
+	itemDef {
+		name look
+		group grpControls
+		type ITEM_TYPE_BIND
+		text "Screenshot:  "
+		cvar "screenshotJPEG"
+		rect 82 165 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142 
+		textaligny 10
+		textscale .23  
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07                  
+		forecolor 1 1 1 1
+		visible 0 
+		mouseenter { show keyBindStatus }
+		mouseexit { hide keyBindStatus }
+  	}	
+				
+		itemDef {
 		name look
 		group grpControls
 		type ITEM_TYPE_TEXT
 		text "Use Weapon Cycle"
-		rect 96 180 290 12
+		rect 96 195 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 180
 		textaligny 10
@@ -287,7 +306,7 @@ itemDef {
 		text "For Zooming:  "
 		cvar "cg_useWeapsForZoom"
 		cvarFloatList { "Off" 0 "On (normal)" 1 "On (reverse)" 2 }
-		rect 82 195 290 12
+		rect 82 210 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
 		textaligny 10

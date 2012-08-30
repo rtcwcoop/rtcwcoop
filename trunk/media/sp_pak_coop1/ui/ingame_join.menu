@@ -8,7 +8,7 @@ menuDef {
 		visible 0
 		fullscreen 0
 		outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
-		rect 0 0 640 480
+		rect 20 115 605 335
 		focusColor 1 .75 0 1
 		style 1
 		border 1
@@ -26,7 +26,7 @@ menuDef {
 		{
 		name window
 		group grpJoin
-		rect 20 115 600 300	
+		rect 0 0 600 300	
 		style WINDOW_STYLE_FILLED
 		border 1
 		bordercolor .5 .5 .5 .5
@@ -51,7 +51,7 @@ menuDef {
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 145 105 15
+			rect			10 30 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -78,7 +78,7 @@ menuDef {
 			type			ITEM_TYPE_BUTTON
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 170 105 15
+			rect			10 55 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -102,7 +102,7 @@ menuDef {
 			style			WINDOW_STYLE_FILLED
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 195 105 15
+			rect			10 80 105 15
 			textalign		1
 			textalignx		52		// center
 			textaligny		11
@@ -130,7 +130,7 @@ menuDef {
 			type ITEM_TYPE_BUTTON
 			style WINDOW_STYLE_FILLED
 			textstyle 6
-			rect			270 430 100 15
+			rect			250 315 100 15
 			textfont        UI_FONT_NORMAL
 			textscale .25    
 			textalign ITEM_ALIGN_CENTER
@@ -152,7 +152,7 @@ menuDef {
 			name			window_limbo_name
 			group			grpJoin
 			visible			1
-			rect			160 145 130 15
+			rect			140 30 130 15
 			textstyle		6			
 			forecolor		1 1 1 1
 			outlinecolor	1 1 0 .5
@@ -176,7 +176,7 @@ menuDef {
 			style			0	
 			textfont		UI_FONT_NORMAL
 			ownerdraw		UI_NETSOURCE
-			rect			160 170 130 15 
+			rect			140 55 130 15 
 			textstyle		6
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
@@ -201,7 +201,7 @@ menuDef {
 			maxpaintchars	8
 			cvar			"password"
 			textfont		UI_FONT_NORMAL
-			rect			160 195 130 15
+			rect			140 80 130 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -224,7 +224,7 @@ menuDef {
 			name			window_limbo_model
 			group			grpJoin
 			visible			1
-			rect			310 145 150 15		
+			rect			290 30 150 15		
 			forecolor		1 1 1 1
 			backcolor		0 0 0 0
 			outlinecolor	1 1 0 .5
@@ -252,7 +252,7 @@ menuDef {
 			text			"Type:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
-			rect			310 170 100 15
+			rect			290 55 100 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -274,7 +274,7 @@ menuDef {
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
-			rect			310 195 100 15
+			rect			290 80 100 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0
 			textaligny		14
@@ -295,7 +295,7 @@ menuDef {
 			name mappreview
 			group grpJoin
 			ownerdraw UI_NETMAPPREVIEW
-			rect 467 120 148 111
+			rect 447 5 148 111
 			visible 1 
 			}
 
@@ -303,7 +303,7 @@ menuDef {
 			name mappreview
 			group grpJoin
 			style WINDOW_STYLE_FILLED	
-			rect 466 119 149 112
+			rect 446 4 149 112
 			border 1
 			bordercolor .5 .5 .5 .5
 			visible 1 
@@ -314,7 +314,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 251 581 15
+			rect 1 136 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .1
@@ -325,7 +325,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 281 581 15
+			rect 1 166 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .1
@@ -335,7 +335,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 311 581 15
+			rect 1 196 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .1
@@ -345,7 +345,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 341 581 15
+			rect 1 226 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .1
@@ -355,7 +355,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 371 581 15
+			rect 1 256 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .1
@@ -365,7 +365,7 @@ menuDef {
 		itemDef {
 			name horizontalseparators
 			group grpJoin
-			rect 21 401 581 15
+			rect 1 286 581 15
 			style WINDOW_STYLE_FILLED
 			border 0
 			backcolor .5 .5 .5 .1
@@ -379,7 +379,7 @@ menuDef {
 		itemDef {
 			name serverColumn
 			group grpJoin
-			rect 20 250 161 165
+			rect 0 135 161 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -391,7 +391,7 @@ menuDef {
 		itemDef {
 			name mapColumn
 			group grpJoin
-			rect 180 250 181 165
+			rect 160 135 181 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -403,7 +403,7 @@ menuDef {
 		itemDef {
 			name respawnColumn
 			group grpJoin
-			rect 360 250 81 165
+			rect 340 135 81 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -415,7 +415,7 @@ menuDef {
 		itemDef {
 			name reinforceColumn
 			group grpJoin
-			rect 440 250 81 165
+			rect 420 135 81 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -427,7 +427,7 @@ menuDef {
 		itemDef {
 			name skillColumn
 			group grpJoin
-			rect 520 250 48 165
+			rect 500 135 48 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -439,7 +439,7 @@ menuDef {
 		itemDef {
 			name pingColumn
 			group grpJoin
-			rect 567 250 36 165
+			rect 547 135 36 165
 			style WINDOW_STYLE_FILLED
 			border 1
 			backcolor 0 0 0 0
@@ -452,7 +452,7 @@ menuDef {
 		 itemDef {
 			name serverlist
 			group grpJoin
-			rect 20 250 600 165
+			rect 0 135 600 165
 			type ITEM_TYPE_LISTBOX
 			style WINDOW_STYLE_FILLED
 			elementwidth 120
@@ -472,11 +472,11 @@ menuDef {
 			visible 1
 			// 	numcols     xpos	xwitdth   textlen
 			columns 6 	    0		40			28 
-							160		80			80
-							365		250		    250	
-							420		250			250
-							500		250			250
-							547		40			10
+							140		80			80
+							345		250		    250	
+							400		250			250
+							480		250			250
+							527		40			10
 			doubleClick { uiScript JoinServer }
 			}
 
@@ -492,7 +492,7 @@ menuDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5
-			rect 20 235 161 15
+			rect 0 120 161 15
 			textalign		ITEM_ALIGN_CENTER
 			textalignx 80		// center
 			textaligny 11
@@ -510,7 +510,7 @@ menuDef {
 			textscale .25
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED	
-			rect 180 235 181 15
+			rect 160 120 181 15
 			textalign		ITEM_ALIGN_CENTER
 			textalignx 90		// center
 			textaligny 11
@@ -532,7 +532,7 @@ menuDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5	
-			rect 360 235 81 15
+			rect 340 120 81 15
 			textalign		ITEM_ALIGN_CENTER
 			textalignx 40		// center
 			textaligny 11
@@ -552,7 +552,7 @@ menuDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5	
-			rect 440 235 81 15
+			rect 420 120 81 15
 			textalign		ITEM_ALIGN_CENTER
 			textalignx 40		// center
 			textaligny 11
@@ -570,7 +570,7 @@ menuDef {
 			textscale .25
 			type ITEM_TYPE_BUTTON
 			style WINDOW_STYLE_FILLED	
-			rect 520 235 48 15
+			rect 500 120 48 15
 			textalign		ITEM_ALIGN_CENTER
 			textalignx 24		// center
 			textaligny 11
@@ -592,7 +592,7 @@ menuDef {
 			style WINDOW_STYLE_FILLED
 			border 1
 			bordercolor .5 .5 .5 .5	
-			rect 567 235 53 15
+			rect 547 120 53 15
 			textalign 1
 			textalignx 18		// center
 			textaligny 10
