@@ -1310,9 +1310,9 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 //			bolt->damage				= 100;
 //			bolt->splashDamage			= 100;
 		if ( self->aiCharacter ) {
-			bolt->splashRadius          = 150;
+			bolt->splashRadius          = 300;
 		} else {
-			bolt->splashRadius          = 150;
+			bolt->splashRadius          = 300;
 		}
 		bolt->methodOfDeath         = MOD_GRENADE;
 		bolt->splashMethodOfDeath   = MOD_GRENADE_SPLASH;
@@ -1322,7 +1322,7 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 		bolt->classname             = "grenade";
 //			bolt->damage				= 80;
 //			bolt->splashDamage			= 80;
-		bolt->splashRadius          = 300;
+		bolt->splashRadius          = 450;
 		bolt->methodOfDeath         = MOD_GRENADE;
 		bolt->splashMethodOfDeath   = MOD_GRENADE_SPLASH;
 		bolt->s.eFlags              = EF_BOUNCE_HALF;
@@ -1369,7 +1369,7 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 		bolt->classname             = "dynamite";
 		bolt->damage                = 0;
 //			bolt->splashDamage			= 300;
-		bolt->splashRadius          = 400;
+		bolt->splashRadius          = 600;
 		bolt->methodOfDeath         = MOD_DYNAMITE;
 		bolt->splashMethodOfDeath   = MOD_DYNAMITE_SPLASH;
 		bolt->s.eFlags              = ( EF_BOUNCE | EF_BOUNCE_HALF );   // EF_BOUNCE_HEAVY;
@@ -1649,9 +1649,9 @@ gentity_t *fire_flamebarrel( gentity_t *self, vec3_t start, vec3_t dir ) {
 	bolt->s.weapon = WP_PANZERFAUST;
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
-	bolt->damage = 100;
-	bolt->splashDamage = 20;
-	bolt->splashRadius = 60;
+	bolt->damage = 200;
+	bolt->splashDamage = 40;
+	bolt->splashRadius = 120;
 
 	bolt->methodOfDeath = MOD_ROCKET;
 	bolt->splashMethodOfDeath = MOD_ROCKET_SPLASH;
