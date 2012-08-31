@@ -583,6 +583,47 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
 	DrawDebugText(cg.snap->ps.origin, "coop_spawnpoint", 999999, colorWhite);
 }
 
+/*
+===================
+CG_DumpFlagPole_f
+
+Dump a coop_spawnpoint_trigger definition to a file
+===================
+*/
+static void CG_DumpFlagPole_f( void ) {
+        char entsfilename[MAX_QPATH];
+        char *extptr, *buffptr;
+        fileHandle_t f;
+
+        // Open ents file
+        Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
+        extptr = entsfilename + strlen( entsfilename ) - 4;
+        if ( extptr < entsfilename || Q_stricmp( extptr, ".bsp" ) ) { 
+                CG_Printf( "Unable to dump, unknown map name?\n" );
+                return;
+        }   
+        Q_strncpyz( extptr, ".ents", 6 );
+        trap_FS_FOpenFile( entsfilename, &f, FS_APPEND_SYNC );
+        if ( !f ) { 
+                CG_Printf( "Failed to open '%s' for writing.\n", entsfilename );
+                return;
+        }   
+
+        // Build the entity definition
+        buffptr = va(   "{\n\"classname\" \"coop_spawnpoint_trigger\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"model\" \"models/multiplayer/flagpole/flagpole_reinforce.md3\"\n\"target\" \"%s\"\n}\n\n",
+                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2]-60, (int)cg.refdefViewAngles[YAW], "temp");
+
+        // And write out/acknowledge
+        trap_FS_Write( buffptr, strlen( buffptr ), f );
+        trap_FS_FCloseFile( f );
+        CG_Printf( "coop_spawnpoint dumped to '%s' (%i %i %i).\n", entsfilename,
+                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2]-60 );
+
+        // draw the new spawnpoint
+        DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorGreen, 6); 
+        DrawDebugText(cg.snap->ps.origin, "coop_spawnpoint_trigger", 999999, colorWhite);
+}
+
 static void CG_DisableDebugLines_f( void )
 {
 	OmnibotDisableDrawing();
@@ -641,6 +682,7 @@ static consoleCommand_t commands[] = {
         { "dumploc", CG_DumpLocation_f },
         { "dumpcastai", CG_DumpCastAi_f },
         { "dumpcoopspawnpoint", CG_DumpCoopSpawnpoint_f },
+        { "dumpflagpole", CG_DumpFlagPole_f },
 
 	{ "nodebuglines", CG_DisableDebugLines_f }
 };
