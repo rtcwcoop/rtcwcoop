@@ -252,6 +252,21 @@ menuDef {
 ////////// GAMETYPE //////////////////////////////////////////////////////// 
 
 
+itemDef {
+      	name copyright
+      	text "COOPERATIVE MODIFICATION"
+		textfont UI_FONT_NORMAL
+      	style 0
+      	textscale .2
+      	rect 0 72 300 40
+      	textalign 1	
+		textalign ITEM_ALIGN_CENTER
+      	textaligny 32
+      	textalignx 320
+      	forecolor .63 .47 .25 1
+      	visible 1 
+      	decoration 
+	}
 
 	itemDef {
 		name play
