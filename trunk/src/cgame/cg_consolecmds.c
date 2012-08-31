@@ -553,6 +553,16 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
         char entsfilename[MAX_QPATH];
         char *extptr, *buffptr;
         fileHandle_t f;
+        char buf[64];
+        int flagpolenumber = 0;
+
+        trap_Cvar_VariableStringBuffer( "__flagpolenumber", buf, sizeof( buf ) );
+
+        flagpolenumber = atoi(buf);
+
+        trap_Cvar_VariableStringBuffer( "mapname", buf, sizeof( buf ) );
+
+
 
         // Open ents file
         Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
@@ -569,8 +579,13 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
         }   
 
         // Build the entity definition
-        buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"1\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
+        if (flagpolenumber-1 >= 0) {
+                buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"0\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"targetname\" \"%s\"\n}\n\n",
+                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW], va("%s%d", buf, flagpolenumber-1));
+        } else {
+                buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"1\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
                                         (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW]);
+        }
 
         // And write out/acknowledge
         trap_FS_Write( buffptr, strlen( buffptr ), f );
@@ -580,7 +595,10 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
 
         // draw the new spawnpoint
         DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorBlue, 6);
-	DrawDebugText(cg.snap->ps.origin, "coop_spawnpoint", 999999, colorWhite);
+        if (flagpolenumber-1 >= 0) 
+                DrawDebugText(cg.snap->ps.origin, va("coop_spawnpoint: \ntargetname: %s%d", buf, flagpolenumber-1), 999999, colorWhite);
+        else
+                DrawDebugText(cg.snap->ps.origin, "coop_spawnpoint", 999999, colorWhite);
 }
 
 /*
@@ -594,6 +612,14 @@ static void CG_DumpFlagPole_f( void ) {
         char entsfilename[MAX_QPATH];
         char *extptr, *buffptr;
         fileHandle_t f;
+        char buf[64];
+        int flagpolenumber = 0;
+
+        trap_Cvar_VariableStringBuffer( "__flagpolenumber", buf, sizeof( buf ) );
+
+        flagpolenumber = atoi(buf);
+
+        trap_Cvar_VariableStringBuffer( "mapname", buf, sizeof( buf ) );
 
         // Open ents file
         Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
@@ -611,7 +637,7 @@ static void CG_DumpFlagPole_f( void ) {
 
         // Build the entity definition
         buffptr = va(   "{\n\"classname\" \"coop_spawnpoint_trigger\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"model\" \"models/multiplayer/flagpole/flagpole_reinforce.md3\"\n\"target\" \"%s\"\n}\n\n",
-                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2]-60, (int)cg.refdefViewAngles[YAW], "temp");
+                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2]-60, (int)cg.refdefViewAngles[YAW], va("%s%d", buf, flagpolenumber++));
 
         // And write out/acknowledge
         trap_FS_Write( buffptr, strlen( buffptr ), f );
@@ -621,7 +647,9 @@ static void CG_DumpFlagPole_f( void ) {
 
         // draw the new spawnpoint
         DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorGreen, 6); 
-        DrawDebugText(cg.snap->ps.origin, "coop_spawnpoint_trigger", 999999, colorWhite);
+        DrawDebugText(cg.snap->ps.origin, va("coop_spawnpoint_trigger: \ntarget: %s%d", buf, flagpolenumber-1), 999999, colorWhite);
+
+        trap_Cvar_Set("__flagpolenumber", va("%d", flagpolenumber));
 }
 
 static void CG_DisableDebugLines_f( void )

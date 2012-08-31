@@ -2367,6 +2367,7 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
         else if (cgs.gametype <= GT_COOP)
                 trap_Cvar_Set("model", "multi");
 
+        trap_Cvar_Set("__flagpolenumber", "0");
 }
 
 /*
