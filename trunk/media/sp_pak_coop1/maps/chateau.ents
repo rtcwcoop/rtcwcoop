@@ -419,3 +419,143 @@
 "skin" "eliteguard/chateau1"
 "head" "chateau1"
 }
+
+#if g_spawnpoints == 2
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-137 1159 328"
+"angle" "0"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-151 1344 344"
+"angle" "-46"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-104 1343 344"
+"angle" "-58"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-413 1344 344"
+"angle" "-35"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-354 1342 344"
+"angle" "-42"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "150 1353 344"
+"angle" "-88"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "98 1342 344"
+"angle" "-71"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-247 1325 344"
+"angle" "-34"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-6 1325 344"
+"angle" "-35"
+"targetname" "chateau0"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-128 1918 668"
+"angle" "0"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "chateau1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-322 1993 728"
+"angle" "87"
+"targetname" "chateau1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-192 1997 728"
+"angle" "90"
+"targetname" "chateau1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-73 1997 728"
+"angle" "86"
+"targetname" "chateau1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "62 2001 728"
+"angle" "89"
+"targetname" "chateau1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "181 2001 728"
+"angle" "133"
+"targetname" "chateau1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "236 2062 728"
+"angle" "165"
+"targetname" "chateau1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "107 1964 728"
+"angle" "126"
+"targetname" "chateau1"
+}
+
+#endif

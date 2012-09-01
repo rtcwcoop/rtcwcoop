@@ -508,3 +508,151 @@
 "head" "ssvill5"
 "skin" "infantryss/ssvill1"
 }
+
+#if g_spawnpoints == 2
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "1638 15 -119"
+"angle" "179"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1818 -44 -103"
+"angle" "179"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1818 -118 -103"
+"angle" "179"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1823 -168 -103"
+"angle" "176"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1771 -165 -103"
+"angle" "176"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1774 -111 -103"
+"angle" "176"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1777 -58 -103"
+"angle" "176"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1721 -18 -103"
+"angle" "-157"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1705 -78 -103"
+"angle" "177"
+"targetname" "village20"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "559 695 -4"
+"angle" "88"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "722 831 24"
+"angle" "-127"
+"targetname" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "711 762 24"
+"angle" "-136"
+"targetname" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "720 704 24"
+"angle" "-142"
+"targetname" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "667 830 24"
+"angle" "-133"
+"targetname" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "613 824 24"
+"angle" "-134"
+"targetname" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "659 768 24"
+"angle" "-131"
+"targetname" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "610 766 24"
+"angle" "-141"
+"targetname" "village21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "665 719 24"
+"angle" "-144"
+"targetname" "village21"
+}
+
+#endif
