@@ -406,3 +406,223 @@
 "skin" "blackguard/snow1"
 "head" "snow1"
 }
+
+#if g_spawnpoints == 2
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "1002 -88 476"
+"angle" "-1"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1043 130 479"
+"angle" "-20"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1021 73 480"
+"angle" "-12"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "982 137 479"
+"angle" "-18"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "959 66 480"
+"angle" "-18"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "905 135 477"
+"angle" "-18"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "883 70 480"
+"angle" "-18"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "812 95 472"
+"angle" "-18"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "834 157 469"
+"angle" "-18"
+"targetname" "norway0"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "3212 -3526 1028"
+"angle" "177"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3396 -3826 753"
+"angle" "-164"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3306 -3849 758"
+"angle" "-164"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3219 -3872 760"
+"angle" "-164"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3130 -3896 765"
+"angle" "-164"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3154 -3713 760"
+"angle" "-179"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3209 -3713 760"
+"angle" "-179"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3283 -3713 760"
+"angle" "-179"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "3353 -3736 760"
+"angle" "-179"
+"targetname" "norway1"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-3923 -2629 496"
+"angle" "-92"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3779 -2683 462"
+"angle" "119"
+"targetname" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3822 -2740 462"
+"angle" "97"
+"targetname" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3827 -2642 463"
+"angle" "102"
+"targetname" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3832 -2686 463"
+"angle" "89"
+"targetname" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3765 -2732 461"
+"angle" "113"
+"targetname" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3881 -2787 472"
+"angle" "69"
+"targetname" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3833 -2800 473"
+"angle" "78"
+"targetname" "norway2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-3764 -2801 472"
+"angle" "102"
+"targetname" "norway2"
+}
+
+#endif

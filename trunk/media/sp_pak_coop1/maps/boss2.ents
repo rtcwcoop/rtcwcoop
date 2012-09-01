@@ -422,3 +422,79 @@
 "angle" "-90"
 "spawnflags" "1"
 }
+
+#if g_spawnpoints == 2
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "0 402 -4"
+"angle" "90"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "109 492 56"
+"angle" "-179"
+"targetname" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "109 446 56"
+"angle" "173"
+"targetname" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-109 492 56"
+"angle" "-1"
+"targetname" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-100 446 56"
+"angle" "0"
+"targetname" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-42 342 56"
+"angle" "83"
+"targetname" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-80 338 56"
+"angle" "65"
+"targetname" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "43 338 56"
+"angle" "99"
+"targetname" "boss20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "89 338 56"
+"angle" "109"
+"targetname" "boss20"
+}
+
+#endif
