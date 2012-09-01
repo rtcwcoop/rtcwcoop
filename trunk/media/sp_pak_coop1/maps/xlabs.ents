@@ -237,7 +237,7 @@
 
 {
 "classname" "coop_spawnpoint_trigger"
-"origin" "1874 -562 164"
+"origin" "1792 -568 164"
 "angle" "-90"
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "xlabs0"
