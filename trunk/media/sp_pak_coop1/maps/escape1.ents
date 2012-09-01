@@ -264,76 +264,131 @@
 "head" "escape1"
 "angle" "-10"
 }
-
-#if g_gametype == 1
+#if g_spawnpoints == 2
 {
-"angle" "225" 
-"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
-"target" "roof_spawn"
-"origin" "462 418 646"
 "classname" "coop_spawnpoint_trigger"
+"origin" "-575 1263 180"
+"angle" "225"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "260 901 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-472 1346 200"
+"angle" "-27"
+"targetname" "flag1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "249 817 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-524 1296 200"
+"angle" "-30"
+"targetname" "flag1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "236 715 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-536 1381 200"
+"angle" "-33"
+"targetname" "flag1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "225 627 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-592 1331 200"
+"angle" "-28"
+"targetname" "flag1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "353 610 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-593 1411 200"
+"angle" "-31"
+"targetname" "flag1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "367 714 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-642 1353 200"
+"angle" "-29"
+"targetname" "flag1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "383 831 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-649 1409 200"
+"angle" "-20"
+"targetname" "flag1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "398 947 696"
-"angle" "172"
-"targetname" "roof_spawn"
+"origin" "-480 1273 200"
+"angle" "-30"
+"targetname" "flag1"
+}
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-1357 -640 364"
+"angle" "225"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1289 -473 376"
+"angle" "90"
+"targetname" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1220 -478 376"
+"angle" "90"
+"targetname" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1221 -406 376"
+"angle" "90"
+"targetname" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1292 -406 376"
+"angle" "90"
+"targetname" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1292 -546 376"
+"angle" "90"
+"targetname" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1221 -546 376"
+"angle" "90"
+"targetname" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1221 -591 376"
+"angle" "90"
+"targetname" "flag2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1295 -591 376"
+"angle" "90"
+"targetname" "flag2"
 }
 #endif

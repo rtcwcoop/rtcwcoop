@@ -296,3 +296,148 @@
 "spawnflags" "1"
 "angle" "91"
 }
+#if g_spawnpoints == 2
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-24 535 188"
+"angle" "-86"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "14 350 152"
+"angle" "89"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "110 350 152"
+"angle" "89"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "195 350 152"
+"angle" "89"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "175 441 152"
+"angle" "89"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "70 441 152"
+"angle" "89"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-108 441 152"
+"angle" "89"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-153 557 152"
+"angle" "54"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "85 516 152"
+"angle" "74"
+"targetname" "escape20"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "924 2408 -67"
+"angle" "87"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "997 2463 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1053 2456 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1064 2537 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1001 2545 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1009 2601 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1066 2593 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1053 2496 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "999 2503 -7"
+"angle" "-97"
+"targetname" "escape21"
+}
+#endif

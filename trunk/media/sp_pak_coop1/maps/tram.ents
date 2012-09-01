@@ -59,153 +59,6 @@
 "angle" "-88"
 }
 
-#if g_gametype == 1
-{
-"angle" "225" 
-"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
-"target" "generator_spawn"
-"origin" "3370 -131 670"
-"classname" "coop_spawnpoint_trigger"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3565 -12 728"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3483 -8 728"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3388 -3 728"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3257 -3 728"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3135 -3 728"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3107 -84 728"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3104 -171 728"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"angle" "-69"
-"targetname" "generator_spawn"
-"origin" "3117 -274 728"
-}
-
-{
-"origin" "-177 34 105"
-"angle" "225" 
-"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
-"target" "tower_spawn"
-"classname" "coop_spawnpoint_trigger"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "64 361 472"
-"angle" "-91"
-"targetname" "tower_spawn"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "68 276 472"
-"angle" "-87"
-"targetname" "tower_spawn"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "71 195 472"
-"angle" "-87"
-"targetname" "tower_spawn"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "65 126 472"
-"angle" "-87"
-"targetname" "tower_spawn"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "69 46 472"
-"angle" "-87"
-"targetname" "tower_spawn"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "71 -38 472"
-"angle" "-94"
-"targetname" "tower_spawn"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "12 -93 472"
-"angle" "-179"
-"targetname" "tower_spawn"
-}
-
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0" 
-"origin" "-81 -93 472"
-"targetname" "tower_spawn"
-"angle" "-179"
-}
-
-#endif
-
 #if g_reinforce >= 1
 {
 "classname" "ai_soldier"
@@ -499,219 +352,151 @@
 "spawnflags" "1" 
 "angle" "-133"
 } 
+
+#if g_spawnpoints == 2
 {
-"classname" "target_location"
-"origin" "3888 1920 1272"
-"message" "Spawn"
+"classname" "coop_spawnpoint_trigger"
+"origin" "-122 -183 770"
+"angle" "85"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "flag1"
+}
+
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "60 -78 472"
+"angle" "-135"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "3465 1512 1312"
-"message" "Axis room"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "5 -94 472"
+"angle" "-130"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "3674 713 1176"
-"message" "Tram entrance"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-49 -85 472"
+"angle" "-125"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "3481 -78 1016"
-"message" "Outer generator"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-107 -83 472"
+"angle" "-104"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "2995 -308 1016"
-"message" "Tram control panel"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-165 -77 472"
+"angle" "-79"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "2637 -16 920"
-"message" "Tram entrance"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-221 -74 472"
+"angle" "-69"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "2667 185 928"
-"message" "Moustache room"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-270 -75 472"
+"angle" "-55"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "3818 191 984"
-"message" "Upstairs"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-323 -76 472"
+"angle" "-52"
+"targetname" "flag1"
 }
 
 {
-"classname" "target_location"
-"origin" "3832 -287 760"
-"message" "Downstairs"
+"classname" "coop_spawnpoint_trigger"
+"origin" "-2353 -351 -547"
+"angle" "80"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "3385 -180 728"
-"message" "Big generator"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2407 -355 -487"
+"angle" "176"
+"targetname" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "3407 -213 736"
-"message" "Engine room"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2464 -351 -487"
+"angle" "176"
+"targetname" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "3075 -276 728"
-"message" "Alarm button"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2533 -347 -487"
+"angle" "176"
+"targetname" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "2193 -222 960"
-"message" "Tram"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2601 -350 -487"
+"angle" "155"
+"targetname" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "1399 -223 782"
-"message" "Tram"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2376 -27 -487"
+"angle" "-157"
+"targetname" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "430 -229 573"
-"message" "Tram"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2466 -40 -487"
+"angle" "-157"
+"targetname" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "-148 -218 492"
-"message" "Tram"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2560 -56 -487"
+"angle" "-147"
+"targetname" "flag2"
 }
 
 {
-"classname" "target_location"
-"origin" "-109 -75 472"
-"message" "Tower"
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-2624 -65 -487"
+"angle" "-142"
+"targetname" "flag2"
 }
-
-{
-"classname" "target_location"
-"origin" "-80 171 838"
-"message" "Top tower"
-}
-
-{
-"classname" "target_location"
-"origin" "-147 63 152"
-"message" "Tower machine room"
-}
-
-{
-"classname" "target_location"
-"origin" "-828 -204 340"
-"message" "Tram"
-}
-
-{
-"classname" "target_location"
-"origin" "-1307 -207 68"
-"message" "Tram"
-}
-
-{
-"classname" "target_location"
-"origin" "-1804 -216 -99"
-"message" "Tram"
-}
-
-{
-"classname" "target_location"
-"origin" "-2315 -213 -450"
-"message" "Tram"
-}
-
-{
-"classname" "target_location"
-"origin" "-2516 -47 -487"
-"message" "Tram exit"
-}
-
-{
-"classname" "target_location"
-"origin" "-2651 146 -487"
-"message" "Ammo room"
-}
-
-{
-"classname" "target_location"
-"origin" "-2989 -191 -487"
-"message" "Lower engine room"
-}
-
-{
-"classname" "target_location"
-"origin" "-2492 139 -295"
-"message" "Lookout post"
-}
-
-{
-"classname" "target_location"
-"origin" "-2546 -23 -295"
-"message" "Lookout post"
-}
-
-{
-"classname" "target_location"
-"origin" "-3073 -384 -295"
-"message" "Murder hole"
-}
-
-{
-"classname" "target_location"
-"origin" "-3075 -490 -423"
-"message" "Murder hole"
-}
-
-{
-"classname" "target_location"
-"origin" "-3085 -621 -615"
-"message" "Murder hole"
-}
-
-{
-"classname" "target_location"
-"origin" "-3540 -492 -615"
-"message" "Waiting room"
-}
-
-{
-"classname" "target_location"
-"origin" "-3021 -850 -615"
-"message" "Boozze room"
-}
-
-{
-"classname" "target_location"
-"origin" "-3532 -1225 -615"
-"message" "Waiting room"
-}
-
-{
-"classname" "target_location"
-"origin" "-3922 -42 -599"
-"message" "Desk"
-}
-
-{
-"classname" "target_location"
-"origin" "-3838 -1516 -582"
-"message" "Exit"
-}
+#endif
 
