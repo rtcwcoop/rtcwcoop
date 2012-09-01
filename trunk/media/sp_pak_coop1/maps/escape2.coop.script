@@ -88,7 +88,6 @@ dialog
 
 	trigger bridgedoor
 	{
-		wait 400
 		trigger nazi27 unlock
 		wait 600
 		trigger player playaction1 // calls alarm music
@@ -164,12 +163,12 @@ spawner
 
 	trigger spawnnazi13
 	{
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
+//		accum 0 abort_if_not_bitset 3
+//		accum 0 bitreset 3
 		alertentity nazi13
 		alertentity enterkeep
-		wait 5
-		accum 2 abort_if_not_equal 1
+//		wait 5
+//		accum 2 abort_if_not_equal 1
 		trigger nazi13 alarmon
 	}
 

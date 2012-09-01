@@ -99,6 +99,7 @@ player
 	{
 		trigger officer2 upstairs
 		trigger spawner spawnnazi567 // this happens only if no alarm has been set
+		trigger spawner spawnnazi13
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
@@ -108,12 +109,12 @@ player
 
 	trigger advance1
 	{
-		trigger spawner spawnnazi13
+//		trigger spawner spawnnazi13
 	}
 
 	trigger advance2
 	{
-		trigger spawner spawnnazi13
+//		trigger spawner spawnnazi13
 	}
 
 	trigger action8
@@ -140,6 +141,7 @@ player
 	{
 		trigger spawner cells
 		trigger nazi19 advanced
+		alertentity doorunlock1
 	}
 
 	trigger action12
@@ -150,8 +152,8 @@ player
 
 	trigger action13
 	{
-		accum 0 abort_if_not_bitset 2
-		accum 0 bitreset 2
+//		accum 0 abort_if_not_bitset 2
+//		accum 0 bitreset 2
 		alertentity nazi12
 		alertentity doorunlock1
 	}
@@ -187,6 +189,13 @@ player
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_30 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_31 #endif
+		trigger nazi24 banzi24
+		alertentity nazi25
+		alertentity nazi28
+		alertentity nazi27
+		trigger dialog bridgedoor
+		trigger spawner barracks
+		alertentity openbridgedoor
 	}
 
 	trigger action17
@@ -1781,7 +1790,7 @@ nazi13 // castle door guy
 
 	trigger alarmon
 	{
-		accum 0 bitreset 0 // inspectsound and bulletimpact etc off
+//		accum 0 bitreset 0 // inspectsound and bulletimpact etc off
 		clearanim
 		playsound Blank
 		statetype alert
@@ -1791,9 +1800,9 @@ nazi13 // castle door guy
 		runtomarker n13spot4
 		playsound MiscSmellHim
 		facetargetangles n13spot4
-		wait 200
+//		wait 200
 		facetargetangles n8spot3
-		wait 200
+//		wait 200
 		facetargetangles n13spot4
 	}
 
