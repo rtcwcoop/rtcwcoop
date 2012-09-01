@@ -435,6 +435,9 @@ When axis capture, it will call "axis_capture".
 void SP_coop_spawnpoint_trigger( gentity_t *ent ) {
         char *capture_sound;
 
+        if (g_spawnpoints.integer != 2)
+                return;
+
         /*if ( !ent->scriptName ) {
                 G_Error( "team_WOLF_checkpoint must have a \"scriptname\"\n" );
         }*/
