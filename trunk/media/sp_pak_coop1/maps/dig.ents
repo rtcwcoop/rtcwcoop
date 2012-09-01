@@ -339,3 +339,224 @@
 "skin" "infantryss/dig1"
 "head" "dig1"
 }
+
+#if g_spawnpoints == 2
+
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-652 344 -1267"
+"angle" "-80"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-641 463 -1032"
+"angle" "-13"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-622 542 -1032"
+"angle" "-13"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-553 522 -1032"
+"angle" "-13"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-575 422 -1032"
+"angle" "-13"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-533 297 -1032"
+"angle" "21"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-503 223 -1032"
+"angle" "21"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-569 394 -1032"
+"angle" "-4"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-552 601 -1032"
+"angle" "-53"
+"targetname" "dig0"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "907 -61 -36"
+"angle" "-175"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "987 34 24"
+"angle" "-140"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "914 66 24"
+"angle" "-141"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "971 119 24"
+"angle" "-137"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "914 156 24"
+"angle" "-109"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1061 37 25"
+"angle" "-150"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1019 -30 24"
+"angle" "-163"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "922 -5 24"
+"angle" "-144"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1088 -12 25"
+"angle" "175"
+"targetname" "dig1"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "1214 955 -711"
+"angle" "89"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1373 1139 -665"
+"angle" "-160"
+"targetname" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1388 1082 -667"
+"angle" "-151"
+"targetname" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1409 1022 -669"
+"angle" "-165"
+"targetname" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1444 935 -661"
+"angle" "-171"
+"targetname" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1364 898 -652"
+"angle" "-146"
+"targetname" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1323 974 -660"
+"angle" "-124"
+"targetname" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1326 1046 -663"
+"angle" "-134"
+"targetname" "dig2"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1300 1115 -661"
+"angle" "-119"
+"targetname" "dig2"
+}
+
+#endif
