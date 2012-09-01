@@ -365,3 +365,150 @@
 "skin" "zombie/crypt6"
 }
 
+#if g_spawnpoints == 2
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-1509 -3 -115"
+"angle" "-88"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1507 -56 -55"
+"angle" "-91"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1467 -57 -55"
+"angle" "-91"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1469 -175 -55"
+"angle" "-89"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1510 -175 -55"
+"angle" "-90"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1489 -116 -55"
+"angle" "-90"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1449 -11 -55"
+"angle" "-104"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1513 -241 -55"
+"angle" "-87"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1466 -238 -55"
+"angle" "-88"
+"targetname" "crypt20"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-1424 -1079 204"
+"angle" "0"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1386 -1150 264"
+"angle" "-89"
+"targetname" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1452 -1150 264"
+"angle" "-89"
+"targetname" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1511 -1151 264"
+"angle" "-89"
+"targetname" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1565 -1151 264"
+"angle" "-89"
+"targetname" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1401 -1209 264"
+"angle" "-92"
+"targetname" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1454 -1207 264"
+"angle" "-90"
+"targetname" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1501 -1214 264"
+"angle" "-90"
+"targetname" "crypt21"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "-1541 -1214 264"
+"angle" "-89"
+"targetname" "crypt21"
+}
+
+#endif

@@ -176,3 +176,5 @@
 }
 
 
+#if g_spawnpoints == 2
+#endif

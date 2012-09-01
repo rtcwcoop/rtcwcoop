@@ -294,3 +294,154 @@
 "head" "church3"
 }
 
+
+#if g_spawnpoints == 2
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "596 -66 548"
+"angle" "-179"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "539 -104 608"
+"angle" "-172"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "540 -158 608"
+"angle" "165"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "594 -115 608"
+"angle" "179"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "594 -166 608"
+"angle" "163"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "650 -126 608"
+"angle" "178"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "631 -179 608"
+"angle" "166"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "588 -219 608"
+"angle" "140"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "551 -202 608"
+"angle" "135"
+"targetname" "church0"
+}
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "656 834 1052"
+"angle" "-45"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "545 715 1112"
+"angle" "81"
+"targetname" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "607 706 1112"
+"angle" "96"
+"targetname" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "618 769 1112"
+"angle" "100"
+"targetname" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "626 651 1112"
+"angle" "103"
+"targetname" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "567 648 1112"
+"angle" "88"
+"targetname" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "511 664 1112"
+"angle" "72"
+"targetname" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "692 662 1112"
+"angle" "118"
+"targetname" "church1"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "672 722 1112"
+"angle" "119"
+"targetname" "church1"
+}
+
+#endif
+
+
+
