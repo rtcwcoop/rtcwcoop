@@ -61,7 +61,7 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
         client->ps.weaponstate = WEAPON_READY;
 
         // give all the players a binocular
-        // client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
+        client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 }
 
 
