@@ -644,9 +644,17 @@ Once triggered, this entity is destroyed
 (you can actually do the same thing with trigger_multiple with a wait of -1)
 */
 void SP_trigger_once( gentity_t *ent ) {
+        char mapname[1024];
+
 	ent->wait   = -1;           // this will remove itself after one use
 	ent->touch  = Touch_Multi;
 	ent->use    = Use_Multi;
+
+        trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+        // castle contains some brush scripting which closes a gate after one player is past it
+        // this is very annoying in a coop context, so disable this trigger
+        if (!strcmp(ent->target, "t590") && !strcmp(mapname, "castle") && g_gametype.integer <= GT_COOP) 
+                return;
 
 	InitTrigger( ent );
 	trap_LinkEntity( ent );
