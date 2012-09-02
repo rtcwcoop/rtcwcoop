@@ -667,12 +667,12 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 		// done
 
 		if ( !g_gametype ) {
-			g_gametype = Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
+			g_gametype = Cvar_Get( "g_gametype", va("%d", GT_COOP), CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
 		}
 		if ( !bot_enable ) {
 			bot_enable = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
 		}
-		if ( g_gametype->integer == 2 ) {
+		if ( g_gametype->integer == GT_SINGLE_PLAYER ) {
 			if ( sv_maxclients->latchedString ) {
 				// it's been modified, so grab the new value
 				Cvar_Get( "sv_maxclients", "128", 0 );
@@ -941,7 +941,7 @@ void SV_Init( void ) {
 	Cvar_Get( "dmflags", "0", CVAR_SERVERINFO );
 	Cvar_Get( "fraglimit", "20", CVAR_SERVERINFO );
 	Cvar_Get( "timelimit", "0", CVAR_SERVERINFO );
-	sv_gametype = Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_LATCH );
+	sv_gametype = Cvar_Get( "g_gametype", va("%d", GT_COOP), CVAR_SERVERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
 	sv_gameskill = Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );
