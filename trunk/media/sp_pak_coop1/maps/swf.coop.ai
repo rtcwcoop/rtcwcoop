@@ -321,7 +321,7 @@ player
 
 	trigger exitlevel
 	{
-		changelevel norway 4000 silent
+		changelevel norway 4000 persistent silent
 	}
 	
 	trigger endnow

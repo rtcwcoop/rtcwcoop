@@ -16,7 +16,7 @@ game_manager
 	trigger checkexit
 	{
 		accum 0 abort_if_not_bitset 1
-		trigger player endgame
+//		trigger player endgame
 	}
 	
 	trigger objective1

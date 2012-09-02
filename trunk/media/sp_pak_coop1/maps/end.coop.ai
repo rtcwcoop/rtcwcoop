@@ -215,7 +215,9 @@ player
 
 	trigger changelevel
 	{
+		wait 15000
 		changelevel gamefinished 250
+//		changelevel escape1 persistent
 	}
 
 	death
@@ -581,8 +583,8 @@ heinrich
 	attributes
 	{
 		#if g_reinforce == 0 starting_health 5000 #endif
-		#if g_reinforce == 1 starting_health 7500 #endif
-		#if g_reinforce == 2 starting_health 10000 #endif
+		#if g_reinforce == 1 starting_health 10000 #endif
+		#if g_reinforce == 2 starting_health 15000 #endif
 		alertness 50000
 		aim_accuracy 1.0
 		aggression 1.0
@@ -700,6 +702,7 @@ heinrich
 		
 		// probably don't need this for last map
 		trigger game_manager checkexit
+		trigger counter1 endmap
 	}
 	
 	trigger endgame

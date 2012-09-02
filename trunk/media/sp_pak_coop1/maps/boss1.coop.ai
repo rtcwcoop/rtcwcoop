@@ -268,7 +268,7 @@ player
 
 	trigger endmap2
 	{
-		changelevel forest
+		changelevel forest persistent
 	}
 
 }
