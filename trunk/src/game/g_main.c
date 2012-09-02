@@ -1281,7 +1281,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
         if ( g_gametype.integer == GT_COOP_BATTLE ) {
                 trap_Cvar_Set("g_friendlyfire", "2");
-                trap_Cvar_Set("g_spawnpoints", "1");
+                //trap_Cvar_Set("g_spawnpoints", "1");
 #ifdef INGAME_CUTSCENES
                 trap_Cvar_Set("g_skipcutscenes", "1");
 #endif

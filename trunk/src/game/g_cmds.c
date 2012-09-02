@@ -526,16 +526,6 @@ void Cmd_Notarget_f( gentity_t *ent ) {
 void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         gentity_t *groundEnt = &g_entities[ent->client->ps.groundEntityNum];
         
-        // currently not all maps have support for forward spawns, so if there is not a forward spawn, allow the "spawnpoint" cmd.
-        if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
-                gentity_t *ent;
-                ent = G_Find( NULL, FOFS( classname ), "coop_spawnpoint_trigger" );
-                if ( ent ) {
-                        G_Printf("Cmd_SetCoopSpawn_f: coop_spawnpoint_trigger found, so no spawnpoint saving\n");
-                        return;
-                }
-        }
-
         if ( g_gametype.integer == GT_SINGLE_PLAYER )
                 return;
 
