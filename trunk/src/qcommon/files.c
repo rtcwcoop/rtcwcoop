@@ -915,11 +915,7 @@ fileHandle_t FS_FOpenFileWrite( const char *filename ) {
 	f = FS_HandleForFile();
 	fsh[f].zipFile = qfalse;
 
-#ifndef _WIN32
-	ospath = FS_BuildOSPath( fs_basepath->string, fs_gamedir, filename );
-#else
 	ospath = FS_BuildOSPath( fs_homepath->string, fs_gamedir, filename );
-#endif
 
 	if ( fs_debug->integer ) {
 		Com_Printf( "FS_FOpenFileWrite: %s\n", ospath );
