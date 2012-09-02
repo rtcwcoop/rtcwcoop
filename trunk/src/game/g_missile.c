@@ -1316,7 +1316,10 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 		}
 		bolt->methodOfDeath         = MOD_GRENADE;
 		bolt->splashMethodOfDeath   = MOD_GRENADE_SPLASH;
-		bolt->s.eFlags              = EF_BOUNCE_HALF;
+                if ( g_gametype.integer >= GT_COOP )
+                        bolt->s.eFlags              = EF_BOUNCE_HALF;
+                else
+                        bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
 		break;
 	case WP_GRENADE_PINEAPPLE:
 		bolt->classname             = "grenade";
@@ -1325,7 +1328,10 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 		bolt->splashRadius          = 450;
 		bolt->methodOfDeath         = MOD_GRENADE;
 		bolt->splashMethodOfDeath   = MOD_GRENADE_SPLASH;
-		bolt->s.eFlags              = EF_BOUNCE_HALF;
+                if ( g_gametype.integer >= GT_COOP )
+                        bolt->s.eFlags              = EF_BOUNCE_HALF;
+                else
+                        bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
 		break;
 // JPW NERVE
 	case WP_GRENADE_SMOKE:
