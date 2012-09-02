@@ -555,9 +555,14 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         }
 
         // if automatic spawnpoints are enabled, don't allow manual saving
-        if (g_spawnpoints.integer != 1)
-        {
+        if (g_spawnpoints.integer == 0) {
                 trap_SendServerCommand( ent - g_entities, "cp \"Can't save spawnpoint, \nautosave is activated on the server\n\"" );
+                return;
+        }
+
+        // if spawnpoint triggers are enabled, don't allow manual saving
+        if (g_spawnpoints.integer == 2) {
+                trap_SendServerCommand( ent - g_entities, "cp \"Can't save spawnpoint.\n\"" );
                 return;
         }
 
