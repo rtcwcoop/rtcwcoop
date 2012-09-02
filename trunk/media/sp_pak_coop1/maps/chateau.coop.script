@@ -844,6 +844,9 @@ checker1
 		alertentity nazi30
 		alertentity nazi31
 		alertentity nazi18
+		alertentity nazi19
+		alertentity nazi20
+		alertentity nazi21
 	}
 
 	trigger lefthallway_studs		// alerted

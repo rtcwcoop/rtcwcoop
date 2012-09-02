@@ -318,7 +318,16 @@ player
 	{
 		alertentity nazi18
 		trigger checker1 end_battle
-
+		
+		alertentity nazi16bb
+		alertentity nazi30
+		alertentity nazi31
+		alertentity nazi19
+		alertentity nazi20
+		alertentity nazi21
+		
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_23 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_blackguard_24 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_27 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_28 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_29 #endif
