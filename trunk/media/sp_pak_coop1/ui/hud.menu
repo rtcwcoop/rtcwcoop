@@ -60,7 +60,7 @@
     	visible MENU_TRUE
     	rect 40 438 372 32
 
-	// armor value
+	// ARMOR VALUE
 		itemDef {
  			name "a"
 			rect 0 -48 32 32
@@ -70,7 +70,7 @@
 			textstyle 6
 			textalign ITEM_ALIGN_CENTER
 			decoration
-			textscale .5
+			textscale .42
 			//forecolor .63 .47 .25 .5	// orange
 			ownerdraw CG_PLAYER_ARMOR_VALUE
 			addColorRange 76 100 .63 .47 .25 1
@@ -80,7 +80,7 @@
 			addColorRange 0 0 .63 .47 .25 0
 		}
 
-	// armor text
+	// ARMOR TEXT
 		itemDef {
  			name "a"
 			text "ARMOR"
@@ -98,7 +98,7 @@
 			decoration
 		}
 		
-	// health value
+	// HEALTH VALUE
 		itemDef {
  			name "a"
 			rect 0 -12 32 32
@@ -108,14 +108,14 @@
 			textstyle 6
 			textalign ITEM_ALIGN_CENTER
 			decoration
-			textscale .5
+			textscale .42
 			forecolor 1 1 1 1
 			ownerdraw CG_PLAYER_HEALTH
 			addColorRange 10 999 .63 .47 .25 1	// orange
 			addColorRange -999 10 1 0 0 1	// hurting
 		}
 		
-	// health text
+	// HEALTH TEXT
 		itemDef {
  			name "a"
 			text "HEALTH"
@@ -134,24 +134,24 @@
 		}
 
 		
-	// score value
+	// SCORE VALUE
 		itemDef {
  			name "a"
-			rect 80 -12 32 32
+			rect 60 -12 32 32
 			visible MENU_TRUE
 			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
 			decoration
-			textscale .5
+			textscale .42
 			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_SCORE
 		}
 		
-	// score text
+	// SCORE TEXT
 		itemDef {
  			name "a"
 			text "POINTS"
 			type 1
-			rect 84 32 32 32
+			rect 64 32 32 32
 			textstyle 6
 			textalign ITEM_ALIGN_CENTER
 			textalignx 10
@@ -164,14 +164,14 @@
 			decoration
 		}
 		
-	// lives value
+	// LIVES VALUE
 		itemDef {
  			name "a"
-			rect 160 -12 32 32
+			rect 120 -12 32 32
 			visible MENU_TRUE
 			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
 			decoration
-			textscale .5
+			textscale .42
 			forecolor .63 .47 .25 1	// orange
 			ownerdraw CG_PLAYER_LIVES
 			addColorRange 1 999 .63 .47 .25 1	// orange
@@ -181,12 +181,12 @@
 			hidecvar		{ "0" }
 		}
 		
-	// lives text
+	// LIVES TEXT
 		itemDef {
  			name "a"
 			text "LIVES"
 			type 1
-			rect 164 32 32 32
+			rect 124 32 32 32
 			textstyle 6
 			textalign ITEM_ALIGN_CENTER
 			textalignx 10
@@ -202,27 +202,27 @@
 			hidecvar		{ "0" }
             }
 
-	// spawnpoints value
+	// SPAWNPOINTS VALUE
 		itemDef {
  			name "a"
-			rect 380 -12 32 32
+			rect 415 -12 32 32
 			visible MENU_TRUE
 			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
 			decoration
-			textscale .5
+			textscale .42
 			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_SPAWNPOINTS
 			
-			cvarTest		"cg_maxspawnpoints"
-			hidecvar		{ "0" }
+			cvarTest		"g_spawnpoints"
+			showcvar		{ "1" }
             }
 
-	// spawnpoints text
+	// SPAWNPOINTS TEXT
 		itemDef {
  			name "a"
 			text "SPAWNPOINTS"
 			type 1
-			rect 384 32 32 32
+			rect 419 32 32 32
 			textstyle 6
 			textalign ITEM_ALIGN_CENTER
 			textalignx 10
@@ -234,8 +234,8 @@
 			visible 1
 			decoration
 
-			cvarTest		"cg_maxspawnpoints"
-			hidecvar		{ "0" }
+			cvarTest		"g_spawnpoints"
+			showcvar		{ "1" }
             }
 		}
 		
@@ -346,7 +346,7 @@
 			visible MENU_TRUE
 			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
 			decoration
-			textscale .5
+			textscale .42
 			forecolor .63 .59 .57 1
 			addColorRangerel 0.0	0.1		1 0 0 1		// alert!
 			addColorRangerel 0.1	0.4		1 1 0 1		// warning!
@@ -364,7 +364,7 @@
 			decoration
 			ownerdraw CG_PLAYER_AMMOCLIP_VALUE
 			ownerdrawflag CG_SHOW_NOT_V_BINOC
-			textscale .5
+			textscale .42
 			forecolor .63 .59 .57 1
 			addColorRangerel 0.0	0.1		1 0 0  1		// alert!
 			addColorRangerel 0.1	0.4		1 1 0 1			// warning!
