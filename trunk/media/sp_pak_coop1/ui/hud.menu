@@ -213,8 +213,8 @@
 			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_SPAWNPOINTS
 			
-			cvarTest		"g_spawnpoints"
-			showcvar		{ "1" }
+			cvarTest "cg_maxspawnpoints"
+			hidecvar { "0" }
             }
 
 	// SPAWNPOINTS TEXT
@@ -234,8 +234,8 @@
 			visible 1
 			decoration
 
-			cvarTest		"g_spawnpoints"
-			showcvar		{ "1" }
+			cvarTest "cg_maxspawnpoints"
+			hidecvar { "0" }
             }
 		}
 		
