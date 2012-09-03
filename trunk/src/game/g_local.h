@@ -1142,8 +1142,8 @@ int Cmd_WolfKick_f( gentity_t *ent );
 // g_save.c
 qboolean G_SaveGame( char *username );
 void G_LoadGame( char *username );
-qboolean G_SavePersistant( char *nextmap );
-void G_LoadPersistant( void );
+qboolean G_SavePersistant( char *nextmap, int clientNum, int persid );
+void G_LoadPersistant( int clientNum );
 
 // g_script.c
 void G_Script_ScriptParse( gentity_t *ent );

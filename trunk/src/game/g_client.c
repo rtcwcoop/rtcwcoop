@@ -1630,6 +1630,7 @@ void ClientBegin( int clientNum ) {
 	ClientSpawn( ent );
 
         // fretn : maxlives
+        /*
         if ( g_maxlives.integer > 0 ) {
                 ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
         } else {
@@ -1642,7 +1643,7 @@ void ClientBegin( int clientNum ) {
                 ent->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 );
         } else {
                 ent->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
-        }
+        }*/
 
 
 	// Ridah, trigger a spawn event

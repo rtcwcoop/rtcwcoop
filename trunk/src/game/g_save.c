@@ -1802,12 +1802,17 @@ G_SavePersistant
   so full disks don't result in lost saved games.
 ===============
 */
-qboolean G_SavePersistant( char *nextmap ) {
+qboolean G_SavePersistant( char *nextmap, int clientNum, int persid ) {
 	char filename[MAX_QPATH];
 	fileHandle_t f;
-	int persid;
 
 	saveByteCount = 0;
+
+        // fretn: dont error out, the less we crash the server, the better
+        if (clientNum < 0 || clientNum >= MAX_COOP_CLIENTS)
+                clientNum = 0;
+
+        G_DPrintf("G_SavePersistant: %d\n", clientNum);
 
 	// open the file
 	Com_sprintf( filename, MAX_QPATH, "save\\temp.psw" );
@@ -1819,18 +1824,16 @@ qboolean G_SavePersistant( char *nextmap ) {
 	G_SaveWrite( nextmap, MAX_QPATH, f );
 
 	// save out the pers id
-	persid = trap_Milliseconds() + ( rand() & 0xffff );
 	G_SaveWrite( &persid, sizeof( persid ), f );
-	trap_Cvar_Set( "persid", va( "%i", persid ) );
 
 	// write out the entity structure
-	PersWriteEntity( f, &g_entities[0] );
+	PersWriteEntity( f, &g_entities[clientNum] );
 
 	// write out the client structure
-	PersWriteClient( f, &level.clients[0] );
+	PersWriteClient( f, &level.clients[clientNum] );
 
 	// write out the cast_state structure
-	PersWriteCastState( f, AICast_GetCastState( 0 ) );
+	PersWriteCastState( f, AICast_GetCastState( clientNum ) );
 
 	trap_FS_FCloseFile( f );
 
@@ -1844,10 +1847,10 @@ qboolean G_SavePersistant( char *nextmap ) {
 	trap_FS_FCloseFile( f );
 
 	// rename it to the real file
-	trap_FS_Rename( "save\\temp.psw", "save\\current.psw" );
+	trap_FS_Rename( "save\\temp.psw", va("save\\current%d.psw", clientNum) );
 
 	// now check that it is the correct size
-	Com_sprintf( filename, MAX_QPATH, "save\\current.psw" );
+	Com_sprintf( filename, MAX_QPATH, va("save\\current%d.psw", clientNum) );
 	if ( trap_FS_FOpenFile( filename, &f, FS_READ ) < saveByteCount ) {
 		trap_FS_FCloseFile( f );
 		G_SaveWriteError();
@@ -1863,14 +1866,20 @@ qboolean G_SavePersistant( char *nextmap ) {
 G_LoadPersistant
 ===============
 */
-void G_LoadPersistant( void ) {
+void G_LoadPersistant( clientNum ) {
 	fileHandle_t f;
 	char *filename;
 	char mapstr[MAX_QPATH];
 	vmCvar_t cvar_mapname;
 	int persid;
 
-	filename = "save\\current.psw";
+        // fretn: dont error out, the less we crash the server, the better
+        if (clientNum < 0 || clientNum >= MAX_COOP_CLIENTS)
+                clientNum = 0;
+
+	filename = va("save\\current%d.psw", clientNum);
+
+        G_DPrintf("G_LoadPersistant: %d\n", clientNum);
 
 	// open the file
 	if ( trap_FS_FOpenFile( filename, &f, FS_READ ) < 0 ) {
@@ -1894,16 +1903,16 @@ void G_LoadPersistant( void ) {
 	}
 
 	// read the entity structure
-	PersReadEntity( f, &g_entities[0] );
+	PersReadEntity( f, &g_entities[clientNum] );
 
 	// read the client structure
-	PersReadClient( f, &level.clients[0] );
+	PersReadClient( f, &level.clients[clientNum] );
 
 	// read the cast_state structure
-	PersReadCastState( f, AICast_GetCastState( 0 ) );
+	PersReadCastState( f, AICast_GetCastState( clientNum ) );
 
 	trap_FS_FCloseFile( f );
 
 	// clear out the persid, since the persistent data has been read
-	trap_Cvar_Set( "persid", "0" );
+	//trap_Cvar_Set( "persid", "0" );
 }

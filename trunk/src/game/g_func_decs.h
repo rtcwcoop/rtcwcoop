@@ -1421,8 +1421,8 @@ extern void G_CreateRotationMatrix ( const vec3_t angles , vec3_t matrix [ 3 ] )
 extern void G_TestEntityMoveTowardsPos ( gentity_t * ent , vec3_t pos ) ;
 extern void G_TestEntityDropToFloor ( gentity_t * ent , float maxdrop ) ;
 extern gentity_t * G_TestEntityPosition ( gentity_t * ent ) ;
-extern void G_LoadPersistant ( void ) ;
-extern qboolean G_SavePersistant ( char * nextmap ) ;
+extern void G_LoadPersistant ( int clientNum ) ;
+extern qboolean G_SavePersistant ( char * nextmap, int clientNum, int persid ) ;
 extern void PersReadCastState ( fileHandle_t f , cast_state_t * cs ) ;
 extern void PersWriteCastState ( fileHandle_t f , cast_state_t * cs ) ;
 extern void PersReadEntity ( fileHandle_t f , gentity_t * cl ) ;

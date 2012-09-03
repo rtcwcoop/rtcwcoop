@@ -2293,7 +2293,19 @@ AICast_ScriptAction_SavePersistant
 ====================
 */
 qboolean AICast_ScriptAction_SavePersistant( cast_state_t *cs, char *params ) {
-	G_SavePersistant( params );
+        int i = 0;
+        int persid = 0;
+
+        persid = trap_Milliseconds() + ( rand() & 0xffff );
+        trap_Cvar_Set( "persid", va( "%i", persid ) );
+
+        if ( g_gametype.integer <= GT_COOP ) {
+                for (i=0; i<MAX_COOP_CLIENTS; i++)
+                        G_SavePersistant( params, i, persid );
+        } else {
+                        G_SavePersistant( params, 0, persid );
+        }
+
 	return qtrue;
 }
 
@@ -2450,7 +2462,18 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 		}
 
 		if ( savepersist ) {
-			G_SavePersistant( newstr ); // save persistent data if required
+                        int j = 0;
+                        int persid = 0;
+
+                        persid = trap_Milliseconds() + ( rand() & 0xffff );
+                        trap_Cvar_Set( "persid", va( "%i", persid ) );
+
+                        if ( g_gametype.integer <= GT_COOP ) {
+                                for (j=0; j<MAX_COOP_CLIENTS; j++)
+                                        G_SavePersistant( newstr, j, persid ); // save persistent data if required
+                        } else {
+                                G_SavePersistant( newstr, 0, persid ); // save persistent data if required
+                        }
 
 		}
 	}

@@ -847,7 +847,42 @@ void AICast_CheckLoadGame( void ) {
 
 		// not loading a game, we must be in a new level, so look for some persistant data to read in, then save the game
 		if ( ready ) {
-			G_LoadPersistant();     // make sure we save the game after we have brought across the items
+                        int i = 0;
+
+                        if ( g_gametype.integer <= GT_COOP) {
+                                for (i=0; i < MAX_COOP_CLIENTS; i++) {
+                                        gentity_t *tmp;
+
+                                        G_LoadPersistant(i);     // make sure we save the game after we have brought across the items
+
+                                        // fretn: warning, ugly hacks coming up
+                                        // maxlives and maxspawnpoints are not persistant data across level changes
+                                        tmp = &g_entities[i];
+                                        if (tmp && tmp->client) {
+                                                // reset maxlives
+                                                if ( g_maxlives.integer > 0 ) {
+                                                        tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
+                                                } else {
+                                                        tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+                                                }
+
+                                                // reset spawnpoints
+                                                if ( g_maxspawnpoints.integer > 0 ) {
+                                                        tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 ); 
+                                                } else {
+                                                        tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
+                                                }
+                                        }
+
+
+                                }
+
+                        } else {
+                                G_LoadPersistant(0);     // make sure we save the game after we have brought across the items
+                        }
+
+                        // clear out the persid, since the persistent data has been read
+                        trap_Cvar_Set( "persid", "0" );
 
 			trap_Cvar_Set( "g_totalPlayTime", "0" );  // reset play time
 			trap_Cvar_Set( "g_attempts", "0" );

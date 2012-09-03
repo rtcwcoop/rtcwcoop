@@ -3655,9 +3655,9 @@ void FS_Restart( int checksumFeed ) {
 		// skip the wolfconfig.cfg if "safe" is on the command line
 		if ( !Com_SafeMode() ) {
 #ifdef DEDICATED
-			Cbuf_AddText( "exec coop_config_ded.cfg\n" );
+			Cbuf_AddText( "exec wolfconfig_ded.coop.cfg\n" );
 #else
-			Cbuf_AddText( "exec coop_config.cfg\n" );
+			Cbuf_AddText( "exec wolfconfig.coop.cfg\n" );
 #endif
 		}
 	}

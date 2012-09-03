@@ -2117,13 +2117,13 @@ void Com_Init( char *commandLine ) {
 	if ( !Com_SafeMode() ) {
 
 #ifdef DEDICATED
-		Cbuf_AddText( "exec coop_config_ded.cfg\n" );
+		Cbuf_AddText( "exec wolfconfig_ded.coop.cfg\n" );
 #else
-		Cbuf_AddText( "exec coop_config.cfg\n" );
+		Cbuf_AddText( "exec wolfconfig.coop.cfg\n" );
 #endif
 	}
 
-	Cbuf_AddText( "exec coop_exec.cfg\n" );
+	Cbuf_AddText( "exec autoexec.coop.cfg\n" );
 
 	Cbuf_Execute();
 
@@ -2299,9 +2299,9 @@ void Com_WriteConfiguration( void ) {
 	cvar_modifiedFlags &= ~CVAR_ARCHIVE;
 
 #ifdef DEDICATED
-	Com_WriteConfigToFile( "coop_config_ded.cfg" );
+	Com_WriteConfigToFile( "wolfconfig_ded.coop.cfg" );
 #else
-	Com_WriteConfigToFile( "coop_config.cfg" );
+	Com_WriteConfigToFile( "wolfconfig.coop.cfg" );
 #endif
 
 	// bk001119 - tentative "not needed for dedicated"

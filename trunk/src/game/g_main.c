@@ -967,6 +967,11 @@ void G_RegisterCvars( void ) {
 		trap_Cvar_Set( "g_gameskill", va( "%d", GSKILL_MEDIUM ) ); // default to medium
 	}
 
+        // fretn maxspawnpoints
+        if ( g_spawnpoints.integer != 1 ) {
+                trap_Cvar_Set( "g_maxspawnpoints", "0");
+        }
+
 	bg_pmove_gameskill_integer = g_gameskill.integer;
 	// done
 
