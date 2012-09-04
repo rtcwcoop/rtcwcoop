@@ -4596,6 +4596,8 @@ static void UI_RunMenuScript( char **args ) {
 			WM_ChangePlayerType();
 		} else if ( Q_stricmp( name, "getSpawnPoints" ) == 0 ) {
 			WM_GetSpawnPoints();
+                } else if ( Q_stricmp( name, "wm_sayPlayerClass" ) == 0 ) {
+                        trap_Cmd_ExecuteText( EXEC_APPEND, va( "VoiceTeamChat IamSoldier\n" ) ); 
 		} else if ( Q_stricmp( name, "wm_pickitem2" ) == 0 ) {
 			const char *param, *param2;
 			int selectType = 0, itemIndex = 0;
