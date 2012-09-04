@@ -423,8 +423,6 @@
 "head" "forest1"
 }
 
-#if g_spawnpoints == 2
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "2657 -1763 342"
@@ -641,5 +639,242 @@
 "targetname" "forest2"
 }
 
-#endif
 
+{
+"classname" "target_relay"
+"target" "x4"
+"origin" "0 0 0"
+"targetname" "kill_nazi4"
+}
+{
+"classname" "target_kill"
+"origin" "0 32 0"
+"target" "nazi4"
+"targetname" "x4"
+}
+{
+"head" "forest1"
+"skin" "infantryss/forest1"
+"targetname" "nazi4x"
+"classname" "ai_soldier"
+"angle" "270"
+"origin" "2272 2176 244"
+"ainame" "nazi4x"
+"spawnflags" "1"
+}
+
+
+
+{
+"classname" "target_relay"
+"target" "x5"
+"origin" "32 0 0"
+"targetname" "kill_nazi5"
+}
+{
+"classname" "target_kill"
+"origin" "32 32 0"
+"target" "nazi5"
+"targetname" "x5"
+}
+{
+"head" "forest2"
+"skin" "infantryss/forest2"
+"targetname" "nazi5x"
+"ainame" "nazi5x"
+"origin" "2080 2368 240"
+"angle" "270"
+"classname" "ai_soldier"
+"spawnflags" "1"
+}
+
+
+{
+"classname" "target_relay"
+"target" "x6"
+"origin" "64 0 0"
+"targetname" "kill_nazi6"
+}
+{
+"classname" "target_kill"
+"origin" "64 32 0"
+"target" "nazi6"
+"targetname" "x6"
+}
+{
+"head" "forest4"
+"skin" "infantryss/forest4"
+"targetname" "nazi6x"
+"origin" "2168 4480 1105"
+"angle" "270"
+"classname" "ai_soldier"
+"ainame" "nazi6x"
+"spawnflags" "1"
+}
+
+
+{
+"classname" "target_relay"
+"target" "x10"
+"origin" "128 0 0"
+"targetname" "kill_nazi10"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "nazi10"
+"targetname" "x10"
+}
+{
+"head" "forest3"
+"skin" "infantryss/forest3"
+"origin" "1680 -4976 392"
+"angle" "90"
+"classname" "ai_soldier"
+"ainame" "nazi10x"
+"spawnflags" "1"
+"targetname" "nazi10x"
+}
+
+
+{
+"classname" "target_relay"
+"target" "x13"
+"origin" "96 0 0"
+"targetname" "kill_nazi13"
+}
+{
+"classname" "target_kill"
+"origin" "96 32 0"
+"target" "nazi13"
+"targetname" "x13"
+}
+{
+"head" "forest3"
+"skin" "infantryss/forest3"
+"targetname" "nazi13x"
+"spawnflags" "1"
+"origin" "-3728 4112 536"
+"angle" "360"
+"classname" "ai_soldier"
+"ainame" "nazi13x"
+}
+
+
+{
+"classname" "target_relay"
+"target" "x15"
+"origin" "160 0 0"
+"targetname" "kill_nazi15"
+}
+{
+"classname" "target_kill"
+"origin" "160 32 0"
+"target" "nazi15"
+"targetname" "x15"
+}
+{
+"skin" "officerss/forest1"
+"ainame" "nazi15x"
+"classname" "ai_soldier"
+"angle" "360"
+"origin" "-3968 4160 536"
+"spawnflags" "1"
+"targetname" "nazi15x"
+"head" "forest1"
+}
+
+
+
+{
+"classname" "target_relay"
+"target" "x18"
+"origin" "192 0 0"
+"targetname" "kill_nazi18"
+}
+{
+"classname" "target_kill"
+"origin" "192 32 0"
+"target" "nazi18"
+"targetname" "x18"
+}
+{
+"head" "forest1"
+"skin" "infantryss/forest1"
+"targetname" "nazi18x"
+"spawnflags" "1"
+"origin" "-2832 1184 204"
+"angle" "360"
+"classname" "ai_soldier"
+"ainame" "nazi18x"
+}
+
+
+
+{
+"classname" "target_relay"
+"target" "x20"
+"origin" "224 0 0"
+"targetname" "kill_nazi20"
+}
+{
+"classname" "target_kill"
+"origin" "224 32 0"
+"target" "nazi20"
+"targetname" "x20"
+}
+{
+"ainame" "nazi20x"
+"classname" "ai_soldier"
+"skin" "officerss/forest1"
+"angle" "270"
+"origin" "-2752 960 400"
+"spawnflags" "1"
+"targetname" "nazi20x"
+"head" "forest2"
+}
+
+
+
+{
+"classname" "target_relay"
+"target" "x25"
+"origin" "256 0 0"
+"targetname" "kill_nazi25"
+}
+{
+"classname" "target_kill"
+"origin" "256 32 0"
+"target" "nazi25"
+"targetname" "x25"
+}
+{
+"head" "forest1"
+"skin" "infantryss/forest1"
+"spawnflags" "1"
+"classname" "ai_soldier"
+"angle" "270"
+"origin" "-5792 -704 208"
+"ainame" "nazi25x"
+"targetname" "nazi25x"
+}
+
+
+{
+"classname" "ai_soldier"
+"origin" "2328 1304 288"
+"angle" "90"
+"ainame" "mechanic"
+"targetname" "mechanic"
+"spawnflags" "0"
+"skin" "mechanic/tram1"
+"head" "tram2"
+}
+
+{
+"classname" "misc_gamemodel"
+"origin" "-2656 -4704 676"
+"angle" "270"
+"model" "models/mapobjects/electronics/alarmbox.mdc"
+"modelscale" "1.25"
+}

@@ -46,6 +46,20 @@ spawner
 	{
 	}
 
+	trigger spawn0
+	{
+		wait 500
+		alertentity nazi4x
+		alertentity nazi5x
+		alertentity nazi6x
+		alertentity nazi10x
+		alertentity nazi13x
+		alertentity nazi15x
+		alertentity nazi18x
+		alertentity nazi20x
+		alertentity nazi25x
+	}	
+	
 	trigger spawn1
 	{
 		alertentity nazi9
@@ -126,7 +140,7 @@ alarm
 		accum 1 set 1
 
 		trigger dialog alarmon
-//		missionfailed 9 5
+		missionfailed 9 5
 		alertentity alarmalert1
 		trigger nazi3 alarm3
 		trigger nazi4 alarm4
@@ -145,7 +159,7 @@ alarm
 		accum 1 set 1
 
 		trigger dialog alarmon
-//		missionfailed 6 9
+		missionfailed 6 9
 		trigger nazi3 alarm3
 		trigger nazi4 alarm4
 		trigger nazi5 alarm5
@@ -176,8 +190,8 @@ dialog
 
 	trigger alarmon
 	{
-		//accum 0 set 1 // 1 = alarmset no new ambient dialog.
-		//resetscript // stop current dialog
+		accum 0 set 1 // 1 = alarmset no new ambient dialog.
+		resetscript // stop current dialog
 	}
 
 	trigger parachute
@@ -243,7 +257,7 @@ dialog
 		wait 400
 		trigger alarm incutscene
 		trigger player endcamera1
-		//alertentity bj
+		alertentity bj
 		trigger player movetruck
 		wait 10000
 		trigger player endcamera2
@@ -253,10 +267,10 @@ dialog
 
 	trigger clearend
 	{
-		//accum 3 set 1 // dont let cutscene start
-		//accum 1 abort_if_not_equal 1
-		//resetscript
-		//trigger player clearcam
+		accum 3 set 1 // dont let cutscene start
+		accum 1 abort_if_not_equal 1
+		resetscript
+		trigger player clearcam
 	}
 }
 
@@ -287,13 +301,13 @@ t2body
 
 	trigger nazi4nogate
 	{
-		// cs: we don't ever want the truck stuck at first gate
-		//accum 0 set 1
+	
+		accum 0 set 1
 	}
 
 	trigger begin2
 	{
-		wait 100
+		wait 3000
 		playsound sound/world/shift_01.wav looping
 		trigger t2bwheels begin2
 		trigger t2lwheel begin2
@@ -425,7 +439,7 @@ t2body
 		trigger t2lwheel stop2
 		trigger t2rwheel stop2
 //		trigger nazi7 checkback7
-//		playsound sound/world/idle_01.wav looping
+		playsound sound/world/idle_01.wav looping
 		gotomarker t2spot42 40
 		faceangles 0 180 0 gototime
 		trigger t2body ontocamp4

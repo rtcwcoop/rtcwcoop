@@ -1,4 +1,4 @@
-//
+//
 //AI Scripting
 //Map: Forest.map
 //Last edited by: Dan
@@ -29,26 +29,30 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/m_stealth
-
-		// Weapons
-		giveweapon weapon_knife		
+		// weapons
+		giveweapon weapon_knife
 		giveweapon weapon_sten
-			setclip weapon_sten 32
-
-		// Ammo
-		setammo ammo_9mm 200
-
-		// Items
+		// ammo
+		setammo ammo_9mm 182
+		// misc
 		setarmor 50
 		giveinventory key_binocs
+		setclip weapon_sten 32
 		selectweapon weapon_sten
-
-		accum 0 abort_if_not_bitset 7
-		objectivemet 3	// mission objective complete
-		//accum 1 inc 1
-		trigger game_manager objective3
+		
+			giveweapon weapon_snooperrifle
+			setammo ammo_30cal 15
 	}
 
+	trigger action2
+	{
+		accum 0 abort_if_not_bitset 7
+		objectivemet 3	// mission objective complete
+		accum 1 inc 1
+		trigger game_manager objective3
+	}	
+	
+	
 	trigger action1
 	{
 		trigger spawner spawn1
@@ -136,6 +140,79 @@ player
 		trigger nazi25 explosion25
 	}
 
+	trigger explode_alarm1
+	{
+		accum 0 bitreset 1
+	}
+
+	trigger on_alarm1
+	{
+		accum 0 abort_if_not_bitset 1
+		trigger alarm alarmset
+	}
+
+	trigger explode_alarm2
+	{
+		accum 0 bitreset 2
+		trigger nazi6 break_alarm2
+	}
+
+	trigger on_alarm2
+	{
+		accum 0 abort_if_not_bitset 2
+		trigger alarm alarmset
+	}
+
+	trigger explode_alarm3
+	{
+		accum 0 bitreset 3
+	}
+
+	trigger on_alarm3
+	{
+		accum 0 abort_if_not_bitset 3
+		trigger alarm alarmset
+	}
+
+	trigger explode_alarm4
+	{
+		accum 0 bitreset 4
+	}
+
+	trigger on_alarm4
+	{
+		accum 0 abort_if_not_bitset 4
+		trigger alarm alarmset
+	}
+
+	trigger explode_alarm5
+	{
+		accum 0 bitreset 5
+	}
+
+	trigger on_alarm5
+	{
+		accum 0 abort_if_not_bitset 5
+		trigger alarm alarmset
+	}
+
+	trigger explode_alarm6
+	{
+		accum 0 bitreset 6
+		trigger nazi25 alarmbroke
+	}
+
+	trigger on_alarm6
+	{
+		accum 0 abort_if_not_bitset 6
+		trigger alarm alarmset
+	}
+
+	trigger setalarm
+	{
+		trigger alarm alarmset
+	}
+
 	trigger secret1
 	{
 		alertentity secret1door
@@ -147,7 +224,7 @@ player
 		accum 0 abort_if_not_bitset 0
 		accum 0 bitreset 0
 		objectivemet 1	// mission objective complete
-		//accum 1 inc 1
+		accum 1 inc 1
 		trigger game_manager objective1
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
@@ -169,25 +246,28 @@ player
 	trigger got_objective2
 	{
 		objectivemet 2	// mission objective complete
-		//accum 1 inc 1
+		accum 1 inc 1
+		accum 0 abort_if_not_bitset 7
+		objectivemet 3	// mission objective complete
+		accum 1 inc 1
 		trigger game_manager objective2
 	}
 
 	trigger got_objective3
 	{
 		objectivemet 4	// mission objective complete
-		//accum 1 inc 1
+		accum 1 inc 1
 		trigger game_manager objective4
 	}	
 
 	trigger fail_objective2
 	{
-		//accum 0 bitreset 7
+		accum 0 bitreset 7
 	}
 
 	trigger endmap
 	{
-		//accum 1 abort_if_less_than 4
+		accum 1 abort_if_not_equal 4
 		//trigger dialog ending
 		trigger game_manager checkexit
 		accum 2 abort_if_less_than 1
@@ -199,27 +279,6 @@ player
 	}
 
 }
-
-// Cinematic1 AI section
-//bj
-//{
-//	attributes
-//	{
-//		hearing_scale 0.0
-//	}
-
-//	spawn
-//	{
-//		noavoid on
-//		nosight 99999
-//		headlook off
-//		godmode on
-//		knockback off
-//		playanim idle both HOLDFRAME FOREVER
-//		wait 5 spotn24b
-//	}
-//}
-// END Cinematic1 AI section
 
 nazi1
 {
@@ -756,6 +815,172 @@ nazi4
 	}
 }
 
+nazi4x
+{
+	attributes
+	{
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		aggression 0.8		
+		alertness 1920
+	}
+
+	spawn
+	{
+		accum 0 set 0 // 1 = sighted player
+		accum 1 set 0 // random generator
+		setammo ammo_grenades 0
+
+		wait 100
+		walktomarker spotn4c
+		wait 11000 0
+		runtomarker spotn4d
+		facetargetangles spotn4c
+		wait forever 0
+	}
+
+	trigger salute4
+	{
+		resetscript
+		trigger nazi5 moveaway5
+		trigger post1 up1
+		wait 10000
+		trigger post1 down1
+		wait 500
+		walktomarker spotn4c nostop
+		walktomarker spotn4a
+		walktomarker spotn4b
+		wait 5000
+		walktomarker spotn4a
+		wait 5000
+		trigger nazi4x starter4
+	}
+
+	trigger starter4
+	{
+		accum 1 random 3
+		wait 5
+		trigger nazi4x beat4a
+		wait 5
+		trigger nazi4x beat4b
+ 		wait 5
+		trigger nazi4x beat4c
+	}
+
+	trigger beat4a
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript
+		walktomarker spotn4a
+		wait 2000
+		walktomarker spotn4b
+		wait 1700
+		walktomarker spotn4c
+		wait 5000
+		walktomarker spotn4a
+		wait 6000
+		trigger nazi4x starter4
+	}
+
+	trigger beat4b
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		walktomarker spotn4c
+		wait 2000
+		walktomarker spotn4a
+		walktomarker spotn4b
+		wait 5000
+		walktomarker spotn4a
+		wait 5000
+		trigger nazi4x starter4
+	}
+
+	trigger beat4c
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		walktomarker spotn4d
+		wait 5000
+		facetargetangles spotn4d
+		walktomarker spotn4c
+		walktomarker spotn4a
+		facetargetangles spotn4a
+		wait 5000
+		trigger nazi4x starter4
+	}
+
+	statechange relaxed combat
+	{
+		trigger alarm spottedby4
+	}
+
+	statechange query combat
+	{
+		trigger alarm spottedby4
+	}
+
+	statechange alert combat
+	{
+		trigger alarm spottedby4
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		trigger alarm spottedby4
+		wait 5 player
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+		trigger alarm spottedby4
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	trigger awaken4
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		trigger t2body nazi4nogate
+		attrib alertness 3150
+		resetscript
+		gotomarker spotn4a nostop
+		gotomarker spotn4b
+		wait 300
+//		trigger player on_alarm1
+		gotomarker spotn4a
+	}
+
+	trigger alarm4
+	{
+		statetype alert
+		resetscript
+		attrib alertness 3150
+		wait 300 player
+	}
+
+	death
+	{
+		trigger t2body nazi4nogate
+		trigger nazi5x awaken5
+		trigger nazi6x awaken6
+	}
+}
+
 nazi5
 {
 	attributes
@@ -853,6 +1078,106 @@ nazi5
 	{
 		trigger nazi4 awaken4
 		trigger nazi6 awaken6
+	}
+}
+
+nazi5x
+{
+	attributes
+	{
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		aggression 0.8		
+		fov 120
+		alertness 1920
+	}
+
+	spawn
+	{
+		accum 0 set 0
+		setammo ammo_grenades 0
+
+		wait 100
+		walktomarker spotn5a
+		wait forever 0
+	}
+
+	statechange relaxed combat
+	{
+		trigger alarm spottedby5
+	}
+
+	statechange query combat
+	{
+		trigger alarm spottedby5
+	}
+
+	statechange alert combat
+	{
+		trigger alarm spottedby5
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		trigger alarm spottedby5
+		wait 5 player
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+		trigger alarm spottedby5
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	trigger moveaway5
+	{
+		accum 0 abort_if_not_equal 0
+		resetscript
+		walktomarker spotn5b
+		wait 5000 nazi4x
+		walktomarker spotn5a
+		facetargetangles spotn5a
+		wait forever 0
+	}
+
+	trigger awaken5
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		attrib alertness 3150
+		resetscript
+		runtomarker spotn4a nostop
+		runtomarker spotn4b
+		wait 300
+//		trigger player on_alarm1
+	}
+
+	trigger alarm5
+	{
+		statetype alert
+		resetscript
+		attrib alertness 3150
+		wait 300 player
+	}
+
+	death
+	{
+		trigger nazi4x awaken4
+		trigger nazi6x awaken6
 	}
 }
 
@@ -1073,6 +1398,223 @@ nazi6
 	}
 }
 
+nazi6x
+{
+	attributes
+	{
+		aim_accuracy 0.7
+		starting_health 50
+		attack_crouch 0.0
+		alertness 2048
+	}
+
+	spawn
+	{
+		accum 0 bitset 0 // 1 = sighted player
+		accum 0 bitset 1
+		accum 0 bitset 2
+		accum 0 bitset 3
+		accum 1 set 0 // random generator
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		giveweapon weapon_mauserrifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserrifle
+		wait 100
+		gotomarker spotn6a
+		wait 5000 0
+		trigger nazi6x starter6
+	}
+
+	trigger starter6
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 1 random 3
+		wait 5
+		trigger nazi6x look6a
+		wait 5
+		trigger nazi6x look6b
+ 		wait 5
+		trigger nazi6x look6c
+	}
+
+	trigger look6a
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 1 abort_if_not_equal 0
+		resetscript
+		walktomarker spotn6b
+		walktomarker spotn6a
+		facetargetangles spotn6a
+		wait 500
+		zoom on
+		playanim binocular both
+		playanim binocular both
+		playanim binocular both
+		playanim binocular both
+		zoom off
+		wait 3500
+		trigger nazi6x starter6
+	}
+
+	trigger look6b
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 1 abort_if_not_equal 1
+		resetscript
+		walktomarker spotn6b
+		walktomarker spotn6a
+		facetargetangles spotn6a
+		wait 500
+		zoom on
+		playanim binocular both
+		playanim binocular both
+		playanim binocular both
+		zoom off
+		wait 2500
+		trigger nazi6x starter6
+	}
+
+	trigger look6c
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 1 abort_if_not_equal 2
+		resetscript
+		walktomarker spotn6b
+		walktomarker spotn6c
+		facetargetangles spotn6c
+		wait 500
+		zoom on
+		playanim binocular both
+		playanim binocular both
+		playanim binocular both
+		playanim binocular both
+		zoom off
+		wait 2500
+		trigger nazi3 starter3
+	}
+
+	statechange relaxed combat
+	{
+		trigger nazi6x alert6
+	}
+
+	statechange query combat
+	{
+		trigger nazi6x alert6
+	}
+
+	statechange alert combat
+	{
+		trigger nazi6x alert6
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_bitset 0
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+		clearanim
+		zoom off
+		wait 5 player
+	}
+
+	inspectsoundstart
+	{
+		deny
+		accum 0 abort_if_not_bitset 0
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2
+		clearanim
+		zoom off
+		wait 5 player
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	trigger break_alarm2
+	{
+		clearanim
+		zoom off
+		wait 5 player
+	}
+
+	trigger awaken6 // called by death of nazi 4 or 5
+	{
+		accum 0 abort_if_not_bitset 3
+		accum 0 bitreset 3
+		accum 0 bitreset 0
+		clearanim
+		zoom off
+		attrib alertness 3150
+//		giveweapon weapon_mauserrifle
+//		setammo ammo_792mm 999
+//		selectweapon weapon_mauserrifle
+		statetype alert
+		wait 2000 0
+		noattack 2000
+		runtomarker spotn6c
+		facetargetangles spotn6c
+		wait 200
+//		trigger player on_alarm2
+		gotomarker spotn6a
+		wait forever 0
+	}	
+
+	trigger alert6
+	{
+		accum 0 abort_if_not_bitset 3
+		accum 0 bitreset 3
+		accum 0 bitreset 0
+		clearanim
+		zoom off
+		attrib alertness 3150
+//		giveweapon weapon_mauserrifle
+//		setammo ammo_792mm 999
+//		selectweapon weapon_mauserrifle
+		wait 2000 0
+		noattack 2000
+		runtomarker spotn6c
+		facetargetangles spotn6c
+		wait 200
+//		trigger player on_alarm2
+		gotomarker spotn6a
+		wait forever 0
+	}	
+
+	trigger alarm6
+	{
+		accum 0 abort_if_not_bitset 3
+		accum 0 bitreset 3
+		accum 0 bitreset 0
+		clearanim
+		zoom off
+		attrib alertness 3150
+//		giveweapon weapon_mauserrifle
+//		setammo ammo_792mm 999
+//		selectweapon weapon_mauserrifle
+		resetscript
+		wait 200 player
+		gotomarker spotn6a
+		wait forever 0
+	}
+
+	death
+	{
+		alertentity tower2death1
+		alertentity tower2death2
+	}
+}
+
 nazi7
 {
 	attributes
@@ -1112,21 +1654,21 @@ nazi7
 		deny
 	}
 
-//	trigger checkback7
-//	{
-//		resetscript
-//		gotomarker spotn7a nostop
-//		gotomarker spotn7b
-//		wait forever 0
-//	}
+	trigger checkback7
+	{
+		resetscript
+		gotomarker spotn7a nostop
+		gotomarker spotn7b
+		wait forever 0
+	}
 
-//	trigger chat7
-//	{
-//		resetscript
-//		walktomarker spotn7c
-//		facetargetangles spotn7c
-//		wait forever 0
-//	}
+	trigger chat7
+	{
+		resetscript
+		walktomarker spotn7c
+		facetargetangles spotn7c
+		wait forever 0
+	}
 
 	enemysight
 	{
@@ -1464,6 +2006,147 @@ nazi10 // First house guard 2
 	}
 }
 
+nazi10x // First house guard 2
+{
+	attributes
+	{
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		fov 100
+		leader 0.8
+		alertness 2048
+	}
+
+	spawn
+	{
+		accum 0 set 1 // 0=dont break running for help
+		accum 1 set 1 // 0=enemy spotted already
+		accum 2 set 0 // 1= don't loop reading
+		accum 3 set 0 // one bullet impact
+		accum 4 set 0 // one inspectsound
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+
+		wait 100
+		walktomarker spotn10a
+		facetargetangles spotn10a
+		trigger nazi10x reading10
+	}
+
+	trigger reading10
+	{
+		accum 2 abort_if_not_equal 0
+		playanim looking_over_table both
+		trigger nazi10x reading10
+	}
+
+	trigger misdrop
+	{
+		accum 2 abort_if_not_equal 0
+		playsound ForestNazi10_1
+	}
+
+	trigger findout
+	{
+		accum 2 abort_if_not_equal 0
+		playsound ForestNazi10_2
+	}
+
+	trigger schedule
+	{
+		accum 2 abort_if_not_equal 0
+		playsound ForestNazi10_3
+	}
+
+	enemysight
+	{
+		accum 1 abort_if_not_equal 1
+		accum 1 set 0
+		playsound Blank
+		clearanim
+		accum 2 set 1
+		giveweapon weapon_mp40
+		setammo ammo_9mm 999
+		selectweapon weapon_mp40
+//		wait 300
+//		playsound ForestNazi10_4
+		trigger nazi9 gethelp9
+		trigger nazi11 gethelp11
+		trigger nazi10x gethelp10
+	}
+
+	trigger talk10
+	{
+		playsound Blank
+		clearanim
+		accum 2 set 1
+		wait 5000 nazi11
+		facetargetangles spotn10a
+		accum 2 set 0
+		trigger nazi10x reading10	
+	}
+
+	trigger gethelp10
+	{
+		accum 0 abort_if_not_equal 1
+		accum 0 set 0
+		accum 1 set 0
+
+		playsound Blank
+		clearanim
+		accum 2 set 1
+		giveweapon weapon_mp40
+		setammo ammo_9mm 999
+		selectweapon weapon_mp40
+		statetype alert
+		noattack 6000
+		gotomarker spotn10b nostop
+		playsound ForestNazi10_4
+		gotomarker spotn10c nostop
+		gotomarker spotn10d nostop
+		gotomarker spotn10e nostop
+		gotomarker spotn10f nostop
+		gotomarker spotn10g
+		wait 200
+//		trigger alarm alarmset
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 1 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0
+		accum 3 set 1
+		playsound Blank
+		clearanim
+		accum 2 set 1
+		giveweapon weapon_mp40
+		setammo ammo_9mm 999
+		selectweapon weapon_mp40
+		statetype alert
+		wait 5 player
+	}
+
+	inspectsoundstart
+	{
+		trigger nazi10x gethelp10
+	}
+
+	inspectbodystart
+	{
+		deny
+		trigger nazi10x gethelp10
+	}
+
+	death
+	{
+		accum 2 set 1
+		trigger nazi11 n10down	
+		resetscript
+	}
+}
+
 nazi11 // First house guard 3
 {
 	attributes
@@ -1771,6 +2454,139 @@ nazi13 // MG42 gunner
 		facetargetangles spotn15f
 		wait 200
 		trigger player on_alarm3
+		trigger nazi14 awaken14
+	}
+
+	death
+	{
+		accum 0 set 1
+		resetscript
+	}
+}
+
+nazi13x // MG42 gunner
+{
+	attributes
+	{
+		aim_accuracy 0.5
+		starting_health 50
+		attack_crouch 0.1
+		hearing_scale 0.8
+		fov 90
+		alertness 1200
+	}
+
+	spawn
+	{
+		accum 0 set 0
+		accum 1 set 0 // 1 = should be behind mg42 so best to unmount
+		setammo ammo_grenades 0
+
+		wait 100
+		gotomarker shootmg42_1
+		mount mg42_1
+		wait forever 0
+	}
+
+	forced_mg42_unmount
+	{
+		deny
+	}
+
+	trigger talk13
+	{
+		resetscript
+		accum 1 set 1
+		wait 5000 0
+		unmount
+		walktomarker spotn13a
+		wait 15000 lookatme
+		facetargetangles spotn13a
+		wait 200 0
+		walktomarker shootmg42_1
+		attrib hearing_scale 1.0
+		mount mg42_1
+		wait forever 0
+	}
+
+	trigger wellsir
+	{
+		accum 0 abort_if_not_equal 0
+		playsound ForestNazi13_1
+	}
+
+	statechange relaxed combat
+	{
+		accum 0 set 1
+		trigger nazi13x alert13
+	}
+
+	statechange query combat
+	{
+		accum 0 set 1
+		trigger nazi13x alert13
+	}
+
+	statechange alert combat
+	{
+		accum 0 set 1
+		trigger nazi13x alert13
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		statetype alert
+		wait 5 player
+	}		
+
+	inspectbodystart
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger nazi13x alert13
+	}
+
+	trigger alert13 // fired by self 
+	{
+		playsound Blank
+		attrib alertness 4000
+		attrib fov 180
+		wait 300
+		trigger nazi14 awaken14
+		accum 1 abort_if_not_equal 1
+		unmount
+	}
+
+	trigger awaken13 // fired by other ai's
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		playsound Blank
+		attrib alertness 4000
+		attrib fov 180
+		statetype alert
+		accum 1 abort_if_not_equal 1
+		unmount
+		wait 5 player
+	}
+
+	trigger alarmset13 // only activate if nazi 13 is already alert when this gets fired
+	{
+		accum 0 abort_if_not_equal 1
+		resetscript
+		unmount
+		runtomarker spotn15f
+		facetargetangles spotn15f
+		wait 200
+//		trigger player on_alarm3
 		trigger nazi14 awaken14
 	}
 
@@ -2124,6 +2940,156 @@ nazi15  // Officer at MG42 nest
 	}
 }
 
+nazi15x  // Officer at MG42 nest
+{
+	attributes
+	{
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		hearing_scale 0.8
+		fov 120
+		alertness 1200
+	}
+
+	spawn
+	{
+		accum 0 set 0 // 1 = nazi13 already going for the alarm
+		accum 1 set 0
+		setammo ammo_grenades 1
+		takeweapon weapon_mp40
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+
+		wait 100
+	}
+
+	trigger talk15
+	{
+		accum 1 abort_if_not_equal 0
+		wait 4000 0
+		explicit_routing on
+		walktomarker spotn15a
+		trigger dialog report
+		wait 17000 lookatme
+		walktomarker spotn15b nostop 
+		walktomarker spotn15c nostop 
+		walktomarker spotn15d nostop
+		facetargetangles spotn15d
+		wait 1000
+		playsound ForestNazi15_4
+		attrib hearing_scale 1.0
+		wait 3000
+		wait 500 spotn15e
+		playsound ForestNazi15_5
+		runtomarker spotn15e
+		noattack 5000
+		runtomarker spotn15c nostop
+		playsound ForestNazi15_6
+		trigger nazi13x awaken13
+		runtomarker spotn15b
+		accum 0 set 1
+		trigger nazi13x alarmset13
+	}
+
+	trigger special
+	{
+		accum 1 abort_if_not_equal 0
+		playsound ForestNazi15_1
+	}
+
+	trigger deathshead
+	{
+		accum 1 abort_if_not_equal 0
+		playsound ForestNazi15_2
+	}
+
+	trigger handle
+	{
+		accum 1 abort_if_not_equal 0
+		playsound ForestNazi15_3
+	}
+
+	statechange relaxed combat
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi15x alert15
+	}
+
+	statechange query combat
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi15x alert15
+	}
+
+	statechange alert combat
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi15x alert15
+	}
+
+	inspectsoundstart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		wait 5 player
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		wait 5 player
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi15x alert15
+	}
+
+	trigger alert15 // on self sight
+	{
+		playsound Blank
+		explicit_routing off
+		trigger nazi13x awaken13
+		accum 0 abort_if_not_equal 0
+		runtomarker spotn15f
+		facetargetangles spotn15f
+		wait 200
+//		trigger player on_alarm3
+	}
+
+	trigger awaken15 // woken by tower guard
+	{
+		playsound Blank
+		explicit_routing off
+		accum 1 set 1
+		runtomarker spotn15f
+		facetargetangles spotn15f
+		wait 200
+//		trigger player on_alarm3
+	}
+
+	death
+	{
+		accum 1 set 1
+		trigger nazi13x alarmset13
+		resetscript
+	}
+}
+
 nazi16
 {
 // placeholder
@@ -2408,6 +3374,192 @@ nazi18 // Base Guard at Front Gate
 	}	
 }
 
+nazi18x // Base Guard at Front Gate
+{
+	attributes
+	{
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		alertness 2048
+	}
+
+	spawn
+	{
+		accum 0 set 0
+		accum 1 set 0 // 1 = player spotted
+		setammo ammo_grenades 1
+		wait 100
+		explicit_routing on 
+		trigger nazi18x beat18a
+	}
+
+	trigger starter18
+	{
+		accum 0 random 4
+		wait 5
+		trigger nazi18x beat18a
+		wait 5
+		trigger nazi18x beat18b
+ 		wait 5
+		trigger nazi18x beat18c
+ 		wait 5
+		trigger nazi18x beat18d
+	}
+
+	trigger beat18a
+	{
+		accum 0 abort_if_not_equal 0
+		walktomarker spotn18a
+		wait 400
+		facetargetangles spotn18a
+		wait 2500
+		walktomarker spotn18b
+		wait 400
+		facetargetangles spotn18b
+		wait 3000
+		trigger nazi18x starter18
+	}
+
+	trigger beat18b
+	{
+		accum 0 abort_if_not_equal 1
+		walktomarker spotn18a
+		wait 400
+		facetargetangles spotn18a
+		wait 3000
+		walktomarker spotn18b
+		wait 400
+		facetargetangles spotn18b
+		wait 2500
+		trigger nazi18x starter18
+	}
+
+	trigger beat18c
+	{
+		accum 0 abort_if_not_equal 2
+		walktomarker spotn18a
+		wait 400
+		facetargetangles spotn18a
+		wait 10000
+		walktomarker spotn18b
+		wait 400
+		facetargetangles spotn18b
+		wait 3000
+		trigger nazi18x starter18
+	}
+
+	trigger beat18d
+	{
+		accum 0 abort_if_not_equal 3
+		walktomarker spotn18a
+		wait 400
+		walktomarker spotn18d
+		walktomarker spotn18c
+		wait 3000
+		walktomarker spotn18d
+		walktomarker spotn18a
+		wait 1000
+		walktomarker spotn18b
+		wait 400
+		facetargetangles spotn18b
+		wait 2000
+		trigger nazi18x starter18
+	}
+
+	statechange relaxed combat
+	{
+		accum 1 set 1
+		trigger nazi18x alert18
+	}
+
+	statechange query combat
+	{
+		accum 1 set 1
+		trigger nazi18x alert18
+	}
+
+	statechange relaxed alert
+	{
+		accum 1 set 1
+		trigger nazi18x alert18
+	}
+
+	statechange query alert
+	{
+		accum 1 set 1
+		trigger nazi18x alert18
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+// hope this doesn't break anything - dk  #3734
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi18x alert18
+// end
+	}
+
+	inspectbodystart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi18x alert18
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		attrib alertness 3150
+		wait 5 player
+	}	
+
+	inspectsoundstart
+	{
+		attrib alertness 3150
+	}	
+
+	trigger alert18
+	{
+		attrib alertness 3150
+		resetscript
+		runtomarker spotn18d
+		runtomarker spotn18c
+		explicit_routing off
+		wait 1000
+//		trigger player on_alarm4
+	}	
+
+	trigger alarm18
+	{
+		statetype alert
+		attrib alertness 3150
+		explicit_routing off
+		resetscript
+		wait 400 player
+	}
+
+	trigger truckapproch
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript
+		runtomarker spotn18b
+		facetargetangles spotn18b
+		wait forever 0
+	}
+
+	trigger opengate
+	{
+		accum 1 abort_if_not_equal 0
+		wait 6000 0
+		trigger nazi18x starter18
+	}	
+}
+
+
 nazi19 // Officer in house
 {
 	attributes
@@ -2593,6 +3745,119 @@ nazi20 // Officer in gatehouse
 		facetargetangles spotn20c
 		wait 500
 		trigger player on_alarm5
+	}
+}
+
+nazi20x // Officer in gatehouse
+{
+	attributes
+	{
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		fov 120
+		alertness 1500
+	}
+
+	spawn
+	{
+		accum 0 set 0 // 1 = sighted player
+		setammo ammo_grenades 0
+		takeweapon weapon_mp40
+		wait 100
+		trigger nazi20x beat20
+	}
+
+	trigger beat20
+	{
+		walktomarker spotn20a
+		facetargetangles spotn20a
+		wait 500
+		zoom on
+		attrib alertness 2400
+		playanim binocular both
+		playanim binocular both
+		playanim binocular both
+		playanim binocular both
+		attrib alertness 1800
+		zoom off
+		wait 4500
+		walktomarker spotn20b
+		facetargetangles spotn20b
+		wait 500
+		zoom on
+		attrib alertness 2400
+		playanim binocular both
+		playanim binocular both
+		attrib alertness 1800
+		zoom off
+		wait 2500
+		trigger nazi20x beat20
+	}
+
+	statechange relaxed combat
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger nazi20x alert20
+	}
+
+	statechange query combat
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger nazi20x alert20
+	}
+
+	statechange alert combat
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger nazi20x alert20
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi20x alert20
+	}
+
+	inspectbodystart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger nazi20x alert20
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		attrib alertness 3150
+		wait 5 player
+	}	
+
+	inspectsoundstart
+	{
+		attrib alertness 3150
+	}	
+
+	trigger alert20
+	{
+		clearanim
+		zoom off
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+		attrib alertness 3150
+		resetscript
+		runtomarker spotn20c
+		facetargetangles spotn20c
+		wait 500
+//		trigger player on_alarm5
 	}
 }
 
@@ -2990,6 +4255,7 @@ nazi24 // Clipboard guard
 		resetscript
 	}
 }
+
 nazi25 // Exit guard
 {
 	attributes
@@ -3146,6 +4412,164 @@ nazi25 // Exit guard
 		trigger alarm alarmset2
 	}
 }
+
+nazi25x // Exit guard
+{
+	attributes
+	{
+		aim_accuracy 0.2
+		starting_health 20
+		fov 120
+		attack_crouch 0.0
+		aggression 0.9
+		alertness 1600
+	}
+
+	spawn
+	{
+		accum 0 set 0
+		accum 1 set 0 // 1 = alarm broke
+		setammo ammo_grenades 1
+
+		wait 100
+		trigger nazi25x beat25a
+	}
+
+	trigger beat25a
+	{
+		accum 0 abort_if_not_equal 0
+		walktomarker spotn25a spotn25a noattack
+		wait 400
+		facetargetangles spotn25a
+		wait 2500
+		walktomarker spotn25b spotn25b noattack
+		wait 400
+		facetargetangles spotn25b
+		wait 3000
+		trigger nazi25x starter25
+	}
+
+	trigger beat25b
+	{
+		accum 0 abort_if_not_equal 1
+		walktomarker spotn25a spotn25a noattack
+		wait 400
+		facetargetangles spotn25a
+		wait 3000
+		walktomarker spotn25b spotn25b noattack
+		wait 400
+		facetargetangles spotn25b
+		wait 2500
+		trigger nazi25x starter25
+	}
+
+	trigger beat25c
+	{
+		accum 0 abort_if_not_equal 2
+		walktomarker spotn25a spotn25a noattack
+		wait 400
+		facetargetangles spotn25a
+		wait 10000
+		walktomarker spotn25b spotn25b noattack
+		wait 400
+		facetargetangles spotn25b
+		wait 3000
+		trigger nazi25x starter25
+	}
+
+	trigger beat25d
+	{
+		accum 0 abort_if_not_equal 3
+		walktomarker spotn25a spotn25a noattack
+		wait 400
+		walktomarker spotn25c spotn25c noattack
+		wait 3000
+		walktomarker spotn25a spotn25a noattack
+		wait 1000
+		walktomarker spotn25b spotn25b noattack
+		wait 400
+		facetargetangles spotn25b
+		wait 2000
+		trigger nazi25x starter25
+	}
+
+	trigger starter25
+	{
+		accum 0 random 4
+		wait 5
+		trigger nazi25x beat25a
+		wait 5
+		trigger nazi25x beat25b
+ 		wait 5
+		trigger nazi25x beat25c
+ 		wait 5
+		trigger nazi25x beat25d
+	}
+
+	enemysight
+	{
+		trigger dialog clearend
+		trigger player fail_objective2
+		attrib alertness 3150
+		resetscript
+		accum 1 abort_if_not_equal 0
+		gotomarker spotn25c
+		wait 500
+		trigger player on_alarm6
+	}
+
+	trigger quicklook25
+	{
+		resetscript
+		wait 1000 player
+		trigger nazi25x starter25
+	}
+
+	trigger explosion25
+	{
+		attrib alertness 3150
+		statetype alert
+		resetscript
+		accum 1 abort_if_not_equal 0
+		wait 1000 player
+		gotomarker spotn25c
+		wait 500
+//		trigger player on_alarm6
+	}
+
+	trigger deathnazi21
+	{
+		attrib alertness 3150
+		resetscript
+		accum 1 abort_if_not_equal 0
+		wait 1000 nazi21
+		runtomarker spotn25c
+		wait 500
+//		trigger player on_alarm6
+	}
+
+	trigger alarmbroke
+	{
+		accum 1 set 1
+		resetscript
+		gotocast player
+	}
+
+	trigger outofway
+	{
+		runtomarker spotn25c
+		wait 500
+		facetargetangles spotn25a
+		wait forever 0
+	}
+
+	death
+	{
+		trigger dialog clearend
+//		trigger alarm alarmset2
+	}
+}
+
 
 coop_ai_soldier_1		// roof
 {
@@ -3757,3 +5181,37 @@ coop_ai_soldier_34		// end tunnel 2
 		statetype alert
 	}
 }
+
+mechanic			// Alarm-Servicer
+{
+	attributes
+	{
+		starting_health 1
+		aim_accuracy 0.1
+		tactical 1.0
+		aggression 0.1
+		camper 1.0
+		inner_detection_radius 32
+		alertness 1
+	}
+	
+	spawn
+	{
+		takeweapon all
+		playanim clean_parts_1 both forever
+	}	
+	
+	death
+	{
+		alertentity kill_nazi4
+		alertentity kill_nazi5
+		alertentity kill_nazi6
+		alertentity kill_nazi10
+		alertentity kill_nazi13
+		alertentity kill_nazi15
+		alertentity kill_nazi18
+		alertentity kill_nazi20
+		alertentity kill_nazi25
+		trigger spawner spawn0
+	}
+}	
