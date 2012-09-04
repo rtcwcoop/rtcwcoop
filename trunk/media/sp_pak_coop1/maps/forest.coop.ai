@@ -39,9 +39,6 @@ player
 		giveinventory key_binocs
 		setclip weapon_sten 32
 		selectweapon weapon_sten
-		
-			giveweapon weapon_snooperrifle
-			setammo ammo_30cal 15
 	}
 
 	trigger action2
