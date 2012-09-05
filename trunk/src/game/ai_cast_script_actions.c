@@ -1990,12 +1990,16 @@ qboolean AICast_ScriptAction_MissionFailed( cast_state_t *cs, char *params ) {
 	}
 	trap_SendServerCommand( -1, va( "cp missionfail%d", mof ) );
 
-	// reload the current savegame, after a delay
-	trap_SetConfigstring( CS_SCREENFADE, va( "1 %i %i", level.time + 250, time * 1000 ) );
-//	reloading = RELOAD_FAILED;
-	trap_Cvar_Set( "g_reloading", va( "%d", RELOAD_FAILED ) );
+        if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+                // reload the current savegame, after a delay
+                trap_SetConfigstring( CS_SCREENFADE, va( "1 %i %i", level.time + 250, time * 1000 ) );
+        //	reloading = RELOAD_FAILED;
+                trap_Cvar_Set( "g_reloading", va( "%d", RELOAD_FAILED ) );
 
-	level.reloadDelayTime = level.time + 1000 + time * 1000;
+                level.reloadDelayTime = level.time + 1000 + time * 1000;
+        } else {
+                trap_SendConsoleCommand( EXEC_INSERT, va("map_restart %d\n", time) );
+        }
 
 	return qtrue;
 }
