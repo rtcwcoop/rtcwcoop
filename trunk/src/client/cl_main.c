@@ -167,6 +167,9 @@ void CL_AddReliableCommand( const char *cmd ) {
 
 	// if we would be losing an old command that hasn't been acknowledged,
 	// we must drop the connection
+        if (cl.cameraMode) // need this, or the cutscenes crash when you open the menu/console
+                return;
+
 //	if(cl.cameraMode)
 //		Com_Printf ("cmd: %s\n", cmd);
         //if (cl_paused->integer)
