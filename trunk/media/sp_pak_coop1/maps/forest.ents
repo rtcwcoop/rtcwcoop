@@ -860,21 +860,22 @@
 }
 
 
+
+{
+"classname" "misc_gamemodel"
+"origin" "-3024 -4592 648"
+"angle" "270"
+"model" "models/mapobjects/electronics/alarmbox.mdc"
+"modelscale" "1.25"
+}
+
 {
 "classname" "ai_soldier"
-"origin" "2328 1304 288"
+"origin" "-3024 -4616 608"
 "angle" "90"
 "ainame" "mechanic"
 "targetname" "mechanic"
 "spawnflags" "0"
 "skin" "mechanic/tram1"
 "head" "tram2"
-}
-
-{
-"classname" "misc_gamemodel"
-"origin" "-2656 -4704 676"
-"angle" "270"
-"model" "models/mapobjects/electronics/alarmbox.mdc"
-"modelscale" "1.25"
 }

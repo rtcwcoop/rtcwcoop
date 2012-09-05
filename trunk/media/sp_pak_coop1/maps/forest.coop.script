@@ -46,6 +46,19 @@ spawner
 	{
 	}
 
+	trigger spawnx
+	{
+		alertentity kill_nazi4
+		alertentity kill_nazi5
+		alertentity kill_nazi6
+		alertentity kill_nazi10
+		alertentity kill_nazi13
+		alertentity kill_nazi15
+		alertentity kill_nazi18
+		alertentity kill_nazi20
+		alertentity kill_nazi25
+	}		
+	
 	trigger spawn0
 	{
 		wait 500
@@ -63,7 +76,7 @@ spawner
 	trigger spawn1
 	{
 		alertentity nazi9
-		alertentity nazi10
+//		alertentity nazi10
 		alertentity nazi11
 		wait 100
 		trigger nazi9 pattern9a
@@ -74,8 +87,8 @@ spawner
 		alertentity nazi1
 		alertentity nazi2
 		wait 50
-		alertentity nazi4
-		alertentity nazi5
+//		alertentity nazi4
+//		alertentity nazi5
 		wait 500
 		alertentity nazi7
 		alertentity nazi8
@@ -85,15 +98,15 @@ spawner
 
 	trigger spawn3
 	{
-		alertentity nazi13
+//		alertentity nazi13
 		wait 5
-		alertentity nazi15
+//		alertentity nazi15
 		wait 500
 //		alertentity nazi17
 //		wait 500
-		alertentity nazi18
+//		alertentity nazi18
 		wait 500
-		alertentity nazi20
+//		alertentity nazi20
 	}
 
 	trigger spawn4
@@ -108,7 +121,7 @@ spawner
 //		wait 500
 		alertentity nazi24
 		wait 500
-		alertentity nazi25
+//		alertentity nazi25
 	}
 }
 
@@ -257,7 +270,7 @@ dialog
 		wait 400
 		trigger alarm incutscene
 		trigger player endcamera1
-		alertentity bj
+//		alertentity bj
 		trigger player movetruck
 		wait 10000
 		trigger player endcamera2
@@ -267,10 +280,10 @@ dialog
 
 	trigger clearend
 	{
-		accum 3 set 1 // dont let cutscene start
-		accum 1 abort_if_not_equal 1
-		resetscript
-		trigger player clearcam
+//		accum 3 set 1 // dont let cutscene start
+//		accum 1 abort_if_not_equal 1
+//		resetscript
+//		trigger player clearcam
 	}
 }
 
@@ -439,7 +452,7 @@ t2body
 		trigger t2lwheel stop2
 		trigger t2rwheel stop2
 //		trigger nazi7 checkback7
-		playsound sound/world/idle_01.wav looping
+//		playsound sound/world/idle_01.wav looping
 		gotomarker t2spot42 40
 		faceangles 0 180 0 gototime
 		trigger t2body ontocamp4

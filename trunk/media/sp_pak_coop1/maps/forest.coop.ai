@@ -1,4 +1,5 @@
-//
+//
+
 //AI Scripting
 //Map: Forest.map
 //Last edited by: Dan
@@ -29,26 +30,54 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/m_stealth
-		// weapons
-		giveweapon weapon_knife
+
+		// Weapons
+
+		giveweapon weapon_knife		
 		giveweapon weapon_sten
-		// ammo
-		setammo ammo_9mm 182
-		// misc
+			setclip weapon_sten 32
+
+		// Ammo
+
+		setammo ammo_9mm 200
+
+		// Items
+
 		setarmor 50
 		giveinventory key_binocs
-		setclip weapon_sten 32
-		selectweapon weapon_sten
-	}
 
-	trigger action2
+		selectweapon weapon_sten
+		
+
+
+
+
+		alertentity nazi4
+		wait 500
+		alertentity nazi5
+		wait 500
+		alertentity nazi6
+		wait 500
+		alertentity nazi10
+		wait 500
+		alertentity nazi13
+		wait 500
+		alertentity nazi15
+		wait 500
+		alertentity nazi18
+		wait 500
+		alertentity nazi20
+		wait 500
+		alertentity nazi25
+	}
+	
+	trigger alarm_disabled
 	{
 		accum 0 abort_if_not_bitset 7
 		objectivemet 3	// mission objective complete
-		accum 1 inc 1
+		//accum 1 inc 1
 		trigger game_manager objective3
-	}	
-	
+	}
 	
 	trigger action1
 	{
@@ -74,7 +103,7 @@ player
 
 	trigger action3
 	{
-//		trigger spawner spawn3
+		trigger spawner spawn3
 //		trigger dialog delivery
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_10 #endif
@@ -114,6 +143,7 @@ player
 	{
 		trigger t2body exit
 		trigger nazi25 outofway
+		trigger nazi25x outofway
 	}
 
 	trigger endcamera1
@@ -135,6 +165,7 @@ player
 	{
 		trigger nazi24 explosion24
 		trigger nazi25 explosion25
+		trigger nazi25x explosion25
 	}
 
 	trigger explode_alarm1
@@ -221,7 +252,7 @@ player
 		accum 0 abort_if_not_bitset 0
 		accum 0 bitreset 0
 		objectivemet 1	// mission objective complete
-		accum 1 inc 1
+		//accum 1 inc 1
 		trigger game_manager objective1
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
@@ -243,28 +274,30 @@ player
 	trigger got_objective2
 	{
 		objectivemet 2	// mission objective complete
-		accum 1 inc 1
-		accum 0 abort_if_not_bitset 7
-		objectivemet 3	// mission objective complete
-		accum 1 inc 1
+		//accum 1 inc 1
+		//accum 0 abort_if_not_bitset 7
+		//objectivemet 3	// mission objective complete
+		//accum 1 inc 1
+
+		
 		trigger game_manager objective2
 	}
 
 	trigger got_objective3
 	{
 		objectivemet 4	// mission objective complete
-		accum 1 inc 1
+		//accum 1 inc 1
 		trigger game_manager objective4
 	}	
 
 	trigger fail_objective2
 	{
-		accum 0 bitreset 7
+		//accum 0 bitreset 7
 	}
 
 	trigger endmap
 	{
-		accum 1 abort_if_not_equal 4
+		//accum 1 abort_if_less_than 4
 		//trigger dialog ending
 		trigger game_manager checkexit
 		accum 2 abort_if_less_than 1
@@ -276,6 +309,27 @@ player
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 nazi1
 {
@@ -1652,19 +1706,23 @@ nazi7
 	}
 
 	trigger checkback7
+
 	{
 		resetscript
 		gotomarker spotn7a nostop
 		gotomarker spotn7b
 		wait forever 0
+
 	}
 
 	trigger chat7
+
 	{
 		resetscript
 		walktomarker spotn7c
 		facetargetangles spotn7c
 		wait forever 0
+
 	}
 
 	enemysight
@@ -4505,14 +4563,14 @@ nazi25x // Exit guard
 
 	enemysight
 	{
-		trigger dialog clearend
-		trigger player fail_objective2
+//		trigger dialog clearend
+//		trigger player fail_objective2
 		attrib alertness 3150
 		resetscript
-		accum 1 abort_if_not_equal 0
+//		accum 1 abort_if_not_equal 0
 		gotomarker spotn25c
 		wait 500
-		trigger player on_alarm6
+//		trigger player on_alarm6
 	}
 
 	trigger quicklook25
@@ -4562,7 +4620,7 @@ nazi25x // Exit guard
 
 	death
 	{
-		trigger dialog clearend
+//		trigger dialog clearend
 //		trigger alarm alarmset2
 	}
 }
@@ -5200,15 +5258,8 @@ mechanic			// Alarm-Servicer
 	
 	death
 	{
-		alertentity kill_nazi4
-		alertentity kill_nazi5
-		alertentity kill_nazi6
-		alertentity kill_nazi10
-		alertentity kill_nazi13
-		alertentity kill_nazi15
-		alertentity kill_nazi18
-		alertentity kill_nazi20
-		alertentity kill_nazi25
+		trigger spawner spawnx
 		trigger spawner spawn0
+		trigger player alarm_disabled
 	}
 }	
