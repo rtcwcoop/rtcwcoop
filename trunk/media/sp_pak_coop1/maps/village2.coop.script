@@ -77,6 +77,20 @@ checker1
 		accum 6 set 0
 		accum 7 set 0	
 	}
+	
+	trigger alarm_xxx
+	{
+//		trigger player alarm1_destroyed
+//		trigger player alarm2_destroyed
+		trigger player alarms_destroyed
+	}
+	
+	trigger alarm_yyy
+	{
+		wait 1000
+		alertentity alarm_nazi13x
+		alertentity nazi16x
+	}
 
 	trigger alarm_music
 	{
@@ -434,8 +448,19 @@ checker1
 	{
 		accum 7 abort_if_not_equal 1
 		resetscript
-//		print GET BJ NOW!!!
 		trigger nazi11_offduty run_for_bj
+	}
+
+// checker for player hitting alarm..
+
+	trigger player_hits_alarm
+	{
+		alertentity sound_alarm
+		trigger player alarm_on_mission_fail
+		wait 3000
+		trigger checker1 alarm_on
+		//missionfailed
+		//print MISSION FAILED!!!
 	}
 
 	trigger nazi6_cant_talk				// Check in so nazi6 cannot talk...

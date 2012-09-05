@@ -509,7 +509,7 @@
 "skin" "infantryss/ssvill1"
 }
 
-#if g_spawnpoints == 2
+
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -655,4 +655,71 @@
 "targetname" "village21"
 }
 
-#endif
+{
+"classname" "misc_gamemodel"
+"origin" "2796 968 8"
+"angle" "180"
+"model" "models/mapobjects/electronics/alarmbox.mdc"
+"modelscale" "1.25"
+}
+
+{
+"classname" "ai_soldier"
+"origin" "2772 968 -24"
+"angle" "0"
+"ainame" "mechanic"
+"targetname" "mechanic"
+"spawnflags" "0"
+"skin" "mechanic/tram1"
+"head" "tram2"
+}
+
+
+
+{
+"classname" "target_relay"
+"target" "x13"
+"origin" "0 0 0"
+"targetname" "kill_alarm_nazi13"
+}
+{
+"classname" "target_kill"
+"origin" "0 32 0"
+"target" "alarm_nazi13"
+"targetname" "x13"
+}
+{
+"head" "ssvill2"
+"skin" "infantryss/ssvill1"
+"spawnflags" "1"
+"classname" "ai_soldier"
+"angle" "0"
+"origin" "448 232 24"
+"ainame" "alarm_nazi13x"
+"targetname" "alarm_nazi13x"
+} 
+
+
+
+{
+"classname" "target_relay"
+"target" "x16"
+"origin" "32 0 0"
+"targetname" "kill_nazi16"
+}
+{
+"classname" "target_kill"
+"origin" "32 32 0"
+"target" "nazi16"
+"targetname" "x16"
+}
+{
+"head" "ssvill2"
+"skin" "infantryss/ssvill1"
+"spawnflags" "1"
+"classname" "ai_soldier"
+"angle" "0"
+"origin" "-1200 1440 -40"
+"ainame" "nazi16x"
+"targetname" "nazi16x"
+} 

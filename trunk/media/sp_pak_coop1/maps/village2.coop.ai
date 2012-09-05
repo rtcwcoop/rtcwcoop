@@ -32,8 +32,7 @@ player
 	playerstart
 	{
 		mu_stop 0 2000
-		objectivemet 6	// mission objective complete
-		trigger game_manager objective6
+
 
 		// Weapons
 		giveweapon weapon_knife
@@ -73,9 +72,20 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+		
+		alertentity alarm_nazi11
+		alertentity alarm_nazi12
+		alertentity alarm_nazi13
+		alertentity nazi16
 
 	}
 
+	trigger alarms_destroyed
+	{
+		objectivemet 6	// mission objective complete
+		trigger game_manager objective6
+	}
+	
 	trigger alarm1_destroyed
 	{
 		trigger alarm_nazi13 alarm1_destroyed
@@ -125,7 +135,6 @@ player
 	{
 		alertentity nazi8
 		alertentity officer3
-		alertentity alarm_nazi11
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_13 #endif
@@ -154,8 +163,8 @@ player
 	{
 		trigger alarm_nazi11 get_into_position
 		alertentity officer5
-		alertentity alarm_nazi12		// nazi near alarm
-		alertentity alarm_nazi13		// nazi near alarm 
+//		alertentity alarm_nazi12		// nazi near alarm
+//		alertentity alarm_nazi13		// nazi near alarm 
 		alertentity inge2
 		trigger nazi11 not_so_dumb
 		alertentity kill_nazi11
@@ -194,7 +203,6 @@ player
 		trigger game_manager objective7
 		alertentity nazi14
 		alertentity nazi15
-		alertentity nazi16
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_37 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_38 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_39 #endif
@@ -265,12 +273,33 @@ player
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
 	}
 
+	trigger player_hits_alarm		// This occurs when player hits alarm...
+	{
+		trigger checker1 player_hits_alarm
+		alertentity sound_alarm
+		trigger player alarm_on_mission_fail
+		trigger checker1 alarm_music		
+	}	
+	
 	trigger drz_come_out  			// this activates when the player goes into sniper room...
 	{
 		alertentity nazi4
 		wait 5
 		trigger nazi4 walk_down_street
 		trigger player secret5
+	}
+
+	trigger last_alarm
+	{
+		alertentity sound_alarm
+		trigger player alarm_on_mission_fail
+//		trigger checker1 alarm_music
+	}
+
+	trigger alarm_on_mission_fail
+	{
+		wait 5000
+		missionfailed 6 5
 	}
 
 	trigger secret1
@@ -1503,7 +1532,7 @@ officer1						// Upstairts in first area
 	}
 }
 
-nazi4						// This nazi is in the mysic shop... is now drz
+nazi4						// This nazi is in the mystic shop... is now drz
 {
 	attributes
 	{
@@ -1817,7 +1846,7 @@ nazi4						// This nazi is in the mysic shop... is now drz
 		walktomarker n4_street12
 		walktomarker n4_street13
 		walktomarker n4_street14
-		trigger alarm_nazi11 runto_alarm
+//		trigger alarm_nazi11 runto_alarm
 	}
 
 	inspectbodyend
@@ -3001,7 +3030,7 @@ nazi8						// 3rd house, comes outside and then mumbles something on porch..
 	{
 		statetype alert
 		runtomarker n8spot3
-		alertentity alarm_nazi11
+//		alertentity alarm_nazi11
 		wait 5
 		playsound guard1_alarm
 		trigger alarm_nazi11 runto_alarm		// This tell nazi11 to tell others to set the alarm...
@@ -3020,9 +3049,9 @@ nazi8						// 3rd house, comes outside and then mumbles something on porch..
 		playsound blank
 		//playsound to do  
 		playsound MiscAlarm1
-		alertentity alarm_nazi11
+//		alertentity alarm_nazi11
 		wait 5
-		trigger alarm_nazi8 runto_alarm		// This tell nazi11 to tell others to set the alarm...
+		trigger alarm_nazi11 runto_alarm		// This tell nazi11 to tell others to set the alarm...
 		avoid
 	}
 
@@ -3134,10 +3163,10 @@ officer3						// 3rd house with crazy nazi8
 		runtomarker 03_alarmed1
 		runtomarker 03_alarmed2
 		runtomarker 03_alarmed3
-		alertentity alarm_nazi11
+//		alertentity alarm_nazi11
 		wait 5
 		playsound guard1_alarm
-		trigger alarm_nazi11 runto_alarm
+		trigger alarm_nazi11 runto_alarm		// This tell nazi11 to tell others to set the alarm...
 	}
 
 	pain 10
@@ -3325,9 +3354,9 @@ officer4						// 4th house, looking at moon
 		runtomarker 04_alarm3 nostop
 		runtomarker 04_alarm4 nostop
 		runtomarker 04_alarm5
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi12
 		wait 5
-		trigger alarm_nazi12 runto_alarm 
+		trigger alarm_nazi12 runto_alarm 		// This tell nazi12 to tell others to set the alarm...
 	}
 
 	pain 10
@@ -3361,9 +3390,9 @@ officer4						// 4th house, looking at moon
 		wait 2000
 	//	print Somthins fishy here I better go and tell the others...
 		wait 2000
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi12
 		wait 5
-		trigger alarm_nazi12 runto_alarm
+		trigger alarm_nazi12 runto_alarm		// This tell nazi12 to tell others to set the alarm...
 	}
 
 	statechange relaxed alert
@@ -3404,7 +3433,7 @@ officer4						// 4th house, looking at moon
 		trigger game_manager objective4
 //		print General, Burkhalter eliminated!
 		trigger checker1 objective_complete
-		trigger 04_help1 runto_alarm
+		trigger 04_help1 runto_alarm		// This tell 04_help1 to tell others to set the alarm...
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out
 	}
@@ -3479,7 +3508,7 @@ officer4						// 4th house, looking at moon
 	{
 //		print getting command
 		wait 1000
-		alertentity alarm_nazi11
+//		alertentity alarm_nazi11
 		wait 5
 //		runtocast alarm_nazi11
 //		alertentity alarm_nazi12
@@ -3488,10 +3517,10 @@ officer4						// 4th house, looking at moon
 //		runtomarker 04_alarm3 nostop
 //		runtomarker 04_alarm4 nostop
 //		runtomarker 04_alarm5
-		alertentity alarm_nazi11
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi11
+//		alertentity alarm_nazi12
 		wait 5
-		trigger alarm_nazi12 runto_alarm 
+		trigger alarm_nazi12 runto_alarm 		// This tell nazi12 to tell others to set the alarm...
 	}
 
 	trigger dumb1
@@ -3527,9 +3556,9 @@ officer4						// 4th house, looking at moon
 		runtomarker 04spot3
 		wait 2000
 		wait 2000
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi12
 		wait 5
-		trigger alarm_nazi12 runto_alarm
+		trigger alarm_nazi12 runto_alarm		// This tell nazi12 to tell others to set the alarm...
 	}
 		
 	bulletimpact
@@ -4126,7 +4155,7 @@ alarm_nazi11						// This is alarm nazi11 he is closest to gate...
 	{
 		playsound MiscAlarm1	
 		statetype alert
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi12
 		trigger alarm_nazi12 runto_alarm
 		avoid
 		
@@ -4151,7 +4180,7 @@ alarm_nazi11						// This is alarm nazi11 he is closest to gate...
 	enemysight
 	{
 		playsound MiscAlarm1
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi12
 		trigger alarm_nazi12 runto_alarm
 		avoid
 	}
@@ -4166,7 +4195,7 @@ alarm_nazi11						// This is alarm nazi11 he is closest to gate...
 
 	inspectsoundend
 	{
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi12
 		trigger alarm_nazi12 runto_alarm
 		avoid
 	}
@@ -4182,7 +4211,7 @@ alarm_nazi11						// This is alarm nazi11 he is closest to gate...
 
 	death
 	{
-		alertentity alarm_nazi12
+//		alertentity alarm_nazi12
 		trigger alarm_nazi12 runto_alarm
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out
@@ -4429,7 +4458,7 @@ alarm_nazi12						// On 2nd level plateue
 	trigger runto_alarm
 	{
 		statetype alert
-		alertentity alarm_nazi13
+//		alertentity alarm_nazi13
 		trigger checker1 alarm_on
 		wait 5
 		trigger alarm_nazi13 runto_alarm
@@ -4532,7 +4561,6 @@ alarm_nazi13						// Last nazis encountered  13 14
 		runtomarker an13spot2
 		accum 0 abort_if_bitset 15
 		trigger alarm_nazi13 alarm_on
-//		trigger checker1 check_alarm1
 	}
 
 	trigger alarm_on
@@ -4540,24 +4568,16 @@ alarm_nazi13						// Last nazis encountered  13 14
 		accum 0 abort_if_bitset 15
 		alertentity sound_alarm
 		trigger player alarm_on_mission_fail
-//		trigger checker1 alarm_music
 		facetargetangles an13spot2
 		playanim switch_alarm both
 		//print ALARM HAS BEEN SET MISSION FAILED :(
 		trigger checker1 alarm_on
-	//	trigger alarm_nazi13 end_level
 		trigger checker1 all_run_for_bj
-//		missionfailed
-//		resetscript
 	}
 
 	trigger end_level			// This will print state over and over again....
 	{
-		//alertentity sound_alarm
-		//print ALARM HAS BEEN SET MISSION FAILED :(
 		wait 6000
-//		missionfailed
-//		trigger alarm_nazi13 end_level		
 	}
 
 	pain 10
@@ -4573,6 +4593,126 @@ alarm_nazi13						// Last nazis encountered  13 14
 		trigger nazi15 help_nazi13
 		trigger nazi14 help_nazi13
 		trigger alarm_nazi13 runto_alarm		// This has nazi13 trigger alarm...
+		avoid
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectsoundend
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	inspectbodyend
+	{
+		deny
+	}
+
+	death
+	{
+		accum 0 abort_if_not_bitset 20
+		trigger checker1 sight_check_out
+	}
+
+	trigger run_for_bj
+	{
+		resetscript
+		runtocast player
+	}
+}
+
+alarm_nazi13x						// Last nazis encountered  13 14
+{
+	attributes
+	{
+		starting_health 40
+		aim_accuracy 0.2
+		tactical 1.0
+		aggression 1.0
+		inner_detection_radius 192
+		alertness 1024
+	}
+
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 0 bitreset 15
+		accum 1 set 0
+		accum 2 set 0
+		trigger alarm_nazi13 marchloop1
+	}
+
+	trigger alarm1_destroyed
+	{
+		accum 0 bitset 15
+		statetype alert
+		wait 500 0 player
+	}
+	
+	trigger marchloop1
+	{
+		walktomarker an13spot1
+		facetargetangles an13spot1
+		wait 2000
+		walktomarker an13spot1a
+		facetargetangles an13spot1a
+		wait 2000
+		trigger alarm_nazi13 marchloop1
+	}
+
+	trigger go2
+	{
+	}
+
+	trigger runto_alarm
+	{
+		accum 0 abort_if_bitset 15
+		statetype alert
+//		playsound guard1_alarm
+		wait 2000
+		accum 0 abort_if_bitset 15
+//		runtomarker an13spot2
+		accum 0 abort_if_bitset 15
+		trigger alarm_nazi13 alarm_on
+	}
+
+	trigger alarm_on
+	{ 
+		accum 0 abort_if_bitset 15
+//		alertentity sound_alarm
+//		trigger player alarm_on_mission_fail
+//		facetargetangles an13spot2
+//		playanim switch_alarm both
+//		trigger checker1 alarm_on
+//		trigger checker1 all_run_for_bj
+	}
+
+	trigger end_level			// This will print state over and over again....
+	{
+		wait 6000
+	}
+
+	pain 10
+	{
+		attrib aggression 1.0
+		attrib camper 1.0
+	}
+
+	enemysight
+	{
+		accum 0 bitset 20
+		trigger checker1 sight_check_in
+		trigger nazi15 help_nazi13
+		trigger nazi14 help_nazi13
+		trigger alarm_nazi13x runto_alarm		// This has nazi13 trigger alarm...
 		avoid
 	}
 
@@ -5025,11 +5165,6 @@ nazi16						// This is the last nazi that can be set off the last alarm...
 	
 	trigger alarm_sound
 	{
-		//print The last nazi made it to the Chateau and warned the others
-		//wait 2000
-		//print MISSION OVER :( !!!!
-		//wait 2000
-		//trigger nazi16 alarm_sound
 	}
 
 	pain 10
@@ -5069,7 +5204,7 @@ nazi16						// This is the last nazi that can be set off the last alarm...
 
 	death
 	{
-//		objectivemet 7	// mission objective complete
+		objectivemet 6	// mission objective complete
 	}
 
 	trigger run_for_bj
@@ -5079,7 +5214,123 @@ nazi16						// This is the last nazi that can be set off the last alarm...
 	}
 }
 
+nazi16x						// This is the last nazi that can be set off the last alarm...
+{
+	attributes
+	{
+		starting_health 40
+		aim_accuracy 0.2
+		tactical 1.0
+		aggression 1.0
+		inner_detection_radius 192
+		alertness 800
+	}
 
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 1 set 0
+		accum 2 set 0
+		accum 0 bitreset 15
+		trigger nazi16x marchloop1	
+	}
+	
+	trigger go1				// smal march loop1
+	{
+
+	}
+
+	trigger alarm2_destroyed
+	{
+		accum 0 bitset 15
+		statetype alert
+		wait 500 0 player
+	}
+
+	trigger marchloop1
+	{
+		noavoid
+		walktomarker n16spot1
+		facetargetangles n16spot1
+		wait 2000
+		walktomarker n16spot2
+		facetargetangles n16spot1
+		wait 2000
+		walktomarker n16spot3
+		facetargetangles n16spot1
+		wait 2000
+		walktomarker n16spot4
+		facetargetangles n16spot1
+		wait 2000
+		walktomarker n16spot5	
+		facetargetangles n16spot1
+		wait 2000
+		trigger nazi16x marchloop1
+	}
+
+	trigger runto_alarm
+	{
+		accum 0 abort_if_bitset 15
+		accum 4 abort_if_greater_than 1
+		accum 4 inc 1
+//		runtomarker n16_alarm1
+		accum 0 abort_if_bitset 15
+//		alertentity sound_alarm
+//		trigger player alarm_on_mission_fail
+		resetscript
+	}
+	
+	trigger alarm_sound
+	{
+	}
+
+	pain 10
+	{
+		attrib aggression 1.0
+		attrib camper 1.0
+	}
+
+	enemysight
+	{
+//		trigger nazi16x runto_alarm
+	}
+
+	bulletimpact
+	{
+//		trigger nazi16x runto_alarm		
+	}
+
+	inspectsoundstart
+	{
+//		trigger nazi16x runto_alarm
+	}
+
+	inspectsoundend
+	{
+	}
+
+	inspectbodystart
+	{
+		statetype alert
+	}
+
+	inspectbodyend
+	{
+//		trigger nazi16x runto_alarm
+	}
+
+	death
+	{
+//		objectivemet 6	// mission objective complete
+//		objectivemet 7	// mission objective complete
+	}
+
+	trigger run_for_bj
+	{
+		resetscript
+		runtocast player
+	}
+}
 
 coop_ai_soldier_1		// after car
 {
@@ -5962,3 +6213,31 @@ coop_ai_soldier_50		// chateau garden 8
 		statetype alert
 	}
 }
+
+mechanic			// Alarm-Servicer
+{
+	attributes
+	{
+		starting_health 1
+		aim_accuracy 0.1
+		tactical 1.0
+		aggression 0.1
+		camper 1.0
+		inner_detection_radius 32
+		alertness 1
+	}
+	
+	spawn
+	{
+		takeweapon all
+		playanim clean_parts_1 both forever
+	}	
+	
+	death
+	{
+		alertentity kill_alarm_nazi13
+		alertentity kill_nazi16
+		trigger checker1 alarm_xxx
+		trigger checker1 alarm_yyy
+	}
+}	
