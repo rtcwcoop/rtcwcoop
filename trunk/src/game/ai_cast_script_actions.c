@@ -2822,11 +2822,12 @@ qboolean ScriptStartCam( cast_state_t *cs, char *params, qboolean black ) {
 #ifdef INGAME_CUTSCENES
         if (g_skipcutscenes.integer && g_gametype.integer != GT_SINGLE_PLAYER) {
 #else
-        if (g_gametype.integer != GT_SINGLE_PLAYER) {
+        // fretn: the cutscenes are broken: byebye
+       // if (g_gametype.integer != GT_SINGLE_PLAYER) {
 #endif
                 AICast_ScriptEvent( cs, "trigger", "cameraInterrupt" );
                 return qtrue;
-        }
+        //}
 
 	ent = &g_entities[cs->entityNum];
 

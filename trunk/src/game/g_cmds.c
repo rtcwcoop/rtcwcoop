@@ -1536,10 +1536,11 @@ void Cmd_StartCamera_f( gentity_t *ent ) {
 #ifdef INGAME_CUTSCENES
         if (g_skipcutscenes.integer && g_gametype.integer != GT_SINGLE_PLAYER ) {
 #else
-        if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+        // fretn: the cutscenes are broken, byebye
+    //    if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
 #endif
                 AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
-        }
+     //   }
 
 // (SA) trying this in client to avoid 1 frame of player drawing
 //	ent->client->ps.eFlags |= EF_NODRAW;
