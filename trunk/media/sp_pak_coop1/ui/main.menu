@@ -195,7 +195,7 @@ menuDef {
 	itemDef {
 		name WOLFFLAMELOGO				// WOLFFLAMELOGO
 		style WINDOW_STYLE_SHADER
-		rect 200 -5 240 120
+		rect 201 -4 240 120
 		background "WOLFFLAMELOGO"
 		visible 1
 		decoration
@@ -233,7 +233,7 @@ menuDef {
 	itemDef {
 		name gold_line					// gold_line
 		style WINDOW_STYLE_SHADER
-		rect 0 76 226 10
+		rect 0 77 226 10
 		background "gold_line"
 		visible 1
 		decoration
@@ -242,7 +242,7 @@ menuDef {
 	itemDef {
 		name gold_line					// gold_line
 		style WINDOW_STYLE_SHADER
-		rect 414 76 230 10
+		rect 414 77 230 10
 		background "gold_line"
 		visible 1
 		decoration
