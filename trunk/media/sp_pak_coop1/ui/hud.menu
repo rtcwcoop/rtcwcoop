@@ -220,7 +220,7 @@
 	// SAVES TEXT
 		itemDef {
  			name "a"
-			text "SAVES"
+			text "SAVES LEFT"
 			type 1
 			rect 419 32 32 32
 			textstyle 6

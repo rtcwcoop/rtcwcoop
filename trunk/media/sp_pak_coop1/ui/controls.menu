@@ -49,7 +49,7 @@ menuDef
 		border 1
 		bordercolor .5 .5 .5 .5
 		forecolor 1 1 1 1
-		backcolor 0 0 0 .25
+		backcolor 0 0 0 .5
 		visible 1
 		decoration
 	}

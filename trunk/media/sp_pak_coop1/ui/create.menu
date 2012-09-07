@@ -151,7 +151,7 @@ itemDef {
 					border 			1
 					bordercolor		.5 .5 .5 .5
 					forecolor		1 1 1 1
-					backcolor		0 0 0 .25
+					backcolor		0 0 0 .5
 					visible			1
 					decoration
 					}
@@ -255,7 +255,7 @@ itemDef {
 					border			1
 					bordercolor		.5 .5 .5 .5
 					forecolor		1 1 1 1
-					backcolor		0 0 .5 0
+					backcolor		0 0 0 0
 					outlinecolor	.7 .7 .0 .25
 					visible			1
 					columns			1 2 190 35
@@ -595,9 +595,9 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
-					text			"Saving System:  "
+					text			"Respawn by:  "
 					cvar			"g_spawnpoints"
-					cvarFloatList	{ "Autosave (/30 secs.)" 0 "Manual Save" 1 "FlagZones" 2 }
+					cvarFloatList	{ "Autosaves (/30 secs.)" 0 "Manual Saves" 1 "FlagZones" 2 }
 					rect			295 370 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED

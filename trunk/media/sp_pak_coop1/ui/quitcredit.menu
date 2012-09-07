@@ -29,9 +29,6 @@ itemDef {
 		decoration
     	}
 
-
-
-
 itemDef {
 		name band2					// band2
 		style WINDOW_STYLE_SHADER
