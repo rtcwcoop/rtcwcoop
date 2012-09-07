@@ -435,7 +435,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Amount of Enemies:  "
 					cvar			"g_reinforce"
-					cvarFloatList	{ "1 - Original" 0 "2 - More" 1 "3 - Many" 2 }
+					cvarFloatList	{ "1 - Default" 0 "2 - More" 1 "3 - Many" 2 }
 					rect			295 250 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED

@@ -602,16 +602,11 @@ menuDef {
 			outlinecolor .7 .7 .0 .25
 			visible 1
 			// 	numcols     xpos	xwitdth   textlen
-			columns 6 	    0		40			30 
-
-
-
-
-
+			columns 6 	    0		40			30
 							160		30			36
 							365		20		    20	
-							420		20			20
-							500		20			20
+							430		20			20
+							498		20			20
 							547		40			20
 			doubleClick { uiScript JoinServer }
 			}
