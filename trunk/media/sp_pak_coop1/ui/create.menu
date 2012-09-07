@@ -595,9 +595,9 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
-					text			"Respawn System:  "
+					text			"Saving System:  "
 					cvar			"g_spawnpoints"
-					cvarFloatList	{ "Autosaved SpawnPoints" 0 "Dropped SpawnPoints" 1 "MP-Style SpawnZones" 2 }
+					cvarFloatList	{ "Autosave (/30 secs.)" 0 "Manual Save" 1 "FlagZones" 2 }
 					rect			295 370 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
@@ -618,7 +618,7 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_NUMERICFIELD
 					textfont		UI_FONT_NORMAL
-					text			"SpawnPoints / map:  "
+					text			"Manual Saves / map:  "
 					cvar			"g_maxspawnpoints"
 					rect			295 385 290 12
 				//	origin			ORIGIN_WINDOW1

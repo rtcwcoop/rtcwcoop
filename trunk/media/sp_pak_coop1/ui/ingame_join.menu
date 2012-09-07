@@ -1,18 +1,148 @@
 #include "ui/menudef.h"
 
+
+
+
+
 {
+
 \\ SETUP MENU \\
 
 menuDef {
+
 		name "ingame_join"
 		visible 0
 		fullscreen 0
+
 		outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
 		rect 20 115 605 335
 		focusColor 1 .75 0 1
 		style 1
 		border 1
+
+
+
+
+
 		onOpen {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				//setCvar cg_draw2D "0";
 				show grpJoin }
 		onClose { setCvar cg_draw2D "1" }
@@ -249,7 +379,8 @@ menuDef {
 			group			grpJoin
 			style			0	
 			textstyle		6
-			text			"Type:"
+
+			text			"Gametype:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
 			rect			290 55 100 15
@@ -468,15 +599,20 @@ menuDef {
 			feeder FEEDER_SERVERS
 			forecolor 1 1 1 1
 			backcolor .5 .5 .5 .2
-			outlinecolor .7 .7 0 .25
+			outlinecolor .7 .7 .0 .25
 			visible 1
 			// 	numcols     xpos	xwitdth   textlen
-			columns 6 	    0		40			28 
-							140		80			80
-							345		250		    250	
-							400		250			250
-							480		250			250
-							527		40			10
+			columns 6 	    0		40			30 
+
+
+
+
+
+							160		30			36
+							365		20		    20	
+							420		20			20
+							500		20			20
+							547		40			20
 			doubleClick { uiScript JoinServer }
 			}
 
@@ -506,7 +642,7 @@ menuDef {
 			name map
 			group grpJoin
 			type ITEM_TYPE_BUTTON
-			text "Players - Map (Gametype)"
+			text "Players, Map, Gametype"
 			textscale .25
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED	
@@ -607,6 +743,409 @@ menuDef {
 
 //////// END OF PASTE
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

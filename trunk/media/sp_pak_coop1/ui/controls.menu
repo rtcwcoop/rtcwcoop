@@ -1280,7 +1280,7 @@ itemDef {
 		name misc
 		group grpControls
 		type ITEM_TYPE_BIND
-		text "Drop SpawnPoint:  "
+		text "Manual Save:  "
 		cvar "spawnpoint"
 		rect 82 240 290 12
 		textalign ITEM_ALIGN_RIGHT

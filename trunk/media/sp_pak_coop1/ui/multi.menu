@@ -569,12 +569,12 @@ itemDef {
 			outlinecolor .7 .7 .0 .25
 			visible 1
 			// 	numcols     xpos	xwitdth   textlen
-			columns 6 	    0		40			28 
-							160		80			80
-							365		250		    250	
-							420		250			250
-							500		250			250
-							547		40			10
+			columns 6 	    0		40			30 
+							160		30			36
+							365		20		    20	
+							420		20			20
+							500		20			20
+							547		40			20
 			doubleClick { uiScript JoinServer }
 			}
 
@@ -604,7 +604,7 @@ itemDef {
 			name map
 			group grpJoin
 			type ITEM_TYPE_BUTTON
-			text "Players - Map (Gametype)"
+			text "Players, Map, Gametype"
 			textscale .25
 			textfont	UI_FONT_NORMAL
 			style WINDOW_STYLE_FILLED	

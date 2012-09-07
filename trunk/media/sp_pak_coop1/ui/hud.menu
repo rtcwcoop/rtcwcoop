@@ -202,7 +202,7 @@
 			hidecvar		{ "0" }
             }
 
-	// SPAWNPOINTS VALUE
+	// SAVES VALUE
 		itemDef {
  			name "a"
 			rect 415 -12 32 32
@@ -217,10 +217,10 @@
 			hidecvar { "0" }
             }
 
-	// SPAWNPOINTS TEXT
+	// SAVES TEXT
 		itemDef {
  			name "a"
-			text "SPAWNPOINTS"
+			text "SAVES"
 			type 1
 			rect 419 32 32 32
 			textstyle 6
