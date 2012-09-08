@@ -214,9 +214,9 @@ itemDef {
 //	rect 100 90 110 12
 	backcolor 1 1 1 .1
 	forecolor 1 1 1 1
-	rect 100 60 140 15
+	rect 80 60 180 15
 	textalign 0
-	textalignx 10
+	textalignx 25
 	textaligny 12
 	forecolor 1 1 1 1
 	visible 0
@@ -280,8 +280,8 @@ itemDef {
 	border 1
 	bordercolor .5 .5 .5 .5
 	forecolor 1 1 1 1
-	backcolor 0 0 .5 .25
-	outlinecolor .1 .1 .7 .5
+	backcolor 0 0 0 0
+	outlinecolor .7 .7 .0 .25
 	visible 0
 	textstyle		0
 	textaligny		-5
@@ -321,7 +321,6 @@ itemDef {
 	text "New Map:"
 	ownerdraw UI_ALLMAPS_SELECTION 
 	textscale .25
-//	rect 50 50 110 20
 	rect 140 25 110 20
 	textfont	UI_FONT_NORMAL
 	textalign 0
@@ -336,7 +335,6 @@ itemDef {
 	name map
 	group grpMap
 	rect 30 45 275 135
-//   	rect 50 70 250 85
 	type ITEM_TYPE_LISTBOX
 	style WINDOW_STYLE_FILLED
 	elementwidth 120
@@ -348,8 +346,8 @@ itemDef {
 	border 1
 	bordercolor .5 .5 .5 .5
 	forecolor 1 1 1 1
-	backcolor 0 0 .5 .25
-	outlinecolor .1 .1 .7 .5
+	backcolor 0 0 0 0
+	outlinecolor .7 .7 .0 .25
 	visible 0
 	textstyle		0
 	textaligny		-3
@@ -405,7 +403,7 @@ menuDef {
 		border 1
 		bordercolor .5 .5 .5 .5
 		forecolor 1 1 1 1
-		backcolor 0 0 0 .25
+		backcolor 0 0 0 .5
 		visible 1
 		decoration
 	}

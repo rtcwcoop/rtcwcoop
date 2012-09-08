@@ -299,7 +299,7 @@ itemDef {
 					text			"Host Name:  "
 					cvar			"sv_hostname"
 					maxChars		16
-					maxPaintChars	32
+					maxPaintChars	16
 					rect			295 145 290 12
 			//		origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
@@ -349,8 +349,8 @@ itemDef {
 					cvar			"g_password"
 					rect			295 175 290 12
 				//	origin			ORIGIN_WINDOW2
-					maxchars		25
-					maxpaintchars	10
+					maxchars		12
+					maxpaintchars	12
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
 					textalignx		145
@@ -393,7 +393,8 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Max Players (1-8):  "
 					cvar			"sv_maxcoopclients"
-					maxchars		3
+					maxchars		1
+					maxPaintChars	1
 					rect			295 205 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
@@ -559,7 +560,8 @@ itemDef {
 					backcolor		1 1 1 .07
 					forecolor		1 1 1 1
 					visible			0
-					maxchars		6		
+					maxchars		2
+					maxPaintChars	2
 					mouseenter		{ show message_max_lives }
 					mouseexit		{ hide message_max_lives }
 					}
@@ -607,8 +609,7 @@ itemDef {
 					textscale		.25
 					backcolor		1 1 1 .07
 					forecolor		1 1 1 1
-					visible			0
-					maxchars		6		
+					visible			0		
 					mouseenter		{ show message_spawnpoints }
 					mouseexit		{ hide message_spawnpoints }
 					}
@@ -634,7 +635,8 @@ itemDef {
 					backcolor		1 1 1 .07
 					forecolor		1 1 1 1
 					visible			0
-					maxchars		6		
+					maxchars		2
+					maxPaintChars	2					
 					mouseenter		{ show message_maxspawnpoints }
 					mouseexit		{ hide message_maxspawnpoints }
 					}					
