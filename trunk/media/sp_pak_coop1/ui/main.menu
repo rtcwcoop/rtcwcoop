@@ -47,7 +47,22 @@ itemDef {
       	visible 1
 		decoration
     	}
-
+/*
+	itemDef {
+		name testmodel_aflag1
+		type ITEM_TYPE_MODEL
+		rect 150 0 800 600 
+		model_angle 90
+		model_origin 100 100 100
+		asset_model "models/mapobjects/flag/flag_americanui.MD3"
+		model_animplay 0 114 0 10
+		model_fovx 40
+		model_fovy 40
+		visible 1
+		decoration
+		}
+*/		
+		
 	itemDef {
 
 		name modelselection 				//Precache player model	
@@ -70,7 +85,7 @@ itemDef {
 		visible 1
 		decoration
 		}
-
+		
 	itemDef {
 		name testmodel_bj
 		type ITEM_TYPE_MODEL
@@ -84,6 +99,7 @@ itemDef {
 		decoration
 		}
 		
+
 	itemDef {
 		name testmodel_bj
 		type ITEM_TYPE_MODEL
@@ -96,39 +112,6 @@ itemDef {
 		visible 1
 		decoration
 		}
-/*
-	itemDef {
-		name testmodel_aflag1
-		type ITEM_TYPE_MODEL
-		rect 150 0 800 600 
-		model_angle 90
-		model_origin 100 100 100
-		asset_model "models/mapobjects/flag/flag_americanui.MD3"
-		model_animplay 0 114 0 10
-		model_fovx 40
-		model_fovy 40
-		visible 1
-		decoration
-		}
-
-itemDef {
-		name backimage4					// left side image with black gradient  
-		style WINDOW_STYLE_SHADER
-		rect 0 0 343 480
-		background "backimage4"
-		visible 1
-		decoration
-		}		
-*/		
-itemDef {
-		name band2					// band2
-		style WINDOW_STYLE_SHADER
-		rect 360 20 128 640
-    	background "band2"
-     	visible 1
-		decoration
-}
-
 
 itemDef {
       	name bands					// bands
@@ -138,6 +121,28 @@ itemDef {
       	visible 1
 		decoration
     	}
+
+itemDef {
+		name band2					// band2
+		style WINDOW_STYLE_SHADER
+		rect 360 20 128 640
+    	background "band2"
+     	visible 1
+		decoration
+}
+
+/*
+itemDef {
+		name backimage4					// left side image with black gradient  
+		style WINDOW_STYLE_SHADER
+		rect 0 0 343 480
+		background "backimage4"
+		visible 1
+		decoration
+		}		
+*/		
+
+
 /*
 	itemDef {
 		name testmodel_nflag1
@@ -160,7 +165,7 @@ itemDef {
 		{
 		name window
 		group grpControlbutton
-		rect 100 0 160 480
+		rect 110 135 140 200
 		style WINDOW_STYLE_FILLED
 		border 1
 		bordercolor	.5 .5 .5 .5
@@ -169,6 +174,27 @@ itemDef {
 		visible 1
 		decoration
 		}
+		
+	itemDef
+		{
+		name			window
+		group			grpCreate
+		text			"Main Menu"
+		textfont		UI_FONT_NORMAL
+		textalign		ITEM_ALIGN_CENTER
+		textalignx		65
+		textaligny		16
+		textscale		.25
+		rect			113 138 134 24	
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.5 .5 .5 .5
+		forecolor		1 1 1 1
+		backcolor		.3 0.5 0.2 .25
+		visible			1
+		decoration
+		}	
+		
 
 		
 	itemDef {
