@@ -567,6 +567,7 @@ typedef struct cast_state_s
 	// -------------------------------------------------------------------------------------------
 
         qboolean        died; // for g_airespawn
+        qboolean        norespawn;
 
 } cast_state_t;
 //

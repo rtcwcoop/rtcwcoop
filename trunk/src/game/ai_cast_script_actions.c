@@ -1503,6 +1503,19 @@ qboolean AICast_ScriptAction_TakeWeapon( cast_state_t *cs, char *params ) {
 };
 
 
+/*
+=================
+AICast_ScriptAction_NoRespawn
+
+  syntax: norespawn
+=================
+*/
+qboolean AICast_ScriptAction_NoRespawn( cast_state_t *cs, char *params ) {
+
+        cs->norespawn = qtrue;
+
+        return qtrue;
+}
 
 //----(SA)	added
 

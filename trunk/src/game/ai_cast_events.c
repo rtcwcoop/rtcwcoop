@@ -392,8 +392,9 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	}
 
         if ( g_airespawn.integer && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-                && self->aiCharacter != AICHAR_HEINRICH && nogib )
+                && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
                 cs->rebirthTime = level.time + 15000 + rand() % 2000;
+        }
 
 	trap_LinkEntity( self );
 
@@ -415,7 +416,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	} else {
 		// really dead now, so call the script
                 if ( g_airespawn.integer && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-                                && self->aiCharacter != AICHAR_HEINRICH && nogib ) {
+                                && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
                         if (!cs->died) {
                                 G_UseTargets( self, self ); // fretn - testing
                                 AICast_ScriptEvent( cs, "death", "" );
