@@ -310,27 +310,6 @@ player
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 nazi1
 {
 	attributes
@@ -713,6 +692,8 @@ nazi4
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 0 // 1 = sighted player
 		accum 1 set 0 // random generator
 		setammo ammo_grenades 0
@@ -1046,6 +1027,8 @@ nazi5
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 0
 		setammo ammo_grenades 0
 
@@ -1244,6 +1227,8 @@ nazi6
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 bitset 0 // 1 = sighted player
 		accum 0 bitset 1
 		accum 0 bitset 2
@@ -1934,6 +1919,8 @@ nazi10 // First house guard 2
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 1 // 0=dont break running for help
 		accum 1 set 1 // 0=enemy spotted already
 		accum 2 set 0 // 1= don't loop reading
@@ -2400,6 +2387,8 @@ nazi13 // MG42 gunner
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 0
 		accum 1 set 0 // 1 = should be behind mg42 so best to unmount
 		setammo ammo_grenades 0
@@ -2859,6 +2848,8 @@ nazi15  // Officer at MG42 nest
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 0 // 1 = nazi13 already going for the alarm
 		accum 1 set 0
 		setammo ammo_grenades 1
@@ -3256,6 +3247,8 @@ nazi18 // Base Guard at Front Gate
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 0
 		accum 1 set 0 // 1 = player spotted
 		setammo ammo_grenades 1
@@ -3703,6 +3696,8 @@ nazi20 // Officer in gatehouse
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 0 // 1 = sighted player
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
@@ -4325,6 +4320,8 @@ nazi25 // Exit guard
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 set 0
 		accum 1 set 0 // 1 = alarm broke
 		setammo ammo_grenades 1
@@ -5252,12 +5249,16 @@ mechanic			// Alarm-Servicer
 	
 	spawn
 	{
+		norespawn
+	
 		takeweapon all
 		playanim clean_parts_1 both forever
 	}	
 	
 	death
 	{
+		norespawn
+
 		trigger spawner spawnx
 		trigger spawner spawn0
 		trigger player alarm_disabled

@@ -45,7 +45,6 @@ player
 		selectweapon weapon_mp40
 		
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
-
 	}
 
 	trigger action1
@@ -314,7 +313,7 @@ officer1
 
 	spawn
 	{
-                norespawn
+                playername diknderm er
 		accum 0 set 0
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
@@ -576,7 +575,6 @@ nazi1
 
 	trigger active1
 	{
-                norespawn
 		playsound Blank
 		clearanim
 		giveweapon weapon_luger
@@ -3076,6 +3074,7 @@ coop_ai_soldier_1		// near the fireplace with officer
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert
+                playername ^5Wostje
 	}
 }
 
@@ -3453,6 +3452,7 @@ coop_ai_soldier_23		// start window, fireplace room
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert
+                playername ^3wierdo
 	}
 }
 

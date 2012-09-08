@@ -4522,6 +4522,8 @@ alarm_nazi13						// Last nazis encountered  13 14
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 bitreset 0
 		accum 0 bitreset 15
 		accum 1 set 0
@@ -5110,6 +5112,8 @@ nazi16						// This is the last nazi that can be set off the last alarm...
 
 	spawn
 	{
+		norespawn
+	
 		accum 0 bitreset 0
 		accum 1 set 0
 		accum 2 set 0
@@ -6229,12 +6233,16 @@ mechanic			// Alarm-Servicer
 	
 	spawn
 	{
+		norespawn
+	
 		takeweapon all
 		playanim clean_parts_1 both forever
 	}	
 	
 	death
 	{
+		norespawn
+		
 		alertentity kill_alarm_nazi13
 		alertentity kill_nazi16
 		trigger checker1 alarm_xxx
