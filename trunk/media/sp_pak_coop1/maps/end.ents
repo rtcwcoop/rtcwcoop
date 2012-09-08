@@ -1,7 +1,10 @@
+
 {
 "classname" "script_multiplayer"
 "scriptname" "game_manager"
 }
+
+// SPAWNPOINTS
 
 {
 "classname" "coop_spawnpoint"

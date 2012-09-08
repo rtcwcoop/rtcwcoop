@@ -3,55 +3,50 @@
 "scriptname" "game_manager"
 }
 
+// SPAWNPOINTS 
+
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-5320 -6024 472"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "origin" "-5319 -5912 464"
 "spawnflags" "1"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "origin" "-5310 -5752 452"
 "spawnflags" "1"
 "angle" "-2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "origin" "-5302 -5571 445"
 "spawnflags" "1"
 "angle" "-2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "origin" "-5457 -5566 461"
 "spawnflags" "1"
 "angle" "-2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "origin" "-5464 -5696 452"
 "spawnflags" "1"
 "angle" "-2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "origin" "-5469 -5808 463"
 "spawnflags" "1"
 "angle" "-2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "origin" "-5476 -5947 468"
@@ -59,62 +54,58 @@
 "angle" "-2"
 }
 
+// ADDITIONAL WEAPONS
+
 {
 "classname" "weapon_snooperrifle"	// Bonus SnooperRifle 1
 "target" "t158"
 "origin" "-5800 4656 592"
 "angle" "72"
 }
-
 {
 "classname" "weapon_snooperrifle"	// Bonus SnooperRifle 2
 "target" "t158"
 "origin" "-3640 -1256 232"
 "angle" "90"
 }
-
 {
 "classname" "weapon_snooperrifle"	// Bonus SnooperRifle 3
 "target" "t158"
 "origin" "-3792 -456 424"
 "angle" "0"
 }
-
 {
 "classname" "weapon_sniperScope"	// Bonus SniperScope 1
 "origin" "-2920 -1256 288"
 "angle" "0"
 }
-
 {
 "classname" "weapon_sniperScope"	// Bonus SniperScope 2
 "origin" "-2672 920 384"
 "angle" "0"
 }
-
 {
 "classname" "weapon_sniperScope"	// Bonus SniperScope 3
 "origin" "-3904 40 240"
 "angle" "90"
 }
-
 {
 "classname" "weapon_thompson"	// Bonus Thompson 1
 "origin" "-5864 4776 592"
 "angle" "150"
 }
-
 {
 "classname" "weapon_thompson"	// Bonus Thompson 2
 "origin" "-2440 -344 256"
 "angle" "0"
 }
-
 {
 "classname" "weapon_thompson"	// Bonus Thompson 3
 "origin" "4664 -5760 400"
 "angle" "270"
 }
+
+// REINFORCES
 
 {
 "classname" "ai_soldier"
@@ -423,6 +414,8 @@
 "head" "forest1"
 }
 
+// FLAGZONES
+
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "2657 -1763 342"
@@ -430,7 +423,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -438,7 +430,6 @@
 "angle" "90"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -446,7 +437,6 @@
 "angle" "90"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -454,7 +444,6 @@
 "angle" "89"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -462,7 +451,6 @@
 "angle" "69"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -470,7 +458,6 @@
 "angle" "105"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -478,7 +465,6 @@
 "angle" "92"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -486,7 +472,6 @@
 "angle" "84"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -494,7 +479,6 @@
 "angle" "73"
 "targetname" "forest0"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "-3720 4133 476"
@@ -502,7 +486,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -510,7 +493,6 @@
 "angle" "-34"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -518,7 +500,6 @@
 "angle" "-25"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -526,7 +507,6 @@
 "angle" "-30"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -534,7 +514,6 @@
 "angle" "-41"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -542,7 +521,6 @@
 "angle" "-23"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -550,7 +528,6 @@
 "angle" "-43"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -558,7 +535,6 @@
 "angle" "-31"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -566,7 +542,6 @@
 "angle" "-21"
 "targetname" "forest1"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "-2886 -1180 504"
@@ -574,7 +549,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -582,7 +556,6 @@
 "angle" "163"
 "targetname" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -590,7 +563,6 @@
 "angle" "173"
 "targetname" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -598,7 +570,6 @@
 "angle" "162"
 "targetname" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -606,7 +577,6 @@
 "angle" "157"
 "targetname" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -614,7 +584,6 @@
 "angle" "154"
 "targetname" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -622,7 +591,6 @@
 "angle" "119"
 "targetname" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -630,7 +598,6 @@
 "angle" "98"
 "targetname" "forest2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -639,6 +606,7 @@
 "targetname" "forest2"
 }
 
+// ALARM SYSTEM
 
 {
 "classname" "target_relay"
@@ -663,8 +631,6 @@
 "spawnflags" "1"
 }
 
-
-
 {
 "classname" "target_relay"
 "target" "x5"
@@ -687,7 +653,6 @@
 "classname" "ai_soldier"
 "spawnflags" "1"
 }
-
 
 {
 "classname" "target_relay"
@@ -712,7 +677,6 @@
 "spawnflags" "1"
 }
 
-
 {
 "classname" "target_relay"
 "target" "x10"
@@ -735,7 +699,6 @@
 "spawnflags" "1"
 "targetname" "nazi10x"
 }
-
 
 {
 "classname" "target_relay"
@@ -760,7 +723,6 @@
 "ainame" "nazi13x"
 }
 
-
 {
 "classname" "target_relay"
 "target" "x15"
@@ -783,8 +745,6 @@
 "targetname" "nazi15x"
 "head" "forest1"
 }
-
-
 
 {
 "classname" "target_relay"
@@ -809,8 +769,6 @@
 "ainame" "nazi18x"
 }
 
-
-
 {
 "classname" "target_relay"
 "target" "x20"
@@ -834,8 +792,6 @@
 "head" "forest2"
 }
 
-
-
 {
 "classname" "target_relay"
 "target" "x25"
@@ -858,8 +814,6 @@
 "ainame" "nazi25x"
 "targetname" "nazi25x"
 }
-
-
 
 {
 "classname" "misc_gamemodel"

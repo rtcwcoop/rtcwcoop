@@ -1,7 +1,10 @@
+
 {
 "classname" "script_multiplayer"
 "scriptname" "game_manager"
 }
+
+// SPAWNPOINTS
 
 {
 "classname" "coop_spawnpoint"
@@ -9,55 +12,50 @@
 "origin" "-2175 245 152"
 "angle" "270"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2188 166 152"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2136 112 152"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2074 114 152"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2022 116 152"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-1979 118 152"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-1929 120 152"
 "angle" "0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-1962 62 152"
 "angle" "0"
 }
+
+// REINFROCES
 
 {
 "classname" "ai_soldier"
@@ -294,8 +292,7 @@
 "head" "church3"
 }
 
-
-#if g_spawnpoints == 2
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -304,7 +301,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -312,7 +308,6 @@
 "angle" "-172"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -320,7 +315,6 @@
 "angle" "165"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -328,7 +322,6 @@
 "angle" "179"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -336,7 +329,6 @@
 "angle" "163"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -344,7 +336,6 @@
 "angle" "178"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -352,7 +343,6 @@
 "angle" "166"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -360,7 +350,6 @@
 "angle" "140"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -368,7 +357,6 @@
 "angle" "135"
 "targetname" "church0"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "656 834 1052"
@@ -376,7 +364,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -384,7 +371,6 @@
 "angle" "81"
 "targetname" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -392,7 +378,6 @@
 "angle" "96"
 "targetname" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -400,7 +385,6 @@
 "angle" "100"
 "targetname" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -408,7 +392,6 @@
 "angle" "103"
 "targetname" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -416,7 +399,6 @@
 "angle" "88"
 "targetname" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -424,7 +406,6 @@
 "angle" "72"
 "targetname" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -432,7 +413,6 @@
 "angle" "118"
 "targetname" "church1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -440,8 +420,3 @@
 "angle" "119"
 "targetname" "church1"
 }
-
-#endif
-
-
-

@@ -1,7 +1,10 @@
+
 {
 "classname" "script_multiplayer"
 "scriptname" "game_manager"
 }
+
+// SPAWNPOINTS
 
 {
 "classname" "coop_spawnpoint"
@@ -9,55 +12,51 @@
 "origin" "482 -5538 2625"
 "angle" "134"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "543 -5598 2640"
 "angle" "134"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "607 -5557 2630"
 "angle" "134"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "714 -5513 2618"
 "angle" "134"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "749 -5461 2606"
 "angle" "134"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "665 -5621 2646"
 "angle" "134"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "582 -5693 2677"
 "angle" "134"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "503 -5757 2706"
 "angle" "134"
 }
+
+// REINFROCES
+
 {
 "classname" "ai_soldier"
 "origin" "-391 -3684 1688"
@@ -412,7 +411,7 @@
 "head" "dam3"
 }
 
-#if g_spawnpoints == 2
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -421,7 +420,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -429,7 +427,6 @@
 "angle" "85"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -437,7 +434,6 @@
 "angle" "104"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -445,7 +441,6 @@
 "angle" "75"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -453,7 +448,6 @@
 "angle" "169"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -461,7 +455,6 @@
 "angle" "165"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -469,7 +462,6 @@
 "angle" "142"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -477,7 +469,6 @@
 "angle" "122"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -485,7 +476,6 @@
 "angle" "154"
 "targetname" "dam0"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "89 2636 2588"
@@ -493,7 +483,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -501,7 +490,6 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -509,7 +497,6 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -517,7 +504,6 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -525,7 +511,6 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -533,7 +518,6 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -541,7 +525,6 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -549,7 +532,6 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -557,5 +539,3 @@
 "angle" "3"
 "targetname" "dam1"
 }
-
-#endif

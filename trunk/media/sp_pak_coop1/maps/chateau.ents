@@ -1,7 +1,10 @@
+
 {
 "classname" "script_multiplayer"
 "scriptname" "game_manager"
 }
+
+// SPAWNPOINTS
 
 {
 "classname" "coop_spawnpoint"
@@ -9,55 +12,50 @@
 "origin" "1412 1080 -215"
 "angle" "-180"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "1412 1002 -215"
 "angle" "-180"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "1412 1133 -215"
 "angle" "-180"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "1349 1133 -215"
 "angle" "-180"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "1343 1078 -215"
 "angle" "-180"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "1343 1014 -215"
 "angle" "-180"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "1283 1003 -215"
 "angle" "-180"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "1283 1079 -215"
 "angle" "-180"
 }
+
+// REINFROCES
 
 {
 "classname" "ai_soldier"
@@ -420,7 +418,7 @@
 "head" "chateau1"
 }
 
-#if g_spawnpoints == 2
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -429,7 +427,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -437,7 +434,6 @@
 "angle" "-46"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -445,7 +441,6 @@
 "angle" "-58"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -453,7 +448,6 @@
 "angle" "-35"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -461,7 +455,6 @@
 "angle" "-42"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -469,7 +462,6 @@
 "angle" "-88"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -477,7 +469,6 @@
 "angle" "-71"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -485,7 +476,6 @@
 "angle" "-34"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -493,7 +483,6 @@
 "angle" "-35"
 "targetname" "chateau0"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "-128 1918 668"
@@ -501,7 +490,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "chateau1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -509,7 +497,6 @@
 "angle" "87"
 "targetname" "chateau1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -517,7 +504,6 @@
 "angle" "90"
 "targetname" "chateau1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -525,7 +511,6 @@
 "angle" "86"
 "targetname" "chateau1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -533,7 +518,6 @@
 "angle" "89"
 "targetname" "chateau1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -541,7 +525,6 @@
 "angle" "133"
 "targetname" "chateau1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -549,7 +532,6 @@
 "angle" "165"
 "targetname" "chateau1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -557,5 +539,3 @@
 "angle" "126"
 "targetname" "chateau1"
 }
-
-#endif

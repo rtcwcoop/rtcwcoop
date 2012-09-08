@@ -1,7 +1,10 @@
+
 {
 "classname" "script_multiplayer"
 "scriptname" "game_manager"
 }
+
+// SPAWNPOINTS
 
 {
 "classname" "coop_spawnpoint"
@@ -9,55 +12,50 @@
 "origin" "-2654 125 80"
 "angle" "5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2647 57 80"
 "angle" "5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2641 2 80"
 "angle" "5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2596 6 80"
 "angle" "5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2599 40 80"
 "angle" "5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2605 106 80"
 "angle" "5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2540 113 80"
 "angle" "5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2534 58 80"
 "angle" "5"
 }
+
+// REINFROCES
 
 {
 "classname" "ai_zombie"
@@ -174,7 +172,3 @@
 "angle" "177"
 "spawnflags" "1"
 }
-
-
-#if g_spawnpoints == 2
-#endif

@@ -3,55 +3,50 @@
 "scriptname" "game_manager"
 }
 
+// SPAWNPOINTS 
+
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2534 -367 -167"
 "angle" "-89"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2600 -367 -167"
 "angle" "-89"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2663 -367 -167"
 "angle" "-89"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2717 -367 -167"
 "angle" "-89"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2717 -415 -167"
 "angle" "-89"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2667 -415 -167"
 "angle" "-89"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2599 -415 -167"
 "angle" "-89"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
@@ -59,65 +54,60 @@
 "angle" "-89"
 }
 
+// ADDITIONAL WEAPONS
+
 {
 "classname" "weapon_thompson"		// Cemetery's old tree
 "origin" "-512 3408 -128"
 "angle" "270"
 }
-
 {
 "classname" "weapon_thompson"		// Secret basement
 "origin" "2136 -1160 -288"
 "angle" "315"
 }
-
 {
 "classname" "weapon_thompson"		// Partisan's table
 "origin" "-288 -904 -128"
 "angle" "135"
 }
-
 {
 "classname" "weapon_thompson"		// Kessler's self
 "origin" "-2656 -1308 -288"
 "angle" "150"
 }
-
 {
 "classname" "weapon_sten"			// Secret basement
 "origin" "2144 -1360 -296"
 "angle" "90"
 }
-
 {
 "classname" "weapon_sten"			// Partisan's room (floor)
 "origin" "-600 -1200 -216"
 "angle" "0"
 }
-
 {
 "classname" "weapon_sten"			// Partisan's room (left wall)
 "origin" "-608 -1200 -112"
 "angle" "0"
 }
-
 {
 "classname" "weapon_sten"			// Partisan's room (right wall)
 "origin" "-544 -1016 -80"
 "angle" "180"
 }
-
 {
 "classname" "weapon_sniperScope"	// Empty room
 "origin" "-1736 -1808 40"
 "angle" "180"
 }
-
 {
 "classname" "weapon_silencer"		// Pub
 "origin" "1728 -744 -112"
 "angle" "63"
 }
+
+// REINFORCES
 
 {
 "classname" "ai_soldier"
@@ -453,7 +443,7 @@
 "angle" "-102"
 }
 
-#if g_spawnpoints == 2
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -462,7 +452,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -470,7 +459,6 @@
 "angle" "105"
 "targetname" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -478,7 +466,6 @@
 "angle" "109"
 "targetname" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -486,7 +473,6 @@
 "angle" "127"
 "targetname" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -494,7 +480,6 @@
 "angle" "99"
 "targetname" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -502,7 +487,6 @@
 "angle" "104"
 "targetname" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -510,7 +494,6 @@
 "angle" "104"
 "targetname" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -518,7 +501,6 @@
 "angle" "87"
 "targetname" "village10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -526,9 +508,6 @@
 "angle" "87"
 "targetname" "village10"
 }
-
-
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "-1080 1736 -115"
@@ -536,7 +515,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -544,7 +522,6 @@
 "angle" "77"
 "targetname" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -552,7 +529,6 @@
 "angle" "77"
 "targetname" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -560,7 +536,6 @@
 "angle" "77"
 "targetname" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -568,7 +543,6 @@
 "angle" "77"
 "targetname" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -576,7 +550,6 @@
 "angle" "96"
 "targetname" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -584,7 +557,6 @@
 "angle" "96"
 "targetname" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -592,7 +564,6 @@
 "angle" "98"
 "targetname" "village11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -600,5 +571,3 @@
 "angle" "103"
 "targetname" "village11"
 }
-
-#endif

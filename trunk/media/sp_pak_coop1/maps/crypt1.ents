@@ -1,7 +1,10 @@
+
 {
 "classname" "script_multiplayer"
 "scriptname" "game_manager"
 }
+
+// SPAWNPOINTS
 
 {
 "classname" "coop_spawnpoint"
@@ -9,55 +12,50 @@
 "origin" "-188 1586 480"
 "angle" "1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-191 1665 472"
 "angle" "1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-195 1757 472"
 "angle" "1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-136 1760 480"
 "angle" "1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-104 1696 472"
 "angle" "1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-100 1575 472"
 "angle" "1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-32 1574 472"
 "angle" "1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-36 1655 472"
 "angle" "1"
 }
+
+// REINFROCES
 
 {
 "classname" "ai_warzombie"
@@ -337,8 +335,7 @@
 "targetname" "coop_ai_zombie_32"
 }
 
-#if g_spawnpoints == 2
-
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -347,7 +344,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -355,7 +351,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -363,7 +358,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -371,7 +365,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -379,7 +372,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -387,7 +379,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -395,7 +386,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -403,7 +393,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -411,7 +400,6 @@
 "angle" "-91"
 "targetname" "crypt10"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "267 -390 -36"
@@ -419,7 +407,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -427,7 +414,6 @@
 "angle" "-177"
 "targetname" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -435,7 +421,6 @@
 "angle" "177"
 "targetname" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -443,7 +428,6 @@
 "angle" "177"
 "targetname" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -451,7 +435,6 @@
 "angle" "177"
 "targetname" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -459,7 +442,6 @@
 "angle" "177"
 "targetname" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -467,7 +449,6 @@
 "angle" "177"
 "targetname" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -475,7 +456,6 @@
 "angle" "177"
 "targetname" "crypt11"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -483,5 +463,3 @@
 "angle" "-178"
 "targetname" "crypt11"
 }
-
-#endif

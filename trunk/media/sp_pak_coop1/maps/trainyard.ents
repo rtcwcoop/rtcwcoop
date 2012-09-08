@@ -3,61 +3,58 @@
 "scriptname" "game_manager"
 }
 
+// SPAWNPOINTS 
+
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-896 728 88"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-841 687 88"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-926 641 88"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-1022 624 88"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-1042 564 88"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-968 556 88"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-858 556 91"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-816 490 94"
 "angle" "-90"
 }
+
+// REINFORCES
 
 {
 "classname" "ai_soldier"
@@ -357,7 +354,7 @@
 "head" "factory1"
 }
 
-#if g_spawnpoints == 2
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -374,7 +371,6 @@
 "angle" "-27"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -382,7 +378,6 @@
 "angle" "-27"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -390,7 +385,6 @@
 "angle" "-16"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -398,7 +392,6 @@
 "angle" "-10"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -406,7 +399,6 @@
 "angle" "-10"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -414,7 +406,6 @@
 "angle" "-10"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -422,7 +413,6 @@
 "angle" "6"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -430,7 +420,6 @@
 "angle" "6"
 "targetname" "trainyard0"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "2643 -55 -283"
@@ -438,7 +427,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -446,7 +434,6 @@
 "angle" "2"
 "targetname" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -454,7 +441,6 @@
 "angle" "2"
 "targetname" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -462,7 +448,6 @@
 "angle" "2"
 "targetname" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -470,7 +455,6 @@
 "angle" "2"
 "targetname" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -478,7 +462,6 @@
 "angle" "-4"
 "targetname" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -486,7 +469,6 @@
 "angle" "-4"
 "targetname" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -494,7 +476,6 @@
 "angle" "0"
 "targetname" "trainyard1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -502,4 +483,3 @@
 "angle" "0"
 "targetname" "trainyard1"
 }
-

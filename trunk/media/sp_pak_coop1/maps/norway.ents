@@ -3,61 +3,59 @@
 "scriptname" "game_manager"
 }
 
+// SPAWNPOINTS 
+
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3485 6320 544"
 "angle" "-45"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3424 6383 532"
 "angle" "-45"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3351 6456 523"
 "angle" "-45"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3291 6397 515"
 "angle" "-45"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3363 6321 524"
 "angle" "-45"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3425 6260 532"
 "angle" "-45"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3378 6199 526"
 "angle" "-45"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-3320 6242 519"
 "angle" "-45"
 }
+
+// REINFORCES
+
 {
 "classname" "ai_soldier"
 "origin" "-1470 3307 517"
@@ -407,7 +405,7 @@
 "head" "snow1"
 }
 
-#if g_spawnpoints == 2
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -416,7 +414,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -424,7 +421,6 @@
 "angle" "-20"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -432,7 +428,6 @@
 "angle" "-12"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -440,7 +435,6 @@
 "angle" "-18"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -448,7 +442,6 @@
 "angle" "-18"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -456,7 +449,6 @@
 "angle" "-18"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -464,7 +456,6 @@
 "angle" "-18"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -472,7 +463,6 @@
 "angle" "-18"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -480,7 +470,6 @@
 "angle" "-18"
 "targetname" "norway0"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "3212 -3526 1028"
@@ -488,7 +477,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -496,7 +484,6 @@
 "angle" "-164"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -504,7 +491,6 @@
 "angle" "-164"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -512,7 +498,6 @@
 "angle" "-164"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -520,7 +505,6 @@
 "angle" "-164"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -528,7 +512,6 @@
 "angle" "-179"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -536,7 +519,6 @@
 "angle" "-179"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -544,7 +526,6 @@
 "angle" "-179"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -552,7 +533,6 @@
 "angle" "-179"
 "targetname" "norway1"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "-3923 -2629 496"
@@ -560,7 +540,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -568,7 +547,6 @@
 "angle" "119"
 "targetname" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -576,7 +554,6 @@
 "angle" "97"
 "targetname" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -584,7 +561,6 @@
 "angle" "102"
 "targetname" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -592,7 +568,6 @@
 "angle" "89"
 "targetname" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -600,7 +575,6 @@
 "angle" "113"
 "targetname" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -608,7 +582,6 @@
 "angle" "69"
 "targetname" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -616,7 +589,6 @@
 "angle" "78"
 "targetname" "norway2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -624,5 +596,3 @@
 "angle" "102"
 "targetname" "norway2"
 }
-
-#endif

@@ -3,61 +3,58 @@
 "scriptname" "game_manager"
 }
 
+// SPAWNPOINTS 
+
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2218 -108 512"
 "angle" "-100"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2240 29 512"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2307 -3 512"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2307 -86 512"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2241 -86 512"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2190 -86 512"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2190 -21 512"
 "angle" "-90"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "2190 38 512"
 "angle" "-90"
 }
+
+// ADDITIONAL WEAPONS
 
 {
 "classname" "weapon_venom"		// Bonus Venom 1
@@ -74,6 +71,8 @@
 "origin" "-335 143 344"
 "angle" "-69"
 }
+
+// REINFORCES
 
 {
 "classname" "ai_soldier"
@@ -387,7 +386,7 @@
 "spawnflags" "1"
 }
 
-#if g_spawnpoints == 2
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -396,7 +395,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -404,7 +402,6 @@
 "angle" "-15"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -412,7 +409,6 @@
 "angle" "-4"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -420,7 +416,6 @@
 "angle" "-179"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -428,7 +423,6 @@
 "angle" "-179"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -436,7 +430,6 @@
 "angle" "-161"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -444,7 +437,6 @@
 "angle" "103"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -452,7 +444,6 @@
 "angle" "72"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -460,7 +451,6 @@
 "angle" "-125"
 "targetname" "swf1"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "1353 1105 284"
@@ -468,7 +458,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -476,7 +465,6 @@
 "angle" "145"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -484,7 +472,6 @@
 "angle" "128"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -492,7 +479,6 @@
 "angle" "176"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -500,7 +486,6 @@
 "angle" "143"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -508,7 +493,6 @@
 "angle" "138"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -516,7 +500,6 @@
 "angle" "-141"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -524,7 +507,6 @@
 "angle" "-125"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -532,7 +514,6 @@
 "angle" "-143"
 "targetname" "swf2"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "-841 77 284"
@@ -540,7 +521,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -548,7 +528,6 @@
 "angle" "-64"
 "targetname" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -556,7 +535,6 @@
 "angle" "-72"
 "targetname" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -564,7 +542,6 @@
 "angle" "-77"
 "targetname" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -572,7 +549,6 @@
 "angle" "-90"
 "targetname" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -580,7 +556,6 @@
 "angle" "-83"
 "targetname" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -588,7 +563,6 @@
 "angle" "-87"
 "targetname" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -596,7 +570,6 @@
 "angle" "-87"
 "targetname" "swf3"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -604,5 +577,3 @@
 "angle" "-85"
 "targetname" "swf3"
 }
-
-#endif

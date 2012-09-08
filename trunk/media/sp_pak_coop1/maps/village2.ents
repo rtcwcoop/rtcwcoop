@@ -3,61 +3,59 @@
 "scriptname" "game_manager"
 }
 
+// SPAWNPOINTS 
+
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "99 3167 -231"
 "angle" "-5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-2 3175 -231"
 "angle" "-5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-15 3099 -231"
 "angle" "-5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "-4 3223 -231"
 "angle" "-5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "71 3294 -231"
 "angle" "-5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "78 3367 -231"
 "angle" "-5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "135 3362 -231"
 "angle" "-5"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
 "origin" "143 3317 -231"
 "angle" "-5"
 }
+
+// REINFORCES
+
 {
 "classname" "ai_soldier"
 "origin" "759 2643 -231"
@@ -509,7 +507,7 @@
 "skin" "infantryss/ssvill1"
 }
 
-
+// FLAGZONES
 
 {
 "classname" "coop_spawnpoint_trigger"
@@ -518,7 +516,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -526,7 +523,6 @@
 "angle" "179"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -534,7 +530,6 @@
 "angle" "179"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -542,7 +537,6 @@
 "angle" "176"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -550,7 +544,6 @@
 "angle" "176"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -558,7 +551,6 @@
 "angle" "176"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -566,7 +558,6 @@
 "angle" "176"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -574,7 +565,6 @@
 "angle" "-157"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -582,7 +572,6 @@
 "angle" "177"
 "targetname" "village20"
 }
-
 {
 "classname" "coop_spawnpoint_trigger"
 "origin" "559 695 -4"
@@ -590,7 +579,6 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -598,7 +586,6 @@
 "angle" "-127"
 "targetname" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -606,7 +593,6 @@
 "angle" "-136"
 "targetname" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -614,7 +600,6 @@
 "angle" "-142"
 "targetname" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -622,7 +607,6 @@
 "angle" "-133"
 "targetname" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -630,7 +614,6 @@
 "angle" "-134"
 "targetname" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -638,7 +621,6 @@
 "angle" "-131"
 "targetname" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -646,7 +628,6 @@
 "angle" "-141"
 "targetname" "village21"
 }
-
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
@@ -654,7 +635,6 @@
 "angle" "-144"
 "targetname" "village21"
 }
-
 {
 "classname" "misc_gamemodel"
 "origin" "2796 1088 8"
@@ -662,7 +642,6 @@
 "model" "models/mapobjects/electronics/alarmbox.mdc"
 "modelscale" "1.25"
 }
-
 {
 "classname" "ai_soldier"
 "origin" "2772 1088 -24"
@@ -674,7 +653,7 @@
 "head" "tram2"
 }
 
-
+// ALARM SYSTEM
 
 {
 "classname" "target_relay"
@@ -697,9 +676,7 @@
 "origin" "448 232 24"
 "ainame" "alarm_nazi13x"
 "targetname" "alarm_nazi13x"
-} 
-
-
+}
 
 {
 "classname" "target_relay"
@@ -722,4 +699,4 @@
 "origin" "-1200 1440 -40"
 "ainame" "nazi16x"
 "targetname" "nazi16x"
-} 
+}
