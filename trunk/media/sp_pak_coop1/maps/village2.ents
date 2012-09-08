@@ -657,7 +657,7 @@
 
 {
 "classname" "misc_gamemodel"
-"origin" "2796 968 8"
+"origin" "2796 1088 8"
 "angle" "180"
 "model" "models/mapobjects/electronics/alarmbox.mdc"
 "modelscale" "1.25"
@@ -665,7 +665,7 @@
 
 {
 "classname" "ai_soldier"
-"origin" "2772 968 -24"
+"origin" "2772 1088 -24"
 "angle" "0"
 "ainame" "mechanic"
 "targetname" "mechanic"
