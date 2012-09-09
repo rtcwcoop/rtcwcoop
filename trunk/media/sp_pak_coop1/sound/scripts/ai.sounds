@@ -159,10 +159,7 @@ infantryDeath
 	sound sound/player/_infantryss/death/death3.wav
 	sound sound/player/_infantryss/death/death4.wav
 	sound sound/player/_infantryss/death/death5.wav
-	sound sound/player/_infantryss/death/leben1.wav
-	sound sound/player/_infantryss/death/leben2.wav
-	sound sound/player/_infantryss/death/leben3.wav
-	sound sound/player/_infantryss/death/leben4.wav
+	sound sound/player/_infantryss/death/leben.wav
 }
 
 infantryFlameDeath
@@ -297,11 +294,7 @@ blackguardDeath
 	sound sound/player/_blackguard/death/death3.wav
 	sound sound/player/_blackguard/death/death4.wav
 	sound sound/player/_blackguard/death/death5.wav
-	sound sound/player/_blackguard/death/leben1.wav
-	sound sound/player/_blackguard/death/leben2.wav
-	sound sound/player/_blackguard/death/leben3.wav
-	sound sound/player/_blackguard/death/leben4.wav
-	sound sound/player/_blackguard/death/leben5.wav
+	sound sound/player/_blackguard/death/leben.wav
 }
 
 blackguardFlameDeath
@@ -354,9 +347,7 @@ venomDeath
 	sound sound/player/_venom/death/death2.wav
 	sound sound/player/_venom/death/death3.wav
 	sound sound/player/_venom/death/death4.wav
-	sound sound/player/_venom/death/leben1.wav
-	sound sound/player/_venom/death/leben2.wav
-	sound sound/player/_venom/death/leben3.wav
+	sound sound/player/_venom/death/leben.wav
 }
 
 venomSilentDeath
@@ -460,7 +451,7 @@ eliteGuardDeath
 	sound sound/player/_eliteguard1/death/death6.wav
 	sound sound/player/_eliteguard1/death/death7.wav
 	sound sound/player/_eliteguard1/death/death8.wav
-	sound sound/player/_eliteguard1/death/leben1.wav
+	sound sound/player/_eliteguard1/death/leben.wav
 	sound sound/player/_eliteguard2/death/death1.wav
 	sound sound/player/_eliteguard2/death/death2.wav
 	sound sound/player/_eliteguard2/death/death3.wav
@@ -468,10 +459,7 @@ eliteGuardDeath
 	sound sound/player/_eliteguard2/death/death5.wav
 	sound sound/player/_eliteguard2/death/death6.wav
 	sound sound/player/_eliteguard2/death/fuhrer1.wav
-	sound sound/player/_eliteguard2/death/leben1.wav
-	sound sound/player/_eliteguard2/death/leben2.wav
-	sound sound/player/_eliteguard2/death/leben3.wav
-	sound sound/player/_eliteguard2/death/leben4.wav
+	sound sound/player/_eliteguard2/death/leben.wav
 }
 
 eliteGuardFlameDeath
