@@ -919,47 +919,6 @@ itemDef {
 		mouseenter { show keyBindStatus }
 		mouseexit { hide keyBindStatus }
     		}
-			
-
-	itemDef {
-		name shoot
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Drop Weapon:  "
-		cvar "+dropweapon"
-		rect 82 270 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07           
-		forecolor 1 1 1 1
-		visible 0
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-		}
-
-	itemDef {
-		name shoot
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Drop Ammo:  "
-		cvar "dropammo"
-		rect 82 285 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142
-		textaligny 10
-		textscale .23
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07           
-		forecolor 1 1 1 1
-		visible 0
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-		}		
-				
-
 
 ////////////////	end shoot
 
@@ -1126,45 +1085,6 @@ itemDef {
 		mouseenter { show keyBindStatus }
 		mouseexit { hide keyBindStatus }
     		}
-
-	itemDef {
-		name misc
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Quicksave:  "
-		cvar "savegame quicksave"
-		rect 82 135 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142 
-		textaligny 10
-		textscale .23  
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07                  
-		forecolor 1 1 1 1
-		visible 0 
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-  	}
-
-	itemDef {
-		name misc
-		group grpControls
-		type ITEM_TYPE_BIND
-		text "Quickload:  "
-		cvar "loadgame quicksave"
-		rect 82 150 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 142 
-		textaligny 10
-		textscale .23  
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .07                  
-		forecolor 1 1 1 1
-		visible 0 
-		mouseenter { show keyBindStatus }
-		mouseexit { hide keyBindStatus }
-  	}
-
 	
 	itemDef {
 		name			misc
@@ -1176,7 +1096,7 @@ itemDef {
 		textalignx		145
 		textaligny		13
 		textscale		.25
-		rect			82 170 290 20
+		rect			82 140 290 20
 		style			WINDOW_STYLE_FILLED
 		border			1
 		bordercolor		.5 .5 .5 .5
@@ -1185,7 +1105,45 @@ itemDef {
 		visible			0
 		decoration
 		}
-	
+		
+	itemDef {
+		name misc
+		group grpControls
+		type ITEM_TYPE_BIND
+		text "Drop Weapon:  "
+		cvar "+dropweapon"
+		rect 82 165 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .23
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07           
+		forecolor 1 1 1 1
+		visible 0
+		mouseenter { show keyBindStatus }
+		mouseexit { hide keyBindStatus }
+		}
+
+	itemDef {
+		name misc
+		group grpControls
+		type ITEM_TYPE_BIND
+		text "Drop Ammo:  "
+		cvar "dropammo"
+		rect 82 180 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .23
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07           
+		forecolor 1 1 1 1
+		visible 0
+		mouseenter { show keyBindStatus }
+		mouseexit { hide keyBindStatus }
+		}
+		
 	itemDef {
 		name misc
 		group grpControls
