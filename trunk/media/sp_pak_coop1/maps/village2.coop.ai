@@ -2014,11 +2014,11 @@ sniper1						// Seen down long cooridor..
 		facetargetangles sp1spot2
 		trigger nazi5 backup_sniper1
 		trigger nazi4 outside_noise		// To do ...
-		playsound MiscAlarm1
-		wait 15000		//  sniper will wait awhile and then tell nazi5 to alert others...
-		accum 0 abort_if_bitset 5
-		playsound MiscGetHelp
-		trigger nazi5 nazi5_street_tell
+//		playsound MiscAlarm1
+//		wait 15000		//  sniper will wait awhile and then tell nazi5 to alert others...
+//		accum 0 abort_if_bitset 5
+//		playsound MiscGetHelp
+//		trigger nazi5 nazi5_street_tell
 	}
 
 	bulletimpact
@@ -2055,8 +2055,8 @@ sniper1						// Seen down long cooridor..
 
 	death
 	{
-		trigger nazi5 sniper1_dead_checkin		// THIS CHECKS TELLS NAZI 6 HE IS DEAD
-		trigger checker1 sniper1_dead
+//		trigger nazi5 sniper1_dead_checkin		// THIS CHECKS TELLS NAZI 6 HE IS DEAD
+//		trigger checker1 sniper1_dead
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out
 	}
@@ -2140,7 +2140,7 @@ nazi5						// this is guard near gate... WHO COMMUNICATES WITH SNIPER...
 		trigger nazi5 choose_anim
 	}
 
-	trigger go2				//  Nazi5 will run to signal the alarm with this one...
+	trigger go2						//  Nazi5 will run to signal the alarm with this one...
 	{
 		clearanim
 		accum 0 abort_if_bitset 0 
@@ -2148,25 +2148,19 @@ nazi5						// this is guard near gate... WHO COMMUNICATES WITH SNIPER...
 		wait 2000
 		runtomarker n5spot2 nostop
 		runtomarker n5spot3
-		trigger officer2 runto_alarm
-		
-
+//		trigger officer2 runto_alarm
 	}
 
-	trigger backup_sniper1			// nazi5 will back up snniper1, if sniper1 sees bj...
+	trigger backup_sniper1			// nazi5 will back up sniper1, if sniper1 sees bj...
 	{
 		statetype alert
 		clearanim
 		accum 0 bitset 0
 		wait 5
 		runtomarker back_sniper1 nostop
-		//facetargetangles back_sniper1
 		runtomarker back_sniper2 nostop
-		//facetargetangles back_sniper2
 		runtomarker back_sniper3 nostop
-		//facetargetangles back_sniper3
 		runtomarker back_sniper4
-		//facetargetangles back_sniper4
 		attrib aggression 1.0
 		attrib camper 1.0
 		attrib aim_accuracy 0.9
@@ -2190,11 +2184,11 @@ nazi5						// this is guard near gate... WHO COMMUNICATES WITH SNIPER...
 		runtomarker nazi5_street_tell1 nostop
 		runtomarker nazi5_street_tell2 nostop
 		runtomarker nazi5_street_tell3
-		facetargetangles nazi5_street_tell3
-		playsound guard1_alarm
-		alertentity nazi8
+//		facetargetangles nazi5_street_tell3
+//		playsound guard1_alarm
+//		alertentity nazi8
 		wait 5 player
-		trigger nazi8 runto_alarm
+//		trigger nazi8 runto_alarm
 		
 	}
 
@@ -4645,18 +4639,18 @@ alarm_nazi13x						// Last nazis encountered  13 14
 
 	spawn
 	{
-		accum 0 bitreset 0
-		accum 0 bitreset 15
-		accum 1 set 0
-		accum 2 set 0
-		trigger alarm_nazi13 marchloop1
+//		accum 0 bitreset 0
+//		accum 0 bitreset 15
+//		accum 1 set 0
+//		accum 2 set 0
+//		trigger alarm_nazi13 marchloop1
 	}
 
 	trigger alarm1_destroyed
 	{
-		accum 0 bitset 15
+//		accum 0 bitset 15
 		statetype alert
-		wait 500 0 player
+//		wait 500 0 player
 	}
 	
 	trigger marchloop1
@@ -4676,19 +4670,19 @@ alarm_nazi13x						// Last nazis encountered  13 14
 
 	trigger runto_alarm
 	{
-		accum 0 abort_if_bitset 15
+//		accum 0 abort_if_bitset 15
 		statetype alert
 //		playsound guard1_alarm
 		wait 2000
-		accum 0 abort_if_bitset 15
+//		accum 0 abort_if_bitset 15
 //		runtomarker an13spot2
-		accum 0 abort_if_bitset 15
-		trigger alarm_nazi13 alarm_on
+//		accum 0 abort_if_bitset 15
+//		trigger alarm_nazi13 alarm_on
 	}
 
 	trigger alarm_on
 	{ 
-		accum 0 abort_if_bitset 15
+//		accum 0 abort_if_bitset 15
 //		alertentity sound_alarm
 //		trigger player alarm_on_mission_fail
 //		facetargetangles an13spot2
@@ -4714,7 +4708,7 @@ alarm_nazi13x						// Last nazis encountered  13 14
 		trigger checker1 sight_check_in
 		trigger nazi15 help_nazi13
 		trigger nazi14 help_nazi13
-		trigger alarm_nazi13x runto_alarm		// This has nazi13 trigger alarm...
+//		trigger alarm_nazi13x runto_alarm		// This has nazi13 trigger alarm...
 		avoid
 	}
 

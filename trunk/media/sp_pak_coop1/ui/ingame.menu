@@ -191,7 +191,7 @@ itemDef {
 	text "EXIT"
 	type 1
 	textfont UI_FONT_NORMAL
-	rect 574 90 25 20
+	rect 574 90 36 20
 	textstyle 6
 	textalign ITEM_ALIGN_LEFT	
 	textalignx 0

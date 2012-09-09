@@ -61,8 +61,22 @@ itemDef {
 		visible 1
 		decoration
 		}
-*/		
-		
+*/	
+
+	itemDef {
+		name testmodel_nflag1
+		type ITEM_TYPE_MODEL
+		rect -350 -30 800 600 
+		model_angle -130
+		model_origin 100 100 100
+		asset_model "models/mapobjects/flag/flag_naziui.MD3"
+		model_animplay 0 114 0 10
+		model_fovx 40
+		model_fovy 40
+		visible 1
+		decoration
+		}
+
 	itemDef {
 
 		name modelselection 				//Precache player model	
@@ -141,25 +155,6 @@ itemDef {
 		decoration
 		}		
 */		
-
-
-/*
-	itemDef {
-		name testmodel_nflag1
-		type ITEM_TYPE_MODEL
-		rect -350 -30 800 600 
-		model_angle -130
-		model_origin 100 100 100
-		asset_model "models/mapobjects/flag/flag_naziui.MD3"
-		model_animplay 0 114 0 10
-		model_fovx 40
-		model_fovy 40
-		visible 1
-		decoration
-		}
-*/
-
-
 
 	itemDef 
 		{
