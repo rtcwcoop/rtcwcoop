@@ -2357,7 +2357,8 @@ void CheckReloadStatus( void ) {
 
 				} else {
 					// set the loadgame flag, and restart the server
-					trap_Cvar_Set( "savegame_loading", "2" ); // 2 means it's a restart, so stop rendering until we are loaded
+                                        if ( g_gametype.integer == GT_SINGLE_PLAYER )
+                                                trap_Cvar_Set( "savegame_loading", "2" ); // 2 means it's a restart, so stop rendering until we are loaded
 					trap_SendConsoleCommand( EXEC_INSERT, "map_restart\n" );
 				}
 
