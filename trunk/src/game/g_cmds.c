@@ -1251,6 +1251,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	int i;
 	char arg1[MAX_STRING_TOKENS];
 	char arg2[MAX_STRING_TOKENS];
+        char cleanName[64];
 
         if ( g_gametype.integer == GT_SINGLE_PLAYER) {
 		trap_SendServerCommand( ent - g_entities, "print \"Voting not allowed in single player.\n\"" );
@@ -1275,13 +1276,18 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	trap_Argv( 1, arg1, sizeof( arg1 ) );
 	trap_Argv( 2, arg2, sizeof( arg2 ) );
 
+        if ( strchr( arg1, ';' ) || strchr( arg2, ';' ) ) {
+                trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\n\"" );
+                return;
+        } 
+
 	if ( !Q_stricmp( arg1, "map_restart" ) ) {
 	} else if ( !Q_stricmp( arg1, "map" ) ) {
 	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
 	} else if ( !Q_stricmp( arg1, "kick" ) ) {
 	} else if ( !Q_stricmp( arg1, "nextmap" ) ) {
 	} else {
-		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\n\"" );
+		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick and nextmap\"" );
 		return;
 	}
 
@@ -1308,8 +1314,27 @@ void Cmd_CallVote_f( gentity_t *ent ) {
                 }
                 Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %d; map_restart 5", arg1, i ); 
                 Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s %s", arg1, gameNames[i] );
-        }
-	else {
+        } else if ( !Q_stricmp( arg1,"kick" ) ) {
+                int i,kicknum = MAX_CLIENTS;
+                for ( i = 0; i < MAX_CLIENTS; i++ ) {
+                        if ( level.clients[i].pers.connected != CON_CONNECTED ) {
+                                continue;
+                        }
+// strip the color crap out
+                        Q_strncpyz( cleanName, level.clients[i].pers.netname, sizeof( cleanName ) );
+                        Q_CleanStr( cleanName );
+                        if ( !Q_stricmp( cleanName, arg2 ) ) {
+                                kicknum = i;
+                        }
+                }
+        //        Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "kick %s", level.clients[kicknum].pers.netname );
+                if ( kicknum != MAX_CLIENTS ) { // found a client # to kick, so override votestring with better one
+                        Com_sprintf( level.voteString, sizeof( level.voteString ),"clientkick \"%d\"",kicknum );
+                } else { // if it can't do a name match, don't allow kick (to prevent votekick text spam wars)
+                        trap_SendServerCommand( ent - g_entities, "print \"Client not on server.\n\"" );
+                        return;
+                }
+	} else {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %s", arg1, arg2 );
 	}
 
