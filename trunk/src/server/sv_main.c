@@ -425,11 +425,17 @@ void SV_MasterHeartbeat( const char *hbname ) {
 	static netadr_t adr[MAX_MASTER_SERVERS];
 	int i;
 
+        // fretn: we want to boost our initial popularity, so all coop games report to the masterserver
+        if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER )
+                return;
+
+/*
 	// "dedicated 1" is for lan play, "dedicated 2" is for inet public play
 	if ( !com_dedicated || com_dedicated->integer != 2 ) {
 		return;     // only dedicated servers send heartbeats
 	}
 
+*/
 	// if not time yet, don't send anything
 	if ( svs.time < svs.nextHeartbeatTime ) {
 		return;
