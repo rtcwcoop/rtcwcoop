@@ -1292,9 +1292,13 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 #endif
                 trap_Cvar_Set("g_freeze", "0");
                 trap_Cvar_Set("g_doWarmup", "1");
+                trap_Cvar_Set("g_warmup", "20");
                 //trap_Cvar_Set("g_reinforce", "0");
                 trap_Cvar_Set("sv_maxcoopclients", "2");
                 trap_Cvar_Set("g_teleporttime", "30000");
+        } else {
+                trap_Cvar_Set("g_doWarmup", "0");
+                trap_Cvar_Set("g_warmup", "0");
         }
 
         if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
