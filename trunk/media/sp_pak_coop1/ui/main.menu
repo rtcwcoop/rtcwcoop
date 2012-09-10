@@ -296,10 +296,10 @@ itemDef {
 
 itemDef {
       	name copyright
-      	text "COOPERATIVE MODIFICATION"
+      	text "- THE COOPERATIVE GAMEPLAY -"
 		textfont UI_FONT_NORMAL
       	style 0
-      	textscale .2
+      	textscale .24
       	rect 0 72 300 40
       	textalign 1	
 		textalign ITEM_ALIGN_CENTER
