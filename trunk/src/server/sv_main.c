@@ -429,6 +429,8 @@ void SV_MasterHeartbeat( const char *hbname ) {
         if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER )
                 return;
 
+        if ( com_dedicated && com_dedicated->integer == 1 )
+                return; // dedicated lan servers dont talk to master, only internet and local servers
 /*
 	// "dedicated 1" is for lan play, "dedicated 2" is for inet public play
 	if ( !com_dedicated || com_dedicated->integer != 2 ) {
@@ -472,8 +474,9 @@ void SV_MasterHeartbeat( const char *hbname ) {
 						BigShort( adr[i].port ) );
 		}
 
+                if ( com_dedicated && com_dedicated->integer == 2 )
+                        Com_Printf( "Sending heartbeat to %s\n", sv_master[i]->string );
 
-		Com_Printf( "Sending heartbeat to %s\n", sv_master[i]->string );
 		// this command should be changed if the server info / status format
 		// ever incompatably changes
 		NET_OutOfBandPrint( NS_SERVER, adr[i], "heartbeat %s\n", hbname );
