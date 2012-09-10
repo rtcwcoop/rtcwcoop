@@ -342,6 +342,7 @@ void spawnpoint_trigger_think( gentity_t *self ) {
 
 void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
         gentity_t *ent = NULL;
+        qboolean named = qfalse;
 
         /*if ( self->count == other->client->sess.sessionTeam ) {
                 return;
@@ -350,9 +351,6 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
         // TODO: AI's should be able to recapture the flags
         if (other->r.svFlags & SVF_CASTAI)
                 return;
-
-        // TODO: send a centerprint to everyone, so we know spawnpoints changed
-
 
         // Set controlling team
         self->count = other->client->sess.sessionTeam;
@@ -375,6 +373,22 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 
         self->think = spawnpoint_trigger_think;
         self->nextthink = level.time + 1000;
+
+        while ( ( ent = G_Find( ent, FOFS( classname ), "target_location" ) ) != NULL ) { 
+
+                if ( !ent ) { 
+                        break;
+                }    
+
+                if (!strcmp(ent->targetname, self->target)) {
+                        trap_SendServerCommand( -1, va("cp \"%s has secured the %s spawnzone.\n\"", other->client->pers.netname, ent->message) );    
+                        named = qtrue;
+                        break;
+                }
+        } 
+       
+        if (!named) 
+                trap_SendServerCommand( -1, va("cp \"%s has secured a new spawnzone.\n\"", other->client->pers.netname) );    
 
 
         // activate all targets

@@ -336,6 +336,11 @@
 "target" "flag2"
 }
 {
+"classname" "target_location"
+"message" "upper bunker"
+"targetname" "flag2"
+}
+{
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
 "origin" "-1289 -473 376"
