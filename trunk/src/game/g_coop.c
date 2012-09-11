@@ -359,6 +359,22 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
                 self->s.frame = WCP_ANIM_RAISE_AMERICAN;
                 // Play a sound
                 G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+                while ( ( ent = G_Find( ent, FOFS( classname ), "target_location" ) ) != NULL ) { 
+
+                        if ( !ent ) { 
+                                break;
+                        }    
+
+                        if (!strcmp(ent->targetname, self->target)) {
+                                trap_SendServerCommand( -1, va("cp \"%s has secured the %s spawnzone.\n\"", other->client->pers.netname, ent->message) );    
+                                named = qtrue;
+                                break;
+                        }
+                } 
+            
+                if (!named) 
+                        trap_SendServerCommand( -1, va("cp \"%s has secured a new spawnzone.\n\"", other->client->pers.netname) );    
+
         } else if ( self->s.frame == WCP_ANIM_NAZI_RAISED ) {
                 self->s.frame = WCP_ANIM_NAZI_TO_AMERICAN;
                 // Play a sound
@@ -374,21 +390,6 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
         self->think = spawnpoint_trigger_think;
         self->nextthink = level.time + 1000;
 
-        while ( ( ent = G_Find( ent, FOFS( classname ), "target_location" ) ) != NULL ) { 
-
-                if ( !ent ) { 
-                        break;
-                }    
-
-                if (!strcmp(ent->targetname, self->target)) {
-                        trap_SendServerCommand( -1, va("cp \"%s has secured the %s spawnzone.\n\"", other->client->pers.netname, ent->message) );    
-                        named = qtrue;
-                        break;
-                }
-        } 
-       
-        if (!named) 
-                trap_SendServerCommand( -1, va("cp \"%s has secured a new spawnzone.\n\"", other->client->pers.netname) );    
 
 
         // activate all targets
