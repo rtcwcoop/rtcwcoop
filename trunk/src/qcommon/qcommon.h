@@ -281,8 +281,7 @@ PROTOCOL
 ==============================================================
 */
 
-#define PROTOCOL_VERSION    2  // TA value
-//#define	PROTOCOL_VERSION	43	// (SA) bump this up
+#define PROTOCOL_VERSION    3
 #define GAMENAME_STRING "wolfcoop"
 
 //----(SA)	heh, whoops.  we've been talking to id servers since we got a connection...
