@@ -1,5 +1,5 @@
 # Main binary
-set (BZZWOLFSP_SOURCES
+file (GLOB BZZWOLFSP_SOURCES
 	src/sys/sys_main.c
 	src/botlib/be_aas_bspq3.c
 	src/botlib/be_aas_cluster.c
@@ -171,7 +171,7 @@ set (BZZWOLFSP_INCLUDES
 
 
 # Dedicated server
-set (SERVER_SOURCES
+file (GLOB SERVER_SOURCES
 	src/sys/sys_main.c
 	src/botlib/be_aas_bspq3.c
 	src/botlib/be_aas_cluster.c
@@ -248,7 +248,7 @@ endif ()
 
 
 # "cgame" library
-set (CGAME_SOURCES
+file (GLOB CGAME_SOURCES
 	src/cgame/cg_main.c
 	src/cgame/cg_consolecmds.c
 	src/cgame/cg_draw.c
@@ -289,7 +289,7 @@ set (CGAME_INCLUDES
 
 
 # "qagame" library
-set (QAGAME_SOURCES
+file (GLOB QAGAME_SOURCES
 	src/game/g_main.c
 	src/botai/ai_chat.c
 	src/botai/ai_cmd.c
@@ -352,7 +352,7 @@ set (QAGAME_INCLUDES
 
 
 # "ui" library
-set (UI_SOURCES
+file (GLOB UI_SOURCES
 	src/ui/ui_main.c
 	src/game/bg_animation.c
 	src/game/bg_misc.c
