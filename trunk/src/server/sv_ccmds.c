@@ -409,6 +409,8 @@ static void SV_MapRestart_f( void ) {
 	sv.state = SS_LOADING;
 	sv.restarting = qtrue;
 
+        Cvar_Set( "sv_serverRestarting", "1" );
+
 	SV_RestartGameProgs();
 
 	// run a few frames to allow everything to settle
@@ -458,6 +460,8 @@ static void SV_MapRestart_f( void ) {
 	VM_Call( gvm, GAME_RUN_FRAME, sv.time );
 	svs.time += 100;
 	sv.time += 100;
+
+        Cvar_Set( "sv_serverRestarting", "0" );
 }
 
 /*

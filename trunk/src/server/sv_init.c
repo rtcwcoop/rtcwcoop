@@ -640,6 +640,23 @@ void SV_TouchCGame( void ) {
 
 /*
 ================
+SV_TouchCGameDLL
+  touch the cgame DLL so that a pure client (with DLL sv_pure support) can load do the correct checks
+================
+*/
+void SV_TouchCGameDLL( void ) {
+	fileHandle_t f;
+	char *filename;
+
+	filename = Sys_GetDLLName( "cgame" );
+	FS_FOpenFileRead_Filtered( filename, &f, qfalse, FS_EXCLUDE_DIR );
+	if ( f ) {
+		FS_FCloseFile( f );
+	}
+}
+
+/*
+================
 SV_SpawnServer
 
 Change the server to a new map, taking all connected
@@ -715,8 +732,8 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// clear the whole hunk because we're (re)loading the server
 	Hunk_Clear();
 
-//	// clear collision map data		// (SA) NOTE: TODO: used in missionpack
-//	CM_ClearMap();
+	// clear collision map data		// (SA) NOTE: TODO: used in missionpack
+	CM_ClearMap();
 
 	// wipe the entire per-level structure
 	SV_ClearServer();
@@ -800,6 +817,8 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// to load during actual gameplay
 	sv.state = SS_LOADING;
 
+	Cvar_Set( "sv_serverRestarting", "1" );
+
 	// load and spawn all other entities
 	SV_InitGameProgs();
 
@@ -878,18 +897,17 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 		}
 		p = FS_LoadedPakNames();
 		Cvar_Set( "sv_pakNames", p );
-
-		// if a dedicated pure server we need to touch the cgame because it could be in a
-		// seperate pk3 file and the client will need to load the latest cgame.qvm
-		if ( com_dedicated->integer ) {
-			SV_TouchCGame();
-		}
 	} else {
 		Cvar_Set( "sv_paks", "" );
 		Cvar_Set( "sv_pakNames", "" );
 	}
 	// the server sends these to the clients so they can figure
 	// out which pk3s should be auto-downloaded
+	// NOTE: we consider the referencedPaks as 'required for operation'
+
+	// we want the server to reference the mp_bin pk3 that the client is expected to load from
+	SV_TouchCGameDLL();
+
 	p = FS_ReferencedPakChecksums();
 	Cvar_Set( "sv_referencedPaks", p );
 	p = FS_ReferencedPakNames();
@@ -912,6 +930,8 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	SV_Heartbeat_f();
 
 	Hunk_SetMark();
+
+	Cvar_Set( "sv_serverRestarting", "0" );
 
 	Com_Printf( "-----------------------------------\n" );
 

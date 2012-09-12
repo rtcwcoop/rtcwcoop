@@ -617,6 +617,16 @@ int     FS_FOpenFileRead( const char *qpath, fileHandle_t *file, qboolean unique
 // FS_FCloseFile instead of fclose, otherwise the pak FILE would be improperly closed
 // It is generally safe to always set uniqueFILE to true, because the majority of
 // file IO goes through FS_ReadFile, which Does The Right Thing already.
+/* TTimo
+show_bug.cgi?id=506
+added exclude flag to filter out regular dirs or pack files on demand
+would rather have used FS_FOpenFileRead(..., int filter_flag = 0)
+but that's a C++ construct ..
+*/
+#define FS_EXCLUDE_DIR 0x1
+#define FS_EXCLUDE_PK3 0x2
+int FS_FOpenFileRead_Filtered( const char *qpath, fileHandle_t *file, qboolean uniqueFILE, int filter_flag );
+
 
 int     FS_FileIsInPAK( const char *filename, int *pChecksum );
 // returns 1 if a file is in the PAK file, otherwise -1
@@ -1021,6 +1031,7 @@ dialogResult_t Sys_Dialog( dialogType_t type, const char *message, const char *t
 
 void    Sys_Init( void );
 
+char* Sys_GetDLLName( const char *name );
 void *Sys_InitializeCriticalSection();
 void Sys_EnterCriticalSection( void *ptr );
 void Sys_LeaveCriticalSection( void *ptr );

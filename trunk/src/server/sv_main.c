@@ -370,8 +370,14 @@ void QDECL SV_SendServerCommand( client_t *cl, const char *fmt, ... ) {
 	int j;
 
 	va_start( argptr,fmt );
-	vsprintf( (char *)message, fmt,argptr );
+	Q_vsnprintf( (char *)message, sizeof( message ), fmt, argptr );
 	va_end( argptr );
+
+	// do not forward server command messages that would be too big to clients
+	// ( q3infoboom / q3msgboom stuff )
+	if ( strlen( (char *)message ) > 1022 ) {
+		return;
+	}
 
 	if ( cl != NULL ) {
 		SV_AddServerCommand( cl, (char *)message );
@@ -475,7 +481,7 @@ void SV_MasterHeartbeat( const char *hbname ) {
 		}
 
                 if ( com_dedicated && com_dedicated->integer == 2 )
-                        Com_Printf( "Sending heartbeat to %s\n", sv_master[i]->string );
+                        Com_DPrintf( "Sending heartbeat to %s\n", sv_master[i]->string );
 
 		// this command should be changed if the server info / status format
 		// ever incompatably changes
@@ -961,7 +967,8 @@ void SV_CheckTimeouts( void ) {
 
 		if ( cl->state == CS_ZOMBIE
 			 && cl->lastPacketTime < zombiepoint ) {
-			Com_DPrintf( "Going from CS_ZOMBIE to CS_FREE for %s\n", cl->name );
+			// using the client id cause the cl->name is empty at this point
+			Com_DPrintf( "Going from CS_ZOMBIE to CS_FREE for client %d\n", i );
 			cl->state = CS_FREE;    // can now be reused
 			continue;
 		}
@@ -1029,6 +1036,7 @@ happen before SV_Frame is called
 void SV_Frame( int msec ) {
 	int frameMsec;
 	int startTime;
+	char mapname[MAX_QPATH];
 
 	// the menu kills the server with this cvar
 	if ( sv_killserver->integer ) {
@@ -1070,14 +1078,28 @@ void SV_Frame( int msec ) {
 	// than checking for negative time wraparound everywhere.
 	// 2giga-milliseconds = 23 days, so it won't be too often
 	if ( svs.time > 0x70000000 ) {
+		Q_strncpyz( mapname, sv_mapname->string, MAX_QPATH );
 		SV_Shutdown( "Restarting server due to time wrapping" );
-		Cbuf_AddText( "vstr nextmap\n" );
+		// TTimo
+		// show_bug.cgi?id=388
+		// there won't be a map_restart if you have shut down the server
+		// since it doesn't restart a non-running server
+		// instead, re-run the current map
+		if ( sv_gametype->integer <= GT_COOP)
+			Cbuf_AddText( va( "coopmap %s\n", mapname ) );
+		else
+			Cbuf_AddText( va( "spmap %s\n", mapname ) );
 		return;
 	}
 	// this can happen considerably earlier when lots of clients play and the map doesn't change
 	if ( svs.nextSnapshotEntities >= 0x7FFFFFFE - svs.numSnapshotEntities ) {
+		Q_strncpyz( mapname, sv_mapname->string, MAX_QPATH );
 		SV_Shutdown( "Restarting server due to numSnapshotEntities wrapping" );
-		Cbuf_AddText( "vstr nextmap\n" );
+		// TTimo see above
+		if ( sv_gametype->integer <= GT_COOP)
+			Cbuf_AddText( va( "coopmap %s\n", mapname ) );
+		else
+			Cbuf_AddText( va( "spmap %s\n", mapname ) );
 		return;
 	}
 

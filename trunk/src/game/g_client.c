@@ -1607,7 +1607,11 @@ void ClientBegin( int clientNum ) {
 	ent->client = client;
 
 	client->pers.connected = CON_CONNECTED;
-	client->pers.enterTime = level.time;
+        // ATVI Wolfenstein Misc #414
+        // don't reset the enterTime during a map_restart, we only want this when user explicitely changes team (and upon entering map)
+        if ( !trap_Cvar_VariableIntegerValue( "sv_serverRestarting" ) ) {
+                client->pers.enterTime = level.time;
+        } 
 	client->pers.teamState.state = TEAM_BEGIN;
 
 	// save eflags around this, because changing teams will

@@ -84,6 +84,7 @@ void SV_GetChallenge( netadr_t from ) {
 		challenge->adr = from;
 		challenge->time = svs.time;
 		challenge->firstTime = svs.time;
+		challenge->firstPing = 0;
         challenge->connected = qfalse;
 		i = oldest;
 	}
@@ -138,7 +139,7 @@ void SV_GetChallenge( netadr_t from ) {
 		fs = Cvar_Get( "sv_allowAnonymous", "0", CVAR_SERVERINFO );
 
 		NET_OutOfBandPrint( NS_SERVER, svs.authorizeAddress,
-							"getIpAuthorize %i %i.%i.%i.%i %s %s",  svs.challenges[i].challenge,
+							"getIpAuthorize %i %i.%i.%i.%i %s %i",  svs.challenges[i].challenge,
 							from.ip[0], from.ip[1], from.ip[2], from.ip[3], game, fs->integer );
 	}
 }
@@ -285,20 +286,26 @@ void SV_DirectConnect( netadr_t from ) {
 				if ( challenge == svs.challenges[i].challenge ) {
 					break;      // good
 				}
-				NET_OutOfBandPrint( NS_SERVER, from, "print\nBad challenge.\n" );
-				return;
+				//NET_OutOfBandPrint( NS_SERVER, from, "print\nBad challenge.\n" );
+				//return;
 			}
 		}
 		if ( i == MAX_CHALLENGES ) {
-			NET_OutOfBandPrint( NS_SERVER, from, "print\nNo challenge for address.\n" );
+			NET_OutOfBandPrint( NS_SERVER, from, "print\nNo or bad challenge for address.\n" );
 			return;
 		}
 		// force the IP key/value pair so the game can filter based on ip
 		Info_SetValueForKey( userinfo, "ip", NET_AdrToString( from ) );
 
-		ping = svs.time - svs.challenges[i].pingTime;
+		if ( svs.challenges[i].firstPing == 0 ) {
+			ping = svs.time - svs.challenges[i].pingTime;
+			svs.challenges[i].firstPing = ping;
+		} else {
+			ping = svs.challenges[i].firstPing;
+		}
+
 		Com_Printf( "Client %i connecting with %i challenge ping\n", i, ping );
-                svs.challenges[i].connected = qtrue;
+        svs.challenges[i].connected = qtrue;
 
 		// never reject a LAN client based on ping
 		if ( !Sys_IsLANAddress( from ) ) {
@@ -449,6 +456,9 @@ gotnewcl:
 
 	SV_UserinfoChanged( newcl );
 
+	// DHM - Nerve :: Clear out firstPing now that client is connected
+	svs.challenges[i].firstPing = 0;
+
 	// send the connect packet to the client
 	NET_OutOfBandPrint( NS_SERVER, from, "connectResponse" );
 
@@ -580,7 +590,7 @@ void SV_SendClientGameState( client_t *client ) {
 	Com_DPrintf( "Going from CS_CONNECTED to CS_PRIMED for %s\n", client->name );
 	client->state = CS_PRIMED;
 	client->pureAuthentic = 0;
-        client->gotCP = qfalse;
+    client->gotCP = qfalse;
 
 	// when we receive the first packet from the client, we will
 	// notice that it is from a different serverid and that the
@@ -1497,8 +1507,11 @@ void SV_ExecuteClientMessage( client_t *cl, msg_t *msg ) {
 	// notice and send it a new game state
 	if ( serverId != sv.serverId &&
 		 !*cl->downloadName ) {
-		if ( serverId == sv.restartedServerId ) {
+		// fretn
+		//if ( serverId == sv.restartedServerId ) {
+		if ( serverId >= sv.restartedServerId && serverId < sv.serverId ) { // TTimo - use a comparison here to catch multiple map_restart
 			// they just haven't caught the map_restart yet
+			Com_DPrintf( "%s : ignoring pre map_restart / outdated client message\n", cl->name );
 			return;
 		}
 		// if we can tell that the client has dropped the last

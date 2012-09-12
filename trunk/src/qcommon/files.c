@@ -1134,6 +1134,9 @@ separate file or a ZIP file.
 */
 extern qboolean com_fullyInitialized;
 
+// see FS_FOpenFileRead_Filtered
+static int fs_filter_flag = 0;
+
 int FS_FOpenFileRead( const char *filename, fileHandle_t *file, qboolean uniqueFILE ) {
 	searchpath_t    *search;
 	char            *netpath;
@@ -1958,6 +1961,17 @@ static pack_t *FS_LoadZipFile( char *zipfile, const char *basename ) {
 	pack->buildBuffer = buildBuffer;
 	return pack;
 }
+
+int FS_FOpenFileRead_Filtered( const char *qpath, fileHandle_t *file, qboolean uniqueFILE, int filter_flag ) {
+        int ret; 
+
+        fs_filter_flag = filter_flag;
+        ret = FS_FOpenFileRead( qpath, file, uniqueFILE );
+        fs_filter_flag = 0; 
+
+        return ret; 
+}
+
 
 // TTimo
 // relevant to client only

@@ -36,6 +36,7 @@ clipHandle_t CM_InlineModel( int index );       // 0 = world, 1 + are bmodels
 clipHandle_t CM_TempBoxModel( const vec3_t mins, const vec3_t maxs, int capsule );
 
 void        CM_ModelBounds( clipHandle_t model, vec3_t mins, vec3_t maxs );
+void        CM_ClearMap( void );
 
 int         CM_NumClusters( void );
 int         CM_NumInlineModels( void );
