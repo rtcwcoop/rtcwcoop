@@ -317,6 +317,12 @@ char    *modNames[] = {
 	"MOD_LOPER_LEAP",
 	"MOD_LOPER_GROUND",
 	"MOD_LOPER_HIT",
+#ifdef _ADMINS
+	// L0 - new MODs
+	"MOD_SLAP",
+	"MOD_ADMKILL",
+	// end
+#endif
 // JPW NERVE
 	"MOD_LT_ARTILLERY",
 	"MOD_LT_AIRSTRIKE",

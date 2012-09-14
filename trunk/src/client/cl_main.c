@@ -1581,6 +1581,8 @@ void CL_DisconnectPacket( netadr_t from ) {
 		return;
 	}
 
+	// L0 - FIXME : This needs to be done better as if player is kicked it never prints what was the reason nor that he was kicked for that matter...
+
 	// drop the connection (FIXME: connection dropped dialog)
 	Com_Printf( "Server disconnected for unknown reason\n" );
         Cvar_Set( "com_errorMessage", "Server disconnected for unknown reason\n" );

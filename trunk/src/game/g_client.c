@@ -1118,11 +1118,14 @@ static void ClientCleanName( const char *in, char *out, int outSize ) {
 				break;
 			}
 
+			// L0 - Useless..
+			/*
 			// don't allow black in a name, period
 			if ( ColorIndex( *in ) == 0 ) {
 				in++;
 				continue;
 			}
+			*/
 
 			// make sure room in dest for both chars
 			if ( len == outSize - 2 ) {
@@ -1450,15 +1453,15 @@ void ClientUserinfoChanged( int clientNum ) {
 //----(SA) end
 
 		switch ( client->sess.sessionTeam ) {
-		case TEAM_RED:
-			ForceClientSkin( client, model, "red" );
-			break;
-		case TEAM_BLUE:
-			ForceClientSkin( client, model, "blue" );
-			break;
-		default:
-			break;
-		}
+			case TEAM_RED:
+				ForceClientSkin( client, model, "red" );
+				break;
+			case TEAM_BLUE:
+				ForceClientSkin( client, model, "blue" );
+				break;
+			default:
+				break;
+			}
         }
 
 
@@ -1486,7 +1489,7 @@ void ClientUserinfoChanged( int clientNum ) {
 
 	trap_SetConfigstring( CS_PLAYERS + clientNum, s );
 
-	//G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s );
+	G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s ); // L0 - This is need it in log!
 }
 
 

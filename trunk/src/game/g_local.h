@@ -465,6 +465,20 @@ typedef struct {
 #define FOLLOW_ACTIVE1  -1
 #define FOLLOW_ACTIVE2  -2
 
+// L0 - Admins
+#ifdef _ADMINS 
+//
+// 3 Levels may be an overkill for max 4-8 players game but sometimes 
+// it's best to give lower level to new admins so they don't go screwing around with to much power..
+typedef enum {
+	ADM_NONE, // Normal players
+	ADM_MEM,  // Members
+	ADM_MED,  // Admins
+	ADM_FULL  // Owners
+} admLvls_t;
+// End
+#endif
+
 // client data that stays across multiple levels or tournament restarts
 // this is achieved by writing all the data to cvar strings at game shutdown
 // time and reading them back at connection time.  Anything added here
@@ -490,6 +504,13 @@ typedef struct {
         int suicides;
 
         int lastBonusLifeScore;
+// L0 
+#ifdef _ADMINS
+	admLvls_t admin;		// Admins
+	unsigned char ip[4];	// IPs
+	int	incognito;			// Toggle admin presence visibility on server
+	int ignored;			// Ignored player
+#endif
 
 } clientSession_t;
 
@@ -522,6 +543,13 @@ typedef struct {
 	int voteCount;                  // to prevent people from constantly calling votes
 	int teamVoteCount;              // to prevent people from constantly calling votes
 	qboolean teamInfo;              // send team overlay updates?
+#ifdef _ADMINS
+	// L0 
+	char cmd1[128];
+	char cmd2[128];
+	char cmd3[128];
+	// End
+#endif
 } clientPersistant_t;
 
 // cs: et sdk antilag
@@ -1259,6 +1287,21 @@ extern vmCvar_t g_playerStart;      //----(SA)	added
 extern vmCvar_t g_antilag;
 // end
 
+// L0
+#ifdef _ADMINS
+extern vmCvar_t	a1_pass;	
+extern vmCvar_t	a2_pass;	
+extern vmCvar_t	a3_pass;	
+extern vmCvar_t	a1_tag;		
+extern vmCvar_t	a2_tag;		
+extern vmCvar_t	a3_tag;		
+extern vmCvar_t	a1_cmds;	
+extern vmCvar_t	a2_cmds;	
+extern vmCvar_t	a3_cmds;	
+extern vmCvar_t	a3_allowAll;
+#endif
+// End
+
 void    trap_Print( const char *fmt );
 void    trap_Error( const char *fmt );
 void    trap_Endgame( void );   //----(SA)	added
@@ -1495,3 +1538,8 @@ void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
 // end
 
 #include "g_coop.h"
+
+#ifdef _ADMINS 
+// L0 - Admin's stuff
+#include "g_admin.h"
+#endif

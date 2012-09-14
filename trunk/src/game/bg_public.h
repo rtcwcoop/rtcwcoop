@@ -1201,6 +1201,13 @@ typedef enum {
 	MOD_LOPER_GROUND,
 	MOD_LOPER_HIT,
 
+#ifdef _ADMINS
+	// L0 - new MODs
+	MOD_SLAP,
+	MOD_ADMKILL,
+	// end
+#endif
+
 // JPW NERVE multiplayer class-specific MODs
 	MOD_LT_ARTILLERY,
 	MOD_LT_AIRSTRIKE,

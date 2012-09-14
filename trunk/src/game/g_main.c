@@ -148,6 +148,21 @@ vmCvar_t g_spawnpoints;
 vmCvar_t g_antilag;
 // end
 
+// L0
+#ifdef _ADMINS 
+vmCvar_t	a1_pass;	// Level 1 admin
+vmCvar_t	a2_pass;	// Level 2 admin
+vmCvar_t	a3_pass;	// Level 3 admin
+vmCvar_t	a1_tag;		// Level 1 admin tag
+vmCvar_t	a2_tag;		// Level 2 admin tag
+vmCvar_t	a3_tag;		// Level 3 admin tag
+vmCvar_t	a1_cmds;	// Level 1 admin commands
+vmCvar_t	a2_cmds;	// Level 2 admin commands
+vmCvar_t	a3_cmds;	// Level 3 admin commands
+vmCvar_t	a3_allowAll;// Allows level 3 to execute all admin commands + anyother that's set in a3_cmds -> In this case, use a3_cmds for server specific cvars like g_allowVote that would otherwise require rcon etc..
+// end
+#endif
+
 cvarTable_t gameCvarTable[] = {
 	// don't override the cheat state set by the system
 	{ &g_cheats, "sv_cheats", "", 0, qfalse },
@@ -259,8 +274,23 @@ cvarTable_t gameCvarTable[] = {
 	{&g_scriptName, "g_scriptName", "", CVAR_ROM, 0, qfalse},
 	{&ai_scriptName, "ai_scriptName", "", CVAR_ROM, 0, qfalse},
 
+#ifdef _ADMINS
+	// L0
+	{ &a1_pass, "a1_pass", "none", CVAR_ARCHIVE, 0, qfalse },
+	{ &a2_pass, "a2_pass", "none", CVAR_ARCHIVE, 0, qfalse },
+	{ &a3_pass, "a3_pass", "none", CVAR_ARCHIVE, 0, qfalse },
+	{ &a1_tag, "a1_tag", "^1Member", CVAR_ARCHIVE, 0, qfalse },
+	{ &a2_tag, "a2_tag", "^3Admin", CVAR_ARCHIVE, 0, qfalse },
+	{ &a3_tag, "a3_tag", "^0Admin", CVAR_ARCHIVE, 0, qfalse },
+	{ &a1_cmds, "a1_cmds", "", CVAR_ARCHIVE, 0, qfalse },
+	{ &a2_cmds, "a2_cmds", "", CVAR_ARCHIVE, 0, qfalse },
+	{ &a3_cmds, "a3_cmds", "", CVAR_ARCHIVE, 0, qfalse },
+	{ &a3_allowAll, "a3_allowAll", "", CVAR_ARCHIVE, 0, qfalse },
+	// End
+#endif
+
 	// cs: et sdk antilag
-	{ &g_antilag, "g_antilag", "1", 0, 0, qfalse },
+	{ &g_antilag, "g_antilag", "1", 0, 0, qfalse }
 	// end
 };
 

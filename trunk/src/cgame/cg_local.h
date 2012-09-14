@@ -1826,6 +1826,13 @@ extern vmCvar_t mp_mapDesc;
 extern vmCvar_t mp_mapTitle;
 // -NERVE - SMF
 
+#ifdef _ADMINS
+// L0 
+extern vmCvar_t cg_solidCrosshair;
+extern vmCvar_t cg_bloodBlend;
+// end
+#endif
+
 //
 // cg_main.c
 //

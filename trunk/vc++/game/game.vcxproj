@@ -103,6 +103,7 @@
     <ClCompile Include="..\..\src\game\bg_pmove.c" />
     <ClCompile Include="..\..\src\game\bg_slidemove.c" />
     <ClCompile Include="..\..\src\game\g_active.c" />
+    <ClCompile Include="..\..\src\game\g_admin.c" />
     <ClCompile Include="..\..\src\game\g_alarm.c" />
     <ClCompile Include="..\..\src\game\g_antilag.c" />
     <ClCompile Include="..\..\src\game\g_bot.c" />
@@ -159,6 +160,7 @@
     <ClInclude Include="..\..\src\game\bg_local.h" />
     <ClInclude Include="..\..\src\game\bg_public.h" />
     <ClInclude Include="..\..\src\game\botlib.h" />
+    <ClInclude Include="..\..\src\game\g_admin.h" />
     <ClInclude Include="..\..\src\game\g_funcs.h" />
     <ClInclude Include="..\..\src\game\g_func_decs.h" />
     <ClInclude Include="..\..\src\game\g_local.h" />

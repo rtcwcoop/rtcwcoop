@@ -1769,10 +1769,22 @@ static void CG_DrawCrosshair( void ) {
 		h *= ( 1 + f );
 	}
 */
-	// RF, crosshair size represents aim spread
-	f = (float)cg.snap->ps.aimSpreadScale / 255.0;
-	w *= ( 1 + f * 2.0 );
-	h *= ( 1 + f * 2.0 );
+
+#ifdef _ADMINS
+	// L0 - crosshair pulsing..
+	if (!cg_solidCrosshair.integer) {
+		// RF, crosshair size represents aim spread	
+		f = (float)cg.snap->ps.aimSpreadScale / 255.0;
+		w *= ( 1 + f*2.0 );
+		h *= ( 1 + f*2.0 );
+	} // end
+#else
+		// RF, crosshair size represents aim spread	
+		f = (float)cg.snap->ps.aimSpreadScale / 255.0;
+		w *= ( 1 + f*2.0 );
+		h *= ( 1 + f*2.0 );
+
+#endif
 
 	x = cg_crosshairX.integer;
 	y = cg_crosshairY.integer;
@@ -2455,6 +2467,13 @@ static void CG_DrawFlashDamage( void ) {
 	if ( !cg.snap ) {
 		return;
 	}
+
+// L0 - Blood blending
+#ifdef _ADMINS
+	if (cg_bloodBlend.integer)
+		return;
+#endif
+// end
 
 	if ( cg.v_dmg_time > cg.time ) {
 		redFlash = fabs( cg.v_dmg_pitch * ( ( cg.v_dmg_time - cg.time ) / DAMAGE_TIME ) );

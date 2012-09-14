@@ -971,6 +971,59 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	// don't let text be too long for malicious reasons
 	char text[MAX_SAY_TEXT];
 	char location[64];
+#ifdef _ADMINS
+	char *tag;	// L0 - Admin tags	
+	char arg[MAX_SAY_TEXT]; // ! & ? 
+	char cmd1[128];
+	char cmd2[128];
+	char cmd3[128];
+
+	// L0 - Ignored players..
+	if (ent->client->sess.ignored) {
+		trap_SendServerCommand(ent-g_entities, "print \"You cannot chat because you are ^!Ignored^7!\"2");
+	return;
+	} // End
+	
+	// Admin commands
+	Q_strncpyz ( text, chatText, sizeof( text ) );
+	if ( !ent->client->sess.admin == ADM_NONE ) {
+		// Command
+		if ( text[0] == '!' ){
+			ParseAdmStr(text, cmd1, arg);	
+			ParseAdmStr(arg, cmd2, cmd3);
+			Q_strncpyz ( ent->client->pers.cmd1, cmd1, sizeof( ent->client->pers.cmd1 ) );
+			Q_strncpyz ( ent->client->pers.cmd2, cmd2, sizeof( ent->client->pers.cmd2 ) );
+			Q_strncpyz ( ent->client->pers.cmd3, cmd3, sizeof( ent->client->pers.cmd3 ) );
+			cmds_admin("!", ent);
+			return;
+		// Help
+		} else if ( text[0] == '?' ){
+			ParseAdmStr(text, cmd1, arg);	
+			ParseAdmStr(arg, cmd2, cmd3);
+			Q_strncpyz ( ent->client->pers.cmd1, cmd1, sizeof( ent->client->pers.cmd1 ) );
+			Q_strncpyz ( ent->client->pers.cmd2, cmd2, sizeof( ent->client->pers.cmd2 ) );
+			Q_strncpyz ( ent->client->pers.cmd3, cmd3, sizeof( ent->client->pers.cmd3 ) );
+			cmds_admin("?", ent);
+			return;
+		}
+	}   // end
+
+	// L0 - Deal with Admin tags..
+	if (!ent->client->sess.incognito) {
+		if (ent->client->sess.admin == ADM_MEM) 
+			tag = va("^7(%s^7)", a1_tag.string);
+		else if (ent->client->sess.admin == ADM_MED)
+			tag = va("^7(%s^7)", a2_tag.string);
+		else if (ent->client->sess.admin == ADM_FULL)
+			tag = va("^7(%s^7)", a3_tag.string);
+		else
+			tag = "";
+	// If Admin is hidden or not an admin at all..no tag.
+	} else {
+		tag = ""; 
+	} // End
+
+#endif
 
 	if ( g_gametype.integer <= GT_SINGLE_PLAYER && mode == SAY_TEAM ) {
 		mode = SAY_ALL;
@@ -979,8 +1032,13 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	switch ( mode ) {
 	default:
 	case SAY_ALL:
-		G_LogPrintf( "say: %s: %s\n", ent->client->pers.netname, chatText );
-		Com_sprintf( name, sizeof( name ), "%s%c%c: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
+		#ifdef _ADMINS
+			G_LogPrintf( "say: %s%s: %s\n", ent->client->pers.netname, tag, chatText ); // L0 - Added admin tag for log print..
+			Com_sprintf( name, sizeof( name ), "%s%s%c%c: ", ent->client->pers.netname, tag, Q_COLOR_ESCAPE, COLOR_WHITE ); // L0 - Added admin tag..
+		#else
+			G_LogPrintf( "say: %s: %s\n", ent->client->pers.netname, chatText ); 
+			Com_sprintf( name, sizeof( name ), "%s%c%c: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE ); 
+		#endif
 		color = COLOR_GREEN;
 		break;
 	case SAY_TEAM:
@@ -1066,6 +1124,14 @@ static void Cmd_Tell_f( gentity_t *ent ) {
 	char        *p;
 	char arg[MAX_TOKEN_CHARS];
 
+#ifdef _ADMINS
+	// L0 - Ignored players..
+	if (ent->client->sess.ignored) {
+		trap_SendServerCommand(ent-g_entities, "print \"You cannot use Tell because you are ^!Ignored^7!\"2");
+	return;
+	} // End
+#endif
+
 	if ( trap_Argc() < 2 ) {
 		return;
 	}
@@ -1127,6 +1193,14 @@ static void G_VoiceTo( gentity_t *ent, gentity_t *other, int mode, const char *i
 void G_Voice( gentity_t *ent, gentity_t *target, int mode, const char *id, qboolean voiceonly ) {
         int j;
         gentity_t   *other;
+
+#ifdef _ADMINS
+		// L0 - Ignored players..
+		if (ent->client->sess.ignored) {
+			trap_SendServerCommand(ent-g_entities, "print \"You cannot VoiceChat because you are ^!Ignored^7!\"2");
+		return;
+		} // End
+#endif	
 
         /*if ( g_gametype.integer < GT_TEAM && mode == SAY_TEAM ) {
                 mode = SAY_ALL;
@@ -1251,9 +1325,17 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	int i;
 	char arg1[MAX_STRING_TOKENS];
 	char arg2[MAX_STRING_TOKENS];
-        char cleanName[64];
+    char cleanName[64];
 
-        if ( g_gametype.integer == GT_SINGLE_PLAYER) {
+#ifdef _ADMINS
+	// L0 - Ignored players..
+	if (ent->client->sess.ignored) {
+		trap_SendServerCommand(ent-g_entities, "print \"You cannot Call Votes because you are ^!Ignored^7!\"2");
+	return;
+	} // End
+#endif	
+
+    if ( g_gametype.integer == GT_SINGLE_PLAYER) {
 		trap_SendServerCommand( ent - g_entities, "print \"Voting not allowed in single player.\n\"" );
                 return;
         }
@@ -1286,8 +1368,12 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
 	} else if ( !Q_stricmp( arg1, "kick" ) ) {
 	} else if ( !Q_stricmp( arg1, "nextmap" ) ) {
+	// L0 - ( not wrapping this in _ADMIN flag as there's no need to)
+	} else if ( !Q_stricmp( arg1, "clientkick" ) ) {
+	} else if ( !Q_stricmp( arg1, "?" ) ) {
+	// End
 	} else {
-		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick and nextmap\"" );
+		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick, clientkick, ? (poll) and nextmap\"" ); // L0 - Added clientkick and Poll option
 		return;
 	}
 
@@ -1301,12 +1387,20 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		}
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "coopmap %s", s );
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
-	}
-        else if ( !Q_stricmp( arg1, "map") ) {
+	} else if ( !Q_stricmp( arg1, "map") ) {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "coopmap %s", arg2 );
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
-        }
-	else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
+	// L0 - Poll option
+	} else if ( !Q_stricmp( arg1, "?" ) ) {
+		char	*s;
+		s = ConcatArgs(2); // 
+
+		if (*s) {
+			Com_sprintf( level.voteString, sizeof( level.voteString ), "\"Poll: %s\"", s);  // Temporarily set like this as vote draw needs to be fixed to look nicer so on TODO list..
+		} 
+		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s%s", level.voteString, s ); 	
+	// end
+    } else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
                 i = atoi(arg2);
                 if ( i >= GT_SINGLE_PLAYER || i < 0 ) {
                         trap_SendServerCommand( ent - g_entities, "print \"Invalid gametype.\n\"" );
@@ -1314,7 +1408,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
                 }
                 Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %d; map_restart 5", arg1, i ); 
                 Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s %s", arg1, gameNames[i] );
-        } else if ( !Q_stricmp( arg1,"kick" ) ) {
+    } else if ( !Q_stricmp( arg1,"kick" ) ) {
                 int i,kicknum = MAX_CLIENTS;
                 for ( i = 0; i < MAX_CLIENTS; i++ ) {
                         if ( level.clients[i].pers.connected != CON_CONNECTED ) {
@@ -2499,6 +2593,24 @@ void ClientCommand( int clientNum ) {
 		return;
 	}
 //----(SA)	end
+
+#ifdef _ADMINS
+	// L0 - Hook our commands above intermission
+	if ( Q_stricmp( cmd, "login" ) == 0 ) {
+		cmd_do_login( ent, qfalse );
+	return;
+	} else if ( Q_stricmp( cmd, "@login" ) == 0 ) {
+		cmd_do_login( ent, qtrue );
+	return;
+	} else if ( Q_stricmp( cmd, "logout" ) == 0 ) {
+		cmd_do_logout( ent );
+	return;
+	} else if ( Q_stricmp( cmd, "incognito" ) == 0 ) {
+		cmd_incognito( ent );
+	return;
+	}
+	// End
+#endif
 
 	// ignore all other commands when at intermission
 	if ( level.intermissiontime ) {

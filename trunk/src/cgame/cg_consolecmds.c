@@ -798,7 +798,35 @@ void CG_InitConsoleCommands( void ) {
 	trap_AddCommand( "nofatigue" );
 	trap_AddCommand( "setspawnpt" );          // NERVE - SMF
 
-        // coop
+    // coop
 	trap_AddCommand( "spawnpoint" );
 	trap_AddCommand( "teleport" );
+
+#ifdef _ADMINS
+	// L0 - New stuff	
+	trap_AddCommand( "login" );
+	trap_AddCommand( "@login" );
+	trap_AddCommand( "logout" );
+	trap_AddCommand( "incognito" );
+	// Admin cmds
+	trap_AddCommand( "!incognito" );
+	trap_AddCommand( "!ignore" );
+	trap_AddCommand( "!unignore" );
+	trap_AddCommand( "!clientignore" );
+	trap_AddCommand( "!clientunignore" );
+	trap_AddCommand( "!kick" );
+	trap_AddCommand( "!clientkick" );
+	trap_AddCommand( "!slap" );
+	trap_AddCommand( "!kill" );
+	// Admin help
+	trap_AddCommand( "?incognito" );
+	trap_AddCommand( "?ignore" );
+	trap_AddCommand( "?unignore" );
+	trap_AddCommand( "?clientignore" );
+	trap_AddCommand( "?clientunignore" );
+	trap_AddCommand( "?slap" );
+	trap_AddCommand( "?kill" );
+	// End
+#endif
+
 }

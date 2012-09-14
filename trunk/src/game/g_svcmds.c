@@ -430,6 +430,17 @@ void    Svcmd_ForceTeam_f( void ) {
 	SetTeam( &g_entities[cl - level.clients], str );
 }
 
+
+/*
+============
+L0 - Print Poll answer,,
+============
+*/
+void Svcmd_PollPrint_f() {
+	trap_SendServerCommand(-1, va("chat \"console: Poll result is ^2Yes^7!\n\""));	
+}
+
+
 char    *ConcatArgs( int start );
 
 /*
@@ -526,6 +537,12 @@ qboolean    ConsoleCommand( void ) {
 		trap_SendConsoleCommand( EXEC_INSERT, "g_banIPs\n" );
 		return qtrue;
 	}
+
+	// L0 - Poll
+	if (Q_stricmp(cmd, "Poll:") == 0 ) {
+		Svcmd_PollPrint_f ();
+		return qtrue;
+	} // End
 
 	if ( g_dedicated.integer ) {
 		if ( Q_stricmp( cmd, "say" ) == 0 ) {

@@ -280,6 +280,13 @@ vmCvar_t mp_mapTitle;
 vmCvar_t mp_itemDesc;
 // -NERVE - SMF
 
+// L0
+#ifdef _ADMINS // - NOT rly tied to it but to avoid problems and multiple flags..
+vmCvar_t cg_solidCrosshair;	// No pulsing when shoting
+vmCvar_t cg_bloodBlend;		// Blood covering the screen..
+#endif
+// end
+
 typedef struct {
 	vmCvar_t    *vmCvar;
 	char        *cvarName;
@@ -459,7 +466,7 @@ cvarTable_t cvarTable[] = {
 	{ &cg_animState, "cg_animState", "0", CVAR_CHEAT},
 	{ &cg_missionStats, "g_missionStats", "0", CVAR_ROM},
 	{ &cg_waitForFire, "cl_waitForFire", "0", CVAR_ROM},
-        { &cg_drawNotifyText, "cg_drawNotifyText", "1", CVAR_ARCHIVE },
+    { &cg_drawNotifyText, "cg_drawNotifyText", "1", CVAR_ARCHIVE },
 
 	{ &cg_loadWeaponSelect, "cg_loadWeaponSelect", "0", CVAR_ROM},
 
@@ -476,6 +483,13 @@ cvarTable_t cvarTable[] = {
 	{ &mp_mapTitle, "mp_mapTitle", "", 0 },
 	{ &mp_itemDesc, "mp_itemDesc", "", 0 },
 	// -NERVE - SMF
+
+#ifdef _ADMINS
+	// L0
+	{ &cg_solidCrosshair, "cg_solidCrosshair", "0", CVAR_ARCHIVE },
+	{ &cg_bloodBlend, "cg_bloodBlend", "0", CVAR_ARCHIVE },
+	// end
+#endif
 
 	{ &cg_showAIState, "cg_showAIState", "0", CVAR_CHEAT},
 };
