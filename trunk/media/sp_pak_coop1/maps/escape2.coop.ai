@@ -165,6 +165,7 @@ player
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_15 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
+		alertentity nazi27
 	}
 
 	trigger action15
@@ -192,8 +193,8 @@ player
 		alertentity nazi25
 		alertentity nazi28
 		alertentity nazi27
-		trigger dialog bridgedoor
 		trigger spawner barracks
+		trigger dialog bridgedoor
 		alertentity openbridgedoor
 	}
 
@@ -203,6 +204,13 @@ player
 		alertentity nazi32
 		trigger nazi25 stillalive
 		trigger nazi28 stillalive
+		trigger dialog bridgedoor
+		alertentity openbridgedoor
+		
+		accum 0 abort_if_not_bitset 3
+		accum 0 bitreset 3
+		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
 	}
 
 	trigger playaction1
@@ -2584,7 +2592,7 @@ nazi27
 
 		wait 100
 		noattack 20000
-		gotomarker n27spot1 nostop
+		runomarker n27spot1 nostop
 		gotomarker n27spot2 nostop
 		gotomarker n27spot3 nostop
 		gotomarker n27spot4 nostop
