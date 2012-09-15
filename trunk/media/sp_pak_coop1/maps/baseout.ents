@@ -9,49 +9,49 @@
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1362 -156 344"
+"origin" "-1752 -232 344"
 "angle" "177"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1407 -156 344"
+"origin" "-1752 -184 344"
 "angle" "177"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1440 -156 344"
+"origin" "-1752 -136 344"
 "angle" "177"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1488 -160 344"
+"origin" "-1752 -88 344"
 "angle" "177"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1535 -160 344"
+"origin" "-1800 -232 344"
 "angle" "177"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1574 -160 344"
+"origin" "-1800 -184 344"
 "angle" "177"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1614 -160 344"
+"origin" "-1800 -136 344"
 "angle" "177"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1654 -160 344"
+"origin" "-1800 -88 344"
 "angle" "177"
 }
 

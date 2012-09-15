@@ -45,14 +45,16 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+		
+		trigger mech1 go
+		trigger nazi1 go
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
 
 	}
 
 	trigger action1
 	{
-		trigger mech1 go
-		trigger nazi1 go
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
+
 	}
 
 	trigger action2
