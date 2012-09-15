@@ -53,4 +53,10 @@ a3_allowAll "1" // If enabled, level 3 admin can execute any admin command there
 //-> useful for later on where size is to big to fit in one cvar..so a3_cmds can be used for server specific stuff..
 adm_help "1" // If enabled, admins can do !list_cmds to see what commands are available for level they are.
 
+UPDATE:
 
+Client cvars:
+cg_bloodBlend     // If enabled it removes blood when user gets hit.
+cg_solidCrosshair // If enabled crosshair doesn't pulse when user is shooting.
+
+NOTE: I need to add this under menu option so it's easy accessible..
