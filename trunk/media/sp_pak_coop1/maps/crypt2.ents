@@ -9,49 +9,49 @@
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "320 -971 160"
+"origin" "368 -832 160"
 "angle" "90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "381 -971 160"
+"origin" "272 -832 160"
 "angle" "90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "258 -971 160"
+"origin" "272 -896 160"
 "angle" "90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "258 -913 160"
+"origin" "272 -960 160"
 "angle" "90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "315 -912 160"
+"origin" "320 -896 160"
 "angle" "90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "375 -912 160"
+"origin" "320 -960 160"
 "angle" "90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "375 -895 160"
+"origin" "368 -896 160"
 "angle" "90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "315 -895 160"
+"origin" "368 -960 160"
 "angle" "90"
 }
 
@@ -129,9 +129,9 @@
 }
 {
 "classname" "ai_warzombie"
-"origin" "-1499 -21 -55"
+"origin" "-1499 -85 -55"
 "ainame" "coop_ai_zombie_9"
-"angle" "1"
+"angle" "45"
 "spawnflags" "1"
 "skin" "warrior/crypt2"
 "head" "crypt2" 

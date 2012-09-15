@@ -54,8 +54,8 @@ menuDef {
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_EDITFIELD
 			style			0
-			maxChars		32
-			maxpaintchars	18
+			maxChars		16
+			maxpaintchars	16
 			text			"Name:"
 			cvar			"name"
 			textscale		.22

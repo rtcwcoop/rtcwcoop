@@ -203,7 +203,7 @@
 }
 {
 "classname" "ai_warzombie"
-"origin" "-125 76 -151"
+"origin" "-125 -92 -151"
 "ainame" "coop_ai_zombie_17"
 "angle" "-89"
 "spawnflags" "1"

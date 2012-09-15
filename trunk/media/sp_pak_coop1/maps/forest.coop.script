@@ -327,53 +327,53 @@ t2body
 		trigger t2rwheel begin2
 		trigger t2tail begin2
 		trigger t2cargo begin2
-		gotomarker t2spot2 160
+		gotomarker t2spot2 1600
 		faceangles 0 180 0 gototime
 		trigger t2rwheel right12
 		trigger t2lwheel right12
-		gotomarker t2spot3 160
+		gotomarker t2spot3 1600
 		faceangles 0 171 0 gototime
-		gotomarker t2spot4 160
+		gotomarker t2spot4 1600
 		faceangles 0 162 0 gototime
-		gotomarker t2spot5 160
+		gotomarker t2spot5 1600
 		faceangles 0 153 0 gototime
-		gotomarker t2spot6 160
+		gotomarker t2spot6 1600
 		faceangles 0 144 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot7 160
+		gotomarker t2spot7 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot8 160
+		gotomarker t2spot8 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot9 160
+		gotomarker t2spot9 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot10 160
+		gotomarker t2spot10 1600
 		faceangles 0 135 0 gototime
 		trigger t2rwheel right12
 		trigger t2lwheel right12
-		gotomarker t2spot11 160
+		gotomarker t2spot11 1600
 		faceangles 0 126 0 gototime
-		gotomarker t2spot12 160
+		gotomarker t2spot12 1600
 		faceangles 0 117 0 gototime
-		gotomarker t2spot13 160
+		gotomarker t2spot13 1600
 		faceangles 0 108 0 gototime
-		gotomarker t2spot14 160
+		gotomarker t2spot14 1600
 		faceangles 0 99 0 gototime
-		gotomarker t2spot15 160
+		gotomarker t2spot15 1600
 		faceangles 0 90 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot16 130
+		gotomarker t2spot16 1300
 		faceangles 0 90 0 gototime
-		gotomarker t2spot17 100
+		gotomarker t2spot17 1000
 		faceangles 0 90 0 gototime
-		gotomarker t2spot18 70
+		gotomarker t2spot18 700
 		faceangles 0 90 0 gototime
 		trigger t2bwheels stop2
 		trigger t2lwheel stop2
 		trigger t2rwheel stop2
 		playsound sound/world/idle_01.wav looping
-		gotomarker t2spot19 40
+		gotomarker t2spot19 400
 		faceangles 0 90 0 gototime
 		trigger t2body atbridge
 	}
@@ -408,52 +408,52 @@ t2body
 
 	trigger intotunnel2
 	{
-		gotomarker t2spot27 160
+		gotomarker t2spot27 320
 		faceangles 0 90 0 gototime
 		trigger t2rwheel left12
 		trigger t2lwheel left12
-		gotomarker t2spot28 160
+		gotomarker t2spot28 320
 		faceangles 0 99 0 gototime
 		trigger nazi3 pastbridge // this informes nazi3 to look around more
-		gotomarker t2spot29 160
+		gotomarker t2spot29 320
 		faceangles 0 108 0 gototime
-		gotomarker t2spot30 160
+		gotomarker t2spot30 320
 		faceangles 0 117 0 gototime
-		gotomarker t2spot31 160
+		gotomarker t2spot31 320
 		faceangles 0 126 0 gototime
-		gotomarker t2spot32 160
+		gotomarker t2spot32 320
 		faceangles 0 135 0 gototime
-		gotomarker t2spot33 160
+		gotomarker t2spot33 320
 		faceangles 0 144 0 gototime
-		gotomarker t2spot34 160
+		gotomarker t2spot34 320
 		faceangles 0 153 0 gototime
-		gotomarker t2spot35 160
+		gotomarker t2spot35 320
 		faceangles 0 162 0 gototime
-		gotomarker t2spot36 160
+		gotomarker t2spot36 320
 		faceangles 0 171 0 gototime
-		gotomarker t2spot37 160
+		gotomarker t2spot37 320
 		faceangles 0 180 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot38 160
+		gotomarker t2spot38 320
 		faceangles 0 180 0 gototime
 		trigger t2body securitycheck3
 	}
 
 	trigger securitycheck3
 	{
-		gotomarker t2spot39 160
+		gotomarker t2spot39 320
 		faceangles 0 180 0 gototime
-		gotomarker t2spot40 120
+		gotomarker t2spot40 140
 		faceangles 0 180 0 gototime
-		gotomarker t2spot41 80
+		gotomarker t2spot41 160
 		faceangles 0 180 0 gototime
 		trigger t2bwheels stop2
 		trigger t2lwheel stop2
 		trigger t2rwheel stop2
 //		trigger nazi7 checkback7
 //		playsound sound/world/idle_01.wav looping
-		gotomarker t2spot42 40
+		gotomarker t2spot42 80
 		faceangles 0 180 0 gototime
 		trigger t2body ontocamp4
 	}
@@ -466,119 +466,119 @@ t2body
 		trigger t2rwheel begin2
 		trigger t2tail ontocamp4
 		trigger t2cargo ontocamp4
-		gotomarker t2spot43 80
+		gotomarker t2spot43 160
 		faceangles 0 180 0 gototime
-		gotomarker t2spot44 120
+		gotomarker t2spot44 240
 		faceangles 0 180 0 gototime
-		gotomarker t2spot45 160
+		gotomarker t2spot45 320
 		faceangles 0 180 0 gototime
 		trigger t2rwheel left12
 		trigger t2lwheel left12
-		gotomarker t2spot46 160
+		gotomarker t2spot46 320
 		faceangles 0 189 0 gototime
 //		trigger nazi7 chat7
 //		trigger nazi8 chat8
-		gotomarker t2spot47 160
+		gotomarker t2spot47 320
 		faceangles 0 198 0 gototime
-		gotomarker t2spot48 160
+		gotomarker t2spot48 320
 		faceangles 0 207 0 gototime
-		gotomarker t2spot49 160
+		gotomarker t2spot49 320
 		faceangles 0 216 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot50 160
+		gotomarker t2spot50 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot51 160
+		gotomarker t2spot51 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot52 160
+		gotomarker t2spot52 320
 		faceangles 0 225 0 gototime
 		trigger t2rwheel left12
 		trigger t2lwheel left12
-		gotomarker t2spot53 160
+		gotomarker t2spot53 320
 		faceangles 0 234 0 gototime
-		gotomarker t2spot54 160
+		gotomarker t2spot54 320
 		faceangles 0 243 0 gototime
-		gotomarker t2spot55 160
+		gotomarker t2spot55 320
 		faceangles 0 252 0 gototime
-		gotomarker t2spot56 160
+		gotomarker t2spot56 320
 		faceangles 0 261 0 gototime
 		trigger nazi18 truckapproch
-		gotomarker t2spot57 160
+		gotomarker t2spot57 320
 		faceangles 0 270 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot58 160
+		gotomarker t2spot58 320
 		faceangles 0 270 0 gototime
-		gotomarker t2spot59 160
+		gotomarker t2spot59 320
 		faceangles 4 270 0 gototime
-		gotomarker t2spot60 160
+		gotomarker t2spot60 320
 		faceangles 4 270 0 gototime
 		alertentity opengater
 		alertentity opengatel
 		trigger nazi18 opengate
-		gotomarker t2spot61 140
+		gotomarker t2spot61 280
 		faceangles 0 270 0 gototime
-		gotomarker t2spot62 120
+		gotomarker t2spot62 240
 		faceangles 0 270 0 gototime
 		trigger t2body incamp5
 	}
 
 	trigger incamp5
 	{
-		gotomarker t2spot63 100
+		gotomarker t2spot63 200
 		faceangles 0 270 0 gototime
 		trigger t2rwheel right30
 		trigger t2lwheel right30
-		gotomarker t2spot64 100
+		gotomarker t2spot64 200
 		faceangles 0 240 0 gototime
-		gotomarker t2spot65 100
+		gotomarker t2spot65 200
 		faceangles 0 210 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot66 100
+		gotomarker t2spot66 200
 		faceangles 0 180 0 gototime
-		gotomarker t2spot67 120
+		gotomarker t2spot67 240
 		faceangles 0 180 0 gototime
-		gotomarker t2spot68 140
+		gotomarker t2spot68 280
 		faceangles 0 180 0 gototime
 		trigger t2rwheel left30
 		trigger t2lwheel left30
-		gotomarker t2spot69 100
+		gotomarker t2spot69 200
 		faceangles 0 210 0 gototime
-		gotomarker t2spot70 100
+		gotomarker t2spot70 200
 		faceangles 0 240 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot71 100
+		gotomarker t2spot71 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot72 140
+		gotomarker t2spot72 280
 		faceangles 0 270 0 gototime
-		gotomarker t2spot73 100
+		gotomarker t2spot73 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot74 60
+		gotomarker t2spot74 120
 		faceangles 0 270 0 gototime
 		wait 2000
 		trigger t2rwheel right30
 		trigger t2lwheel right30
-		gotomarker t2spot75 50
+		gotomarker t2spot75 100
 		faceangles 0 315 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot76 50
+		gotomarker t2spot76 100
 		faceangles 0 315 0 gototime
 		trigger t2rwheel left30
 		trigger t2lwheel left30
-		gotomarker t2spot77 50
+		gotomarker t2spot77 100
 		faceangles 0 270 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot78 40
+		gotomarker t2spot78 80
 		faceangles 0 270 0 gototime
 		trigger t2bwheels stop2
 		trigger t2lwheel stop2
 		trigger t2rwheel stop2
 		playsound sound/world/idle_01.wav looping
-		gotomarker t2spot79 20
+		gotomarker t2spot79 40
 		faceangles 0 270 0 gototime
 		alertentity truckparked
 		trigger t2door hatchdown
@@ -624,41 +624,41 @@ t2cargo
 
 	trigger begin2
 	{
-		gotomarker t2spot2 160
+		gotomarker t2spot2 1600
 		faceangles 0 180 0 gototime
-		gotomarker t2spot3 160
+		gotomarker t2spot3 1600
 		faceangles 0 171 0 gototime
-		gotomarker t2spot4 160
+		gotomarker t2spot4 1600
 		faceangles 0 162 0 gototime
-		gotomarker t2spot5 160
+		gotomarker t2spot5 1600
 		faceangles 0 153 0 gototime
-		gotomarker t2spot6 160
+		gotomarker t2spot6 1600
 		faceangles 0 144 0 gototime
-		gotomarker t2spot7 160
+		gotomarker t2spot7 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot8 160
+		gotomarker t2spot8 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot9 160
+		gotomarker t2spot9 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot10 160
+		gotomarker t2spot10 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot11 160
+		gotomarker t2spot11 1600
 		faceangles 0 126 0 gototime
-		gotomarker t2spot12 160
+		gotomarker t2spot12 1600
 		faceangles 0 117 0 gototime
-		gotomarker t2spot13 160
+		gotomarker t2spot13 1600
 		faceangles 0 108 0 gototime
-		gotomarker t2spot14 160
+		gotomarker t2spot14 1600
 		faceangles 0 99 0 gototime
-		gotomarker t2spot15 160
+		gotomarker t2spot15 1600
 		faceangles 0 90 0 gototime
-		gotomarker t2spot16 130
+		gotomarker t2spot16 1300
 		faceangles 0 90 0 gototime
-		gotomarker t2spot17 100
+		gotomarker t2spot17 1000
 		faceangles 0 90 0 gototime
-		gotomarker t2spot18 70
+		gotomarker t2spot18 700
 		faceangles 0 90 0 gototime
-		gotomarker t2spot19 40
+		gotomarker t2spot19 400
 		faceangles 0 90 0 gototime
 	}
 
@@ -683,127 +683,127 @@ t2cargo
 
 	trigger intotunnel2
 	{
-		gotomarker t2spot27 160
+		gotomarker t2spot27 320
 		faceangles 0 90 0 gototime
-		gotomarker t2spot28 160
+		gotomarker t2spot28 320
 		faceangles 0 99 0 gototime
-		gotomarker t2spot29 160
+		gotomarker t2spot29 320
 		faceangles 0 108 0 gototime
-		gotomarker t2spot30 160
+		gotomarker t2spot30 320
 		faceangles 0 117 0 gototime
-		gotomarker t2spot31 160
+		gotomarker t2spot31 320
 		faceangles 0 126 0 gototime
-		gotomarker t2spot32 160
+		gotomarker t2spot32 320
 		faceangles 0 135 0 gototime
-		gotomarker t2spot33 160
+		gotomarker t2spot33 320
 		faceangles 0 144 0 gototime
-		gotomarker t2spot34 160
+		gotomarker t2spot34 320
 		faceangles 0 153 0 gototime
-		gotomarker t2spot35 160
+		gotomarker t2spot35 320
 		faceangles 0 162 0 gototime
-		gotomarker t2spot36 160
+		gotomarker t2spot36 320
 		faceangles 0 171 0 gototime
-		gotomarker t2spot37 160
+		gotomarker t2spot37 320
 		faceangles 0 180 0 gototime
-		gotomarker t2spot38 160
+		gotomarker t2spot38 320
 		faceangles 0 180 0 gototime
 		trigger t2cargo securitycheck3
 	}
 
 	trigger securitycheck3
 	{
-		gotomarker t2spot39 160
+		gotomarker t2spot39 320
 		faceangles 0 180 0 gototime
-		gotomarker t2spot40 120
+		gotomarker t2spot40 240
 		faceangles 0 180 0 gototime
-		gotomarker t2spot41 80
+		gotomarker t2spot41 160
 		faceangles 0 180 0 gototime
-		gotomarker t2spot42 40
+		gotomarker t2spot42 80
 		faceangles 0 180 0 gototime
 		trigger t2cargo ontocamp4
 	}
 
 	trigger ontocamp4
 	{
-		gotomarker t2spot43 80
+		gotomarker t2spot43 160
 		faceangles 0 180 0 gototime
-		gotomarker t2spot44 120
+		gotomarker t2spot44 240
 		faceangles 0 180 0 gototime
-		gotomarker t2spot45 160
+		gotomarker t2spot45 320
 		faceangles 0 180 0 gototime
-		gotomarker t2spot46 160
+		gotomarker t2spot46 320
 		faceangles 0 189 0 gototime
-		gotomarker t2spot47 160
+		gotomarker t2spot47 320
 		faceangles 0 198 0 gototime
-		gotomarker t2spot48 160
+		gotomarker t2spot48 320
 		faceangles 0 207 0 gototime
-		gotomarker t2spot49 160
+		gotomarker t2spot49 320
 		faceangles 0 216 0 gototime
-		gotomarker t2spot50 160
+		gotomarker t2spot50 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot51 160
+		gotomarker t2spot51 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot52 160
+		gotomarker t2spot52 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot53 160
+		gotomarker t2spot53 320
 		faceangles 0 234 0 gototime
-		gotomarker t2spot54 160
+		gotomarker t2spot54 320
 		faceangles 0 243 0 gototime
-		gotomarker t2spot55 160
+		gotomarker t2spot55 320
 		faceangles 0 252 0 gototime
-		gotomarker t2spot56 160
+		gotomarker t2spot56 320
 		faceangles 0 261 0 gototime
-		gotomarker t2spot57 160
+		gotomarker t2spot57 320
 		faceangles 0 270 0 gototime
-		gotomarker t2spot58 160
+		gotomarker t2spot58 320
 		faceangles 0 270 0 gototime
-		gotomarker t2spot59 160
+		gotomarker t2spot59 320
 		faceangles 4 270 0 gototime
-		gotomarker t2spot60 160
+		gotomarker t2spot60 320
 		faceangles 4 270 0 gototime
-		gotomarker t2spot61 140
+		gotomarker t2spot61 280
 		faceangles 0 270 0 gototime
-		gotomarker t2spot62 120
+		gotomarker t2spot62 240
 		faceangles 0 270 0 gototime
 		trigger t2cargo incamp5
 	}
 
 	trigger incamp5
 	{
-		gotomarker t2spot63 100
+		gotomarker t2spot63 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot64 100
+		gotomarker t2spot64 200
 		faceangles 0 240 0 gototime
-		gotomarker t2spot65 100
+		gotomarker t2spot65 200
 		faceangles 0 210 0 gototime
-		gotomarker t2spot66 100
+		gotomarker t2spot66 200
 		faceangles 0 180 0 gototime
-		gotomarker t2spot67 120
+		gotomarker t2spot67 220
 		faceangles 0 180 0 gototime
-		gotomarker t2spot68 140
+		gotomarker t2spot68 280
 		faceangles 0 180 0 gototime
-		gotomarker t2spot69 100
+		gotomarker t2spot69 200
 		faceangles 0 210 0 gototime
-		gotomarker t2spot70 100
+		gotomarker t2spot70 200
 		faceangles 0 240 0 gototime
-		gotomarker t2spot71 100
+		gotomarker t2spot71 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot72 140
+		gotomarker t2spot72 280
 		faceangles 0 270 0 gototime
-		gotomarker t2spot73 100
+		gotomarker t2spot73 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot74 60
+		gotomarker t2spot74 120
 		faceangles 0 270 0 gototime
 		wait 2000
-		gotomarker t2spot75 50
+		gotomarker t2spot75 100
 		faceangles 0 315 0 gototime
-		gotomarker t2spot76 50
+		gotomarker t2spot76 100
 		faceangles 0 315 0 gototime
-		gotomarker t2spot77 50
+		gotomarker t2spot77 100
 		faceangles 0 270 0 gototime
-		gotomarker t2spot78 40
+		gotomarker t2spot78 80
 		faceangles 0 270 0 gototime
-		gotomarker t2spot79 20
+		gotomarker t2spot79 40
 		faceangles 0 270 0 gototime
 	}
 
@@ -972,41 +972,41 @@ t2tail
 
 	trigger begin2
 	{
-		gotomarker t2spot2 160
+		gotomarker t2spot2 1600
 		faceangles 0 180 0 gototime
-		gotomarker t2spot3 160
+		gotomarker t2spot3 1600
 		faceangles 0 171 0 gototime
-		gotomarker t2spot4 160
+		gotomarker t2spot4 1600
 		faceangles 0 162 0 gototime
-		gotomarker t2spot5 160
+		gotomarker t2spot5 1600
 		faceangles 0 153 0 gototime
-		gotomarker t2spot6 160
+		gotomarker t2spot6 1600
 		faceangles 0 144 0 gototime
-		gotomarker t2spot7 160
+		gotomarker t2spot7 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot8 160
+		gotomarker t2spot8 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot9 160
+		gotomarker t2spot9 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot10 160
+		gotomarker t2spot10 1600
 		faceangles 0 135 0 gototime
-		gotomarker t2spot11 160
+		gotomarker t2spot11 1600
 		faceangles 0 126 0 gototime
-		gotomarker t2spot12 160
+		gotomarker t2spot12 1600
 		faceangles 0 117 0 gototime
-		gotomarker t2spot13 160
+		gotomarker t2spot13 1600
 		faceangles 0 108 0 gototime
-		gotomarker t2spot14 160
+		gotomarker t2spot14 1600
 		faceangles 0 99 0 gototime
-		gotomarker t2spot15 160
+		gotomarker t2spot15 1600
 		faceangles 0 90 0 gototime
-		gotomarker t2spot16 130
+		gotomarker t2spot16 1300
 		faceangles 0 90 0 gototime
-		gotomarker t2spot17 100
+		gotomarker t2spot17 1000
 		faceangles 0 90 0 gototime
-		gotomarker t2spot18 70
+		gotomarker t2spot18 700
 		faceangles 0 90 0 gototime
-		gotomarker t2spot19 40
+		gotomarker t2spot19 400
 		faceangles 0 90 0 gototime
 	}
 
@@ -1031,117 +1031,117 @@ t2tail
 
 	trigger intotunnel2
 	{
-		gotomarker t2spot27 160
+		gotomarker t2spot27 320
 		faceangles 0 90 0 gototime
-		gotomarker t2spot28 160
+		gotomarker t2spot28 320
 		faceangles 0 99 0 gototime
-		gotomarker t2spot29 160
+		gotomarker t2spot29 320
 		faceangles 0 108 0 gototime
-		gotomarker t2spot30 160
+		gotomarker t2spot30 320
 		faceangles 0 117 0 gototime
-		gotomarker t2spot31 160
+		gotomarker t2spot31 320
 		faceangles 0 126 0 gototime
-		gotomarker t2spot32 160
+		gotomarker t2spot32 320
 		faceangles 0 135 0 gototime
-		gotomarker t2spot33 160
+		gotomarker t2spot33 320
 		faceangles 0 144 0 gototime
-		gotomarker t2spot34 160
+		gotomarker t2spot34 320
 		faceangles 0 153 0 gototime
-		gotomarker t2spot35 160
+		gotomarker t2spot35 320
 		faceangles 0 162 0 gototime
-		gotomarker t2spot36 160
+		gotomarker t2spot36 320
 		faceangles 0 171 0 gototime
-		gotomarker t2spot37 160
+		gotomarker t2spot37 320
 		faceangles 0 180 0 gototime
-		gotomarker t2spot38 160
+		gotomarker t2spot38 320
 		faceangles 0 180 0 gototime
 		trigger t2tail securitycheck3
 	}
 
 	trigger securitycheck3
 	{
-		gotomarker t2spot39 160
+		gotomarker t2spot39 320
 		faceangles 0 180 0 gototime
-		gotomarker t2spot40 120
+		gotomarker t2spot40 240
 		faceangles 0 180 0 gototime
-		gotomarker t2spot41 80
+		gotomarker t2spot41 160
 		faceangles 0 180 0 gototime
-		gotomarker t2spot42 40
+		gotomarker t2spot42 80
 		faceangles 0 180 0 gototime
 	}
 
 	trigger ontocamp4
 	{
-		gotomarker t2spot43 80
+		gotomarker t2spot43 160
 		faceangles 0 180 0 gototime
-		gotomarker t2spot44 120
+		gotomarker t2spot44 240
 		faceangles 0 180 0 gototime
-		gotomarker t2spot45 160
+		gotomarker t2spot45 320
 		faceangles 0 180 0 gototime
-		gotomarker t2spot46 160
+		gotomarker t2spot46 320
 		faceangles 0 189 0 gototime
-		gotomarker t2spot47 160
+		gotomarker t2spot47 320
 		faceangles 0 198 0 gototime
-		gotomarker t2spot48 160
+		gotomarker t2spot48 320
 		faceangles 0 207 0 gototime
-		gotomarker t2spot49 160
+		gotomarker t2spot49 320
 		faceangles 0 216 0 gototime
-		gotomarker t2spot50 160
+		gotomarker t2spot50 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot51 160
+		gotomarker t2spot51 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot52 160
+		gotomarker t2spot52 320
 		faceangles 0 225 0 gototime
-		gotomarker t2spot53 160
+		gotomarker t2spot53 320
 		faceangles 0 234 0 gototime
-		gotomarker t2spot54 160
+		gotomarker t2spot54 320
 		faceangles 0 243 0 gototime
-		gotomarker t2spot55 160
+		gotomarker t2spot55 320
 		faceangles 0 252 0 gototime
-		gotomarker t2spot56 160
+		gotomarker t2spot56 320
 		faceangles 0 261 0 gototime
-		gotomarker t2spot57 160
+		gotomarker t2spot57 320
 		faceangles 0 270 0 gototime
-		gotomarker t2spot58 160
+		gotomarker t2spot58 320
 		faceangles 0 270 0 gototime
-		gotomarker t2spot59 160
+		gotomarker t2spot59 320
 		faceangles 4 270 0 gototime
-		gotomarker t2spot60 160
+		gotomarker t2spot60 320
 		faceangles 4 270 0 gototime
-		gotomarker t2spot61 140
+		gotomarker t2spot61 280
 		faceangles 0 270 0 gototime
-		gotomarker t2spot62 120
+		gotomarker t2spot62 240
 		faceangles 0 270 0 gototime
 		trigger t2tail incamp5
 	}
 
 	trigger incamp5
 	{
-		gotomarker t2spot63 100
+		gotomarker t2spot63 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot64 100
+		gotomarker t2spot64 200
 		faceangles 0 240 0 gototime
-		gotomarker t2spot65 100
+		gotomarker t2spot65 200
 		faceangles 0 210 0 gototime
-		gotomarker t2spot66 100
+		gotomarker t2spot66 200
 		faceangles 0 180 0 gototime
-		gotomarker t2spot67 120
+		gotomarker t2spot67 240
 		faceangles 0 180 0 gototime
-		gotomarker t2spot68 140
+		gotomarker t2spot68 280
 		faceangles 0 180 0 gototime
-		gotomarker t2spot69 100
+		gotomarker t2spot69 200
 		faceangles 0 210 0 gototime
-		gotomarker t2spot70 100
+		gotomarker t2spot70 200
 		faceangles 0 240 0 gototime
-		gotomarker t2spot71 100
+		gotomarker t2spot71 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot72 140
+		gotomarker t2spot72 280
 		faceangles 0 270 0 gototime
-		gotomarker t2spot73 100
+		gotomarker t2spot73 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot74 100
+		gotomarker t2spot74 200
 		faceangles 0 270 0 gototime
-		gotomarker t2spot74t 100
+		gotomarker t2spot74t 200
 		faceangles 0 270 0 gototime
 	}
 }

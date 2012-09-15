@@ -541,10 +541,15 @@ counter1	//MISC Counter
 		alertentity flame1_kill_push
 		wait 5
 		alertentity flamezombie
+		wait 500
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_28 #endif
+		wait 500
 		#if g_reinforce >= 2 alertentity coop_ai_zombie_29 #endif
+		wait 500
 		#if g_reinforce >= 2 alertentity coop_ai_zombie_30 #endif
+		wait 500
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_31 #endif
+		wait 500
 		#if g_reinforce >= 2 alertentity coop_ai_zombie_32 #endif
 	}
 }
