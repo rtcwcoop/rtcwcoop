@@ -1292,6 +1292,61 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 }
 
 
+#ifdef _ADMINS
+// L0
+/*
+===========
+Save players IP
+
+If memory serves me right this is from soke JK source.
+============
+*/
+void SaveIP ( gclient_t * client, char * sip )
+{
+	int ipIndex, i, len;
+	int  ipPartPtr;
+
+	if( strcmp( sip, "localhost" ) == 0 || sip == NULL ){		
+		client->sess.ip[0] = 0;
+		client->sess.ip[1] = 0;
+		client->sess.ip[2] = 0;
+		client->sess.ip[3] = 0;
+		return;
+	}
+
+	len = strlen( sip );
+	ipIndex = 0;
+	ipPartPtr = 0;
+	i = 0;
+
+	while ( i < len ){
+		char ipPart[4];
+
+		if( sip[i] >= '0' && sip[i] <= '9' ) { 
+			ipPart[ipPartPtr] = sip[i];
+			ipPartPtr++;
+		}
+		else {
+			unsigned char ip;
+			
+			ipPart[ipPartPtr] = 0;
+			ip = (unsigned char) atoi( ipPart );
+			client->sess.ip[ipIndex] = ip;
+			ipIndex++;
+			ipPartPtr = 0;
+		}
+
+		if ( ( sip[i] < '0' || sip[i] > '9' ) && sip[i] != '.' ){ 
+			return;
+		}
+		i++;
+	}
+}
+void G_WriteClientSessionData( gclient_t *client );
+
+// End
+#endif
+
 /*
 ===========
 ClientUserInfoChanged
@@ -1333,6 +1388,13 @@ void ClientUserinfoChanged( int clientNum ) {
 	if ( !strcmp( s, "localhost" ) ) {
 		client->pers.localClient = qtrue;
 	}
+
+#ifdef _ADMINS
+	// L0 - save IP 
+	if( s[0] != 0 ){
+		SaveIP( client, s );
+	} // L0 - end
+#endif
 
 	// check the item prediction
 	s = Info_ValueForKey( userinfo, "cg_predictItems" );
@@ -1480,16 +1542,25 @@ void ClientUserinfoChanged( int clientNum ) {
 				client->pers.maxHealth, client->sess.wins, client->sess.losses,
 				Info_ValueForKey( userinfo, "skill" ) );
 	} else {
+#ifdef _ADMINS
+		// L0 - Store IP on user change as it gets lost after events..
+		s = va( "n\\%s\\t\\%i\\model\\%s\\head\\%s\\c1\\%s\\hc\\%i\\w\\%i\\l\\%i\\ip\\%i.%i.%i.%i",
+				client->pers.netname, client->sess.sessionTeam, model, head, c1,
+				client->pers.maxHealth, client->sess.wins, client->sess.losses, client->sess.ip[0],
+			client->sess.ip[1], client->sess.ip[2], client->sess.ip[3] );
+		// End
+#else
 		s = va( "n\\%s\\t\\%i\\model\\%s\\head\\%s\\c1\\%s\\hc\\%i\\w\\%i\\l\\%i",
 				client->pers.netname, client->sess.sessionTeam, model, head, c1,
 				client->pers.maxHealth, client->sess.wins, client->sess.losses );
+#endif
 	}
 
 //----(SA) end
 
 	trap_SetConfigstring( CS_PLAYERS + clientNum, s );
 
-	G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s ); // L0 - This is need it in log!
+	//G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s ); // L0 - Nvm...I seen why it's off...I'll log differently IPs..
 }
 
 

@@ -569,7 +569,8 @@ void Touch_Item( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 		return;
 	}
 
-	G_LogPrintf( "Item: %i %s\n", other->s.number, ent->item->classname );
+	// L0 - I never seen the point of this!? On top of that with all 1.0 drop reloaders it just spams console & lags ...
+	//G_LogPrintf( "Item: %i %s\n", other->s.number, ent->item->classname );
 
 	// call the item-specific pickup function
 	switch ( ent->item->giType ) {

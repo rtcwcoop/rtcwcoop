@@ -666,6 +666,15 @@ void SetTeam( gentity_t *ent, char *s ) {
 	spectatorState_t specState;
 	int specClient;
 
+#ifdef _ADMINS
+	// L0 - No joining if team is locked
+	if (g_gamelocked.integer) {		
+		trap_SendServerCommand( ent-g_entities, va( "cp \"You can't join because game is locked^1!\n\"2") );
+	return;
+	}
+	// end
+#endif
+
 	//
 	// see what change is requested
 	//
@@ -903,6 +912,14 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 			continue;
 		}
 
+		// L0 - Only follow players when spectacting.
+		// Dunno if it's a general idea to be able to follow bots as well 
+		// but if it is, then following needs to get fixed as spectator crashes
+		// when following certain bots...
+		if (g_entities[clientnum].r.svFlags & SVF_BOT) {
+			continue;
+		} // end
+
 // JPW NERVE -- couple extra checks for limbo mode
 		if ( ent->client->ps.pm_flags & PMF_LIMBO ) {
 			if ( level.clients[clientnum].ps.pm_flags & PMF_LIMBO ) {
@@ -976,13 +993,7 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	char arg[MAX_SAY_TEXT]; // ! & ? 
 	char cmd1[128];
 	char cmd2[128];
-	char cmd3[128];
-
-	// L0 - Ignored players..
-	if (ent->client->sess.ignored) {
-		trap_SendServerCommand(ent-g_entities, "print \"You cannot chat because you are ^!Ignored^7!\"2");
-	return;
-	} // End
+	char cmd3[128];	
 	
 	// Admin commands
 	Q_strncpyz ( text, chatText, sizeof( text ) );
@@ -1007,6 +1018,12 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 			return;
 		}
 	}   // end
+
+	// L0 - Ignored players..
+	if (ent->client->sess.ignored) {
+		trap_SendServerCommand(ent-g_entities, "print \"You cannot chat because you are ^!Ignored^7!\"2");
+	return;
+	} // End
 
 	// L0 - Deal with Admin tags..
 	if (!ent->client->sess.incognito) {
@@ -1326,6 +1343,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	char arg1[MAX_STRING_TOKENS];
 	char arg2[MAX_STRING_TOKENS];
     char cleanName[64];
+	char *check; // L0 - callvote exploit fix
 
 #ifdef _ADMINS
 	// L0 - Ignored players..
@@ -1362,6 +1380,19 @@ void Cmd_CallVote_f( gentity_t *ent ) {
                 trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\n\"" );
                 return;
         } 
+	
+	// L0 - callvote exploit fix - what escapes above is dealed with here
+	for( check = arg2; *check; ++check) {
+		switch(*check) {
+			case '\n':
+			case '\r':
+			case '"':
+			case ';':
+				trap_SendServerCommand( ent-g_entities, "print \"Invalid vote string.\n\"" );
+				return;
+			break;
+		}
+	} // end
 
 	if ( !Q_stricmp( arg1, "map_restart" ) ) {
 	} else if ( !Q_stricmp( arg1, "map" ) ) {
@@ -1371,6 +1402,9 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	// L0 - ( not wrapping this in _ADMIN flag as there's no need to)
 	} else if ( !Q_stricmp( arg1, "clientkick" ) ) {
 	} else if ( !Q_stricmp( arg1, "?" ) ) {
+	// Once admins get a part of the project this will be dumped in
+	//} else if ( !Q_stricmp( arg1, "ignore" ) ) {
+	//} else if ( !Q_stricmp( arg1, "unignore" ) ) {
 	// End
 	} else {
 		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick, clientkick, ? (poll) and nextmap\"" ); // L0 - Added clientkick and Poll option
@@ -1396,8 +1430,9 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		s = ConcatArgs(2); // 
 
 		if (*s) {
-			Com_sprintf( level.voteString, sizeof( level.voteString ), "\"Poll: %s\"", s);  // Temporarily set like this as vote draw needs to be fixed to look nicer so on TODO list..
-		} 
+			Com_sprintf( level.voteString, sizeof( level.voteString ), "\"Poll:\"", s);  
+			trap_SendServerCommand( -1, va("chat \"^2Poll: ^7%s\n\"", s )); // Temporarily set like this as vote draw needs to be fixed to look nicer so on TODO list..
+		} 		
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s%s", level.voteString, s ); 	
 	// end
     } else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
@@ -2607,6 +2642,9 @@ void ClientCommand( int clientNum ) {
 	return;
 	} else if ( Q_stricmp( cmd, "incognito" ) == 0 ) {
 		cmd_incognito( ent );
+	return;
+	} else if ( Q_stricmp( cmd, "getstatus" ) == 0 ) {
+		cmd_getstatus( ent );
 	return;
 	}
 	// End

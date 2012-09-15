@@ -1299,6 +1299,9 @@ extern vmCvar_t	a1_cmds;
 extern vmCvar_t	a2_cmds;	
 extern vmCvar_t	a3_cmds;	
 extern vmCvar_t	a3_allowAll;
+extern vmCvar_t	adm_help;
+extern vmCvar_t g_gamelocked;
+extern vmCvar_t	sv_hostname;
 #endif
 // End
 

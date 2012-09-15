@@ -49,7 +49,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>CGAMEDLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;CGAME_EXPORTS;%(PreprocessorDefinitions);_ADMINS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CGAMEDLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;CGAME_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>

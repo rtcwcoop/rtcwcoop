@@ -1,0 +1,56 @@
+15.Sept/2012  (REV: 760)
+=========================
+Nate 'L0 (nate.afk@gmail.com)
+I've created this file to follow my own changes - If anyone else wishes to make use of this file, be my guest. :)
+=========================
+This is the full list of all the changes I made so far (2 revisions rly..). 
+- Patched makefile so it compiles under linux. 
+-- By default changes I've added are excluded so use _ADMINS (-D_ADMINS) flag under cgame (for autocomplete) and qagame (for admin stuff) to compile with changes.
+
+- Reverted some changes I've made before - namely info print in logs.
+- Fixed callvote exploit.
+- Removed picking up (item: weapon.." log spam as it's useless...
+- Locked spectators to be able to only spectate other players and not bots as well (specing certain bots crashes the client so later on has to be fixed!).
+
+- Added new commands..    
+- All currently available Admin commands are:
+-- list_cmds                              // If enabled it prints all available commands for level user has.
+-- incognito                              // Hides Admin tag under chat and /getstatus. 
+-- ignore (uses unique part of name)      // Takes ability to chat, call votes or use vsay from player.
+-- unignore  (uses unique part of name)   // Restores ability to chat, call votes or use vsay to player.
+-- clientignore (uses slot)               // Same as ignore, just uses slot instead of name.
+-- clientunigore (uses slot)              // Same as unignore, just uses slot instead of name.
+-- kick (uses unique part of name) (msg)  // Kicks player from server - message is optional and atm victim doesn't see it.. 
+-- clientkick (uses slot) (msg)           // Same as kick, just uses slot instead of name.
+-- slap (uses slot)                       // Slap takes 20 from player.
+-- kill (uses slot)                       // Kills player on spot and takes one life. 
+-- specs (uses uniqe part of name)        // Moves player to spectators.
+-- coop (uses unique part of name)        // Moves spectator to game.
+
+- Client commands: 
+-- /incognito     // Toggles Admin status - !incognito does the same thing.. 
+-- /getstatus     // Loops thru all the players and outputs basic info: slot - team - name - IP (only partial for non admins) - Admin / Ignored..
+-- /login <pass>  // Logs user in. 
+-- /@login <pass> // Silently logs user in.
+-- /logout        // Logs user out.
+
+Note! 
+Admin commands are only available to logged in users by typing in chat or console !command (without /)..if admin needs help with command
+(s)he can type ?command which will print what command does and general usage. 
+
+Cvars added:
+a1_pass ""  // Password for level one admins
+a2_pass ""  // Password for level two admins
+a3_pass ""  // Password for level three admins
+a1_tag "^1Member" // Level one admin tag
+a2_tag "^3Admin"  // Level two admin tag
+a3_tag "^0Admin"  // Level three admin tag
+a1_cmds "ignore unignore clientignore clientunignore slap" // Commands level 1 admin can use - server cvars can also be added..
+a2_cmds "ignore unignore clientignore clientunignore slap kill kick clientkick specs specs coop" // Commands level 2 admin can use - server cvars can also be added..
+a3_cmds  "g_allowVote" // Commands level 3 admin can use - 
+//-> if a3_allowAll is enabled this can be used to add server specific cvars like g_allowVote
+a3_allowAll "1" // If enabled, level 3 admin can execute any admin command there is - 
+//-> useful for later on where size is to big to fit in one cvar..so a3_cmds can be used for server specific stuff..
+adm_help "1" // If enabled, admins can do !list_cmds to see what commands are available for level they are.
+
+

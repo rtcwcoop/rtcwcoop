@@ -150,16 +150,19 @@ vmCvar_t g_antilag;
 
 // L0
 #ifdef _ADMINS 
-vmCvar_t	a1_pass;	// Level 1 admin
-vmCvar_t	a2_pass;	// Level 2 admin
-vmCvar_t	a3_pass;	// Level 3 admin
-vmCvar_t	a1_tag;		// Level 1 admin tag
-vmCvar_t	a2_tag;		// Level 2 admin tag
-vmCvar_t	a3_tag;		// Level 3 admin tag
-vmCvar_t	a1_cmds;	// Level 1 admin commands
-vmCvar_t	a2_cmds;	// Level 2 admin commands
-vmCvar_t	a3_cmds;	// Level 3 admin commands
-vmCvar_t	a3_allowAll;// Allows level 3 to execute all admin commands + anyother that's set in a3_cmds -> In this case, use a3_cmds for server specific cvars like g_allowVote that would otherwise require rcon etc..
+vmCvar_t	a1_pass;		// Level 1 admin
+vmCvar_t	a2_pass;		// Level 2 admin
+vmCvar_t	a3_pass;		// Level 3 admin
+vmCvar_t	a1_tag;			// Level 1 admin tag
+vmCvar_t	a2_tag;			// Level 2 admin tag
+vmCvar_t	a3_tag;			// Level 3 admin tag
+vmCvar_t	a1_cmds;		// Level 1 admin commands
+vmCvar_t	a2_cmds;		// Level 2 admin commands
+vmCvar_t	a3_cmds;		// Level 3 admin commands
+vmCvar_t	a3_allowAll;	// Allows level 3 to execute all admin commands + anyother that's set in a3_cmds -> In this case, use a3_cmds for server specific cvars like g_allowVote that would otherwise require rcon etc..
+vmCvar_t	adm_help;		// If enabled users can use !list_cmds to get list of commands for their level..
+vmCvar_t	g_gamelocked;	// Controls if Admin locked the game so players can't join
+vmCvar_t	sv_hostname;	// So it's more accesible
 // end
 #endif
 
@@ -285,7 +288,10 @@ cvarTable_t gameCvarTable[] = {
 	{ &a1_cmds, "a1_cmds", "", CVAR_ARCHIVE, 0, qfalse },
 	{ &a2_cmds, "a2_cmds", "", CVAR_ARCHIVE, 0, qfalse },
 	{ &a3_cmds, "a3_cmds", "", CVAR_ARCHIVE, 0, qfalse },
-	{ &a3_allowAll, "a3_allowAll", "", CVAR_ARCHIVE, 0, qfalse },
+	{ &a3_allowAll, "a3_allowAll", "0", CVAR_ARCHIVE, 0, qfalse },
+	{ &adm_help, "adm_help", "1", CVAR_ARCHIVE, 0, qfalse },
+	{ &g_gamelocked, "g_gamelocked", "0", CVAR_ROM, 0, qfalse }, 
+	{ &sv_hostname, "sv_hostname", "0", CVAR_SYSTEMINFO, 0, qfalse },
 	// End
 #endif
 

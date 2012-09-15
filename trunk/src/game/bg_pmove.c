@@ -2694,7 +2694,7 @@ static void PM_Weapon( void ) {
 #ifdef GAMEDLL
 	if ( g_reloading.integer )
 #endif
-	gameReloading = qtrue;
+		gameReloading = qtrue;
 	else {
 		gameReloading = qfalse;
 	}

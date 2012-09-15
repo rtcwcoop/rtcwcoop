@@ -1010,6 +1010,7 @@ WOLFGOBJ_ = \
   $(B)/main/game/bg_slidemove.o \
   $(B)/main/game/bg_animation.o \
   $(B)/main/game/g_active.o \
+  $(B)/main/game/g_admin.o \
   $(B)/main/game/g_alarm.o \
   $(B)/main/game/g_antilag.o \
   $(B)/main/game/g_bot.o \
