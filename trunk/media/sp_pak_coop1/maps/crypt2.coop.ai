@@ -1424,8 +1424,7 @@ nazi6
 	{
 		wait 5
 		statetype alert
-		nosight 999999
-		wait 6000
+//		nosight 999999
 		alertentity opendoor
 		trigger warzombie15 go
 		trigger warzombie16 go
@@ -1472,9 +1471,6 @@ nazi7
 	{
 		wait 5
 		statetype alert
-		wait 3000
-
-		wait 5000
 	}
 
 	trigger go
@@ -1942,6 +1938,7 @@ warboss1
 
 	death
 	{
+		alertentity end_debris1
 		trigger secretdummy cracks
 	}
 
@@ -2003,6 +2000,7 @@ warboss2
 
 	death
 	{
+		alertentity end_debris1
 		trigger secretdummy cracks
 	}
 

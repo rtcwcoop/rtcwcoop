@@ -669,7 +669,6 @@ counter1
 	{
 		accum 3 inc 1
 		accum 3 abort_if_not_equal 4
-		wait 1000
 		alertentity nazi6
 		alertentity nazi7
 		alertentity warzombie16
@@ -750,7 +749,7 @@ counter1
 	}
 
 	trigger flamehead5
-	{7
+	{
 		accum 1 abort_if_not_equal 4
 		alertentity flamehead5
 		wait 500
