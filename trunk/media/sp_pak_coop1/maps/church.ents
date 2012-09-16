@@ -9,50 +9,50 @@
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2175 245 152"
-"angle" "270"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "1"
-"origin" "-2188 166 152"
+"origin" "-1792 96 168"
 "angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2136 112 152"
+"origin" "-1856 96 168"
 "angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2074 114 152"
+"origin" "-1920 96 168"
 "angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2022 116 152"
+"origin" "-1984 96 168"
 "angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1979 118 152"
+"origin" "-2048 96 168"
 "angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1929 120 152"
+"origin" "-2112 96 168"
 "angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-1962 62 152"
+"origin" "-2176 96 168"
 "angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
+"origin" "-2176 160 168"
+"angle" "315"
 }
 
 // REINFROCES

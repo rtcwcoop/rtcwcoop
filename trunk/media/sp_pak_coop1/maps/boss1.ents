@@ -9,50 +9,50 @@
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2654 125 80"
-"angle" "5"
+"origin" "-2664 112 84"
+"angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2647 57 80"
-"angle" "5"
+"origin" "-2664 16 84"
+"angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2641 2 80"
-"angle" "5"
+"origin" "-2600 112 84"
+"angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2596 6 80"
-"angle" "5"
+"origin" "-2600 64 84"
+"angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2599 40 80"
-"angle" "5"
+"origin" "-2600 16 84"
+"angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2605 106 80"
-"angle" "5"
+"origin" "-2536 112 84"
+"angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2540 113 80"
-"angle" "5"
+"origin" "-2536 64 84"
+"angle" "0"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "-2534 58 80"
-"angle" "5"
+"origin" "-2536 16 84"
+"angle" "0"
 }
 
 // REINFROCES
@@ -97,30 +97,6 @@
 "origin" "-2359 -717 24"
 "ainame" "coop_ai_zombie_6"
 "angle" "92"
-"spawnflags" "1"
-}
-{
-"classname" "ai_zombie"
-"origin" "-2597 -931 48"
-"ainame" "coop_ai_zombie_7"
-"targetname" "coop_ai_zombie_7"
-"angle" "89"
-"spawnflags" "1"
-}
-{
-"classname" "ai_zombie"
-"origin" "-2501 -856 48"
-"ainame" "coop_ai_zombie_8"
-"targetname" "coop_ai_zombie_8"
-"angle" "85"
-"spawnflags" "1"
-}
-{
-"classname" "ai_zombie"
-"origin" "-2569 -754 48"
-"ainame" "coop_ai_zombie_9"
-"targetname" "coop_ai_zombie_9"
-"angle" "96"
 "spawnflags" "1"
 }
 {

@@ -163,9 +163,6 @@ counter1	// Used for cinematic syncronization.
 		trigger player got_objective1
 		alertentity on_objective2
 		alertentity opendoor
-		#if g_reinforce >= 2 alertentity coop_ai_zombie_7 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_zombie_8 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_zombie_9 #endif
 	}
 
 	trigger plane_cine1
