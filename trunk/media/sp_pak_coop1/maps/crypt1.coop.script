@@ -301,13 +301,13 @@ counter1	//MISC Counter
 
 	trigger wz11count
 	{
-		accum 1 inc 1
-		accum 1 abort_if_less_than 2
-		wait 2000 0
+//		accum 1 inc 1
+//		accum 1 abort_if_less_than 2
+		wait 3000 0
 		alertentity w11_sound1
-		wait 6000 0
+		wait 600 0
 		alertentity w11_sound2
-		wait 4000 0
+		wait 400 0
 		alertentity w11_sound3
 		alertentity warzombie11
 		alertentity warzombie11a

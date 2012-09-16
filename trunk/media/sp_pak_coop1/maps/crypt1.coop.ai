@@ -320,6 +320,9 @@ player
 		alertentity nazi3
 		alertentity zombie20
 		alertentity zombie21 // Took out to see how it looks with one zombie.
+		alertentity zombie9
+		alertentity zombie11
+		trigger counter1 wz11count
 	}
 
 	// Triggers the last door to close so player gets trapped
@@ -2453,7 +2456,7 @@ zombie9
 
 	death
 	{
-		trigger counter1 wz11count
+//		trigger counter1 wz11count
 	}
 }
 
@@ -2504,7 +2507,7 @@ zombie11
 
 	death
 	{
-		trigger counter1 wz11count
+//		trigger counter1 wz11count
 	}
 }
 
@@ -4505,27 +4508,7 @@ coop_ai_zombie_28  		// flame 1
 		accum 0 bitset 0
 		resetscript
 		attack player
-		
-		accum 0 bitreset 0
-		noaidamage on
-		nosight 99999
-		godmode on
-		takeweapon monsterattack2
-		knockback off
-		alertentity flame1_bust
-		giveweapon monsterattack1
-		playanim off_hole both
-		sight
-		godmode off
-		explicit_routing on
-		runtomarker f1spot1
-		explicit_routing off
-		alertentity hurt01
-		accum 0 bitset 0
-		resetscript
-		attack player		
-		
-		
+				
 	}
 
 	bulletimpact
