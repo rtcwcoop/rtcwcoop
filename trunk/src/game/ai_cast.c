@@ -862,11 +862,11 @@ void AICast_CheckLoadGame( void ) {
                                         tmp = &g_entities[i];
                                         if (tmp && tmp->client) {
                                                 // reset maxlives
-                                                if ( g_maxlives.integer > 0 ) {
+                                                /*if ( g_maxlives.integer > 0 ) {
                                                         tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
                                                 } else {
                                                         tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
-                                                }
+                                                }*/
 
                                                 // reset spawnpoints
                                                 if ( g_maxspawnpoints.integer > 0 ) {
