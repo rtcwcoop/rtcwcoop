@@ -4,7 +4,7 @@
 Return to Castle Wolfenstein single player GPL Source Code
 Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (<93>RTCW SP Source Code<94>).  
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-
 
 /* This is based on the Adaptive Huffman algorithm described in Sayood's Data
  * Compression book.  The ranks are not actually stored, but implicitly defined
@@ -269,7 +268,8 @@ int Huff_Receive( node_t *node, int *ch, byte *fin ) {
 		}
 	}
 	if ( !node ) {
-		Com_Error( ERR_DROP, "Illegal tree!\n" );
+		return 0;
+//		Com_Error(ERR_DROP, "Illegal tree!\n");
 	}
 	return ( *ch = node->symbol );
 }
@@ -285,7 +285,9 @@ void Huff_offsetReceive( node_t *node, int *ch, byte *fin, int *offset ) {
 		}
 	}
 	if ( !node ) {
-		Com_Error( ERR_DROP, "Illegal tree!\n" );
+		*ch = 0;
+		return;
+//		Com_Error(ERR_DROP, "Illegal tree!\n");
 	}
 	*ch = node->symbol;
 	*offset = bloc;
@@ -331,9 +333,8 @@ void Huff_Decompress( msg_t *mbuf, int offset ) {
 	byte*       buffer;
 	huff_t huff;
 
-	offset += mbuf->readcount;
 	size = mbuf->cursize - offset;
-	buffer = mbuf->data + + offset;
+	buffer = mbuf->data + offset;
 
 	if ( size <= 0 ) {
 		return;
@@ -348,11 +349,22 @@ void Huff_Decompress( msg_t *mbuf, int offset ) {
 	huff.tree->parent = huff.tree->left = huff.tree->right = NULL;
 
 	cch = buffer[0] * 256 + buffer[1];
+	// don't overflow with bad messages
+	if ( cch > mbuf->maxsize - offset ) {
+		cch = mbuf->maxsize - offset;
+	}
 	bloc = 16;
 
 	for ( j = 0; j < cch; j++ ) {
+		ch = 0;
+		// don't overflow reading from the messages
+		// FIXME: would it be better to have a overflow check in get_bit ?
+		if ( ( bloc >> 3 ) > size ) {
+			seq[j] = 0;
+			break;
+		}
 		Huff_Receive( huff.tree, &ch, buffer );               /* Get a character */
-		if ( ch == NYT ) {                                /* We got a NYT, get the symbol associated with it */
+		if ( ch == NYT ) {                              /* We got a NYT, get the symbol associated with it */
 			ch = 0;
 			for ( i = 0; i < 8; i++ ) {
 				ch = ( ch << 1 ) + get_bit( buffer );
@@ -363,7 +375,6 @@ void Huff_Decompress( msg_t *mbuf, int offset ) {
 
 		Huff_addRef( &huff, (byte)ch );                               /* Increment node */
 	}
-
 	mbuf->cursize = cch + offset;
 	Com_Memcpy( mbuf->data + offset, seq, cch );
 }

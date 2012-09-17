@@ -1501,8 +1501,9 @@ Resend a connect message if the last one has timed out
 =================
 */
 void CL_CheckForResend( void ) {
-	int port;
+	int port, i;
 	char info[MAX_INFO_STRING];
+        char data[MAX_INFO_STRING];
 
 	// don't send anything if playing back a demo
 	if ( clc.demoplaying ) {
@@ -1543,11 +1544,29 @@ void CL_CheckForResend( void ) {
 		Info_SetValueForKey( info, "protocol", va( "%i", PROTOCOL_VERSION ) );
 		Info_SetValueForKey( info, "qport", va( "%i", port ) );
 		Info_SetValueForKey( info, "challenge", va( "%i", clc.challenge ) );
+
+                strcpy( data, "connect " );
+
+                data[8] = '\"';           // NERVE - SMF - spaces in name bugfix
+
+                for ( i = 0; i < strlen( info ); i++ ) {
+                        data[9 + i] = info[i];    // + (clc.challenge)&0x3;
+                }    
+                data[9 + i] = '\"';     // NERVE - SMF - spaces in name bugfix
+                data[10 + i] = 0; 
+
+                NET_OutOfBandData( NS_CLIENT, clc.serverAddress, &data[0], i + 10 );
+                // the most current userinfo has been sent, so watch for any
+                // newer changes to userinfo variables
+                cvar_modifiedFlags &= ~CVAR_USERINFO;
+                break;
+/*
 		NET_OutOfBandPrint( NS_CLIENT, clc.serverAddress, "connect \"%s\"", info );
 		// the most current userinfo has been sent, so watch for any
 		// newer changes to userinfo variables
 		cvar_modifiedFlags &= ~CVAR_USERINFO;
 		break;
+*/
 
 	default:
 		Com_Error( ERR_FATAL, "CL_CHeckForResend: bad cls.state" );
