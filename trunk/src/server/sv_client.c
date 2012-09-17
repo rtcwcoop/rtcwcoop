@@ -432,6 +432,8 @@ gotnewcl:
 
 	// save the address
 	Netchan_Setup( NS_SERVER, &newcl->netchan, from, qport );
+        // init the netchan queue
+        newcl->netchan_end_queue = &newcl->netchan_start_queue;
 
 	// save the userinfo
 	Q_strncpyz( newcl->userinfo, userinfo, sizeof( newcl->userinfo ) );
@@ -590,7 +592,7 @@ void SV_SendClientGameState( client_t *client ) {
 	Com_DPrintf( "Going from CS_CONNECTED to CS_PRIMED for %s\n", client->name );
 	client->state = CS_PRIMED;
 	client->pureAuthentic = 0;
-    client->gotCP = qfalse;
+        client->gotCP = qfalse;
 
 	// when we receive the first packet from the client, we will
 	// notice that it is from a different serverid and that the

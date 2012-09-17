@@ -31,7 +31,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "../qcommon/qcommon.h"
 #include "client.h"
 
-#if DO_NET_ENCODE
 /*
 ==============
 CL_Netchan_Encode
@@ -99,7 +98,9 @@ CL_Netchan_Decode
 */
 static void CL_Netchan_Decode( msg_t *msg ) {
 	long reliableAcknowledge, i, index;
-	byte key, *string;
+	//byte key, *string;
+	byte key;
+        const char *string;
 	int srdc, sbit, soob;
 
 	srdc = msg->readcount;
@@ -133,7 +134,6 @@ static void CL_Netchan_Decode( msg_t *msg ) {
 		*( msg->data + i ) = *( msg->data + i ) ^ key;
 	}
 }
-#endif
 
 /*
 =================
@@ -144,24 +144,14 @@ void CL_Netchan_TransmitNextFragment( netchan_t *chan ) {
 	Netchan_TransmitNextFragment( chan );
 }
 
-//byte chksum[65536];
-
 /*
 ===============
 CL_Netchan_Transmit
 ================
 */
 void CL_Netchan_Transmit( netchan_t *chan, msg_t* msg ) {
-//	int i;
 	MSG_WriteByte( msg, clc_EOF );
-//	for(i=CL_ENCODE_START;i<msg->cursize;i++) {
-//		chksum[i-CL_ENCODE_START] = msg->data[i];
-//	}
-
-//	Huff_Compress( msg, CL_ENCODE_START );
-#if DO_NET_ENCODE
 	CL_Netchan_Encode( msg );
-#endif
 	Netchan_Transmit( chan, msg->cursize, msg->data );
 }
 
@@ -175,23 +165,12 @@ CL_Netchan_Process
 */
 qboolean CL_Netchan_Process( netchan_t *chan, msg_t *msg ) {
 	int ret;
-//	int i;
-//	static		int newsize = 0;
 
 	ret = Netchan_Process( chan, msg );
 	if ( !ret ) {
 		return qfalse;
 	}
-#if DO_NET_ENCODE
 	CL_Netchan_Decode( msg );
-#endif
-//	Huff_Decompress( msg, CL_DECODE_START );
-//	for(i=CL_DECODE_START+msg->readcount;i<msg->cursize;i++) {
-//		if (msg->data[i] != chksum[i-(CL_DECODE_START+msg->readcount)]) {
-//			Com_Error(ERR_DROP,"bad %d v %d\n", msg->data[i], chksum[i-(CL_DECODE_START+msg->readcount)]);
-//		}
-//	}
 	newsize += msg->cursize;
-//	Com_Printf("saved %d to %d (%d%%)\n", (oldsize>>3), newsize, 100-(newsize*100/(oldsize>>3)));
 	return qtrue;
 }

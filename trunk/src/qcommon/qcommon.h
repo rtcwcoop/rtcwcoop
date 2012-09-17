@@ -56,6 +56,7 @@ void MSG_Clear( msg_t *buf );
 void *MSG_GetSpace( msg_t *buf, int length );
 void MSG_WriteData( msg_t *buf, const void *data, int length );
 void MSG_Bitstream( msg_t *buf );
+void MSG_Copy( msg_t *buf, byte *data, int length, msg_t *src );
 
 
 struct usercmd_s;
@@ -124,11 +125,6 @@ NET
 
 ==============================================================
 */
-
-// TTimo: set to 1 to perform net encoding, 0 to drop
-// single player game with no networking doesn't need encoding
-// show_bug.cgi?id=404
-#define DO_NET_ENCODE 0
 
 #define PACKET_BACKUP   32  // number of old messages that must be kept on client and
 							// server for delta comrpession and ping estimation
@@ -281,7 +277,7 @@ PROTOCOL
 ==============================================================
 */
 
-#define PROTOCOL_VERSION    3
+#define PROTOCOL_VERSION    4
 #define GAMENAME_STRING "wolfcoop"
 
 //----(SA)	heh, whoops.  we've been talking to id servers since we got a connection...

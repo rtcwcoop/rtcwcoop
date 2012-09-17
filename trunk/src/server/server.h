@@ -130,6 +130,12 @@ typedef struct {
 	char    *rover;
 } reliableCommands_t;
 
+typedef struct netchan_buffer_s {
+        msg_t msg;
+        byte msgBuffer[MAX_MSGLEN];
+        struct netchan_buffer_s *next;
+} netchan_buffer_t;
+
 typedef struct client_s {
 	clientState_t state;
 	char userinfo[MAX_INFO_STRING];                 // name, etc
@@ -179,6 +185,12 @@ typedef struct client_s {
 	netchan_t netchan;
         qboolean gotCP;  // TTimo - additional flag to distinguish between a bad pure checksum, and no cp command at all
         int oldServerTime;
+        // TTimo
+        // queuing outgoing fragmented messages to send them properly, without udp packet bursts
+        // in case large fragmented messages are stacking up
+        // buffer them into this queue, and hand them out to netchan as needed
+        netchan_buffer_t *netchan_start_queue;
+        netchan_buffer_t **netchan_end_queue;
 } client_t;
 
 //=============================================================================
@@ -427,7 +439,7 @@ void SV_ClipToEntity( trace_t *trace, const vec3_t start, const vec3_t mins, con
 // sv_net_chan.c
 //
 void SV_Netchan_Transmit( client_t *client, msg_t *msg );    //int length, const byte *data );
-void SV_Netchan_TransmitNextFragment( netchan_t *chan );
+void SV_Netchan_TransmitNextFragment( client_t *client );
 qboolean SV_Netchan_Process( client_t *client, msg_t *msg );
 
 extern cvar_t  *sv_maxlives;

@@ -817,7 +817,8 @@ void SV_SendClientMessages( void ) {
 		if ( c->netchan.unsentFragments ) {
 			c->nextSnapshotTime = svs.time +
 								  SV_RateMsec( c, c->netchan.unsentLength - c->netchan.unsentFragmentStart );
-			SV_Netchan_TransmitNextFragment( &c->netchan );
+			//SV_Netchan_TransmitNextFragment( &c->netchan );
+			SV_Netchan_TransmitNextFragment( c );
 			continue;
 		}
 

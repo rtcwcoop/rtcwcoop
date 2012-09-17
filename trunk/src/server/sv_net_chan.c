@@ -31,7 +31,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "../qcommon/qcommon.h"
 #include "server.h"
 
-#if DO_NET_ENCODE
 /*
 ==============
 SV_Netchan_Encode
@@ -133,36 +132,73 @@ static void SV_Netchan_Decode( client_t *client, msg_t *msg ) {
 		*( msg->data + i ) = *( msg->data + i ) ^ key;
 	}
 }
-#endif
 
 /*
 =================
 SV_Netchan_TransmitNextFragment
 =================
 */
-void SV_Netchan_TransmitNextFragment( netchan_t *chan ) {
-	Netchan_TransmitNextFragment( chan );
+void SV_Netchan_TransmitNextFragment( client_t *client ) {
+	Netchan_TransmitNextFragment( &client->netchan );
+	if ( !client->netchan.unsentFragments ) {
+		// make sure the netchan queue has been properly initialized (you never know)
+		if ( !client->netchan_end_queue ) {
+			Com_Error( ERR_DROP, "netchan queue is not properly initialized in SV_Netchan_TransmitNextFragment\n" );
+		}
+		// the last fragment was transmitted, check wether we have queued messages
+		if ( client->netchan_start_queue ) {
+			netchan_buffer_t *netbuf;
+			//Com_DPrintf("Netchan_TransmitNextFragment: popping a queued message for transmit\n");
+			netbuf = client->netchan_start_queue;
+
+			SV_Netchan_Encode( client, &netbuf->msg );
+			Netchan_Transmit( &client->netchan, netbuf->msg.cursize, netbuf->msg.data );
+
+			// pop from queue
+			client->netchan_start_queue = netbuf->next;
+			if ( !client->netchan_start_queue ) {
+				//Com_DPrintf("Netchan_TransmitNextFragment: emptied queue\n");
+				client->netchan_end_queue = &client->netchan_start_queue;
+			}
+			/*
+			else
+				Com_DPrintf("Netchan_TransmitNextFragment: remaining queued message\n");
+				*/
+			Z_Free( netbuf );
+		}
+	}
 }
 
 
 /*
 ===============
 SV_Netchan_Transmit
+
+TTimo
+show_bug.cgi?id=462
+if there are some unsent fragments (which may happen if the snapshots
+and the gamestate are fragmenting, and collide on send for instance)
+then buffer them and make sure they get sent in correct order
 ================
 */
-
-//extern byte chksum[65536];
 void SV_Netchan_Transmit( client_t *client, msg_t *msg ) {   //int length, const byte *data ) {
-//	int i;
 	MSG_WriteByte( msg, svc_EOF );
-//	for(i=SV_ENCODE_START;i<msg->cursize;i++) {
-//		chksum[i-SV_ENCODE_START] = msg->data[i];
-//	}
-//	Huff_Compress( msg, SV_ENCODE_START );
-#if DO_NET_ENCODE
-	SV_Netchan_Encode( client, msg );
-#endif
-	Netchan_Transmit( &client->netchan, msg->cursize, msg->data );
+	if ( client->netchan.unsentFragments ) {
+		netchan_buffer_t *netbuf;
+		//Com_DPrintf("SV_Netchan_Transmit: there are unsent fragments remaining\n");
+		netbuf = (netchan_buffer_t *)Z_Malloc( sizeof( netchan_buffer_t ) );
+		// store the msg, we can't store it encoded, as the encoding depends on stuff we still have to finish sending
+		MSG_Copy( &netbuf->msg, netbuf->msgBuffer, sizeof( netbuf->msgBuffer ), msg );
+		netbuf->next = NULL;
+		// insert it in the queue, the message will be encoded and sent later
+		*client->netchan_end_queue = netbuf;
+		client->netchan_end_queue = &( *client->netchan_end_queue )->next;
+		// emit the next fragment of the current message for now
+		Netchan_TransmitNextFragment( &client->netchan );
+	} else {
+		SV_Netchan_Encode( client, msg );
+		Netchan_Transmit( &client->netchan, msg->cursize, msg->data );
+	}
 }
 
 /*
@@ -172,20 +208,11 @@ Netchan_SV_Process
 */
 qboolean SV_Netchan_Process( client_t *client, msg_t *msg ) {
 	int ret;
-//	int i;
 	ret = Netchan_Process( &client->netchan, msg );
 	if ( !ret ) {
 		return qfalse;
 	}
-#if DO_NET_ENCODE
 	SV_Netchan_Decode( client, msg );
-#endif
-//	Huff_Decompress( msg, SV_DECODE_START );
-//	for(i=SV_DECODE_START+msg->readcount;i<msg->cursize;i++) {
-//		if (msg->data[i] != chksum[i-(SV_DECODE_START+msg->readcount)]) {
-//			Com_Error(ERR_DROP,"bad\n");
-//		}
-//	}
 	return qtrue;
 }
 
