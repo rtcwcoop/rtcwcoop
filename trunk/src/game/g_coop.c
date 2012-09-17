@@ -366,14 +366,14 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
                         }    
 
                         if (!strcmp(ent->targetname, self->target)) {
-                                trap_SendServerCommand( -1, va("cp \"%s ^7has secured the %s spawnzone.\n\"", other->client->pers.netname, ent->message) );    
+                                trap_SendServerCommand( -1, va("cp \"%s ^7has secured \nthe %s spawnzone.\n\"", other->client->pers.netname, ent->message) );    
                                 named = qtrue;
                                 break;
                         }
                 } 
             
                 if (!named) 
-                        trap_SendServerCommand( -1, va("cp \"%s ^7has secured a new spawnzone.\n\"", other->client->pers.netname) );    
+                        trap_SendServerCommand( -1, va("cp \"%s ^7has secured \na new spawnzone.\n\"", other->client->pers.netname) );    
 
         } else if ( self->s.frame == WCP_ANIM_NAZI_RAISED ) {
                 self->s.frame = WCP_ANIM_NAZI_TO_AMERICAN;
