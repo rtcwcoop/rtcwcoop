@@ -209,7 +209,7 @@ ifeq ($(PLATFORM),linux)
 
   #BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit -Wstrict-prototypes
   BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit \
-    -pipe -DUSE_ICON -DC_ONLY -fno-common
+    -pipe -DUSE_ICON -DC_ONLY -fno-common -D_ADMIN
   CLIENT_CFLAGS = $(SDL_CFLAGS) -Wno-write-strings
   SERVER_CFLAGS =
 
@@ -277,7 +277,7 @@ ifeq ($(PLATFORM),darwin)
   CC=gcc-4.2
   
   #BASE_CFLAGS = -Wall -Wimplicit -Wstrict-prototypes
-  BASE_CFLAGS = -Wall -Wimplicit -DC_ONLY -m32
+  BASE_CFLAGS = -Wall -Wimplicit -DC_ONLY -m32 -D_ADMIN
   CLIENT_CFLAGS = -Wno-write-strings
   SERVER_CFLAGS =
 
@@ -1009,6 +1009,7 @@ WOLFGOBJ_ = \
   $(B)/main/game/bg_pmove.o \
   $(B)/main/game/bg_slidemove.o \
   $(B)/main/game/bg_animation.o \
+  $(B)/main/game/g_admin.o \
   $(B)/main/game/g_active.o \
   $(B)/main/game/g_admin.o \
   $(B)/main/game/g_alarm.o \
