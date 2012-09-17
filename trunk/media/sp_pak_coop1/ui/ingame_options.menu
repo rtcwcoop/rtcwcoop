@@ -121,13 +121,33 @@ itemDef {
       	forecolor 1 1 1 1
       	visible 0
     }
+    
+// L0 - dump new stuff..
+        itemDef {
+        	name performance
+        	group grpOptions
+       		type ITEM_TYPE_MULTI
+        	text "Solid Crosshair:"
+        	cvar "cg_solidCrosshair"
+        	cvarFloatList	{ "Off" 0 "On" 1}
+        	rect 82 100 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+        	textscale .23
+        	style WINDOW_STYLE_FILLED
+        	backcolor 1 1 1 .07        
+		forecolor 1 1 1 1
+		visible 0
+    }
+// end
 
 	itemDef {
 		name performance
 		group grpOptions
 		text "Crosshair:"
  		type 1	
-		rect 197 105 60 12
+		rect 197 120 60 12
 		textalign ITEM_ALIGN_CENTER
 		textscale .23		
 		textalignx 30
@@ -140,7 +160,7 @@ itemDef {
 	itemDef {
 		name performance				
 		group grpOptions
-		rect 201 120 50 50
+		rect 201 135 50 50
 		ownerdraw UI_CROSSHAIR
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 0 
@@ -151,13 +171,32 @@ itemDef {
 		visible 0
    	}
 
+// L0 - dump new stuff..
+    itemDef {
+    		name performance
+    		group grpOptions
+    		type ITEM_TYPE_MULTI
+    		text "Remove Blood Hit:"
+    		cvar "cg_bloodBlend"
+    		cvarFloatList	{ "Off" 0 "On" 1}
+    		rect 82 200 290 12
+          	textalign ITEM_ALIGN_RIGHT
+          	textalignx 142
+          	textaligny 10
+    		textscale .23
+    		style WINDOW_STYLE_FILLED
+    		backcolor 1 1 1 .07        
+          	forecolor 1 1 1 1
+          	visible 0
+    }
+// end   
 
 	itemDef {
 		name performance				
 		group grpOptions
 		type ITEM_TYPE_MULTI		
 		text "Chat Icon Time:"
-		rect 82 185 290 12
+		rect 82 215 290 12
 		cvar "cg_voicespritetime"
 		cvarFloatList { "3 sec" 3000 "6 sec" 6000 "12 sec" 12000 "24 sec" 24000 }
 		textalign ITEM_ALIGN_RIGHT
@@ -173,7 +212,7 @@ itemDef {
 	itemDef {
 		name			performance				
 		group			grpOptions
-		rect			82 200 290 12
+		rect			82 230 290 12
 		type			ITEM_TYPE_MULTI
 		style			WINDOW_STYLE_FILLED
 		text			"Crosshairnames:"
@@ -191,7 +230,7 @@ itemDef {
 	itemDef {
 		name			performance				
 		group			grpOptions
-		rect			82 215 290 12
+		rect			82 245 290 12
 		type			ITEM_TYPE_MULTI
 		style			WINDOW_STYLE_FILLED
 		text			"Team-Overlay:"
@@ -209,7 +248,7 @@ itemDef {
 	itemDef {
 		name			performance				
 		group			grpOptions
-		rect			82 230 290 12
+		rect			82 260 290 12
 		type			ITEM_TYPE_MULTI
 		style			WINDOW_STYLE_FILLED
 		text			"Compass:"
