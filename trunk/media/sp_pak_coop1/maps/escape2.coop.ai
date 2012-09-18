@@ -2592,10 +2592,10 @@ nazi27
 
 		wait 100
 		noattack 20000
-		runomarker n27spot1 nostop
-		gotomarker n27spot2 nostop
-		gotomarker n27spot3 nostop
-		gotomarker n27spot4 nostop
+		runtomarker n27spot1 nostop
+		runtomarker n27spot2 nostop
+		runtomarker n27spot3 nostop
+		runtomarker n27spot4 nostop
 		explicit_routing off
 		avoid
 		attack
