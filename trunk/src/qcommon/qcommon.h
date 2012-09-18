@@ -210,6 +210,7 @@ void        NET_Config( qboolean enableNetworking );
 
 void        NET_SendPacket( netsrc_t sock, int length, const void *data, netadr_t to );
 void QDECL NET_OutOfBandPrint( netsrc_t net_socket, netadr_t adr, const char *format, ... );
+void QDECL NET_OutOfBandData( netsrc_t sock, netadr_t adr, byte *format, int len );
 
 qboolean    NET_CompareAdr( netadr_t a, netadr_t b );
 qboolean    NET_CompareBaseAdr( netadr_t a, netadr_t b );
@@ -445,6 +446,7 @@ void    Cmd_ArgvBuffer( int arg, char *buffer, int bufferLength );
 char    *Cmd_Args( void );
 char    *Cmd_ArgsFrom( int arg );
 void    Cmd_ArgsBuffer( char *buffer, int bufferLength );
+char    *Cmd_Cmd( void );
 // The functions that execute commands get their parameters with these
 // functions. Cmd_Argv () will return an empty string, not a NULL
 // if arg > argc, so string operations are allways safe.

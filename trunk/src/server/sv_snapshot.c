@@ -230,8 +230,7 @@ void SV_UpdateServerCommandsToClient( client_t *client, msg_t *msg ) {
 	for ( i = client->reliableAcknowledge + 1 ; i <= client->reliableSequence ; i++ ) {
 		MSG_WriteByte( msg, svc_serverCommand );
 		MSG_WriteLong( msg, i );
-		//MSG_WriteString( msg, client->reliableCommands[ i & (MAX_RELIABLE_COMMANDS-1) ] );
-		MSG_WriteString( msg, SV_GetReliableCommand( client, i & ( MAX_RELIABLE_COMMANDS - 1 ) ) );
+		MSG_WriteString( msg, client->reliableCommands[ i & (MAX_RELIABLE_COMMANDS-1) ] );
 	}
 	client->reliableSent = client->reliableSequence;
 }
@@ -561,26 +560,6 @@ static void SV_BuildClientSnapshot( client_t *client ) {
 
 	// this is the frame we are creating
 	frame = &client->frames[ client->netchan.outgoingSequence & PACKET_MASK ];
-
-//	// try to use a previous frame as the source for delta compressing the snapshot
-//	if ( client->deltaMessage <= 0 || client->state != CS_ACTIVE ) {
-//		// client is asking for a retransmit
-//		oldframe = NULL;
-//	} else if ( client->netchan.outgoingSequence - client->deltaMessage
-//		>= (PACKET_BACKUP - 3) ) {
-//		// client hasn't gotten a good message through in a long time
-//		Com_DPrintf ("%s: Delta request from out of date packet.\n", client->name);
-//		oldframe = NULL;
-//	} else {
-//		// we have a valid snapshot to delta from
-//		oldframe = &client->frames[ client->deltaMessage & PACKET_MASK ];
-//
-//		// the snapshot's entities may still have rolled off the buffer, though
-//		if ( oldframe->first_entity <= svs.nextSnapshotEntities - svs.numSnapshotEntities ) {
-//			Com_DPrintf ("%s: Delta request from out of date entities.\n", client->name);
-//			oldframe = NULL;
-//		}
-//	}
 
 	// clear everything in this snapshot
 	entityNumbers.numSnapshotEntities = 0;

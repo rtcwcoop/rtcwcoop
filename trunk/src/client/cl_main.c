@@ -1105,14 +1105,20 @@ CL_Rcon_f
 */
 void CL_Rcon_f( void ) {
 	char message[1024];
-	int i;
 	netadr_t to;
 
 	if ( !rcon_client_password->string ) {
-		Com_Printf( "You must set 'rcon_password' before\n"
+		Com_Printf( "You must set 'rconpassword' before\n"
 					"issuing an rcon command.\n" );
 		return;
 	}
+
+        if ( com_sv_running->integer ) {
+                // fretn: /rcon status on a local server can crash everything
+                // this is is a simple workaround untill I figure this out
+                Com_Printf("No rcon when running a local server\n");
+                return;
+        }
 
 	message[0] = -1;
 	message[1] = -1;
@@ -1125,10 +1131,8 @@ void CL_Rcon_f( void ) {
 	strcat( message, rcon_client_password->string );
 	strcat( message, " " );
 
-	for ( i = 1 ; i < Cmd_Argc() ; i++ ) {
-		strcat( message, Cmd_Argv( i ) );
-		strcat( message, " " );
-	}
+	// ATVI Wolfenstein Misc #284
+	strcat( message, Cmd_Cmd() + 5 );
 
 	if ( cls.state >= CA_CONNECTED ) {
 		to = clc.netchan.remoteAddress;
@@ -1555,7 +1559,7 @@ void CL_CheckForResend( void ) {
                 data[9 + i] = '\"';     // NERVE - SMF - spaces in name bugfix
                 data[10 + i] = 0; 
 
-                NET_OutOfBandData( NS_CLIENT, clc.serverAddress, &data[0], i + 10 );
+                NET_OutOfBandData( NS_CLIENT, clc.serverAddress, (byte *)&data[0], i + 10 );
                 // the most current userinfo has been sent, so watch for any
                 // newer changes to userinfo variables
                 cvar_modifiedFlags &= ~CVAR_USERINFO;

@@ -634,7 +634,6 @@ SV_BotGetConsoleMessage
 int SV_BotGetConsoleMessage( int client, char *buf, int size ) {
 	client_t    *cl;
 	int index;
-	char        *msg;
 
 	cl = &svs.clients[client];
 	cl->lastPacketTime = svs.time;
@@ -646,13 +645,11 @@ int SV_BotGetConsoleMessage( int client, char *buf, int size ) {
 	cl->reliableAcknowledge++;
 	index = cl->reliableAcknowledge & ( MAX_RELIABLE_COMMANDS - 1 );
 
-	//if ( !cl->reliableCommands[index][0] ) {
-	if ( !( msg = SV_GetReliableCommand( cl, index ) ) || !msg[0] ) {
+	if ( !cl->reliableCommands[index][0] ) {
 		return qfalse;
 	}
 
-	//Q_strncpyz( buf, cl->reliableCommands[index], size );
-	Q_strncpyz( buf, msg, size );
+	Q_strncpyz( buf, cl->reliableCommands[index], size );
 	return qtrue;
 }
 

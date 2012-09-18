@@ -449,13 +449,6 @@ gotnewcl:
 		return;
 	}
 
-	// RF, create the reliable commands
-	if ( newcl->netchan.remoteAddress.type != NA_BOT ) {
-		SV_InitReliableCommandsForClient( newcl, MAX_RELIABLE_COMMANDS );
-	} else {
-		SV_InitReliableCommandsForClient( newcl, 0 );
-	}
-
 	SV_UserinfoChanged( newcl );
 
 	// DHM - Nerve :: Clear out firstPing now that client is connected
@@ -553,9 +546,6 @@ void SV_DropClient( client_t *drop, const char *reason ) {
 
 	// nuke user info
 	SV_SetUserinfo( drop - svs.clients, "" );
-
-	// RF, nuke reliable commands
-	SV_FreeReliableCommandsForClient( drop );
 
 	// if this was the last client on the server, send a heartbeat
 	// to the master so it is known the server is empty
@@ -1387,8 +1377,8 @@ static void SV_UserMove( client_t *cl, msg_t *msg, qboolean delta ) {
 	// also use the message acknowledge
 	key ^= cl->messageAcknowledge;
 	// also use the last acknowledged server command in the key
-	//key ^= Com_HashKey(cl->reliableCommands[ cl->reliableAcknowledge & (MAX_RELIABLE_COMMANDS-1) ], 32);
-	key ^= Com_HashKey( SV_GetReliableCommand( cl, cl->reliableAcknowledge & ( MAX_RELIABLE_COMMANDS - 1 ) ), 32 );
+	key ^= Com_HashKey(cl->reliableCommands[ cl->reliableAcknowledge & (MAX_RELIABLE_COMMANDS-1) ], 32);
+	//key ^= Com_HashKey( SV_GetReliableCommand( cl, cl->reliableAcknowledge & ( MAX_RELIABLE_COMMANDS - 1 ) ), 32 );
 
 	memset( &nullcmd, 0, sizeof( nullcmd ) );
 	oldcmd = &nullcmd;
@@ -1525,16 +1515,14 @@ void SV_ExecuteClientMessage( client_t *cl, msg_t *msg ) {
 		return;
 	}
 
-	// RF, kill any reliableCommands that have been acknowledged
-	SV_FreeAcknowledgedReliableCommands( cl );
 
-        // fretn - from ioquake3
-        // this client has acknowledged the new gamestate so it's
-        // safe to start sending it the real time again
-        if( cl->oldServerTime && serverId == sv.serverId ){
-                Com_DPrintf( "%s acknowledged gamestate\n", cl->name );
-                cl->oldServerTime = 0; 
-        }    
+    // fretn - from ioquake3
+    // this client has acknowledged the new gamestate so it's
+    // safe to start sending it the real time again
+    if( cl->oldServerTime && serverId == sv.serverId ){
+            Com_DPrintf( "%s acknowledged gamestate\n", cl->name );
+            cl->oldServerTime = 0; 
+    }    
 
 
 	// read optional clientCommand strings

@@ -283,41 +283,6 @@ char    *SV_ExpandNewlines( char *in ) {
 
 /*
 ======================
-SV_ReplacePendingServerCommands
-
-  This is ugly
-======================
-*/
-#if 0   // RF, not used anymore
-int SV_ReplacePendingServerCommands( client_t *client, const char *cmd ) {
-	int i, index, csnum1, csnum2;
-
-	for ( i = client->reliableSent + 1; i <= client->reliableSequence; i++ ) {
-		index = i & ( MAX_RELIABLE_COMMANDS - 1 );
-		//
-		//if ( !Q_strncmp(cmd, client->reliableCommands[ index ], strlen("cs")) ) {
-		if ( !Q_strncmp( cmd, SV_GetReliableCommand( client, index ), strlen( "cs" ) ) ) {
-			sscanf( cmd, "cs %i", &csnum1 );
-			//sscanf(client->reliableCommands[ index ], "cs %i", &csnum2);
-			sscanf( SV_GetReliableCommand( client, index ), "cs %i", &csnum2 );
-			if ( csnum1 == csnum2 ) {
-				//Q_strncpyz( client->reliableCommands[ index ], cmd, sizeof( client->reliableCommands[ index ] ) );
-
-				/*
-				if ( client->netchan.remoteAddress.type != NA_BOT ) {
-					Com_Printf( "WARNING: client %i removed double pending config string %i: %s\n", client-svs.clients, csnum1, cmd );
-				}
-				*/
-				return qtrue;
-			}
-		}
-	}
-	return qfalse;
-}
-#endif
-
-/*
-======================
 SV_AddServerCommand
 
 The given command will be transmitted to the client, and is guaranteed to
@@ -327,12 +292,6 @@ not have future snapshot_t executed before it is executed
 void SV_AddServerCommand( client_t *client, const char *cmd ) {
 	int index, i;
 
-
-
-
-
-
-
 	client->reliableSequence++;
 	// if we would be losing an old command that hasn't been acknowledged,
 	// we must drop the connection
@@ -341,16 +300,14 @@ void SV_AddServerCommand( client_t *client, const char *cmd ) {
 	if ( client->reliableSequence - client->reliableAcknowledge == MAX_RELIABLE_COMMANDS + 1 ) {
 		Com_Printf( "===== pending server commands =====\n" );
 		for ( i = client->reliableAcknowledge + 1 ; i <= client->reliableSequence ; i++ ) {
-			//Com_Printf( "cmd %5d: %s\n", i, client->reliableCommands[ i & (MAX_RELIABLE_COMMANDS-1) ] );
-			Com_Printf( "cmd %5d: %s\n", i, SV_GetReliableCommand( client, i & ( MAX_RELIABLE_COMMANDS - 1 ) ) );
+			Com_Printf( "cmd %5d: %s\n", i, client->reliableCommands[ i & (MAX_RELIABLE_COMMANDS-1) ] );
 		}
 		Com_Printf( "cmd %5d: %s\n", i, cmd );
 		SV_DropClient( client, "Server command overflow" );
 		return;
 	}
 	index = client->reliableSequence & ( MAX_RELIABLE_COMMANDS - 1 );
-	//Q_strncpyz( client->reliableCommands[ index ], cmd, sizeof( client->reliableCommands[ index ] ) );
-	SV_AddReliableCommand( client, index, cmd );
+	Q_strncpyz( client->reliableCommands[ index ], cmd, sizeof( client->reliableCommands[ index ] ) );
 }
 
 
@@ -707,10 +664,11 @@ Redirect all printfs
 */
 void SVC_RemoteCommand( netadr_t from, msg_t *msg ) {
 	qboolean valid;
-	int i;
 	char remaining[1024];
-#define SV_OUTPUTBUF_LENGTH ( MAX_MSGLEN - 16 )
+//#define SV_OUTPUTBUF_LENGTH ( MAX_MSGLEN - 16 )
+#define SV_OUTPUTBUF_LENGTH ( 256 - 16 )
 	char sv_outputbuf[SV_OUTPUTBUF_LENGTH];
+	char *cmd_aux;
 
        // Prevent using rcon as an amplifier and make dictionary attacks impractical
        if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
@@ -747,10 +705,20 @@ void SVC_RemoteCommand( netadr_t from, msg_t *msg ) {
 	} else {
 		remaining[0] = 0;
 
-		for ( i = 2 ; i < Cmd_Argc() ; i++ ) {
-			strcat( remaining, Cmd_Argv( i ) );
-			strcat( remaining, " " );
-		}
+		// ATVI Wolfenstein Misc #284
+		// get the command directly, "rcon <pass> <command>" to avoid quoting issues
+		// extract the command by walking
+		// since the cmd formatting can fuckup (amount of spaces), using a dumb step by step parsing
+		cmd_aux = Cmd_Cmd();
+		cmd_aux += 4;
+		while ( cmd_aux[0] == ' ' )
+			cmd_aux++;
+		while ( cmd_aux[0] && cmd_aux[0] != ' ' ) // password
+			cmd_aux++;
+		while ( cmd_aux[0] == ' ' )
+			cmd_aux++;
+
+		Q_strcat( remaining, sizeof( remaining ), cmd_aux );
 
 		Cmd_ExecuteString( remaining );
 	}
@@ -780,7 +748,7 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 	MSG_BeginReadingOOB( msg );
 	MSG_ReadLong( msg );        // skip the -1 marker
 
-        if ( !Q_strncmp( "connect", &msg->data[4], 7 ) ) {
+        if ( !Q_strncmp( "connect", (const char *)&msg->data[4], 7 ) ) {
                 Huff_Decompress( msg, 12 );
         }
 
