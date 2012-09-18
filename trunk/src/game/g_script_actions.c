@@ -309,7 +309,8 @@ qboolean G_ScriptAction_Trigger( gentity_t *ent, char *params ) {
 		return ( ( trent != ent ) || ( oldId == trent->scriptStatus.scriptId ) );
 	}
 
-	G_Error( "G_Scripting: trigger has unknown name: %s\n", name );
+	//G_Error( "G_Scripting: trigger has unknown name: %s\n", name );
+	G_Printf( "G_Scripting: trigger has unknown name: %s\n", name );
 	return qfalse;  // shutup the compiler
 }
 
