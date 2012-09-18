@@ -128,7 +128,7 @@ seta a3_tag "^0Admin"
 seta a1_cmds "g_allowvote slap specs ignore unignore clientignore clientunignore"
 seta a2_cmds "g_allowvote slap specs ignore unignore clientignore clientunignore kick clientkick coop nextmap"
 seta a3_cmds "g_allowvote rconpassword" // Server specific only..
-seta a3_allowAll "1"
+seta a3_allowAll "1" // So level 3 can execute any Admin command.
 seta adm_help "1" // Let admins know what they can use by allowing !list_cmds 
 seta g_extendedLog "1" // Log essentials only. 
 seta g_votesPerUser "2" // 2 votes for user per round are more then enough.
