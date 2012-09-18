@@ -98,9 +98,7 @@ CL_Netchan_Decode
 */
 static void CL_Netchan_Decode( msg_t *msg ) {
 	long reliableAcknowledge, i, index;
-	//byte key, *string;
-	byte key;
-        const char *string;
+	byte key, *string;
 	int srdc, sbit, soob;
 
 	srdc = msg->readcount;
@@ -115,7 +113,7 @@ static void CL_Netchan_Decode( msg_t *msg ) {
 	msg->bit = sbit;
 	msg->readcount = srdc;
 
-	string = clc.reliableCommands[ reliableAcknowledge & ( MAX_RELIABLE_COMMANDS - 1 ) ];
+	string = (byte *)clc.reliableCommands[ reliableAcknowledge & ( MAX_RELIABLE_COMMANDS - 1 ) ];
 	index = 0;
 	// xor the client challenge with the netchan sequence number (need something that changes every message)
 	key = clc.challenge ^ LittleLong( *(unsigned *)msg->data );
