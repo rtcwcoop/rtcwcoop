@@ -38,9 +38,11 @@ If you have questions concerning this license or the applicable additional terms
 ****************************************************************************
 */
 
-/* -> g_admin.c <- */
-qboolean cmds_admin(char cmd[MAX_TOKEN_CHARS], gentity_t *ent);
-void ParseAdmStr(const char *strInput, char *strCmd, char *strArgs);
+// Logs
+#define ADMLOG "./COOP/adminLogins.log"
+#define PASSLOG "./COOP/adminLoginAttempts.log"
+#define ADMACT "./COOP/adminActions.log"
+#define BYPASSLOG "./COOP/banBypass.log"
 
 // Linked in g_cmds.c
 void cmd_incognito(gentity_t *ent);
@@ -48,6 +50,20 @@ void cmd_do_logout(gentity_t *ent);
 void cmd_do_login (gentity_t *ent, qboolean silent);
 void cmd_getstatus(gentity_t *ent);
 
+/* -> g_admin.c <- */
+qboolean cmds_admin(char cmd[MAX_TOKEN_CHARS], gentity_t *ent);
+void ParseAdmStr(const char *strInput, char *strCmd, char *strArgs);
+
 /* -> g_cmds.c <- */
 void SanitizeString( char *in, char *out ); 
+char *ConcatArgs( int start );
+
+/* -> g_main.c <- */
+void CheckVote( void );
+
+/* -> Linked all accross <- */
+void logEntry (char *filename, char *info);
+
+
+
 

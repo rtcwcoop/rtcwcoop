@@ -163,6 +163,8 @@ vmCvar_t	a3_allowAll;	// Allows level 3 to execute all admin commands + anyother
 vmCvar_t	adm_help;		// If enabled users can use !list_cmds to get list of commands for their level..
 vmCvar_t	g_gamelocked;	// Controls if Admin locked the game so players can't join
 vmCvar_t	sv_hostname;	// So it's more accesible
+vmCvar_t	g_extendedLog;	// Logs various admin actions in a seperate logs
+vmCvar_t	g_votesPerUser; // How many votes can user call each game
 // end
 #endif
 
@@ -292,6 +294,8 @@ cvarTable_t gameCvarTable[] = {
 	{ &adm_help, "adm_help", "1", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_gamelocked, "g_gamelocked", "0", CVAR_ROM, 0, qfalse }, 
 	{ &sv_hostname, "sv_hostname", "0", CVAR_SYSTEMINFO, 0, qfalse },
+	{ &g_extendedLog, "g_extendedLog", "0", CVAR_ARCHIVE, 0, qfalse },
+	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
 	// End
 #endif
 

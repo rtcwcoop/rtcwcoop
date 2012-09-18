@@ -516,7 +516,6 @@ typedef struct {
 
 //
 #define MAX_NETNAME         36
-#define MAX_VOTE_COUNT      3
 
 #define PICKUP_ACTIVATE 0   // pickup items only when using "+activate"
 #define PICKUP_TOUCH    1   // pickup items when touched
@@ -545,9 +544,9 @@ typedef struct {
 	qboolean teamInfo;              // send team overlay updates?
 #ifdef _ADMINS
 	// L0 
-	char cmd1[128];
-	char cmd2[128];
-	char cmd3[128];
+	char cmd1[128];	// !command
+	char cmd2[128]; // !command attribute
+	char cmd3[128];	// !commant attribute extra
 	// End
 #endif
 } clientPersistant_t;
@@ -1302,6 +1301,8 @@ extern vmCvar_t	a3_allowAll;
 extern vmCvar_t	adm_help;
 extern vmCvar_t g_gamelocked;
 extern vmCvar_t	sv_hostname;
+extern vmCvar_t g_extendedLog;
+extern vmCvar_t g_votesPerUser;
 #endif
 // End
 

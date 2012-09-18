@@ -1367,7 +1367,8 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		trap_SendServerCommand( ent - g_entities, "print \"A vote is already in progress.\n\"" );
 		return;
 	}
-	if ( ent->client->pers.voteCount >= MAX_VOTE_COUNT ) {
+	// L0 - To cope with spam voting I removed hardcoded MAX_VOTE_COUNT as well as fixed to "more" so count is right.
+	if ( ent->client->pers.voteCount > g_votesPerUser.value ) { 
 		trap_SendServerCommand( ent - g_entities, "print \"You have called the maximum number of votes.\n\"" );
 		return;
 	}
@@ -1473,6 +1474,8 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	level.voteTime = level.time;
 	level.voteYes = 1;
 	level.voteNo = 0;
+	// L0 - Ehm, and where's the user vote count? Doh..
+	ent->client->pers.voteCount++;
 
 	for ( i = 0 ; i < level.maxclients ; i++ ) {
 		level.clients[i].ps.eFlags &= ~EF_VOTED;

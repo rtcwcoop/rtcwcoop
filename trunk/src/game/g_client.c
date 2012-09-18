@@ -1872,11 +1872,10 @@ void ClientSpawn( gentity_t *ent ) {
 
 	client->pers.teamState.state = TEAM_ACTIVE;
 
-
 	// toggle the teleport bit so the client knows to not lerp
 	flags = ent->client->ps.eFlags & EF_TELEPORT_BIT;
 	flags ^= EF_TELEPORT_BIT;
-
+	flags |= ( client->ps.eFlags & EF_VOTED ); // L0 - Fixes vote abuse by suicide and vote override..
 	// clear everything but the persistant data
 
 	saved = client->pers;

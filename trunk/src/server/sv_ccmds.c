@@ -754,6 +754,7 @@ static void SV_KickNum_f( void ) {
 SV_Status_f
 ================
 */
+// L0 - FIXME : Rcon crashes when game is hosted locally (non-ded) - to test bug try with 2 clients and doing /rcon status..
 static void SV_Status_f( void ) {
 	int i, j, l;
 	client_t    *cl;
@@ -771,11 +772,18 @@ static void SV_Status_f( void ) {
 
 	Com_Printf( "num score ping name            lastmsg address               qport rate\n" );
 	Com_Printf( "--- ----- ---- --------------- ------- --------------------- ----- -----\n" );
-	for ( i = 0,cl = svs.clients ; i < sv_maxclients->integer ; i++,cl++ )
+	for ( i = 0,cl = svs.clients ; i < sv_maxcoopclients->integer ; i++,cl++ ) // L0 - loop player spots..
 	{
 		if ( !cl->state ) {
 			continue;
 		}
+
+		// L0 - Don't show bots
+		if (cl->gentity->r.svFlags & SVF_CASTAI) {
+			continue;
+		}
+		// End
+
 		Com_Printf( "%3i ", i );
 		ps = SV_GameClientNum( i );
 		Com_Printf( "%5i ", ps->persistant[PERS_SCORE] );

@@ -1,3 +1,27 @@
+18.Sept/2012  (REV: 774)
+=========================
+Nate 'L0 (nate.afk@gmail.com)
+
+- Fixed server releated cvars in admin command string (they weren't picked up before).
+- Fixed rcon status to show only users and not bots.
+- Patched admin console prints to print tag (without colors) correctly on all executed commands.
+- Added log option (controled by g_extendedLog) to log Admin actions, logins and login attempts (Will later create new log for ban bypasses as well).
+-- 0 = doesn't log anything, 1 = logs most cruical stuff (ignore, kick, map..), 2 = logs all (warnings, nextmap...)
+- Patched HUD menu to show two new settings for client commands I added (disabling blood when being hit & solid crosshair).
+- Fixed callvote abuse where user could override vote by killing him self and voting again..
+- Removed hardcoded max vote limit (wasn't working anyway) and added g_votesPerUser cvar for it..
+- Added following admin commands:
+-- exec     // Executes config on server
+-- nextmap  // Sets next map
+-- map      // Loads selected map
+-- cpa      // Center prints message to all
+-- cp       // Center prints message to selected user only
+-- chat     // Prints to all only in chat
+-- warn     // Prints to all in chat and center print
+-- cancelvote // Cancels any vote in progress
+-- passvote   // Passes any vote in progress
+
+
 15.Sept/2012  (REV: 760)
 =========================
 Nate 'L0 (nate.afk@gmail.com)
