@@ -209,7 +209,7 @@ ifeq ($(PLATFORM),linux)
 
   #BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit -Wstrict-prototypes
   BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit \
-    -pipe -DUSE_ICON -DC_ONLY -fno-common -D_ADMIN
+    -pipe -DUSE_ICON -DC_ONLY -fno-common -D_ADMINS
   CLIENT_CFLAGS = $(SDL_CFLAGS) -Wno-write-strings
   SERVER_CFLAGS =
 
@@ -277,7 +277,7 @@ ifeq ($(PLATFORM),darwin)
   CC=gcc-4.2
   
   #BASE_CFLAGS = -Wall -Wimplicit -Wstrict-prototypes
-  BASE_CFLAGS = -Wall -Wimplicit -DC_ONLY -m32 -D_ADMIN
+  BASE_CFLAGS = -Wall -Wimplicit -DC_ONLY -m32 -D_ADMINS
   CLIENT_CFLAGS = -Wno-write-strings
   SERVER_CFLAGS =
 

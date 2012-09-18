@@ -1367,11 +1367,13 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		trap_SendServerCommand( ent - g_entities, "print \"A vote is already in progress.\n\"" );
 		return;
 	}
+#ifdef _ADMINS
 	// L0 - To cope with spam voting I removed hardcoded MAX_VOTE_COUNT as well as fixed to "more" so count is right.
-	if ( ent->client->pers.voteCount > g_votesPerUser.value ) { 
+	if ( ent->client->pers.voteCount > g_votesPerUser.integer ) { 
 		trap_SendServerCommand( ent - g_entities, "print \"You have called the maximum number of votes.\n\"" );
 		return;
 	}
+#endif
 
 	// make sure it is a valid command to vote on
 	trap_Argv( 1, arg1, sizeof( arg1 ) );
