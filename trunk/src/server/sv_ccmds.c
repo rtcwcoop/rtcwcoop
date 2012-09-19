@@ -242,7 +242,7 @@ static void SV_Map_f( void ) {
 	Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
-	Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );
+	Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH ); 
 	// done
 
 	Cvar_SetValue( "g_episode", 0 ); //----(SA) added

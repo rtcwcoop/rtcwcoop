@@ -1021,7 +1021,7 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 
 	// L0 - Ignored players..
 	if (ent->client->sess.ignored) {
-		trap_SendServerCommand(ent-g_entities, "print \"You cannot chat because you are ^!Ignored^7!\"2");
+		trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! Chat cancelled..\"2");
 	return;
 	} // End
 
@@ -1144,7 +1144,7 @@ static void Cmd_Tell_f( gentity_t *ent ) {
 #ifdef _ADMINS
 	// L0 - Ignored players..
 	if (ent->client->sess.ignored) {
-		trap_SendServerCommand(ent-g_entities, "print \"You cannot use Tell because you are ^!Ignored^7!\"2");
+		trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! Tell cancelled..\"2");
 	return;
 	} // End
 #endif
@@ -1214,7 +1214,7 @@ void G_Voice( gentity_t *ent, gentity_t *target, int mode, const char *id, qbool
 #ifdef _ADMINS
 		// L0 - Ignored players..
 		if (ent->client->sess.ignored) {
-			trap_SendServerCommand(ent-g_entities, "print \"You cannot VoiceChat because you are ^!Ignored^7!\"2");
+			trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! Voice cancelled..\"2");
 		return;
 		} // End
 #endif	
@@ -1332,6 +1332,21 @@ static const char *gameNames[] = {
         "Single Player"
 };
 
+/*
+==================
+L0 - Wish it would be like in php and i wouldn't need to bother with this..
+==================
+*/
+int is_numeric(const char *p) {
+     if (*p) {
+          char c;
+          while ((c=*p++)) {
+                if (!isdigit(c)) return 0;
+          }
+          return 1;
+      }
+return 0;
+}
 
 /*
 ==================
@@ -1348,7 +1363,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 #ifdef _ADMINS
 	// L0 - Ignored players..
 	if (ent->client->sess.ignored) {
-		trap_SendServerCommand(ent-g_entities, "print \"You cannot Call Votes because you are ^!Ignored^7!\"2");
+		trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! ^7Vote refused..\"2");
 	return;
 	} // End
 #endif	
@@ -1402,15 +1417,25 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
 	} else if ( !Q_stricmp( arg1, "kick" ) ) {
 	} else if ( !Q_stricmp( arg1, "nextmap" ) ) {
-	// L0 - ( not wrapping this in _ADMIN flag as there's no need to)
+	// L0 - ( not wrapping this in _ADMIN flag as there's no need to )
 	} else if ( !Q_stricmp( arg1, "clientkick" ) ) {
 	} else if ( !Q_stricmp( arg1, "?" ) ) {
 	// Once admins get a part of the project this will be dumped in
-	//} else if ( !Q_stricmp( arg1, "ignore" ) ) {
-	//} else if ( !Q_stricmp( arg1, "unignore" ) ) {
+#ifdef _ADMINS
+	} else if ( !Q_stricmp( arg1, "ignore" ) ) {
+	} else if ( !Q_stricmp( arg1, "unignore" ) ) {
+#endif
+	// L0 : Enhancements - view.php?id=54
+	} else if ( !Q_stricmp( arg1, "g_gameskill" ) ) {
+	} else if ( !Q_stricmp( arg1, "g_reinforce" ) ) {
+    } else if ( !Q_stricmp( arg1, "g_freeze" ) ) {
 	// End
 	} else {
-		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick, clientkick, ? (poll) and nextmap\"" ); // L0 - Added clientkick and Poll option
+#ifdef _ADMINS
+		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick, clientkick, ignore, unignore, ? <question>, nextmap, g_gameskill, g_reinforce, g_freeze\"" ); // L0 - Enhanced 
+#else
+		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick, clientkick, ? <question>, nextmap, g_gameskill, g_reinforce, g_freeze\"" ); // L0 - Enhanced 
+#endif
 		return;
 	}
 
@@ -1427,45 +1452,122 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	} else if ( !Q_stricmp( arg1, "map") ) {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "coopmap %s", arg2 );
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
-	// L0 - Poll option
+// L0 - Callvotes enhancements 
+	// Poll option
 	} else if ( !Q_stricmp( arg1, "?" ) ) {
 		char	*s;
-		s = ConcatArgs(2); // 
+		s = ConcatArgs(2); 		
 
 		if (*s) {
 			Com_sprintf( level.voteString, sizeof( level.voteString ), "\"Poll:\"", s);  
 			trap_SendServerCommand( -1, va("chat \"^2Poll: ^7%s\n\"", s )); // Temporarily set like this as vote draw needs to be fixed to look nicer so on TODO list..
 		} 		
-		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s%s", level.voteString, s ); 	
-	// end
+		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s%s", level.voteString, s ); 
+#ifdef _ADMINS
+	// Ignore
+	} else if ( !Q_stricmp( arg1, "ignore" ) ) {
+		int i, num = MAX_CLIENTS;
+		for (i = 0; i < MAX_CLIENTS; i++)
+		{
+			if (level.clients[i].pers.connected != CON_CONNECTED && g_entities[i].r.svFlags & SVF_BOT) // Not a bot!
+				continue;
+
+			Q_strncpyz(cleanName, level.clients[i].pers.netname, sizeof(cleanName));
+			Q_CleanStr(cleanName);
+			if (!Q_stricmp(cleanName, arg2))
+				num = i;
+		}
+		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "ignore %s", level.clients[num].pers.netname);
+		if (level.clients[num].sess.ignored) {
+			trap_SendServerCommand(ent-g_entities, va("print \"^3Notice: ^7%s ^7is already Ignored^3!\n\"", level.clients[num].pers.netname));
+		return;
+		} else if (num != MAX_CLIENTS){
+			Com_sprintf(level.voteString, sizeof(level.voteString), "ignore \"%d\"", num);
+		}else{
+			trap_SendServerCommand(ent-g_entities, "print \"Client not on server.\n\"");
+			return;
+		}
+	// Unignore
+	} else if ( !Q_stricmp( arg1, "unignore" ) ) {
+		int i, num = MAX_CLIENTS;
+		for (i = 0; i < MAX_CLIENTS; i++)
+		{
+			if (level.clients[i].pers.connected != CON_CONNECTED && g_entities[i].r.svFlags & SVF_BOT) // Not a bot!
+				continue;
+
+			Q_strncpyz(cleanName, level.clients[i].pers.netname, sizeof(cleanName));
+			Q_CleanStr(cleanName);
+			if (!Q_stricmp(cleanName, arg2))
+				num = i;
+		}
+		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "unignore %s", level.clients[num].pers.netname);
+		if (!level.clients[num].sess.ignored) {
+			trap_SendServerCommand(ent-g_entities, va("print \"^3Notice: ^7%s ^7is already unignored^3!\n\"", level.clients[num].pers.netname));
+		return;
+		} else if (num != MAX_CLIENTS){
+			Com_sprintf(level.voteString, sizeof(level.voteString), "unignore \"%d\"", num);
+		}else{
+			trap_SendServerCommand(ent-g_entities, "print \"Client not on server.\n\"");
+			return;
+		}
+#endif
+	// g_gameSkill
+	} else if ( !Q_stricmp( arg1, "g_gameskill" ) ) {	
+		i = atoi(arg2);
+        if ( !is_numeric(arg2) || i < 0 || i > 3) {
+			trap_SendServerCommand( ent - g_entities, "print \"Invalid argument for g_gameskill.\n\"" );
+        return;
+        }               
+		//Com_sprintf( level.voteString, sizeof( level.voteString ), "g_gameskill %s; map_restart 5", arg2);  // Use map restart.          
+		Com_sprintf( level.voteString, sizeof( level.voteString ), "g_gameskill %s; map_restart 5", arg2);  // Switch in game.          
+		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
+	// g_reinforce
+	} else if ( !Q_stricmp( arg1, "g_reinforce" ) ) {	
+		i = atoi(arg2);
+        if ( !is_numeric(arg2) || i < 0 || i > 2) {
+			trap_SendServerCommand( ent - g_entities, "print \"Invalid argument for g_reinforce.\n\"" );
+        return;
+        }               
+		Com_sprintf( level.voteString, sizeof( level.voteString ), "g_reinforce %s; map_restart 5", arg2);  // Use map restart.          
+		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
+	// g_freeze
+	} else if ( !Q_stricmp( arg1, "g_freeze" ) ) {	
+		i = atoi(arg2);
+        if ( !is_numeric(arg2) || i < 0 || i > 1) {
+			trap_SendServerCommand( ent - g_entities, "print \"Invalid argument for g_freeze.\n\"" );
+        return;
+        }               
+		Com_sprintf( level.voteString, sizeof( level.voteString ), "g_freeze %s", arg2);  // Kick starts instantly..
+		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
+// L0 - Callvotes enhancements ends here
     } else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
-                i = atoi(arg2);
-                if ( i >= GT_SINGLE_PLAYER || i < 0 ) {
-                        trap_SendServerCommand( ent - g_entities, "print \"Invalid gametype.\n\"" );
-                        return;
-                }
-                Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %d; map_restart 5", arg1, i ); 
-                Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s %s", arg1, gameNames[i] );
+		i = atoi(arg2);
+        if ( i >= GT_SINGLE_PLAYER || i < 0 ) {
+			trap_SendServerCommand( ent - g_entities, "print \"Invalid gametype.\n\"" );
+        return;
+        }
+        Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %d; map_restart 5", arg1, i ); 
+        Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s %s", arg1, gameNames[i] );
     } else if ( !Q_stricmp( arg1,"kick" ) ) {
-                int i,kicknum = MAX_CLIENTS;
-                for ( i = 0; i < MAX_CLIENTS; i++ ) {
-                        if ( level.clients[i].pers.connected != CON_CONNECTED ) {
-                                continue;
-                        }
-// strip the color crap out
-                        Q_strncpyz( cleanName, level.clients[i].pers.netname, sizeof( cleanName ) );
-                        Q_CleanStr( cleanName );
-                        if ( !Q_stricmp( cleanName, arg2 ) ) {
-                                kicknum = i;
-                        }
+        int i,kicknum = MAX_CLIENTS;
+			for ( i = 0; i < MAX_CLIENTS; i++ ) {
+				if ( level.clients[i].pers.connected != CON_CONNECTED ) {
+					continue;
                 }
-        //        Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "kick %s", level.clients[kicknum].pers.netname );
-                if ( kicknum != MAX_CLIENTS ) { // found a client # to kick, so override votestring with better one
-                        Com_sprintf( level.voteString, sizeof( level.voteString ),"clientkick \"%d\"",kicknum );
-                } else { // if it can't do a name match, don't allow kick (to prevent votekick text spam wars)
-                        trap_SendServerCommand( ent - g_entities, "print \"Client not on server.\n\"" );
-                        return;
+				// strip the color crap out
+				Q_strncpyz( cleanName, level.clients[i].pers.netname, sizeof( cleanName ) );
+                Q_CleanStr( cleanName );
+                if ( !Q_stricmp( cleanName, arg2 ) ) {
+					kicknum = i;
                 }
+            }
+        //Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "kick %s", level.clients[kicknum].pers.netname );
+        if ( kicknum != MAX_CLIENTS ) { // found a client # to kick, so override votestring with better one
+			Com_sprintf( level.voteString, sizeof( level.voteString ),"clientkick \"%d\"",kicknum );
+        } else { // if it can't do a name match, don't allow kick (to prevent votekick text spam wars)
+			trap_SendServerCommand( ent - g_entities, "print \"Client not on server.\n\"" );
+        return;
+        }
 	} else {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %s", arg1, arg2 );
 	}

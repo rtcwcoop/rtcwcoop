@@ -440,6 +440,83 @@ void Svcmd_PollPrint_f() {
 	trap_SendServerCommand(-1, va("chat \"console: Poll result is ^2Yes^7!\n\""));	
 }
 
+#ifdef _ADMINS
+/*
+============
+L0 - Unignore
+============
+*/
+void Svcmd_Unignore_f()
+{
+	int clientNum;
+	char buf[5];
+
+	if (trap_Argc() != 2)
+	{
+		G_Printf("Usage: unignore <client num>\n");
+		return;
+	}
+
+	trap_Argv(1, buf, sizeof(buf));
+	clientNum = atoi(buf);
+
+	if ((clientNum < 0) || (clientNum >= MAX_CLIENTS))
+	{
+		G_Printf("Invalid client number.\n");
+		return;
+	}
+
+	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) && g_entities[clientNum].r.svFlags & SVF_BOT)
+	{
+		G_Printf("Client not on server.\n");
+		return;
+	}
+
+	g_entities[clientNum].client->sess.ignored = 0;
+	trap_SendServerCommand(clientNum, "cp \"You have been unignored^2!\n\"2");	//let them know they can talk again
+	trap_SendServerCommand( -1 , va("chat \"console: ^7%s ^7has been unignored.\n\"",g_entities[clientNum].client->pers.netname) );
+return;
+}
+
+/*
+============
+L0 - Ignore
+============
+*/
+
+void Svcmd_Ignore_f()
+{
+	int clientNum;
+	char buf[5];
+
+	if (trap_Argc() != 2)
+	{
+		G_Printf("Usage: ignore <client num>\n");
+		return;
+	}
+
+	trap_Argv(1, buf, sizeof(buf));
+	clientNum = atoi(buf);
+
+	if ((clientNum < 0) || (clientNum >= MAX_CLIENTS))
+	{
+		G_Printf("Invalid client number\n");
+		return;
+	}
+
+	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) && g_entities[clientNum].r.svFlags & SVF_BOT)
+	{
+		G_Printf("Client not on server.\n");
+		return;
+	}
+
+	g_entities[clientNum].client->sess.ignored = 1;
+	trap_SendServerCommand(clientNum, "cp \"You are now ignored^1\n\"");
+    trap_SendServerCommand( -1 , va("chat \"console: ^7%s ^7has been ignored.\n\"",g_entities[clientNum].client->pers.netname ));
+return;
+}
+#endif
+
 
 char    *ConcatArgs( int start );
 
@@ -538,11 +615,27 @@ qboolean    ConsoleCommand( void ) {
 		return qtrue;
 	}
 
-	// L0 - Poll
+	// L0 - Enhancements
+	// Poll
 	if (Q_stricmp(cmd, "Poll:") == 0 ) {
 		Svcmd_PollPrint_f ();
 		return qtrue;
-	} // End
+	} 
+
+#ifdef _ADMINS
+	// Ignore
+	if (Q_stricmp(cmd, "ignore") == 0 ) {
+		Svcmd_Ignore_f ();
+		return qtrue;
+	} 
+	// Unignore
+	if (Q_stricmp(cmd, "unignore") == 0 ) {
+		Svcmd_Unignore_f ();
+		return qtrue;
+	} 
+#endif
+
+	// L0 - end
 
 	if ( g_dedicated.integer ) {
 		if ( Q_stricmp( cmd, "say" ) == 0 ) {

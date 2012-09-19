@@ -1096,7 +1096,7 @@ return;
 
 /*
 ===========
-Shows message to all in console
+Shows message to selected user in center print
 ===========
 */
 void cmd_cp(gentity_t *ent) {	
