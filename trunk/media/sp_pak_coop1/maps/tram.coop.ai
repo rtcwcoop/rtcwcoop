@@ -1,4 +1,4 @@
-//
+// 
 //AI Scripting
 //Map: Tram
 //Last edited by: Dan
@@ -44,7 +44,6 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
-
 		
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_2 #endif
@@ -63,24 +62,19 @@ player
 		trigger gear3 on3
 	}
 
-	trigger starttram
+	trigger 1up
 	{
-		trigger tramcar tramup
 		trigger trammount mountup
-
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
-		alertentity nazi6
-		alertentity nazi7
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
+		wait 1
+		trigger tramcar tramup
 	}
-
-	trigger tramgo
+	
+	trigger 1down
 	{
-		trigger tramcar tramdown
 		trigger trammount mountdown
-
+		wait 1
+		trigger tramcar tramdown
+		
 		accum 0 abort_if_not_bitset 1
 		accum 0 bitreset 1
 		objectivemet 2
@@ -99,11 +93,45 @@ player
 		mu_fade 0 500
 		mu_queue sound/music/m_drums
 	}
+	
+	trigger 2up
+	{
+		trigger trammount mountup2
+		wait 1
+		trigger tramcar tramup2
+	}
+	
+	trigger 2down
+	{
+		trigger trammount mountdown2
+		wait 1
+		trigger tramcar tramdown2
+	}	
+	
+	
+	trigger starttram
+	{
+		trigger tramcar tramup
+		trigger trammount mountup
+
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		alertentity nazi6
+		alertentity nazi7
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
+	}
+
+	trigger tramgo
+	{
+//		trigger tramcar tramdown
+//		trigger trammount mountdown
+	}
 
 	trigger startlower
 	{
-		trigger tramcar tramcontinue
-		trigger trammount mountcontinue
+		trigger tramcar tramfix
+		trigger trammount mountfix
 		accum 0 abort_if_not_bitset 2
 		accum 0 bitreset 2
 		alertentity nazi16
