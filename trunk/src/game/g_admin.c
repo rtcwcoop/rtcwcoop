@@ -1224,6 +1224,31 @@ return;
 
 /*
 ===========
+Map restart
+===========
+*/
+void cmd_restart(gentity_t *ent) {
+	char *tag, *log;
+
+	tag = sortTag(ent);
+
+	trap_SendServerCommand(-1, va("chat \"console: %s ^7has restarted map.\n\"", tag));
+
+	trap_SendConsoleCommand( EXEC_APPEND, va("map_restart 5"));		
+
+
+	// Log it
+	log =va("Player %s (IP:%i.%i.%i.%i) has restarted map.", 
+		ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], 
+		ent->client->sess.ip[3]);
+	if (g_extendedLog.integer >= 2) // Only log this if it is set to 2+
+	logEntry (ADMACT, log);
+
+return;
+}
+
+/*
+===========
 Getstatus
 
 Prints IP's and later on GUIDs if we'll decide to go that way..
@@ -1334,7 +1359,7 @@ void cmd_listCmds(gentity_t *ent) {
 	return;
 	}
 
-	cmds = "ignore unignore clientignore clientunignore kick clientkick slap kill specs coop";
+	cmds = "ignore unignore clientignore clientunignore kick clientkick slap kill specs coop exec nextmap map cpa cp chat warn cancelvote passvote restart";
 
 	if (ent->client->sess.admin == ADM_MEM)
 		trap_SendServerCommand( ent-g_entities, va("print \"\n^2Available commands are:^7\n%s\n^2Use ? for help with command. E.g. ?incognito.\n\"", a1_cmds.string));
@@ -1387,6 +1412,7 @@ qboolean do_cmds(gentity_t *ent) {
 	else if (!strcmp(cmd,"warn"))			{ if (canUse(ent, qtrue)) cmd_warn(ent); else cantUse(ent); return qtrue;} 
 	else if (!strcmp(cmd,"cancelvote"))		{ if (canUse(ent, qtrue)) cmd_cancelvote(ent); else cantUse(ent); return qtrue;} 
 	else if (!strcmp(cmd,"passvote"))		{ if (canUse(ent, qtrue)) cmd_passvote(ent); else cantUse(ent); return qtrue;} 
+	else if (!strcmp(cmd,"restart"))		{ if (canUse(ent, qtrue)) cmd_restart(ent); else cantUse(ent); return qtrue;} 
 	// Any other command
 	else if (canUse(ent, qfalse))			{ cmdCustom(ent, cmd); return qtrue; }	
 
@@ -1433,6 +1459,7 @@ qboolean do_help(gentity_t *ent) {
 	else if (!strcmp(cmd,"warn"))			help = "Shows warning message to all in global chat and center print.";
 	else if (!strcmp(cmd,"cancelvote"))		help = "Cancels any vote in progress.";
 	else if (!strcmp(cmd,"passvote"))		help = "Passes any vote in progress.";
+	else if (!strcmp(cmd,"restart"))		help = "Restarts the round.";
 
 	else return qfalse;
 
