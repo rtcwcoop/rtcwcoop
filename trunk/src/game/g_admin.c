@@ -1296,6 +1296,7 @@ void cmd_getstatus(gentity_t *ent) {
 				n2[10] = 0;	
 					
 					// Sort it :C
+					sortTag = "";
 					slot = va("%3d", j);
 					team = (g_entities[j].client->sess.sessionTeam == TEAM_SPECTATOR) ? "^2SPEC^7" : "COOP";
 					ip = ( ent->client->sess.admin == ADM_NONE ) ?

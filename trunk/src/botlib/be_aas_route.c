@@ -2638,3 +2638,4 @@ qboolean AAS_GetRouteFirstVisPos( vec3_t srcpos, vec3_t destpos, int travelflags
 	// unsuccessful
 	return qfalse;
 }
+

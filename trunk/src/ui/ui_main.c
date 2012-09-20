@@ -7335,3 +7335,5 @@ static void UI_StartServerRefresh( qboolean full ) {
 	}
 }
 // -NERVE - SMF
+
+

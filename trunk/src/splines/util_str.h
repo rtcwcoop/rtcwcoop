@@ -726,3 +726,4 @@ inline idStr::operator const char*
 }
 
 #endif
+

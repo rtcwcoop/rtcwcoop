@@ -450,3 +450,4 @@ qboolean trap_GetLimboString( int index, char *buf ) {
 	return syscall( UI_CL_GETLIMBOSTRING, index, buf );
 }
 // -NERVE - SMF
+

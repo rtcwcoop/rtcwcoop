@@ -140,3 +140,4 @@ void S_AdpcmEncodeSound( sfx_t *sfx, short *samples ) {
 		count -= n;
 	}
 }
+
