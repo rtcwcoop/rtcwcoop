@@ -195,13 +195,6 @@ void ai_trigger_use( gentity_t *self, gentity_t *other, gentity_t *activator ) {
 }
 
 void SP_ai_trigger( gentity_t *ent ) {
-        char mapname[1024];
-
-        // fretn: this trigger breaks the tram map for multiple users, so disable it
-        trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
-        if (!strcmp(ent->target, "starttram") && !strcmp(mapname, "tram") && g_gametype.integer <= GT_COOP)
-                return;
-
 	G_SpawnFloat( "wait", "-1", &ent->wait );
 
 	if ( !ent->aiName ) {
