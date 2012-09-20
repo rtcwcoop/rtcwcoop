@@ -183,9 +183,9 @@ tramcar
 		faceangles -2 0 0 gototime
 		gotomarker tramspot5 80
 		faceangles -2 0 0 gototime
-		gotomarker tramspot6 100
+		gotomarker tramspot6 150
 		faceangles -2 0 0 gototime
-		gotomarker tramspot7 100
+		gotomarker tramspot7 150
 		faceangles -1 0 1 gototime
 		gotomarker tramspot8 100
 		faceangles -1 0 -4 gototime
@@ -217,14 +217,12 @@ tramcar
 		gotomarker tramspot18 10
 		faceangles 2 0 1 gototime
 		faceangles 0 0 0 3000
-//		trigger button1 resetbutton1
-//		alertentity light2on
 		trigger player 1up
 	}
 	
 	trigger tramfix
 	{
-		gotomarker tramspot13 120
+		gotomarker tramspot13 200
 		faceangles 0 0 1 gototime
 		gotomarker tramspot14 70
 		faceangles 0 0 1 gototime
@@ -246,6 +244,8 @@ tramcar
 	{
 		wait 500
 		playsound sound/scenaric/tram/tram_start.wav
+		trigger button1 resetbutton1
+		alertentity light2on
 		wait 500
 		playsound sound/scenaric/tram/tram_move.wav looping
 		gotomarker tramspot19 100
@@ -262,11 +262,6 @@ tramcar
 		faceangles -1 0 0 gototime
 		gotomarker tramspot25 100
 		faceangles -1 0 0 gototime
-		trigger tramcar tramlower
-	}		
-
-	trigger tramlower
-	{
 		gotomarker tramspot26 100
 		faceangles 0 0 0 gototime
 		gotomarker tramspot27 100
@@ -281,11 +276,6 @@ tramcar
 		faceangles 0 0 -2 gototime
 		gotomarker tramspot32 100
 		faceangles 0 0 -1 gototime
-		trigger tramcar tramfinal
-	}
-
-	trigger tramfinal
-	{
 		gotomarker tramspot33 80
 		faceangles 1 0 -1 gototime
 		gotomarker tramspot34 70
@@ -312,9 +302,9 @@ tramcar
 	{
 		wait 200
 		playsound sound/scenaric/tram/tram_move.wav looping
-		gotomarker tramspot33 200
+		gotomarker tramspot33 150
 		faceangles 0 0 0 gototime
-		gotomarker tramspot32 200
+		gotomarker tramspot32 150
 		faceangles 0 0 1 gototime
 		gotomarker tramspot31 100
 		faceangles 0 0 0 gototime
@@ -347,18 +337,32 @@ tramcar
 		stopsound
 		playsound sound/scenaric/tram/tram_stop.wav
 		faceangles 0 0 0 2000
-//		trigger button2 resetbutton2
-//		alertentity light4on
-		trigger player 2up
+		trigger tramcar tramcontinue
 	}
 
 	trigger tramup2
 	{
 		wait 200
 		playsound sound/scenaric/tram/tram_move.wav looping
-		gotomarker tramspot12 200
+		gotomarker tramspot25 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot24 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot23 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot22 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot21 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot20 100
 		faceangles 0 0 0 gototime
-		gotomarker tramspot11 200
+		gotomarker tramspot19 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot18 100
+		faceangles 2 0 0 gototime
+		gotomarker tramspot12 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot11 100
 		faceangles 0 0 1 gototime
 		gotomarker tramspot10 100
 		faceangles 0 0 -3 gototime
@@ -396,9 +400,6 @@ tramcar
 		faceangles 0 1 1 600
 		faceangles 1 0 1 700
 		faceangles 1 0 0 800
-//		faceangles 0 0 0 2000
-//		trigger button1 resetbutton1
-//		alertentity light2on
 		trigger player 2down
 	}
 
@@ -417,9 +418,9 @@ tramcar
 		faceangles -2 0 0 gototime
 		gotomarker tramspot5 80
 		faceangles -2 0 0 gototime
-		gotomarker tramspot6 100
+		gotomarker tramspot6 150
 		faceangles -2 0 0 gototime
-		gotomarker tramspot7 100
+		gotomarker tramspot7 150
 		faceangles -1 0 1 gototime
 		gotomarker tramspot8 100
 		faceangles -1 0 -4 gototime
@@ -451,8 +452,6 @@ tramcar
 		gotomarker tramspot18 10
 		faceangles 2 0 1 gototime
 		faceangles 0 0 0 3000
-//		trigger button1 resetbutton1
-//		alertentity light2on
 		trigger tramcar tramcontinue
 	}	
 	
@@ -507,9 +506,9 @@ trammount
 		faceangles 0 0 0 gototime
 		gotomarker tramspot5 80
 		faceangles 0 0 0 gototime
-		gotomarker tramspot6 100
+		gotomarker tramspot6 150
 		faceangles -9 0 0 gototime
-		gotomarker tramspot7 100
+		gotomarker tramspot7 150
 		faceangles -9 0 0 gototime
 		playsound sound/scenaric/tram/tram_creak.wav // play creak sound
 		gotomarker tramspot8 100
@@ -546,7 +545,7 @@ trammount
 	
 	trigger mountfix
 	{
-		gotomarker tramspot13 120
+		gotomarker tramspot13 200
 		faceangles -9 0 0 gototime
 		gotomarker tramspot14 70
 		faceangles -9 0 0 gototime
@@ -582,11 +581,6 @@ trammount
 		faceangles -25 0 0 gototime
 		gotomarker tramspot25 100
 		faceangles -25 0 0 gototime
-		trigger trammount mountlower
-	}
-
-	trigger mountlower
-	{
 		gotomarker tramspot26 100
 		faceangles -25 0 0 gototime
 		playsound sound/scenaric/tram/tram_creak.wav // play creak sound
@@ -603,11 +597,6 @@ trammount
 		playsound sound/scenaric/tram/cable_creak.wav // play creak sound
 		gotomarker tramspot32 100
 		faceangles 0 0 0 gototime
-		trigger trammount mountfinal
-	}
-
-	trigger mountfinal
-	{
 		gotomarker tramspot33 80
 		faceangles 0 0 0 gototime
 		gotomarker tramspot34 70
@@ -632,9 +621,9 @@ trammount
 	trigger mountreturn
 	{
 		wait 200
-		gotomarker tramspot33 200
+		gotomarker tramspot33 150
 		faceangles 0 0 0 gototime
-		gotomarker tramspot32 200
+		gotomarker tramspot32 150
 		faceangles -25 0 0 gototime
 		gotomarker tramspot31 100
 		faceangles -25 0 0 gototime
@@ -665,19 +654,35 @@ trammount
 		gotomarker tramspot18 10
 		faceangles -9 0 0 gototime
 		faceangles -9 0 0 2000
+		trigger trammount mountcontinue
 	}
 
 	trigger mountup2
 	{
 		wait 200
-		gotomarker tramspot12 200
+		gotomarker tramspot25 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot24 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot23 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot22 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot21 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot20 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot19 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot18 100
+		faceangles 2 0 0 gototime
+		gotomarker tramspot12 100
 		faceangles -9 0 0 gototime
-		gotomarker tramspot11 200
+		gotomarker tramspot11 100
 		faceangles -9 0 0 gototime
 		gotomarker tramspot10 100
 		faceangles -9 0 0 gototime
 		gotomarker tramspot9 100
-		trigger zone1 onsight
 		faceangles -9 0 0 gototime
 		gotomarker tramspot8 100
 		faceangles -9 0 0 gototime
@@ -713,9 +718,9 @@ trammount
 		faceangles 0 0 0 gototime
 		gotomarker tramspot5 80
 		faceangles 0 0 0 gototime
-		gotomarker tramspot6 100
+		gotomarker tramspot6 150
 		faceangles -9 0 0 gototime
-		gotomarker tramspot7 100
+		gotomarker tramspot7 150
 		faceangles -9 0 0 gototime
 		playsound sound/scenaric/tram/tram_creak.wav // play creak sound
 		gotomarker tramspot8 100
@@ -906,7 +911,8 @@ button1
 	{
 		resetscript
 		wait 5
-		trigger player starttram
+//		trigger player starttram
+		trigger player 2up
 		playsound sound/world/alarmswitch.wav
 		gotomarker button1in 20	
 		alertentity light2on

@@ -149,6 +149,7 @@ player
 		alertentity light3on
 		alertentity light4on
 		trigger button2 resetbutton2
+		
 	}
 
 	trigger returnmid
