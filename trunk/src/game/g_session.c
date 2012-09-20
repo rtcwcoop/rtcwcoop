@@ -119,11 +119,11 @@ void G_ReadSessionData( gclient_t *client ) {
 			&client->sess.playerItem,       // DHM - Nerve
 #ifdef _ADMINS
 			&client->sess.playerSkin,       // DHM - Nerve
-			&client->sess.admin,			// L0 - Admins
-			&client->sess.ip[0],			// L0 - IP 				
-			&client->sess.ip[1],			// L0 - IP				
-			&client->sess.ip[2],			// L0 - IP				
-			&client->sess.ip[3],			// L0 - IP
+			(int *)&client->sess.admin,			// L0 - Admins
+			(int *)&client->sess.ip[0],			// L0 - IP 				
+			(int *)&client->sess.ip[1],			// L0 - IP				
+			(int *)&client->sess.ip[2],			// L0 - IP				
+			(int *)&client->sess.ip[3],			// L0 - IP
 			&client->sess.incognito,		// L0 - Toggle admin presence
 			&client->sess.ignored			// L0 - Ignored players
 #else
