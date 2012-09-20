@@ -466,7 +466,7 @@ void Svcmd_Unignore_f()
 		return;
 	}
 
-	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) && g_entities[clientNum].r.svFlags & SVF_BOT)
+	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) || (g_entities[clientNum].r.svFlags & SVF_BOT))
 	{
 		G_Printf("Client not on server.\n");
 		return;
@@ -504,7 +504,7 @@ void Svcmd_Ignore_f()
 		return;
 	}
 
-	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) && g_entities[clientNum].r.svFlags & SVF_BOT)
+	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) || (g_entities[clientNum].r.svFlags & SVF_BOT))
 	{
 		G_Printf("Client not on server.\n");
 		return;
