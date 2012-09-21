@@ -910,7 +910,7 @@ void AICast_CheckLoadGame( void ) {
 
 // briefing menu will handle transition, just set a cvar for it to check for drawing the 'continue' button
                         // fretn - also copied to g_client.c in clientbegin
-			trap_SendServerCommand( -1, "rockandroll\n" );
+			//trap_SendServerCommand( -1, "rockandroll\n" );
 
 			level.reloadPauseTime = level.time + 1100;
 
