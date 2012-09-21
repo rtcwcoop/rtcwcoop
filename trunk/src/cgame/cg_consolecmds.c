@@ -802,14 +802,12 @@ void CG_InitConsoleCommands( void ) {
 	trap_AddCommand( "spawnpoint" );
 	trap_AddCommand( "teleport" );
 
-#ifdef _ADMINS
 	// L0 - New stuff	
 	trap_AddCommand( "login" );
 	trap_AddCommand( "@login" );
 	trap_AddCommand( "logout" );
 	trap_AddCommand( "incognito" );
-	trap_AddCommand( "getstatus" );
+	trap_AddCommand( "getstatus" );	
 	// End
-#endif
-
+	
 }

@@ -1016,13 +1016,22 @@ typedef struct {
 	float cameraShakePhase;
 	vec3_t cameraShakeAngles;
 
-        int cameraShakeTime;
-        float cameraShakeScale;
-        float cameraShakeLength;
+    int cameraShakeTime;
+    float cameraShakeScale;
+    float cameraShakeLength;
 
 	float rumbleScale;          //RUMBLE FX using new shakeCamera code
 
-        qboolean latchVictorySound;
+    qboolean latchVictorySound;
+
+	// L0 - New centerprint		
+	int		centerPrintAnnouncerTime;
+	char	*centerPrintAnnouncer;
+	float	centerPrintAnnouncerScale;
+	int		centerPrintAnnouncerDuration;
+	vec3_t	centerPrintAnnouncerColor;
+	int		centerPrintAnnouncerMode;
+	// end
 
 } cg_t;
 
@@ -1407,6 +1416,9 @@ typedef struct {
 	sfxHandle_t teamsTiedSound;
 
 	// tournament sounds
+	// L0 - Added 5 & 4 + added audio.
+	sfxHandle_t count5Sound; 
+	sfxHandle_t count4Sound;
 	sfxHandle_t count3Sound;
 	sfxHandle_t count2Sound;
 	sfxHandle_t count1Sound;
@@ -1486,8 +1498,8 @@ typedef struct {
 	qhandle_t selectCursor;
 	qhandle_t sizeCursor;
 
-        // fretn
-        qhandle_t rtt;
+    // fretn
+    qhandle_t rtt;
 
 } cgMedia_t;
 
@@ -1826,12 +1838,11 @@ extern vmCvar_t mp_mapDesc;
 extern vmCvar_t mp_mapTitle;
 // -NERVE - SMF
 
-#ifdef _ADMINS
 // L0 
 extern vmCvar_t cg_solidCrosshair;
 extern vmCvar_t cg_bloodBlend;
+extern vmCvar_t cg_announcer;
 // end
-#endif
 
 //
 // cg_main.c
@@ -2534,3 +2545,13 @@ void        CG_FreeCamera( int camNum );
 void CG_StartShakeCamera( float p, int duration, vec3_t src, float radius );
 
 qboolean    trap_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo );
+
+// L0 
+void CG_DrawAnnouncer( void ); 
+void CG_AddAnnouncer(char *text, sfxHandle_t sound, float scale, int duration, float r, float g, float b, int mode);
+#define ANNOUNCER_NORMAL 1
+#define ANNOUNCER_SINE 2
+#define ANNOUNCER_INVERSE_SINE 3
+#define ANNOUNCER_TAN 4
+// End
+

@@ -255,7 +255,7 @@ static void CG_ParseWarmup( void ) {
 
 	if ( warmup == 0 && cg.warmup ) {
 
-	} else if ( warmup > 0 && cg.warmup <= 0 ) {
+	} else if ( warmup > 0 && cg.warmup <= 0  && cg_announcer.integer) { // L0 - Use sound only they have it set..
 		trap_S_StartLocalSound( cgs.media.countPrepareSound, CHAN_ANNOUNCER );
 	}
 
@@ -1287,6 +1287,10 @@ static void CG_MapRestart( void ) {
 	memset( cg.cameraShake, 0, sizeof( cg.cameraShake ) );
 	memset( cg.cameraShakeAngles, 0, sizeof( cg.cameraShakeAngles ) );
 	cg.rumbleScale = 0;
+
+	// L0 - Fight! 
+	if ( cg.warmup == 0 && cg_announcer.integer)		
+		CG_AddAnnouncer("FIGHT !", cgs.media.countFightSound, 1.6f, 1200, 0.0f, 1.0f, 0.0f, ANNOUNCER_NORMAL); 			
 
 	trap_Cvar_Set( "cg_thirdPerson", "0" );
 }

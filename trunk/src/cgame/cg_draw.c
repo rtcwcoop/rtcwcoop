@@ -233,17 +233,6 @@ void CG_Text_Paint( float x, float y, int font, float scale, vec4_t color, const
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
 /*
 ================
 CG_Draw3DModel
@@ -435,10 +424,6 @@ void CG_DrawTeamBackground( int x, int y, int w, int h, float alpha, int team ) 
 //////////////////////
 ////// end new hud stuff
 //////////////////////
-
-
-
-
 
 /*
 ===========================================================================================
@@ -1769,8 +1754,6 @@ static void CG_DrawCrosshair( void ) {
 		h *= ( 1 + f );
 	}
 */
-
-#ifdef _ADMINS
 	// L0 - crosshair pulsing..
 	if (!cg_solidCrosshair.integer) {
 		// RF, crosshair size represents aim spread	
@@ -1778,13 +1761,6 @@ static void CG_DrawCrosshair( void ) {
 		w *= ( 1 + f*2.0 );
 		h *= ( 1 + f*2.0 );
 	} // end
-#else
-		// RF, crosshair size represents aim spread	
-		f = (float)cg.snap->ps.aimSpreadScale / 255.0;
-		w *= ( 1 + f*2.0 );
-		h *= ( 1 + f*2.0 );
-
-#endif
 
 	x = cg_crosshairX.integer;
 	y = cg_crosshairY.integer;
@@ -2308,6 +2284,34 @@ static void CG_DrawAmmoWarning( void ) {
 
 /*
 =================
+L0 - Countdown audio
+
+Atm commented out as It doesn't work..
+=================
+*/
+/*
+static void countDownAnnouncer(int cnt) {
+
+	if (!cg_announcer.integer) 
+		return;
+
+	// Argh...ugly!
+	if (cnt == 5)
+		trap_S_StartLocalSound( cgs.media.count5Sound , CHAN_ANNOUNCER ); // Count 5
+	else if (cnt == 4)
+		trap_S_StartLocalSound( cgs.media.count4Sound , CHAN_ANNOUNCER ); // Count 4
+	else if (cnt == 3)
+		trap_S_StartLocalSound( cgs.media.count3Sound , CHAN_ANNOUNCER ); // Count 3
+	else if (cnt == 2)
+		trap_S_StartLocalSound( cgs.media.count2Sound , CHAN_ANNOUNCER ); // Count 2
+	else if (cnt == 1)
+		trap_S_StartLocalSound( cgs.media.count5Sound , CHAN_ANNOUNCER ); // Count 1
+return;
+}
+*/
+
+/*
+=================
 CG_DrawWarmup
 =================
 */
@@ -2327,12 +2331,12 @@ static void CG_DrawWarmup( void ) {
 	}
 
 	if ( sec < 0 ) {
-                if ( cgs.gametype == GT_COOP_BATTLE )
-                        s = "Waiting for 1 player";
-                else
-                        return;
+		if ( cgs.gametype == GT_COOP_BATTLE )
+			s = "Waiting for 1 player";
+        else
+            return;		
 
-                //        s = "Waiting for players";
+        // s = "Waiting for players";
 		w = CG_DrawStrlen( s ) * BIGCHAR_WIDTH;
 		CG_DrawBigString( 320 - w / 2, 40, s, 1.0F );
 		cg.warmupCount = 0;
@@ -2344,14 +2348,15 @@ static void CG_DrawWarmup( void ) {
 
 	if ( sec < 0 ) {
 		sec = 0;
-	}
-
-        if ( sec == 0 ) {
-	        s = va( "FIGHT !!");
+	}	
+		
+		// L0 - Don't show if announcer is enabled!
+		if ( sec == 0 && !cg_announcer.integer) {
+	        s = va( "^2FIGHT!");			
         } else {
-	        //s = va( "Game starts in: %i", sec + 1 );
-	        s = va( "Game starts in: %i", sec );
-        }
+	        s = va( "Game starts in: ^2%i", sec + 1 );	        
+			// countDownAnnouncer(sec); // L0 - Needs fixing / FIXME
+        }	 
 
         cw = 16;
 
@@ -2469,10 +2474,8 @@ static void CG_DrawFlashDamage( void ) {
 	}
 
 // L0 - Blood blending
-#ifdef _ADMINS
 	if (cg_bloodBlend.integer)
 		return;
-#endif
 // end
 
 	if ( cg.v_dmg_time > cg.time ) {
@@ -2960,11 +2963,14 @@ static void CG_Draw2D( void ) {
 		CG_DrawObjectiveInfo();     // NERVE - SMF
 	}
 
+	// L0 - announcer
+	CG_DrawAnnouncer();
+
 	// Ridah, draw flash blends now
 	CG_DrawFlashBlend();
 
-        // fretn
-        CG_DrawFreeze();
+    // fretn
+    CG_DrawFreeze();
 }
 
 /*
@@ -3474,5 +3480,73 @@ void CG_DrawOnScreenText(void) {
 		whereworldtext=&worldtext->next;
 		worldtext = worldtext->next;
 	}
+}
+
+// L0 - Ported from ET (NQ i think)
+void CG_DrawAnnouncer( void )
+{
+	int		x, y, w, h;
+	float	scale, fade;
+	vec4_t	color;
+
+
+	if(  cg.centerPrintAnnouncerTime <= cg.time )
+		return;
+
+	fade = (float)(cg.centerPrintAnnouncerTime - cg.time)/cg.centerPrintAnnouncerDuration;
+
+	color[0] = cg.centerPrintAnnouncerColor[0];
+	color[1] = cg.centerPrintAnnouncerColor[1];
+	color[2] = cg.centerPrintAnnouncerColor[2];
+
+	switch( cg.centerPrintAnnouncerMode ){
+		default:
+		case ANNOUNCER_NORMAL:
+			color[3] = fade;
+			break;
+		case ANNOUNCER_SINE:
+			color[3] = sin( M_PI * fade );
+			break;
+		case ANNOUNCER_INVERSE_SINE:
+			color[3] = 1-sin( M_PI * fade );
+			break;
+		case ANNOUNCER_TAN:
+			color[3] = tan( M_PI * fade );
+	}
+
+	scale = (1.1f - color[3]) * cg.centerPrintAnnouncerScale;
+
+	h = CG_Text_Height_Ext( cg.centerPrintAnnouncer, scale, 0, &cgDC.Assets.textFont );
+
+	y = (SCREEN_HEIGHT - h) / 2;
+
+	w = CG_Text_Width_Ext(cg.centerPrintAnnouncer, scale, 0, &cgDC.Assets.textFont );
+
+	x = ( SCREEN_WIDTH - w ) / 2;
+
+	CG_Text_Paint_Ext( x, y, scale, scale , color, cg.centerPrintAnnouncer, 0, 0, 0, &cgDC.Assets.textFont );
+}
+
+void CG_AddAnnouncer(char *text, sfxHandle_t sound, float scale, int duration, float r, float g, float b, int mode)
+{
+
+//	if ( !cg_announcer.integer )
+//		return;
+
+	if ( sound )
+		trap_S_StartLocalSound( sound, CHAN_ANNOUNCER );
+
+	if ( text ){
+		cg.centerPrintAnnouncer = text;
+		cg.centerPrintAnnouncerTime = cg.time + duration;
+		cg.centerPrintAnnouncerScale = scale;
+		cg.centerPrintAnnouncerDuration = duration;
+		cg.centerPrintAnnouncerColor[0] = r;
+		cg.centerPrintAnnouncerColor[1] = g;
+		cg.centerPrintAnnouncerColor[2] = b;
+		cg.centerPrintAnnouncerMode = mode;
+	}
+
+
 }
 

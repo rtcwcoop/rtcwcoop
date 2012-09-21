@@ -281,10 +281,9 @@ vmCvar_t mp_itemDesc;
 // -NERVE - SMF
 
 // L0
-#ifdef _ADMINS // - NOT rly tied to it but to avoid problems and multiple flags..
 vmCvar_t cg_solidCrosshair;	// No pulsing when shoting
 vmCvar_t cg_bloodBlend;		// Blood covering the screen..
-#endif
+vmCvar_t cg_announcer;
 // end
 
 typedef struct {
@@ -484,12 +483,11 @@ cvarTable_t cvarTable[] = {
 	{ &mp_itemDesc, "mp_itemDesc", "", 0 },
 	// -NERVE - SMF
 
-#ifdef _ADMINS
 	// L0
 	{ &cg_solidCrosshair, "cg_solidCrosshair", "0", CVAR_ARCHIVE },
 	{ &cg_bloodBlend, "cg_bloodBlend", "0", CVAR_ARCHIVE },
+	{ &cg_announcer, "cg_announcer", "0", CVAR_ARCHIVE},
 	// end
-#endif
 
 	{ &cg_showAIState, "cg_showAIState", "0", CVAR_CHEAT},
 };
@@ -1111,6 +1109,15 @@ static void CG_RegisterSounds( void ) {
 	trap_S_RegisterSound( "sound/Loogie/spit.wav" );
 	trap_S_RegisterSound( "sound/Loogie/sizzle.wav" );
 
+	// L0 - New sounds
+	cgs.media.countFightSound = trap_S_RegisterSound( "sound/scenaric/announcer/fight.wav" );
+	cgs.media.count5Sound = trap_S_RegisterSound( "sound/scenaric/announcer/cn_5.wav" );
+	cgs.media.count4Sound = trap_S_RegisterSound( "sound/scenaric/announcer/cn_4.wav" );
+	cgs.media.count3Sound = trap_S_RegisterSound( "sound/scenaric/announcer/cn_3.wav" );
+	cgs.media.count2Sound = trap_S_RegisterSound( "sound/scenaric/announcer/cn_2.wav" );
+	cgs.media.count1Sound = trap_S_RegisterSound( "sound/scenaric/announcer/cn_1.wav" );
+	cgs.media.countPrepareSound = trap_S_RegisterSound( "sound/scenaric/announcer/prepare.wav" );
+	// End
 }
 
 
