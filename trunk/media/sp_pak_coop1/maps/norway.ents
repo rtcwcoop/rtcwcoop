@@ -472,7 +472,7 @@
 }
 {
 "classname" "coop_spawnpoint_trigger"
-"origin" "3212 -3526 1028"
+"origin" "3264 -3488 1028"
 "angle" "177"
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "norway1"
@@ -480,57 +480,57 @@
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3396 -3826 753"
+"origin" "3104 -3696 768"
 "angle" "-164"
 "targetname" "norway1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3306 -3849 758"
+"origin" "3168 -3696 768"
 "angle" "-164"
 "targetname" "norway1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3219 -3872 760"
+"origin" "3232 -3696 768"
 "angle" "-164"
 "targetname" "norway1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3130 -3896 765"
+"origin" "3296 -3696 768"
 "angle" "-164"
 "targetname" "norway1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3154 -3713 760"
-"angle" "-179"
+"origin" "3104 -3352 768"
+"angle" "-164"
 "targetname" "norway1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3209 -3713 760"
-"angle" "-179"
+"origin" "3168 -3352 768"
+"angle" "-164"
 "targetname" "norway1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3283 -3713 760"
-"angle" "-179"
+"origin" "3232 -3352 768"
+"angle" "-164"
 "targetname" "norway1"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "0"
-"origin" "3353 -3736 760"
-"angle" "-179"
+"origin" "3296 -3352 768"
+"angle" "-164"
 "targetname" "norway1"
 }
 {
