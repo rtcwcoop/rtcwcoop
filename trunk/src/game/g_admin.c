@@ -805,7 +805,7 @@ void cmd_slap(gentity_t *ent)
 	ent = &g_entities[clientid];
 
 	if (ent->client->ps.stats[STAT_HEALTH] <= 20) {
-#ifdef _ADMINSMOD_TELEFRAG
+#ifdef _ADMINS
 		G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_SLAP);
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7was slapped to death by %s^1!\n\"", ent->client->pers.netname, tag));
 		player_die( ent, ent, ent, 100000, MOD_SLAP );
