@@ -852,6 +852,7 @@ void SV_PacketEvent( netadr_t from, msg_t *msg ) {
 	// if we received a sequenced packet from an address we don't reckognize,
 	// send an out of band disconnect packet to it
 	NET_OutOfBandPrint( NS_SERVER, from, "disconnect" );
+        Com_Printf("Sending disconnect packet to %i.%i.%i.%i\n" , from.ip[0], from.ip[1], from.ip[2], from.ip[3]);
 }
 
 
