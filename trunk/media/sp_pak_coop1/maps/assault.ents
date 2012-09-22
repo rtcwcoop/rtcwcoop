@@ -9,43 +9,49 @@
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "4662 7151 1192"
-"angle" "-45"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "1"
-"origin" "4686 7119 1192"
-"angle" "-60"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "1"
-"origin" "4760 7152 1190"
+"origin" "4760 7016 1208"
 "angle" "-90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "4712 7152 1190"
+"origin" "4760 7064 1208"
 "angle" "-90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "4760 7088 1190"
+"origin" "4760 7112 1208"
 "angle" "-90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "4712 7088 1190"
+"origin" "4760 7160 1208"
 "angle" "-90"
 }
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "1"
-"origin" "4760 7032 1190"
+"origin" "4712 7016 1208"
+"angle" "-90"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
+"origin" "4712 7064 1208"
+"angle" "-90"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
+"origin" "4712 7112 1208"
+"angle" "-90"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
+"origin" "4712 7160 1208"
 "angle" "-90"
 }
 {
@@ -551,67 +557,4 @@
 "origin" "-3255 3933 664"
 "angle" "-95"
 "targetname" "assault2"
-}
-{
-"classname" "coop_spawnpoint_trigger"
-"origin" "-4477 5602 828"
-"angle" "-5"
-"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
-"target" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4464 5376 888"
-"angle" "75"
-"targetname" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4486 5307 852"
-"angle" "83"
-"targetname" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4474 5239 828"
-"angle" "86"
-"targetname" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4478 5188 792"
-"angle" "89"
-"targetname" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4481 5131 768"
-"angle" "88"
-"targetname" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4483 5079 744"
-"angle" "87"
-"targetname" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4472 5022 720"
-"angle" "86"
-"targetname" "assault3"
-}
-{
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-4495 4962 684"
-"angle" "84"
-"targetname" "assault3"
 }
