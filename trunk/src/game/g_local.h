@@ -466,7 +466,6 @@ typedef struct {
 #define FOLLOW_ACTIVE2  -2
 
 // L0 - Admins
-#ifdef _ADMINS 
 //
 // 3 Levels may be an overkill for max 4-8 players game but sometimes 
 // it's best to give lower level to new admins so they don't go screwing around with to much power..
@@ -477,7 +476,6 @@ typedef enum {
 	ADM_FULL  // Owners
 } admLvls_t;
 // End
-#endif
 
 // client data that stays across multiple levels or tournament restarts
 // this is achieved by writing all the data to cvar strings at game shutdown
@@ -495,22 +493,21 @@ typedef struct {
 	int playerItem;                 // DHM - Nerve :: for GT_WOLF
 	int playerSkin;                 // DHM - Nerve :: for GT_WOLF
 
-        // fretn
-        // stats for the scoreboard
-        int damage_given;
-        int damage_received;
-        int kills;
-        int deaths;
-        int suicides;
+    // fretn
+    // stats for the scoreboard
+    int damage_given;
+    int damage_received;
+    int kills;
+    int deaths;
+    int suicides;
+    int lastBonusLifeScore;
 
-        int lastBonusLifeScore;
-// L0 
-#ifdef _ADMINS
+	// L0 
 	admLvls_t admin;		// Admins
 	unsigned char ip[4];	// IPs
 	int	incognito;			// Toggle admin presence visibility on server
 	int ignored;			// Ignored player
-#endif
+	// End
 
 } clientSession_t;
 
@@ -542,13 +539,13 @@ typedef struct {
 	int voteCount;                  // to prevent people from constantly calling votes
 	int teamVoteCount;              // to prevent people from constantly calling votes
 	qboolean teamInfo;              // send team overlay updates?
-#ifdef _ADMINS
+
 	// L0 
 	char cmd1[128];	// !command
 	char cmd2[128]; // !command attribute
 	char cmd3[128];	// !commant attribute extra
 	// End
-#endif
+
 } clientPersistant_t;
 
 // cs: et sdk antilag
@@ -1287,7 +1284,6 @@ extern vmCvar_t g_antilag;
 // end
 
 // L0
-#ifdef _ADMINS
 extern vmCvar_t	a1_pass;	
 extern vmCvar_t	a2_pass;	
 extern vmCvar_t	a3_pass;	
@@ -1303,7 +1299,6 @@ extern vmCvar_t g_gamelocked;
 extern vmCvar_t	sv_hostname;
 extern vmCvar_t g_extendedLog;
 extern vmCvar_t g_votesPerUser;
-#endif
 // End
 
 void    trap_Print( const char *fmt );
@@ -1543,7 +1538,6 @@ void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
 
 #include "g_coop.h"
 
-#ifdef _ADMINS 
 // L0 - Admin's stuff
 #include "g_admin.h"
-#endif
+

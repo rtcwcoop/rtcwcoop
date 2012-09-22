@@ -37,7 +37,6 @@ If you have questions concerning this license or the applicable additional terms
 * Last edit: 
 ****************************************************************************
 */
-#ifdef _ADMINS
 #include "g_local.h"
 
 /*
@@ -1488,5 +1487,3 @@ qboolean cmds_admin(char cmd[MAX_TOKEN_CHARS], gentity_t *ent) {
 return qfalse;
 }
 
-
-#endif

@@ -149,7 +149,6 @@ vmCvar_t g_antilag;
 // end
 
 // L0
-#ifdef _ADMINS 
 vmCvar_t	a1_pass;		// Level 1 admin
 vmCvar_t	a2_pass;		// Level 2 admin
 vmCvar_t	a3_pass;		// Level 3 admin
@@ -166,7 +165,6 @@ vmCvar_t	sv_hostname;	// So it's more accesible
 vmCvar_t	g_extendedLog;	// Logs various admin actions in a seperate logs
 vmCvar_t	g_votesPerUser; // How many votes can user call each game
 // end
-#endif
 
 cvarTable_t gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -279,7 +277,6 @@ cvarTable_t gameCvarTable[] = {
 	{&g_scriptName, "g_scriptName", "", CVAR_ROM, 0, qfalse},
 	{&ai_scriptName, "ai_scriptName", "", CVAR_ROM, 0, qfalse},
 
-#ifdef _ADMINS
 	// L0
 	{ &a1_pass, "a1_pass", "none", CVAR_ARCHIVE, 0, qfalse },
 	{ &a2_pass, "a2_pass", "none", CVAR_ARCHIVE, 0, qfalse },
@@ -297,7 +294,6 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_extendedLog, "g_extendedLog", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
 	// End
-#endif
 
 	// cs: et sdk antilag
 	{ &g_antilag, "g_antilag", "1", 0, 0, qfalse }

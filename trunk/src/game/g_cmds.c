@@ -666,14 +666,12 @@ void SetTeam( gentity_t *ent, char *s ) {
 	spectatorState_t specState;
 	int specClient;
 
-#ifdef _ADMINS
 	// L0 - No joining if team is locked
 	if (g_gamelocked.integer) {		
 		trap_SendServerCommand( ent-g_entities, va( "cp \"You can't join because game is locked^1!\n\"2") );
 	return;
 	}
 	// end
-#endif
 
 	//
 	// see what change is requested
@@ -988,8 +986,8 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	// don't let text be too long for malicious reasons
 	char text[MAX_SAY_TEXT];
 	char location[64];
-#ifdef _ADMINS
-	char *tag;	// L0 - Admin tags	
+	// L0 - Admin stuff
+	char *tag;	
 	char arg[MAX_SAY_TEXT]; // ! & ? 
 	char cmd1[128];
 	char cmd2[128];
@@ -1040,8 +1038,6 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 		tag = ""; 
 	} // End
 
-#endif
-
 	if ( g_gametype.integer <= GT_SINGLE_PLAYER && mode == SAY_TEAM ) {
 		mode = SAY_ALL;
 	}
@@ -1049,13 +1045,8 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	switch ( mode ) {
 	default:
 	case SAY_ALL:
-		#ifdef _ADMINS
 			G_LogPrintf( "say: %s%s: %s\n", ent->client->pers.netname, tag, chatText ); // L0 - Added admin tag for log print..
 			Com_sprintf( name, sizeof( name ), "%s%s%c%c: ", ent->client->pers.netname, tag, Q_COLOR_ESCAPE, COLOR_WHITE ); // L0 - Added admin tag..
-		#else
-			G_LogPrintf( "say: %s: %s\n", ent->client->pers.netname, chatText ); 
-			Com_sprintf( name, sizeof( name ), "%s%c%c: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE ); 
-		#endif
 		color = COLOR_GREEN;
 		break;
 	case SAY_TEAM:
@@ -1141,13 +1132,11 @@ static void Cmd_Tell_f( gentity_t *ent ) {
 	char        *p;
 	char arg[MAX_TOKEN_CHARS];
 
-#ifdef _ADMINS
 	// L0 - Ignored players..
 	if (ent->client->sess.ignored) {
 		trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! Tell cancelled..\"2");
 	return;
 	} // End
-#endif
 
 	if ( trap_Argc() < 2 ) {
 		return;
@@ -1211,13 +1200,11 @@ void G_Voice( gentity_t *ent, gentity_t *target, int mode, const char *id, qbool
         int j;
         gentity_t   *other;
 
-#ifdef _ADMINS
 		// L0 - Ignored players..
 		if (ent->client->sess.ignored) {
 			trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! Voice cancelled..\"2");
 		return;
 		} // End
-#endif	
 
         /*if ( g_gametype.integer < GT_TEAM && mode == SAY_TEAM ) {
                 mode = SAY_ALL;
@@ -1360,13 +1347,11 @@ void Cmd_CallVote_f( gentity_t *ent ) {
     char cleanName[64];
 	char *check; // L0 - callvote exploit fix
 
-#ifdef _ADMINS
 	// L0 - Ignored players..
 	if (ent->client->sess.ignored) {
 		trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! ^7Vote refused..\"2");
 	return;
 	} // End
-#endif	
 
     if ( g_gametype.integer == GT_SINGLE_PLAYER) {
 		trap_SendServerCommand( ent - g_entities, "print \"Voting not allowed in single player.\n\"" );
@@ -1382,13 +1367,12 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		trap_SendServerCommand( ent - g_entities, "print \"A vote is already in progress.\n\"" );
 		return;
 	}
-#ifdef _ADMINS
+
 	// L0 - To cope with spam voting I removed hardcoded MAX_VOTE_COUNT as well as fixed to "more" so count is right.
 	if ( ent->client->pers.voteCount > g_votesPerUser.integer ) { 
 		trap_SendServerCommand( ent - g_entities, "print \"You have called the maximum number of votes.\n\"" );
 		return;
-	}
-#endif
+	} // End
 
 	// make sure it is a valid command to vote on
 	trap_Argv( 1, arg1, sizeof( arg1 ) );
@@ -2736,7 +2720,6 @@ void ClientCommand( int clientNum ) {
 	}
 //----(SA)	end
 
-#ifdef _ADMINS
 	// L0 - Hook our commands above intermission
 	if ( Q_stricmp( cmd, "login" ) == 0 ) {
 		cmd_do_login( ent, qfalse );
@@ -2755,7 +2738,6 @@ void ClientCommand( int clientNum ) {
 	return;
 	}
 	// End
-#endif
 
 	// ignore all other commands when at intermission
 	if ( level.intermissiontime ) {
