@@ -805,16 +805,27 @@ void cmd_slap(gentity_t *ent)
 	ent = &g_entities[clientid];
 
 	if (ent->client->ps.stats[STAT_HEALTH] <= 20) {
-		G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_SLAP);				
+#ifdef _ADMINSMOD_TELEFRAG
+		G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_SLAP);
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7was slapped to death by %s^1!\n\"", ent->client->pers.netname, tag));
 		player_die( ent, ent, ent, 100000, MOD_SLAP );
+#else
+		G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_TELEFRAG);				
+		trap_SendServerCommand(-1, va("chat \"console: %s ^7was slapped to death by %s^1!\n\"", ent->client->pers.netname, tag));
+		player_die( ent, ent, ent, 100000, MOD_TELEFRAG );
+#endif		
 			// Log it
 			log2 =va("%s user %s.", log, ent->client->pers.netname);
 			if (g_extendedLog.integer >= 2) // Only log this if it is set to 2+
 				logEntry (ADMACT, log2);
 	return;
 	} else {
+
+#ifdef _ADMINS
 		G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_SLAP);
+#else 
+		G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_TELEFRAG);
+#endif
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7was slapped by %s^1!\n\"", ent->client->pers.netname, tag));
 		// it's broadcasted globaly but only to near by players	
 		G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex("sound/multiplayer/vo_revive.wav")); // L0 - TODO: Add sound in pack...
@@ -865,10 +876,16 @@ void cmd_kill(gentity_t *ent)
 	}
 	
 	ent = &g_entities[clientid];
-	
+
+#ifdef _ADMINS // MODs are still wrapped in flag.
 	G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_ADMKILL);				
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7was killed by %s^1!\n\"", ent->client->pers.netname, tag));
 	player_die( ent, ent, ent, 100000, MOD_ADMKILL );
+#else
+	G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_TELEFRAG);
+	trap_SendServerCommand(-1, va("chat \"console: %s ^7was killed by %s^1!\n\"", ent->client->pers.netname, tag));
+	player_die( ent, ent, ent, 100000, MOD_TELEFRAG );
+#endif	
 		// Log it
 		log2 =va("%s user %s.", log, ent->client->pers.netname);
 		if (g_extendedLog.integer >= 2) // Only log this if it is set to 2+
