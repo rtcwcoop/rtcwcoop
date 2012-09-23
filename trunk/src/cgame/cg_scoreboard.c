@@ -77,21 +77,21 @@ void CG_DrawCoopScoreboard( void )
         }
 
         color2[3] = color[3];
-
-
+		
+		// L0 - patched for 8 players.
         // background
         color2[3] *= 0.6f;
-        CG_FilledBar( 150, 104, 340, 175, color2, NULL, NULL, 1.0f, 0 );
+        CG_FilledBar( 150, 104, 340, 280, color2, NULL, NULL, 1.0f, 0 );
 
         color2[0] = color2[1] = color2[2] = 0.3f;
         color2[3] *= 0.6f;
 
         // border
-        CG_FilledBar( 148, 104, 2, 175, color2, NULL, NULL, 1.0f, 0 );    // left
-        CG_FilledBar( 490, 104, 2, 175, color2, NULL, NULL, 1.0f, 0 );    // right
+        CG_FilledBar( 148, 104, 2, 280, color2, NULL, NULL, 1.0f, 0 );    // left
+        CG_FilledBar( 490, 104, 2, 280, color2, NULL, NULL, 1.0f, 0 );    // right
         CG_FilledBar( 148, 102, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // top
         CG_FilledBar( 150, 124, 342, 2, color2, NULL, NULL, 1.0f, 0 );    // under green bar
-        CG_FilledBar( 148, 279, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // bot
+        CG_FilledBar( 148, 384, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // bot	
 
 
         // text boxes
@@ -105,7 +105,7 @@ void CG_DrawCoopScoreboard( void )
         //if (cg.scores[0].respawnsLeft != -1)
         //        maxlives = qtrue;
 
-        for ( i = 0; i < 4; i++ ) {
+        for ( i = 0; i < 8; i++ ) {
                 if (cg.clientNum == cg.scores[i].client && i < cg.numScores)
                         CG_FilledBar( 170, 154 + ( 28 * i ), 300, 20, black, NULL, NULL, 1.0f, 0 );
                 else
