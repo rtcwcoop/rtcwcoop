@@ -1673,11 +1673,15 @@ static void CG_DrawCrosshair( void ) {
 		break;
 
 		// special reticle for weapon
-	case WP_KNIFE:
+	case WP_KNIFE:		
 		if ( cg.zoomedBinoc ) {
 			CG_DrawBinocReticle();
 			return;
+		// L0 - Crosshair shouldn't be shown at all when holding a knife.
+		} else {
+			return;
 		}
+		/*
 
 		// no crosshair when looking at exits
 		if ( cg.snap->ps.serverCursorHint >= HINT_EXIT && cg.snap->ps.serverCursorHint <= HINT_NOEXIT_FAR ) {
@@ -1690,9 +1694,8 @@ static void CG_DrawCrosshair( void ) {
 			}
 			return;
 		}
-
 		break;
-
+		*/
 	case WP_SNIPERRIFLE:
 	case WP_SNOOPERSCOPE:
 	case WP_FG42SCOPE:

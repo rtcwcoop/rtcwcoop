@@ -2940,16 +2940,25 @@ void CG_AddViewWeapon( playerState_t *ps ) {
 
 	// allow the gun to be completely removed
 	if ( !cg_drawGun.integer ) {
-/*
-		vec3_t		origin;
+		// L0 - Flamer and testla fix
+		vec3_t origin;
 
 		if ( cg.predictedPlayerState.eFlags & EF_FIRING ) {
-			// special hack for lightning gun...
+
+			// special hack for flamethrower...
 			VectorCopy( cg.refdef.vieworg, origin );
-			VectorMA( origin, -8, cg.refdef.viewaxis[2], origin );
-			CG_LightningBolt( &cg_entities[ps->clientNum], origin );
+
+			VectorMA( origin, 18, cg.refdef.viewaxis[0], origin );
+			VectorMA( origin, -7, cg.refdef.viewaxis[1], origin );
+			VectorMA( origin, -4, cg.refdef.viewaxis[2], origin );
+
+			// Weapons will sort them self out...
+			// Flamer
+			CG_FlamethrowerFlame( &cg.predictedPlayerEntity, origin );
+			// Tesla
+			CG_PlayerTeslaCoilFire( &cg.predictedPlayerEntity, origin );
 		}
-*/
+		// End
 		return;
 	}
 
