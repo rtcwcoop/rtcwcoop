@@ -833,3 +833,11 @@
 "skin" "mechanic/tram1"
 "head" "tram2"
 }
+
+{
+"classname" "misc_gamemodel"
+"origin" "-3024 -4591 680"
+"angle" "270"
+"model" "models/mapobjects/alarm-brd/alarm-brd.md3"
+"modelscale" "1.0"
+}

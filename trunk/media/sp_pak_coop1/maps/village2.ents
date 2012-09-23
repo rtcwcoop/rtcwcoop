@@ -635,6 +635,9 @@
 "angle" "-144"
 "targetname" "village21"
 }
+
+// ALARM SYSTEM
+
 {
 "classname" "misc_gamemodel"
 "origin" "2796 1088 8"
@@ -652,9 +655,13 @@
 "skin" "mechanic/tram1"
 "head" "tram2"
 }
-
-// ALARM SYSTEM
-
+{
+"classname" "misc_gamemodel"
+"origin" "2796 1088 40"
+"angle" "180"
+"model" "models/mapobjects/alarm-brd/alarm-brd2.md3"
+"modelscale" "1.0"
+}
 {
 "classname" "target_relay"
 "target" "x13"
