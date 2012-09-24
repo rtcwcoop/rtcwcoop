@@ -429,7 +429,8 @@ nazi2
 	{
 		accum 0 abort_if_not_equal 0
 		accum 0 set 1
-		clearanim
+		clearanim		
+		trigger coop_ai_soldier_5 awakenc5
 		alertentity getgun2
 		giveweapon weapon_luger
 		setammo ammo_9mm 999
@@ -670,7 +671,7 @@ nazi4
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 0 // 1 = sighted player
 		accum 1 set 0 // random generator
@@ -840,7 +841,7 @@ nazi5
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 0
 		setammo ammo_grenades 0
@@ -941,7 +942,7 @@ nazi6
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 bitset 0 // 1 = sighted player
 		accum 0 bitset 1
@@ -1416,7 +1417,7 @@ nazi10 // First house guard 2
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 1 // 0=dont break running for help
 		accum 1 set 1 // 0=enemy spotted already
@@ -1744,7 +1745,7 @@ nazi13 // MG42 gunner
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 0
 		accum 1 set 0 // 1 = should be behind mg42 so best to unmount
@@ -2072,7 +2073,7 @@ nazi15  // Officer at MG42 nest
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 0 // 1 = nazi13 already going for the alarm
 		accum 1 set 0
@@ -2321,7 +2322,7 @@ nazi18 // Base Guard at Front Gate
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 0
 		accum 1 set 0 // 1 = player spotted
@@ -2584,7 +2585,7 @@ nazi20 // Officer in gatehouse
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 0 // 1 = sighted player
 		setammo ammo_grenades 0
@@ -3095,7 +3096,7 @@ nazi25 // Exit guard
 
 	spawn
 	{
-		norespawn
+		
 	
 		accum 0 set 0
 		accum 1 set 0 // 1 = alarm broke
@@ -3278,21 +3279,99 @@ coop_ai_soldier_3		// secret-island
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		fov 100
+		leader 0.8
+		alertness 2048
 	}
 
 	spawn
 	{
+		
+		accum 0 set 1 // 0=dont break running for help
+		accum 1 set 1 // 0=enemy spotted already
+		accum 2 set 0 // 1= don't loop reading
+		accum 3 set 0 // one bullet impact
+		accum 4 set 0 // one inspectsound
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
-		giveweapon weapon_mauserrifle
-		setammo ammo_792mm 999
-		selectweapon weapon_mauserrifle
-		statetype alert
 	}
-}
+
+	enemysight
+	{
+		accum 1 abort_if_not_equal 1
+		accum 1 set 0
+		playsound Blank
+		clearanim
+		accum 2 set 1
+		giveweapon weapon_mp40
+		setammo ammo_9mm 999
+		selectweapon weapon_mp40
+		trigger coop_ai_soldier_3 gethelpc3
+	}
+
+	trigger gethelpc3
+	{
+		accum 0 abort_if_not_equal 1
+		accum 0 set 0
+		accum 1 set 0
+
+		playsound Blank
+		clearanim
+		accum 2 set 1
+		giveweapon weapon_mp40
+		setammo ammo_9mm 999
+		selectweapon weapon_mp40
+		statetype alert
+		noattack 6000
+		gotomarker spotn10b nostop
+		playsound ForestNazi10_4
+		gotomarker spotn10c nostop
+		gotomarker spotn10d nostop
+		gotomarker spotn10e nostop
+		gotomarker spotn10f nostop
+		gotomarker spotn10g
+		wait 200
+		trigger player on_alarm1
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 1 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0
+		accum 3 set 1
+		playsound Blank
+		clearanim
+		accum 2 set 1
+		giveweapon weapon_mp40
+		setammo ammo_9mm 999
+		selectweapon weapon_mp40
+		statetype alert
+		wait 5 player
+	}
+
+	inspectsoundstart
+	{
+		trigger coop_ai_soldier_3 gethelpc3
+	}
+
+	inspectbodystart
+	{
+		deny
+		trigger coop_ai_soldier_3 gethelpc3
+	}
+
+	death
+	{
+		accum 2 set 1
+		trigger nazi11 n10down	
+		resetscript
+	}
+}	
+
 
 coop_ai_soldier_4		// behind the stone-fence
 {
@@ -3315,73 +3394,370 @@ coop_ai_soldier_5		// near the officer
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		aggression 0.8		
+		alertness 1920
 	}
 
 	spawn
 	{
+		accum 0 set 0 // 1 = sighted player
+		accum 1 set 0 // random generator
+		setammo ammo_grenades 0
+		
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
+	}
+
+	statechange relaxed combat
+	{
+		trigger alarm spottedbyc5
+	}
+
+	statechange query combat
+	{
+		trigger alarm spottedbyc5
+	}
+
+	statechange alert combat
+	{
+		trigger alarm spottedbyc5
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		trigger alarm spottedbyc5
+		wait 5 player
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+		trigger alarm spottedbyc5
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	trigger awakenc5
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		attrib alertness 3150
+		resetscript
+		runtomarker spotn4a nostop
+		runtomarker spotn4b
+		wait 300
+		trigger player on_alarm1
+		runtomarker spotn4a
+	}
+
+	trigger alarmc5
+	{
 		statetype alert
+		resetscript
+		attrib alertness 3150
+		wait 300 player
+	}
+
+	death
+	{
+		trigger nazi5 awaken5
+		trigger nazi6 awaken6
 	}
 }
+
 
 coop_ai_soldier_6		// in the tunnel
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		aggression 0.8		
+		alertness 1320
 	}
 
 	spawn
 	{
+		accum 0 set 0 // 1 = sighted player
+		accum 1 set 0 // random generator
 		setammo ammo_grenades 0
-		takeweapon weapon_mp40
-		giveweapon weapon_mauserrifle
-		setammo ammo_792mm 999
-		selectweapon weapon_mauserrifle
+		
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+	}
+
+	statechange relaxed combat
+	{
+		trigger alarm spottedbyc6
+	}
+
+	statechange query combat
+	{
+		trigger alarm spottedbyc6
+	}
+
+	statechange alert combat
+	{
+		trigger alarm spottedbyc6
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		trigger alarm spottedbyc6
+		wait 5 player
+	}
+
+	inspectsoundstart
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+		trigger alarm spottedbyc6
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	trigger awakenc6
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		attrib alertness 3150
+		resetscript
+		runtomarker spotn4a nostop
+		runtomarker spotn4b
+		wait 300
+		trigger player on_alarm1
+		runtomarker spotn4a
+	}
+
+	trigger alarmc6
+	{
 		statetype alert
+		resetscript
+		attrib alertness 3150
+		wait 300 player
+	}
+
+	death
+	{
+		trigger nazi5 awaken5
+		trigger nazi6 awaken6
 	}
 }
+
 
 coop_ai_soldier_7		// near tunnel2
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.5
+		starting_health 50
+		attack_crouch 0.1
+		hearing_scale 0.8
+		fov 90
+		alertness 1200
 	}
 
 	spawn
 	{
+		accum 0 set 0
+		accum 1 set 0 // 1 = should be behind mg42 so best to unmount
 		setammo ammo_grenades 0
-		takeweapon weapon_mp40
-		giveweapon weapon_mauserrifle
-		setammo ammo_792mm 999
-		selectweapon weapon_mauserrifle
+	}
+
+	statechange relaxed combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_7 alertc7
+	}
+
+	statechange query combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_7 alertc7
+	}
+
+	statechange alert combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_7 alertc7
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
 		statetype alert
+		wait 5 player
+	}		
+
+	inspectbodystart
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger coop_ai_soldier_7 alertc7
+	}
+
+	trigger alertc7 // fired by self 
+	{
+		attrib alertness 4000
+		attrib fov 180
+		wait 300
+		trigger coop_ai_soldier_8 awakenc8
+		accum 1 abort_if_not_equal 1
+	}
+
+	trigger awakenc7 // fired by other ai's
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		attrib alertness 4000
+		attrib fov 180
+		statetype alert
+		accum 1 abort_if_not_equal 1
+		wait 5 player
+	}
+
+	trigger alarmsetc7 // only activate if nazi 13 is already alert when this gets fired
+	{
+		accum 0 abort_if_not_equal 1
+		resetscript
+		runtomarker spotn15f
+		facetargetangles spotn15f
+		wait 200
+		trigger player on_alarm3
+	}
+
+	death
+	{
+		accum 0 set 1
+		resetscript
 	}
 }
+
 
 coop_ai_soldier_8		// entrance of tunnel2
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.5
+		starting_health 50
+		attack_crouch 0.1
+		hearing_scale 0.8
+		fov 90
+		alertness 1200
 	}
 
 	spawn
 	{
+		accum 0 set 0
+		accum 1 set 0 // 1 = should be behind mg42 so best to unmount
 		setammo ammo_grenades 0
-		setammo ammo_9mm 999
+	}
+
+	statechange relaxed combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_8 alertc8
+	}
+
+	statechange query combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_8 alertc8
+	}
+
+	statechange alert combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_8 alertc8
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
 		statetype alert
+		wait 5 player
+	}		
+
+	inspectbodystart
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger coop_ai_soldier_8 alertc8
+	}
+
+	trigger alert87 // fired by self 
+	{
+		attrib alertness 4000
+		attrib fov 180
+		wait 300
+		trigger coop_ai_soldier_7 awakenc7
+		accum 1 abort_if_not_equal 1
+	}
+
+	trigger awakenc8 // fired by other ai's
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		attrib alertness 4000
+		attrib fov 180
+		statetype alert
+		accum 1 abort_if_not_equal 1
+		wait 5 player
+	}
+
+	trigger alarmsetc8 // only activate if nazi 13 is already alert when this gets fired
+	{
+		accum 0 abort_if_not_equal 1
+		resetscript
+		runtomarker spotn15f
+		facetargetangles spotn15f
+		wait 200
+		trigger player on_alarm3
+	}
+
+	death
+	{
+		accum 0 set 1
+		resetscript
 	}
 }
 
@@ -3423,19 +3799,93 @@ coop_ai_soldier_11		// exit of mine
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.5
+		starting_health 50
+		attack_crouch 0.1
+		hearing_scale 0.8
+		fov 90
+		alertness 1200
 	}
 
 	spawn
 	{
+		accum 0 set 0
+		accum 1 set 0 // 1 = should be behind mg42 so best to unmount
 		setammo ammo_grenades 0
-		takeweapon weapon_mp40
-		giveweapon weapon_mauserrifle
-		setammo ammo_792mm 999
-		selectweapon weapon_mauserrifle
+	}
+
+	statechange relaxed combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_11 alertc11
+	}
+
+	statechange query combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_11 alertc11
+	}
+
+	statechange alert combat
+	{
+		accum 0 set 1
+		trigger coop_ai_soldier_11 alertc11
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 0 abort_if_not_equal 0
 		statetype alert
+		wait 5 player
+	}		
+
+	inspectbodystart
+	{
+		deny
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger coop_ai_soldier_11 alertc11
+	}
+
+	trigger alertc11 // fired by self 
+	{
+		attrib alertness 4000
+		attrib fov 180
+		wait 300
+		accum 1 abort_if_not_equal 1
+	}
+
+	trigger awakenc11 // fired by other ai's
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		attrib alertness 4000
+		attrib fov 180
+		statetype alert
+		accum 1 abort_if_not_equal 1
+		wait 5 player
+	}
+
+	trigger alarmsetc11 // only activate if nazi 13 is already alert when this gets fired
+	{
+		accum 0 abort_if_not_equal 1
+		resetscript
+		runtomarker spotn15f
+		facetargetangles spotn15f
+		wait 200
+		trigger player on_alarm3
+	}
+
+	death
+	{
+		accum 0 set 1
+		resetscript
 	}
 }
 
@@ -3517,37 +3967,164 @@ coop_ai_soldier_16		// near the fence of camp 1
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		alertness 2048
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
+		accum 1 set 0 // 1 = player spotted
+		setammo ammo_grenades 1
+		wait 100
 	}
+
+
+	statechange relaxed combat
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_16 alertc16
+	}
+
+	statechange query combat
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_16 alertc16
+	}
+
+	statechange relaxed alert
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_16 alertc16
+	}
+
+	statechange query alert
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_16 alertc16
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger coop_ai_soldier_16 alertc16
+	}
+
+	inspectbodystart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger coop_ai_soldier_16 alertc16
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		attrib alertness 3150
+		wait 5 player
+	}	
+
+	inspectsoundstart
+	{
+		attrib alertness 3150
+	}	
+
+	trigger alertc16
+	{
+		attrib alertness 3150
+		resetscript
+		runtomarker spotn18d
+		runtomarker spotn18c
+		wait 1000
+		trigger player on_alarm4
+	}	
 }
 
 coop_ai_soldier_17		// near the fence of camp 2
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.2
+		starting_health 50
+		attack_crouch 0.2
+		alertness 2048
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
-		takeweapon weapon_mp40
-		giveweapon weapon_mauserrifle
-		setammo ammo_792mm 999
-		selectweapon weapon_mauserrifle
-		statetype alert
+		accum 1 set 0 // 1 = player spotted
+		setammo ammo_grenades 1
+		wait 100
 	}
+
+
+	statechange relaxed combat
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_17 alertc17
+	}
+
+	statechange query combat
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_17 alertc17
+	}
+
+	statechange relaxed alert
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_17 alertc17
+	}
+
+	statechange query alert
+	{
+		accum 1 set 1
+		trigger coop_ai_soldier_17 alertc17
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger coop_ai_soldier_17 alertc17
+	}
+
+	inspectbodystart
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger coop_ai_soldier_17 alertc17
+	}
+
+	bulletimpact
+	{
+		deny
+		accum 1 abort_if_not_equal 0
+		attrib alertness 3150
+		wait 5 player
+	}	
+
+	inspectsoundstart
+	{
+		attrib alertness 3150
+	}	
+
+	trigger alertc17
+	{
+		attrib alertness 3150
+		resetscript
+		runtomarker spotn18d
+		runtomarker spotn18c
+		wait 1000
+		trigger player on_alarm4
+	}	
 }
 
 coop_ai_soldier_18		// behind the window
@@ -3779,16 +4356,29 @@ coop_ai_soldier_31		// end-boxes 1
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.2
+		starting_health 20
+		fov 120
+		attack_crouch 0.0
+		aggression 0.9
+		alertness 1600
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
+		accum 0 set 0
+		accum 1 set 0 // 1 = alarm broke
+		setammo ammo_grenades 1
+	}
+
+	enemysight
+	{
+		attrib alertness 3150
+		resetscript
+		accum 1 abort_if_not_equal 0
+		gotomarker spotn25c
+		wait 500
+		trigger player on_alarm6
 	}
 }
 
@@ -3796,16 +4386,29 @@ coop_ai_soldier_32		// end-boxes 2
 {
 	attributes
 	{
-		aim_accuracy 0.6
-		starting_health 30
-		camper 1
+		aim_accuracy 0.2
+		starting_health 20
+		fov 120
+		attack_crouch 0.0
+		aggression 0.9
+		alertness 1600
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
-		setammo ammo_9mm 999
-		statetype alert
+		accum 0 set 0
+		accum 1 set 0 // 1 = alarm broke
+		setammo ammo_grenades 1
+	}
+
+	enemysight
+	{
+		attrib alertness 3150
+		resetscript
+		accum 1 abort_if_not_equal 0
+		runtomarker spotn25c
+		wait 500
+		trigger player on_alarm6
 	}
 }
 

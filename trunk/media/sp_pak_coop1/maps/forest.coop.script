@@ -135,6 +135,21 @@ alarm
 		accum 0 set 1
 		trigger nazi5 awaken5
 	}
+	
+	trigger spottedbyc5
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger coop_ai_soldier_5 awakenc5
+	}
+	
+	trigger spottedbyc6
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger coop_ai_soldier_6 awakenc6
+	}
+
 
 	trigger alarmset
 	{
@@ -153,6 +168,7 @@ alarm
 		wait 50
 		trigger nazi14 alarm14
 		trigger nazi18 alarm18
+		trigger coop_ai_soldier_5 alarmc5
 	}
 
 	trigger alarmset2
@@ -171,6 +187,7 @@ alarm
 		wait 50
 		trigger nazi14 alarm14
 		trigger nazi18 alarm18
+		trigger coop_ai_soldier_5 alarmc5
 	}
 
 	trigger incutscene
