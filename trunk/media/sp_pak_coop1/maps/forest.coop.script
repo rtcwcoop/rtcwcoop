@@ -48,35 +48,24 @@ spawner
 
 	trigger spawnx
 	{
-		alertentity kill_nazi4
-		alertentity kill_nazi5
-		alertentity kill_nazi6
-		alertentity kill_nazi10
-		alertentity kill_nazi13
-		alertentity kill_nazi15
-		alertentity kill_nazi18
-		alertentity kill_nazi20
-		alertentity kill_nazi25
-	}		
-	
-	trigger spawn0
-	{
 		wait 500
-		alertentity nazi4x
-		alertentity nazi5x
-		alertentity nazi6x
-		alertentity nazi10x
-		alertentity nazi13x
-		alertentity nazi15x
-		alertentity nazi18x
-		alertentity nazi20x
-		alertentity nazi25x
-	}	
+		trigger player explode_alarm1
+		wait 500
+		trigger player explode_alarm2
+		wait 500
+		trigger player explode_alarm3
+		wait 500
+		trigger player explode_alarm4
+		wait 500
+		trigger player explode_alarm5
+		wait 500
+		trigger player explode_alarm6
+	}		
 	
 	trigger spawn1
 	{
 		alertentity nazi9
-//		alertentity nazi10
+		alertentity nazi10
 		alertentity nazi11
 		wait 100
 		trigger nazi9 pattern9a
@@ -87,8 +76,8 @@ spawner
 		alertentity nazi1
 		alertentity nazi2
 		wait 50
-//		alertentity nazi4
-//		alertentity nazi5
+		alertentity nazi4
+		alertentity nazi5
 		wait 500
 		alertentity nazi7
 		alertentity nazi8
@@ -98,15 +87,15 @@ spawner
 
 	trigger spawn3
 	{
-//		alertentity nazi13
+		alertentity nazi13
 		wait 5
-//		alertentity nazi15
+		alertentity nazi15
 		wait 500
 //		alertentity nazi17
 //		wait 500
-//		alertentity nazi18
+		alertentity nazi18
 		wait 500
-//		alertentity nazi20
+		alertentity nazi20
 	}
 
 	trigger spawn4
@@ -121,7 +110,7 @@ spawner
 //		wait 500
 		alertentity nazi24
 		wait 500
-//		alertentity nazi25
+		alertentity nazi25
 	}
 }
 

@@ -2055,7 +2055,7 @@ sniper1						// Seen down long cooridor..
 
 	death
 	{
-//		trigger nazi5 sniper1_dead_checkin		// THIS CHECKS TELLS NAZI 6 HE IS DEAD
+//		trigger nazi5 sniper1_dead_checkin		// THIS CHECKS TELLS NAZI 5 HE IS DEAD
 //		trigger checker1 sniper1_dead
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out
@@ -2148,7 +2148,7 @@ nazi5						// this is guard near gate... WHO COMMUNICATES WITH SNIPER...
 		wait 2000
 		runtomarker n5spot2 nostop
 		runtomarker n5spot3
-//		trigger officer2 runto_alarm
+		trigger officer2 runto_alarm
 	}
 
 	trigger backup_sniper1			// nazi5 will back up sniper1, if sniper1 sees bj...
@@ -2184,11 +2184,11 @@ nazi5						// this is guard near gate... WHO COMMUNICATES WITH SNIPER...
 		runtomarker nazi5_street_tell1 nostop
 		runtomarker nazi5_street_tell2 nostop
 		runtomarker nazi5_street_tell3
-//		facetargetangles nazi5_street_tell3
-//		playsound guard1_alarm
-//		alertentity nazi8
+		facetargetangles nazi5_street_tell3
+		playsound guard1_alarm
+		alertentity nazi8
 		wait 5 player
-//		trigger nazi8 runto_alarm
+		trigger nazi8 runto_alarm
 		
 	}
 
