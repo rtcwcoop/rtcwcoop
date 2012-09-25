@@ -147,7 +147,7 @@
 "classname" "ai_soldier"
 "origin" "2612 -1889 452"
 "ainame" "coop_ai_soldier_5"
-"angle" "81"
+"angle" "270"
 "spawnflags" "1"
 "skin" "infantryss/forest2"
 "head" "forest2"

@@ -3394,88 +3394,16 @@ coop_ai_soldier_5		// near the officer
 {
 	attributes
 	{
-		aim_accuracy 0.2
-		starting_health 50
-		attack_crouch 0.2
-		aggression 0.8		
-		alertness 1920
+		aim_accuracy 0.6
+		starting_health 30
+		camper 1
 	}
 
 	spawn
 	{
-		accum 0 set 0 // 1 = sighted player
-		accum 1 set 0 // random generator
-		setammo ammo_grenades 0
-		
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-	}
-
-	statechange relaxed combat
-	{
-		trigger alarm spottedbyc5
-	}
-
-	statechange query combat
-	{
-		trigger alarm spottedbyc5
-	}
-
-	statechange alert combat
-	{
-		trigger alarm spottedbyc5
-	}
-
-	bulletimpact
-	{
-		deny
-		accum 0 abort_if_not_equal 0
-		trigger alarm spottedbyc5
-		wait 5 player
-	}
-
-	inspectsoundstart
-	{
-		deny
-	}
-
-	inspectbodystart
-	{
-		deny
-		trigger alarm spottedbyc5
-	}
-
-	inspectfriendlycombatstart
-	{
-		deny
-	}
-
-	trigger awakenc5
-	{
-		accum 0 abort_if_not_equal 0
-		accum 0 set 1
-
-		attrib alertness 3150
-		resetscript
-		runtomarker spotn4a nostop
-		runtomarker spotn4b
-		wait 300
-		trigger player on_alarm1
-		runtomarker spotn4a
-	}
-
-	trigger alarmc5
-	{
 		statetype alert
-		resetscript
-		attrib alertness 3150
-		wait 300 player
-	}
-
-	death
-	{
-		trigger nazi5 awaken5
-		trigger nazi6 awaken6
 	}
 }
 
