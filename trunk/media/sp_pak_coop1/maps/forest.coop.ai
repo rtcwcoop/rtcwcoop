@@ -78,6 +78,8 @@ player
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_6 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_8 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
 	}
 
 	trigger action3
@@ -245,8 +247,6 @@ player
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_30 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_31 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_33 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_34 #endif
 	}
 
 	trigger got_objective2
@@ -429,8 +429,7 @@ nazi2
 	{
 		accum 0 abort_if_not_equal 0
 		accum 0 set 1
-		clearanim		
-		trigger coop_ai_soldier_5 awakenc5
+		clearanim
 		alertentity getgun2
 		giveweapon weapon_luger
 		setammo ammo_9mm 999
@@ -3254,7 +3253,7 @@ coop_ai_soldier_1		// roof
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -3271,7 +3270,7 @@ coop_ai_soldier_2		// in the house
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -3386,7 +3385,6 @@ coop_ai_soldier_4		// behind the stone-fence
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
 	}
 }
 
@@ -3403,7 +3401,7 @@ coop_ai_soldier_5		// near the officer
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -3702,7 +3700,7 @@ coop_ai_soldier_9		// in the small hallway 1
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -3719,7 +3717,7 @@ coop_ai_soldier_10		// in the small hallway 2
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -3833,7 +3831,7 @@ coop_ai_soldier_12		// hidden in the hill
 		giveweapon weapon_mauserrifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserrifle
-		statetype alert
+		
 	}
 }
 
@@ -3850,7 +3848,7 @@ coop_ai_soldier_13		// near the snooper 1
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -3870,7 +3868,7 @@ coop_ai_soldier_14		// near the snooper 2
 		giveweapon weapon_mauserrifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserrifle
-		statetype alert
+		
 	}
 }
 
@@ -3887,7 +3885,7 @@ coop_ai_soldier_15		// near the snooper 3
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4068,7 +4066,7 @@ coop_ai_soldier_18		// behind the window
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4085,7 +4083,7 @@ coop_ai_soldier_19		// near the officer
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4102,7 +4100,7 @@ coop_ai_soldier_20		// behind the boxes
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4119,7 +4117,7 @@ coop_ai_soldier_21		// between the house and the fence
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4140,7 +4138,7 @@ coop_ai_soldier_22		// in the garden
 		giveweapon weapon_sniperscope
 		setammo ammo_792mm 999
 		selectweapon weapon_sniperscope
-		statetype alert
+		
 	}
 }
 
@@ -4151,13 +4149,14 @@ coop_ai_soldier_23		// empty house 1
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 240
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4168,13 +4167,14 @@ coop_ai_soldier_24		// empty house 2
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 300
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4185,13 +4185,14 @@ coop_ai_soldier_25		// empty house 3
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 420
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4208,7 +4209,7 @@ coop_ai_soldier_26		// in house3 1
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4225,7 +4226,7 @@ coop_ai_soldier_27		// in house3 2
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4242,7 +4243,7 @@ coop_ai_soldier_28		// fuel tank 1
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4253,17 +4254,18 @@ coop_ai_soldier_29		// fuel tank 2
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 640
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
-coop_ai_soldier_30		// under water-towwr
+coop_ai_soldier_30		// under water-tower
 {
 	attributes
 	{
@@ -4276,7 +4278,7 @@ coop_ai_soldier_30		// under water-towwr
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		
 	}
 }
 
@@ -4310,7 +4312,7 @@ coop_ai_soldier_31		// end-boxes 1
 	}
 }
 
-coop_ai_soldier_32		// end-boxes 2
+coop_ai_soldier_32		// entrance upper level
 {
 	attributes
 	{
@@ -4319,7 +4321,7 @@ coop_ai_soldier_32		// end-boxes 2
 		fov 120
 		attack_crouch 0.0
 		aggression 0.9
-		alertness 1600
+		alertness 1800
 	}
 
 	spawn
@@ -4334,19 +4336,20 @@ coop_ai_soldier_32		// end-boxes 2
 		attrib alertness 3150
 		resetscript
 		accum 1 abort_if_not_equal 0
-		runtomarker spotn25c
+		runtomarker spotn20c
 		wait 500
-		trigger player on_alarm6
+		trigger player on_alarm5
 	}
 }
 
-coop_ai_soldier_33		// end tunnel 1
+coop_ai_soldier_33		// below nazi3 1
 {
 	attributes
 	{
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 1800
 	}
 
 	spawn
@@ -4357,28 +4360,25 @@ coop_ai_soldier_33		// end tunnel 1
 		giveweapon weapon_sniperscope
 		setammo ammo_792mm 999
 		selectweapon weapon_sniperscope
-		statetype alert
+		
 	}
 }
 
-coop_ai_soldier_34		// end tunnel 2
+coop_ai_soldier_34		// below nazi3 2
 {
 	attributes
 	{
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 1800
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
-		takeweapon weapon_mp40
-		giveweapon weapon_mauserrifle
-		giveweapon weapon_sniperscope
-		setammo ammo_792mm 999
-		selectweapon weapon_sniperscope
-		statetype alert
+		setammo ammo_9mm 999
+		
 	}
 }
 
