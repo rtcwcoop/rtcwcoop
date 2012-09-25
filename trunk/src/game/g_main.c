@@ -290,7 +290,7 @@ cvarTable_t gameCvarTable[] = {
 	{ &a3_allowAll, "a3_allowAll", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &adm_help, "adm_help", "1", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_gamelocked, "g_gamelocked", "0", CVAR_ROM, 0, qfalse }, 
-	{ &sv_hostname, "sv_hostname", "0", CVAR_SYSTEMINFO, 0, qfalse },
+	{ &sv_hostname, "sv_hostname", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_extendedLog, "g_extendedLog", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
 	// End
