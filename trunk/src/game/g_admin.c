@@ -1053,9 +1053,17 @@ void cmd_nextmap(gentity_t *ent) {
 	char *tag, *log;
 
 	tag = sortTag(ent);
-
+		
+	// I'm leaving this in for later one, once we address final round..	
+	/*
+		// There's no next map..we're in final map..
+		if (!level.nextMap) {
+			trap_SendServerCommand(ent-g_entities, va("print \"^2Error! ^7There is no map after this one.\n\""));
+		return;
+		}
+    */
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7has set nextmap.\n\"", tag));
-		trap_SendConsoleCommand( EXEC_APPEND, va("vstr nextmap"));					
+		trap_SendConsoleCommand( EXEC_APPEND, va( "coopmap %s\n", level.nextMap ) );			
 
 	// Log it
 	log =va("Player %s (IP:%i.%i.%i.%i) has set nextmap.", 
