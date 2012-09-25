@@ -187,6 +187,8 @@ player
 
 	trigger trigger_before_last_door
 	{
+		objectivemet 2
+		trigger game_manager objective2
 		trigger checker1 in_zone3
 		trigger checker1 before_last_door
 		#if g_reinforce >= 2 alertentity coop_ai_venom_36 #endif
