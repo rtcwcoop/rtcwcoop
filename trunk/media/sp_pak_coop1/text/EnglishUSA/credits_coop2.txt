@@ -6,3 +6,4 @@
 Leader, Programmer, Fixer
 Map, Menu & Model Scripter
 Programmer, Bug Hunter
+Programmer, Bug Hunter

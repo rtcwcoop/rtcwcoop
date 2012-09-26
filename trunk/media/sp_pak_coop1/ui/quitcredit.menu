@@ -136,7 +136,7 @@ itemDef {
 itemDef {
 		name GMIcredit
 		group grpGMIcredit
-		rect 0 120 300 20
+		rect 0 114 300 20
 		style 1
 		textalign 1
 		textalignx 320
@@ -153,7 +153,7 @@ itemDef {
 itemDef {
 		name GMIcredit
 		group grpGMIcredit
-		rect 0 134 300 20
+		rect 0 128 300 20
 		style 1
 		textalign 1
 		textalignx 320
@@ -172,7 +172,7 @@ itemDef {
 itemDef {
 		name win1
 		group grpGMIcredit
-		rect 120 150 400 10
+		rect 120 144 400 10
 		style WINDOW_STYLE_FILLED
 		backcolor 1 1 1 .1
 		forecolor 1 1 1 1
@@ -183,7 +183,7 @@ itemDef {
 itemDef {
 		name win1
 		group grpGMIcredit
-		rect 120 163 400 10
+		rect 120 157 400 10
 		style WINDOW_STYLE_FILLED
 		backcolor 1 1 1 .1
 		forecolor 1 1 1 1
@@ -194,7 +194,18 @@ itemDef {
 itemDef {
 		name win1
 		group grpGMIcredit
-		rect 120 176 400 10
+		rect 120 170 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 183 400 10
 		style WINDOW_STYLE_FILLED
 		backcolor 1 1 1 .1
 		forecolor 1 1 1 1
@@ -206,7 +217,7 @@ itemDef {
 		name win1
 		group grpgmicredit
 		style 0 
-		rect 310 95 280 200
+		rect 310 89 280 200
 		textfile "text/EnglishUSA/credits_coop1.txt"
 		textfont UI_FONT_SMALL
 		textalign ITEM_ALIGN_RIGHT
@@ -224,7 +235,7 @@ itemDef {
 		name win1
 		group grpgmicredit
 		style 0 
-		rect 330 95 280 200
+		rect 330 89 280 200
 		textfile "text/EnglishUSA/credits_coop2.txt"
 		textfont UI_FONT_SMALL
 		textstyle 6
