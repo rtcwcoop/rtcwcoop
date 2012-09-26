@@ -68,8 +68,16 @@
 "origin" "-3640 -1256 232"
 "angle" "90"
 }
+#if g_reinforce >= 1 
 {
-"classname" "weapon_snooperrifle"	// Bonus SnooperRifle 3
+"classname" "weapon_snooperrifle"	// Bonus SnooperRifle 3 (bridge)
+"target" "t158"
+"origin" "2176 1664 48"
+"angle" "90"
+}
+#endif
+{
+"classname" "weapon_snooperrifle"	// Bonus SnooperRifle 4
 "target" "t158"
 "origin" "-3792 -456 424"
 "angle" "0"
