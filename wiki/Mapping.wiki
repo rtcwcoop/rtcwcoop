@@ -108,6 +108,7 @@ the same counts for the mapname.coop.script file
  Some info written by -SSF-Sage, for gtkradiant 1.4
  Go to .../My-GTK-Folder/wolf.game/main. Open wolf_entities.def. Scroll  to the very bottom of the file. Add the following below:
 {{{
+/*QUAKED coop_spawnpoint (0 0 1) (-18 -18 -24) (18 18 48) startactive
 Potential spawning position for COOP. Target with coop_spawnpoint_trigger or tick the box startactive to activate the spawn.
 
 "targetname"		If targeted by coop_spawnpoint_trigger
