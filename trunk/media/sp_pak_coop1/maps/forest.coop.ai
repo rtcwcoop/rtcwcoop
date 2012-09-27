@@ -4132,11 +4132,7 @@ coop_ai_soldier_22		// in the garden
 	spawn
 	{
 		setammo ammo_grenades 0
-		takeweapon weapon_mp40
-		giveweapon weapon_mauserrifle
-		giveweapon weapon_sniperscope
-		setammo ammo_792mm 999
-		selectweapon weapon_sniperscope
+		setammo ammo_9mm 999
 		
 	}
 }
@@ -4356,9 +4352,8 @@ coop_ai_soldier_33		// below nazi3 1
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
 		giveweapon weapon_mauserrifle
-		giveweapon weapon_sniperscope
 		setammo ammo_792mm 999
-		selectweapon weapon_sniperscope
+		selectweapon weapon_mauserrifle
 		
 	}
 }

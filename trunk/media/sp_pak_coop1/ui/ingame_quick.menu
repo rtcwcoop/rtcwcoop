@@ -106,7 +106,7 @@ menuDef {
 		itemDef {
 			name quick
 			type ITEM_TYPE_SLIDER
-			text "Field of View:"
+			text "FOV (90°-115°):"
 			cvarfloat "cg_fov" 90 90 115
 			rect -30 80 220 12
 			textfont UI_FONT_NORMAL

@@ -56,7 +56,7 @@ itemDef {
 		group grpOptions
 		type ITEM_TYPE_SLIDER
 		text "HUD Alpha:"
-		cvarfloat "cg_hudAlpha" .6 .1 1
+		cvarfloat "cg_hudAlpha" .6 0 1
 		rect 82 40 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
@@ -93,7 +93,7 @@ itemDef {
 		type ITEM_TYPE_MULTI				
 		text "Crosshair Size:"
 		cvar "cg_crosshairsize"
-		cvarFloatList { "Small" 24 "Medium" 32 "Large" 48 "Huge" 64 "Tiny" 12 }
+		cvarFloatList { "Tiny" 12 "Small" 18 "Medium" 24 "Large" 30 }
 		rect 82 70 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
@@ -110,7 +110,7 @@ itemDef {
 		group grpOptions
 		type ITEM_TYPE_SLIDER
 		text "Crosshair Alpha:"
-		cvarfloat "cg_crosshairAlpha" .6 .1 1
+		cvarfloat "cg_crosshairAlpha" .6 0 1
 		rect 82 85 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
@@ -179,7 +179,7 @@ itemDef {
     		type ITEM_TYPE_MULTI
     		text "Remove Blood Hit:"
     		cvar "cg_bloodBlend"
-    		cvarFloatList	{ "Off" 0 "On" 1}
+    		cvarFloatList	{ "On" 0 "Off" 1}
     		rect 82 200 290 12
           	textalign ITEM_ALIGN_RIGHT
           	textalignx 142

@@ -146,6 +146,11 @@ player
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_5 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_6 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
+		alertentity nazi7
+		alertentity nazi8
+		alertentity nazi9
+		alertentity nazi10
+		alertentity nazi10b
 	}
 
 	trigger sten_pickup
@@ -1360,6 +1365,7 @@ nazi7
 	{
 		starting_health 30
 		aggression 1.0
+		alertness 800
 	}
 
 	spawn
@@ -1372,6 +1378,7 @@ nazi7
 
 	trigger help	// This guy will help by setting up somewhere in the courtyard.
 	{
+		attrib alertness 2400
 		noavoid
 		alertentity opengate1
 		trigger nazi8 help
@@ -1414,6 +1421,7 @@ nazi8	// This guy will help by setting up somewhere in the courtyard.
 	attributes
 	{
 		starting_health 30
+		alertness 800
 	}
 
 	spawn
@@ -1425,6 +1433,7 @@ nazi8	// This guy will help by setting up somewhere in the courtyard.
 
 	trigger help
 	{
+		attrib alertness 2400
 		noavoid
 		wait 500
 		runtomarker n1spot15 nostop
@@ -1462,6 +1471,7 @@ nazi9	// This guy will help by setting up somewhere in the courtyard.
 	attributes
 	{
 		starting_health 30
+		alertness 800
 	}
 
 	spawn
@@ -1473,6 +1483,7 @@ nazi9	// This guy will help by setting up somewhere in the courtyard.
 
 	trigger help
 	{
+		attrib alertness 2400
 		noavoid
 		wait 500
 		runtomarker n1spot15 nostop
@@ -1512,6 +1523,7 @@ nazi10	// This guy will help by setting up somewhere in the courtyard.
 	attributes
 	{
 		starting_health 30
+		alertness 800
 	}
 
 	spawn
@@ -1523,6 +1535,7 @@ nazi10	// This guy will help by setting up somewhere in the courtyard.
 
 	trigger help
 	{
+		attrib alertness 2400
 		noavoid
 		wait 500
 		runtomarker n1spot15 nostop
@@ -1562,6 +1575,7 @@ nazi10b	// This guy will help by setting up somewhere in the courtyard.
 	{
 		starting_health 30
 		aggression 1.0
+		alertness 800
 	}
 
 	spawn
@@ -1573,6 +1587,7 @@ nazi10b	// This guy will help by setting up somewhere in the courtyard.
 
 	trigger help
 	{
+		attrib alertness 2400
 		wait 15000
 		runtomarker n1spot15 nostop
 		runtomarker n1spot14 nostop
