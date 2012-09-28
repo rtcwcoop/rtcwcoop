@@ -176,7 +176,7 @@ itemDef {
     		name performance
     		group grpOptions
     		type ITEM_TYPE_MULTI
-    		text "Remove Blood Hit:"
+    		text "Blood Hit on HUD:"
     		cvar "cg_bloodBlend"
     		cvarFloatList	{ "On" 0 "Off" 1}
     		rect 82 200 290 12
