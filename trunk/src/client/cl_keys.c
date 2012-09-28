@@ -1417,6 +1417,9 @@ char *Key_KeynumToString( int keynum, qboolean bTranslate ) {
 			kn = keynames_i;  //use italian
 		} else if ( cl_language->integer - 1 == LANGUAGE_SPANISH ) {
 			kn = keynames_s;  //use spanish
+		} else if ( cl_language->integer - 1 == LANGUAGE_HUNGARIAN ) {
+			//kn = keynames_h;  //use hungarian
+			kn = keynames;  //needs to be translated
 		}
 	}
 

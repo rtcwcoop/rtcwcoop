@@ -981,7 +981,7 @@ void UI_Report() {
 
 }
 
-void UI_ParseMenu( const char *menuFile ) {
+qboolean UI_ParseMenu( const char *menuFile ) {
 	int handle;
 	pc_token_t token;
 
@@ -991,7 +991,7 @@ void UI_ParseMenu( const char *menuFile ) {
 
 	handle = trap_PC_LoadSource( menuFile );
 	if ( !handle ) {
-		return;
+		return qfalse;
 	}
 
 	while ( 1 ) {
@@ -1028,10 +1028,12 @@ void UI_ParseMenu( const char *menuFile ) {
 		}
 	}
 	trap_PC_FreeSource( handle );
+        return qtrue;
 }
 
 qboolean Load_Menu( int handle ) {
 	pc_token_t token;
+        int cl_language;    // NERVE - SMF
 
 	if ( !trap_PC_ReadToken( handle, &token ) ) {
 		return qfalse;
@@ -1053,6 +1055,37 @@ qboolean Load_Menu( int handle ) {
 		if ( token.string[0] == '}' ) {
 			return qtrue;
 		}
+
+                // NERVE - SMF - localization crap
+                cl_language = atoi( UI_Cvar_VariableString( "cl_language" ) ); 
+
+                if ( cl_language ) {
+                        const char *s = NULL; // TTimo: init
+                        const char *filename;
+                        char out[256];
+//                      char filename[256];
+
+                        COM_StripFilename( token.string, out );
+
+                        filename = COM_SkipPath( token.string );
+
+                        if ( cl_language == 1 ) {
+                                s = va( "%s%s", out, "french/" );
+                        } else if ( cl_language == 2 ) {
+                                s = va( "%s%s", out, "german/" );
+                        } else if ( cl_language == 3 ) {
+                                s = va( "%s%s", out, "italian/" );
+                        } else if ( cl_language == 4 ) {
+                                s = va( "%s%s", out, "spanish/" );
+                        } else if ( cl_language == 5 ) {
+                                s = va( "%s%s", out, "hungarian/" );
+                        }    
+
+                        if ( UI_ParseMenu( va( "%s%s", s, filename ) ) ) {
+                                continue;
+                        }    
+                }    
+                // -NERVE
 
 		UI_ParseMenu( token.string );
 	}
@@ -3692,6 +3725,9 @@ static playerType_t playerTypes[] = {
 	{ "player_window_engineer",      PT_KNIFE | PT_PISTOL | PT_LIGHTONLY | PT_EXPLOSIVES | PT_GRENADES },
 	{ "player_window_lieutenant",    PT_KNIFE | PT_PISTOL | PT_RIFLE | PT_EXPLOSIVES }
 };
+
+// TTimo
+//static char translated_yes[4], translated_no[4];
 
 typedef struct {
 	int weapindex;
@@ -6449,6 +6485,10 @@ void _UI_Init( qboolean inGameLoad ) {
 	}
 
 	trap_Cvar_Register( NULL, "debug_protocol", "", 0 );
+
+        // init Yes/No once for cl_language -> server browser (punkbuster)
+        //Q_strncpyz( translated_yes, DC->translateString( "Yes" ), sizeof( translated_yes ) );
+        //Q_strncpyz( translated_no, DC->translateString( "NO" ), sizeof( translated_no ) );
 }
 
 
