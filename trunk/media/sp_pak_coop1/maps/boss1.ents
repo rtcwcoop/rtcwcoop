@@ -59,72 +59,72 @@
 
 {
 "classname" "ai_zombie"
-"origin" "-2763 -948 24"
+"origin" "-1483 -196 24"
 "ainame" "coop_ai_zombie_1"
-"angle" "91"
+"angle" "60"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2767 -826 24"
+"origin" "-2063 -226 24"
 "ainame" "coop_ai_zombie_2"
-"angle" "89"
+"angle" "45"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2762 -715 24"
+"origin" "-1778 -59 24"
 "ainame" "coop_ai_zombie_3"
 "angle" "76"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2363 -979 24"
+"origin" "-1778 -59 24"
 "ainame" "coop_ai_zombie_4"
 "angle" "88"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2361 -866 24"
+"origin" "-1713 54 24"
 "ainame" "coop_ai_zombie_5"
-"angle" "88"
+"angle" "135"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2359 -717 24"
+"origin" "-1679 227 24"
 "ainame" "coop_ai_zombie_6"
-"angle" "92"
+"angle" "225"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2564 -615 36"
+"origin" "-1412 121 36"
 "ainame" "coop_ai_zombie_10"
-"angle" "75"
+"angle" "180"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2707 -439 24"
+"origin" "-1939 17 24"
 "ainame" "coop_ai_zombie_11"
-"angle" "26"
+"angle" "225"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2429 -442 24"
+"origin" "-1429 310 24"
 "ainame" "coop_ai_zombie_12"
 "angle" "-4"
 "spawnflags" "1"
 }
 {
 "classname" "ai_zombie"
-"origin" "-2399 -553 24"
+"origin" "-1247 199 24"
 "ainame" "coop_ai_zombie_13"
-"angle" "12"
+"angle" "195"
 "spawnflags" "1"
 }
 {
@@ -136,7 +136,7 @@
 }
 {
 "classname" "ai_zombie"
-"origin" "-2143 325 24"
+"origin" "-2143 253 24"
 "ainame" "coop_ai_zombie_15"
 "angle" "-14"
 "spawnflags" "1"

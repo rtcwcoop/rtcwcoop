@@ -1067,9 +1067,7 @@ coop_ai_zombie_3 		//
 		noaidamage on
 		nosight 70000
 		godmode on
-		takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -1144,7 +1142,8 @@ coop_ai_zombie_5 		//
 	}
 }
 
-coop_ai_zombie_6 		//
+coop_ai_zombie_6
+{
 	attributes
 	{
 		fov 240
@@ -1158,9 +1157,7 @@ coop_ai_zombie_6 		//
 		noaidamage on
 		nosight 70000
 		godmode on
-		takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -1205,7 +1202,8 @@ coop_ai_zombie_10 		//
 	}
 }
 
-coop_ai_zombie_11		//
+coop_ai_zombie_11
+{
 	attributes
 	{
 		fov 240
@@ -1219,9 +1217,7 @@ coop_ai_zombie_11		//
 		noaidamage on
 		nosight 70000
 		godmode on
-		takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -1371,9 +1367,7 @@ coop_ai_zombie_16 		//
 		noaidamage on
 		nosight 70000
 		godmode on
-		takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
