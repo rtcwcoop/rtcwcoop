@@ -30,9 +30,31 @@ use shift-escape to open the console
 = PK3 Files =
 
 Copy all your wolfenstein pk3 files to the main folder of this game.
-You also have to create our pk3 file. Do this with create_pk3.sh (for linux and mac) or with create_pk3.bat for windows.
 
-The pk3 will be placed inside the media folder, copy this folder to your main folder
+The game was developed with following pk3's:
+{{{
+mp_pak0.pk3
+mp_pak1.pk3
+mp_pak2.pk3
+mp_pak3.pk3
+mp_pak4.pk3
+mp_pakmaps0.pk3
+mp_pakmaps1.pk3
+mp_pakmaps2.pk3
+mp_pakmaps3.pk3
+mp_pakmaps4.pk3
+mp_pakmaps5.pk3
+mp_pakmaps6.pk3
+pak0.pk3
+sp_pak1.pk3
+sp_pak2.pk3
+sp_pak3.pk3
+sp_pak4.pk3
+sp_pak_coop1.pk3
+}}}
+
+I strongly recommend using these and only these, except for custom maps. Don't use pk3's that use different player models, this will probably break the coop game.
+And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
 
 = Cvars =
 
