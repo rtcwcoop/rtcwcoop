@@ -278,7 +278,7 @@ PROTOCOL
 ==============================================================
 */
 
-#define PROTOCOL_VERSION    4
+#define PROTOCOL_VERSION    5 
 #define GAMENAME_STRING "wolfcoop"
 
 //----(SA)	heh, whoops.  we've been talking to id servers since we got a connection...
@@ -291,7 +291,8 @@ PROTOCOL
 //#define AUTHORIZE_SERVER_NAME   "authorize.gmistudios.com"
 
 #define UPDATE_SERVER_NAME      "localhost"
-#define MASTER_SERVER_NAME      "88.159.160.153"
+//#define MASTER_SERVER_NAME      "88.159.160.153"
+#define MASTER_SERVER_NAME      "78.47.152.4"
 #define AUTHORIZE_SERVER_NAME   "localhost"
 
 #define PORT_MASTER         27950

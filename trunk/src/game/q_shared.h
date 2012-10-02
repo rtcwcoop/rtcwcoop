@@ -40,7 +40,7 @@ If you have questions concerning this license or the applicable additional terms
 
 
 //#define Q3_VERSION      "Wolf 1.41"
-#define Q3_VERSION      "RTCWCoop beta 3"
+#define Q3_VERSION      "RTCWCoop 0.9 svn829"
 // ver 1.0.0	- release
 // ver 1.0.1	- post-release work
 // ver 1.1.0	- patch 1 (12/12/01)
