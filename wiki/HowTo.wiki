@@ -19,6 +19,10 @@ On Mac OS X its 0.0.0.0 that you need to connect to.
 
 Or just use the menus.
 
+= Callvote =
+
+When playing on a server you can change setting by calling a vote. Some settings need a map restart before they are effective. So don't forget to callvote for a map restart after you change certain cvars
+
 = Console =
 
 use shift-escape to open the console
