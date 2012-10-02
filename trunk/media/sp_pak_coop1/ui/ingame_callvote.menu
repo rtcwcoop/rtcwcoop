@@ -357,7 +357,7 @@ itemDef {
 	style WINDOW_STYLE_FILLED
 	textfont	UI_FONT_NORMAL
 	textscale .25
-	ownerdraw UI_NETGAMETYPE
+	ownerdraw UI_UISKILL
 	backcolor 1 1 1 .1
 	forecolor 1 1 1 1
 	rect 80 60 180 15
@@ -397,7 +397,7 @@ itemDef {
 	style WINDOW_STYLE_FILLED
 	textfont	UI_FONT_NORMAL
 	textscale .25
-	ownerdraw UI_NETGAMETYPE
+	ownerdraw UI_REINFORCE
 	backcolor 1 1 1 .1
 	forecolor 1 1 1 1
 	rect 80 60 180 15
@@ -437,7 +437,7 @@ itemDef {
 	style WINDOW_STYLE_FILLED
 	textfont	UI_FONT_NORMAL
 	textscale .25
-	ownerdraw UI_NETGAMETYPE
+	ownerdraw UI_FREEZE
 	backcolor 1 1 1 .1
 	forecolor 1 1 1 1
 	rect 80 60 180 15

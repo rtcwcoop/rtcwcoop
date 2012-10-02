@@ -51,11 +51,10 @@ static const char *MonthAbbrev[] = {
 
 
 static const char *skillLevels[] = {
-	"I Can Win",
-	"Bring It On",
-	"Hurt Me Plenty",
-	"Hardcore",
-	"Nightmare"
+	"*Test*",
+        "Easy",
+	"Normal",
+	"Hard"
 };
 
 static const int numSkillLevels = sizeof( skillLevels ) / sizeof( const char* );
@@ -1276,6 +1275,48 @@ static void UI_DrawNetGameType( rectDef_t *rect, int font, float scale, vec4_t c
 		trap_Cvar_Set( "ui_actualNetGameType", "0" );
 	}
 	Text_Paint( rect->x, rect->y, font, scale, color, uiInfo.gameTypes[ui_netGameType.integer].gameType, 0, 0, textStyle );
+}
+
+static void UI_UIDrawSkill( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
+        char *txt;
+
+	if ( ui_skill.integer < 1 || ui_skill.integer > 3 ) {
+		trap_Cvar_Set( "ui_skill", "1" );
+	}
+
+        if (ui_skill.integer == 1)
+                txt = va("Easy");
+        else if (ui_skill.integer == 2 )
+                txt = va("Normal");
+        else if (ui_skill.integer == 3 )
+                txt = va("Hard");
+
+	Text_Paint( rect->x, rect->y, font, scale, color, txt, 0, 0, textStyle );
+}
+
+static void UI_DrawReinforce( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
+        char *txt;
+
+	if ( ui_reinforce.integer < 0 || ui_reinforce.integer > 2 ) {
+		trap_Cvar_Set( "ui_reinforce", "0" );
+	}
+
+        if (ui_reinforce.integer == 0)
+                txt = va("Default");
+        else if (ui_reinforce.integer == 1 )
+                txt = va("More");
+        else if (ui_reinforce.integer == 2 )
+                txt = va("Many");
+
+	Text_Paint( rect->x, rect->y, font, scale, color, txt, 0, 0, textStyle );
+}
+
+static void UI_DrawFreeze( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
+	if ( ui_freeze.integer < 0 || ui_freeze.integer > 1 ) {
+		trap_Cvar_Set( "ui_freeze", "0" );
+	}
+
+	Text_Paint( rect->x, rect->y, font, scale, color, ui_freeze.integer ? "yes" : "no", 0, 0, textStyle );
 }
 
 static void UI_DrawJoinGameType( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
@@ -2518,6 +2559,15 @@ static void UI_OwnerDraw( float x, float y, float w, float h, float text_x, floa
 	case UI_NETGAMETYPE:
 		UI_DrawNetGameType( &rect, font, scale, color, textStyle );
 		break;
+	case UI_UISKILL:
+		UI_UIDrawSkill( &rect, font, scale, color, textStyle );
+		break;
+	case UI_REINFORCE:
+		UI_DrawReinforce( &rect, font, scale, color, textStyle );
+		break;
+	case UI_FREEZE:
+		UI_DrawFreeze( &rect, font, scale, color, textStyle );
+		break;
 	case UI_JOINGAMETYPE:
 		UI_DrawJoinGameType( &rect, font, scale, color, textStyle );
 		break;
@@ -2875,6 +2925,66 @@ static qboolean UI_NetGameType_HandleKey( int flags, float *special, int key ) {
         return qfalse;
 }
 
+static qboolean UI_UISkill_HandleKey( int flags, float *special, int key ) {
+        if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_ENTER || key == K_KP_ENTER ) {
+
+                if ( key == K_MOUSE2 ) {
+                        ui_skill.integer--;
+                } else {
+                        ui_skill.integer++;
+                }    
+
+                if ( ui_skill.integer < 1 ) {
+                        ui_skill.integer = 3; 
+                } else if ( ui_skill.integer > 3 ) {
+                        ui_skill.integer = 1; 
+                }    
+
+                return qtrue;
+        }    
+        return qfalse;
+}
+
+static qboolean UI_Reinforce_HandleKey( int flags, float *special, int key ) {
+        if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_ENTER || key == K_KP_ENTER ) {
+
+                if ( key == K_MOUSE2 ) {
+                        ui_reinforce.integer--;
+                } else {
+                        ui_reinforce.integer++;
+                }    
+
+                if ( ui_reinforce.integer < 0 ) {
+                        ui_reinforce.integer = 2;
+                } else if ( ui_reinforce.integer > 2 ) {
+                        ui_reinforce.integer = 0; 
+                }    
+
+                return qtrue;
+        }    
+        return qfalse;
+}
+
+static qboolean UI_Freeze_HandleKey( int flags, float *special, int key ) {
+        if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_ENTER || key == K_KP_ENTER ) {
+
+                if ( key == K_MOUSE2 ) {
+                        ui_freeze.integer--;
+                } else {
+                        ui_freeze.integer++;
+                }
+
+                if ( ui_freeze.integer < 0 ) {
+                        ui_freeze.integer = 1;
+                } else if ( ui_freeze.integer > 1 ) {
+                        ui_freeze.integer = 0;
+                }
+
+                return qtrue;
+        }
+        return qfalse;
+}
+
 static qboolean UI_JoinGameType_HandleKey( int flags, float *special, int key ) {
         if ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_ENTER || key == K_KP_ENTER ) {
 
@@ -3134,6 +3244,15 @@ static qboolean UI_OwnerDrawHandleKey( int ownerDraw, int flags, float *special,
 		break;
 	case UI_NETGAMETYPE:
 		return UI_NetGameType_HandleKey( flags, special, key );
+		break;
+	case UI_UISKILL:
+		return UI_UISkill_HandleKey( flags, special, key );
+		break;
+	case UI_REINFORCE:
+		return UI_Reinforce_HandleKey( flags, special, key );
+		break;
+	case UI_FREEZE:
+		return UI_Freeze_HandleKey( flags, special, key );
 		break;
 	case UI_JOINGAMETYPE:
 		return UI_JoinGameType_HandleKey( flags, special, key );
@@ -4494,6 +4613,18 @@ static void UI_RunMenuScript( char **args ) {
 		} else if ( Q_stricmp( name, "voteGame" ) == 0 ) {
 			if ( ui_netGameType.integer >= 0 && ui_netGameType.integer < uiInfo.numGameTypes ) {
 				trap_Cmd_ExecuteText( EXEC_APPEND, va( "callvote g_gametype %i\n",uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
+			}
+		} else if ( Q_stricmp( name, "voteSkill" ) == 0 ) {
+			if ( ui_skill.integer >= 1 && ui_skill.integer <= 3 ) {
+				trap_Cmd_ExecuteText( EXEC_APPEND, va( "callvote g_gameskill %i\n", ui_skill.integer ) );
+			}
+		} else if ( Q_stricmp( name, "voteReinforce" ) == 0 ) {
+			if ( ui_reinforce.integer >= 0 && ui_reinforce.integer <= 2 ) {
+				trap_Cmd_ExecuteText( EXEC_APPEND, va( "callvote g_reinforce %i\n", ui_reinforce.integer ) );
+			}
+		} else if ( Q_stricmp( name, "voteFreeze" ) == 0 ) {
+			if ( ui_freeze.integer >= 0 && ui_freeze.integer <= 1 ) {
+				trap_Cmd_ExecuteText( EXEC_APPEND, va( "callvote g_freeze %i\n", ui_freeze.integer ) );
 			}
 		} else if ( Q_stricmp( name, "voteLeader" ) == 0 ) {
 			if ( uiInfo.teamIndex >= 0 && uiInfo.teamIndex < uiInfo.myTeamCount ) {
@@ -7071,6 +7202,9 @@ vmCvar_t ui_netSource;
 vmCvar_t ui_menuFiles;
 vmCvar_t ui_gameType;
 vmCvar_t ui_netGameType;
+vmCvar_t ui_reinforce;
+vmCvar_t ui_freeze;
+vmCvar_t ui_skill;
 vmCvar_t ui_actualNetGameType;
 vmCvar_t ui_joinGameType;
 vmCvar_t ui_dedicated;
@@ -7188,6 +7322,9 @@ cvarTable_t cvarTable[] = {
 	{ &ui_gameType, "ui_gametype", "3", CVAR_ARCHIVE },
 	{ &ui_joinGameType, "ui_joinGametype", "0", CVAR_ARCHIVE },
 	{ &ui_netGameType, "ui_netGametype", "1", CVAR_ARCHIVE },
+	{ &ui_reinforce, "ui_reinforce", "0", CVAR_ARCHIVE },
+	{ &ui_freeze, "ui_freeze", "0", CVAR_ARCHIVE },
+	{ &ui_skill, "ui_skill", "1", CVAR_ARCHIVE },
 	{ &ui_actualNetGameType, "ui_actualNetGametype", "0", CVAR_ARCHIVE },
 	{ &ui_notebookCurrentPage, "ui_notebookCurrentPage", "1", CVAR_ROM},
 	{ &ui_clipboardName, "cg_clipboardName", "", CVAR_ROM },

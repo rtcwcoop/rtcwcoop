@@ -330,6 +330,9 @@ If you have questions concerning this license or the applicable additional terms
 #define UI_CREATEMAPPREVIEW_SMALL1  264
 #define UI_CREATEMAPPREVIEW_SMALL2  265
 #define UI_CREATEMAPPREVIEW         266
+#define UI_REINFORCE                267
+#define UI_FREEZE                   268
+#define UI_UISKILL                  269
 
 #define VOICECHAT_GETFLAG           "getflag"                // command someone to get the flag
 #define VOICECHAT_OFFENSE           "offense"                // command someone to go on offense
