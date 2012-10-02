@@ -1684,6 +1684,16 @@ void CalculateRanks( void ) {
 					if ( !( g_entities[i].r.svFlags & SVF_BOT ) ) {
 						level.numVotingClients++;
                                                 if ( !( g_entities[i].r.svFlags & SVF_CASTAI ) && g_gametype.integer == GT_COOP_BATTLE && !level.intermissiontime) {
+                                                        // TODO:
+                                                        // in future versions we will track: dg/dr ratio, deaths (or accuracy, we can decide on this later) and "money"
+                                                        // the player who has the best numbers of those three will win the round
+                                                        // players will start with one gun, and a bit of ammo, every hit will result in "money"
+                                                        // with their money they can buy new guns or they can save it up to maybe win the round
+                                                        // bullets need to be bought too
+                                                        // so for example: player A has a dg/dr ratio of 1.5, 3 deaths and 500moneys
+                                                        // player B has: 1.4, 2 and 400
+                                                        // player B will win the game
+
                                                         float dr = (float)level.clients[i].sess.damage_received;
                                                         float dg = (float)level.clients[i].sess.damage_given;
                                                         float score = 0.0;
