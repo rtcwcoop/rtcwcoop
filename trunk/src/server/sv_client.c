@@ -246,14 +246,14 @@ void SV_DirectConnect( netadr_t from ) {
 	char        *denied;
 	int count, cnt=0;
 
-	Com_Printf( "SVC_DirectConnect ()\n" );
+	Com_DPrintf( "SVC_DirectConnect ()\n" );
 
 	Q_strncpyz( userinfo, Cmd_Argv( 1 ), sizeof( userinfo ) );
 
 	version = atoi( Info_ValueForKey( userinfo, "protocol" ) );
 	if ( version != PROTOCOL_VERSION ) {
 		NET_OutOfBandPrint( NS_SERVER, from, "print\nServer uses protocol version %i.\n", PROTOCOL_VERSION );
-		Com_Printf( "    rejected connect from version %i\n", version );
+		Com_DPrintf( "    rejected connect from version %i\n", version );
 		return;
 	}
 
@@ -409,7 +409,7 @@ void SV_DirectConnect( netadr_t from ) {
 			}
 		} else {
 			NET_OutOfBandPrint( NS_SERVER, from, "print\nServer is full.\n" );
-			Com_Printf( "Rejected a connection.\n" );
+			Com_DPrintf( "Rejected a connection.\n" );
 			return;
 		}
 	}
@@ -445,7 +445,7 @@ gotnewcl:
 		denied = VM_ExplicitArgPtr( gvm, (int)denied );
 
 		NET_OutOfBandPrint( NS_SERVER, from, "print\n%s\n", denied );
-		Com_Printf( "Game rejected a connection: %s.\n", denied );
+		Com_DPrintf( "Game rejected a connection: %s.\n", denied );
 		return;
 	}
 
@@ -521,7 +521,7 @@ void SV_DropClient( client_t *drop, const char *reason ) {
 		SV_SendServerCommand( NULL, "print \"%s" S_COLOR_WHITE " %s\n\"", drop->name, reason );
 	}
 
-	Com_Printf( "Going to CS_ZOMBIE for %s\n", drop->name );
+	Com_DPrintf( "Going to CS_ZOMBIE for %s\n", drop->name );
 	drop->state = CS_ZOMBIE;        // become free in a few seconds
 
 	if ( drop->download ) {
@@ -578,8 +578,8 @@ void SV_SendClientGameState( client_t *client ) {
 	msg_t msg;
 	byte msgBuffer[MAX_MSGLEN];
 
-	Com_Printf( "SV_SendClientGameState() for %s\n", client->name );
-	Com_Printf( "Going from CS_CONNECTED to CS_PRIMED for %s\n", client->name );
+	Com_DPrintf( "SV_SendClientGameState() for %s\n", client->name );
+	Com_DPrintf( "Going from CS_CONNECTED to CS_PRIMED for %s\n", client->name );
 	client->state = CS_PRIMED;
 	client->pureAuthentic = 0;
         client->gotCP = qfalse;
@@ -646,7 +646,7 @@ void SV_ClientEnterWorld( client_t *client, usercmd_t *cmd ) {
 	int clientNum;
 	sharedEntity_t *ent;
 
-	Com_Printf( "Going from CS_PRIMED to CS_ACTIVE for %s\n", client->name );
+	Com_DPrintf( "Going from CS_PRIMED to CS_ACTIVE for %s\n", client->name );
 	client->state = CS_ACTIVE;
 
 	// set up the entity for the client
@@ -1276,7 +1276,7 @@ static qboolean SV_ClientCommand( client_t *cl, msg_t *msg ) {
 		return qtrue;
 	}
 
-	Com_Printf( "clientCommand: %s : %i : %s\n", cl->name, seq, s );
+	Com_DPrintf( "clientCommand: %s : %i : %s\n", cl->name, seq, s );
 
 	// drop the connection if we have somehow lost commands
 	if ( seq > cl->lastClientCommand + 1 ) {
@@ -1299,7 +1299,7 @@ static qboolean SV_ClientCommand( client_t *cl, msg_t *msg ) {
 		 svs.time < cl->nextReliableTime ) {
 		// ignore any other text messages from this client but let them keep playing
 		clientOk = qfalse;
-		Com_Printf( "client text ignored for %s\n", cl->name );
+		Com_DPrintf( "client text ignored for %s\n", cl->name );
 		//return qfalse;	// stop processing
 	}
 
@@ -1399,7 +1399,7 @@ static void SV_UserMove( client_t *cl, msg_t *msg, qboolean delta ) {
 	if ( sv_pure->integer != 0 && cl->pureAuthentic == 0 && !cl->gotCP ) {
 		if ( cl->state == CS_ACTIVE ) {
 			// we didn't get a cp yet, don't assume anything and just send the gamestate all over again
-			Com_Printf( "%s: didn't get cp command, resending gamestate\n", cl->name, cl->state );
+			Com_DPrintf( "%s: didn't get cp command, resending gamestate\n", cl->name, cl->state );
 			SV_SendClientGameState( cl );
 		}
 		return;
@@ -1503,13 +1503,13 @@ void SV_ExecuteClientMessage( client_t *cl, msg_t *msg ) {
 		//if ( serverId == sv.restartedServerId ) {
 		if ( serverId >= sv.restartedServerId && serverId < sv.serverId ) { // TTimo - use a comparison here to catch multiple map_restart
 			// they just haven't caught the map_restart yet
-			Com_Printf( "%s : ignoring pre map_restart / outdated client message\n", cl->name );
+			Com_DPrintf( "%s : ignoring pre map_restart / outdated client message\n", cl->name );
 			return;
 		}
 		// if we can tell that the client has dropped the last
 		// gamestate we sent them, resend it
 		if ( cl->messageAcknowledge > cl->gamestateMessageNum ) {
-			Com_Printf( "%s : dropped gamestate, resending\n", cl->name );
+			Com_DPrintf( "%s : dropped gamestate, resending\n", cl->name );
 			SV_SendClientGameState( cl );
 		}
 		return;
@@ -1520,7 +1520,7 @@ void SV_ExecuteClientMessage( client_t *cl, msg_t *msg ) {
     // this client has acknowledged the new gamestate so it's
     // safe to start sending it the real time again
     if( cl->oldServerTime && serverId == sv.serverId ){
-            Com_Printf( "%s acknowledged gamestate\n", cl->name );
+            Com_DPrintf( "%s acknowledged gamestate\n", cl->name );
             cl->oldServerTime = 0; 
     }    
 
