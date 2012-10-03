@@ -862,8 +862,9 @@ void AICast_CheckLoadGame( void ) {
                                         tmp = &g_entities[i];
                                         if (tmp && tmp->client) {
                                                 // reset maxlives
-                                                if ( g_maxlives.integer > 0 && g_gametype.integer != GT_COOP ) {
-                                                        tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
+                                                if ( g_maxlives.integer > 0 ) {
+                                                        if ( g_gametype.integer != GT_COOP )
+                                                                tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
                                                 } else {
                                                         tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
                                                 }
