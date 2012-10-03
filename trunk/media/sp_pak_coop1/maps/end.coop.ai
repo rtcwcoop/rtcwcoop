@@ -74,6 +74,28 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_9 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
+		
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_15 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_17 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_blackguard_18 #endif
+		
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_19 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_20 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_21 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_22 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_23 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_24 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_24 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_26 #endif
 	}
 
 	trigger cam_himmler1a
@@ -243,11 +265,12 @@ ps1
 
 	spawn
 	{
-		wait 5
-		headlook off
-		nosight 99999
 		takeweapon all
-		knockback off
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+		attack player
 	}
 
 	trigger go1
@@ -339,6 +362,7 @@ dark1
 		knockback off
 		wait 5
 		playanim powered_down both forever
+		attack player
 	}
 
 	trigger anim1
@@ -373,6 +397,7 @@ dark2
 		knockback off
 		wait 5
 		playanim powered_down both forever
+		attack player
 	}
 
 	trigger anim1
@@ -407,6 +432,7 @@ dark3
 		knockback off
 		wait 5
 		playanim powered_down both forever
+		attack player
 	}
 
 	trigger anim1
@@ -447,6 +473,7 @@ dark4
 		statetype alert
 		knockback off
 //		playanim asleep both forever
+		attack player
 	}
 
 	trigger talk1
@@ -487,6 +514,7 @@ dark5
 		statetype alert
 		knockback off
 //		playanim asleep both forever
+		attack player
 	}
 
  	enemysight
@@ -527,6 +555,7 @@ dark6
 		statetype alert
 		knockback off
 //		playanim asleep both forever
+		attack player
 	}
 
 	trigger talk1
@@ -582,9 +611,7 @@ heinrich
 
 	attributes
 	{
-		#if g_reinforce == 0 starting_health 5000 #endif
-		#if g_reinforce == 1 starting_health 10000 #endif
-		#if g_reinforce == 2 starting_health 15000 #endif
+		starting_health 6000
 		alertness 50000
 		aim_accuracy 1.0
 		aggression 1.0
@@ -603,6 +630,7 @@ heinrich
 		noavoid off
 		takeweapon monsterattack2
 		trigger heinrich still
+		attack player
 	}
 
 	trigger sight_on 
@@ -650,7 +678,30 @@ heinrich
 		clearanim
 	}
 
+	pain 5000
+	{
+		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_27 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_28 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_29 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_30 #endif
+	}
 
+	pain 3000
+	{
+		#if g_reinforce >= 1 alertentity coop_ai_loper_35 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_loper_36 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_loper_37 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_loper_38 #endif
+	}
+	
+	pain 1000
+	{
+		#if g_reinforce >= 1 alertentity coop_ai_supersoldier_31 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_supersoldier_32 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_supersoldier_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_supersoldier_34 #endif
+	}
+	
 	trigger talk1		//  I live
 	{
 		playsound end_cs16_hei_01
@@ -692,6 +743,7 @@ heinrich
  	enemysight
 	{
 		resetscript
+		attack player
 	}
 
 	death
@@ -699,6 +751,19 @@ heinrich
 		trigger player 0bitset0
 		objectivemet 1	// mission objective complete
 		trigger game_manager objective1
+		
+		alertentity kill_27
+		alertentity kill_28
+		alertentity kill_29
+		alertentity kill_30
+		alertentity kill_31
+		alertentity kill_32
+		alertentity kill_33
+		alertentity kill_34
+		alertentity kill_35
+		alertentity kill_36
+		alertentity kill_37
+		alertentity kill_38
 		
 		// probably don't need this for last map
 		trigger game_manager checkexit
@@ -863,5 +928,685 @@ help
 	statechange relaxed alert
 	{
 		deny
+	}
+}
+
+coop_ai_soldier_7		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_8		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_9		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 125
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_flamethrower
+		setammo ammo_fuel 999
+		selectweapon weapon_flamethrower
+		statetype alert
+	}
+}
+
+coop_ai_soldier_10		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_11		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_soldier_12		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_venom_13		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 125
+		camper 1
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_flamethrower
+		setammo ammo_fuel 999
+		selectweapon weapon_flamethrower
+		statetype alert
+	}
+}
+
+coop_ai_soldier_14		// 1st room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 40
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_grenades 0
+		setammo ammo_9mm 999
+		statetype alert
+	}
+}
+
+coop_ai_blackguard_15		// 2nd room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_16		// 2nd room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_17		// 2nd room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_blackguard_18		// 2nd room
+{
+	attributes
+	{
+		aim_accuracy 0.6
+		starting_health 65
+		camper 1
+	}
+
+	spawn
+	{
+		setammo ammo_792mm 999
+		statetype alert
+		parachute on
+	}
+}
+
+coop_ai_eliteguard_19		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_20		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_21		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_22		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_23		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_24		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_25		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_eliteguard_26		// 3rd room
+{
+	attributes
+	{
+		fov 240
+		aim_accuracy 0.5
+		starting_health 55
+		camper 1.0
+		aggression 0.2
+	}
+
+	spawn
+	{
+		takeweapon all
+		giveweapon weapon_sten
+		setammo ammo_9mm 999
+		setclip sten 32
+		selectweapon weapon_sten
+	}
+}
+
+coop_ai_protosoldier_27		// Protosoldier 1
+{
+	attributes
+	{
+		fov 360
+		starting_health 600
+		aggression 1.0
+	}
+
+	spawn
+	{
+		knockback off
+		statetype alert
+		takeweapon all
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 999
+		selectweapon weapon_panzerfaust
+		attack player
+		runtomarker hspot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_protosoldier_28		// Protosoldier 2
+{
+	attributes
+	{
+		fov 360
+		starting_health 600
+		aggression 1.0
+		yaw_speed 100
+	}
+
+	spawn
+	{
+		knockback off
+		statetype alert
+		takeweapon all
+		giveweapon weapon_venom
+		setammo ammo_127mm 99999	// Venom
+		attack player
+		runtomarker hspot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_protosoldier_29		// Protosoldier 3
+{
+	attributes
+	{
+		fov 360
+		starting_health 600
+		aggression 1.0
+	}
+
+	spawn
+	{
+		knockback off
+		statetype alert
+		takeweapon all
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 999
+		selectweapon weapon_panzerfaust
+		attack player
+		runtomarker hspot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_protosoldier_30		// ProtoSoldier 4
+{
+	attributes
+	{
+		fov 360
+		starting_health 600
+		aggression 1.0
+		yaw_speed 100
+	}
+
+	spawn
+	{
+		knockback off
+		statetype alert
+		takeweapon all
+		giveweapon weapon_venom
+		setammo ammo_127mm 99999	// Venom
+		attack player
+		runtomarker hspot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_supersoldier_31		// SuperSoldier 1
+{
+	attributes
+	{
+		starting_health 1300
+		aim_accuracy 0.8
+		tactical 1.0
+		aggression 1.0
+		hearing_scale 5.0
+		inner_detection_radius 500
+		alertness 2500
+	}
+
+	spawn
+	{
+		knockback off
+		takeweapon all
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 999
+		selectweapon weapon_panzerfaust
+		setclip weapon_panzerfaust 999
+		attack player
+		runtomarker ps1spot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_supersoldier_32		// SuperSoldier 2
+{
+	attributes
+	{
+		starting_health 1300
+		aim_accuracy 0.6
+		tactical 1.0
+		aggression 1.0
+		inner_detection_radius 200
+		alertness 2500		
+	}
+
+	spawn
+	{
+		knockback off
+		takeweapon all
+		giveweapon weapon_tesla
+		setammo ammo_cell 999
+		selectweapon weapon_tesla
+		attack player
+		runtomarker ps1spot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_supersoldier_33		// SuperSoldier 3
+{
+	attributes
+	{
+		starting_health 1300
+		aim_accuracy 0.8
+		tactical 1.0
+		aggression 1.0
+		hearing_scale 5.0
+		inner_detection_radius 500
+		alertness 2500
+	}
+	
+	death
+	{
+	}
+
+	spawn
+	{
+		knockback off
+		takeweapon all
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 999
+		selectweapon weapon_panzerfaust
+		setclip weapon_panzerfaust 999
+		attack player
+		runtomarker ps1spot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_supersoldier_34		// SuperSoldier 4
+{
+	attributes
+	{
+		starting_health 1300
+		aim_accuracy 0.6
+		tactical 1.0
+		aggression 1.0
+		inner_detection_radius 200
+		alertness 2500		
+	}
+
+	spawn
+	{
+		knockback off
+		takeweapon all
+		giveweapon weapon_tesla
+		setammo ammo_cell 999
+		selectweapon weapon_tesla
+		attack player
+		runtomarker ps1spot1
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_loper_35		// Loper 1
+{
+	attributes
+	{
+		starting_health 250
+		aggression 1.0
+	}
+
+	spawn
+	{
+		knockback off
+		attack player
+		runtomarker t691
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_loper_36		// Loper 2
+{
+	attributes
+	{
+		starting_health 250
+		aggression 1.0
+	}
+
+	spawn
+	{
+		knockback off
+		attack player
+		runtomarker t691
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_loper_37		// Loper 3
+{
+	attributes
+	{
+		starting_health 250
+		aggression 1.0
+	}
+
+	spawn
+	{
+		knockback off
+		attack player
+		runtomarker t691
+	}
+	
+	death
+	{
+	}
+}
+
+coop_ai_loper_38		// Loper 4
+{
+	attributes
+	{
+		starting_health 250
+		aggression 1.0
+	}
+
+	spawn
+	{
+		knockback off
+		attack player
+		runtomarker t691
+	}
+	
+	death
+	{
 	}
 }
