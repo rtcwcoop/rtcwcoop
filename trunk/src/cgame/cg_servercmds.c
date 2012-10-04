@@ -62,17 +62,21 @@ static void CG_ParseScores( void ) {
 	memset( cg.scores, 0, sizeof( cg.scores ) );
 	for ( i = 0 ; i < cg.numScores ; i++ ) {
 		//
+#ifndef MONEY
 		cg.scores[i].client = atoi( CG_Argv( i * 6 + 4 ) );
 		cg.scores[i].score = atoi( CG_Argv( i * 6 + 5 ) );
 		cg.scores[i].ping = atoi( CG_Argv( i * 6 + 6 ) );
 		cg.scores[i].time = atoi( CG_Argv( i * 6 + 7 ) );
-#ifndef MONEY
 		cg.scores[i].scoreFlags = atoi( CG_Argv( i * 6 + 8 ) );
 		powerups = atoi( CG_Argv( i * 6 + 9 ) );
 #else
-		cg.scores[i].deaths = atoi( CG_Argv( i * 6 + 8 ) );
-		cg.scores[i].damage_given = atof( CG_Argv( i * 6 + 9 ) );
-		cg.scores[i].damage_received  = atof( CG_Argv( i * 6 + 10 ) );
+		cg.scores[i].client = atoi( CG_Argv( i * 7 + 4 ) );
+		cg.scores[i].score = atoi( CG_Argv( i * 7 + 5 ) );
+		cg.scores[i].ping = atoi( CG_Argv( i * 7 + 6 ) );
+		cg.scores[i].time = atoi( CG_Argv( i * 7 + 7 ) );
+		cg.scores[i].deaths = atoi( CG_Argv( i * 7 + 8 ) );
+		cg.scores[i].damage_given = atof( CG_Argv( i * 7 + 9 ) );
+		cg.scores[i].damage_received  = atof( CG_Argv( i * 7 + 10 ) );
 #endif
 		//respawnsLeft = atoi( CG_Argv( i * 6 + 10 ) );
 		// DHM - Nerve :: the following parameters are not sent by server
