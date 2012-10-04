@@ -457,7 +457,7 @@ gotnewcl:
 	// send the connect packet to the client
 	NET_OutOfBandPrint( NS_SERVER, from, "connectResponse" );
 
-	Com_Printf( "Going from CS_FREE to CS_CONNECTED for %s\n", newcl->name );
+	Com_DPrintf( "Going from CS_FREE to CS_CONNECTED for %s\n", newcl->name );
 
 	newcl->state = CS_CONNECTED;
 	newcl->nextSnapshotTime = svs.time;
