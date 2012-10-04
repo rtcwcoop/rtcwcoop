@@ -6777,6 +6777,8 @@ void _UI_SetActiveMenu( uiMenuCommand_t menu ) {
                                 }            */
                                 Menus_ActivateByName( "error_popmenu", qtrue );
                         }            
+                        // ensure sound is there for the menu
+                        trap_S_FadeAllSound( 1.0f, 1000 );    // make sure sound fades up
                         return;
 
 		case UIMENU_TEAM:
