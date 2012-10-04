@@ -127,11 +127,11 @@ itemDef {
 		textalign		ITEM_ALIGN_CENTER
 		textalignx		0
 		textaligny		14
-		textscale		.25
+		textscale		.2
 		rect			320 90 100 14
 		style			0
 		textstyle		6
-		forecolor		1 1 1 1
+		forecolor		.63 .47 .25 1
 		visible			1
 		decoration
 		}
