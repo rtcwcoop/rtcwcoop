@@ -1384,6 +1384,10 @@ void ClientUserinfoChanged( int clientNum ) {
 		client->pers.localClient = qtrue;
 	}
 
+        // delete the stats
+        if (g_gametype.integer <= GT_COOP)
+                Coop_DeleteStats( clientNum );
+
 	// L0 - save IP 
 	if( s[0] != 0 ){
 		SaveIP( client, s );
@@ -1801,7 +1805,8 @@ void ClientSpawn( gentity_t *ent ) {
 
 				// the first spawn should be at a good looking spot
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {
-					client->pers.initialSpawn = qtrue;
+                                        // fretn: moved this down
+					//client->pers.initialSpawn = qtrue;
                                         if ( g_gametype.integer <= GT_COOP)
                                         {
 					        spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
@@ -2030,6 +2035,9 @@ void ClientSpawn( gentity_t *ent ) {
                 if ( !Q_stricmp( ent->classname, "player" ) ) 
                         SetCoopSpawnWeapons( client ); 
 	}
+
+        client->pers.initialSpawn = qtrue;
+
 	// dhm - end
 
 	// Note to Ryan:

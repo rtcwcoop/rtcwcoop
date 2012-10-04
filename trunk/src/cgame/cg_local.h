@@ -506,7 +506,13 @@ typedef struct {
 	int ping;
     int respawnsLeft;
 	int time;
+#ifndef MONEY
 	int scoreFlags;
+#else
+        int damage_given;
+        int damage_received;
+        int deaths;
+#endif
 	int powerUps;
 	int accuracy;
 	int impressiveCount;

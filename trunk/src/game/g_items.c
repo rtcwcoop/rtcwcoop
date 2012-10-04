@@ -151,6 +151,11 @@ int Pickup_Treasure( gentity_t *ent, gentity_t *other ) {
         if ( g_gametype.integer == GT_COOP ) {
                 other->client->ps.persistant[PERS_SCORE] += 120;
         }
+#ifdef MONEY
+        if ( g_gametype.integer == GT_COOP_BATTLE ) {
+                other->client->ps.persistant[PERS_SCORE] += 400;
+        }
+#endif
 
 	return RESPAWN_SP;  // no respawn
 }
@@ -309,6 +314,11 @@ void Add_Ammo( gentity_t *ent, int weapon, int count, qboolean fillClip ) {
 
 }
 
+#ifdef MONEY
+int G_GetWeaponPrice(int weapon);
+int G_GetAmmoPrice(int weapon);
+#endif
+
 
 /*
 ==============
@@ -317,6 +327,12 @@ Pickup_Ammo
 */
 int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 	int quantity;
+#ifdef MONEY
+        if (g_gametype.integer == GT_COOP_BATTLE) {
+                other->client->ps.persistant[PERS_SCORE] += G_GetAmmoPrice(ent->item->giTag);
+                return RESPAWN_SP;
+        }
+#endif
 
 	if ( ent->count ) {
 		quantity = ent->count;
@@ -341,14 +357,19 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 }
 
 //======================================================================
-
-
 int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	int quantity;
 	qboolean alreadyHave = qfalse;
 	int weapon;
 
 	weapon = ent->item->giTag;
+
+#ifdef MONEY
+        if (g_gametype.integer == GT_COOP_BATTLE) {
+                other->client->ps.persistant[PERS_SCORE] += G_GetWeaponPrice(weapon);
+                return RESPAWN_SP;
+        }
+#endif
 
 	if ( ent->count < 0 ) {
 		quantity = 0; // None for you, sir!
@@ -576,9 +597,17 @@ void Touch_Item( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 	switch ( ent->item->giType ) {
 	case IT_WEAPON:
 		respawn = Pickup_Weapon( ent, other );
+#ifdef MONEY 
+                if (g_gametype.integer == GT_COOP_BATTLE)
+                        return;
+#endif
 		break;
 	case IT_AMMO:
 		respawn = Pickup_Ammo( ent, other );
+#ifdef MONEY
+                if (g_gametype.integer == GT_COOP_BATTLE)
+                        return;
+#endif
 		break;
 	case IT_ARMOR:
 		respawn = Pickup_Armor( ent, other );

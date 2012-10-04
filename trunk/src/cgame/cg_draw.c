@@ -2342,6 +2342,12 @@ static void CG_DrawWarmup( void ) {
         // s = "Waiting for players";
 		w = CG_DrawStrlen( s ) * BIGCHAR_WIDTH;
 		CG_DrawBigString( 320 - w / 2, 40, s, 1.0F );
+#ifdef MONEY
+                s = "buy items with /buy and /quickbuy";
+		w = CG_DrawStrlen( s ) * BIGCHAR_WIDTH;
+                s = "buy items with ^2/buy^7 and ^2/quickbuy^7";
+		CG_DrawBigString( 320 - w / 2, 80, s, 1.0F );
+#endif
 		cg.warmupCount = 0;
 		return;
 	}

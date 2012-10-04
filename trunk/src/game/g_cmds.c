@@ -90,10 +90,14 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 		}
 
                 // TODO: fretn: add respawnsLeft to the end of the message
+#ifndef MONEY
 		Com_sprintf( entry, sizeof( entry ),
 					 " %i %i %i %i %i %i", level.sortedClients[i],
 					 g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000,
 					 scoreFlags, g_entities[level.sortedClients[i]].s.powerups );
+#else
+		Com_sprintf( entry, sizeof( entry ), " %i %i %i %i %i %i %i", level.sortedClients[i], g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000, g_entities[level.sortedClients[i]].client->ps.persistant[PERS_KILLED], cl->sess.damage_given, cl->sess.damage_received );
+#endif
 		j = strlen( entry );
 		if ( stringlength + j > 1024 ) {
 			break;
@@ -289,6 +293,236 @@ void Cmd_Fogswitch_f( void ) {
 }
 
 //----(SA)	end
+
+#ifdef MONEY
+struct product_s {
+        const char *name;
+        int     weapon;
+        int     price;
+        int     ammoprice;
+};
+
+typedef struct product_s product_t;
+
+product_t products[] = 
+{
+        {"Luger",               WP_LUGER, 50, 1},
+        {"Mauser Rifle",        WP_MAUSER, 150, 2},
+        {"Thompson",            WP_THOMPSON, 100, 1},
+        {"Sten",                WP_STEN, 160, 1},
+        {"Dual Colts",          WP_AKIMBO, 100, 2},
+        {"Colt",                WP_COLT, 50, 1},
+        {"Snooper Rifle",       WP_SNOOPERSCOPE, 200, 2},
+        {"MP40",                WP_MP40, 100, 1},
+        {"FG42 Paratroop Rifle", WP_FG42, 150, 2},
+        {"sp5 pistol",          WP_SILENCER, 50, 2},
+        {"Panzerfaust",         WP_PANZERFAUST, 300, 100},
+        {"Grenade",             WP_GRENADE_LAUNCHER, 50, 50},
+        {"Pineapple",           WP_GRENADE_PINEAPPLE, 50, 50},
+        {"Dynamite Weapon",     WP_DYNAMITE, 300, 300},
+        {"Venom",               WP_VENOM, 300, 5},
+        {"Flamethrower",        WP_FLAMETHROWER, 300, 1},
+        {"Sniper Scope",        WP_SNIPERRIFLE, 200, 2},
+        {"FG42 Scope",          WP_FG42SCOPE, 200, 2},
+        {NULL}
+};
+
+int numProducts = sizeof( products ) / sizeof( products[0] ) - 1;
+
+int G_GetAmmoPrice(int weapon) {
+        int i;
+
+        for (i=0; i<numProducts; i++) {
+                if (products[i].weapon == weapon)
+                        return products[i].ammoprice;
+        }
+
+        return 0;
+}
+
+int G_GetWeaponPrice(int weapon) {
+        int i;
+
+        for (i=0; i<numProducts; i++) {
+                if (products[i].weapon == weapon)
+                        return products[i].price;
+        }
+
+        return 0;
+}
+
+void Cmd_Buy_f( gentity_t *ent ) {
+	char        *name, *amt;
+	gitem_t     *it;
+        gentity_t       *it_ent;
+        int amount;
+        int i;
+        int money = 0;
+        trace_t trace;
+
+        // TODO: players should be able to go below zero 
+        // but if they are below zero, at map end, they loose, no matter what
+
+        if (g_gametype.integer != GT_COOP_BATTLE)
+                return;
+
+        if (trap_Argc() == 1) {
+                trap_SendServerCommand( ent-g_entities, "print \"Usage: \nbuy health <value>\nbuy ammo <value>\nbuy <productname> (see list below)\n\"");
+                for (i=0; i<numProducts; i++) {
+                        if (products[i].name) 
+                                trap_SendServerCommand( ent-g_entities, va("print \"%-20s ^3%3d ^3%3d\n\"", products[i].name, products[i].price, products[i].ammoprice));
+                }
+                return;
+        }
+
+        money = ent->client->ps.persistant[PERS_SCORE];
+
+        /*if ( money <= 0 ) {
+                trap_SendServerCommand( ent-g_entities, "print \"Not enough money\n\"");
+                return;
+        }*/
+
+	// check for an amount (like "give health 30")
+	amt = ConcatArgs( 2 );
+	amount = atoi( amt );
+
+	name = ConcatArgs( 1 );
+
+	if ( !name || !strlen( name ) ) {
+		return;
+        }
+
+	if ( Q_stricmpn( name, "stamina", 7 ) == 0 ) {
+                        // TODO: check if at max stamina
+                        it = BG_FindItem( "stamina" );
+                        if ( !it ) {
+                                trap_SendServerCommand( ent-g_entities, "print \"Cannot buy an item that does not exist\n\"");
+                                return;
+                        }    
+
+                        /*if ( money < 20) {
+                                trap_SendServerCommand( ent-g_entities, "print \"Not enough money\n\"");
+                                return;
+                        }*/
+
+                        it_ent = G_Spawn();
+                        VectorCopy( ent->r.currentOrigin, it_ent->s.origin );
+                        it_ent->classname = it->classname;
+                        G_SpawnItem( it_ent, it );
+                        FinishSpawningItem( it_ent );
+                        memset( &trace, 0, sizeof( trace ) ); 
+                        it_ent->active = qtrue;
+                        Touch_Item( it_ent, ent, &trace );
+                        it_ent->active = qfalse;
+                        if ( it_ent->inuse ) {
+                                G_FreeEntity( it_ent );
+                        } 
+
+                        ent->client->ps.persistant[PERS_SCORE] -= 20;;
+                        return;
+        }
+
+	if ( Q_stricmpn( name, "health", 6 ) == 0 ) {
+		if ( amount ) {
+                        /*if (money < amount) {
+                                trap_SendServerCommand( ent-g_entities, "print \"Not enough money\n\"");
+                                return;
+                        }*/
+
+			ent->health += amount;
+                        ent->client->ps.persistant[PERS_SCORE] -= amount;
+		} else {
+                        int cost = ent->client->ps.stats[STAT_MAX_HEALTH] - ent->health;
+                        if (money < cost) {
+                                ent->health += money;
+                                ent->client->ps.persistant[PERS_SCORE] = 0;
+                                trap_SendServerCommand( ent-g_entities, "print \"Filled up your health with all your available money\n\"");
+                                return;
+                        }
+
+			ent->health = ent->client->ps.stats[STAT_MAX_HEALTH];
+                        ent->client->ps.persistant[PERS_SCORE] -= cost;
+		}
+
+                return;
+	}
+
+	if ( Q_stricmpn( name, "ammo", 4 ) == 0 ) {
+                int cost;
+                int inclip, maxclip;
+                // TODO: play sound
+                for (i=0; i<numProducts; i++) {
+                        if ( ent->client->ps.weapon == products[i].weapon ) {
+                                if ( amount ) {
+                                        cost = amount * products[i].ammoprice;
+                                        /*if (money < cost) {
+                                                trap_SendServerCommand( ent-g_entities, "print \"Not enough money\n\"");
+                                                return;
+                                        }*/
+                                        Add_Ammo( ent, ent->client->ps.weapon, amount, qtrue );
+                                } else { // todo if no amount is given, just fill the current clip
+
+                                        inclip  = ent->client->ps.ammoclip[BG_FindClipForWeapon( products[i].weapon )];
+                                        maxclip = ammoTable[products[i].weapon].maxclip;
+
+                                        amount = maxclip - inclip;    // max amount that can be moved into the clip
+                                        cost = products[i].ammoprice * amount;
+
+                                        /*if (money < cost) {
+                                                trap_SendServerCommand( ent-g_entities, "print \"Not enough money\n\"");
+                                                return;
+                                        }*/
+
+                                        Add_Ammo( ent, ent->client->ps.weapon, amount, qtrue );
+                                }
+                                ent->client->ps.persistant[PERS_SCORE] -= cost;
+                        }
+		}
+
+                return;
+	}
+
+
+        for (i=0; i<numProducts; i++) {
+                if (products[i].name && Q_stricmp(products[i].name, name) == 0) {
+                        it = BG_FindItem( name );
+                        if ( !it ) {
+                                trap_SendServerCommand( ent-g_entities, "print \"Cannot buy an item that does not exist\n\"");
+                                return;
+                        }    
+
+                        /*if ( money < products[i].price) {
+                                trap_SendServerCommand( ent-g_entities, "print \"Not enough money\n\"");
+                                return;
+                        }*/
+
+                        if (COM_BitCheck( ent->client->ps.weapons, products[i].weapon )) {
+                                trap_SendServerCommand( ent-g_entities, "print \"You already have this item\n\"");
+                                return;
+                        }
+
+                        it_ent = G_Spawn();
+                        VectorCopy( ent->r.currentOrigin, it_ent->s.origin );
+                        it_ent->classname = it->classname;
+                        G_SpawnItem( it_ent, it );
+                        FinishSpawningItem( it_ent );
+                        memset( &trace, 0, sizeof( trace ) ); 
+                        it_ent->active = qtrue;
+                        Touch_Item( it_ent, ent, &trace );
+                        it_ent->active = qfalse;
+                        if ( it_ent->inuse ) {
+                                G_FreeEntity( it_ent );
+                        } 
+
+                        ent->client->ps.persistant[PERS_SCORE] -= products[i].price;
+                        return;
+                }
+
+        }        
+
+
+}
+#endif
 
 /*
 ==================
@@ -648,6 +882,11 @@ void Cmd_Kill_f( gentity_t *ent ) {
 		return;
 	}
 
+#ifdef MONEY
+        if (g_gametype.integer == GT_COOP_BATTLE)
+                ent->client->ps.persistant[PERS_SCORE] -= ent->health;
+#endif
+
 	ent->flags &= ~FL_GODMODE;
 	ent->client->ps.stats[STAT_HEALTH] = ent->health = 0;
 	player_die( ent, ent, ent, 100000, MOD_SUICIDE );
@@ -735,7 +974,15 @@ void SetTeam( gentity_t *ent, char *s ) {
 	} else {
                 // fretn: if you have a very low score, and you go to spectator and back to the game you get one point
                 // this can be abused to reset your score in case its bad, need to fix this
+#ifdef MONEY
+                if (g_gametype.integer != GT_COOP_BATTLE) {
+                        ent->client->ps.persistant[PERS_SCORE] = 1;
+                } else {
+                        ent->client->ps.persistant[PERS_SCORE] = 0;
+                }
+#else
                 ent->client->ps.persistant[PERS_SCORE] = 1;
+#endif
         }
 
 	client->sess.sessionTeam = team;
@@ -2331,6 +2578,13 @@ ClientDamage
 void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 	gentity_t *enemy, *ent;
 	vec3_t vec;
+#ifdef MONEY
+        // no no no no no no no no no no no 
+        // aka: I dont want this in a competitive gametype
+        // yes this breaks the tesla and the spirits and others in battle gametype
+        if (g_gametype.integer == GT_COOP_BATTLE)
+                return;
+#endif
 
 	ent = &g_entities[entnum];
 
@@ -2747,6 +3001,10 @@ void ClientCommand( int clientNum ) {
 
 	if ( Q_stricmp( cmd, "give" ) == 0 ) {
 		Cmd_Give_f( ent );
+#ifdef MONEY
+	} else if ( Q_stricmp( cmd, "buy" ) == 0 ) {
+		Cmd_Buy_f( ent );
+#endif
 	} else if ( Q_stricmp( cmd, "god" ) == 0 )  {
 		Cmd_God_f( ent );
 	} else if ( Q_stricmp( cmd, "nofatigue" ) == 0 )  {

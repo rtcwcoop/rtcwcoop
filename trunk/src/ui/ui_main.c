@@ -6777,6 +6777,7 @@ void _UI_SetActiveMenu( uiMenuCommand_t menu ) {
                                 }            */
                                 Menus_ActivateByName( "error_popmenu", qtrue );
                         }            
+
                         // ensure sound is there for the menu
                         trap_S_FadeAllSound( 1.0f, 1000 );    // make sure sound fades up
                         return;
@@ -6897,6 +6898,19 @@ void _UI_SetActiveMenu( uiMenuCommand_t menu ) {
 			Menus_CloseAll();
 			Menus_OpenByName( "wm_quickmessageAlt" );
 			return;
+#ifdef MONEY
+                case UIMENU_WM_QUICKBUY:
+                        trap_Key_SetCatcher( KEYCATCH_UI );
+                        Menus_CloseAll();
+                        Menus_OpenByName( "wm_quickbuy" );
+                        return;
+
+                case UIMENU_WM_QUICKBUYALT:
+                        trap_Key_SetCatcher( KEYCATCH_UI );
+                        Menus_CloseAll();
+                        Menus_OpenByName( "wm_quickbuyAlt" );
+                        return;
+#endif
 
 		case UIMENU_WM_LIMBO:
 			trap_Key_SetCatcher( KEYCATCH_UI );

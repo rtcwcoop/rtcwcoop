@@ -39,10 +39,18 @@ void CG_DrawCoopScoreboard( void )
         float *color;   // faded color based on cursor hint drawing
         float color2[4] = {0, 0, 0, 1}; 
         float color3[4] = {1, 1, 1, 1}; 
+        float green[4] = {0, 1, 0, 1};
         float black[4] = {0, 0, 0, 1}; 
         clientInfo_t *ci;
         long score;
         int ping;
+#ifdef MONEY
+        int deaths;
+        float damage_ratio;
+        int highest_score;
+        float highest_damage_ratio;
+        int lowest_deaths;
+#endif
         const char *s;
         int msec, mins, seconds, tens; // JPW NERVE
         qboolean maxlives = qfalse;
@@ -97,6 +105,15 @@ void CG_DrawCoopScoreboard( void )
         // text boxes
         color2[0] = color2[1] = color2[2] = 0.4f;
         CG_DrawStringExt( 175, 130, va("Name"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#ifdef MONEY
+        if (cgs.gametype == GT_COOP_BATTLE) {
+                w = strlen("Ratio") * SMALLCHAR_WIDTH;
+                CG_DrawStringExt( 170 + 140 - w , 130, va("Ratio"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+
+                w = strlen("Deaths") * SMALLCHAR_WIDTH;
+                CG_DrawStringExt( 170 + 210 - w , 130, va("Deaths"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+        }
+#endif
         w = strlen("Score") * SMALLCHAR_WIDTH;
         CG_DrawStringExt( 170 + 255 - w , 130, va("Score"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
         w = strlen("Ping") * SMALLCHAR_WIDTH;
@@ -104,6 +121,32 @@ void CG_DrawCoopScoreboard( void )
         
         //if (cg.scores[0].respawnsLeft != -1)
         //        maxlives = qtrue;
+
+        // first get highest values
+
+#ifdef MONEY
+        highest_score = 0;
+        highest_damage_ratio = 0.0;
+        lowest_deaths = 99;
+
+        for ( i = 0; i < 8; i++ ) {
+                float tmp = 0.0;
+
+                if (cg.scores[i].score > highest_score)
+                    highest_score = cg.scores[i].score;
+
+                if (cg.scores[i].deaths < lowest_deaths)
+                    lowest_deaths = cg.scores[i].deaths;
+
+                if ( cg.scores[i].damage_received > 0 )
+                        tmp = (float)cg.scores[i].damage_given / (float)cg.scores[i].damage_received;
+                else
+                        tmp = (float)cg.scores[i].damage_given;
+
+                if (tmp > highest_damage_ratio)
+                        highest_damage_ratio = tmp;
+        }
+#endif
 
         for ( i = 0; i < 8; i++ ) {
                 if (cg.clientNum == cg.scores[i].client && i < cg.numScores)
@@ -116,20 +159,62 @@ void CG_DrawCoopScoreboard( void )
                 if (i < cg.numScores) {
                         ping = cg.scores[i].ping;
                         score = cg.scores[i].score;
+#ifdef MONEY
+                        if (cgs.gametype == GT_COOP_BATTLE) {
+                                deaths = cg.scores[i].deaths;
+
+                                if ( cg.scores[i].damage_received > 0 )
+                                        damage_ratio = (float)cg.scores[i].damage_given / (float)cg.scores[i].damage_received;
+                                else
+                                        damage_ratio = (float)cg.scores[i].damage_given;
+                        }
+#endif
+
 
                         place++;
                         if (ci->team == TEAM_SPECTATOR)
                                 CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("[SPECTATOR] %s", ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
                         else
                                 CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("%i. %s", place, ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+
+#ifdef MONEY
+                        if (cgs.gametype == GT_COOP_BATTLE) {
+                                w = strlen(va("%.2f", damage_ratio)) * SMALLCHAR_WIDTH;
+                                if (ci->team != TEAM_SPECTATOR) {
+                                        if (damage_ratio == highest_damage_ratio)
+                                                CG_DrawStringExt( 170 + 140 - w, 154 + ( 28 * i) + 1, va("%.2f", damage_ratio), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                        else
+                                                CG_DrawStringExt( 170 + 140 - w, 154 + ( 28 * i) + 1, va("%.2f", damage_ratio), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                }
+
+
+                                w = strlen(va("%d", deaths)) * SMALLCHAR_WIDTH;
+                                if (ci->team != TEAM_SPECTATOR) {
+                                        if (cg.scores[i].deaths == lowest_deaths)
+                                                CG_DrawStringExt( 170 + 210 - w, 154 + ( 28 * i) + 1, va("%d", cg.scores[i].deaths), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                        else
+                                                CG_DrawStringExt( 170 + 210 - w, 154 + ( 28 * i) + 1, va("%d", cg.scores[i].deaths), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                }
+                        }
+#endif
+
+
                         if (maxlives) {
                                 w = strlen(va("%d (%d)", score, cg.scores[i].respawnsLeft)) * SMALLCHAR_WIDTH;
-                                if (ci->team != TEAM_SPECTATOR)
-                                        CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i) + 1, va("%d (%d)", cg.scores[i].score, cg.scores[i].respawnsLeft), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                if (ci->team != TEAM_SPECTATOR) {
+                                        if (cg.scores[i].score == highest_score)
+                                                CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i) + 1, va("%d (%d)", cg.scores[i].score, cg.scores[i].respawnsLeft), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                        else
+                                                CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i) + 1, va("%d (%d)", cg.scores[i].score, cg.scores[i].respawnsLeft), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                }
                         } else {
                                 w = strlen(va("%d", score)) * SMALLCHAR_WIDTH;
-                                if (ci->team != TEAM_SPECTATOR)
-                                        CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i) + 1, va("%d", cg.scores[i].score), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                if (ci->team != TEAM_SPECTATOR) {
+                                        if (cg.scores[i].score == highest_score)
+                                                CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i) + 1, va("%d", cg.scores[i].score), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                        else
+                                                CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i) + 1, va("%d", cg.scores[i].score), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+                                }
                         }
 
                         w = strlen(va("%d", ping)) * SMALLCHAR_WIDTH;

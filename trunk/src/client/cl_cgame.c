@@ -864,6 +864,12 @@ int CL_CgameSystemCalls( int *args ) {
 				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKMESSAGE );
 			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKMESSAGEALT" ) )    {
 				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKMESSAGEALT );
+#ifdef MONEY
+			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKBUY" ) )    {
+				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKBUY );
+			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKBUYALT" ) )    {
+				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKBUYALT );
+#endif
 			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_LIMBO" ) )    {
 				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_LIMBO );
 			}

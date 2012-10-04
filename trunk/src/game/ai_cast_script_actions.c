@@ -1025,7 +1025,13 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 	char *pString, *token;
 	int weapon;
 	int i;
+
+#ifdef MONEY
 	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
 
         // fretn
         // existing players don't receive
@@ -1103,6 +1109,13 @@ qboolean AICast_ScriptAction_SetClip( cast_state_t *cs, char *params ) {
 	int weapon;
 	int i;
 
+#ifdef MONEY
+	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
+
 	pString = params;
 
 	token = COM_ParseExt( &pString, qfalse );
@@ -1164,6 +1177,13 @@ qboolean AICast_ScriptAction_SuggestWeapon( cast_state_t *cs, char *params ) {
 	int weapon;
 	int i;
 	//int		suggestedweaps = 0; // TTimo: unused
+
+#ifdef MONEY
+	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
 
 	weapon = WP_NONE;
 
@@ -1231,6 +1251,13 @@ qboolean AICast_ScriptAction_SelectWeapon( cast_state_t *cs, char *params ) {
 	int weapon;
 	int i;
 
+#ifdef MONEY
+	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
+
 	weapon = WP_NONE;
 
 	for ( i = 1; bg_itemlist[i].classname; i++ )
@@ -1285,9 +1312,18 @@ AICast_ScriptAction_GiveArmor
 ==============
 */
 qboolean AICast_ScriptAction_SetArmor( cast_state_t *cs, char *params ) {
+#ifdef MONEY
+	gentity_t   *ent = &g_entities[cs->entityNum];
+#endif
+
 	if ( !params || !params[0] ) {
 		G_Error( "AI Scripting: setarmor requires an armor value" );
 	}
+
+#ifdef MONEY
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
 
 	g_entities[cs->entityNum].client->ps.stats[STAT_ARMOR] += atoi( params );
 
@@ -1307,6 +1343,13 @@ AICast_ScriptAction_GiveArmor
 qboolean AICast_ScriptAction_GiveArmor( cast_state_t *cs, char *params ) {
 	int i;
 	gitem_t     *item = 0;
+
+#ifdef MONEY
+	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
 
 	for ( i = 1; bg_itemlist[i].classname; i++ ) {
 		//----(SA)	first try the name they see in the editor, then the pickup name
@@ -1346,7 +1389,13 @@ AICast_ScriptAction_GiveWeapon
 qboolean AICast_ScriptAction_GiveWeapon( cast_state_t *cs, char *params ) {
 	int weapon;
 	int i;
+
+#ifdef MONEY
 	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
 
         // fretn
         // existing players don't receive
@@ -1427,6 +1476,13 @@ AICast_ScriptAction_TakeWeapon
 qboolean AICast_ScriptAction_TakeWeapon( cast_state_t *cs, char *params ) {
 	int weapon;
 	int i;
+
+#ifdef MONEY
+	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
 
 	weapon = WP_NONE;
 
@@ -1527,6 +1583,13 @@ AICast_ScriptAction_GiveInventory
 qboolean AICast_ScriptAction_GiveInventory( cast_state_t *cs, char *params ) {
 	int i;
 	gitem_t     *item = 0;
+
+#ifdef MONEY
+	gentity_t   *ent = &g_entities[cs->entityNum];
+
+        if (g_gametype.integer == GT_COOP_BATTLE && !(ent->r.svFlags & SVF_CASTAI))
+                return qtrue;
+#endif
 
 	for ( i = 1; bg_itemlist[i].classname; i++ ) {
 		//----(SA)	first try the name they see in the editor, then the pickup name

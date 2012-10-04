@@ -3559,6 +3559,9 @@ static bind_t g_bindings[] =
 	{"scoresDown",       -1,             -1, -1, -1},
 	{"messagemode",  -1,             -1, -1, -1},
 	{"mp_quickmessage",  -1,             -1, -1, -1},
+#ifdef MONEY
+	{"quickbuy",    -1,             -1, -1, -1},
+#endif
 	{"screenshot",  -1,             -1, -1, -1},
 	{"screenshotJPEG",  -1,             -1, -1, -1},
 	{"messagemode2", -1,             -1, -1, -1},

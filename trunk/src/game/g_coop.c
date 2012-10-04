@@ -42,7 +42,11 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
                 client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
 
         // zero out all ammo counts
-        //memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) ); 
+#ifdef MONEY
+        if (!client->pers.initialSpawn && g_gametype.integer == GT_COOP_BATTLE) {
+                memset( client->ps.ammo,MAX_WEAPONS,sizeof( int ) ); 
+        }
+#endif
 
         // Communicate it to cgame
         client->ps.stats[STAT_PLAYER_CLASS] = pc;
@@ -62,6 +66,23 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 
         // give all the players a binocular
         client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
+
+#ifdef MONEY
+        // start with mp40 and knife
+        if (!client->pers.initialSpawn && g_gametype.integer == GT_COOP_BATTLE) {
+
+                COM_BitSet( client->ps.weapons, WP_KNIFE );
+                client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1; 
+                client->ps.weapon = WP_KNIFE;
+
+                COM_BitSet( client->ps.weapons, WP_MP40 );
+                client->ps.ammoclip[BG_FindClipForWeapon( WP_MP40 )] += 32;
+                client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 32;
+                client->ps.weapon = WP_MP40;
+
+        }
+#endif
+        client->pers.initialSpawn = qtrue;
 }
 
 
@@ -274,14 +295,22 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
                                         attacker->client->ps.persistant[PERS_SCORE] -= (dmg*2);
                         } else {*/
                                 attacker->client->sess.damage_given -= dmg;
+#ifndef MONEY
                                 if (g_gametype.integer != GT_COOP_BATTLE)
                                         attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#else
+                                attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#endif
                                 targ->client->sess.damage_received += dmg;
                         //}
                 } else {
                         attacker->client->sess.damage_given += dmg;
+#ifndef MONEY
                         if (g_gametype.integer != GT_COOP_BATTLE)
                                 attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#else
+                        attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#endif
                         targ->client->sess.damage_received += dmg;
                 }
 

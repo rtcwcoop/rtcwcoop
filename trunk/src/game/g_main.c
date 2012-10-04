@@ -1655,7 +1655,9 @@ void CalculateRanks( void ) {
 	int newScore;
 	gclient_t   *cl;
 
+#ifndef MONEY
         int time = (level.time - level.startTime) / 1000;
+#endif
 
 	level.follow1 = -1;
 	level.follow2 = -1;
@@ -1693,6 +1695,7 @@ void CalculateRanks( void ) {
                                                         // so for example: player A has a dg/dr ratio of 1.5, 3 deaths and 500moneys
                                                         // player B has: 1.4, 2 and 400
                                                         // player B will win the game
+#ifndef MONEY
 
                                                         float dr = (float)level.clients[i].sess.damage_received;
                                                         float dg = (float)level.clients[i].sess.damage_given;
@@ -1708,6 +1711,7 @@ void CalculateRanks( void ) {
                                                                 level.clients[i].ps.persistant[PERS_SCORE] = (int)score;
                                                                 //G_Printf("%f: %f %f %d\n", score, dg, dr, time);
                                                         }
+#endif
 
                                                         level.numPlayingCoopClients++;
                                                 }
@@ -2033,6 +2037,10 @@ Append information about this game to the log file
 void LogExit( const char *string ) {
 	int i, numSorted;
 	gclient_t       *cl;
+#ifdef MONEY
+	gclient_t       *a;
+	gclient_t       *b;
+#endif
         char cs[MAX_INFO_STRING];
 
 
@@ -2070,10 +2078,75 @@ void LogExit( const char *string ) {
 	}
 
         if ( g_gametype.integer == GT_COOP_BATTLE ) {
+#ifdef MONEY
+                int a_score = 0;
+                int b_score = 0;
+
+                trap_GetConfigstring( CS_BATTLE_INFO, cs, sizeof( cs ) ); 
+                // only for 2 players
+                a = &level.clients[level.sortedClients[0]];
+                b = &level.clients[level.sortedClients[1]];
+                
+                // if a player his score is below 0 he looses
+                if (a->ps.persistant[PERS_SCORE] < 0 && b->ps.persistant[PERS_SCORE] > 0) {
+                        Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) ); // todo, clientnum of real winner
+                } else if (b->ps.persistant[PERS_SCORE] < 0 && a->ps.persistant[PERS_SCORE] > 0) {
+                        Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) ); // todo, clientnum of real winner
+                } else { // both are below or above zero, so lets count there other skills
+                        int a_dmdg_ratio = a->sess.damage_given / a->sess.damage_received;
+                        int b_dmdg_ratio = b->sess.damage_given / b->sess.damage_received;
+                        int a_deaths = a->sess.deaths;
+                        int b_deaths = b->sess.deaths;
+
+                        if (a_dmdg_ratio > b_dmdg_ratio)
+                                a_score ++;
+                        if (a_dmdg_ratio < b_dmdg_ratio)
+                                b_score ++;
+
+                        if (a_deaths < b_deaths)
+                                a_score ++;
+                        if (a_deaths > b_deaths)
+                                b_score ++;
+
+
+                        if (a->ps.persistant[PERS_SCORE] > b->ps.persistant[PERS_SCORE])
+                                a_score ++;
+                        if (a->ps.persistant[PERS_SCORE] < b->ps.persistant[PERS_SCORE])
+                                b_score ++;
+
+                        if (a_score > b_score) {
+                                Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
+                        } else if ( a_score < b_score ) {
+                                Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+                        } else {
+                                if (a->ps.persistant[PERS_SCORE] > b->ps.persistant[PERS_SCORE]) {
+                                        Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
+                                } else if (a->ps.persistant[PERS_SCORE] < b->ps.persistant[PERS_SCORE]) {
+                                        Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+                                } else {
+                                        if (a_deaths < b_deaths) {
+                                                Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
+                                        } else if (a_deaths > b_deaths) {
+                                                Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+                                        } else {
+                                                if (a_dmdg_ratio > b_dmdg_ratio)
+                                                        Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
+                                                else if (a_dmdg_ratio < b_dmdg_ratio)
+                                                        Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+                                                else
+                                                        Info_SetValueForKey( cs, "winner", "nobody" );
+                                        }
+                                }
+                        }
+                }
+                trap_SetConfigstring( CS_BATTLE_INFO, cs );
+
+#else
                 trap_GetConfigstring( CS_BATTLE_INFO, cs, sizeof( cs ) ); 
                 cl = &level.clients[level.sortedClients[0]];
                 Info_SetValueForKey( cs, "winner", va("%s", cl->pers.netname) ); // todo, clientnum of real winner
                 trap_SetConfigstring( CS_BATTLE_INFO, cs );
+#endif
         }
 
         // fretn - an empty server needs to be restarted, or new connecting clients get disconnected

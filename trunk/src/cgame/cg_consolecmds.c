@@ -326,7 +326,18 @@ static void CG_TeamVoiceChat_f( void ) {
         trap_SendConsoleCommand( va( "cmd vsay_team %s\n", chatCmd ) );
 }
 
-
+#ifdef MONEY
+static void CG_QuickBuy_f( void ) {
+	if ( cgs.gametype != GT_COOP_BATTLE ) {
+		return;
+	}
+        if ( cg_quickMessageAlt.integer ) { 
+                trap_UI_Popup( "UIMENU_WM_QUICKBUYALT" );
+        } else {
+                trap_UI_Popup( "UIMENU_WM_QUICKBUY" );
+        } 
+}
+#endif
 
 static void CG_QuickMessage_f( void ) {
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
@@ -711,6 +722,9 @@ static consoleCommand_t commands[] = {
         { "dumpcastai", CG_DumpCastAi_f },
         { "dumpcoopspawnpoint", CG_DumpCoopSpawnpoint_f },
         { "dumpflagpole", CG_DumpFlagPole_f },
+#ifdef MONEY
+	{ "quickbuy", CG_QuickBuy_f },
+#endif
 
 	{ "nodebuglines", CG_DisableDebugLines_f }
 };
@@ -809,5 +823,9 @@ void CG_InitConsoleCommands( void ) {
 	trap_AddCommand( "incognito" );
 	trap_AddCommand( "getstatus" );	
 	// End
+
+#ifdef MONEY
+	trap_AddCommand( "buy" );	
+#endif
 	
 }
