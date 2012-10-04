@@ -4413,6 +4413,22 @@ static void UI_RunMenuScript( char **args ) {
 			Controls_GetConfig();
 		} else if ( Q_stricmp( name, "clearError" ) == 0 ) {
 			trap_Cvar_Set( "com_errorMessage", "" );
+		} else if ( Q_stricmp( name, "skilleasy" ) == 0 ) {
+			trap_Cvar_Set( "g_gameskill", "0" ); 
+			trap_Cvar_Set( "g_reinforce", "0" ); 
+			trap_Cvar_Set( "g_airespawn", "0" ); 
+		} else if ( Q_stricmp( name, "skillnormal" ) == 0 ) {
+			trap_Cvar_Set( "g_gameskill", "0" ); 
+			trap_Cvar_Set( "g_reinforce", "0" ); 
+			trap_Cvar_Set( "g_airespawn", "0" ); 
+		} else if ( Q_stricmp( name, "skillhard" ) == 0 ) {
+			trap_Cvar_Set( "g_gameskill", "0" ); 
+			trap_Cvar_Set( "g_reinforce", "0" ); 
+			trap_Cvar_Set( "g_airespawn", "0" ); 
+		} else if ( Q_stricmp( name, "skillnightmare" ) == 0 ) {
+			trap_Cvar_Set( "g_gameskill", "0" ); 
+			trap_Cvar_Set( "g_reinforce", "0" ); 
+			trap_Cvar_Set( "g_airespawn", "0" ); 
 		} else if ( Q_stricmp( name, "loadGameInfo" ) == 0 ) {
 			UI_ParseGameInfo( "coopgameinfo.txt" );
 			UI_LoadBestScores( uiInfo.mapList[ui_currentMap.integer].mapLoadName, uiInfo.gameTypes[ui_gameType.integer].gtEnum );
