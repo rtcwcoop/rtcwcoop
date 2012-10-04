@@ -26,7 +26,9 @@
 		hide back_alt ;
 		show back ;
 		show grpCreate ;
-		hide grpmessage
+		hide grpmessage ;
+		setitemcolor easy backcolor .7 .7 .0 .25 ;
+		uiScript skilleasy
 	}
 
 	onEsc {
