@@ -1723,6 +1723,20 @@ void CalculateRanks( void ) {
                                                         }
                                                 }
 
+                                                if ( g_gametype.integer == GT_COOP && !g_maxlives.integer ) { // every 10000 points, a panzerfaust
+                                                        int value = level.clients[i].ps.persistant[PERS_SCORE];
+                                                        int mod = value % 10000;
+                                                        int rounded = value - mod; 
+                                                        if (level.clients[i].sess.lastBonusLifeScore < rounded) { // yes we scored a bonus life
+                                                                COM_BitSet( level.clients[i].ps.weapons, WP_PANZERFAUST );
+                                                                level.clients[i].ps.ammo[BG_FindAmmoForWeapon( WP_PANZERFAUST )] = 4; 
+                                                                level.clients[i].ps.weapon = WP_PANZERFAUST;
+
+                                                                level.clients[i].sess.lastBonusLifeScore = rounded;
+                                                                trap_SendServerCommand(level.clients[i].ps.clientNum, "cp \"You've received a free panzerfaust\"");
+                                                        }    
+                                                }
+
                                                 // fretn
                                                 if ( level.clients[i].ps.persistant[PERS_RESPAWNS_LEFT] == 0 
                                                             && g_entities[i].health <= 0 ) {
