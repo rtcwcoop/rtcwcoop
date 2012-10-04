@@ -38,15 +38,7 @@ If you have questions concerning this license or the applicable additional terms
 #define CLIENT_WINDOW_MIN_TITLE       "wsp"
 #define GAMENAME_FOR_MASTER           "wolfsp"
 
-
-//#define Q3_VERSION      "Wolf 1.41"
-#define Q3_VERSION      "RTCWCoop 0.9 svn829"
-// ver 1.0.0	- release
-// ver 1.0.1	- post-release work
-// ver 1.1.0	- patch 1 (12/12/01)
-// ver 1.1b		- TTimo SP linux release (+ MP update)
-// ver 1.2.b5	- Mac code merge in
-// ver 1.3		- patch 2 (02/13/02)
+#define Q3_VERSION      "RTCWCoop 0.9"
 
 #define MAX_COOP_CLIENTS 8
 
