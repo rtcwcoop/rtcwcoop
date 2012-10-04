@@ -413,7 +413,7 @@ itemDef {
 				itemDef {
 					name			window
 					group			grpCreate
-					text			"Enemy Options"
+					text			"Skill Option"
 					textfont		UI_FONT_NORMAL
 					textalign		ITEM_ALIGN_CENTER
 					textalignx		145
@@ -428,78 +428,114 @@ itemDef {
 					visible			1
 					decoration
 					}					
-					
-				itemDef {
-					name			window
-					group			grpCreate
-					type			ITEM_TYPE_MULTI
-					textfont		UI_FONT_NORMAL
-					text			"Amount of Enemies:  "
-					cvar			"g_reinforce"
-					cvarFloatList	{ "1 - Default" 0 "2 - More" 1 "3 - Many" 2 }
-					rect			295 250 290 12
-				//	origin			ORIGIN_WINDOW1
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145
-					textaligny		10
-					textscale		.25
-					backcolor		1 1 1 .07
-					forecolor		1 1 1 1
-					visible			0
-					maxchars		6
-					mouseenter		{ show message_reinforce }
-					mouseexit		{ hide message_reinforce }
-					}
-					
-				itemDef {
-					name			window
-					group			grpCreate
-					type			ITEM_TYPE_MULTI
-					textfont		UI_FONT_NORMAL
-					text			"Enemy skill:  "
-					cvar			"g_gameskill"
-					cvarFloatList	{ "1 - Easy" 1 "2 - Normal" 2 "3 - Hard" 3 }
-					rect			295 265 290 12
-				//	origin			ORIGIN_WINDOW1
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145
-					textaligny		10
-					textscale		.25
-					backcolor		1 1 1 .07
-					forecolor		1 1 1 1
-					visible			0
-					maxchars		6
-					mouseenter		{ show message_skill }
-					mouseexit		{ hide message_skill }
-					}
 
-				itemDef {
-					name			window
+				itemDef
+					{
+					name			easy
+					text			"Easy"
 					group			grpCreate
-					type			ITEM_TYPE_MULTI
+					type			1
 					textfont		UI_FONT_NORMAL
-					text			"Respawning enemies:  "
-					cvar			"g_airespawn"
-					rect			295 280 290 12
-				//	origin			ORIGIN_WINDOW1
-					style			WINDOW_STYLE_FILLED
-					textalign		ITEM_ALIGN_RIGHT
-					textalignx		145
-					textaligny		10
 					textscale		.25
-					
-					cvarTest		"g_airespawn"
-                    cvarFloatList   { "No" 0, "Yes" 1 }
-					
-					backcolor		1 1 1 .07
+					style			WINDOW_STYLE_FILLED
+					rect			295 250 70 26
+					textalign		1
+					textalignx		35
+					textaligny		17
 					forecolor		1 1 1 1
-					visible			0
-					maxchars		6		
-					mouseenter		{ show message_airespawn }
-					mouseexit		{ hide message_airespawn }
-					}	
+					backcolor		.1 .1 .1 .1 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5 
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .7 .7 .0 .25 ;
+									setitemcolor norm backcolor .1 .1 .1 .1 ;
+									setitemcolor hard backcolor .1 .1 .1 .1 ;
+									setitemcolor nightmare backcolor .1 .1 .1 .1 ;
+									uiScript skilleasy }
+					}
+				
+				itemDef
+					{
+					name			norm
+					text			"Normal"
+					group			grpCreate
+					type			1
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					style			WINDOW_STYLE_FILLED
+					rect			368 250 70 26
+					textalign		1
+					textalignx		35
+					textaligny		17
+					forecolor		1 1 1 1
+					backcolor		.1 .1 .1 .1 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5 
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .1 .1 .1 .1 ;
+									setitemcolor norm backcolor .7 .7 .0 .25 ;
+									setitemcolor hard backcolor .1 .1 .1 .1 ;
+									setitemcolor nightmare backcolor .1 .1 .1 .1 ;
+									uiScript skillnormal }	
+					}
+				
+				itemDef
+					{
+					name			hard
+					text			"Hard"
+					group			grpCreate
+					type			1
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					style			WINDOW_STYLE_FILLED
+					rect			441 250 70 26
+					textalign		1
+					textalignx		35
+					textaligny		17
+					forecolor		1 1 1 1
+					backcolor		.1 .1 .1 .1 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5 
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .1 .1 .1 .1 ;
+									setitemcolor norm backcolor .1 .1 .1 .1 ;
+									setitemcolor hard backcolor .7 .7 .0 .25 ;
+									setitemcolor nightmare backcolor .1 .1 .1 .1 ;
+									uiScript skillhard }
+					}
+				
+				itemDef
+					{
+					name			nightmare
+					text			"Nightmare!"
+					group			grpCreate
+					type			1
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					style			WINDOW_STYLE_FILLED
+					rect			514 250 71 26
+					textalign		1
+					textalignx		35
+					textaligny		17
+					forecolor		1 1 1 1
+					backcolor		.1 .1 .1 .1 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5 
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .1 .1 .1 .1 ;
+									setitemcolor norm backcolor .1 .1 .1 .1 ;
+									setitemcolor hard backcolor .1 .1 .1 .1 ;
+									setitemcolor nightmare backcolor .7 .7 .0 .25 ;
+									uiScript skillnightmare } 	
+					}
 					
 					
 				itemDef {
@@ -511,7 +547,7 @@ itemDef {
 					textalignx		145
 					textaligny		14
 					textscale		.25
-					rect			294 300 290 20	
+					rect			294 285 290 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
 					bordercolor		.5 .5 .5 .5
@@ -529,7 +565,7 @@ itemDef {
 					text			"Friendly Fire:  "
 					cvar			"g_friendlyFire"
 					cvarFloatList	{ "Off" 0 "On" 1 "On + Health Penalty" 2 }
-					rect			295 325 290 12
+					rect			295 310 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -550,7 +586,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Number of Lives:  "
 					cvar			"g_maxlives"
-					rect			295 340 290 12
+					rect			295 325 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -574,7 +610,7 @@ itemDef {
 					text			"Shared Lives:  "
 					cvar			"g_sharedlives"
 					cvarFloatList	{ "yes (no bonus life!)" 1 "no" 0 }
-					rect			295 355 290 12
+					rect			295 340 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -600,7 +636,7 @@ itemDef {
 					text			"Respawn by:  "
 					cvar			"g_spawnpoints"
 					cvarFloatList	{ "Autosaves (/30 secs.)" 0 "Manual Saves" 1 "FlagZones" 2 }
-					rect			295 370 290 12
+					rect			295 355 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -621,7 +657,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Manual Saves / map:  "
 					cvar			"g_maxspawnpoints"
-					rect			295 385 290 12
+					rect			295 370 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
