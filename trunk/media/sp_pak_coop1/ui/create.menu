@@ -459,7 +459,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Enemy skill:  "
 					cvar			"g_gameskill"
-					cvarFloatList	{ "* Test *" 0 "1 - Easy" 1 "2 - Normal" 2 "3 - Hard" 3 }
+					cvarFloatList	{ "1 - Easy" 1 "2 - Normal" 2 "3 - Hard" 3 }
 					rect			295 265 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
