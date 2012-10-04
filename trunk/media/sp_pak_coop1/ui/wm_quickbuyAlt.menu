@@ -204,6 +204,7 @@
 	itemDef {
 		name			"window"
 		visible			1
+                rect                    37 14 128 20    
 		origin			ORIGIN_QUICKBUY
 		forecolor		1 1 1 1
 		backcolor		0 0 0 0
@@ -626,7 +627,7 @@
 		origin			ORIGIN_QUICKBUY
 		forecolor		1 1 1 1
 		backcolor		0 0 0 0
-		text			"Message"
+		text			"Buy Bombs"
 		textfont	UI_FONT_NORMAL
 		textscale	.25
 		textalign		ITEM_ALIGN_CENTER
