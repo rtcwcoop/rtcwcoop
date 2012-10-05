@@ -6,11 +6,11 @@ else
         TARGET="debug"
 fi
 
-PAKFILE=sp_pak_coop1.pk3
+PAKFILE=sp_pak_coop2.pk3
 ORIGINALFOLDER=$(pwd)
 CMAKEFOLDER=cmake
 
-cd media/sp_pak_coop1
+cd media/sp_pak_coop2
 
 #zip -r $PAKFILE models/players/coop/* models/movespeeds/* maps/* scripts/* ui/* ./* levelshots/*
 zip -r $PAKFILE ./ -x "*.svn*"
