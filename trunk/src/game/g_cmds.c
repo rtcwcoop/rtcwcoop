@@ -501,6 +501,106 @@ void Cmd_Buy_f( gentity_t *ent ) {
                                 return;
                         }
 
+                        if (products[i].weapon == WP_THOMPSON) {
+                                COM_BitSet( ent->client->ps.weapons, WP_THOMPSON );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_THOMPSON )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_THOMPSON )] += 6; 
+                        }
+
+                        if (products[i].weapon == WP_STEN) {
+                                COM_BitSet( ent->client->ps.weapons, WP_STEN );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_STEN )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_STEN )] += 6; 
+                        }
+
+                        if (products[i].weapon == WP_LUGER) {
+                                COM_BitSet( ent->client->ps.weapons, WP_LUGER );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_LUGER )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] += 6; 
+                        }
+
+                        if (products[i].weapon == WP_COLT) {
+                                COM_BitSet( ent->client->ps.weapons, WP_COLT );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_COLT )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_COLT )] += 6; 
+                        }
+
+                        if (products[i].weapon == WP_AKIMBO) {
+                                COM_BitSet( ent->client->ps.weapons, WP_AKIMBO );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_AKIMBO )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_AKIMBO )] += 6; 
+                        }
+
+                        if (products[i].weapon == WP_SILENCER) {
+                                COM_BitSet( ent->client->ps.weapons, WP_SILENCER );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_SILENCER )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_SILENCER )] += 6; 
+                        }
+
+                        if (products[i].weapon == WP_MAUSER) {
+                                COM_BitSet( ent->client->ps.weapons, WP_MAUSER );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_MAUSER )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_MAUSER )] += 3; 
+                        }
+
+                        if (products[i].weapon == WP_FG42) {
+                                COM_BitSet( ent->client->ps.weapons, WP_FG42 );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_FG42 )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_FG42 )] += 6; 
+                        }
+
+                        if (products[i].weapon == WP_SNOOPERSCOPE) {
+                                COM_BitSet( ent->client->ps.weapons, WP_GARAND );
+                                COM_BitSet( ent->client->ps.weapons, WP_SNOOPERSCOPE );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_SNOOPERSCOPE )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_SNOOPERSCOPE )] += 3; 
+                        }
+
+                        if (products[i].weapon == WP_FG42SCOPE) {
+                                COM_BitSet( ent->client->ps.weapons, WP_FG42SCOPE);
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_FG42SCOPE )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_FG42SCOPE )] += 3; 
+                        }
+
+                        if (products[i].weapon == WP_SNIPERRIFLE) {
+                                COM_BitSet( ent->client->ps.weapons, WP_SNIPERRIFLE );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_SNIPERRIFLE )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_SNIPERRIFLE )] += 3; 
+                        }
+
+                        if (products[i].weapon == WP_GRENADE_PINEAPPLE) {
+                                COM_BitSet( ent->client->ps.weapons, WP_GRENADE_PINEAPPLE );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE )] = 1;
+                        }
+
+                        if (products[i].weapon == WP_GRENADE_LAUNCHER) {
+                                COM_BitSet( ent->client->ps.weapons, WP_GRENADE_LAUNCHER );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_LAUNCHER )] = 1;
+                        }
+
+                        if (products[i].weapon == WP_DYNAMITE) {
+                                COM_BitSet( ent->client->ps.weapons, WP_DYNAMITE );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_DYNAMITE )] = 1;
+                        }
+
+                        if (products[i].weapon == WP_VENOM) {
+                                COM_BitSet( ent->client->ps.weapons, WP_VENOM );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_VENOM )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_VENOM )] += 3; 
+                        }
+
+                        if (products[i].weapon == WP_FLAMETHROWER) {
+                                COM_BitSet( ent->client->ps.weapons, WP_FLAMETHROWER );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_FLAMETHROWER )] += 20;
+                        }
+
+                        if (products[i].weapon == WP_PANZERFAUST) {
+                                COM_BitSet( ent->client->ps.weapons, WP_PANZERFAUST );
+                                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_PANZERFAUST )] += 0;
+                                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_PANZERFAUST )] += 1; 
+                        }
+
+/*
                         it_ent = G_Spawn();
                         VectorCopy( ent->r.currentOrigin, it_ent->s.origin );
                         it_ent->classname = it->classname;
@@ -513,8 +613,9 @@ void Cmd_Buy_f( gentity_t *ent ) {
                         if ( it_ent->inuse ) {
                                 G_FreeEntity( it_ent );
                         } 
-
+*/
                         ent->client->ps.persistant[PERS_SCORE] -= products[i].price;
+                        trap_SendServerCommand( ent-g_entities, va("cp \"You bought a %s\n\"", products[i].name));
                         return;
                 }
 

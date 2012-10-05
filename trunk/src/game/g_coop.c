@@ -76,8 +76,8 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
                 client->ps.weapon = WP_KNIFE;
 
                 COM_BitSet( client->ps.weapons, WP_MP40 );
-                client->ps.ammoclip[BG_FindClipForWeapon( WP_MP40 )] += 32;
-                client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 32;
+                client->ps.ammoclip[BG_FindClipForWeapon( WP_MP40 )] += 0;
+                client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 12;
                 client->ps.weapon = WP_MP40;
 
         }
