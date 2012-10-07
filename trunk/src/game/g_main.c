@@ -2093,8 +2093,10 @@ void LogExit( const char *string ) {
                 } else if (b->ps.persistant[PERS_SCORE] < 0 && a->ps.persistant[PERS_SCORE] > 0) {
                         Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) ); // todo, clientnum of real winner
                 } else { // both are below or above zero, so lets count there other skills
-                        int a_dmdg_ratio = a->sess.damage_given / a->sess.damage_received;
-                        int b_dmdg_ratio = b->sess.damage_given / b->sess.damage_received;
+                        int a_dmgr = (a->sess.damage_received) ? a->sess.damage_received : 1;
+                        int b_dmgr = (b->sess.damage_received) ? b->sess.damage_received : 1;
+                        int a_dmdg_ratio = a->sess.damage_given / a_dmgr;
+                        int b_dmdg_ratio = b->sess.damage_given / b_dmgr;
                         int a_deaths = a->sess.deaths;
                         int b_deaths = b->sess.deaths;
 
