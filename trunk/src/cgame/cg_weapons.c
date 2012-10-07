@@ -3289,9 +3289,16 @@ static qboolean CG_WeaponSelectable( int i ) {
 		return qfalse;
 	}
 
+#ifdef MONEY
+        if (cgs.gametype != GT_COOP_BATTLE) {
+#endif
 	if ( !CG_WeaponHasAmmo( i ) ) {
 		return qfalse;
 	}
+#ifdef MONEY
+        }
+#endif
+
 
 	return qtrue;
 }
