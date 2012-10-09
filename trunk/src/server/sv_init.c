@@ -769,9 +769,9 @@ void SV_Init( void ) {
 	sv_maxPing = Cvar_Get( "sv_maxPing", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_floodProtect = Cvar_Get( "sv_floodProtect", "1", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_allowAnonymous = Cvar_Get( "sv_allowAnonymous", "0", CVAR_SERVERINFO );
-		sv_maxlives = Cvar_Get( "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO );
-		sv_reinforce = Cvar_Get( "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
-		sv_airespawn = Cvar_Get( "g_airespawn", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
+	sv_maxlives = Cvar_Get( "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO );
+	sv_reinforce = Cvar_Get( "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
+	sv_airespawn = Cvar_Get( "g_airespawn", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
 
 	// systeminfo
 	Cvar_Get( "sv_cheats", "0", CVAR_SYSTEMINFO | CVAR_ROM );

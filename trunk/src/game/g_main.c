@@ -2005,22 +2005,20 @@ void LogExit( const char *string ) {
 	gclient_t       *a;
 	gclient_t       *b;
 #endif
-        char cs[MAX_INFO_STRING];
-
+    char cs[MAX_INFO_STRING];
 
 	G_LogPrintf( "Exit: %s\n", string );
-
 	level.intermissionQueued = level.time;
 
 	// this will keep the clients from playing any voice sounds
 	// that will get cut off when the queued intermission starts
 	trap_SetConfigstring( CS_INTERMISSION, "1" );
 
-	// don't send more than 32 scores (FIXME?)
+	// L0 - 8 should be enough..
 	numSorted = level.numConnectedClients;
-	//if ( numSorted > 32 ) {
-//		numSorted = 32;
-//	}
+	if ( numSorted > 8 ) {
+		numSorted = 8;
+	}
 
 	for ( i = 0 ; i < numSorted ; i++ ) {
 		int ping;

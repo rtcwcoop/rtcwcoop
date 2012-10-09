@@ -1546,10 +1546,9 @@ void ClientUserinfoChanged( int clientNum ) {
 
 	trap_SetConfigstring( CS_PLAYERS + clientNum, s );
 
-#ifdef _DEBUG // L0 - Need it atm..
-	G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s ); // L0 - Nvm...I seen why it's off...I'll log differently IPs..
-#endif
-
+	// L0 - Log ip's of players
+	if (!(ent->r.svFlags & SVF_CASTAI))
+		G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s ); 
 }
 
 /*

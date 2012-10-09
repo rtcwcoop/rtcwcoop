@@ -181,18 +181,18 @@ void CG_ParseServerinfo( void ) {
 	mapname = Info_ValueForKey( info, "mapname" );
 	Com_sprintf( cgs.mapname, sizeof( cgs.mapname ), "maps/%s.bsp", mapname );
 
-        // fretn - ui needs this to render the levelshot of this map in the loading screen
-        trap_Cvar_Set( "mapname", Info_ValueForKey( info, "mapname" ) );
+    // fretn - ui needs this to render the levelshot of this map in the loading screen
+    trap_Cvar_Set( "mapname", Info_ValueForKey( info, "mapname" ) );
 
-        cg_limbotime.integer = atoi( Info_ValueForKey( info,"g_limbotime" ) );
+    cg_limbotime.integer = atoi( Info_ValueForKey( info,"g_limbotime" ) );
 
-        trap_Cvar_Set( "cg_maxspawnpoints", Info_ValueForKey( info, "g_maxspawnpoints" ) );
-        trap_Cvar_Set( "cg_maxlives", Info_ValueForKey( info, "g_maxlives" ) );
+    trap_Cvar_Set( "cg_maxspawnpoints", Info_ValueForKey( info, "g_maxspawnpoints" ) );
+    trap_Cvar_Set( "cg_maxlives", Info_ValueForKey( info, "g_maxlives" ) );
 
 	//	Q_strncpyz( cgs.redTeam, Info_ValueForKey( info, "g_redTeam" ), sizeof(cgs.redTeam) );
-//	trap_Cvar_Set("g_redTeam", cgs.redTeam);
-//	Q_strncpyz( cgs.blueTeam, Info_ValueForKey( info, "g_blueTeam" ), sizeof(cgs.blueTeam) );
-//	trap_Cvar_Set("g_blueTeam", cgs.blueTeam);
+	//	trap_Cvar_Set("g_redTeam", cgs.redTeam);
+	//	Q_strncpyz( cgs.blueTeam, Info_ValueForKey( info, "g_blueTeam" ), sizeof(cgs.blueTeam) );
+	//	trap_Cvar_Set("g_blueTeam", cgs.blueTeam);
 }
 
 
