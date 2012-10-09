@@ -1389,7 +1389,7 @@ void ClientThink_real( gentity_t *ent ) {
 
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
-                                if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
+                                if ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) {
                                         limbo( ent, qtrue );
 				} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 					respawn( ent );
@@ -1489,7 +1489,7 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 		}*/
 
 
-                if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
+                if ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) {
                         testtime = level.time % g_limbotime.integer;
                         if ( testtime < lastReinforceTime ) 
                                 do_respawn = 1;

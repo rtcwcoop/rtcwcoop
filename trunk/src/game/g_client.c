@@ -472,7 +472,7 @@ void limbo( gentity_t *ent, qboolean makeCorpse ) {
         //int startclient = ent->client->sess.spectatorClient;
         int startclient = ent->client->ps.clientNum;
 
-        if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
+        if ( g_gametype.integer != GT_COOP_SPEEDRUN && g_spawnpoints.integer != 2 ) {
                 G_Printf( "FIXME: limbo called from wrong gametype.  Shouldn't see this\n" );
                 return;
         }
@@ -554,7 +554,7 @@ void reinforce( gentity_t *ent ) {
         int i = 0;
         gclient_t *rclient;
 
-        if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
+        if ( g_gametype.integer != GT_COOP_SPEEDRUN && g_spawnpoints.integer != 2 ) {
                 G_Printf( "FIXME: reinforce called from wrong gametype.  Shouldn't see this\n" );
                 return;
         }    

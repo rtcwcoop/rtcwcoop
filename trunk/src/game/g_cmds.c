@@ -887,7 +887,7 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
 
         // if spawnpoint triggers are enabled, don't allow manual saving
         if (g_spawnpoints.integer == 2) {
-                trap_SendServerCommand( ent - g_entities, "cp \"Can't save spawnpoint.\n\"" );
+                trap_SendServerCommand( ent - g_entities, "cp \"Can't save spawnpoint, \nFlagzones are activated on the server\n\"" );
                 return;
         }
 
