@@ -849,43 +849,40 @@ void AICast_CheckLoadGame( void ) {
 
 		// not loading a game, we must be in a new level, so look for some persistant data to read in, then save the game
 		if ( ready ) {
-                        int i = 0;
+			int i = 0;
 
-                        if ( g_gametype.integer <= GT_COOP) {
-                                for (i=0; i < MAX_COOP_CLIENTS; i++) {
-                                        gentity_t *tmp;
+            if ( g_gametype.integer <= GT_COOP) {
+				for (i=0; i < MAX_COOP_CLIENTS; i++) {
+					gentity_t *tmp;
 
-                                        G_LoadPersistant(i);     // make sure we save the game after we have brought across the items
+                    G_LoadPersistant(i);     // make sure we save the game after we have brought across the items
 
-                                        // fretn: warning, ugly hacks coming up
-                                        // maxlives and maxspawnpoints are not persistant data across level changes
-                                        tmp = &g_entities[i];
-                                        if (tmp && tmp->client) {
-                                                // reset maxlives
-                                                if ( g_maxlives.integer > 0 ) {
-                                                        if ( g_gametype.integer != GT_COOP )
-                                                                tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
-                                                } else {
-                                                        tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
-                                                }
+                    // fretn: warning, ugly hacks coming up
+                    // maxlives and maxspawnpoints are not persistant data across level changes
+                    tmp = &g_entities[i];
+                    if (tmp && tmp->client) {
+						// reset maxlives
+                        if ( g_maxlives.integer > 0 ) {
+							if ( g_gametype.integer != GT_COOP )
+								tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
+                            } else {
+                                tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+                            }
 
-                                                // reset spawnpoints
-                                                if ( g_maxspawnpoints.integer > 0 ) {
-                                                        tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 ); 
-                                                } else {
-                                                        tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
-                                                }
-                                        }
+                            // reset spawnpoints
+                            if ( g_maxspawnpoints.integer > 0 ) {
+								tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 ); 
+							} else {
+                                tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
+                            }
+						}
+                    }
+            } else {
+				G_LoadPersistant(0);     // make sure we save the game after we have brought across the items
+            }
 
-
-                                }
-
-                        } else {
-                                G_LoadPersistant(0);     // make sure we save the game after we have brought across the items
-                        }
-
-                        // clear out the persid, since the persistent data has been read
-                        trap_Cvar_Set( "persid", "0" );
+            // clear out the persid, since the persistent data has been read
+            trap_Cvar_Set( "persid", "0" );
 
 			trap_Cvar_Set( "g_totalPlayTime", "0" );  // reset play time
 			trap_Cvar_Set( "g_attempts", "0" );
@@ -909,8 +906,8 @@ void AICast_CheckLoadGame( void ) {
 //			trap_SetConfigstring( CS_SCREENFADE, va("0 %i 750", level.time + 500) );
 			// (SA) send a command that will be interpreted for both the screenfade and any other effects (music cues, pregame menu, etc)
 
-// briefing menu will handle transition, just set a cvar for it to check for drawing the 'continue' button
-                        // fretn - also copied to g_client.c in clientbegin
+			// briefing menu will handle transition, just set a cvar for it to check for drawing the 'continue' button
+            // fretn - also copied to g_client.c in clientbegin
 			trap_SendServerCommand( 0, "rockandroll\n" );
 
 			level.reloadPauseTime = level.time + 1100;
@@ -1062,7 +1059,6 @@ int AICast_NoReload( int entnum ) {
 	//
 	return ( ( cs->aiFlags & AIFL_NO_RELOAD ) != 0 );
 }
-
 
 /*
 ==============

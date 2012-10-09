@@ -811,7 +811,7 @@ void SV_Init( void ) {
 
 	sv_reloading = Cvar_Get( "g_reloading", "0", CVAR_ROM );   //----(SA)	added
 
-        Cvar_Get( "g_maxlives", "0", 0 );
+    Cvar_Get( "g_maxlives", "0", 0 );
 
 	// initialize bot cvars so they are listed and can be set before loading the botlib
 	SV_BotInitCvars();
