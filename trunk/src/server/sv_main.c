@@ -532,10 +532,11 @@ void SVC_Status( netadr_t from ) {
 	status[0] = 0;
 	statusLength = 0;
 
-	for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
+	for ( i = 0 ; i < sv_maxcoopclients->integer ; i++ ) { // L0 - COOP :p
 		cl = &svs.clients[i];
-                // fretn - we don't care about bots so don't display them
-		if ( cl->state >= CS_CONNECTED && !(cl->gentity->r.svFlags & SVF_CASTAI) ) {
+                // fretn - we don't care about bots so don't display them		
+										// L0 - Signal11 error is caused by this..
+		if ( cl->state >= CS_CONNECTED /*&& !(cl->gentity->r.svFlags & SVF_CASTAI) */) {		
 			ps = SV_GameClientNum( i );
 			Com_sprintf( player, sizeof( player ), "%i %i \"%s\"\n",
 						 ps->persistant[PERS_SCORE], cl->ping, cl->name );
