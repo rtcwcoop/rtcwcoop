@@ -476,6 +476,32 @@ CONNECTIONLESS COMMANDS
 */
 
 /*
+===============
+L0 - SV_VerifyChallenge
+
+Ported from ET / Author: Bani
+===============
+*/
+qboolean SV_VerifyChallenge(char *challenge) {
+	int i, j;
+
+	if(!challenge) {
+		return qfalse;
+	}
+
+	j = strlen(challenge);
+	if(j > 64) {
+		return qfalse;
+	}
+	for(i = 0; i < j; i++) {
+		if(challenge[i] == '\\' || challenge[i] == '/' || challenge[i] == '%' || challenge[i] == ';' || challenge[i] == '"' || challenge[i] < 32 || /*// non-ascii */ challenge[i] > 126 ) { // non-ascii
+			return qfalse;
+		}
+	}
+	return qtrue;
+}
+
+/*
 ================
 SVC_Status
 
@@ -500,19 +526,24 @@ void SVC_Status( netadr_t from ) {
 		return;
 	}
 
-        // Prevent using getstatus as an amplifier
-        if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-                Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-                        NET_AdrToString( from ) );
-                return;
-        }
+	// L0 - Bani's fix
+	if(!SV_VerifyChallenge(Cmd_Argv(1))) {
+		return;
+	}
 
-        // Allow getstatus to be DoSed relatively easily, but prevent
-        // excess outbound bandwidth usage when being flooded inbound
-        if ( SVC_RateLimit( &bucket, 10, 100 ) ) {
-                Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
-                return;
-        }
+    // Prevent using getstatus as an amplifier
+    if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
+		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
+			NET_AdrToString( from ) );
+    return;
+    }
+
+    // Allow getstatus to be DoSed relatively easily, but prevent
+    // excess outbound bandwidth usage when being flooded inbound
+    if ( SVC_RateLimit( &bucket, 10, 100 ) ) {
+		Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
+    return;
+    }
 
 	strcpy( infostring, Cvar_InfoString( CVAR_SERVERINFO ) );
 
@@ -564,19 +595,34 @@ void SVC_Info( netadr_t from ) {
 	int i, count, countai;
 	char    *gamedir;
 	char infostring[MAX_INFO_STRING];
-        int maxclients = 0;
+    int maxclients = 0;
 
 	// ignore if we are in single player
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
 		return;
 	}
 
-        // Prevent using getinfo as an amplifier
-        if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-                Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-                        NET_AdrToString( from ) ); 
-                return;
-        } 
+	// L0 - bani's fix
+	if(!SV_VerifyChallenge(Cmd_Argv(1))) {
+		return;
+	}
+
+	// L0 - Infostring boom fix..
+	/*
+	 * Check whether Cmd_Argv(1) has a sane length. This was not done in the original Quake3 version which led
+	 * to the Infostring bug discovered by Luigi Auriemma. See http://aluigi.altervista.org/ for the advisory.
+	 */
+	// A maximum challenge length of 128 should be more than plenty.
+	if(strlen(Cmd_Argv(1)) > 128) {
+		return;
+	}
+
+    // Prevent using getinfo as an amplifier
+    if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
+		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
+			NET_AdrToString( from ) ); 
+    return;
+    } 
 
 	// don't count privateclients
 	count = 0;
