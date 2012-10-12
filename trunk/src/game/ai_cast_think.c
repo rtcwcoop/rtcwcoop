@@ -1691,6 +1691,10 @@ void AICast_QueryThink( cast_state_t *cs ) {
 	ent = &g_entities[cs->entityNum];
 	ocs = AICast_GetCastState( cs->enemyNum );
 
+	// fretn: had a segfault at the line "if ( ocs->lastWeaponFired > cs->queryStartTime ) {"
+	if (!ent || !ocs || !cs)
+		return;
+
 	// never crouch while in this state (by choice anyway)
 	cs->attackcrouch_time = 0;
 
