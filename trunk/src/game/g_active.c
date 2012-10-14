@@ -394,7 +394,7 @@ void SpectatorThink( gentity_t *ent, usercmd_t *ucmd ) {
 		// Rafael - Activate
 		// Ridah, made it a latched event (occurs on keydown only)
 		if ( client->latched_buttons & BUTTON_ACTIVATE ) {
-			Cmd_Activate_f( ent );
+			Cmd_Activate_f( ent );			
 		}
 
 		// save results of pmove
@@ -407,7 +407,6 @@ void SpectatorThink( gentity_t *ent, usercmd_t *ucmd ) {
 	if ( ent->flags & FL_NOFATIGUE ) {
 		ent->client->ps.sprintTime = 20000;
 	}
-
 
 	client->oldbuttons = client->buttons;
 	client->buttons = ucmd->buttons;
@@ -1372,6 +1371,8 @@ void ClientThink_real( gentity_t *ent ) {
 	// Ridah, made it a latched event (occurs on keydown only)
 	if ( client->latched_buttons & BUTTON_ACTIVATE ) {
 		Cmd_Activate_f( ent );
+		// L0 - Shove
+		Cmd_Push_f(ent);
 	}
 
 	if ( ent->flags & FL_NOFATIGUE ) {

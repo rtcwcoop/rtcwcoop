@@ -418,6 +418,10 @@ struct gentity_s {
 	int voiceChatSquelch;                   // DHM - Nerve
 	int voiceChatPreviousTime;              // DHM - Nerve
 	int lastBurnedFrameNumber;              // JPW - Nerve   : to fix FT instant-kill exploit
+
+	// L0 
+	int lastPushTime;	// Shove
+	// End
 };
 
 // Ridah
@@ -1297,6 +1301,8 @@ extern vmCvar_t g_gamelocked;
 extern vmCvar_t	sv_hostname;
 extern vmCvar_t g_extendedLog;
 extern vmCvar_t g_votesPerUser;
+extern vmCvar_t g_shove;
+extern vmCvar_t g_shoveAmount;
 // End
 
 void    trap_Print( const char *fmt );
@@ -1533,6 +1539,11 @@ void G_HistoricalTraceEnd( gentity_t *ent );
 void G_Trace( gentity_t* ent, trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentmask );
 void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
 // end
+
+// L0 
+// Shove
+void Cmd_Push_f(gentity_t* ent);
+// End
 
 #include "g_coop.h"
 

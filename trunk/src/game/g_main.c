@@ -161,6 +161,9 @@ vmCvar_t	g_gamelocked;	// Controls if Admin locked the game so players can't joi
 vmCvar_t	sv_hostname;	// So it's more accesible
 vmCvar_t	g_extendedLog;	// Logs various admin actions in a seperate logs
 vmCvar_t	g_votesPerUser; // How many votes can user call each game
+// General
+vmCvar_t	g_shove;		// Enable - Disable shove 
+vmCvar_t	g_shoveAmount;	// How far one is pushed
 // end
 
 cvarTable_t gameCvarTable[] = {
@@ -290,6 +293,8 @@ cvarTable_t gameCvarTable[] = {
 	{ &sv_hostname, "sv_hostname", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_extendedLog, "g_extendedLog", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
+	{ &g_shove, "g_shove", "0", CVAR_ARCHIVE, 0, qtrue},
+	{ &g_shoveAmount, "g_shoveAmount", "0.8", CVAR_ARCHIVE, 0, qtrue}, // Don't give to much...
 	// End
 
 	// cs: et sdk antilag

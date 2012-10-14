@@ -2999,6 +2999,59 @@ void Cmd_AlertEntity_f() {
 }
 #endif
 
+/*
+=================
+L0 - Shove players away
+
+Ported from BOTW source.
+=================
+*/
+void Cmd_Push_f(gentity_t* ent)
+{
+	gentity_t *target;
+	trace_t tr;
+	vec3_t start, end, forward;
+	float shoveAmount;
+
+	if (!g_shove.integer)	
+		return;
+
+	if (ent->client->ps.stats[STAT_HEALTH] <= 0)	
+		return;
+
+	if (level.time < (ent->lastPushTime + 600))		
+		return;
+
+	AngleVectors(ent->client->ps.viewangles, forward, NULL, NULL);
+
+	VectorCopy(ent->s.pos.trBase, start);
+	start[2] += ent->client->ps.viewheight;
+	VectorMA (start, 128, forward, end);	
+
+	trap_Trace (&tr, start, NULL, NULL, end, ent->s.number, CONTENTS_BODY);
+
+	if (tr.entityNum >= MAX_CLIENTS)
+		return;
+
+	target = &(g_entities[tr.entityNum]);
+
+	if ((!target->inuse) || (!target->client))	
+		return;
+
+	if (target->client->ps.stats[STAT_HEALTH] <= 0)	
+		return;
+
+	// Don't push the bots..
+	if (target->r.svFlags & SVF_BOT)
+		return;
+
+	shoveAmount = 512 * g_shoveAmount.value;
+	VectorMA(target->client->ps.velocity, shoveAmount, forward, target->client->ps.velocity);
+	// it's broadcasted globaly but only to near by players
+	G_AddEvent(target, EV_GENERAL_SOUND, G_SoundIndex("sound/multiplayer/vo_revive.wav")); // Do we need a new sound for this?
+
+	ent->lastPushTime = level.time;	
+}
 
 /*
 =================
@@ -3013,7 +3066,6 @@ void ClientCommand( int clientNum ) {
 	if ( !ent->client ) {
 		return;     // not fully in game yet
 	}
-
 
 	trap_Argv( 0, cmd, sizeof( cmd ) );
 
