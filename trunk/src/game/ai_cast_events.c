@@ -280,7 +280,10 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 		// make sure the client doesn't forget about this entity until it's set to "dead" frame
 		// otherwise it might replay it's death animation if it goes out and into client view
-		self->r.svFlags |= SVF_BROADCAST;
+		// fretn: I'm not sure if above comment still applies, I couldnt reproduce it ..
+		// but we really dont want to put all these bodies (think g_reinforce 2) in the players PVS
+		// thanks to {SSF}Sage for telling me, this should keep fps a bit higher on some maps
+		//self->r.svFlags |= SVF_BROADCAST;
 
 		self->takedamage = qtrue;   // can still be gibbed
 
