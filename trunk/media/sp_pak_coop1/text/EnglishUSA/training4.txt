@@ -1,0 +1,12 @@
+Exercise 4: Climbing
+
+This exercise will teach you how to climb a ladder.
+
+Instructions:
+
+Ascend the ladder in front of you by moving forward towards the parallel rungs of the structure. When you are close enough to ascend, the 'ladder' icon will appear at the bottom of your display. This will notify you when you have the ability to climb. Move forward while looking up towards the sky. Continue to move forward (while looking up) until you reach the top of the structure. Move forward to exit the ladder. 
+
+Once you have completed this exercise follow the directions on the clipboard located at the top of this station. 
+
+Time Limit: None
+

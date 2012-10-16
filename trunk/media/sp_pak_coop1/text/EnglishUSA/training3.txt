@@ -1,0 +1,13 @@
+Exercise 3: Jump and Crouch
+
+The following set of obstacles will teach you how to jump and crouch. 
+
+Instructions:
+
+While moving forward press your 'jump' key to spring from the ground in a single motion while moving over the bundle of logs.
+
+When you reach the suspended log frame, you will not be allowed to pass through it while moving in your normal posture. Press the 'crouch' key while moving forward. Your entire body will stoop closer to the ground allowing you to pass. 
+
+Practice these two techniques until you are comfortable with your ability. When you are ready, proceed across the water obstacle until you reach the next station.
+
+Time Limit: None
