@@ -885,6 +885,10 @@ typedef struct {
 	int numArtifacts;
 	int numArtifactsFound;
 //----(SA)	end
+	// funstats
+	int airbourne;
+	int destroyer;
+	int pickupmaster;
 
 
 	// low ammo warning state

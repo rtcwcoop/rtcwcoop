@@ -254,6 +254,9 @@ gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
 void Coop_DeleteStats( int clientnum ) { 
         gclient_t *cl = &level.clients[clientnum];
 
+	cl->sess.prop_damage = 0;
+	cl->sess.airtime = 0;
+	cl->sess.pickups = 0;
         cl->sess.damage_given = 0;
         cl->sess.damage_received = 0;
         cl->sess.deaths = 0;
@@ -266,6 +269,12 @@ void Coop_DeleteStats( int clientnum ) {
 // Records accuracy, damage, and kill/death stats.
 void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod ) { 
         int dmg;
+
+
+	if ( !targ->client && attacker && attacker->client) {
+		attacker->client->sess.prop_damage += dmg_ref;	
+		return;
+	}
 
         // Keep track of only active player-to-player interactions in a real game
         if ( !targ || !targ->client ||

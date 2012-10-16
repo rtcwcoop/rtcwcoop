@@ -1353,6 +1353,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 
                         //G_Printf("health at: %d\n", targ->health);
                         if ( targ->health <= 0 ) {
+                                Coop_AddStats( targ, attacker, take, mod );
                                 if ( client ) {
                                         targ->flags |= FL_NO_KNOCKBACK;
                                 }

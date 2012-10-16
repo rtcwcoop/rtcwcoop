@@ -658,6 +658,8 @@ void respawn( gentity_t *ent ) {
 
 	ClientSpawn( ent );
 
+	ent->client->lastGroundTime = level.time;
+
 	// add a teleportation effect
 	tent = G_TempEntity( ent->client->ps.origin, EV_PLAYER_TELEPORT_IN );
 	tent->s.clientNum = ent->s.clientNum;

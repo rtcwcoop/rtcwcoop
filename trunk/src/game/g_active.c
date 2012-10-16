@@ -1408,6 +1408,20 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 	// done.
 
+	// fretn : funstats, calculate the time in the air
+	if ( ent->s.groundEntityNum == ENTITYNUM_NONE) {
+
+		ent->client->wasOnGround = qfalse;
+		ent->client->currentAirtime = level.time - ent->client->lastGroundTime;
+	} else {
+		if (!ent->client->wasOnGround) {
+			//if (ent->client->sess.sessionTeam != TEAM_SPECTATOR)
+				ent->client->sess.airtime += ent->client->currentAirtime;
+		}
+		ent->client->lastGroundTime = level.time;
+		ent->client->wasOnGround = qtrue;
+	}
+
 	// perform once-a-second actions
 	ClientTimerActions( ent, msec );
 }

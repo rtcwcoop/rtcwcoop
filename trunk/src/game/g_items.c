@@ -588,6 +588,9 @@ void Touch_Item( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 		return;
 	}
 
+	// fretn: logging for fun stats
+	other->client->sess.pickups++;
+
 	// L0 - I never seen the point of this!? On top of that with all 1.0 drop reloaders it just spams console & lags ...
 	//G_LogPrintf( "Item: %i %s\n", other->s.number, ent->item->classname );
 

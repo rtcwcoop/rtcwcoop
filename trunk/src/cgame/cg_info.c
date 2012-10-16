@@ -180,12 +180,11 @@ typedef struct {
 // this defines the layout of the mission stats
 // NOTE: these must match the stats sent in AICast_ScriptAction_ChangeLevel()
 static statsItem_t statsItems[] = {
-	{ "end_time",        168,    214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%02i:%02i:%02i",    348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  3 },
+	{ "end_time",        134,    214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%02i:%02i:%02i",    348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  3 },
 	{ "end_objectives",  28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
 	{ "end_secrets", 28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
 	{ "end_treasure",    28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {0.62f, 0.56f,  0.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
 	{ "end_attempts",    28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i",                348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  1 },
-
 	{ NULL }
 };
 
@@ -278,6 +277,7 @@ void CG_DrawExitStats( void ) {
 	float color2[4] = {0, 0, 0, 1};
 	const char *str;
 	char *mstats, *token;
+	clientInfo_t *ci;
 
 	#define MAX_STATS_VARS  64
 	int vars[MAX_STATS_VARS];
@@ -288,6 +288,10 @@ void CG_DrawExitStats( void ) {
 		// no draw if any menu's are up	 (or otherwise paused)
 		return;
 	}
+
+
+	if (cg.showScores)
+		return;
 
 	color = CG_FadeColor( cg.cursorHintTime, cg.cursorHintFade );
 
@@ -312,29 +316,29 @@ void CG_DrawExitStats( void ) {
 
 	// background
 	color2[3] *= 0.6f;
-	CG_FilledBar( 150, 104, 340, 230, color2, NULL, NULL, 1.0f, 0 );
+	CG_FilledBar( 150, 84, 340, 270, color2, NULL, NULL, 1.0f, 0 );
 
 	color2[0] = color2[1] = color2[2] = 0.3f;
 	color2[3] *= 0.6f;
 
 	// border
-	CG_FilledBar( 148, 104, 2, 230, color2, NULL, NULL, 1.0f, 0 );    // left
-	CG_FilledBar( 490, 104, 2, 230, color2, NULL, NULL, 1.0f, 0 );    // right
-	CG_FilledBar( 148, 102, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // top
-	CG_FilledBar( 148, 334, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // bot
+	CG_FilledBar( 148, 84, 2, 270, color2, NULL, NULL, 1.0f, 0 );    // left
+	CG_FilledBar( 490, 84, 2, 270, color2, NULL, NULL, 1.0f, 0 );    // right
+	CG_FilledBar( 148, 82, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // top
+	CG_FilledBar( 148, 354, 344, 2, color2, NULL, NULL, 1.0f, 0 );    // bot
 
 
 	// text boxes
 	color2[0] = color2[1] = color2[2] = 0.4f;
-	for ( i = 0; i < 5; i++ ) {
-		CG_FilledBar( 170, 154 + ( 28 * i ), 300, 20, color2, NULL, NULL, 1.0f, 0 );
+	for ( i = 0; i < 8; i++ ) {
+		CG_FilledBar( 170, 119 + ( 28 * i ), 300, 20, color2, NULL, NULL, 1.0f, 0 );
 	}
 
 
 	// green title
 	color2[0] = color2[2] = 0;
 	color2[1] = 0.3f;
-	CG_FilledBar( 150, 104, 340, 20, color2, NULL, NULL, 1.0f, 0 );
+	CG_FilledBar( 150, 84, 340, 20, color2, NULL, NULL, 1.0f, 0 );
 
 	color2[0] = color2[1] = color2[2] = 0.2f;
 
@@ -343,19 +347,19 @@ void CG_DrawExitStats( void ) {
 	color2[3] = color[3];
 //	CG_Text_Paint(280, 120, 2, 0.25f, color2, va("%s", CG_translateString("end_title")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 	//----(SA)	scale change per MK
-	CG_Text_Paint( 270, 120, 2, 0.313f, color2, va( "%s", CG_translateString( "end_title" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	CG_Text_Paint( 270, 100, 2, 0.313f, color2, va( "%s", CG_translateString( "end_title" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 
 	color2[0] = color2[1] = color2[2] = 1;
 	if ( cg.cursorHintIcon == HINT_NOEXIT ) {
 		// "exit not available"
 //		CG_Text_Paint(250, 320, 2, 0.3f, color2, va("%s", CG_translateString("end_noexit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 		//----(SA)	scale change per MK
-		CG_Text_Paint( 260, 320, 2, 0.225f, color2, va( "%s", CG_translateString( "end_noexit" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+		CG_Text_Paint( 260, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "end_noexit" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 	} else {
 		// "forward to proceed"
 //		CG_Text_Paint(230, 320, 2, 0.3f, color2, va("%s", CG_translateString("end_exit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 		//----(SA)	scale change per MK
-		CG_Text_Paint( 250, 320, 2, 0.225f, color2, va( "%s", CG_translateString( "end_exit" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+		CG_Text_Paint( 250, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "end_exit" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 	}
 
 	mstats = (char*)str + 2;    // add offset for 's='
@@ -425,6 +429,17 @@ void CG_DrawExitStats( void ) {
 	}
 	token = COM_Parse( &mstats );
 
+	ci = &cgs.clientinfo[cg.scores[cg.destroyer].client];
+	CG_Text_Paint(214, y+28, 2, 0.3, statsItems[0].formatColor, "Destructor", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+	CG_Text_Paint(348, y+28, 2, 0.3, statsItems[0].formatColor, va( "%s", ci->name), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE);
+
+	ci = &cgs.clientinfo[cg.scores[cg.airbourne].client];
+	CG_Text_Paint(214, y+(2*28), 2, 0.3, statsItems[1].formatColor, "Airbourne ranger:", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+	CG_Text_Paint(348, y+(2*28), 2, 0.3, statsItems[1].formatColor, va( "%s", ci->name), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE);
+
+	ci = &cgs.clientinfo[cg.scores[cg.pickupmaster].client];
+	CG_Text_Paint(214, y+(3*28), 2, 0.3, statsItems[2].formatColor, "Pickup artist:", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+	CG_Text_Paint(348, y+(3*28), 2, 0.3, statsItems[2].formatColor, va( "%s", ci->name), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE);
 // end (parse it)
 }
 

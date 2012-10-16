@@ -197,6 +197,20 @@ void CG_ParseServerinfo( void ) {
 
 
 //----(SA)	added
+static void CG_ParseMissionFunStats( void ) {
+	const char *info;
+	char *token;
+
+	info = CG_ConfigString( CS_MISSIONSTATS_FUN );
+
+	token = COM_Parse( (char **)&info);
+	cg.destroyer = atoi(token);
+	token = COM_Parse( (char **)&info);
+	cg.airbourne = atoi(token);
+	token = COM_Parse( (char **)&info);
+	cg.pickupmaster = atoi(token);
+
+}
 /*
 ==============
 CG_ParseMissionStats
@@ -524,6 +538,8 @@ static void CG_ConfigStringModified( void ) {
 //----(SA)
 	} else if ( num == CS_SHADERSTATE )   {
 		CG_ShaderStateChanged();
+	} else if ( num == CS_MISSIONSTATS_FUN ) {  
+		CG_ParseMissionFunStats();
 	}
 
 }

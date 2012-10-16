@@ -1122,10 +1122,16 @@ int G_SendMissionStats() {
 	int i, j, attempts = 0, playtime = 0, minutes, objs = 0, sec = 0, treas = 0;
 	int canExit = 0;
 
-    // fretn
-    vmCvar_t maptime;
-    char mapname[MAX_QPATH];
-    static qboolean maptime_saved = qfalse;
+	// fretn
+	vmCvar_t maptime;
+	char mapname[MAX_QPATH];
+	static qboolean maptime_saved = qfalse;
+	int max_prop_damage = 0;
+	int max_airtime = 0;
+	int max_pickups = 0;
+	int pickup_award = 0;
+	int airbourne_award = 0;
+	int prop_damage_award = 0;
 
     if (g_gametype.integer > GT_COOP) {
 		player = AICast_FindEntityForName( "player" );
@@ -1191,14 +1197,39 @@ int G_SendMissionStats() {
 	Q_strcat( cmd, sizeof( cmd ), va( ",%i,%i", treas, level.numTreasure ) );
 
 	// attempts
-    if ( g_gametype.integer > GT_COOP )
-		Q_strcat( cmd, sizeof( cmd ), va( ",%i", attempts ) );
-    else
-        Q_strcat( cmd, sizeof( cmd ), va( ",0" ) );
+	if ( g_gametype.integer > GT_COOP )
+	    Q_strcat( cmd, sizeof( cmd ), va( ",%i", attempts ) );
+	else
+	    Q_strcat( cmd, sizeof( cmd ), va( ",0" ) );
 
 //	trap_Cvar_Set( "g_missionStats", cmd );
 	// changing to a configstring (should help w/ savegame, no?)
 	trap_SetConfigstring( CS_MISSIONSTATS, cmd );
+
+	// funstats: destroyer,airtime,pickupmaster
+
+	for (i=0; i<MAX_COOP_CLIENTS; i++) {
+			if (level.clients[ level.sortedClients[i] ].sess.prop_damage > max_prop_damage) {
+				max_prop_damage = level.clients[ level.sortedClients[i] ].sess.prop_damage;
+				prop_damage_award = level.sortedClients[i];
+			}
+			if (level.clients[ level.sortedClients[i] ].sess.airtime > max_airtime) {
+				max_airtime = level.clients[ level.sortedClients[i] ].sess.airtime;
+				airbourne_award = level.sortedClients[i];
+			}
+			if (level.clients[ level.sortedClients[i] ].sess.pickups > max_pickups) {
+				max_pickups = level.clients[ level.sortedClients[i] ].sess.pickups;
+				pickup_award = level.sortedClients[i];
+			}
+	}
+
+	memset( cmd, 0, sizeof( cmd ) );
+	if ( g_gametype.integer <= GT_COOP ) {
+	    Q_strcat( cmd, sizeof( cmd ), va( "%d %d %d", prop_damage_award, airbourne_award, pickup_award ) );
+	}
+
+	trap_SetConfigstring( CS_MISSIONSTATS_FUN, cmd );
+
 
 	return canExit;
 }
