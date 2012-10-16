@@ -594,10 +594,12 @@ void Con_DrawNotify( void ) {
 			if ( ( text[x] & 0xff ) == ' ' ) {
 				continue;
 			}
-			if ( ( ( text[x] >> 8 ) & 7 ) != currentColor ) {
-				currentColor = ( text[x] >> 8 ) & 7;
-				re.SetColor( g_color_table[currentColor] );
-			}
+			// L0 - Colors / Show in console as well..
+			if(((text[x] >> 8) & COLOR_BITS) != currentColor)
+			{
+				currentColor = (text[x] >> 8) & COLOR_BITS;
+				re.SetColor(g_color_table[currentColor]);
+			} // End
 			SCR_DrawSmallChar( cl_conXOffset->integer + con.xadjust + ( x + 1 ) * SMALLCHAR_WIDTH, v, text[x] & 0xff );
 		}
 
@@ -741,10 +743,11 @@ void Con_DrawSolidConsole( float frac ) {
 				continue;
 			}
 
-			if ( ( ( text[x] >> 8 ) & 7 ) != currentColor ) {
-				currentColor = ( text[x] >> 8 ) & 7;
+			// L0 - colors / Console fix
+			if ( ( ( text[x] >> 8 ) & COLOR_BITS ) != currentColor ) {
+				currentColor = ( text[x] >> 8 ) & COLOR_BITS;
 				re.SetColor( g_color_table[currentColor] );
-			}
+			} // End
 			SCR_DrawSmallChar(  con.xadjust + ( x + 1 ) * SMALLCHAR_WIDTH, y, text[x] & 0xff );
 		}
 	}
