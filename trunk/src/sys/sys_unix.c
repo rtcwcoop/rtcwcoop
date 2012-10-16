@@ -57,11 +57,16 @@ char *Sys_DefaultHomePath(void)
 		{
 			Q_strncpyz( homePath, p, sizeof( homePath ) );
 #ifdef MACOS_X
-			Q_strcat( homePath, sizeof( homePath ),
-					"/Library/Application Support/Wolfenstein" );
+			Q_strcat( homePath, sizeof( homePath ), "/Library/Application Support/Wolfenstein" );
 #else
 			Q_strcat( homePath, sizeof( homePath ), "/.wolf" );
-#endif
+#endif		
+			// L0 - Try to make a directory..
+			if ( mkdir( homePath, 0777 ) ) {
+				if ( errno != EEXIST ) {
+					Sys_Error( "Unable to create directory \"%s\", error is %s(%d)\n", homePath, strerror( errno ), errno );
+				}
+			} // End			
 		}
 	}
 
