@@ -852,30 +852,30 @@ void AICast_CheckLoadGame( void ) {
 			int i = 0;
 
             if ( g_gametype.integer <= GT_COOP) {
-				for (i=0; i < MAX_COOP_CLIENTS; i++) {
-					gentity_t *tmp;
+                    for (i=0; i < MAX_COOP_CLIENTS; i++) {
+                            gentity_t *tmp;
 
-                    G_LoadPersistant(i);     // make sure we save the game after we have brought across the items
+                            G_LoadPersistant(i);     // make sure we save the game after we have brought across the items
 
-                    // fretn: warning, ugly hacks coming up
-                    // maxlives and maxspawnpoints are not persistant data across level changes
-                    tmp = &g_entities[i];
-                    if (tmp && tmp->client) {
-						// reset maxlives
-                        if ( g_maxlives.integer > 0 ) {
-							if ( g_gametype.integer != GT_COOP )
-								tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
-                            } else {
-                                tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+                            // fretn: warning, ugly hacks coming up
+                            // maxlives and maxspawnpoints are not persistant data across level changes
+                            tmp = &g_entities[i];
+                            if (tmp && tmp->client) {
+                                                        // reset maxlives
+                                if ( g_maxlives.integer > 0 ) {
+                                    if ( g_gametype.integer != GT_COOP )
+                                            tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
+                                    } else {
+                                            tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+                                    }
+
+                                    // reset spawnpoints
+                                    if ( g_maxspawnpoints.integer > 0 ) {
+                                            tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 ); 
+                                    } else {
+                                            tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
+                                    }
                             }
-
-                            // reset spawnpoints
-                            if ( g_maxspawnpoints.integer > 0 ) {
-								tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 ); 
-							} else {
-                                tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
-                            }
-						}
                     }
             } else {
 				G_LoadPersistant(0);     // make sure we save the game after we have brought across the items

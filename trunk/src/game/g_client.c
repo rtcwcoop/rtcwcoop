@@ -634,22 +634,23 @@ void respawn( gentity_t *ent ) {
 
 	ent->client->ps.pm_flags &= ~PMF_LIMBO; // JPW NERVE turns off limbo
 
-    // DHM - Nerve :: Decrease the number of respawns left
-    if ( g_maxlives.integer > 0 && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 ) {
-		// fretn
-        // the team looses a life, so -- for everyone
-        if ( g_sharedlives.integer == 1) {
-			gentity_t *tmpent;
-            int i;
-
-            for ( i = 0; i < level.maxclients; i++ ) {
-				tmpent = &g_entities[i];
-                tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
-            }
-        } else {
-			ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
-        }
+        // DHM - Nerve :: Decrease the number of respawns left
+        if ( g_maxlives.integer > 0 && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 && g_sharedlives.integer == 0 ) {
+                ent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
 	}
+
+        // fretn
+        // the team looses a life, so -- for everyone
+        if (g_maxlives.integer > 0 && g_sharedlives.integer == 1 ) {
+                gentity_t *tmpent;
+                int i;
+
+                for ( i = 0; i < level.maxclients; i++ ) {
+                        tmpent = &g_entities[i];
+                        if (tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0)
+                                tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT]--;
+                }
+        }
 
 	// DHM - Nerve :: Already handled in 'limbo()'
 	if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
