@@ -6,17 +6,17 @@ else
         TARGET="debug"
 fi
 
-PAKFILE=sp_pak_coop2.pk3
+PAKFILE=sp_pak_coop1.pk3
 ORIGINALFOLDER=$(pwd)
 CMAKEFOLDER=cmake
 
-cd media/sp_pak_coop2
+cd media/sp_pak_coop1
 
 #zip -r $PAKFILE models/players/coop/* models/movespeeds/* maps/* scripts/* ui/* ./* levelshots/*
 zip -r $PAKFILE ./ -x "*.svn*"
 
 if [ "`uname`" = "Darwin" ]; then
-        cp $PAKFILE ~/Library/Application\ Support/Wolfenstein/main/
+        cp $PAKFILE ~/Documents/rtcwcoop/main/
 fi
 if [ "`uname`" = "Linux" ]; then
         cp $PAKFILE ~/.wolf/main
