@@ -143,7 +143,9 @@ void AICast_trigger_trigger( gentity_t *ent, gentity_t *activator ) {
 		return;     // can't retrigger until the wait is over
 	}
 
-	ent->activator = AICast_FindEntityForName( ent->aiName );
+	// fretn - we want the caststate of the activator not of the first client aka "player"
+	//ent->activator = AICast_FindEntityForName( ent->aiName );
+	ent->activator = activator;
 	if ( ent->activator ) { // they might be dead
 		// trigger the script event
 		AICast_ScriptEvent( AICast_GetCastState( ent->activator->s.number ), "trigger", ent->target );

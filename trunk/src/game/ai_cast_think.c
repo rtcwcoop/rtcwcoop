@@ -1036,6 +1036,7 @@ void AICast_StartServerFrame( int time ) {
 		return;         // no time has elapsed
 	}
 
+	// fretn : fixme ... 
 	pcs = AICast_GetCastState( 0 );
 
 //G_Printf( "AI startserverframe: %i\n", time );
@@ -1052,7 +1053,9 @@ void AICast_StartServerFrame( int time ) {
 	}
 	//
 	// process player's current script if it exists
-	AICast_ScriptRun( AICast_GetCastState( 0 ), qfalse );
+	// fretn : run this for all the players
+	for ( i=0; i<MAX_COOP_CLIENTS; i++)
+		AICast_ScriptRun( AICast_GetCastState( i ), qfalse );
 	//
 	//AICast_SightUpdate( (int)((float)SIGHT_PER_SEC * ((float)elapsed / 1000)) );
 	//
