@@ -17,6 +17,7 @@ player
 		accum 1 set 0
 		accum 2 set 0 // don't remove exit trigger
 		objectivesneeded 2
+		numsecrets 7
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
@@ -27,8 +28,9 @@ player
 
 		mu_fade 0 1500
 		mu_queue sound/music/c_military
-		trigger dummy cinematic1
-		trigger player cam1
+		//trigger dummy cinematic1
+		//trigger player cam1
+		trigger dummy cine1_cleanup
 		
 		// Weapons
 		giveweapon weapon_knife

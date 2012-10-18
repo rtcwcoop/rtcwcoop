@@ -16,6 +16,7 @@ player
 		suggestweapon weapon_mp40
 		cvar g_episode 1
 		objectivesneeded 2
+		numsecrets 2
 
 
 		abort_if_loadgame
@@ -26,8 +27,9 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/m_stealth
-		trigger bookshelf cinematic1
-		trigger player cam0
+		//trigger bookshelf cinematic1
+		//trigger player cam0
+		trigger bookshelf open
 
 		// Weapons
 		giveweapon weapon_knife	

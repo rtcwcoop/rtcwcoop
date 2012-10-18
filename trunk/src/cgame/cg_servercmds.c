@@ -1390,6 +1390,9 @@ static void CG_ServerCommand( void ) {
 	}
 
 	if ( !strcmp( cmd, "stopCam" ) ) {
+#ifndef INGAME_CUTSCENES
+        return;
+#endif
 		CG_StopCamera();
 		return;
 	}

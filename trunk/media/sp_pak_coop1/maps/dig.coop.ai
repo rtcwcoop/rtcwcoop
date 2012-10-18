@@ -16,6 +16,7 @@ player
 		accum 1 set 0
 		accum 2 set 0 // don't remove exit trigger
 		objectivesneeded 2
+		numsecrets 2
 		mu_fade 0 1000
 		mu_queue sound\music\x_atmos
 	}

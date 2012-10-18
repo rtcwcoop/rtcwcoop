@@ -23,6 +23,7 @@ player
 		cvar g_episode 5
 
 		objectivesneeded 2
+		numsecrets 2
 
 		mu_fade 0 1000
 		mu_queue sound/music/m_drums

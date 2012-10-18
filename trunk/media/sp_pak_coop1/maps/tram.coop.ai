@@ -16,6 +16,7 @@ player
 		accum 1 set 0
 		accum 2 set 0 // don't remove exit trigger
 		objectivesneeded 3
+		numsecrets 0
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1

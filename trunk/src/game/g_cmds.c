@@ -2147,6 +2147,10 @@ Cmd_StopCamera_f
 void Cmd_StopCamera_f( gentity_t *ent ) {
 	gentity_t *sp;
 
+#ifndef INGAME_CUTSCENES
+	return;
+#endif
+
 	if ( ent->client->cameraPortal ) {
 		// send a script event
 		G_Script_ScriptEvent( ent->client->cameraPortal, "stopcam", "" );

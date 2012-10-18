@@ -23,6 +23,7 @@ player
 		// Weapons
 
 		objectivesneeded 7
+		numsecrets 6
 		// Ammo
 		//setammo clips
 		abort_if_loadgame

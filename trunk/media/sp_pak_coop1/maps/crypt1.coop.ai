@@ -14,6 +14,7 @@ player
 		accum 3 set 0 // don't remove exit trigger
 		cvar g_episode 1
 		objectivesneeded 2
+		numsecrets 1
 		suggestweapon weapon_mp40
 
 		abort_if_loadgame

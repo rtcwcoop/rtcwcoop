@@ -15,6 +15,7 @@ player
 		accum 1 set 0 // controls streaming music
 		accum 2 set 0 // don't remove exit trigger
 		objectivesneeded 1
+		numsecrets 4
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1

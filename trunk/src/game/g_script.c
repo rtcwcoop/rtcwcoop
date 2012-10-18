@@ -222,10 +222,11 @@ g_script_stack_action_t *G_Script_ActionForString( char *string ) {
 	for ( i = 0; gScriptActions[i].actionString; i++ )
 	{
 		if ( !Q_strcasecmp( string, gScriptActions[i].actionString ) ) {
-			if ( !Q_strcasecmp( string, "foundsecret" ) ) {
+			// every map now has to define the number of secrets in the .coop.ai file
+			/*if ( !Q_strcasecmp( string, "foundsecret" ) ) {
 				level.numSecrets++;
 				G_SendMissionStats();
-			}
+			}*/
 			return &gScriptActions[i];
 		}
 	}

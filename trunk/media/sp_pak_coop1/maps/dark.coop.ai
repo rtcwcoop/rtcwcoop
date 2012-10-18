@@ -13,6 +13,7 @@ player
 		cvar g_episode 5
 
 		objectivesneeded 2
+		numsecrets 1
 
 		// Items
 

@@ -15,6 +15,7 @@ player
 		cvar g_episode 4
 		objectivesneeded 3
 		suggestweapon weapon_fg42
+		numsecrets 0
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_2

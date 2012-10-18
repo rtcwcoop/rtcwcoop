@@ -12,6 +12,7 @@ player
 		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 5
 		objectivesneeded 2		// taken down to 
+		numsecrets 1
 
 		abort_if_loadgame
 		mu_start sound/music/m_drums

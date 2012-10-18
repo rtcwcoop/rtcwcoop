@@ -13,6 +13,7 @@ player
 		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 6
 		objectivesneeded 1
+		numsecrets 2
 		mu_fade 0 1000
 		mu_queue sound\music\c_chant
 	}

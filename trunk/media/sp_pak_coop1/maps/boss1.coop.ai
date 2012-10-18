@@ -16,6 +16,7 @@ player
 		accum 3 set 0 // don't remove exit trigger
 		cvar g_episode 1
 		objectivesneeded 2
+		numsecrets 0
 
 		abort_if_loadgame
 		mu_fade 0 1000

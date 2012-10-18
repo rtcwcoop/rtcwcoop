@@ -20,6 +20,7 @@ player
 
 		cvar g_episode 6
 		objectivesneeded 1		
+		numsecrets 0
 	}
 
 	playerstart

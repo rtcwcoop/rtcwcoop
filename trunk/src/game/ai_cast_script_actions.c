@@ -2102,6 +2102,27 @@ qboolean AICast_ScriptAction_ObjectivesNeeded( cast_state_t *cs, char *params ) 
 	return qtrue;
 }
 
+/*
+=================
+AICast_ScriptAction_NumSecrets
+
+  syntax: numsecrets <num_secrets>
+=================
+*/
+qboolean AICast_ScriptAction_NumSecrets( cast_state_t *cs, char *params ) {
+	char *pString, *token;
+
+	pString = params;
+
+	token = COM_ParseExt( &pString, qfalse );
+	if ( !token[0] ) {
+		G_Error( "AI Scripting: numsecrets requires a num_secrets identifier\n" );
+	}
+
+	level.numSecrets = atoi( token );
+
+	return qtrue;
+}
 
 /*
 =================
@@ -2445,7 +2466,7 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	char *pch, *pch2, *newstr;
 	gentity_t   *player;
 	qboolean silent = qfalse, endgame = qfalse, savepersist = qfalse;
-	int exitTime = 8000;
+	int exitTime = 20000;
 
 
 	player = GetFirstValidPlayer(qtrue);
@@ -2924,20 +2945,32 @@ qboolean ScriptStartCam( cast_state_t *cs, char *params, qboolean black ) {
 }
 
 qboolean AICast_ScriptAction_StartCam( cast_state_t *cs, char *params ) {
+#ifndef INGAME_CUTSCENES
+        return qtrue;
+#endif
 	return ScriptStartCam( cs, params, qfalse );
 }
 qboolean AICast_ScriptAction_StartCamBlack( cast_state_t *cs, char *params ) {
+#ifndef INGAME_CUTSCENES
+        return qtrue;
+#endif
 	return ScriptStartCam( cs, params, qtrue );
 }
 
 
 //----(SA)	added
 qboolean AICast_ScriptAction_StopCamBlack( cast_state_t *cs, char *params ) {
+#ifndef INGAME_CUTSCENES
+        return qtrue;
+#endif
 	trap_SendServerCommand( cs->entityNum, "stopCamblack" );
 	return qtrue;
 }
 
 qboolean AICast_ScriptAction_StopCam( cast_state_t *cs, char *params ) {
+#ifndef INGAME_CUTSCENES
+        return qtrue;
+#endif
 	trap_SendServerCommand( cs->entityNum, "stopCam" );
 	return qtrue;
 }
