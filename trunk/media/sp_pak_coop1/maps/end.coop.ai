@@ -239,8 +239,8 @@ player
 	trigger changelevel
 	{
 		wait 15000
-		changelevel gamefinished 250
-//		changelevel escape1 persistent
+		//changelevel gamefinished 250
+		changelevel escape1 persistent
 	}
 
 	death
