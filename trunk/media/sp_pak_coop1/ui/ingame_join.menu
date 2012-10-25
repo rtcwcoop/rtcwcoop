@@ -18,7 +18,7 @@ menuDef {
 
 		onOpen {
 				//setCvar cg_draw2D "0";
-				show grpJoin }
+				show grpJoin ; }
 		onClose { setCvar cg_draw2D "1" }
 		onEsc { setCvar cg_draw2D "1" }
 
@@ -117,7 +117,7 @@ menuDef {
 			action {
 				play		"sound/misc/kcaction.wav" ; 
 				setcvar		ui_serverBrowser 1 ; // 1: from server browser
-				open		serverinfo_popmenu
+				open		ingame_serverinfo_popmenu
 			}
 
 			mouseEnter		{ show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 }
