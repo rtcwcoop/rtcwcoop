@@ -252,7 +252,11 @@ void SV_DirectConnect( netadr_t from ) {
 
 	version = atoi( Info_ValueForKey( userinfo, "protocol" ) );
 	if ( version != PROTOCOL_VERSION ) {
-		NET_OutOfBandPrint( NS_SERVER, from, "print\nServer uses protocol version %i.\n", PROTOCOL_VERSION );
+                if (version > PROTOCOL_VERSION) {
+                        NET_OutOfBandPrint( NS_SERVER, from, "print\nServer uses protocol version %i.\n", PROTOCOL_VERSION );
+                } else if (version < PROTOCOL_VERSION) {
+                        NET_OutOfBandPrint( NS_SERVER, from, "print\nPlease upgrade to %s to connect.\n", Q3_VERSION );
+                }
 		Com_DPrintf( "    rejected connect from version %i\n", version );
 		return;
 	}
