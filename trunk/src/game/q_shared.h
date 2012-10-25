@@ -38,7 +38,7 @@ If you have questions concerning this license or the applicable additional terms
 #define CLIENT_WINDOW_MIN_TITLE       "wsp"
 #define GAMENAME_FOR_MASTER           "wolfsp"
 
-#define Q3_VERSION      "RTCWCoop 0.9"
+#define Q3_VERSION      "RTCWCoop 0.9.1"
 
 #define MAX_COOP_CLIENTS 8
 
