@@ -3552,7 +3552,7 @@ void CG_AddZombieFlameEffect( centity_t *cent ) {
 	//const float	flameRadius		= ZOMBIE_FLAME_RADIUS*2; // TTimo: unused
 
 	const int fadeInTime        = 500;
-	const int fadeOutTime       = 0;
+	const int fadeOutTime       = 1;
 
 	// TTimo: unused
 	/*
