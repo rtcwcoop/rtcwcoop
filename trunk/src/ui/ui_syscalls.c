@@ -441,6 +441,23 @@ void    trap_R_RemapShader( const char *oldShader, const char *newShader, const 
 	syscall( UI_R_REMAP_SHADER, oldShader, newShader, timeOffset );
 }
 
+#ifdef LOCALISATION
+#define MAX_VA_STRING       32000
+
+char* trap_TranslateString( const char *string ) { 
+        static char staticbuf[2][MAX_VA_STRING];
+        static int bufcount = 0;
+        char *buf;
+
+        buf = staticbuf[bufcount++ % 2]; 
+
+        syscall( UI_CL_TRANSLATE_STRING, string, buf );
+
+        return buf;
+}
+// -NERVE - SMF
+#endif
+
 qboolean trap_VerifyCDKey( const char *key, const char *chksum ) {
 	return syscall( UI_VERIFY_CDKEY, key, chksum );
 }

@@ -913,7 +913,12 @@ int CL_CgameSystemCalls( int *args ) {
         case CG_R_GETTEXTUREID:
                 return re.GetTextureId( VMA( 1 ) ); 
                 //bani - flush gl rendering buffers
-
+#ifdef LOCALISATION
+                // - NERVE - SMF
+        case CG_TRANSLATE_STRING:
+                CL_TranslateString( VMA( 1 ), VMA( 2 ) ); 
+                return 0;
+#endif
 	default:
 		Com_Error( ERR_DROP, "Bad cgame system trap: %i", args[0] );
 	}

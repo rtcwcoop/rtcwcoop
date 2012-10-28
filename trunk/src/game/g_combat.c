@@ -481,7 +481,11 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		trap_SendServerCommand( -1, "mu_play sound/music/l_failed_1.wav 0\n" );
 		trap_SetConfigstring( CS_MUSIC_QUEUE, "" );  // clear queue so it'll be quiet after hit
+#ifdef LOCALISATION
+		trap_SendServerCommand( -1, "cp Mission Failed" );
+#else
 		trap_SendServerCommand( -1, "cp missionfail0" );
+#endif
 	}
 
 

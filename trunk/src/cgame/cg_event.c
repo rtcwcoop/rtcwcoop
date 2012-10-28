@@ -268,7 +268,11 @@ static void CG_UseItem( centity_t *cent ) {
 	// print a message if the local player
 	if ( es->number == cg.snap->ps.clientNum ) {
 		if ( !itemNum ) {
+#ifdef LOCALISATION
+			CG_CenterPrint( "No item to use", SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH ); //----(SA)	modified
+#else
 			CG_CenterPrint( "noitem", SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH ); //----(SA)	modified
+#endif
 		} else {
 			item = BG_FindItemForHoldable( itemNum );
 
@@ -281,7 +285,11 @@ static void CG_UseItem( centity_t *cent ) {
 				case HI_BOOK3:
 					break;
 				case HI_WINE:
+#ifdef LOCALISATION
+					CG_CenterPrint( "You drank the wine", SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH );
+#else
 					CG_CenterPrint( "drankwine", SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH );
+#endif
 					break;
 				default:
 					CG_CenterPrint( va( "Use %s", cgs.itemPrintNames[item - bg_itemlist] ), SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH );

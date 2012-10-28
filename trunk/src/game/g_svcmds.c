@@ -559,7 +559,11 @@ qboolean    ConsoleCommand( void ) {
 			}
 
 			if ( G_SaveGame( cmd ) ) {
+#ifdef LOCALISATION
+				trap_SendServerCommand( -1, "cp Game Saved" );  // deletedgame
+#else
 				trap_SendServerCommand( -1, "cp gamesaved" );  // deletedgame
+#endif
 			} else {
 				G_Printf( "Unable to save game.\n" );
 			}

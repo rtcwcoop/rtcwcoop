@@ -385,12 +385,16 @@ typedef struct {
 	const char *( *feederItemText )( float feederID, int index, int column, qhandle_t * handle );
 
 	const char *( *fileText )( char *flieName );    //----(SA)	added
+#ifndef LOCALISATION
 	const char *( *getTranslatedString )( const char *inString );   //----(SA)	added
+#endif
 
 	qhandle_t ( *feederItemImage )( float feederID, int index );
 	void ( *feederSelection )( float feederID, int index );
 	void ( *feederAddItem )( float feederID, const char *name, int index );           // NERVE - SMF
-
+#ifdef LOCALISATION
+        char* ( *translateString )( const char *string );
+#endif
 	void ( *keynumToStringBuf )( int keynum, char *buf, int buflen );
 	void ( *getBindingBuf )( int keynum, char *buf, int buflen );
 	void ( *setBinding )( int keynum, const char *binding );

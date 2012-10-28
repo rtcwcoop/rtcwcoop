@@ -2197,9 +2197,9 @@ void CG_LoadHudMenu() {
 	//cgDC.getBindingBuf = &trap_Key_GetBindingBuf;
 	//cgDC.keynumToStringBuf = &trap_Key_KeynumToStringBuf;
 	//cgDC.executeText = &trap_Cmd_ExecuteText;
-
+#ifndef LOCALISATION
 	cgDC.getTranslatedString = &CG_translateString;     //----(SA)	added
-
+#endif
 	cgDC.Error = &Com_Error;
 	cgDC.Print = &Com_Printf;
 	cgDC.ownerDrawWidth = &CG_OwnerDrawWidth;
@@ -2211,7 +2211,9 @@ void CG_LoadHudMenu() {
 	cgDC.stopCinematic = &CG_StopCinematic;
 	cgDC.drawCinematic = &CG_DrawCinematic;
 	cgDC.runCinematicFrame = &CG_RunCinematicFrame;
-
+#ifdef LOCALISATION
+        cgDC.translateString = &CG_TranslateString;
+#endif
 	Init_Display( &cgDC );
 
 	Menu_Reset();

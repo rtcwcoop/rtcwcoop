@@ -1089,7 +1089,9 @@ int             trap_RealTime( qtime_t *qtime );
 void            trap_R_RemapShader( const char *oldShader, const char *newShader, const char *timeOffset );
 qboolean        trap_VerifyCDKey( const char *key, const char *chksum );
 qboolean        trap_GetLimboString( int index, char *buf );            // NERVE - SMF
-
+#ifdef LOCALISATION
+char*           trap_TranslateString( const char *string );  
+#endif
 //
 // ui_addbots.c
 //

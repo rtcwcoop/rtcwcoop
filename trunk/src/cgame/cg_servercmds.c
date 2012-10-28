@@ -1404,8 +1404,14 @@ static void CG_ServerCommand( void ) {
 
 	if ( !strcmp( cmd, "dp" ) ) {    // dynamite print (what a hack :(
 
+#ifdef LOCALISATION
+		CG_CenterPrint( va( "%s %d %s", CG_TranslateString( "Dynamite timer set at" ), atoi( CG_Argv( 1 ) ), CG_TranslateString( "seconds" ) ),
+						SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH );
+#else
 		CG_CenterPrint( va( "%s %d %s", CG_translateString( "dynamitetimer" ), atoi( CG_Argv( 1 ) ), CG_translateString( "seconds" ) ),
 						SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH );
+
+#endif
 		return;
 	}
 

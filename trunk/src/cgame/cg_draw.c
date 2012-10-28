@@ -949,7 +949,11 @@ static void CG_DrawPickupItem( void ) {
 			color[3] = fadeColor[0];
 			//CG_DrawStringExt2( ICON_SIZE + 16, 398, pickupText, color, qfalse, qtrue, 10, 10, 0 );
                         w = CG_DrawStrlen( pickupText ) * 10;
+#ifdef LOCALISATION
+			CG_DrawStringExt2( 320-(w/2), 398, CG_TranslateString(pickupText), color, qfalse, qtrue, 10, 10, 0 );
+#else
 			CG_DrawStringExt2( 320-(w/2), 398, pickupText, color, qfalse, qtrue, 10, 10, 0 );
+#endif
 			//CG_Text_Paint(ICON_SIZE + 16, 398, 2, 0.3f, color, pickupText, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 
 
@@ -1379,7 +1383,11 @@ void CG_CenterPrint( const char *str, int y, int charWidth ) {
 	unsigned char   *s;
 
 //----(SA)	added translation lookup
+#ifdef LOCALISATION
+	Q_strncpyz( (char *)cg.centerPrint, CG_TranslateString( (char*)str ), sizeof( cg.centerPrint ) );
+#else
 	Q_strncpyz( (char *)cg.centerPrint, CG_translateString( (char*)str ), sizeof( cg.centerPrint ) );
+#endif
 //----(SA)	end
 
 

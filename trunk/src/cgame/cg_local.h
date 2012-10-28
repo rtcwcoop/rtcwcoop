@@ -1945,6 +1945,9 @@ void CG_ColorForHealth( vec4_t hcolor );
 void CG_GetColorForHealth( int health, int armor, vec4_t hcolor );
 
 void UI_DrawProportionalString( int x, int y, const char* str, int style, vec4_t color );
+#ifdef LOCALISATION
+char* CG_TranslateString( const char *string );
+#endif
 
 // new hud stuff
 void CG_DrawRect( float x, float y, float width, float height, float size, const float *color );
@@ -2509,6 +2512,9 @@ qboolean    trap_Key_IsDown( int keynum );
 int         trap_Key_GetCatcher( void );
 void        trap_Key_SetCatcher( int catcher );
 int         trap_Key_GetKey( const char *binding );
+#ifdef LOCALISATION
+char* trap_TranslateString( const char *string );
+#endif
 
 // RF
 void trap_SendMoveSpeedsToGame( int entnum, char *movespeeds );

@@ -1150,6 +1150,7 @@ void UI_LoadMenus( const char *menuFile, qboolean reset ) {
 UI_LoadTranslationStrings
 ==============
 */
+#ifndef LOCALISATION
 #define MAX_BUFFER          20000
 static void UI_LoadTranslationStrings( void ) {
 	char buffer[MAX_BUFFER];
@@ -1187,6 +1188,7 @@ static void UI_LoadTranslationStrings( void ) {
 		strcpy( translateStrings[i].localname, token );
 	}
 }
+#endif
 
 
 void UI_Load() {
@@ -1207,8 +1209,9 @@ void UI_Load() {
 	String_Init();
 
 	// load translation text
+#ifndef LOCALISATION
 	UI_LoadTranslationStrings();
-
+#endif
 	UI_ParseGameInfo("coopgameinfo.txt");
 	UI_LoadArenas();
 
@@ -1697,7 +1700,11 @@ static void UI_DrawLoadStatus( rectDef_t *rect, vec4_t color, int align ) {
 		UI_FilledBar( rect->x, rect->y, rect->w, rect->h, color, NULL, NULL, percentDone, flags ); // flags (BAR_CENTER|BAR_VERT|BAR_LERP_COLOR)
 	} else {
 //		Text_Paint( rect->x, rect->y, UI_FONT_DEFAULT, 0.2f, color, "Please Wait...", 0, 0, 0);
+#ifdef LOCALISATION
+		Text_Paint( rect->x, rect->y, UI_FONT_DEFAULT, 0.2f, color, DC->translateString( "Please Wait..." ), 0, 0, 0 );
+#else
 		Text_Paint( rect->x, rect->y, UI_FONT_DEFAULT, 0.2f, color, DC->getTranslatedString( "pleasewait" ), 0, 0, 0 );
+#endif
 	}
 
 }
@@ -2297,10 +2304,18 @@ static int UI_OwnerDrawWidth( int ownerDraw, int font, float scale ) {
 	case UI_KEYBINDSTATUS:
 		if ( Display_KeyBindPending() ) {
 //			s = "Waiting for new key... Press ESCAPE to cancel";
+#ifdef LOCALISATION
+			s = DC->translateString( "Waiting for new key... Press ESCAPE to cancel" );
+#else
 			s = DC->getTranslatedString( "keywait" );
+#endif
 		} else {
 //			s = "Press ENTER or CLICK to change, Press BACKSPACE to clear";
+#ifdef LOCALISATION
+			s = DC->translateString( "Press ENTER or CLICK to change, Press BACKSPACE to clear" );
+#else
 			s = DC->getTranslatedString( "keychange" );
+#endif
 		}
 		break;
 	case UI_SERVERREFRESHDATE:
@@ -2417,10 +2432,18 @@ static void UI_DrawKeyBindStatus( rectDef_t *rect, int font, float scale, vec4_t
 	//int ofs = 0; // TTimo: unused
 	if ( Display_KeyBindPending() ) {
 //		Text_Paint(rect->x, rect->y, font, scale, color, "Waiting for new key... Press ESCAPE to cancel", 0, 0, textStyle);
+#ifdef LOCALISATION
+		Text_Paint( rect->x, rect->y, font, scale, color, DC->translateString( "keywait" ), 0, 0, textStyle );
+#else
 		Text_Paint( rect->x, rect->y, font, scale, color, DC->getTranslatedString( "keywait" ), 0, 0, textStyle );
+#endif
 	} else {
 //		Text_Paint(rect->x, rect->y, font, scale, color, "Press ENTER or CLICK to change, Press BACKSPACE to clear", 0, 0, textStyle);
+#ifdef LOCALISATION
+		Text_Paint( rect->x, rect->y, font, scale, color, DC->translateString( "keychange" ), 0, 0, textStyle );
+#else
 		Text_Paint( rect->x, rect->y, font, scale, color, DC->getTranslatedString( "keychange" ), 0, 0, textStyle );
+#endif
 
 	}
 }
@@ -3846,8 +3869,9 @@ static playerType_t playerTypes[] = {
 };
 
 // TTimo
-//static char translated_yes[4], translated_no[4];
-
+#ifdef LOCALISATION
+static char translated_yes[4], translated_no[4];
+#endif
 typedef struct {
 	int weapindex;
 
@@ -5622,6 +5646,7 @@ static const char *UI_FileText( char *fileName ) {
 UI_translateString
 ==============
 */
+#ifndef LOCALISATION
 static const char *UI_translateString( const char *inString ) {
 	int i, numStrings;
 
@@ -5642,6 +5667,7 @@ static const char *UI_translateString( const char *inString ) {
 
 	return inString;
 }
+#endif
 //----(SA)	end
 
 
@@ -6549,7 +6575,11 @@ void _UI_Init( qboolean inGameLoad ) {
 	uiInfo.uiDC.feederItemText = &UI_FeederItemText;
 	uiInfo.uiDC.fileText = &UI_FileText;    //----(SA)
 
+#ifndef LOCALISATION
 	uiInfo.uiDC.getTranslatedString = &UI_translateString;  //----(SA) added
+#else
+        uiInfo.uiDC.translateString = &trap_TranslateString;
+#endif
 
 	uiInfo.uiDC.feederSelection = &UI_FeederSelection;
 	uiInfo.uiDC.feederAddItem = &UI_FeederAddItem;                  // NERVE - SMF
@@ -6574,8 +6604,9 @@ void _UI_Init( qboolean inGameLoad ) {
 	String_Init();
 
 	// load translation text
+#ifndef LOCALISATION
 	UI_LoadTranslationStrings();
-
+#endif
 //	uiInfo.uiDC.cursor	= trap_R_RegisterShaderNoMip( "menu/art/3_cursor3" );
 	uiInfo.uiDC.whiteShader = trap_R_RegisterShaderNoMip( "white" );
 
@@ -6634,8 +6665,10 @@ void _UI_Init( qboolean inGameLoad ) {
 	trap_Cvar_Register( NULL, "debug_protocol", "", 0 );
 
         // init Yes/No once for cl_language -> server browser (punkbuster)
-        //Q_strncpyz( translated_yes, DC->translateString( "Yes" ), sizeof( translated_yes ) );
-        //Q_strncpyz( translated_no, DC->translateString( "NO" ), sizeof( translated_no ) );
+#ifdef LOCALISATION
+        Q_strncpyz( translated_yes, DC->translateString( "Yes" ), sizeof( translated_yes ) );
+        Q_strncpyz( translated_no, DC->translateString( "NO" ), sizeof( translated_no ) );
+#endif
 }
 
 

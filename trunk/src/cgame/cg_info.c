@@ -180,11 +180,20 @@ typedef struct {
 // this defines the layout of the mission stats
 // NOTE: these must match the stats sent in AICast_ScriptAction_ChangeLevel()
 static statsItem_t statsItems[] = {
+#ifdef LOCALISATION
+	{ "Time",        134,    214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%02i:%02i:%02i",    348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  3 },
+	{ "Objectives",  28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
+	{ "Secret Areas", 28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
+	{ "Treasures",    28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {0.62f, 0.56f,  0.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
+	{ "Attempts",    28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i",                348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  1 },
+#else
 	{ "end_time",        134,    214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%02i:%02i:%02i",    348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  3 },
 	{ "end_objectives",  28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
 	{ "end_secrets", 28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
 	{ "end_treasure",    28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {0.62f, 0.56f,  0.0f,   1.0f},  "%i/%i",         348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  2 },
 	{ "end_attempts",    28,     214,        ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  "%i",                348,    ITEM_TEXTSTYLE_SHADOWEDMORE,    {1.0f,  1.0f,   1.0f,   1.0f},  1 },
+
+#endif
 	{ NULL }
 };
 
@@ -345,21 +354,32 @@ void CG_DrawExitStats( void ) {
 	// title
 	color2[0] = color2[1] = color2[2] = 1;
 	color2[3] = color[3];
-//	CG_Text_Paint(280, 120, 2, 0.25f, color2, va("%s", CG_translateString("end_title")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+//	CG_Text_Paint(280, 120, 2, 0.25f, color2, va("%s", CG_TranslateString("end_title")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 	//----(SA)	scale change per MK
+#ifdef LOCALISATION
+	CG_Text_Paint( 270, 100, 2, 0.313f, color2, va( "%s", CG_translateString( "Mission Stats" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+#else
 	CG_Text_Paint( 270, 100, 2, 0.313f, color2, va( "%s", CG_translateString( "end_title" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
-
+#endif
 	color2[0] = color2[1] = color2[2] = 1;
 	if ( cg.cursorHintIcon == HINT_NOEXIT ) {
 		// "exit not available"
-//		CG_Text_Paint(250, 320, 2, 0.3f, color2, va("%s", CG_translateString("end_noexit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+//		CG_Text_Paint(250, 320, 2, 0.3f, color2, va("%s", CG_TranslateString("end_noexit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 		//----(SA)	scale change per MK
+#ifdef LOCALISATION
+		CG_Text_Paint( 260, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "Exit not yet available" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+#else
 		CG_Text_Paint( 260, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "end_noexit" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+#endif
 	} else {
 		// "forward to proceed"
-//		CG_Text_Paint(230, 320, 2, 0.3f, color2, va("%s", CG_translateString("end_exit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+//		CG_Text_Paint(230, 320, 2, 0.3f, color2, va("%s", CG_TranslateString("end_exit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 		//----(SA)	scale change per MK
+#ifdef LOCALISATION
+		CG_Text_Paint( 250, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "Proceed forward to exit..." ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+#else
 		CG_Text_Paint( 250, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "end_exit" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+#endif
 	}
 
 	mstats = (char*)str + 2;    // add offset for 's='
@@ -423,8 +443,12 @@ void CG_DrawExitStats( void ) {
 
 //		UI_DrawProportionalString( statsItems[i].labelX, y, statsItems[i].label, statsItems[i].labelFlags, *statsItems[i].labelColor );
 
-//		CG_Text_Paint(statsItems[i].labelX, y, 2, 0.3, statsItems[i].labelColor, va("%s:", CG_translateString(statsItems[i].label)), 0, 0, statsItems[i].labelFlags);
+//		CG_Text_Paint(statsItems[i].labelX, y, 2, 0.3, statsItems[i].labelColor, va("%s:", CG_TranslateString(statsItems[i].label)), 0, 0, statsItems[i].labelFlags);
+#ifdef LOCALISATION
+		CG_Text_Paint( statsItems[i].labelX, y, 2, 0.3, color2, va( "%s:", CG_TranslateString( statsItems[i].label ) ), 0, 0, statsItems[i].labelFlags );
+#else
 		CG_Text_Paint( statsItems[i].labelX, y, 2, 0.3, color2, va( "%s:", CG_translateString( statsItems[i].label ) ), 0, 0, statsItems[i].labelFlags );
+#endif
 
 	}
 	token = COM_Parse( &mstats );

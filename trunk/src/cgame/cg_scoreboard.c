@@ -75,9 +75,13 @@ void CG_DrawCoopScoreboard( void )
 
                 s = CG_ConfigString( CS_BATTLE_INFO );
                 buf = Info_ValueForKey( s, "winner" );
+#ifdef LOCALISATION
+                w = CG_DrawStrlen( va(CG_TranslateString("%s wins!"), buf) ) * BIGCHAR_WIDTH;
+                CG_DrawBigString( 320 - (w / 2), 40, va(CG_TranslateString("%s wins !"), buf), 1.0F );
+#else
                 w = CG_DrawStrlen( va("%s wins!", buf) ) * BIGCHAR_WIDTH;
                 CG_DrawBigString( 320 - (w / 2), 40, va("%s wins !", buf), 1.0F );
-
+#endif
                 if ( !cg.latchVictorySound ) {
                         cg.latchVictorySound = qtrue;
                         trap_S_StartLocalSound( trap_S_RegisterSound( "sound/multiplayer/music/l_complete_2.wav" ), CHAN_LOCAL_SOUND );
@@ -104,7 +108,11 @@ void CG_DrawCoopScoreboard( void )
 
         // text boxes
         color2[0] = color2[1] = color2[2] = 0.4f;
-        CG_DrawStringExt( 175, 130, va("Name"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#ifdef LOCALISATION
+        CG_DrawStringExt( 175, 130, CG_TranslateString("Name"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#else
+	CG_DrawStringExt( 175, 130, va("Name"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#endif
 #ifdef MONEY
         if (cgs.gametype == GT_COOP_BATTLE) {
                 w = strlen("Ratio") * SMALLCHAR_WIDTH;
@@ -115,10 +123,17 @@ void CG_DrawCoopScoreboard( void )
         }
 #endif
         w = strlen("Score") * SMALLCHAR_WIDTH;
-        CG_DrawStringExt( 170 + 255 - w , 130, va("Score"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#ifdef LOCALISATION
+        CG_DrawStringExt( 170 + 255 - w , 130, CG_TranslateString("Score"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#else
+	CG_DrawStringExt( 170 + 255 - w , 130, va("Score"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#endif
         w = strlen("Ping") * SMALLCHAR_WIDTH;
-        CG_DrawStringExt( 170 + 294 - w, 130, va("Ping"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
-        
+#ifdef LOCALISATION
+        CG_DrawStringExt( 170 + 294 - w, 130, CG_TranslateString("Ping"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#else
+	CG_DrawStringExt( 170 + 294 - w, 130, va("Ping"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#endif
         //if (cg.scores[0].respawnsLeft != -1)
         //        maxlives = qtrue;
 
@@ -173,7 +188,11 @@ void CG_DrawCoopScoreboard( void )
 
                         place++;
                         if (ci->team == TEAM_SPECTATOR)
-                                CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("[SPECTATOR] %s", ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+#ifdef LOCALISATION
+                                CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va(CG_TranslateString("[SPECTATOR] %s"), ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+#else
+				CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("[SPECTATOR] %s", ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+#endif
                         else
                                 CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("%i. %s", place, ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
 
@@ -234,8 +253,13 @@ void CG_DrawCoopScoreboard( void )
         color2[0] = color2[1] = color2[2] = 1;
         color2[3] = color[3];
         if (cgs.gametype == GT_COOP) {
+#ifdef LOCALISATION
+                w = strlen(CG_TranslateString("Score")) * SMALLCHAR_WIDTH;
+                CG_DrawStringExt( 170 + (344/2)-(w-2), 105, CG_TranslateString("Score"), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#else
                 w = strlen("scores") * SMALLCHAR_WIDTH;
                 CG_DrawStringExt( 170 + (344/2)-(w-2), 105, va("scores"), color3, qfalse, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
+#endif
        } 
 
 
@@ -252,7 +276,11 @@ void CG_DrawCoopScoreboard( void )
         seconds -= tens * 10; 
 
         if (cgs.gametype == GT_COOP_SPEEDRUN)
+#ifdef LOCALISATION
+                s = va( CG_TranslateString("Time to beat: %2.0f:%i%i"), (float)mins, tens, seconds );
+#else
                 s = va( "Time to beat: %2.0f:%i%i", (float)mins, tens, seconds );
+#endif
         else
                 s = va( "%2.0f:%i%i", (float)mins, tens, seconds );
 

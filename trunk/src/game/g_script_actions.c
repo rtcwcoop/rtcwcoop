@@ -773,8 +773,24 @@ qboolean G_ScriptAction_MissionFailed( gentity_t *ent, char *params ) {
 	if ( mof < 0 ) {
 		mof = 0;
 	}
+#ifdef LOCALISATION
+        if (mof == 1 )
+                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Civilian" );
+        else if (mof == 2 )
+                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Kreisau Agent" );
+        else if (mof == 3 )
+                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Kessler");
+        else if (mof == 4 )
+                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Karl" );
+        else if (mof == 5 )
+                trap_SendServerCommand( -1, "cp Mission Failed\nYou Have Been Detected" );
+        else if (mof == 6 )
+                trap_SendServerCommand( -1, "cp Mission Failed\nRocket Launched" );
+        else if (mof == 7 )
+                trap_SendServerCommand( -1, "cp Mission Failed\nThe Scientist Has Been Killed" );
+#else
 	trap_SendServerCommand( -1, va( "cp missionfail%d", mof ) );
-
+#endif
 	// reload the current savegame, after a delay
 	trap_SetConfigstring( CS_SCREENFADE, va( "1 %i %i", level.time + 250, time * 1000 ) );
 //	reloading = RELOAD_FAILED;

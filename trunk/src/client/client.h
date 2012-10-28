@@ -148,6 +148,10 @@ typedef struct {
 	// -NERVE - SMF
 
 	qboolean cameraMode;    //----(SA)	added for control of input while watching cinematics
+#ifdef LOCALISATION
+        qboolean corruptedTranslationFile;
+        char translationVersion[MAX_STRING_TOKENS];
+#endif
 
 } clientActive_t;
 
@@ -426,6 +430,16 @@ int CL_ServerStatus( char *serverAddress, char *serverStatusString, int maxLen )
 
 void CL_AddToLimboChat( const char *str );                  // NERVE - SMF
 qboolean CL_GetLimboString( int index, char *buf );         // NERVE - SMF
+
+#ifdef LOCALISATION
+// NERVE - SMF - localization
+void CL_InitTranslation();
+void CL_SaveTransTable();
+void CL_ReloadTranslation();
+void CL_TranslateString( const char *string, char *dest_buffer );
+const char* CL_TranslateStringBuf( const char *string ); // TTimo
+// -NERVE - SMF
+#endif
 
 //
 // cl_input

@@ -594,7 +594,25 @@ qboolean PC_String_Parse( int handle, const char **out ) {
 	*( out ) = String_Alloc( token.string );
 	return qtrue;
 }
+#ifdef LOCALISATION
+/*
+=================
+PC_String_Parse_Trans
 
+NERVE - SMF - translates string
+=================
+*/
+qboolean PC_String_Parse_Trans( int handle, const char **out ) {
+        pc_token_t token;
+
+        if ( !trap_PC_ReadToken( handle, &token ) ) {
+                return qfalse;
+        }    
+
+        *( out ) = String_Alloc( DC->translateString( token.string ) ); 
+        return qtrue;
+}
+#endif
 // NERVE - SMF
 /*
 =================
@@ -3268,7 +3286,11 @@ void Item_Text_Wrapped_Paint( itemDef_t *item ) {
 		start += p - start + 1;
 		p = strchr( p + 1, '\r' );
 	}
+#ifdef LOCALISATION
+	DC->drawText( x, y, item->font, item->textscale, color, DC->translateString(start), 0, 0, item->textStyle );
+#else
 	DC->drawText( x, y, item->font, item->textscale, color, start, 0, 0, item->textStyle );
+#endif
 }
 
 void Item_Text_Paint( itemDef_t *item ) {
@@ -3347,8 +3369,11 @@ void Item_Text_Paint( itemDef_t *item ) {
 //		*/
 //		DC->drawText(item->textRect.x - 1, item->textRect.y + 1, item->textscale * 1.02, item->window.outlineColor, textPtr, adjust);
 //	}
-
+#ifdef LOCALISATION
+	DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, DC->translateString(textPtr), 0, 0, item->textStyle );
+#else
 	DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, textPtr, 0, 0, item->textStyle );
+#endif
 }
 
 
@@ -3410,10 +3435,13 @@ void Item_YesNo_Paint( itemDef_t *item ) {
 	} else {
 		memcpy( &newColor, &item->window.foreColor, sizeof( vec4_t ) );
 	}
-
+#ifdef LOCALISATION
+	yes_str = DC->translateString( yes_str );
+	no_str = DC->translateString( no_str );
+#else
 	yes_str = DC->getTranslatedString( yes_str );
 	no_str = DC->getTranslatedString( no_str );
-
+#endif
 	if ( item->text ) {
 		Item_Text_Paint( item );
 		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, ( value != 0 ) ? yes_str : no_str, 0, 0, item->textStyle );
@@ -3441,7 +3469,11 @@ void Item_Multi_Paint( itemDef_t *item ) {
 
 	if ( item->text ) {
 		Item_Text_Paint( item );
+#ifdef LOCALISATION
+		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, DC->translateString(text), 0, 0, item->textStyle );
+#else
 		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
+#endif
 	} else {
 		DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
 	}
@@ -3739,7 +3771,11 @@ void BindingFromName( const char *cvar ) {
 			if ( b2 != -1 ) {
 				DC->keynumToStringBuf( b2, g_nameBind2, 32 );
 				Q_strupr( g_nameBind2 );
+#ifdef LOCALISATION
+				strcat( g_nameBind1, va( " %s ", DC->translateString( "or" ) ) );
+#else
 				strcat( g_nameBind1, va( " %s ", DC->getTranslatedString( "or" ) ) );
+#endif
 				strcat( g_nameBind1, g_nameBind2 );
 			}
 			return;

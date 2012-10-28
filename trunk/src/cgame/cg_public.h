@@ -223,7 +223,9 @@ typedef enum {
         // bani
         CG_R_GETTEXTUREID,
         // -bani
-
+#ifdef LOCALISATION
+        CG_TRANSLATE_STRING,
+#endif
 	CG_GETMODELINFO
 } cgameImport_t;
 
