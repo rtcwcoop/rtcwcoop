@@ -1028,6 +1028,15 @@ void G_UpdateCvars( void ) {
 					remapped = qtrue;
 				}
 
+				if ( !Q_stricmp( cv->cvarName, "g_limbotime" ) ) {
+					int fps = trap_Cvar_VariableIntegerValue("sv_fps");
+					
+					if (fps > 0 && g_limbotime.integer <= (1000 / fps)) {
+						trap_Cvar_Set("g_limbotime", "1000");
+						G_Printf("WARNING: g_limbotime <= (1000 / sv_fps), forcing to 1000 (one second)\n");
+					}
+				}
+
 				// check for changed values for particular cvars
 				if ( !Q_stricmp( cv->cvarName, "g_playerStart" ) ) {
 					gentity_t *player;
@@ -1244,6 +1253,7 @@ extern void trap_Cvar_Reset( const char *var_name );
 
 void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	int i;
+	int fps;
 
 	//if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
 		G_Printf( "------- Game Initialization -------\n" );
@@ -1263,9 +1273,9 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	memset( &level, 0, sizeof( level ) );
 	level.time = levelTime;
 
-    // fretn
-    level.lastSpawnSave = levelTime;
-    level.lastBattleScorecheck = levelTime;
+	// fretn
+	level.lastSpawnSave = levelTime;
+	level.lastBattleScorecheck = levelTime;
 
 	level.startTime = levelTime;
 
@@ -1334,9 +1344,16 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
         
 		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 			trap_Cvar_Set( "cg_youGotMail", "0" ); // set flag to draw icon
-        } else {
-			trap_SendServerCommand( -1 , "yougotmail 0\n" );
-        }
+		} else {
+				trap_SendServerCommand( -1 , "yougotmail 0\n" );
+		}
+	}
+
+	fps = trap_Cvar_VariableIntegerValue("sv_fps");
+	
+	if (fps > 0 && g_limbotime.integer <= (1000 / fps)) {
+		trap_Cvar_Set("g_limbotime", "1000");
+		G_Printf("WARNING: g_limbotime <= (1000 / sv_fps), forcing to 1000 (one second)\n");
 	}
 
 	if ( g_gametype.integer == GT_COOP_BATTLE ) {
@@ -1351,28 +1368,28 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 		//trap_Cvar_Set("g_reinforce", "0");
 		trap_Cvar_Set("sv_maxcoopclients", "2");
 		trap_Cvar_Set("g_teleporttime", "30000");
-    } else {
-        trap_Cvar_Set("g_doWarmup", "0");
-        trap_Cvar_Set("g_warmup", "0");
-    }
+	} else {
+		trap_Cvar_Set("g_doWarmup", "0");
+		trap_Cvar_Set("g_warmup", "0");
+	}
 
-    if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
+	if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
 		char mapname[MAX_QPATH];
-        char maptimelimit[MAX_QPATH];
-        float newtimelimit = 0.0;
+		char maptimelimit[MAX_QPATH];
+		float newtimelimit = 0.0;
 
-        trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
-        trap_Cvar_VariableStringBuffer( va("g_%s_timelimit", mapname), maptimelimit, sizeof( maptimelimit ) );
+		trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+		trap_Cvar_VariableStringBuffer( va("g_%s_timelimit", mapname), maptimelimit, sizeof( maptimelimit ) );
 
-        newtimelimit = atof(maptimelimit);
+		newtimelimit = atof(maptimelimit);
 
-        if (newtimelimit) {
+		if (newtimelimit) {
 			trap_Cvar_Set("timelimit", va("%f", newtimelimit));
-        } else {
-            trap_Cvar_Set("timelimit", "20");
-        }
-        G_Printf("Timelimit is: %f\n", g_timelimit.value);
-    }
+		} else {
+			trap_Cvar_Set("timelimit", "20");
+		}
+		G_Printf("Timelimit is: %f\n", g_timelimit.value);
+	}
 
 	G_Script_ScriptLoad();
 	// done.
