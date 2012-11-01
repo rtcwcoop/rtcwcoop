@@ -338,7 +338,8 @@ player
 
 	trigger endnow
 	{
-		changelevel sfm 3000 persistent
+		//changelevel sfm 3000 persistent
+		changelevel sfm persistent
 	}
 
 	trigger beam_me_up_scotty

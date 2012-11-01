@@ -284,7 +284,8 @@ player
 
 	trigger exitlevel
 	{
-		changelevel factory 2000 persistent
+		//changelevel factory 2000 persistent
+		changelevel factory persistent
 	}
 	
 	trigger realend

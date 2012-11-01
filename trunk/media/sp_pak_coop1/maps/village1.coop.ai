@@ -308,7 +308,8 @@ player
 
 	trigger exitlevel
 	{
-		changelevel crypt1 4000 persistent
+		//changelevel crypt1 4000 persistent
+		changelevel crypt1 persistent
 	}
 	
 	trigger endmapb

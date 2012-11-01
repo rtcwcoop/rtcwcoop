@@ -290,7 +290,8 @@ player
 	trigger exitlevel
 	{
 		trigger kesler follow_me
-		changelevel village1 5000 persistent silent
+		//changelevel village1 5000 persistent silent
+		changelevel village1 persistent silent
 	}
 	
 	trigger endmap

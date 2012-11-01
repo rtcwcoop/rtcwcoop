@@ -500,7 +500,8 @@ player
 	trigger exitlevel
 	{
 		alertentity d_battle
-		changelevel baseout 9000 persistent
+		//changelevel baseout 9000 persistent
+		changelevel baseout persistent
 	}
 
 }
