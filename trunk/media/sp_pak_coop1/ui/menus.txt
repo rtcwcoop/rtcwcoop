@@ -14,7 +14,7 @@
 	loadMenu { "ui/ingame_callvote.menu" }
 	loadMenu { "ui/ingame_quick.menu" }
 	loadMenu { "ui/ingame_join.menu" }
-	loadMenu { "ui/ingame_serverinfo.menu" }
+	loadMenu { "ui/ingame_serverinfo.menu" }	// Bugfix by TitaN655
 	loadMenu { "ui/serverinfo.menu" }
 
 // OPTIONS menu
@@ -32,7 +32,7 @@
 
         loadMenu { "ui_mp/wm_quickmessage.menu" }
         loadMenu { "ui_mp/wm_quickmessageAlt.menu" }
-
+	loadMenu { "ui/clipboard.menu" }		// Bugfix by TitaN655
         loadMenu { "ui/wm_quickbuy.menu" }
         loadMenu { "ui/wm_quickbuyAlt.menu" }
 
