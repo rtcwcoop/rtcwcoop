@@ -1390,7 +1390,7 @@ void ClientThink_real( gentity_t *ent ) {
 
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
-                                if ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) {
+                                if ( (g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2) && g_limbotime.integer > 0 ) {
                                         limbo( ent, qtrue );
 				} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 					respawn( ent );
@@ -1476,7 +1476,6 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 	int do_respawn = 0; // JPW NERVE
 	int savedScore;     // DHM
         int savedRespawns;
-        static int lastReinforceTime = 0;
 	//static int lastRedReinforceTime = 0, lastBlueReinforceTime = 0;
 	int testtime;
 
@@ -1504,12 +1503,12 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 		}*/
 
 
-                if ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) {
+                if ( (g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0) {
                         testtime = level.time % g_limbotime.integer;
-                        if ( testtime < lastReinforceTime ) 
+                        if ( testtime < ent->client->pers.lastReinforceTime ) 
                                 do_respawn = 1;
 
-                        lastReinforceTime = testtime;
+                        ent->client->pers.lastReinforceTime= testtime;
                 }
 
                 if ( ( g_maxlives.integer > 0 ) && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {

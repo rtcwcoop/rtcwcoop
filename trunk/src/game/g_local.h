@@ -553,6 +553,8 @@ typedef struct {
 	char cmd3[128];	// !commant attribute extra
 	// End
 
+	int lastReinforceTime;              // DHM - Nerve :: last reinforcement
+
 } clientPersistant_t;
 
 // cs: et sdk antilag
