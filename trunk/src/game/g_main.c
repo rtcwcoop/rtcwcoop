@@ -2092,82 +2092,82 @@ void LogExit( const char *string ) {
 					 cl->pers.netname );
 	}
 
-    if ( g_gametype.integer == GT_COOP_BATTLE ) {
+	if ( g_gametype.integer == GT_COOP_BATTLE ) {
 #ifdef MONEY
 		int a_score = 0;
-        int b_score = 0;
+		int b_score = 0;
 
-        trap_GetConfigstring( CS_BATTLE_INFO, cs, sizeof( cs ) ); 
-        // only for 2 players
+		trap_GetConfigstring( CS_BATTLE_INFO, cs, sizeof( cs ) ); 
+		// only for 2 players
 		a = &level.clients[level.sortedClients[0]];
-        b = &level.clients[level.sortedClients[1]];
-                
-        // if a player score is below 0 he looses
-        if (a->ps.persistant[PERS_SCORE] < 0 && b->ps.persistant[PERS_SCORE] > 0) {
+		b = &level.clients[level.sortedClients[1]];
+			
+		// if a player score is below 0 he looses
+		if (a->ps.persistant[PERS_SCORE] < 0 && b->ps.persistant[PERS_SCORE] > 0) {
 			Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) ); // todo, clientnum of real winner
-        } else if (b->ps.persistant[PERS_SCORE] < 0 && a->ps.persistant[PERS_SCORE] > 0) {
-            Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) ); // todo, clientnum of real winner
-        } else { // both are below or above zero, so lets count their other skills
+		} else if (b->ps.persistant[PERS_SCORE] < 0 && a->ps.persistant[PERS_SCORE] > 0) {
+			Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) ); // todo, clientnum of real winner
+		} else { // both are below or above zero, so lets count their other skills
 			int a_dmgr = (a->sess.damage_received) ? a->sess.damage_received : 1;
-            int b_dmgr = (b->sess.damage_received) ? b->sess.damage_received : 1;
-            int a_dmdg_ratio = a->sess.damage_given / a_dmgr;
-            int b_dmdg_ratio = b->sess.damage_given / b_dmgr;
-            int a_deaths = a->sess.deaths;
-            int b_deaths = b->sess.deaths;
+			int b_dmgr = (b->sess.damage_received) ? b->sess.damage_received : 1;
+			int a_dmdg_ratio = a->sess.damage_given / a_dmgr;
+			int b_dmdg_ratio = b->sess.damage_given / b_dmgr;
+			int a_deaths = a->sess.deaths;
+			int b_deaths = b->sess.deaths;
 
-            if (a_dmdg_ratio > b_dmdg_ratio)
+			if (a_dmdg_ratio > b_dmdg_ratio)
 				a_score ++;
-            if (a_dmdg_ratio < b_dmdg_ratio)
-                b_score ++;
+			if (a_dmdg_ratio < b_dmdg_ratio)
+				b_score ++;
 
-            if (a_deaths < b_deaths)
+			if (a_deaths < b_deaths)
 				a_score ++;
-            if (a_deaths > b_deaths)
-                b_score ++;
+			if (a_deaths > b_deaths)
+				b_score ++;
 
-            if (a->ps.persistant[PERS_SCORE] > b->ps.persistant[PERS_SCORE])
+			if (a->ps.persistant[PERS_SCORE] > b->ps.persistant[PERS_SCORE])
 				a_score ++;
-            if (a->ps.persistant[PERS_SCORE] < b->ps.persistant[PERS_SCORE])
-                b_score ++;
+			if (a->ps.persistant[PERS_SCORE] < b->ps.persistant[PERS_SCORE])
+				b_score ++;
 
-            if (a_score > b_score) {
+			if (a_score > b_score) {
 				Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
-            } else if ( a_score < b_score ) {
-                Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
-            } else {
+			} else if ( a_score < b_score ) {
+				Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+			} else {
 				if (a->ps.persistant[PERS_SCORE] > b->ps.persistant[PERS_SCORE]) {
 					Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
-                } else if (a->ps.persistant[PERS_SCORE] < b->ps.persistant[PERS_SCORE]) {
-                    Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
-                } else {
-                    if (a_deaths < b_deaths) {
+				} else if (a->ps.persistant[PERS_SCORE] < b->ps.persistant[PERS_SCORE]) {
+					Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+				} else {
+					if (a_deaths < b_deaths) {
 						Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
-                    } else if (a_deaths > b_deaths) {
-                        Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
-                    } else {
-                        if (a_dmdg_ratio > b_dmdg_ratio)
-						    Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
-                        else if (a_dmdg_ratio < b_dmdg_ratio)
-                            Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
-                        else
-                            Info_SetValueForKey( cs, "winner", "nobody" );
-                    }
-                }
-            }
+					} else if (a_deaths > b_deaths) {
+						Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+					} else {
+						if (a_dmdg_ratio > b_dmdg_ratio)
+							Info_SetValueForKey( cs, "winner", va("%s", a->pers.netname) );
+						else if (a_dmdg_ratio < b_dmdg_ratio)
+							Info_SetValueForKey( cs, "winner", va("%s", b->pers.netname) );
+						else
+							Info_SetValueForKey( cs, "winner", "nobody" );
+					}
+				}
+			}
 		}
-        trap_SetConfigstring( CS_BATTLE_INFO, cs );
+		trap_SetConfigstring( CS_BATTLE_INFO, cs );
 #else
-        trap_GetConfigstring( CS_BATTLE_INFO, cs, sizeof( cs ) ); 
-        cl = &level.clients[level.sortedClients[0]];
-        Info_SetValueForKey( cs, "winner", va("%s", cl->pers.netname) ); // todo, clientnum of real winner
-        trap_SetConfigstring( CS_BATTLE_INFO, cs );
+		trap_GetConfigstring( CS_BATTLE_INFO, cs, sizeof( cs ) ); 
+		cl = &level.clients[level.sortedClients[0]];
+		Info_SetValueForKey( cs, "winner", va("%s", cl->pers.netname) ); // todo, clientnum of real winner
+		trap_SetConfigstring( CS_BATTLE_INFO, cs );
 #endif
 	}
 
-    // fretn - an empty server needs to be restarted, or new connecting clients get disconnected
-    if ( g_gametype.integer == GT_COOP_SPEEDRUN && level.numPlayingCoopClients == 0 ) {
-		trap_SendConsoleCommand( EXEC_NOW, "map_restart 5\n" );
-    }
+	// fretn - an empty server needs to be restarted, or new connecting clients get disconnected
+	if ( g_gametype.integer == GT_COOP_SPEEDRUN && level.numPlayingCoopClients == 0 ) {
+		trap_SendConsoleCommand( EXEC_NOW, "map_restart 0\n" );
+	}
 }
 
 
@@ -2485,25 +2485,25 @@ void CheckReloadStatus( void ) {
 				if ( g_reloading.integer == RELOAD_NEXTMAP_WAITING ) {
 					trap_Cvar_Set( "g_reloading", va( "%d", RELOAD_NEXTMAP ) ); // set so sv_map_f will know it's okay to start a map
 
-                    if (g_gametype.integer <= GT_COOP) {
+					if (g_gametype.integer <= GT_COOP) {
 						if ( g_cheats.integer ) {
 							trap_SendConsoleCommand( EXEC_APPEND, va( "coopdevmap %s\n", level.nextMap ) );
-                        } else {
-                            trap_SendConsoleCommand( EXEC_APPEND, va( "coopmap %s\n", level.nextMap ) );
-                        }
-                    } else {
+						} else {
+							trap_SendConsoleCommand( EXEC_APPEND, va( "coopmap %s\n", level.nextMap ) );
+						}
+					} else {
 						if ( g_cheats.integer ) {
 							trap_SendConsoleCommand( EXEC_APPEND, va( "spdevmap %s\n", level.nextMap ) );
-                        } else {
-                            trap_SendConsoleCommand( EXEC_APPEND, va( "spmap %s\n", level.nextMap ) );
-                        }
+						} else {
+						    trap_SendConsoleCommand( EXEC_APPEND, va( "spmap %s\n", level.nextMap ) );
+						}
 					}
 				} else if ( g_reloading.integer == RELOAD_ENDGAME ) {
 					G_EndGame();    // kick out to the menu and start the "endgame" menu (credits, etc)
 
 				} else {
 					// set the loadgame flag, and restart the server
-                    if ( g_gametype.integer == GT_SINGLE_PLAYER )
+					if ( g_gametype.integer == GT_SINGLE_PLAYER )
 						trap_Cvar_Set( "savegame_loading", "2" ); // 2 means it's a restart, so stop rendering until we are loaded
 
 					trap_SendConsoleCommand( EXEC_INSERT, "map_restart\n" );
