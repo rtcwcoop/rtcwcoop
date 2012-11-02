@@ -33,6 +33,7 @@
         loadMenu { "ui_mp/wm_quickmessage.menu" }
         loadMenu { "ui_mp/wm_quickmessageAlt.menu" }
 	loadMenu { "ui/clipboard.menu" }		// Bugfix by TitaN655
+        loadMenu { "ui/notebook.menu" }
         loadMenu { "ui/wm_quickbuy.menu" }
         loadMenu { "ui/wm_quickbuyAlt.menu" }
 
