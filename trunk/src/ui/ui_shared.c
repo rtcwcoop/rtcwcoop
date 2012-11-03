@@ -4716,6 +4716,7 @@ void Menu_HandleMouseMove( menuDef_t *menu, float x, float y ) {
 
 void Menu_Paint( menuDef_t *menu, qboolean forcePaint ) {
 	int i;
+	qboolean newversionavailable = qfalse;
 
 	if ( menu == NULL ) {
 		return;
@@ -4755,6 +4756,24 @@ void Menu_Paint( menuDef_t *menu, qboolean forcePaint ) {
 		color[0] = color[2] = color[3] = 1;
 		color[1] = 0;
 		DC->drawRect( menu->window.rect.x, menu->window.rect.y, menu->window.rect.w, menu->window.rect.h, 1, color );
+	}
+
+	// fretn: client asks masterserver for latest version of rtcwcoop
+	// if version is newer than current draw an informational string on the main menu
+	// draw version
+	newversionavailable = (qboolean)DC->getCVarValue("ui_newversionavailable");
+	if ( !Q_stricmp(menu->window.name, "main") && newversionavailable) {
+		vec4_t v = {1, 1, 1, 1};
+		vec4_t color = {0, 0, 0, 0.85};
+		char latest_version[64];
+
+		DC->getCVarString( "ui_latestversion", latest_version, sizeof( latest_version) ); // grab the string the client set
+
+		// MAYBE: if they click on the fillrect, sys_openurl ?
+		DC->fillRect( 5, 415, 640, 65, color );
+		DC->drawText( 10, 441, 0, .25, v, va( "You are running an old version (^3%s) ^7 and there is a new version (^2%s) ^7is available!", RTCWCOOP_VERSION_NUMBER, latest_version ), 0, 0, 0 );
+		DC->drawText( 10, 463, 0, .25, v, va( "Please search the internet for an update. http://rtcwcoop.trak.be" ), 0, 0, 0 );
+
 	}
 }
 
@@ -6288,6 +6307,7 @@ int Menu_Count() {
 
 void Menu_PaintAll() {
 	int i;
+
 	if ( captureFunc ) {
 		captureFunc( captureData );
 	}

@@ -39,6 +39,10 @@ If you have questions concerning this license or the applicable additional terms
 #define GAMENAME_FOR_MASTER           "wolfsp"
 
 #define Q3_VERSION      "RTCWCoop 0.9.1"
+#define RTCWCOOP_VERSION_NUMBER "0.9.1"
+#define RTCWCOOP_VERSION_DIGIT_1 0
+#define RTCWCOOP_VERSION_DIGIT_2 9
+#define RTCWCOOP_VERSION_DIGIT_3 1 
 
 #define MAX_COOP_CLIENTS 8
 

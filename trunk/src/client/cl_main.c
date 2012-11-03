@@ -1909,6 +1909,30 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		return;
 	}
 
+        if ( !Q_stricmp( c, "getlatestversionResponse") ) {
+		int a, b, c;
+		Cvar_Set("ui_latestversion", Cmd_Argv( 1 ));
+
+		a = atoi(Cmd_Argv( 2 ));
+		b = atoi(Cmd_Argv( 3 ));
+		c = atoi(Cmd_Argv( 4 ));
+
+		if (RTCWCOOP_VERSION_DIGIT_1<a) {
+			Cvar_Set("ui_newversionavailable", "1");
+			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
+		} else if (RTCWCOOP_VERSION_DIGIT_2<b) {
+			Cvar_Set("ui_newversionavailable", "1");
+			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
+		} else if (RTCWCOOP_VERSION_DIGIT_3<c) {
+			Cvar_Set("ui_newversionavailable", "1");
+			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
+		} else {
+			Com_Printf( "Your RTCWCOOP version is up to date\n");
+		}
+
+		return;
+	}
+
 	Com_DPrintf( "Unknown connectionless packet command. %s\n", c );
 }
 
@@ -2639,6 +2663,7 @@ void CL_Init( void ) {
 	Cmd_AddCommand( "reconnect", CL_Reconnect_f );
 	Cmd_AddCommand( "localservers", CL_LocalServers_f );
 	Cmd_AddCommand( "globalservers", CL_GlobalServers_f );
+	Cmd_AddCommand( "getlatestversion", CL_GetLatestVersion_f);
 	Cmd_AddCommand( "rcon", CL_Rcon_f );
 	Cmd_AddCommand( "setenv", CL_Setenv_f );
 	Cmd_AddCommand( "ping", CL_Ping_f );
@@ -3156,6 +3181,25 @@ void CL_LocalServers_f( void ) {
 			//NET_SendPacket( NS_CLIENT, strlen( message ), message, to );
 		}
 	}
+}
+
+
+/*
+==================
+CL_GetLatestVersion_f
+==================
+*/
+void CL_GetLatestVersion_f( void ) {
+	netadr_t to;
+	char command[1024];
+
+	NET_StringToAdr( cl_master->string, &to );
+
+	to.type = NA_IP;
+	to.port = BigShort( PORT_MASTER );
+
+	sprintf( command, "getlatestversion rtcwcoop" );
+	NET_OutOfBandPrint( NS_SERVER, to, command );
 }
 
 /*

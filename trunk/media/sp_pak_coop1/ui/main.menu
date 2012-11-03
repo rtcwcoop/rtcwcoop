@@ -32,6 +32,7 @@ menuDef {
 		playlooped "sound/music/l_theme.wav" ;
 		fadeout fadebox ;
 		uiScript stopRefresh ;
+		exec "getlatestversion";
 		}
 		
 	onESC { open quit_popmenu }
