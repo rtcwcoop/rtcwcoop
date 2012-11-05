@@ -72,7 +72,6 @@ vmCvar_t g_reloading;       //----(SA)	added
 vmCvar_t g_dmflags;
 vmCvar_t g_fraglimit;
 vmCvar_t g_timelimit;
-vmCvar_t g_capturelimit;
 vmCvar_t g_friendlyFire;
 vmCvar_t g_password;
 vmCvar_t g_maxclients;
@@ -112,7 +111,6 @@ vmCvar_t g_listEntity;
 vmCvar_t g_banIPs;
 vmCvar_t g_filterBan;
 vmCvar_t g_rankings;
-vmCvar_t g_enableBreath;
 vmCvar_t g_smoothClients;
 vmCvar_t pmove_fixed;
 vmCvar_t pmove_msec;
@@ -207,7 +205,6 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_dmflags, "dmflags", "0", CVAR_SERVERINFO | CVAR_ARCHIVE, 0, qtrue  },
 	{ &g_fraglimit, "fraglimit", "0", CVAR_SERVERINFO | CVAR_ARCHIVE | CVAR_NORESTART, 0, qtrue },
 	{ &g_timelimit, "timelimit", "20", CVAR_SERVERINFO | CVAR_ARCHIVE | CVAR_NORESTART, 0, qtrue },
-	{ &g_capturelimit, "capturelimit", "8", CVAR_SERVERINFO | CVAR_ARCHIVE | CVAR_NORESTART, 0, qtrue },
 
 	{ &g_syncronousClients, "g_syncronousClients", "0", CVAR_SYSTEMINFO, 0, qfalse  },
 
@@ -248,8 +245,6 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_allowVote, "g_allowVote", "1", 0, 0, qfalse },
 	{ &g_listEntity, "g_listEntity", "0", 0, 0, qfalse },
-
-	{ &g_enableBreath, "g_enableBreath", "1", CVAR_SERVERINFO, 0, qtrue},
 
 	{ &g_testPain, "g_testPain", "0", CVAR_CHEAT, 0, qfalse },
 
