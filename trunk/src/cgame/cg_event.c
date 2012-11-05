@@ -165,14 +165,14 @@ static void CG_Obituary( entityState_t *ent ) {
                 message = "was killed";
                 break;
 #ifdef _ADMINS
-		// L0 - MODs
-		case MOD_SLAP:
+        // L0 - MODs
+        case MOD_SLAP:
                 message = "was slapped to death by Admin";
                 break;
-		case MOD_ADMKILL:
-				message = "was killed by Admin";
-				break;
-		// end
+        case MOD_ADMKILL:
+                message = "was killed by Admin";
+        break;
+        // end
 #endif
 
         default:
@@ -205,6 +205,11 @@ static void CG_Obituary( entityState_t *ent ) {
                         break;
                 }
         }
+
+        if (tcent->currentState.aiChar == AICHAR_NONE) {
+                message = "died";
+        }
+
         if ( message ) {
                 //message = CG_TranslateString( message );
                 CG_Printf( "[cgnotify]%s %s.\n", targetName, message );
