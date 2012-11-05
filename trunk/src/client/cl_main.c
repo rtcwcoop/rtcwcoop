@@ -2581,8 +2581,14 @@ void CL_Init( void ) {
 	cl_sensitivity = Cvar_Get( "sensitivity", "5", CVAR_ARCHIVE );
 	cl_mouseAccel = Cvar_Get( "cl_mouseAccel", "0", CVAR_ARCHIVE );
 	cl_freelook = Cvar_Get( "cl_freelook", "1", CVAR_ARCHIVE );
-	//cl_master = Cvar_Get( "cl_master", "88.159.160.153", CVAR_ARCHIVE );
-	cl_master = Cvar_Get( "cl_master", "78.47.152.4", CVAR_ARCHIVE );
+	cl_master = Cvar_Get( "cl_master", "master.rtcwcoop.com", CVAR_ARCHIVE );
+
+        // fretn: people got the ip of the masterserver in their saved configs, lets change that to master.rtcwcoop.com
+        // so in case we ever change the ip of master.rtcwcoop.com they still can see the master
+        // we can remove this in a few releases
+        if (!Q_stricmp(cl_master->string, "78.47.152.4") || !Q_stricmp(cl_master->string, "88.159.160.153")) {
+                Cvar_Set("cl_master", "master.rtcwcoop.com");
+        }
 
 	cl_showMouseRate = Cvar_Get( "cl_showmouserate", "0", 0 );
         cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);  // fretn
