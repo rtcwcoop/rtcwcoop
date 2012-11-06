@@ -632,7 +632,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 			char    *denied;
 
 			if ( svs.clients[i].netchan.remoteAddress.type == NA_BOT ) {
-				if ( killBots || Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
+				if ( killBots || Cvar_VariableValue( "g_gametype" ) <= GT_SINGLE_PLAYER ) {
 					SV_DropClient( &svs.clients[i], " remove bots" );      //DAJ added message
 					continue;
 				}
