@@ -510,7 +510,9 @@ void SV_DropClient( client_t *drop, const char *reason ) {
 
                 for ( i = 0 ; i < MAX_CHALLENGES ; i++, challenge++ ) {
                         if ( NET_CompareAdr( drop->netchan.remoteAddress, challenge->adr ) ) {
-                                challenge->connected = qfalse;
+                                //challenge->connected = qfalse;
+				// zero the challenge
+				Com_Memset(challenge, 0, sizeof(*challenge))
                                 break;
                         }    
                 }    
