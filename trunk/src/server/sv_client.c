@@ -309,7 +309,7 @@ void SV_DirectConnect( netadr_t from ) {
 		}
 
 		Com_Printf( "Client %i connecting with %i challenge ping\n", i, ping );
-        svs.challenges[i].connected = qtrue;
+		svs.challenges[i].connected = qtrue;
 
 		// never reject a LAN client based on ping
 		if ( !Sys_IsLANAddress( from ) ) {
@@ -348,7 +348,8 @@ void SV_DirectConnect( netadr_t from ) {
 			newcl = cl;
 			// disconnect the client from the game first so any flags the
 			// player might have are dropped
-			VM_Call( gvm, GAME_CLIENT_DISCONNECT, newcl - svs.clients );
+			// fretn: this is not needed, userinfo is nuked by this .. thanks to ioq3 ;)
+			// VM_Call( gvm, GAME_CLIENT_DISCONNECT, newcl - svs.clients );
 			//
 			goto gotnewcl;
 		}
@@ -512,7 +513,7 @@ void SV_DropClient( client_t *drop, const char *reason ) {
                         if ( NET_CompareAdr( drop->netchan.remoteAddress, challenge->adr ) ) {
                                 //challenge->connected = qfalse;
 				// zero the challenge
-				Com_Memset(challenge, 0, sizeof(*challenge))
+				Com_Memset(challenge, 0, sizeof(*challenge));
                                 break;
                         }    
                 }    
