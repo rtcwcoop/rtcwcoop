@@ -531,19 +531,19 @@ void SVC_Status( netadr_t from ) {
 		return;
 	}
 
-    // Prevent using getstatus as an amplifier
-    if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-			NET_AdrToString( from ) );
-    return;
-    }
+        // Prevent using getstatus as an amplifier
+        if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
+                Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
+                        NET_AdrToString( from ) );
+                return;
+        }
 
-    // Allow getstatus to be DoSed relatively easily, but prevent
-    // excess outbound bandwidth usage when being flooded inbound
-    if ( SVC_RateLimit( &bucket, 10, 100 ) ) {
-		Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
-    return;
-    }
+        // Allow getstatus to be DoSed relatively easily, but prevent
+        // excess outbound bandwidth usage when being flooded inbound
+        if ( SVC_RateLimit( &bucket, 10, 100 ) ) {
+                Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
+                return;
+        }
 
 	strcpy( infostring, Cvar_InfoString( CVAR_SERVERINFO ) );
 
@@ -617,12 +617,12 @@ void SVC_Info( netadr_t from ) {
 		return;
 	}
 
-    // Prevent using getinfo as an amplifier
-    if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-			NET_AdrToString( from ) ); 
-    return;
-    } 
+        // Prevent using getinfo as an amplifier
+        if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
+                Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
+                        NET_AdrToString( from ) ); 
+                return;
+        } 
 
 	// don't count privateclients
 	count = 0;
