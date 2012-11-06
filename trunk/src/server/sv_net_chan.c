@@ -135,6 +135,25 @@ static void SV_Netchan_Decode( client_t *client, msg_t *msg ) {
 
 /*
 =================
+SV_Netchan_FreeQueue
+=================
+*/
+void SV_Netchan_FreeQueue(client_t *client)
+{
+        netchan_buffer_t *netbuf, *next;
+    
+        for(netbuf = client->netchan_start_queue; netbuf; netbuf = next)
+        {   
+                next = netbuf->next;
+                Z_Free(netbuf);
+        }   
+    
+        client->netchan_start_queue = NULL;
+        client->netchan_end_queue = &client->netchan_start_queue;
+}
+
+/*
+=================
 SV_Netchan_TransmitNextFragment
 =================
 */

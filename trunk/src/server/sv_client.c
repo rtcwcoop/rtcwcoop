@@ -487,6 +487,18 @@ gotnewcl:
 	}
 }
 
+/*
+=====================
+SV_FreeClient
+
+Destructor for data allocated in a client structure
+=====================
+*/
+void SV_FreeClient(client_t *client)
+{
+        SV_Netchan_FreeQueue(client);
+        SV_CloseDownload(client);
+}
 
 /*
 =====================
@@ -527,6 +539,9 @@ void SV_DropClient( client_t *drop, const char *reason ) {
 		// tell everyone why they got dropped
 		SV_SendServerCommand( NULL, "print \"%s" S_COLOR_WHITE " %s\n\"", drop->name, reason );
 	}
+
+	// Free all allocated data on the client structure
+	SV_FreeClient(drop);
 
 	Com_DPrintf( "Going to CS_ZOMBIE for %s\n", drop->name );
 	drop->state = CS_ZOMBIE;        // become free in a few seconds

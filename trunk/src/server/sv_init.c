@@ -878,7 +878,11 @@ void SV_Shutdown( char *finalmsg ) {
 
 	// free server static data
 	if ( svs.clients ) {
-		//Z_Free( svs.clients );
+		int index;
+    
+                for(index = 0; index < sv_maxclients->integer; index++)
+                        SV_FreeClient(&svs.clients[index]);
+
 		free( svs.clients );    // RF, avoid trying to allocate large chunk on a fragmented zone
 	}
 	memset( &svs, 0, sizeof( svs ) );
