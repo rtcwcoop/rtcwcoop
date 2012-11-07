@@ -728,7 +728,7 @@ void CL_Disconnect( qboolean showMainMenu ) {
 	}
 
 	// shutting down the client so enter full screen ui mode
-	Cvar_Set( "r_uiFullScreen", "1" );
+	Cvar_Set( "r_uiFullScreen", "0" );
 
 	if ( clc.demorecording ) {
 		CL_StopRecord_f();

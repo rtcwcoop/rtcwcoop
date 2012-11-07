@@ -1237,13 +1237,9 @@ void R_TagInfo_f( void );
 
 void R_AddPolygonSurfaces( void );
 
-// GR - add tessellation flag
-void R_DecomposeSort( unsigned sort, int *entityNum, shader_t **shader,
-					  int *fogNum, int *dlightMap, int *atiTess );
+void R_DecomposeSort( unsigned sort, int *entityNum, shader_t **shader, int *fogNum, int *dlightMap );
 
-// GR - add tessellation flag
-void R_AddDrawSurf( surfaceType_t *surface, shader_t *shader, int fogIndex, int dlightMap, int atiTess );
-
+void R_AddDrawSurf( surfaceType_t *surface, shader_t *shader, int fogIndex, int dlightMap );
 
 #define CULL_IN     0       // completely unclipped
 #define CULL_CLIP   1       // clipped by one or more planes

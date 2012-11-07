@@ -2223,7 +2223,7 @@ void Com_Init( char *commandLine ) {
 	}
 
 	// start in full screen ui mode
-	Cvar_Set( "r_uiFullScreen", "1" );
+	Cvar_Set( "r_uiFullScreen", "0" );
 
 	CL_StartHunkUsers();
 

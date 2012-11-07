@@ -892,8 +892,6 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 	int oldSort;
 	float originalTime;
 	int oldNumVerts, oldNumIndex;
-//GR - tessellation flag
-	int atiTess = 0, oldAtiTess;
 #ifdef __MACOS__
 	int macEventTime;
 
@@ -919,8 +917,6 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 	oldDlighted = qfalse;
 	oldSort = -1;
 	depthRange = qfalse;
-// GR - tessellation also forces to draw everything
-	oldAtiTess = -1;
 
 	backEnd.pc.c_surfaces += numDrawSurfs;
 
@@ -944,15 +940,13 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 		}
 		oldSort = drawSurf->sort;
 // GR - also extract tesselation flag
-		R_DecomposeSort( drawSurf->sort, &entityNum, &shader, &fogNum, &dlighted, &atiTess );
+		R_DecomposeSort( drawSurf->sort, &entityNum, &shader, &fogNum, &dlighted );
 
 		//
 		// change the tess parameters if needed
 		// a "entityMergable" shader is a shader that can have surfaces from seperate
 		// entities merged into a single batch, like smoke and blood puff sprites
 		if ( shader != oldShader || fogNum != oldFogNum || dlighted != oldDlighted
-// GR - force draw on tessellation flag change
-			 || ( atiTess != oldAtiTess )
 			 || ( entityNum != oldEntityNum && !shader->entityMergable ) ) {
 			if ( oldShader != NULL ) {
 #ifdef __MACOS__    // crutch up the mac's limited buffer queue size
@@ -964,18 +958,12 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 					Sys_PumpEvents();
 				}
 #endif
-// GR - pass tessellation flag to the shader command
-//		make sure to use oldAtiTess!!!
-				tess.ATI_tess = ( oldAtiTess == ATI_TESS_TRUFORM );
-
 				RB_EndSurface();
 			}
 			RB_BeginSurface( shader, fogNum );
 			oldShader = shader;
 			oldFogNum = fogNum;
 			oldDlighted = dlighted;
-// GR - update old tessellation flag
-			oldAtiTess = atiTess;
 		}
 
 		//
@@ -1051,10 +1039,6 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 
 	// draw the contents of the last shader batch
 	if ( oldShader != NULL ) {
-// GR - pass tessellation flag to the shader command
-//		make sure to use oldAtiTess!!!
-		tess.ATI_tess = ( oldAtiTess == ATI_TESS_TRUFORM );
-
 		RB_EndSurface();
 	}
 

@@ -122,7 +122,7 @@ void R_AddPolygonSurfaces( void ) {
 	for ( i = 0, poly = tr.refdef.polys; i < tr.refdef.numPolys ; i++, poly++ ) {
 		sh = R_GetShaderByHandle( poly->hShader );
 // GR - not tessellated
-		R_AddDrawSurf( ( void * )poly, sh, poly->fogIndex, qfalse, ATI_TESS_NONE );
+		R_AddDrawSurf( ( void * )poly, sh, poly->fogIndex, qfalse );
 	}
 }
 
