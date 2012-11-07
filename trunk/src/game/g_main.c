@@ -2178,6 +2178,9 @@ void LogExit( const char *string ) {
 #endif
 	}
 
+	if (g_maxlives.integer)
+		trap_SendConsoleCommand( EXEC_NOW, "map_restart 5\n" );
+
 	// fretn - an empty server needs to be restarted, or new connecting clients get disconnected
 	if ( g_gametype.integer == GT_COOP_SPEEDRUN && level.numPlayingCoopClients == 0 ) {
 		trap_SendConsoleCommand( EXEC_NOW, "map_restart 0\n" );
