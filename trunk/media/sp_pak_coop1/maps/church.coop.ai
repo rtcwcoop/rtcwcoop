@@ -26,8 +26,9 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/c_chant
-		trigger counter1 cinematic1
-		trigger player cam1
+		//trigger counter1 cinematic1
+		trigger counter1 cleanup
+		//trigger player cam1
 
 		// Weapons
 		giveweapon weapon_knife		
