@@ -1,0 +1,19 @@
+#summary Message of the day's for the in-game advertising.
+
+= Introduction =
+MOTD's are a way so owners can point players on their server towards their forums or list any other messages they see as relevant for users.
+
+= Details =
+Basically MOTDs are a simple prints in _chat_ with messages that owner sets. Owners can set up to 6 messages as well as control the time between each message - how much time it takes between each message to be printed.
+
+= Cvars =
+List of MOTD settings:
+|| *Cvar* || *Values* || *Explanation* ||
+|| g_showMOTD || 0/1 || Enables or disables in-game MOTD printing.  ||
+|| g_motdTime || <seconds> || Time in seconds between each message is printed. Default is 60 seconds. ||
+|| g_motd1 || <message> || First message that will be printed. ||
+|| g_motd2 || <message> || Second message that will be printed. ||
+|| g_motd3 || <message> || Third message that will be printed. ||
+|| g_motd4 || <message> || Fourth message that will be printed. ||
+|| g_motd5 || <message> || Fifth message that will be printed. ||
+|| g_motd6 || <message> || Sixth message that will be printed. ||
