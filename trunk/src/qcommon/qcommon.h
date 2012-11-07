@@ -278,7 +278,7 @@ PROTOCOL
 ==============================================================
 */
 
-#define PROTOCOL_VERSION    6
+#define PROTOCOL_VERSION    7
 #define GAMENAME_STRING "wolfcoop"
 
 //----(SA)	heh, whoops.  we've been talking to id servers since we got a connection...
