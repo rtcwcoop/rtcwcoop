@@ -162,6 +162,16 @@ vmCvar_t	g_votesPerUser; // How many votes can user call each game
 // General
 vmCvar_t	g_shove;		// Enable - Disable shove 
 vmCvar_t	g_shoveAmount;	// How far one is pushed
+// Motds
+vmCvar_t	g_showMOTD;		// Enable MOTD's (message of the day)
+vmCvar_t	motdNum;		// With which motd it starts..
+vmCvar_t	g_motd1;		// MESSAGE 1
+vmCvar_t	g_motd2;		// MESSAGE 2
+vmCvar_t	g_motd3;		// MESSAGE 3
+vmCvar_t	g_motd4;		// MESSAGE 4
+vmCvar_t	g_motd5;		// MESSAGE 5
+vmCvar_t	g_motd6;		// MESSAGE 6
+vmCvar_t	g_motdTime;		// Time between each message
 // end
 
 cvarTable_t gameCvarTable[] = {
@@ -290,6 +300,15 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_shove, "g_shove", "0", CVAR_ARCHIVE, 0, qtrue},
 	{ &g_shoveAmount, "g_shoveAmount", "0.8", CVAR_ARCHIVE, 0, qtrue}, // Don't give to much...
+	{ &g_showMOTD, "g_showMOTD", "1",CVAR_ARCHIVE, 0, qfalse },	
+	{ &g_motd1, "g_motd1", "", 0, 0, qfalse},
+	{ &g_motd2, "g_motd2", "", 0, 0, qfalse},
+	{ &g_motd3, "g_motd3", "", 0, 0, qfalse},
+	{ &g_motd4, "g_motd4", "", 0, 0, qfalse},
+	{ &g_motd5, "g_motd5", "", 0, 0, qfalse},
+	{ &g_motd6, "g_motd6", "", 0, 0, qfalse},
+	{ &g_motdTime, "g_motdTime", "60", 0, 0, qtrue},
+	{ &motdNum, "motdNum", "1", CVAR_ROM, 0, qfalse},
 	// End
 
 	// cs: et sdk antilag
@@ -2523,6 +2542,51 @@ void CheckReloadStatus( void ) {
 
 /*
 ==================
+L0 - MOTD's
+
+Currently printed in console.
+Should I put it somewhere else on the screen?
+==================
+*/
+void MOTD( void ) {
+	
+	if (!g_showMOTD.integer)
+		return;
+		
+	if (motdNum.integer == 1){
+		AP(va("chat \"console: %s\n\"", g_motd1.string));		
+			level.motdTime = level.time;	
+				(strlen(g_motd2.string)) ? trap_Cvar_Set( "motdNum", "2" ) : trap_Cvar_Set( "motdNum", "1" );
+	}	
+	if (motdNum.integer == 2){		
+		AP(va("chat \"console: %s\n\"", g_motd2.string));
+			level.motdTime = level.time;
+				(strlen(g_motd3.string)) ? trap_Cvar_Set( "motdNum", "3" ) : trap_Cvar_Set( "motdNum", "1" );
+	}		
+	if (motdNum.integer == 3){
+		AP(va("chat \"console: %s\n\"", g_motd3.string));
+			level.motdTime = level.time;
+				(strlen(g_motd4.string)) ? trap_Cvar_Set( "motdNum", "4" ) : trap_Cvar_Set( "motdNum", "1" );
+	}
+	if (motdNum.integer == 4){
+		AP(va("chat \"console: %s\n\"", g_motd4.string));
+			level.motdTime = level.time;
+				(strlen(g_motd5.string)) ? trap_Cvar_Set( "motdNum", "5" ) : trap_Cvar_Set( "motdNum", "1" );
+	} 
+	if (motdNum.integer == 5){		
+		AP(va("chat \"console: %s\n\"", g_motd5.string));
+			level.motdTime = level.time;
+				(strlen(g_motd6.string)) ? trap_Cvar_Set( "motdNum", "6" ) : trap_Cvar_Set( "motdNum", "1" );
+	} 
+	if (motdNum.integer == 6){
+		AP(va("chat \"console: %s\n\"", g_motd6.string));
+			level.motdTime = level.time;	
+				trap_Cvar_Set( "motdNum", "1" );
+	}
+} // End
+
+/*
+==================
 CheckCvars
 ==================
 */
@@ -2785,11 +2849,7 @@ void G_RunFrame( int levelTime ) {
 	    CheckTeamStatus(); // update to team status?
 
 	// cancel vote if timed out
-	CheckVote();
-
-	// check team votes
-//	CheckTeamVote( TEAM_RED );
-//	CheckTeamVote( TEAM_BLUE );
+	CheckVote();	
 
 	// for tracking changes
 	CheckCvars();
@@ -2804,4 +2864,10 @@ void G_RunFrame( int levelTime ) {
 	// Ridah, check if we are reloading, and times have expired
 	CheckReloadStatus();
 
+	// L0 - MOTDs
+	if (g_showMOTD.integer /* && level.startTime > 2000 */){		
+		if (level.time >= (level.motdTime + g_motdTime.integer*1000)) {
+			MOTD();			
+		}
+	} // End
 }

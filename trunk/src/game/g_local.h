@@ -828,6 +828,9 @@ typedef struct {
         int lastBattleScorecheck;
 
         int numFinalDead;
+	// L0 
+	int motdTime;
+	// End
 
 } level_locals_t;
 
@@ -1309,6 +1312,15 @@ extern vmCvar_t g_extendedLog;
 extern vmCvar_t g_votesPerUser;
 extern vmCvar_t g_shove;
 extern vmCvar_t g_shoveAmount;
+extern vmCvar_t	g_showMOTD;
+extern vmCvar_t g_motd1;
+extern vmCvar_t g_motd2;
+extern vmCvar_t g_motd3;
+extern vmCvar_t g_motd4;
+extern vmCvar_t g_motd5;
+extern vmCvar_t g_motd6;
+extern vmCvar_t g_motdTime;
+extern vmCvar_t motdNum;
 // End
 
 void    trap_Print( const char *fmt );

@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 * 
 * Author: Nate L0
 * Date: 11.09/12
-* Last edit: 
+* Last edit: 07.11/12
 ****************************************************************************
 */
 
@@ -69,6 +69,9 @@ void APSound(char *sound);
 /* -> Macros <- */
 #define APS(x) APSound(x);			// Global sound 
 #define CPS(x, y) CPSound(x, y);	// Client sound only
+#define AP(x) trap_SendServerCommand(-1, x)					// Print to all
+#define CP(x) trap_SendServerCommand(ent-g_entities, x)		// Print to an ent
+#define CPx(x, y) trap_SendServerCommand(x, y)				// Print to id = x
 
 
 

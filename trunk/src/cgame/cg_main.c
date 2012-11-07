@@ -486,7 +486,7 @@ cvarTable_t cvarTable[] = {
 	// L0
 	{ &cg_solidCrosshair, "cg_solidCrosshair", "0", CVAR_ARCHIVE },
 	{ &cg_bloodBlend, "cg_bloodBlend", "0", CVAR_ARCHIVE },
-	{ &cg_announcer, "cg_announcer", "0", CVAR_ARCHIVE},
+	{ &cg_announcer, "cg_announcer", "1", CVAR_ARCHIVE}, // This should be on by default imho.
 	// end
 
 	{ &cg_showAIState, "cg_showAIState", "0", CVAR_CHEAT},

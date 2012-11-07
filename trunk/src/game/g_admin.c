@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 * 
 * Author: Nate L0
 * Date: 11.09/12
-* Last edit: 
+* Last edit: 07.11/12
 ****************************************************************************
 */
 #include "g_local.h"
