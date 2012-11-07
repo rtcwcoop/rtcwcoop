@@ -506,7 +506,7 @@ void APSound(char *sound){
 	gentity_t *te;
 	int o;
 	
-	for(o = 0; o < MAX_CLIENTS; o++) {
+	for(o = 0; o < MAX_COOP_CLIENTS; o++) {
 	ent = g_entities + o;
 
 		te = G_TempEntity(ent->s.pos.trBase, EV_GLOBAL_SOUND);	   
