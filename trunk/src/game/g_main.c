@@ -300,7 +300,7 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_shove, "g_shove", "0", CVAR_ARCHIVE, 0, qtrue},
 	{ &g_shoveAmount, "g_shoveAmount", "0.8", CVAR_ARCHIVE, 0, qtrue}, // Don't give to much...
-	{ &g_showMOTD, "g_showMOTD", "1",CVAR_ARCHIVE, 0, qfalse },	
+	{ &g_showMOTD, "g_showMOTD", "0",CVAR_ARCHIVE, 0, qfalse },	
 	{ &g_motd1, "g_motd1", "", 0, 0, qfalse},
 	{ &g_motd2, "g_motd2", "", 0, 0, qfalse},
 	{ &g_motd3, "g_motd3", "", 0, 0, qfalse},
@@ -2556,27 +2556,27 @@ void MOTD( void ) {
 	if (motdNum.integer == 1){
 		AP(va("chat \"console: %s\n\"", g_motd1.string));		
 			level.motdTime = level.time;	
-				(strlen(g_motd2.string)) ? trap_Cvar_Set( "motdNum", "2" ) : trap_Cvar_Set( "motdNum", "1" );
+				(strlen(g_motd2.string) > 2) ? trap_Cvar_Set( "motdNum", "2" ) : trap_Cvar_Set( "motdNum", "1" );
 	}	
 	if (motdNum.integer == 2){		
 		AP(va("chat \"console: %s\n\"", g_motd2.string));
 			level.motdTime = level.time;
-				(strlen(g_motd3.string)) ? trap_Cvar_Set( "motdNum", "3" ) : trap_Cvar_Set( "motdNum", "1" );
+				(strlen(g_motd3.string) > 2) ? trap_Cvar_Set( "motdNum", "3" ) : trap_Cvar_Set( "motdNum", "1" );
 	}		
 	if (motdNum.integer == 3){
 		AP(va("chat \"console: %s\n\"", g_motd3.string));
 			level.motdTime = level.time;
-				(strlen(g_motd4.string)) ? trap_Cvar_Set( "motdNum", "4" ) : trap_Cvar_Set( "motdNum", "1" );
+				(strlen(g_motd4.string) > 2) ? trap_Cvar_Set( "motdNum", "4" ) : trap_Cvar_Set( "motdNum", "1" );
 	}
 	if (motdNum.integer == 4){
 		AP(va("chat \"console: %s\n\"", g_motd4.string));
 			level.motdTime = level.time;
-				(strlen(g_motd5.string)) ? trap_Cvar_Set( "motdNum", "5" ) : trap_Cvar_Set( "motdNum", "1" );
+				(strlen(g_motd5.string) > 2) ? trap_Cvar_Set( "motdNum", "5" ) : trap_Cvar_Set( "motdNum", "1" );
 	} 
 	if (motdNum.integer == 5){		
 		AP(va("chat \"console: %s\n\"", g_motd5.string));
 			level.motdTime = level.time;
-				(strlen(g_motd6.string)) ? trap_Cvar_Set( "motdNum", "6" ) : trap_Cvar_Set( "motdNum", "1" );
+				(strlen(g_motd6.string) > 2) ? trap_Cvar_Set( "motdNum", "6" ) : trap_Cvar_Set( "motdNum", "1" );
 	} 
 	if (motdNum.integer == 6){
 		AP(va("chat \"console: %s\n\"", g_motd6.string));
