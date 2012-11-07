@@ -4,10 +4,7 @@
 Info about configuration of server Administration for server owners as well as general howto's for server Admins.
 
 == Revision ==
-This is for revision 774 and on. 
-Changes will be updated accordingly.
-
-UPDATED: Reflects all changes up to revision 908.  
+*Last update:* revision 908.  
 
 = Server configuration for Owners =
 
