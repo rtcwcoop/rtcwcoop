@@ -116,7 +116,7 @@ Simply login as Admin and execute command by typing in chat or console *!command
 *TIP:* To view client slot number use /getstatus.
 
 == Custom Admin commands == 
-By default Admins can have any server command as long as it's in a*_cmd's string for their level. 
+By default Admins can have any server command as long as it's in a?_cmd's string for their level. 
 This means that owners can assign any command in their level, commands like g_allowVote or rconpassword.
 
 *USAGE:*
