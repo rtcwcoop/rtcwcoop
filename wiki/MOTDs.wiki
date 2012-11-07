@@ -19,6 +19,4 @@ List of MOTD settings:
 || g_motd6 || <message> || Sixth message that will be printed. ||
 
 = Conclusion =
-That's as much as there is to it. If there are any suggestions to increase motd's or change where and how they're printed, let me know on forum. 
-
-Nate
+That's as much as there is to it. If there are any suggestions to increase motd's or change where and how they're printed, let us know on forum. :)
