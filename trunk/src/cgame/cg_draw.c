@@ -2289,14 +2289,15 @@ static qboolean CG_DrawFollow( void ) {
 		CG_DrawStringExt( x, 48, deploytime, color, qtrue, qtrue, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, 0 );
 
 	} else {
-// jpw
-		CG_DrawBigString( 320 - 9 * 8, 24, "following", 1.0F );
+// jpw	
+		// L0 - fixed coloring- switched from giant to big char - offset it down a little so name doesn't look nested with first line.
+		CG_DrawBigString( 320 - 9 * 8, 24, "^?following^7", 1.0F );
 
 		name = cgs.clientinfo[ cg.snap->ps.clientNum ].name;
 
-		x = 0.5 * ( 640 - GIANT_WIDTH * CG_DrawStrlen( name ) );
+		x = 0.5 * ( 640 - BIGCHAR_WIDTH * CG_DrawStrlen( name ) );
 
-		CG_DrawStringExt( x, 40, name, color, qtrue, qtrue, GIANT_WIDTH, GIANT_HEIGHT, 0 );
+		CG_DrawStringExt( x, 60, name, color, qtrue, qtrue, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, 0 );
 	} // JPW NERVE
 	return qtrue;
 }
