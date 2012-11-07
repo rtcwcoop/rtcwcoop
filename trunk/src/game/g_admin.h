@@ -63,6 +63,14 @@ void CheckVote( void );
 
 /* -> Linked all accross <- */
 void logEntry (char *filename, char *info);
+void CPSound(gentity_t *ent, char *sound);
+void APSound(char *sound);
+
+/* -> Macros <- */
+#define APS(x) APSound(x);			// Global sound 
+#define CPS(x, y) CPSound(x, y);	// Client sound only
+
+
 
 
 

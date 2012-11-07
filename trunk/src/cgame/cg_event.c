@@ -2236,8 +2236,17 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 			trap_S_StartSound( NULL, cg.snap->ps.clientNum, CHAN_AUTO, CG_CustomSound( es->number, s ) );
 		}
 		break;
+	// L0 - Client only sound
+	case EV_CLIENT_SOUND:
+		DEBUGNAME( "EV_CLIENT_SOUND" );
 
-
+		if ( cg.snap->ps.clientNum == es->teamNum ) {
+			if ( cgs.gameSounds[ es->eventParm ] ) {
+				trap_S_StartSound( NULL, cg.snap->ps.clientNum, CHAN_AUTO, cgs.gameSounds[ es->eventParm ] );
+			}
+		}
+		break;	
+	// End
 	case EV_PAIN:
 		// local player sounds are triggered in CG_CheckLocalSounds,
 		// so ignore events on the player

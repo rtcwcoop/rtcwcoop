@@ -2130,28 +2130,67 @@ static void CG_DrawSpectator( void ) {
 /*
 =================
 CG_DrawVote
+
+L0 - DrawVote looks ugly as hell..I've port it from mp.
+
+NOTE: Vote sounds are set in game logic (c_cmds.c /callvote)..
 =================
 */
+char* BindingFromName( const char *cvar );
 static void CG_DrawVote( void ) {
-	char    *s;
+	char *s;
 	int sec;
+	char str1[32], str2[32];
+	float color[4] = { 1, 1, 0, 1 };
 
 	if ( !cgs.voteTime ) {
 		return;
 	}
 
+	Q_strncpyz( str1, BindingFromName( "vote yes" ), 32 );
+	if ( !Q_stricmp( str1, "???" ) ) {
+		Q_strncpyz( str1, "vote yes", 32 );
+	}
+	Q_strncpyz( str2, BindingFromName( "vote no" ), 32 );
+	if ( !Q_stricmp( str2, "???" ) ) {
+		Q_strncpyz( str2, "vote no", 32 );
+	}
+
 	// play a talk beep whenever it is modified
 	if ( cgs.voteModified ) {
-		cgs.voteModified = qfalse;
-		trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
+		cgs.voteModified = qfalse;	
 	}
 
 	sec = ( VOTE_TIME - ( cg.time - cgs.voteTime ) ) / 1000;
 	if ( sec < 0 ) {
 		sec = 0;
 	}
-	s = va( "VOTE(%i):%s yes(F1):%i no(F2):%i", sec, cgs.voteString, cgs.voteYes, cgs.voteNo );
-	CG_DrawSmallString( 0, 58, s, 1.0F );
+
+	if ( !( cg.snap->ps.eFlags & EF_VOTED ) ) {
+// L0 - This has to get removed eventually as it'a mess...
+#ifdef LOCALISATION
+		s = va( CG_TranslateString( "VOTE(%i):%s" ), sec, cgs.voteString );
+#else
+		s = va( "VOTE(%i):%s", sec, cgs.voteString );
+#endif	
+		// Should we push this down?
+		CG_DrawStringExt( 8, 200, s, color, qtrue, qfalse, TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 60 );
+
+#ifdef LOCALISATION
+		s = va( CG_TranslateString( "YES(%s):%i, NO(%s):%i" ), str1, cgs.voteYes, str2, cgs.voteNo );
+#else
+		s = va( "YES(%s):%i, NO(%s):%i", str1, cgs.voteYes, str2, cgs.voteNo );
+#endif
+		CG_DrawStringExt( 8, 214, s, color, qtrue, qfalse, TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 60 );
+	} else {
+
+#ifdef LOCALISATION
+		s = va( CG_TranslateString( "Y:%i, N:%i" ), cgs.voteYes, cgs.voteNo );
+#else
+		s = va( "Y:%i, N:%i", cgs.voteYes, cgs.voteNo );
+#endif
+		CG_DrawStringExt( 8, 214, s, color, qtrue, qfalse, TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 20 );
+	}
 }
 
 /*

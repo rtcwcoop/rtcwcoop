@@ -758,6 +758,9 @@ typedef enum {
 	EV_GRENADE_BOUNCE,      // eventParm will be the soundindex
 	EV_GENERAL_SOUND,
 	EV_GLOBAL_SOUND,        // no attenuation
+	// L0 
+	EV_CLIENT_SOUND,
+	// End
 	EV_BULLET_HIT_FLESH,
 	EV_BULLET_HIT_WALL,
 	EV_MISSILE_HIT,

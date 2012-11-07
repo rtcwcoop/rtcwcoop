@@ -1905,6 +1905,8 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	}
 
 	trap_SendServerCommand( -1, va( "print \"%s ^7called a vote.\n\"", ent->client->pers.netname ) );
+	// L0 - Add a sound
+	APS("sound/scenaric/votes/voteCall.wav");
 
 	// start the voting, the caller autoamtically votes yes
 	level.voteTime = level.time;
@@ -1950,9 +1952,13 @@ void Cmd_Vote_f( gentity_t *ent ) {
 	if ( msg[0] == 'y' || msg[1] == 'Y' || msg[1] == '1' ) {
 		level.voteYes++;
 		trap_SetConfigstring( CS_VOTE_YES, va( "%i", level.voteYes ) );
+		// L0 - Add a sound
+		CPS(ent, "sound/scenaric/votes/voteYes.wav");
 	} else {
 		level.voteNo++;
 		trap_SetConfigstring( CS_VOTE_NO, va( "%i", level.voteNo ) );
+		// L0 - Add a sound
+		CPS(ent, "sound/scenaric/votes/voteNo.wav");
 	}
 
 	// a majority will be determined in G_CheckVote, which will also account

@@ -496,6 +496,38 @@ qboolean canUse(gentity_t *ent, qboolean isCmd) {
 return qfalse;
 }
 
+/*
+===========
+Global sound
+===========
+*/
+void APSound(char *sound){
+	gentity_t *ent;
+	gentity_t *te;
+	int o;
+	
+	for(o = 0; o < MAX_CLIENTS; o++) {
+	ent = g_entities + o;
+
+		te = G_TempEntity(ent->s.pos.trBase, EV_GLOBAL_SOUND);	   
+		te->s.eventParm = G_SoundIndex(sound);  	   
+		te->r.svFlags |= SVF_BROADCAST;
+	}
+}
+
+/*
+===========
+Client sound
+===========
+*/
+void CPSound(gentity_t *ent, char *sound){
+	gentity_t *te;	
+
+	te = G_TempEntity( ent->s.pos.trBase, EV_CLIENT_SOUND );
+	te->s.eventParm = G_SoundIndex(sound);
+	te->s.teamNum = ent->s.clientNum;
+}
+
 /*********************************** COMMANDS ************************************/
 
 /*
