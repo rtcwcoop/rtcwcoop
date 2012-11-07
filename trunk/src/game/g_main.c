@@ -308,7 +308,7 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_motd5, "g_motd5", "", 0, 0, qfalse},
 	{ &g_motd6, "g_motd6", "", 0, 0, qfalse},
 	{ &g_motdTime, "g_motdTime", "60", 0, 0, qtrue},
-	{ &motdNum, "motdNum", "1", CVAR_ROM, 0, qfalse},
+	{ &motdNum, "motdNum", "0", CVAR_ROM, 0, qfalse},
 	// End
 
 	// cs: et sdk antilag
@@ -2552,7 +2552,15 @@ void MOTD( void ) {
 	
 	if (!g_showMOTD.integer)
 		return;
-		
+
+	// Start with base, see if there's anything to print otherwise bail out.
+	//
+	// It will render first message blank on server spawn but it's not a problem for map changes
+	// as then it falls in the loop along the process.. :)
+	if (motdNum.integer == 0) {
+		level.motdTime = level.time;	
+			(strlen(g_motd1.string) > 2) ? trap_Cvar_Set( "motdNum", "1" ) : trap_Cvar_Set( "motdNum", "0" );
+	}		
 	if (motdNum.integer == 1){
 		AP(va("chat \"console: %s\n\"", g_motd1.string));		
 			level.motdTime = level.time;	
