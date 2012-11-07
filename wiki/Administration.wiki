@@ -5,7 +5,9 @@ Info about configuration of server Administration for server owners as well as g
 
 == Revision ==
 This is for revision 774 and on. 
-Changes will be updated accordingly. 
+Changes will be updated accordingly.
+
+UPDATED: Reflects all changes up to revision 908.  
 
 = Server configuration for Owners =
 
@@ -112,8 +114,24 @@ Simply login as Admin and execute command by typing in chat or console *!command
 || warn || !warn < text > || Will show warning message to all in center print as well as chat. ||
 || cancelvote || !cancelvote || Cancells any vote that's currently in progress. ||
 || passvote || !passvote || Will pass any vote that's currently in progress. ||
+|| restart || !restart || Will restart the map. ||
 
 *TIP:* To view client slot number use /getstatus.
+
+== Custom Admin commands == 
+By default Admins can have any server command as long as it's in a*_cmd's string for their level. 
+This means that owners can assign any command in their level, commands like g_allowVote or rconpassword.
+
+*USAGE:*
+By default, any command that's changed by Admin will be printed to all. If admin does _!g_allowVote 1_ it will print to everyone that _g_allowVote_ was changed to _1_. Since some commands are delicate (e.g. rconpassword) and should not be printed to anyone but Admin there's also an option to execute command silently by using *@* as third parameter. Example:
+
+*!rconpassword some-password @*
+
+*NOTE:* There are two things you should note. <br />
+*First:* _Silent attribute only works with custom commands, regular commands (listed above) do not have this option unless if specified in their description._<br />
+*Second:* _Any custom Admin command does not have help listed, so using something like ?rconpassword will not list brief description for it._
+
+
 
 = Example Config = 
 Since there's quite some reading and some just want to dive into it, I'm posting a sample config with all the cvars mention in this post. Adjust it to your liking. ;)
