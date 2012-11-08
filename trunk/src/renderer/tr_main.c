@@ -222,7 +222,7 @@ void R_SetFog( int fogvar, int var1, int var2, float r, float g, float b, float 
 		glfogsettings[fogvar].color[3]      = 1;
 		glfogsettings[fogvar].start         = var1;
 		glfogsettings[fogvar].end           = var2;
-		if ( density > 1 ) {
+		if ( density >= 1 ) {
 			glfogsettings[fogvar].mode          = GL_LINEAR;
 			glfogsettings[fogvar].drawsky       = qfalse;
 			glfogsettings[fogvar].clearscreen   = qtrue;
