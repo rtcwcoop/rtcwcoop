@@ -144,7 +144,7 @@ void CG_DrawCoopScoreboard( void )
         highest_damage_ratio = 0.0;
         lowest_deaths = 99;
 
-        for ( i = 0; i < 8; i++ ) {
+        for ( i = 0; i < MAX_COOP_CLIENTS; i++ ) {
                 float tmp = 0.0;
 
                 if (cg.scores[i].score > highest_score)
