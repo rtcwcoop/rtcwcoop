@@ -4774,8 +4774,13 @@ void Menu_Paint( menuDef_t *menu, qboolean forcePaint ) {
 
 		// MAYBE: if they click on the fillrect, sys_openurl ?
 		DC->fillRect( 5, 415, 640, 65, color );
-		DC->drawText( 10, 441, 0, .25, v, va( "You are running an old version (^3%s) ^7 and there is a new version (^2%s) ^7is available!", RTCWCOOP_VERSION_NUMBER, latest_version ), 0, 0, 0 );
+#ifndef LOCALISATION
+		DC->drawText( 10, 441, 0, .25, v, va( "You are running an old version (^3%s) ^7 and there is a new version (^2%s) ^7 available!", RTCWCOOP_VERSION_NUMBER, latest_version ), 0, 0, 0 );
 		DC->drawText( 10, 463, 0, .25, v, va( "Please search the internet for an update. http://www.rtcwcoop.com" ), 0, 0, 0 );
+#else
+		DC->drawText( 10, 441, 0, .25, v, DC->translateString(va( "You are running an old version (^3%s) ^7 and there is a new version (^2%s) ^7 available!", RTCWCOOP_VERSION_NUMBER, latest_version )), 0, 0, 0 );
+		DC->drawText( 10, 463, 0, .25, v, DC->translateString(va( "Please search the internet for an update. http://www.rtcwcoop.com" )), 0, 0, 0 );
+#endif
 
 	}
 }
