@@ -7,7 +7,24 @@ game_manager
 {
 	spawn
 	{
-		accum 0 set 0 // objectives
+//		accum 0 set 0 // objectives
+
+                accum 0 bitreset 0 // cell door should not trigger during cutscene
+                accum 0 bitset 1 // explosive trigger fire once 
+                accum 0 bitset 2 // alarm trigger should only fire once 
+                accum 0 bitset 3 // boardroom door fires once 
+                accum 0 bitset 4 // hack to wake drz by triggering shocking device
+                accum 0 bitset 5 // explosive trigger fire once 
+                accum 1 set 0
+                accum 2 set 0 // don't remove exit trigger
+                objectivesneeded 2
+                numsecrets 7
+
+                //abort_if_loadgame
+                mu_start sound/music/l_briefing_1
+
+		// from playerstart
+		trigger dummy cine1_cleanup
 	}
 	
 	trigger checkexit

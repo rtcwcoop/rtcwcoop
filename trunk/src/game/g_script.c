@@ -91,6 +91,10 @@ qboolean G_ScriptAction_MusicFade( gentity_t *ent, char *params );
 qboolean G_ScriptAction_MusicQueue( gentity_t *ent, char *params );
 //----(SA)	end
 
+//coop
+qboolean G_ScriptAction_ObjectivesNeeded( gentity_t *ent, char *params );
+qboolean G_ScriptAction_NumSecrets( gentity_t *ent, char *params );
+
 // these are the actions that each event can call
 g_script_stack_action_t gScriptActions[] =
 {
@@ -134,6 +138,8 @@ g_script_stack_action_t gScriptActions[] =
 	{"mu_stop",                  G_ScriptAction_MusicStop},  // (int time)						// time to fadeout
 	{"mu_fade",                  G_ScriptAction_MusicFade},  // (float target_volume, int time)	// time to fade to target
 	{"mu_queue",             G_ScriptAction_MusicQueue}, // (char *new_music)				// music that will start when previous fades to 0
+	{"objectivesneeded",	G_ScriptAction_ObjectivesNeeded},
+	{"numsecrets",	G_ScriptAction_NumSecrets},
 
 	{NULL,                      NULL}
 };

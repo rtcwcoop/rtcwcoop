@@ -1548,11 +1548,11 @@ void G_Voice( gentity_t *ent, gentity_t *target, int mode, const char *id, qbool
         int j;
         gentity_t   *other;
 
-		// L0 - Ignored players..
-		if (ent->client->sess.ignored) {
-			trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! Voice cancelled..\"2");
+	// L0 - Ignored players..
+	if (ent->client->sess.ignored) {
+		trap_SendServerCommand(ent-g_entities, "cp \"You are ^1Ignored^7! Voice cancelled..\"2");
 		return;
-		} // End
+	} // End
 
         /*if ( g_gametype.integer < GT_TEAM && mode == SAY_TEAM ) {
                 mode = SAY_ALL;

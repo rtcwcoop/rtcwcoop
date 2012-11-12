@@ -805,6 +805,51 @@ qboolean G_ScriptAction_MissionFailed( gentity_t *ent, char *params ) {
 	return qtrue;
 }
 
+
+/*
+=================
+G_ScriptAction_ObjectivesNeeded
+
+  syntax: objectivesneeded <num_objectives>
+=================
+*/
+qboolean G_ScriptAction_ObjectivesNeeded( gentity_t *ent, char *params ) {
+        char *pString, *token;
+
+        pString = params;
+
+        token = COM_ParseExt( &pString, qfalse );
+        if ( !token[0] ) {
+                G_Error( "Level Scripting: objectivesneeded requires a num_objectives identifier\n" );
+        }    
+
+        level.numObjectives = atoi( token );
+
+        return qtrue;
+}
+
+/*
+=================
+G_ScriptAction_NumSecrets
+
+  syntax: numsecrets <num_secrets>
+=================
+*/
+qboolean G_ScriptAction_NumSecrets( gentity_t *ent, char *params ) {
+        char *pString, *token;
+
+        pString = params;
+
+        token = COM_ParseExt( &pString, qfalse );
+        if ( !token[0] ) {
+                G_Error( "Level Scripting: numsecrets requires a num_secrets identifier\n" );
+        }
+
+        level.numSecrets = atoi( token );
+
+        return qtrue;
+}
+
 /*
 =================
 G_ScriptAction_MissionSuccess

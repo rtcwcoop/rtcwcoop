@@ -8,19 +8,19 @@ player
 {
 	spawn
 	{
-		accum 0 bitreset 0 // cell door should not trigger during cutscene
-		accum 0 bitset 1 // explosive trigger fire once
-		accum 0 bitset 2 // alarm trigger should only fire once
-		accum 0 bitset 3 // boardroom door fires once
-		accum 0 bitset 4 // hack to wake drz by triggering shocking device
-		accum 0 bitset 5 // explosive trigger fire once
-		accum 1 set 0
-		accum 2 set 0 // don't remove exit trigger
-		objectivesneeded 2
-		numsecrets 7
-
-		abort_if_loadgame
-		mu_start sound/music/l_briefing_1
+//		accum 0 bitreset 0 // cell door should not trigger during cutscene
+//		accum 0 bitset 1 // explosive trigger fire once
+//		accum 0 bitset 2 // alarm trigger should only fire once
+//		accum 0 bitset 3 // boardroom door fires once
+//		accum 0 bitset 4 // hack to wake drz by triggering shocking device
+//		accum 0 bitset 5 // explosive trigger fire once
+//		accum 1 set 0
+//		accum 2 set 0 // don't remove exit trigger
+//		objectivesneeded 2
+//		numsecrets 7
+//
+//		abort_if_loadgame
+//		mu_start sound/music/l_briefing_1
 	}
 
 	playerstart
@@ -30,7 +30,7 @@ player
 		mu_queue sound/music/c_military
 		//trigger dummy cinematic1
 		//trigger player cam1
-		trigger dummy cine1_cleanup
+		//trigger dummy cine1_cleanup
 		
 		// Weapons
 		giveweapon weapon_knife
