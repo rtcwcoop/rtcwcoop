@@ -29,9 +29,17 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "server.h"
 
+// fretn - test for osx
+#include <stdarg.h>
+
 serverStatic_t svs;                 // persistant server info
 server_t sv;                        // local server
 vm_t            *gvm = NULL;                // game virtual machine // bk001212 init
+
+#ifdef UPDATE_SERVER
+versionMapping_t versionMap[MAX_UPDATE_VERSIONS];
+int numVersions = 0;
+#endif
 
 cvar_t  *sv_fps;                // time rate for running non-clients
 cvar_t  *sv_timeout;            // seconds without any message
@@ -58,17 +66,26 @@ cvar_t  *sv_gametype;
 cvar_t  *sv_pure;
 cvar_t  *sv_floodProtect;
 cvar_t  *sv_allowAnonymous;
+cvar_t  *sv_lanForceRate; // TTimo - dedicated 1 (LAN) server forces local client rates to 99999 (bug #491)
+cvar_t  *sv_onlyVisibleClients; // DHM - Nerve
+cvar_t  *sv_friendlyFire;       // NERVE - SMF
+cvar_t  *sv_maxlives;           // NERVE - SMF
+cvar_t  *sv_tourney;            // NERVE - SMF
+
+cvar_t *sv_dl_maxRate;
 
 // Rafael gameskill
 cvar_t  *sv_gameskill;
 // done
 
+cvar_t  *sv_showAverageBPS;     // NERVE - SMF - net debugging
+
 cvar_t  *sv_maxlives;
 cvar_t  *sv_reinforce;
 cvar_t  *sv_airespawn;
-
 cvar_t  *sv_reloading;  //----(SA)	added
 
+void SVC_GameCompleteStatus( netadr_t from );       // NERVE - SMF
 typedef struct leakyBucket_s leakyBucket_t;
 struct leakyBucket_s {
         netadrtype_t    type;
@@ -93,7 +110,7 @@ struct leakyBucket_s {
 static leakyBucket_t buckets[ MAX_BUCKETS ];
 static leakyBucket_t *bucketHashes[ MAX_HASHES ];
 
- /*
+/*
  ================
 SVC_HashForAddress
 ================
@@ -272,6 +289,12 @@ char    *SV_ExpandNewlines( char *in ) {
 			string[l++] = '\\';
 			string[l++] = 'n';
 		} else {
+			// NERVE - SMF - HACK - strip out localization tokens before string command is displayed in syscon window
+			if ( !Q_strncmp( in, "[lon]", 5 ) || !Q_strncmp( in, "[lof]", 5 ) ) {
+				in += 5;
+				continue;
+			}
+
 			string[l++] = *in;
 		}
 		in++;
@@ -300,7 +323,7 @@ void SV_AddServerCommand( client_t *client, const char *cmd ) {
 	if ( client->reliableSequence - client->reliableAcknowledge == MAX_RELIABLE_COMMANDS + 1 ) {
 		Com_Printf( "===== pending server commands =====\n" );
 		for ( i = client->reliableAcknowledge + 1 ; i <= client->reliableSequence ; i++ ) {
-			Com_Printf( "cmd %5d: %s\n", i, client->reliableCommands[ i & (MAX_RELIABLE_COMMANDS-1) ] );
+			Com_Printf( "cmd %5d: %s\n", i, client->reliableCommands[ i & ( MAX_RELIABLE_COMMANDS - 1 ) ] );
 		}
 		Com_Printf( "cmd %5d: %s\n", i, cmd );
 		SV_DropClient( client, "Server command overflow" );
@@ -382,11 +405,16 @@ but not on every player enter or exit.
 */
 #define HEARTBEAT_MSEC  300 * 1000
 #define HEARTBEAT_GAME  "WolfensteinCoop-1"
-#define HEARTBEAT_DEAD  "WolfFlatlineCoop-1"
+#define HEARTBEAT_DEAD  "WolfFlatlineCoop-1"         // NERVE - SMF
 
 void SV_MasterHeartbeat( const char *hbname ) {
 	static netadr_t adr[MAX_MASTER_SERVERS];
 	int i;
+
+	// DHM - Nerve :: Update Server doesn't send heartbeat
+#ifdef UPDATE_SERVER
+	return;
+#endif
 
         // fretn: we want to boost our initial popularity, so all coop games report to the masterserver
         if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER )
@@ -448,6 +476,117 @@ void SV_MasterHeartbeat( const char *hbname ) {
 
 /*
 =================
+SV_MasterGameCompleteStatus
+
+NERVE - SMF - Sends gameCompleteStatus messages to all master servers
+=================
+*/
+void SV_MasterGameCompleteStatus() {
+	static netadr_t adr[MAX_MASTER_SERVERS];
+	int i;
+
+	// "dedicated 1" is for lan play, "dedicated 2" is for inet public play
+	if ( !com_dedicated || com_dedicated->integer != 2 ) {
+		return;     // only dedicated servers send master game status
+	}
+
+	// send to group masters
+	for ( i = 0 ; i < MAX_MASTER_SERVERS ; i++ ) {
+		if ( !sv_master[i]->string[0] ) {
+			continue;
+		}
+
+		// see if we haven't already resolved the name
+		// resolving usually causes hitches on win95, so only
+		// do it when needed
+		if ( sv_master[i]->modified ) {
+			sv_master[i]->modified = qfalse;
+
+			Com_Printf( "Resolving %s\n", sv_master[i]->string );
+			if ( !NET_StringToAdr( sv_master[i]->string, &adr[i] ) ) {
+				// if the address failed to resolve, clear it
+				// so we don't take repeated dns hits
+				Com_Printf( "Couldn't resolve address: %s\n", sv_master[i]->string );
+				Cvar_Set( sv_master[i]->name, "" );
+				sv_master[i]->modified = qfalse;
+				continue;
+			}
+			if ( !strstr( ":", sv_master[i]->string ) ) {
+				adr[i].port = BigShort( PORT_MASTER );
+			}
+			Com_Printf( "%s resolved to %i.%i.%i.%i:%i\n", sv_master[i]->string,
+						adr[i].ip[0], adr[i].ip[1], adr[i].ip[2], adr[i].ip[3],
+						BigShort( adr[i].port ) );
+		}
+
+		Com_Printf( "Sending gameCompleteStatus to %s\n", sv_master[i]->string );
+		// this command should be changed if the server info / status format
+		// ever incompatably changes
+		SVC_GameCompleteStatus( adr[i] );
+	}
+}
+
+/*
+=================
+SVC_GameCompleteStatus
+
+NERVE - SMF - Send serverinfo cvars, etc to master servers when
+game complete. Useful for tracking global player stats.
+=================
+*/
+void SVC_GameCompleteStatus( netadr_t from ) {
+        char player[1024];
+        char status[MAX_MSGLEN];
+        int i;
+        client_t    *cl; 
+        playerState_t   *ps; 
+        int statusLength;
+        int playerLength;
+        char infostring[MAX_INFO_STRING];
+
+        // ignore if we are in single player
+        if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
+                return;
+        }    
+
+        strcpy( infostring, Cvar_InfoString( CVAR_SERVERINFO ) ); 
+
+        // echo back the parameter to status. so master servers can use it as a challenge
+        // to prevent timed spoofed reply packets that add ghost servers
+        Info_SetValueForKey( infostring, "challenge", Cmd_Argv( 1 ) ); 
+
+        // add "demo" to the sv_keywords if restricted
+        if ( Cvar_VariableValue( "fs_restrict" ) ) {
+                char keywords[MAX_INFO_STRING];
+
+                Com_sprintf( keywords, sizeof( keywords ), "demo %s",
+                                         Info_ValueForKey( infostring, "sv_keywords" ) ); 
+                Info_SetValueForKey( infostring, "sv_keywords", keywords );
+        }    
+
+        status[0] = 0; 
+        statusLength = 0; 
+
+        for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
+                cl = &svs.clients[i];
+                if ( cl->state >= CS_CONNECTED ) {
+                        ps = SV_GameClientNum( i );
+                        Com_sprintf( player, sizeof( player ), "%i %i \"%s\"\n",
+                                                 ps->persistant[PERS_SCORE], cl->ping, cl->name );
+                        playerLength = strlen( player );
+                        if ( statusLength + playerLength >= sizeof( status ) ) {
+                                break;      // can't hold any more
+                        }
+                        strcpy( status + statusLength, player );
+                        statusLength += playerLength;
+                }
+        }
+
+        NET_OutOfBandPrint( NS_SERVER, from, "gameCompleteStatus\n%s\n%s", infostring, status );
+}
+
+/*
+=================
 SV_MasterShutdown
 
 Informs all masters that this server is going down
@@ -456,7 +595,7 @@ Informs all masters that this server is going down
 void SV_MasterShutdown( void ) {
 	// send a hearbeat right now
 	svs.nextHeartbeatTime = -9999;
-	SV_MasterHeartbeat( HEARTBEAT_DEAD );
+	SV_MasterHeartbeat( HEARTBEAT_DEAD );               // NERVE - SMF - changed to flatline
 
 	// send it again to minimize chance of drops
 	svs.nextHeartbeatTime = -9999;
@@ -519,12 +658,17 @@ void SVC_Status( netadr_t from ) {
 	int statusLength;
 	int playerLength;
 	char infostring[MAX_INFO_STRING];
-        static leakyBucket_t bucket;
+	static leakyBucket_t bucket;
 
 	// ignore if we are in single player
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
 		return;
 	}
+
+	// DHM - Nerve
+#ifdef UPDATE_SERVER
+	return;
+#endif
 
 	// L0 - Bani's fix
 	if(!SV_VerifyChallenge(Cmd_Argv(1))) {
@@ -542,8 +686,8 @@ void SVC_Status( netadr_t from ) {
         // excess outbound bandwidth usage when being flooded inbound
         if ( SVC_RateLimit( &bucket, 10, 100 ) ) {
                 Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
-                return;
-        }
+		return;
+	}
 
 	strcpy( infostring, Cvar_InfoString( CVAR_SERVERINFO ) );
 
@@ -563,11 +707,9 @@ void SVC_Status( netadr_t from ) {
 	status[0] = 0;
 	statusLength = 0;
 
-	for ( i = 0 ; i < sv_maxcoopclients->integer ; i++ ) { // L0 - COOP :p
+	for ( i = 0 ; i < sv_maxcoopclients->integer ; i++ ) {
 		cl = &svs.clients[i];
-                // fretn - we don't care about bots so don't display them		
-										// L0 - Signal11 error is caused by this..
-		if ( cl->state >= CS_CONNECTED /*&& !(cl->gentity->r.svFlags & SVF_CASTAI) */) {		
+		if ( cl->state >= CS_CONNECTED ) {
 			ps = SV_GameClientNum( i );
 			Com_sprintf( player, sizeof( player ), "%i %i \"%s\"\n",
 						 ps->persistant[PERS_SCORE], cl->ping, cl->name );
@@ -595,7 +737,13 @@ void SVC_Info( netadr_t from ) {
 	int i, count, countai;
 	char    *gamedir;
 	char infostring[MAX_INFO_STRING];
-    int maxclients = 0;
+	char    *antilag;
+	int maxclients = 0;
+
+	// DHM - Nerve
+#ifdef UPDATE_SERVER
+	return;
+#endif
 
 	// ignore if we are in single player
 	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
@@ -622,18 +770,16 @@ void SVC_Info( netadr_t from ) {
                 Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
                         NET_AdrToString( from ) ); 
                 return;
-        } 
-
+        }
 	// don't count privateclients
 	count = 0;
-        // fretn
-        countai = 0;
+	// fretn
+	countai = 0;
 	for ( i = sv_privateClients->integer ; i < sv_maxclients->integer ; i++ ) {
                 if (  svs.clients[i].gentity && svs.clients[i].gentity->r.svFlags & SVF_CASTAI ) { // ignore AI
                         countai++;
                         continue;
                 }
-
 		if ( svs.clients[i].state >= CS_CONNECTED ) {
 			count++;
 		}
@@ -665,7 +811,7 @@ void SVC_Info( netadr_t from ) {
 						// va( "%i", sv_maxclients->integer - sv_privateClients->integer - aicount) );
 	Info_SetValueForKey( infostring, "gametype", va( "%i", sv_gametype->integer ) );
 	Info_SetValueForKey( infostring, "pure", va( "%i", sv_pure->integer ) );
-        Info_SetValueForKey( infostring, "gamename", GAMENAME_STRING );
+	Info_SetValueForKey( infostring, "gamename", GAMENAME_STRING );
 
 	if ( sv_minPing->integer ) {
 		Info_SetValueForKey( infostring, "minPing", va( "%i", sv_minPing->integer ) );
@@ -687,8 +833,59 @@ void SVC_Info( netadr_t from ) {
         Info_SetValueForKey( infostring, "reinforce", va( "%i", sv_reinforce->integer ) );
         Info_SetValueForKey( infostring, "airespawn", va( "%i", sv_airespawn->integer ? 1 : 0 ) );
 
+	// TTimo
+	antilag = Cvar_VariableString( "g_antilag" );
+	if ( antilag ) {
+		Info_SetValueForKey( infostring, "g_antilag", antilag );
+	}
+
 	NET_OutOfBandPrint( NS_SERVER, from, "infoResponse\n%s", infostring );
 }
+
+// DHM - Nerve
+#ifdef UPDATE_SERVER
+/*
+================
+SVC_GetUpdateInfo
+
+Responds with a short info message that tells the client if they
+have an update available for their version
+================
+*/
+void SVC_GetUpdateInfo( netadr_t from ) {
+	char *version;
+	char *platform;
+	int i;
+	qboolean found = qfalse;
+
+	version = Cmd_Argv( 1 );
+	platform = Cmd_Argv( 2 );
+
+	Com_DPrintf( "SVC_GetUpdateInfo: version == %s / %s,\n", version, platform );
+
+	for ( i = 0; i < numVersions; i++ ) {
+		if ( !strcmp( versionMap[i].version, version ) &&
+			 !strcmp( versionMap[i].platform, platform ) ) {
+
+			// If the installer is set to "current", we will skip over it
+			if ( strcmp( versionMap[i].installer, "current" ) ) {
+				found = qtrue;
+			}
+
+			break;
+		}
+	}
+
+	if ( found ) {
+		NET_OutOfBandPrint( NS_SERVER, from, "updateResponse 1 %s", versionMap[i].installer );
+		Com_DPrintf( "   SENT:  updateResponse 1 %s\n", versionMap[i].installer );
+	} else {
+		NET_OutOfBandPrint( NS_SERVER, from, "updateResponse 0" );
+		Com_DPrintf( "   SENT:  updateResponse 0\n" );
+	}
+}
+#endif
+// DHM - Nerve
 
 /*
 ==============
@@ -711,10 +908,16 @@ Redirect all printfs
 */
 void SVC_RemoteCommand( netadr_t from, msg_t *msg ) {
 	qboolean valid;
+	unsigned int time;
 	char remaining[1024];
-//#define SV_OUTPUTBUF_LENGTH ( MAX_MSGLEN - 16 )
+	// show_bug.cgi?id=376
+	// if we send an OOB print message this size, 1.31 clients die in a Com_Printf buffer overflow
+	// the buffer overflow will be fixed in > 1.31 clients
+	// but we want a server side fix
+	// we must NEVER send an OOB message that will be > 1.31 MAXPRINTMSG (4096)
 #define SV_OUTPUTBUF_LENGTH ( 256 - 16 )
 	char sv_outputbuf[SV_OUTPUTBUF_LENGTH];
+	static unsigned int lasttime = 0;
 	char *cmd_aux;
 
        // Prevent using rcon as an amplifier and make dictionary attacks impractical
@@ -724,29 +927,34 @@ void SVC_RemoteCommand( netadr_t from, msg_t *msg ) {
                 return;
         }
 
+	// TTimo - show_bug.cgi?id=534
+	time = Com_Milliseconds();
+	if ( time < ( lasttime + 500 ) ) {
+		return;
+	}
+	lasttime = time;
+
 	if ( !strlen( sv_rconPassword->string ) ||
 		 strcmp( Cmd_Argv( 1 ), sv_rconPassword->string ) ) {
-               static leakyBucket_t bucket;
-
-               // Make DoS via rcon impractical
-               if ( SVC_RateLimit( &bucket, 10, 1000 ) ) {
-                       Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
-                       return;
-               }
-
 		valid = qfalse;
-		Com_DPrintf( "Bad rcon from %s:\n%s\n", NET_AdrToString( from ), Cmd_Argv( 2 ) );
+		Com_Printf( "Bad rcon from %s:\n%s\n", NET_AdrToString( from ), Cmd_Argv( 2 ) );
 	} else {
 		valid = qtrue;
-		Com_DPrintf( "Rcon from %s:\n%s\n", NET_AdrToString( from ), Cmd_Argv( 2 ) );
+		Com_Printf( "Rcon from %s:\n%s\n", NET_AdrToString( from ), Cmd_Argv( 2 ) );
 	}
 
 	// start redirecting all print outputs to the packet
 	svs.redirectAddress = from;
+	// FIXME TTimo our rcon redirection could be improved
+	//   big rcon commands such as status lead to sending
+	//   out of band packets on every single call to Com_Printf
+	//   which leads to client overflows
+	//   see show_bug.cgi?id=51
+	//     (also a Q3 issue)
 	Com_BeginRedirect( sv_outputbuf, SV_OUTPUTBUF_LENGTH, SV_FlushRedirect );
 
 	if ( !strlen( sv_rconPassword->string ) ) {
-		Com_Printf( "No rconpassword set.\n" );
+		Com_Printf( "No rconpassword set on the server.\n" );
 	} else if ( !valid ) {
 		Com_Printf( "Bad rconpassword.\n" );
 	} else {
@@ -768,6 +976,7 @@ void SVC_RemoteCommand( netadr_t from, msg_t *msg ) {
 		Q_strcat( remaining, sizeof( remaining ), cmd_aux );
 
 		Cmd_ExecuteString( remaining );
+
 	}
 
 	Com_EndRedirect();
@@ -795,9 +1004,9 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 	MSG_BeginReadingOOB( msg );
 	MSG_ReadLong( msg );        // skip the -1 marker
 
-        if ( !Q_strncmp( "connect", (const char *)&msg->data[4], 7 ) ) {
-                Huff_Decompress( msg, 12 );
-        }
+	if ( !Q_strncmp( "connect", (const char *)&msg->data[4], 7 ) ) {
+		Huff_Decompress( msg, 12 );
+	}
 
 	s = MSG_ReadStringLine( msg );
 
@@ -818,6 +1027,12 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		SV_AuthorizeIpPacket( from );
 	} else if ( !Q_stricmp( c, "rcon" ) ) {
 		SVC_RemoteCommand( from, msg );
+// DHM - Nerve
+#ifdef UPDATE_SERVER
+	} else if ( !Q_stricmp( c, "getUpdateInfo" ) ) {
+		SVC_GetUpdateInfo( from );
+#endif
+// DHM - Nerve
 	} else if ( !Q_stricmp( c,"disconnect" ) ) {
 		// if a client starts up a local server, we may see some spurious
 		// server disconnect messages when their new server sees our final
@@ -831,11 +1046,10 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
                         CL_ConnectionlessPacket( from, msg);
                 else
 #endif
-        		Com_DPrintf( "bad connectionless packet from %s:\n%s\n"
+		Com_DPrintf( "bad connectionless packet from %s:\n%s\n"
 					 , NET_AdrToString( from ), s );
 	}
 }
-
 
 //============================================================================
 
@@ -879,7 +1093,7 @@ void SV_PacketEvent( netadr_t from, msg_t *msg ) {
 		// some address translating routers periodically change UDP
 		// port assignments
 		if ( cl->netchan.remoteAddress.port != from.port ) {
-			Com_Printf( "SV_ReadPackets: fixing up a translated port\n" );
+			Com_Printf( "SV_PacketEvent: fixing up a translated port\n" );
 			cl->netchan.remoteAddress.port = from.port;
 		}
 
@@ -896,10 +1110,10 @@ void SV_PacketEvent( netadr_t from, msg_t *msg ) {
 		return;
 	}
 
-	// if we received a sequenced packet from an address we don't reckognize,
+	// if we received a sequenced packet from an address we don't recognize,
 	// send an out of band disconnect packet to it
 	NET_OutOfBandPrint( NS_SERVER, from, "disconnect" );
-        Com_Printf("Sending disconnect packet to %i.%i.%i.%i\n" , from.ip[0], from.ip[1], from.ip[2], from.ip[3]);
+	Com_Printf("Sending disconnect packet to %i.%i.%i.%i\n" , from.ip[0], from.ip[1], from.ip[2], from.ip[3]);
 }
 
 
@@ -919,6 +1133,14 @@ void SV_CalcPings( void ) {
 
 	for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
 		cl = &svs.clients[i];
+
+		// DHM - Nerve
+#ifdef UPDATE_SERVER
+		if ( !cl ) {
+			continue;
+		}
+#endif
+
 		if ( cl->state != CS_ACTIVE ) {
 			cl->ping = 999;
 			continue;
@@ -1026,7 +1248,6 @@ qboolean SV_CheckPaused( void ) {
         // no pausing in coop games
         if ( sv_gametype->integer <= GT_COOP)
                 return qfalse;
-
 	// only pause if there is just a single client connected
 	count = 0;
 	for ( i = 0,cl = svs.clients ; i < sv_maxclients->integer ; i++,cl++ ) {
@@ -1037,11 +1258,15 @@ qboolean SV_CheckPaused( void ) {
 
 	if ( count > 1 ) {
 		// don't pause
-		sv_paused->integer = 0;
+		if ( sv_paused->integer ) {
+			Cvar_Set( "sv_paused", "0" );
+		}
 		return qfalse;
 	}
 
-	sv_paused->integer = 1;
+	if ( !sv_paused->integer ) {
+		Cvar_Set( "sv_paused", "1" );
+	}
 	return qtrue;
 }
 
@@ -1083,7 +1308,7 @@ void SV_Frame( int msec ) {
 	sv.timeResidual += msec;
 
 	if ( !com_dedicated->integer ) {
-		SV_BotFrame( sv.time + sv.timeResidual );
+		SV_BotFrame( svs.time + sv.timeResidual );
 	}
 
 	if ( com_dedicated->integer && sv.timeResidual < frameMsec ) {
@@ -1123,7 +1348,7 @@ void SV_Frame( int msec ) {
 		return;
 	}
 
-	if ( sv.restartTime && sv.time >= sv.restartTime ) {
+	if ( sv.restartTime && svs.time >= sv.restartTime ) {
 		sv.restartTime = 0;
 		Cbuf_AddText( "map_restart 0\n" );
 		return;
@@ -1138,6 +1363,13 @@ void SV_Frame( int msec ) {
 		SV_SetConfigstring( CS_SYSTEMINFO, Cvar_InfoString_Big( CVAR_SYSTEMINFO ) );
 		cvar_modifiedFlags &= ~CVAR_SYSTEMINFO;
 	}
+	// NERVE - SMF
+/*
+	if ( cvar_modifiedFlags & CVAR_WOLFINFO ) {
+		SV_SetConfigstring( CS_WOLFINFO, Cvar_InfoString( CVAR_WOLFINFO ) );
+		cvar_modifiedFlags &= ~CVAR_WOLFINFO;
+	}
+*/
 
 	if ( com_speeds->integer ) {
 		startTime = Sys_Milliseconds();
@@ -1149,17 +1381,18 @@ void SV_Frame( int msec ) {
 	SV_CalcPings();
 
 	if ( com_dedicated->integer ) {
-		SV_BotFrame( sv.time );
+		SV_BotFrame( svs.time );
 	}
 
 	// run the game simulation in chunks
 	while ( sv.timeResidual >= frameMsec ) {
 		sv.timeResidual -= frameMsec;
 		svs.time += frameMsec;
-		sv.time += frameMsec;
 
 		// let everything in the world think and move
-		VM_Call( gvm, GAME_RUN_FRAME, sv.time );
+#ifndef UPDATE_SERVER
+		VM_Call( gvm, GAME_RUN_FRAME, svs.time );
+#endif
 	}
 
 	if ( com_speeds->integer ) {

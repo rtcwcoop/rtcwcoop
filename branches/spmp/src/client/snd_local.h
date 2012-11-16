@@ -39,19 +39,11 @@ If you have questions concerning this license or the applicable additional terms
 #define SND_CHUNK_SIZE_FLOAT    ( SND_CHUNK_SIZE / 2 )      // floats
 #define SND_CHUNK_SIZE_BYTE     ( SND_CHUNK_SIZE * 2 )      // floats
 
-#define TALKANIM
-
-typedef struct {
-	int left;           // the final values will be clamped to +/- 0x00ffff00 and shifted down
-	int right;
-} portable_samplepair_t;
+//#define TALKANIM			// NERVE - SMF - we don't want this for multiplayer
 
 typedef struct adpcm_state {
 	short sample;       /* Previous output value */
 	char index;         /* Index into stepsize table */
-#if defined( __MACOS__ )
-	char pad;           /* //DAJ added pad for alignment */
-#endif
 } adpcm_state_t;
 
 typedef struct sndBuffer_s {
@@ -93,11 +85,15 @@ typedef struct loopSound_s {
 	int mergeFrame;
 	int vol;
 	qboolean loudUnderWater;    // (SA) set if this sound should be played at full vol even when under water (under water loop sound for ex.)
+	qboolean doppler;
+	float dopplerScale;
+	float oldDopplerScale;
+	int framenum;
 } loopSound_t;
 
 typedef struct
 {
-	int         *ptr;           //DAJ BUGFIX for freelist/endlist pointer
+	int         *prt;           //DAJ BUGFIX for freelist/endlist pointer
 	int allocTime;
 	int startSample;            // START_SAMPLE_IMMEDIATE = set immediately on next mix
 	int entnum;                 // to allow overriding a specific sound
@@ -152,10 +148,10 @@ void    SNDDMA_Submit( void );
 
 //====================================================================
 
-#if defined( __MACOS__ )
-  #define   MAX_CHANNELS 64
+#ifdef __MACOS__
+#define MAX_CHANNELS 64
 #else
-  #define MAX_CHANNELS 96
+#define MAX_CHANNELS 96
 #endif
 
 extern channel_t s_channels[MAX_CHANNELS];
@@ -172,86 +168,28 @@ extern dma_t dma;
 extern unsigned char s_entityTalkAmplitude[MAX_CLIENTS];
 #endif
 
-//----(SA)	some flags for queued music tracks
-#define QUEUED_PLAY_ONCE    -1
-#define QUEUED_PLAY_LOOPED  -2
-#define QUEUED_PLAY_ONCE_SILENT -3  // when done it goes quiet
-//----(SA)	end
-
 // Ridah, streaming sounds
 typedef struct {
 	fileHandle_t file;
 	wavinfo_t info;
 	int samples;
-	char name[MAX_QPATH];           //----(SA)	added
 	char loop[MAX_QPATH];
-	int looped;                 //----(SA)	added
 	int entnum;
 	int channel;
 	int attenuation;
-	int kill;           //----(SA)	changed
+	qboolean kill;
 
-	int fadeStart;              //----(SA)	added
-	int fadeEnd;                //----(SA)	added
-	float fadeStartVol;         //----(SA)	added
-	float fadeTargetVol;        //----(SA)	added
+        int fadeStart;              //----(SA)  added
+        int fadeEnd;                //----(SA)  added
+        float fadeStartVol;         //----(SA)  added
+        float fadeTargetVol;        //----(SA)  added
 } streamingSound_t;
 
-
-
-
-typedef struct {
-	vec3_t origin;
-	qboolean fixedOrigin;
-	int entityNum;
-	int entityChannel;
-	sfxHandle_t sfx;
-	int flags;
-} s_pushStack;
-
-#define MAX_PUSHSTACK   64
-#define LOOP_HASH       128
-#define MAX_LOOP_SOUNDS 128
-
-// removed many statics into a common sound struct
-typedef struct {
-	sfx_t       *sfxHash[LOOP_HASH];
-	int numLoopSounds;
-	loopSound_t loopSounds[MAX_LOOP_SOUNDS];
-
-	float volTarget;
-	float volStart;
-	int volTime1;
-	int volTime2;
-	float volFadeFrac;
-	float volCurrent;
-
-	channel_t   *freelist;
-	channel_t   *endflist;
-
-	int s_numSfx;
-
-	s_pushStack pushPop[MAX_PUSHSTACK];
-	int tart;
-
-	qboolean s_soundPainted;
-	int s_clearSoundBuffer;
-
-	int s_soundStarted;
-//	qboolean	s_soundMute;
-	int s_soundMute;                // 0 - not muted, 1 - muted, 2 - no new sounds, but play out remaining sounds (so they can die if necessary)
-
-	vec3_t entityPositions[MAX_GENTITIES];
-
-	char nextMusicTrack[MAX_QPATH];         // extracted from CS_MUSIC_QUEUE //----(SA)	added
-	int nextMusicTrackType;
-} snd_t;
-
-extern snd_t snd;   // globals for sound
-
-
-
-#define MAX_STREAMING_SOUNDS    12  // need to keep it low, or the rawsamples will get too big
+#ifdef __MACOS__
+#define MAX_STREAMING_SOUNDS    12  //DAJ use SP number (was 24)	// need to keep it low, or the rawsamples will get too big
+#else
+#define MAX_STREAMING_SOUNDS    24  // need to keep it low, or the rawsamples will get too big
+#endif
 #define MAX_RAW_SAMPLES         16384
 
 extern streamingSound_t streamingSounds[MAX_STREAMING_SOUNDS];
@@ -269,8 +207,6 @@ extern cvar_t   *s_mute;
 
 extern cvar_t   *s_testsound;
 extern cvar_t   *s_separation;
-extern cvar_t   *s_currentMusic;    //----(SA)	added
-extern cvar_t   *s_debugMusic;      //----(SA)	added
 
 qboolean S_LoadSound( sfx_t *sfx );
 
@@ -310,6 +246,3 @@ extern short *sfxScratchBuffer;
 extern const sfx_t *sfxScratchPointer;
 extern int sfxScratchIndex;
 
-extern unsigned char s_entityTalkAmplitude[MAX_CLIENTS];
-
-extern float S_GetStreamingFade( streamingSound_t *ss );    //----(SA)	added

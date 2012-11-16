@@ -165,20 +165,9 @@ static void SV_WriteSnapshotToClient( client_t *client, msg_t *msg ) {
 	// let the client know which reliable clientCommands we have received
 	//MSG_WriteLong( msg, client->lastClientCommand );
 
-        // fretn - from ioq3
-        // send over the current server time so the client can drift
-        // its view of time to try to match
-        if( client->oldServerTime ) { 
-                // The server has not yet got an acknowledgement of the
-                // new gamestate from this client, so continue to send it
-                // a time as if the server has not restarted. Note from
-                // the client's perspective this time is strictly speaking
-                // incorrect, but since it'll be busy loading a map at
-                // the time it doesn't really matter.
-                MSG_WriteLong (msg, sv.time + client->oldServerTime);
-        } else {
-                MSG_WriteLong (msg, sv.time);
-        }   
+	// send over the current server time so the client can drift
+	// its view of time to try to match
+	MSG_WriteLong( msg, svs.time );
 
 	// what we are delta'ing from
 	MSG_WriteByte( msg, lastframe );
@@ -230,7 +219,7 @@ void SV_UpdateServerCommandsToClient( client_t *client, msg_t *msg ) {
 	for ( i = client->reliableAcknowledge + 1 ; i <= client->reliableSequence ; i++ ) {
 		MSG_WriteByte( msg, svc_serverCommand );
 		MSG_WriteLong( msg, i );
-		MSG_WriteString( msg, client->reliableCommands[ i & (MAX_RELIABLE_COMMANDS-1) ] );
+		MSG_WriteString( msg, client->reliableCommands[ i & ( MAX_RELIABLE_COMMANDS - 1 ) ] );
 	}
 	client->reliableSent = client->reliableSequence;
 }
@@ -511,9 +500,7 @@ notVisible:
 
 		// Ridah, if this entity has changed events, then send it regardless of whether we can see it or not
 		// DHM - Nerve :: not in multiplayer please
-                // fretn: not in coop please (gives hidden players on listen server)
-		//if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient && !sv_coop->integer) {
-		if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient) {
+		if ( sv_gametype->integer == GT_SINGLE_PLAYER && localClient ) {
 			if ( ent->r.eventTime == svs.time ) {
 				ent->s.eFlags |= EF_NODRAW;     // don't draw, just process event
 				SV_AddEntToSnapshot( svEnt, ent, eNums );
@@ -565,8 +552,8 @@ static void SV_BuildClientSnapshot( client_t *client ) {
 	entityNumbers.numSnapshotEntities = 0;
 	memset( frame->areabits, 0, sizeof( frame->areabits ) );
 
-        //fretn
-        frame->num_entities = 0;
+	// show_bug.cgi?id=62
+	frame->num_entities = 0;
 
 	clent = client->gentity;
 	if ( !clent || client->state == CS_ZOMBIE ) {
@@ -605,7 +592,6 @@ static void SV_BuildClientSnapshot( client_t *client ) {
 	// add all the entities directly visible to the eye, which
 	// may include portal entities that merge other viewpoints
 	SV_AddEntitiesVisibleFromPoint( org, frame, &entityNumbers, qfalse, client->netchan.remoteAddress.type == NA_LOOPBACK );
-//	SV_AddEntitiesVisibleFromPoint( org, frame, &entityNumbers, qfalse, oldframe, client->netchan.remoteAddress.type == NA_LOOPBACK );
 
 	// if there were portals visible, there may be out of order entities
 	// in the list which will need to be resorted for the delta compression
@@ -643,24 +629,34 @@ SV_RateMsec
 
 Return the number of msec a given size message is supposed
 to take to clear, based on the current rate
+TTimo - use sv_maxRate or sv_dl_maxRate depending on regular or downloading client
 ====================
 */
 #define HEADER_RATE_BYTES   48      // include our header, IP header, and some overhead
 static int SV_RateMsec( client_t *client, int messageSize ) {
 	int rate;
 	int rateMsec;
+	int maxRate;
 
 	// individual messages will never be larger than fragment size
 	if ( messageSize > 1500 ) {
 		messageSize = 1500;
 	}
+	// low watermark for sv_maxRate, never 0 < sv_maxRate < 1000 (0 is no limitation)
+	if ( sv_maxRate->integer && sv_maxRate->integer < 1000 ) {
+		Cvar_Set( "sv_MaxRate", "1000" );
+	}
 	rate = client->rate;
-	if ( sv_maxRate->integer ) {
-		if ( sv_maxRate->integer < 1000 ) {
-			Cvar_Set( "sv_MaxRate", "1000" );
-		}
-		if ( sv_maxRate->integer < rate ) {
-			rate = sv_maxRate->integer;
+	// work on the appropriate max rate (client or download)
+	if ( !*client->downloadName ) {
+		maxRate = sv_maxRate->integer;
+	} else
+	{
+		maxRate = sv_dl_maxRate->integer;
+	}
+	if ( maxRate ) {
+		if ( maxRate < rate ) {
+			rate = maxRate;
 		}
 	}
 	rateMsec = ( messageSize + HEADER_RATE_BYTES ) * 1000 / rate;
@@ -684,12 +680,14 @@ void SV_SendMessageToClient( msg_t *msg, client_t *client ) {
 	client->frames[client->netchan.outgoingSequence & PACKET_MASK].messageAcked = -1;
 
 	// send the datagram
-	SV_Netchan_Transmit( client, msg ); //msg->cursize, msg->data );
+	SV_Netchan_Transmit( client, msg );
 
 	// set nextSnapshotTime based on rate and requested number of updates
 
 	// local clients get snapshots every frame
-	if ( client->netchan.remoteAddress.type == NA_LOOPBACK || Sys_IsLANAddress( client->netchan.remoteAddress ) ) {
+	// TTimo - show_bug.cgi?id=491
+	// added sv_lanForceRate check
+	if ( client->netchan.remoteAddress.type == NA_LOOPBACK || ( sv_lanForceRate->integer && Sys_IsLANAddress( client->netchan.remoteAddress ) ) ) {
 		client->nextSnapshotTime = svs.time - 1;
 		return;
 	}
@@ -697,7 +695,10 @@ void SV_SendMessageToClient( msg_t *msg, client_t *client ) {
 	// normal rate / snapshotMsec calculation
 	rateMsec = SV_RateMsec( client, msg->cursize );
 
-	if ( rateMsec < client->snapshotMsec ) {
+	// TTimo - during a download, ignore the snapshotMsec
+	// the update server on steroids, with this disabled and sv_fps 60, the download can reach 30 kb/s
+	// on a regular server, we will still top at 20 kb/s because of sv_fps 20
+	if ( !*client->downloadName && rateMsec < client->snapshotMsec ) {
 		// never send more packets than this, no matter what the rate is at
 		rateMsec = client->snapshotMsec;
 		client->rateDelayed = qfalse;
@@ -769,6 +770,9 @@ void SV_SendClientSnapshot( client_t *client ) {
 	}
 
 	SV_SendMessageToClient( &msg, client );
+
+	sv.bpsTotalBytes += msg.cursize;            // NERVE - SMF - net debugging
+	sv.ubpsTotalBytes += msg.uncompsize / 8;    // NERVE - SMF - net debugging
 }
 
 
@@ -777,9 +781,14 @@ void SV_SendClientSnapshot( client_t *client ) {
 SV_SendClientMessages
 =======================
 */
+
 void SV_SendClientMessages( void ) {
 	int i;
 	client_t    *c;
+	int numclients = 0;         // NERVE - SMF - net debugging
+
+	sv.bpsTotalBytes = 0;       // NERVE - SMF - net debugging
+	sv.ubpsTotalBytes = 0;      // NERVE - SMF - net debugging
 
 	// send a message to each connected client
 	for ( i = 0, c = svs.clients ; i < sv_maxclients->integer ; i++, c++ ) {
@@ -791,12 +800,13 @@ void SV_SendClientMessages( void ) {
 			continue;       // not time yet
 		}
 
+		numclients++;       // NERVE - SMF - net debugging
+
 		// send additional message fragments if the last message
 		// was too large to send at once
 		if ( c->netchan.unsentFragments ) {
 			c->nextSnapshotTime = svs.time +
 								  SV_RateMsec( c, c->netchan.unsentLength - c->netchan.unsentFragmentStart );
-			//SV_Netchan_TransmitNextFragment( &c->netchan );
 			SV_Netchan_TransmitNextFragment( c );
 			continue;
 		}
@@ -804,5 +814,50 @@ void SV_SendClientMessages( void ) {
 		// generate and send a new message
 		SV_SendClientSnapshot( c );
 	}
-}
 
+	// NERVE - SMF - net debugging
+	if ( sv_showAverageBPS->integer && numclients > 0 ) {
+		float ave = 0, uave = 0;
+
+		for ( i = 0; i < MAX_BPS_WINDOW - 1; i++ ) {
+			sv.bpsWindow[i] = sv.bpsWindow[i + 1];
+			ave += sv.bpsWindow[i];
+
+			sv.ubpsWindow[i] = sv.ubpsWindow[i + 1];
+			uave += sv.ubpsWindow[i];
+		}
+
+		sv.bpsWindow[MAX_BPS_WINDOW - 1] = sv.bpsTotalBytes;
+		ave += sv.bpsTotalBytes;
+
+		sv.ubpsWindow[MAX_BPS_WINDOW - 1] = sv.ubpsTotalBytes;
+		uave += sv.ubpsTotalBytes;
+
+		if ( sv.bpsTotalBytes >= sv.bpsMaxBytes ) {
+			sv.bpsMaxBytes = sv.bpsTotalBytes;
+		}
+
+		if ( sv.ubpsTotalBytes >= sv.ubpsMaxBytes ) {
+			sv.ubpsMaxBytes = sv.ubpsTotalBytes;
+		}
+
+		sv.bpsWindowSteps++;
+
+		if ( sv.bpsWindowSteps >= MAX_BPS_WINDOW ) {
+			float comp_ratio;
+
+			sv.bpsWindowSteps = 0;
+
+			ave = ( ave / (float)MAX_BPS_WINDOW );
+			uave = ( uave / (float)MAX_BPS_WINDOW );
+
+			comp_ratio = ( 1 - ave / uave ) * 100.f;
+			sv.ucompAve += comp_ratio;
+			sv.ucompNum++;
+
+			Com_DPrintf( "bpspc(%2.0f) bps(%2.0f) pk(%i) ubps(%2.0f) upk(%i) cr(%2.2f) acr(%2.2f)\n",
+						 ave / (float)numclients, ave, sv.bpsMaxBytes, uave, sv.ubpsMaxBytes, comp_ratio, sv.ucompAve / sv.ucompNum );
+		}
+	}
+	// -NERVE - SMF
+}

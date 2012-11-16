@@ -258,8 +258,8 @@ void IN_LeanRightDown( void ) { IN_KeyDown( &kb[KB_WBUTTONS5] );    }   //----(S
 void IN_LeanRightUp( void )   { IN_KeyUp( &kb[KB_WBUTTONS5] );  }
 
 // GISKARD: Drop weapon & ammo
-void IN_DropWeaponDown( void )	{IN_KeyDown( &kb[KB_WBUTTONS6] );}
-void IN_DropWeaponUp( void )	{IN_KeyUp( &kb[KB_WBUTTONS6] );}
+void IN_DropWeaponDown( void ) {IN_KeyDown( &kb[KB_WBUTTONS6] );}
+void IN_DropWeaponUp( void ) {IN_KeyUp( &kb[KB_WBUTTONS6] );}
 
 // unused
 void IN_Wbutton7Down( void )  { IN_KeyDown( &kb[KB_WBUTTONS7] );    }
@@ -276,7 +276,17 @@ void IN_ButtonUp( void ) {
 }
 
 void IN_CenterView( void ) {
-	cl.viewangles[PITCH] = -SHORT2ANGLE( cl.snap.ps.delta_angles[PITCH] );
+/*
+	qboolean ok = qtrue;
+	if ( cgvm ) {
+		ok = VM_Call( cgvm, CG_CHECKCENTERVIEW );
+	}
+	if ( ok ) {
+		cl.viewangles[PITCH] = -SHORT2ANGLE( cl.snap.ps.delta_angles[PITCH] );
+	}
+*/
+cl.viewangles[PITCH] = -SHORT2ANGLE( cl.snap.ps.delta_angles[PITCH] );
+
 }
 
 void IN_Notebook( void ) {
@@ -307,6 +317,8 @@ cvar_t  *cl_run;
 cvar_t  *cl_anglespeedkey;
 
 cvar_t  *cl_recoilPitch;
+
+cvar_t  *cl_bypassMouseInput;       // NERVE - SMF
 
 /*
 ================
@@ -412,7 +424,15 @@ CL_MouseEvent
 */
 void CL_MouseEvent( int dx, int dy, int time ) {
 	if ( cls.keyCatchers & KEYCATCH_UI ) {
-		VM_Call( uivm, UI_MOUSE_EVENT, dx, dy );
+
+		// NERVE - SMF - if we just want to pass it along to game
+		if ( cl_bypassMouseInput->integer == 1 ) {
+			cl.mouseDx[cl.mouseIndex] += dx;
+			cl.mouseDy[cl.mouseIndex] += dy;
+		} else {
+			VM_Call( uivm, UI_MOUSE_EVENT, dx, dy );
+		}
+
 	} else if ( cls.keyCatchers & KEYCATCH_CGAME ) {
 		VM_Call( cgvm, CG_MOUSE_EVENT, dx, dy );
 	} else {
@@ -575,13 +595,13 @@ void CL_CmdButtons( usercmd_t *cmd ) {
 		kb[KB_WBUTTONS0 + i].wasPressed = qfalse;
 	}
 
-	if ( cls.keyCatchers ) {
+	if ( cls.keyCatchers && !cl_bypassMouseInput->integer ) {
 		cmd->buttons |= BUTTON_TALK;
 	}
 
 	// allow the game to know if any key at all is
 	// currently pressed, even if it isn't bound to anything
-	if ( anykeydown && !cls.keyCatchers ) {
+	if ( anykeydown && ( !cls.keyCatchers || cl_bypassMouseInput->integer ) ) {
 		cmd->buttons |= BUTTON_ANY;
 	}
 }
@@ -599,6 +619,8 @@ void CL_FinishMove( usercmd_t *cmd ) {
 	cmd->weapon = cl.cgameUserCmdValue;
 
 	cmd->holdable = cl.cgameUserHoldableValue;  //----(SA)	modified
+
+	cmd->cld = cl.cgameCld;
 
 	// send the current server time so the amount of movement
 	// can be determined without allowing cheating
@@ -821,6 +843,8 @@ void CL_WritePacket( void ) {
 	MSG_WriteLong( &buf, clc.serverCommandSequence );
 
 	// write any unacknowledged clientCommands
+	// NOTE TTimo: if you verbose this, you will see that there are quite a few duplicates
+	// typically several unacknowledged cp or userinfo commands stacked up
 	for ( i = clc.reliableAcknowledge + 1 ; i <= clc.reliableSequence ; i++ ) {
 		MSG_WriteByte( &buf, clc_clientCommand );
 		MSG_WriteLong( &buf, i );
@@ -885,13 +909,17 @@ void CL_WritePacket( void ) {
 	if ( cl_showSend->integer ) {
 		Com_Printf( "%i ", buf.cursize );
 	}
-//	Netchan_Transmit (&clc.netchan, buf.cursize, buf.data);
 	CL_Netchan_Transmit( &clc.netchan, &buf );
 
 	// clients never really should have messages large enough
 	// to fragment, but in case they do, fire them all off
 	// at once
+	// TTimo: this causes a packet burst, which is bad karma for winsock
+	// added a WARNING message, we'll see if there are legit situations where this happens
 	while ( clc.netchan.unsentFragments ) {
+		if ( cl_showSend->integer ) {
+			Com_Printf( "WARNING: unsent fragments (not supposed to happen!)\n" );
+		}
 		CL_Netchan_TransmitNextFragment( &clc.netchan );
 	}
 }
@@ -1016,7 +1044,7 @@ void CL_InitInput( void ) {
 // GISKARD: Drop weapon & ammo
 	Cmd_AddCommand( "+dropweapon",   IN_DropWeaponDown );
 	Cmd_AddCommand( "-dropweapon",   IN_DropWeaponUp );
-	
+
 	Cmd_AddCommand( "+wbutton7", IN_Wbutton7Down );   //
 	Cmd_AddCommand( "-wbutton7", IN_Wbutton7Up );
 //----(SA) end
@@ -1024,8 +1052,8 @@ void CL_InitInput( void ) {
 	Cmd_AddCommand( "+mlook", IN_MLookDown );
 	Cmd_AddCommand( "-mlook", IN_MLookUp );
 
-	Cmd_AddCommand( "notebook",IN_Notebook );
-//	Cmd_AddCommand ("help",IN_Help);
+	Cmd_AddCommand ("notebook",IN_Notebook);
+//	Cmd_AddCommand( "help",IN_Help );
 
 	cl_nodelta = Cvar_Get( "cl_nodelta", "0", 0 );
 	cl_debugMove = Cvar_Get( "cl_debugMove", "0", 0 );

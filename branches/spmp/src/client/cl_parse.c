@@ -44,7 +44,7 @@ char *svc_strings[256] = {
 
 void SHOWNET( msg_t *msg, char *s ) {
 	if ( cl_shownet->integer >= 2 ) {
-		Com_Printf( "%3i %3i:%s\n", msg->readcount - 1, msg->cursize, s );
+		Com_Printf( "%3i:%s\n", msg->readcount - 1, s );
 	}
 }
 
@@ -56,6 +56,112 @@ MESSAGE PARSING
 
 =========================================================================
 */
+#if 1
+
+int entLastVisible[MAX_CLIENTS];
+
+qboolean isEntVisible( entityState_t *ent ) {
+	trace_t tr;
+	vec3_t start, end, temp;
+	vec3_t forward, up, right, right2;
+	float view_height;
+
+	VectorCopy( cl.cgameClientLerpOrigin, start );
+	start[2] += ( cl.snap.ps.viewheight - 1 );
+	if ( cl.snap.ps.leanf != 0 ) {
+		vec3_t lright, v3ViewAngles;
+		VectorCopy( cl.snap.ps.viewangles, v3ViewAngles );
+		v3ViewAngles[2] += cl.snap.ps.leanf / 2.0f;
+		AngleVectors( v3ViewAngles, NULL, lright, NULL );
+		VectorMA( start, cl.snap.ps.leanf, lright, start );
+	}
+
+	VectorCopy( ent->pos.trBase, end );
+
+	// Compute vector perpindicular to view to ent
+	VectorSubtract( end, start, forward );
+	VectorNormalizeFast( forward );
+	VectorSet( up, 0, 0, 1 );
+	CrossProduct( forward, up, right );
+	VectorNormalizeFast( right );
+	VectorScale( right, 10, right2 );
+	VectorScale( right, 18, right );
+
+	// Set viewheight
+	if ( ent->animMovetype ) {
+		view_height = 16;
+	} else {
+		view_height = 40;
+	}
+
+	// First, viewpoint to viewpoint
+	end[2] += view_height;
+	CM_BoxTrace( &tr, start, end, NULL, NULL, 0, CONTENTS_SOLID, qfalse );
+	if ( tr.fraction == 1.f ) {
+		return qtrue;
+	}
+
+	// First-b, viewpoint to top of head
+	end[2] += 16;
+	CM_BoxTrace( &tr, start, end, NULL, NULL, 0, CONTENTS_SOLID, qfalse );
+	if ( tr.fraction == 1.f ) {
+		return qtrue;
+	}
+	end[2] -= 16;
+
+	// Second, viewpoint to ent's origin
+	end[2] -= view_height;
+	CM_BoxTrace( &tr, start, end, NULL, NULL, 0, CONTENTS_SOLID, qfalse );
+	if ( tr.fraction == 1.f ) {
+		return qtrue;
+	}
+
+	// Third, to ent's right knee
+	VectorAdd( end, right, temp );
+	temp[2] += 8;
+	CM_BoxTrace( &tr, start, temp, NULL, NULL, 0, CONTENTS_SOLID, qfalse );
+	if ( tr.fraction == 1.f ) {
+		return qtrue;
+	}
+
+	// Fourth, to ent's right shoulder
+	VectorAdd( end, right2, temp );
+	if ( ent->animMovetype ) {
+		temp[2] += 28;
+	} else {
+		temp[2] += 52;
+	}
+	CM_BoxTrace( &tr, start, temp, NULL, NULL, 0, CONTENTS_SOLID, qfalse );
+	if ( tr.fraction == 1.f ) {
+		return qtrue;
+	}
+
+	// Fifth, to ent's left knee
+	VectorScale( right, -1, right );
+	VectorScale( right2, -1, right2 );
+	VectorAdd( end, right2, temp );
+	temp[2] += 2;
+	CM_BoxTrace( &tr, start, temp, NULL, NULL, 0, CONTENTS_SOLID, qfalse );
+	if ( tr.fraction == 1.f ) {
+		return qtrue;
+	}
+
+	// Sixth, to ent's left shoulder
+	VectorAdd( end, right, temp );
+	if ( ent->animMovetype ) {
+		temp[2] += 16;
+	} else {
+		temp[2] += 36;
+	}
+	CM_BoxTrace( &tr, start, temp, NULL, NULL, 0, CONTENTS_SOLID, qfalse );
+	if ( tr.fraction == 1.f ) {
+		return qtrue;
+	}
+
+	return qfalse;
+}
+
+#endif
 
 /*
 ==================
@@ -82,6 +188,23 @@ void CL_DeltaEntity( msg_t *msg, clSnapshot_t *frame, int newnum, entityState_t 
 	if ( state->number == ( MAX_GENTITIES - 1 ) ) {
 		return;     // entity was delta removed
 	}
+
+#if 1
+	// DHM - Nerve :: Only draw clients if visible
+	if ( clc.onlyVisibleClients ) {
+		if ( state->number < MAX_CLIENTS ) {
+			if ( isEntVisible( state ) ) {
+				entLastVisible[state->number] = frame->serverTime;
+				state->eFlags &= ~EF_NODRAW;
+			} else {
+				if ( entLastVisible[state->number] < ( frame->serverTime - 600 ) ) {
+					state->eFlags |= EF_NODRAW;
+				}
+			}
+		}
+	}
+#endif
+
 	cl.parseEntitiesNum++;
 	frame->numEntities++;
 }
@@ -192,6 +315,10 @@ void CL_ParsePacketEntities( msg_t *msg, clSnapshot_t *oldframe, clSnapshot_t *n
 			oldnum = oldstate->number;
 		}
 	}
+
+	if ( cl_shownuments->integer ) {
+		Com_Printf( "Entities in packet: %i\n", newframe->numEntities );
+	}
 }
 
 
@@ -252,9 +379,9 @@ void CL_ParseSnapshot( msg_t *msg ) {
 		} else if ( old->messageNum != newSnap.deltaNum ) {
 			// The frame that the server did the delta from
 			// is too old, so we can't reconstruct it properly.
-			Com_Printf( "Delta frame too old.\n" );
+			Com_DPrintf( "Delta frame too old.\n" );
 		} else if ( cl.parseEntitiesNum - old->parseEntitiesNum > MAX_PARSE_ENTITIES - 128 ) {
-			Com_Printf( "Delta parseEntitiesNum too old.\n" );
+			Com_DPrintf( "Delta parseEntitiesNum too old.\n" );
 		} else {
 			newSnap.valid = qtrue;  // valid delta parse
 		}
@@ -262,6 +389,12 @@ void CL_ParseSnapshot( msg_t *msg ) {
 
 	// read areamask
 	len = MSG_ReadByte( msg );
+
+	if ( len > sizeof( newSnap.areamask ) ) {
+		Com_Error( ERR_DROP,"CL_ParseSnapshot: Invalid size %d for areamask.", len );
+		return;
+	}
+
 	MSG_ReadData( msg, &newSnap.areamask, len );
 
 	// read playerinfo
@@ -338,7 +471,13 @@ void CL_SystemInfoChanged( void ) {
 	char value[BIG_INFO_VALUE];
 
 	systemInfo = cl.gameState.stringData + cl.gameState.stringOffsets[ CS_SYSTEMINFO ];
+	// NOTE TTimo:
+	// when the serverId changes, any further messages we send to the server will use this new serverId
+	// show_bug.cgi?id=475
+	// in some cases, outdated cp commands might get sent with this news serverId
 	cl.serverId = atoi( Info_ValueForKey( systemInfo, "sv_serverid" ) );
+
+	memset( &entLastVisible, 0, sizeof( entLastVisible ) );
 
 	// don't set any vars when playing a demo
 	if ( clc.demoplaying ) {
@@ -474,6 +613,12 @@ void CL_ParseDownload( msg_t *msg ) {
 	unsigned char data[MAX_MSGLEN];
 	int block;
 
+	if ( !*clc.downloadTempName ) {
+		Com_Printf( "Server sending download, but no download was requested\n" );
+		CL_AddReliableCommand( "stopdl" );
+		return;
+	}
+
 	// read the data
 	block = MSG_ReadShort( msg );
 
@@ -490,9 +635,12 @@ void CL_ParseDownload( msg_t *msg ) {
 	}
 
 	size = MSG_ReadShort( msg );
-	if ( size > 0 ) {
-		MSG_ReadData( msg, data, size );
+	if ( size < 0 || size > sizeof( data ) ) {
+		Com_Error( ERR_DROP, "CL_ParseDownload: Invalid size %d for download chunk.", size );
+		return;
 	}
+
+	MSG_ReadData( msg, data, size );
 
 	if ( clc.downloadBlock != block ) {
 		Com_DPrintf( "CL_ParseDownload: Expected block %d, got %d\n", clc.downloadBlock, block );
@@ -501,12 +649,6 @@ void CL_ParseDownload( msg_t *msg ) {
 
 	// open the file if not opened yet
 	if ( !clc.download ) {
-		if ( !*clc.downloadTempName ) {
-			Com_Printf( "Server sending download, but no download was requested\n" );
-			CL_AddReliableCommand( "stopdl" );
-			return;
-		}
-
 		clc.download = FS_SV_FOpenFileWrite( clc.downloadTempName );
 
 		if ( !clc.download ) {

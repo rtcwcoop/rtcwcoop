@@ -45,16 +45,12 @@ If you have questions concerning this license or the applicable additional terms
 
 
 #include "client.h"
-//#include "snd_local.h"
-
+#include "snd_local.h"
 #define MAXSIZE             8
 #define MINSIZE             4
 
 #define DEFAULT_CIN_WIDTH   512
 #define DEFAULT_CIN_HEIGHT  512
-
-#define LETTERBOX_OFFSET 105
-
 
 #define ROQ_QUAD            0x1000
 #define ROQ_QUAD_INFO       0x1001
@@ -69,11 +65,8 @@ If you have questions concerning this license or the applicable additional terms
 #define MAX_VIDEO_HANDLES   16
 
 extern glconfig_t glConfig;
-extern int s_paintedtime;
-extern int s_soundtime;
-extern int s_rawend[];          //DAJ added [] to match definition
 
-#define CIN_STREAM 0    //DAJ const for the sound stream used for cinematics
+
 static void RoQ_init( void );
 
 /******************************************************************************
@@ -112,7 +105,7 @@ typedef struct {
 	char fileName[MAX_OSPATH];
 	int CIN_WIDTH, CIN_HEIGHT;
 	int xpos, ypos, width, height;
-	qboolean looping, holdAtEnd, dirty, alterGameState, silent, shader, letterBox, sound;
+	qboolean looping, holdAtEnd, dirty, alterGameState, silent, shader;
 	fileHandle_t iFile;
 	e_status status;
 	unsigned int startTime;
@@ -214,7 +207,7 @@ static void RllSetupTable() {
 //-----------------------------------------------------------------------------
 long RllDecodeMonoToMono( unsigned char *from,short *to,unsigned int size,char signedOutput,unsigned short flag ) {
 	unsigned int z;
-	short prev; //DAJ was int
+	int prev;
 
 	if ( signedOutput ) {
 		prev =  flag - 0x8000;
@@ -245,7 +238,7 @@ long RllDecodeMonoToMono( unsigned char *from,short *to,unsigned int size,char s
 //-----------------------------------------------------------------------------
 long RllDecodeMonoToStereo( unsigned char *from,short *to,unsigned int size,char signedOutput,unsigned short flag ) {
 	unsigned int z;
-	short prev; //DAJ was int
+	int prev;
 
 	if ( signedOutput ) {
 		prev =  flag - 0x8000;
@@ -278,7 +271,7 @@ long RllDecodeMonoToStereo( unsigned char *from,short *to,unsigned int size,char
 long RllDecodeStereoToStereo( unsigned char *from,short *to,unsigned int size,char signedOutput, unsigned short flag ) {
 	unsigned int z;
 	unsigned char *zz = from;
-	short prevL, prevR;     //DAJ was int
+	int prevL, prevR;
 
 	if ( signedOutput ) {
 		prevL = ( flag & 0xff00 ) - 0x8000;
@@ -314,7 +307,7 @@ long RllDecodeStereoToStereo( unsigned char *from,short *to,unsigned int size,ch
 //-----------------------------------------------------------------------------
 long RllDecodeStereoToMono( unsigned char *from,short *to,unsigned int size,char signedOutput, unsigned short flag ) {
 	unsigned int z;
-	short prevL, prevR;     //DAJ was int
+	int prevL,prevR;
 
 	if ( signedOutput ) {
 		prevL = ( flag & 0xff00 ) - 0x8000;
@@ -661,7 +654,7 @@ static unsigned short yuv_to_rgb( long y, long u, long v ) {
 * Description:
 *
 ******************************************************************************/
-#if defined( __MACOS__ )
+#if defined( MACOS_X )
 
 static inline unsigned int yuv_to_rgb24( long y, long u, long v ) {
 	long r,g,b,YY;
@@ -1120,10 +1113,10 @@ static void readQuadInfo( byte *qData ) {
 			Com_Printf( "HACK: approxmimating cinematic for Rage Pro or Voodoo\n" );
 		}
 	}
-#if defined( MACOS_X )
-	cinTable[currentHandle].drawX = 256;
-	cinTable[currentHandle].drawX = 256;
-#endif
+//#ifdef __MACOS__
+//	cinTable[currentHandle].drawX = 256;
+//	cinTable[currentHandle].drawX = 256;
+//#endif
 }
 
 /******************************************************************************
@@ -1231,7 +1224,7 @@ static void RoQInterrupt( void ) {
 	if ( currentHandle < 0 ) {
 		return;
 	}
-//resound:
+
 	Sys_StreamedRead( cin.file, cinTable[currentHandle].RoQFrameSize + 8, 1, cinTable[currentHandle].iFile );
 	if ( cinTable[currentHandle].RoQPlayed >= cinTable[currentHandle].ROQSize ) {
 		if ( cinTable[currentHandle].holdAtEnd == qfalse ) {
@@ -1276,21 +1269,13 @@ redump:
 	case    ZA_SOUND_MONO:
 		if ( !cinTable[currentHandle].silent ) {
 			ssize = RllDecodeMonoToStereo( framedata, sbuf, cinTable[currentHandle].RoQFrameSize, 0, (unsigned short)cinTable[currentHandle].roq_flags );
-			S_RawSamples( ssize, 22050, 2, 1, (byte *)sbuf, 1.0f, 1.0f, CIN_STREAM );
-			cinTable[currentHandle].sound = 1;
+			S_RawSamples( ssize, 22050, 2, 1, (byte *)sbuf, 1.0f, 1.0f, 0 );
 		}
 		break;
 	case    ZA_SOUND_STEREO:
 		if ( !cinTable[currentHandle].silent ) {
-			if ( cinTable[currentHandle].numQuads == -1 ) {
-				S_Update();
-				Com_DPrintf( "S_Update: Setting rawend to %i\n", s_soundtime );
-				s_rawend[CIN_STREAM] = s_soundtime;         //DAJ added [CIN_STREAM]
-			}
 			ssize = RllDecodeStereoToStereo( framedata, sbuf, cinTable[currentHandle].RoQFrameSize, 0, (unsigned short)cinTable[currentHandle].roq_flags );
-//			Com_Printf("%i\n", ssize+s_rawend[CIN_STREAM]- s_soundtime );
-			S_RawSamples( ssize, 22050, 2, 2, (byte *)sbuf, 1.0f, 1.0f, CIN_STREAM );
-			cinTable[currentHandle].sound = 1;
+			S_RawSamples( ssize, 22050, 2, 2, (byte *)sbuf, 1.0f, 1.0f, 0 );
 		}
 		break;
 	case    ROQ_QUAD_INFO:
@@ -1351,12 +1336,6 @@ redump:
 	if ( cinTable[currentHandle].inMemory && ( cinTable[currentHandle].status != FMV_EOF ) ) {
 		cinTable[currentHandle].inMemory--; framedata += 8; goto redump;
 	}
-
-//	if (cinTable[currentHandle].roq_id == ZA_SOUND_STEREO) {
-//  /		cinTable[currentHandle].RoQPlayed	+= cinTable[currentHandle].RoQFrameSize+8;
-//		goto resound;
-//	}
-
 //
 // one more frame hits the dust
 //
@@ -1484,7 +1463,6 @@ e_status CIN_RunCinematic( int handle ) {
 	// bk001204 - init
 	int start = 0;
 	int thisTime = 0;
-	int played = 0;
 
 	if ( handle < 0 || handle >= MAX_VIDEO_HANDLES || cinTable[handle].status == FMV_EOF ) {
 		return FMV_EOF;
@@ -1514,42 +1492,25 @@ e_status CIN_RunCinematic( int handle ) {
 	}
 
 	// we need to use CL_ScaledMilliseconds because of the smp mode calls from the renderer
-	thisTime = CL_ScaledMilliseconds();
+	thisTime = CL_ScaledMilliseconds() * com_timescale->value;
 	if ( cinTable[currentHandle].shader && ( abs( thisTime - cinTable[currentHandle].lastTime ) ) > 100 ) {
 		cinTable[currentHandle].startTime += thisTime - cinTable[currentHandle].lastTime;
 	}
-
-//----(SA)	modified to use specified fps for roq's
-
 	// we need to use CL_ScaledMilliseconds because of the smp mode calls from the renderer
-	cinTable[currentHandle].tfps = ( ( ( CL_ScaledMilliseconds() - cinTable[currentHandle].startTime ) * cinTable[currentHandle].roqFPS ) / 1000 );
+	cinTable[currentHandle].tfps = ( ( ( ( CL_ScaledMilliseconds() * com_timescale->value ) - cinTable[currentHandle].startTime ) * 3 ) / 100 );
 
 	start = cinTable[currentHandle].startTime;
-	while ( ( cinTable[currentHandle].tfps != cinTable[currentHandle].numQuads )
-			&& cinTable[currentHandle].status == FMV_PLAY )
+	while (  ( cinTable[currentHandle].tfps != cinTable[currentHandle].numQuads )
+			 && ( cinTable[currentHandle].status == FMV_PLAY ) )
 	{
 		RoQInterrupt();
 		if ( start != cinTable[currentHandle].startTime ) {
 			// we need to use CL_ScaledMilliseconds because of the smp mode calls from the renderer
-			cinTable[currentHandle].tfps = ( ( ( CL_ScaledMilliseconds() - cinTable[currentHandle].startTime ) * cinTable[currentHandle].roqFPS ) / 1000 );
-
+			cinTable[currentHandle].tfps = ( ( ( ( CL_ScaledMilliseconds() * com_timescale->value )
+												 - cinTable[currentHandle].startTime ) * 3 ) / 100 );
 			start = cinTable[currentHandle].startTime;
 		}
-		played = 1;
 	}
-
-//DAJ added [CIN_STREAM]'s
-	if ( played && cinTable[currentHandle].sound ) {
-		if ( s_rawend[CIN_STREAM] < s_soundtime && ( s_soundtime - s_rawend[CIN_STREAM] ) < 100 ) {
-			cinTable[currentHandle].startTime -= ( s_soundtime - s_rawend[CIN_STREAM] );
-			do {
-				RoQInterrupt();
-			} while ( s_rawend[CIN_STREAM] < s_soundtime &&  cinTable[currentHandle].status == FMV_PLAY );
-		}
-	}
-
-
-//----(SA)	end
 
 	cinTable[currentHandle].lastTime = thisTime;
 
@@ -1579,10 +1540,6 @@ int CIN_PlayCinematic( const char *arg, int x, int y, int w, int h, int systemBi
 	char name[MAX_OSPATH];
 	int i;
 
-
-	// TODO: Laird says don't play cine's in widescreen mode
-
-
 	if ( strstr( arg, "/" ) == NULL && strstr( arg, "\\" ) == NULL ) {
 		Com_sprintf( name, sizeof( name ), "video/%s", arg );
 	} else {
@@ -1591,7 +1548,7 @@ int CIN_PlayCinematic( const char *arg, int x, int y, int w, int h, int systemBi
 
 	if ( !( systemBits & CIN_system ) ) {
 		for ( i = 0 ; i < MAX_VIDEO_HANDLES ; i++ ) {
-			if ( !Q_stricmp( cinTable[i].fileName, name ) ) {
+			if ( !strcmp( cinTable[i].fileName, name ) ) {
 				return i;
 			}
 		}
@@ -1625,8 +1582,6 @@ int CIN_PlayCinematic( const char *arg, int x, int y, int w, int h, int systemBi
 	cinTable[currentHandle].playonwalls = 1;
 	cinTable[currentHandle].silent = ( systemBits & CIN_silent ) != 0;
 	cinTable[currentHandle].shader = ( systemBits & CIN_shader ) != 0;
-	cinTable[currentHandle].letterBox = ( systemBits & CIN_letterBox ) != 0;
-	cinTable[currentHandle].sound = 0;
 
 	if ( cinTable[currentHandle].alterGameState ) {
 		// close the menu
@@ -1657,8 +1612,7 @@ int CIN_PlayCinematic( const char *arg, int x, int y, int w, int h, int systemBi
 
 		Con_Close();
 
-		Com_DPrintf( "Setting rawend to %i\n", s_soundtime );
-		s_rawend[CIN_STREAM] = s_soundtime;
+//		s_rawend = s_soundtime;
 
 		return currentHandle;
 	}
@@ -1693,8 +1647,8 @@ SCR_DrawCinematic
 ==================
 */
 void CIN_DrawCinematic( int handle ) {
-	float x, y, w, h;  //, barheight;
-	byte    *buf; \
+	float x, y, w, h;
+	byte    *buf;
 
 	if ( handle < 0 || handle >= MAX_VIDEO_HANDLES || cinTable[handle].status == FMV_EOF ) {
 		return;
@@ -1710,22 +1664,6 @@ void CIN_DrawCinematic( int handle ) {
 	h = cinTable[handle].height;
 	buf = cinTable[handle].buf;
 	SCR_AdjustFrom640( &x, &y, &w, &h );
-
-
-	if ( cinTable[handle].letterBox ) {
-		float barheight;
-		float vh;
-		vh = (float)cls.glconfig.vidHeight;
-
-		barheight = ( (float)LETTERBOX_OFFSET / 480.0f ) * vh;  //----(SA)	added
-
-		re.SetColor( &colorBlack[0] );
-//		re.DrawStretchPic( 0, 0, SCREEN_WIDTH, LETTERBOX_OFFSET, 0, 0, 0, 0, cls.whiteShader );
-//		re.DrawStretchPic( 0, SCREEN_HEIGHT-LETTERBOX_OFFSET, SCREEN_WIDTH, LETTERBOX_OFFSET, 0, 0, 0, 0, cls.whiteShader );
-		//----(SA)	adjust for 640x480
-		re.DrawStretchPic( 0, 0, w, barheight, 0, 0, 0, 0, cls.whiteShader );
-		re.DrawStretchPic( 0, vh - barheight - 1, w, barheight + 1, 0, 0, 0, 0, cls.whiteShader );
-	}
 
 	if ( cinTable[handle].dirty && ( cinTable[handle].CIN_WIDTH != cinTable[handle].drawX || cinTable[handle].CIN_HEIGHT != cinTable[handle].drawY ) ) {
 		int ix, iy, *buf2, *buf3, xm, ym, ll;
@@ -1786,11 +1724,6 @@ void CIN_DrawCinematic( int handle ) {
 	cinTable[handle].dirty = qfalse;
 }
 
-/*
-==============
-CL_PlayCinematic_f
-==============
-*/
 void CL_PlayCinematic_f( void ) {
 	char    *arg, *s;
 	qboolean holdatend;
@@ -1811,20 +1744,10 @@ void CL_PlayCinematic_f( void ) {
 	if ( s && s[0] == '2' ) {
 		bits |= CIN_loop;
 	}
-	if ( s && s[0] == '3' ) {
-		bits |= CIN_letterBox;
-	}
 
 	S_StopAllSounds();
-	// make sure volume is up for cine
-	S_FadeAllSounds( 1, 0 );
 
-	if ( bits & CIN_letterBox ) {
-		CL_handle = CIN_PlayCinematic( arg, 0, LETTERBOX_OFFSET, SCREEN_WIDTH, SCREEN_HEIGHT - ( LETTERBOX_OFFSET * 2 ), bits );
-	} else {
-		CL_handle = CIN_PlayCinematic( arg, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, bits );
-	}
-
+	CL_handle = CIN_PlayCinematic( arg, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, bits );
 	if ( CL_handle >= 0 ) {
 		do {
 			SCR_RunCinematic();
@@ -1875,4 +1798,3 @@ void CIN_UploadCinematic( int handle ) {
 		}
 	}
 }
-

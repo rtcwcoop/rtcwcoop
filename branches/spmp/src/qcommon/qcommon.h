@@ -46,6 +46,7 @@ typedef struct {
 	byte    *data;
 	int maxsize;
 	int cursize;
+	int uncompsize;		    // fretn from mp - net debugging
 	int readcount;
 	int bit;                    // for bitwise reads and writes
 } msg_t;
@@ -278,6 +279,17 @@ PROTOCOL
 ==============================================================
 */
 
+// sent by the server, printed on connection screen, works for all clients
+// (restrictions: does not handle \n, no more than 256 chars)
+#define PROTOCOL_MISMATCH_ERROR "ERROR: Protocol Mismatch Between Client and Server.\
+The server you are attempting to join is running an incompatible version of the game."
+
+// long version used by the client in diagnostic window
+#define PROTOCOL_MISMATCH_ERROR_LONG "ERROR: Protocol Mismatch Between Client and Server.\n\n\
+The server you attempted to join is running an incompatible version of the game.\n\
+You or the server may be running older versions of the game. Press the auto-update\
+ button if it appears on the Main Menu screen."
+
 #define PROTOCOL_VERSION    7
 #define GAMENAME_STRING "wolfcoop"
 
@@ -293,6 +305,24 @@ PROTOCOL
 #define UPDATE_SERVER_NAME      "localhost"
 #define MASTER_SERVER_NAME      "master.rtcwcoop.com"
 #define AUTHORIZE_SERVER_NAME   "localhost"
+
+// fretn
+// TTimo: allow override for easy dev/testing..
+// see cons -- update_server=myhost
+#if !defined( AUTOUPDATE_SERVER_NAME )
+  #define AUTOUPDATE_SERVER1_NAME   "au2rtcw1.activision.com"            // DHM - Nerve
+  #define AUTOUPDATE_SERVER2_NAME   "au2rtcw2.activision.com"            // DHM - Nerve
+  #define AUTOUPDATE_SERVER3_NAME   "au2rtcw3.activision.com"            // DHM - Nerve
+  #define AUTOUPDATE_SERVER4_NAME   "au2rtcw4.activision.com"            // DHM - Nerve
+  #define AUTOUPDATE_SERVER5_NAME   "au2rtcw5.activision.com"            // DHM - Nerve
+#else
+  #define AUTOUPDATE_SERVER1_NAME   AUTOUPDATE_SERVER_NAME
+  #define AUTOUPDATE_SERVER2_NAME   AUTOUPDATE_SERVER_NAME
+  #define AUTOUPDATE_SERVER3_NAME   AUTOUPDATE_SERVER_NAME
+  #define AUTOUPDATE_SERVER4_NAME   AUTOUPDATE_SERVER_NAME
+  #define AUTOUPDATE_SERVER5_NAME   AUTOUPDATE_SERVER_NAME
+#endif
+// -fretn
 
 #define PORT_MASTER         27950
 #define PORT_UPDATE         27951
@@ -707,6 +737,9 @@ void FS_Rename( const char *from, const char *to );
 
 void    FS_CopyFileOS(  char *from, char *to ); //DAJ
 
+qboolean FS_VerifyPak( const char *pak );
+
+
 /*
 ==============================================================
 
@@ -943,7 +976,8 @@ void CL_StartHunkUsers( void );
 void Key_WriteBindings( fileHandle_t f );
 // for writing the config files
 
-void S_ClearSoundBuffer( qboolean killStreaming );  //----(SA)	modified
+//void S_ClearSoundBuffer( qboolean killStreaming );  //----(SA)	modified
+void S_ClearSoundBuffer( void );  //----(SA)	modified
 // call before filesystem access
 
 void SCR_DebugGraph( float value, int color );   // FIXME: move logging to common?
@@ -1038,6 +1072,7 @@ void Sys_LeaveCriticalSection( void *ptr );
 void    * QDECL Sys_LoadDll( const char *name, int( QDECL * *entryPoint ) ( int, ... ),
 							 int ( QDECL * systemcalls )( int, ... ) );
 void    Sys_UnloadDll( void *dllHandle );
+void Sys_Chmod( char *file, int mode );
 
 void    Sys_UnloadGame( void );
 void    *Sys_GetGameAPI( void *parms );
