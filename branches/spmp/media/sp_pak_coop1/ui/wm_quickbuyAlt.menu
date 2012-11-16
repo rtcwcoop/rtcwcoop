@@ -1,0 +1,685 @@
+#include "ui_mp/menudef.h"
+
+#define DEFAULT_TEXT_SCALE 0.25
+
+#define ORIGIN_QUICKBUY		10 110
+
+{
+	menuDef {
+		name			"wm_quickbuyAlt"
+		visible			0
+		fullscreen		0
+		rect			0 100 640 380
+		focusColor		1 1 1 1
+		disablecolor	0 0 0 0
+		backcolor		0 0 0 0
+ 		style			WINDOW_STYLE_FILLED
+   		border			1
+
+		onOpen			{ setCvar cl_bypassMouseInput "1" }
+		onClose			{ setCvar cl_bypassMouseInput "0" }
+
+	itemDef {
+		name			window
+		visible			1
+		rect			0 0 170 170
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 1
+ 		style			WINDOW_STYLE_SHADER
+   		border			1
+		background		"ui_mp/assets/quickmessage_background.tga"
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			37 14 128 20
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		text			"Buy"
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_CENTER
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 40 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"1. Pistols"
+		decoration
+	}
+	execKey "1" { close wm_quickbuyAlt; open altwm_buypistols }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 56 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"2. SMG"
+		decoration
+	}
+	execKey "2" { close wm_quickbuyAlt; open altwm_buysmg }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 72 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"3. Rifles"
+		decoration
+	}
+	execKey "3" { close wm_quickbuyAlt; open altwm_buyrifle }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 88 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"4. Heavy"
+		decoration
+	}
+	execKey "4" { close wm_quickbuyAlt; open altwm_buyheavy }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 104 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"5. Explosives"
+		decoration
+	}
+	execKey "5" { close wm_quickbuyAlt; open altwm_buyexplosives }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 120 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"6. Ammo"
+		decoration
+		group			ingamebox
+	}
+	execKey "6" { exec "buy ammo"; close wm_quickbuyAlt }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 136 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"7. Health"
+		decoration
+		group			ingamebox
+	}
+	execKey "7" { exec "buy health"; close wm_quickbuyAlt }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 152 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"8. Stamina"
+		decoration
+		group			ingamebox
+	}
+	execKey "8" { exec "buy Stamina"; close wm_quickbuyAlt }
+}
+
+// ================
+// PISTOLS -- menu text is yellow to signify global JPW
+// ================
+{
+	menuDef {
+		name			"altwm_buypistols"
+		visible			0
+		fullscreen		0
+		rect			0 100 640 380
+		focusColor		1 1 0 1
+		disablecolor	0 0 0 0
+		backcolor		0 0 0 0
+ 		style			WINDOW_STYLE_FILLED
+   		border			1
+
+		onOpen			{ setCvar cl_bypassMouseInput "1" }
+		onClose			{ setCvar cl_bypassMouseInput "0" }
+
+	itemDef {
+		name			window
+		visible			1
+		rect			0 0 170 170
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 0 1
+		backcolor		0 0 0 1
+ 		style			WINDOW_STYLE_SHADER
+   		border			1
+		background		"ui_mp/assets/quickmessage_background.tga"
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+                rect                    37 14 128 20    
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		text			"Buy Pistols"
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_CENTER
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 40 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 0 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"1. Luger"
+		decoration
+	}
+	execKey "1" { exec "buy Luger"; close altwm_buypistols }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 56 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 0 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"2. Colt"
+		decoration
+	}
+	execKey "2" { exec "buy Colt"; close altwm_buypistols }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 72 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 0 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"3. Silencer"
+		decoration
+		group			ingamebox
+	}
+	execKey "3" { exec "buy sp5 pistol"; close altwm_buypistols }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 88 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 0 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"4. Dual Colts"
+		decoration
+	}
+	execKey "4" { exec "buy Dual Colts"; close altwm_buypistols }
+}
+
+// ================
+// SMG
+// ================
+{
+	menuDef {
+		name			"altwm_buysmg"
+		visible			0
+		fullscreen		0
+		rect			0 100 640 380
+		focusColor		1 1 1 1
+		disablecolor	0 0 0 0
+		backcolor		0 0 0 0
+ 		style			WINDOW_STYLE_FILLED
+   		border			1
+
+		onOpen			{ setCvar cl_bypassMouseInput "1" }
+		onClose			{ setCvar cl_bypassMouseInput "0" }
+
+	itemDef {
+		name			window
+		visible			1
+		rect			0 0 170 170
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 1
+ 		style			WINDOW_STYLE_SHADER
+   		border			1
+		background		"ui_mp/assets/quickmessage_background.tga"
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			37 14 128 20
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		text			"Buy smg"
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_CENTER
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 40 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"1. Thompson"
+		decoration
+		group			ingamebox
+	}
+	execKey "1" { exec "buy Thompson"; close altwm_buysmg }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 56 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"2. MP40"
+		decoration
+		group			ingamebox
+	}
+	execKey "2" { exec "buy MP40"; close altwm_buysmg }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 72 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"3. Sten"
+		decoration
+		group			ingamebox
+	}
+	execKey "3" { exec "buy Sten"; close altwm_buysmg }
+}
+
+// ================
+// Rifles
+// ================
+{
+	menuDef {
+		name			"altwm_buyrifle"
+		visible			0
+		fullscreen		0
+		rect			0 100 640 380
+		focusColor		1 1 1 1
+		disablecolor	0 0 0 0
+		backcolor		0 0 0 0
+ 		style			WINDOW_STYLE_FILLED
+   		border			1
+
+		onOpen			{ setCvar cl_bypassMouseInput "1" }
+		onClose			{ setCvar cl_bypassMouseInput "0" }
+
+	itemDef {
+		name			window
+		visible			1
+		rect			0 0 170 170
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 1
+ 		style			WINDOW_STYLE_SHADER
+   		border			1
+		background		"ui_mp/assets/quickmessage_background.tga"
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			37 14 128 20
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		text			"Buy Rifle"
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_CENTER
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 40 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"1. Mauser Rifle"
+		decoration
+	}
+	execKey "1" { exec "buy Mauser Rifle"; close altwm_buyrifle }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 56 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"2. FG42 Paratroop Rifle"
+		decoration
+	}
+	execKey "2" { exec "buy FG42 Paratroop Rifle"; close altwm_buyrifle }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 72 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"3. Snooper Rifle"
+		decoration
+		group			ingamebox
+	}
+	execKey "3" { exec "buy Snooper Rifle"; close altwm_buyrifle }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 88 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"4. Sniper Scope"
+		decoration
+		group			ingamebox
+	}
+	execKey "4" { exec "buy Sniper Scope"; close altwm_buyrifle }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 104 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"5. FG42 Scope"
+		decoration
+		group			ingamebox
+	}
+	execKey "5" { exec "buy FG42 Scope"; close altwm_buyrifle }
+
+}
+
+
+// ================
+// HEAVY
+// ================
+{
+	menuDef {
+		name			"altwm_buyheavy"
+		visible			0
+		fullscreen		0
+		rect			0 100 640 380
+		focusColor		1 1 1 1
+		disablecolor	0 0 0 0
+		backcolor		0 0 0 0
+ 		style			WINDOW_STYLE_FILLED
+   		border			1
+
+		onOpen			{ setCvar cl_bypassMouseInput "1" }
+		onClose			{ setCvar cl_bypassMouseInput "0" }
+
+	itemDef {
+		name			window
+		visible			1
+		rect			0 0 170 170
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 1
+ 		style			WINDOW_STYLE_SHADER
+   		border			1
+		background		"ui_mp/assets/quickmessage_background.tga"
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			37 14 128 20
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		text			"Buy Heavy"
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_CENTER
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 40 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"1. Venom"
+		decoration
+	}
+	execKey "1" { exec "buy Venom"; close altwm_buyheavy }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 56 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"2. Flamethrower"
+		decoration
+	}
+	execKey "2" { exec "buy Flamethrower"; close altwm_buyheavy }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 72 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"3. Panzerfaust"
+		decoration
+		group			ingamebox
+	}
+	execKey "3" { exec "buy Panzerfaust"; close altwm_buyheavy }
+}
+
+// ================
+// EXPLOSIVES
+// ================
+{
+	menuDef {
+		name			"altwm_buyexplosives"
+		visible			0
+		fullscreen		0
+		rect			0 100 640 380
+		focusColor		1 1 1 1
+		disablecolor	0 0 0 0
+		backcolor		0 0 0 0
+ 		style			WINDOW_STYLE_FILLED
+   		border			1
+
+		onOpen			{ setCvar cl_bypassMouseInput "1" }
+		onClose			{ setCvar cl_bypassMouseInput "0" }
+
+	itemDef {
+		name			window
+		visible			1
+		rect			0 0 170 170
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 1
+ 		style			WINDOW_STYLE_SHADER
+   		border			1
+		background		"ui_mp/assets/quickmessage_background.tga"
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			37 14 128 20
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		text			"Buy Bombs"
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_CENTER
+		decoration
+	}
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 40 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"1. Grenade"
+		decoration
+	}
+	execKey "1" { exec "buy Grenade"; close altwm_buyexplosives }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 56 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"2. Pineapple"
+		decoration
+	}
+	execKey "2" { exec "buy Pineapple"; close altwm_buyexplosives }
+
+	itemDef {
+		name			"window"
+		visible			1
+		rect			10 72 128 16
+		origin			ORIGIN_QUICKBUY
+		forecolor		1 1 1 1
+		backcolor		0 0 0 0
+		textfont	UI_FONT_NORMAL
+		textscale	.25
+		textalign		ITEM_ALIGN_LEFT
+		text			"3. Dynamite"
+		decoration
+		group			ingamebox
+	}
+	execKey "3" { exec "buy Dynamite Weapon"; close altwm_buyexplosives }
+}
+
+
+

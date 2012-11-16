@@ -1,0 +1,579 @@
+#include "ui/menudef.h"
+
+{
+\\ SETUP MENU \\
+
+menuDef {
+   	name "setup_menu"
+   	visible 0
+   	fullscreen 1
+   	rect 186 0 454 480
+//	background "menuback_a"
+   	focusColor .9 .9 .9 1
+   	style 1
+   	border 1
+	soundloop ""
+	onOpen { setitemcolor fadebox backcolor 0 0 0 1 ; 
+		fadeout fadebox ;
+		hide back_alt ;
+		show back ;
+		hide grpmessage }
+	onEsc { close setup_menu ; open main }
+
+
+
+
+	itemDef {
+		name solid_box
+		style 1 
+		rect 4 2 178 426
+		border 1 
+		bordersize 1
+		bordercolor .5 .5 .5 .5
+		backcolor 0 0 .75 .25
+		visible 1 
+		decoration 
+		mouseEnter { setcolor backcolor .75 0 0 .5 }
+		mouseExit { setcolor backcolor 0 0 .75 .25 }
+	}
+
+
+
+//////////////// new wolf
+
+	itemDef {
+		name menu_select					// menu_select
+		style WINDOW_STYLE_SHADER
+		rect 0 0 640 480
+		background "menu_select"
+		visible 1
+		decoration
+	}
+
+
+
+
+	itemDef {
+		name band2					// band2
+		style WINDOW_STYLE_SHADER
+		rect 360 20 128 640
+		background "band2"
+		visible 1
+		decoration
+	}
+
+
+itemDef {
+      	name bands					// bands
+      	style WINDOW_STYLE_SHADER
+      	rect 0 -480 640 1024
+     	background "bands"
+      	visible 1
+	decoration
+    	}
+
+
+itemDef {
+		name BLACKGRAD					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name BLACKGRAD2					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 420 640 -128
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+
+itemDef {
+		name FLAME					// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name WOLFFLAMELOGO					// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name WOLFICONBACK					// WOLFICONBACK
+		style WINDOW_STYLE_SHADER
+		rect 140 200 360 190
+		background "WOLFICONBACK"
+		visible 1
+		decoration
+		}
+
+
+
+
+///////////////////////////////////////////////////////////
+
+
+// Control	//
+
+
+
+
+itemDef {
+	name controls
+	text "CONTROLS"
+ 	type 1
+	style 0	
+	textstyle 6
+	rect 45 90 64 14 
+	textalign 0
+	textfont	UI_FONT_NORMAL
+	textscale .25		
+	textalignx 2
+	textaligny 12
+	forecolor .9 .9 .9 .9
+	visible 1 
+	action { play "sound/misc/kcaction.wav" ; 
+	close control_menu ; 
+	close system_menu ;
+	close options_menu ; 
+	close cdkey_menu ;
+	close default_menu ;
+	open control_menu }
+	mouseenter { show message_controls }
+	mouseexit { hide message_controls }
+	}
+	
+// 	System		//
+
+itemDef {
+      name system
+      text "SYSTEM"
+ 	type 1
+	style 0	
+	textstyle 6
+	rect 205 90 52 14 
+	textalign 0
+	textfont	UI_FONT_NORMAL
+	textscale .25		
+	textalignx 4
+	textaligny 12
+	forecolor .9 .9 .9 .9
+	visible 1 
+	action { play "sound/misc/kcaction.wav" ; 
+	close control_menu ; 
+	close system_menu ;
+	close options_menu ; 
+	close cdkey_menu ;
+	close default_menu ;
+	open system_menu }	
+	mouseenter { show message_system }
+	mouseexit { hide message_system }	
+	}
+
+
+
+// Game Options	//
+
+itemDef {
+      name gameoptions
+      text "HUD OPTIONS"
+ 	type 1
+	style 0	
+	textstyle 6
+	rect 340 90 90 14 
+	textalign 0
+	textfont	UI_FONT_NORMAL
+	textscale .25		
+	textalignx 2
+	textaligny 12
+	forecolor .9 .9 .9 .9
+	visible 1 
+	action { play "sound/misc/kcaction.wav" ; 
+	close control_menu ; 
+	close system_menu ;
+	close options_menu ; 
+	close cdkey_menu ;
+	close default_menu ;
+	open options_menu }	
+	mouseenter { show message_gameoptions }
+	mouseexit { hide message_gameoptions }
+	}
+
+// Reset Defaults	//
+
+itemDef {
+      name defaults
+      text "DEFAULTS"
+ 	type 1
+	style 0	
+	textstyle 6
+	rect 520 90 66 14 
+	textalign 0
+	textfont	UI_FONT_NORMAL
+	textscale .25		
+	textalignx 2
+	textaligny 12
+	forecolor .9 .9 .9 .9
+	visible 1 
+	mouseenter { show message_default }
+	mouseexit { hide message_default }
+	action { play "sound/misc/kcaction.wav" ; 
+	close control_menu ; 
+	close system_menu ;
+	close options_menu ; 
+	close cdkey_menu ;
+	close default_menu ;
+	open default_menu }
+	}
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////
+
+
+
+
+
+
+// BACK BAR	//
+
+
+itemDef {
+      	name gotobar
+      	style 2
+      	rect 0 445 640 20 
+      	textscale 0.4
+      	textalign 0		// center
+      	textalignx 60        	// x alignment point for text
+         // use it to offset left/right text from the edge 
+         // or to center the text on a different point
+      	textaligny 21        
+      	style 2
+      	border 4
+      	bordercolor 0.5 0.5 0.5 0.0
+      	bordersize 2
+      	backcolor 0.5 0.5 .5 0.0
+      	visible 1 
+      	mouseEnter { setcolor backcolor .5 0.5 0.5 .5 }
+      	mouseExit { setcolor backcolor .5 .5 .5 .0 }
+      	decoration 
+    	}
+
+
+itemDef {
+      name back
+      text "BACK"
+ 	type 1
+	textfont UI_FONT_NORMAL
+	style 0	
+	textstyle 6
+	rect 30 450 40 14 
+	textalign 0
+	textscale .23		
+	textalignx 6
+	textaligny 12
+	forecolor .9 .9 .9 .9
+	visible 1 
+     	action { close control_menu ; 
+	close setup_menu ; 
+	close system_menu ;
+	close options_menu ; 
+	close default_menu ; 
+	close resetscore_menu ;
+	open main }
+	mouseEnter { hide back ; show back_alt ; show message_back }
+    	}
+
+
+itemDef {
+     name back_alt
+     text "BACK"
+ 	type 1
+	textfont UI_FONT_NORMAL
+	style 0	
+	textstyle 6
+	rect 30 450 40 14 
+	textalign 0
+	textscale .23		
+	textalignx 6
+	textaligny 12
+	forecolor .6 .6 .6 .6
+	visible 1 
+	type ITEM_TYPE_BUTTON
+	action { hide grpControls ; 
+	close control_menu ; 
+	close setup_menu ; 
+	close system_menu ;
+	close options_menu ;  
+	close default_menu ; 
+	close resetscore_menu ;  
+	open main }  
+     mouseExit { hide back_alt ; show back ; hide message_back }	  
+    	}
+
+
+//	MESSAGES	//
+
+itemDef {
+	name message_back
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textstyle 1
+	textalign 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "EXIT TO MAIN MENU"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_accept
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Refresh Video"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_controls
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Select to Edit Game Controls"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_nowork
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Selection Isn't Implemented"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_look
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Select to Edit View Controls"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_move
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Select to Edit Movement Controls"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_shoot
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Select to Edit Firing and Weapon Selection"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_misc
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Select to Edit Chat and Mouse Functions"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_system
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Edit System Settings"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+itemDef {
+	name message_gameoptions
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Edit Game Options"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_default
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Reset to Default Settings"
+//	text "disabled for show build"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_cine
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "This will play the intro Cinematic"
+//	text "disabled for show build"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+
+itemDef {
+	name message_scores
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textscale .23
+	text "Clear High Scores to Zero"
+//	text "disabled for show build"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+
+itemDef {
+      	name fadebox
+      	style WINDOW_STYLE_FILLED
+ 	background "ui/assets/fadebox.tga"
+	forecolor 0 0 0 1
+	backcolor 0 0 0 1
+	rect 0 0 640 480
+      	visible 1 
+	decoration
+    	}
+
+
+}
+
+
+}

@@ -1,0 +1,14 @@
+Exercise 19: Destructible Barriers
+
+This exercise will teach you how to move through destructible barriers.  
+
+Instructions:
+
+When you approach a barrier that is destructible, the 'breakable' icon will appear at the bottom of your screen. 
+
+Move directly in front of the barrier and use any method of attack to destroy the object in front of you. Generally, the larger the object the more damage is required to destroy it. However, if you would like to save your ammunition you may always switch to your knife or use your kick. The blue horizontal bar below the 'breakable' icon signifies how much damage is required.
+
+Destroy the set of wooden planks in front of you and continue to move through the obstacle until you reach the destructible floorboards. Destroy the floor and drop into the next station.
+
+Time Limit: None
+

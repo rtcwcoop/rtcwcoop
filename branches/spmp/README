@@ -1,0 +1,28 @@
+== Installation ==
+
+= Mac OS X =
+
+- Download and unzip rtcwcoop.
+- Get your RTCW CDROM.
+- Search for pk3 files on the CDROM and copy them to the main folder found inside the rtcwcoop folder.
+- Double click on the rtcwcoop application found in the rtcwcoop folder.
+- Enjoy
+
+= Linux =
+
+= Windows =
+
+== Running a dedicated server ==
+
+= Mac OS X =
+
+- Open Terminal.app, Navigate to the folder where you extracted rtcwcoop.zip
+- type: ./rtcwcoop.app/Contents/MacOS/wolfspded.i386 +coopdevmap tram
+
+= Linux = 
+
+- Run the dedicated binary from the command line
+
+= Windows =
+
+- Double click on the rtcwcoop_dedicated.exe file, or run this from the command line

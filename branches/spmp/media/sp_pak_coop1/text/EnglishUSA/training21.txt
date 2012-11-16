@@ -1,0 +1,21 @@
+Exercise 21: Grenades
+
+This exercise will teach you how to properly use a grenade.
+
+D A N G E R
+
+All grenades utilize fuse detonators. Improper use will result in serious injury or death.
+
+Instructions:
+
+Pick up a satchel of grenades on the crate stack to your right. Select the grenade (key default 6) and move to the fence in front of you. Carefully aim towards the yellow smoke boxes located within the small craters. 
+
+When you are ready, simply tap and RELEASE the 'attack' key to throw the grenade.
+
+The distance of your throw is determined by the horizon. The higher you aim above the horizon line the farther you will throw the grenade. The lower you aim beneath the horizon the closer the grenade will land.
+
+All grenades have a 5 second fuse. To short fuse a grenade press and hold the 'attack' key. You will hear the tick as the fuse begins to burn. Let go of the 'attack' key when you want to throw the live grenade. Make sure to release your grip before the fuse detonates. 
+
+D A N G E R
+
+Time Limit: None
