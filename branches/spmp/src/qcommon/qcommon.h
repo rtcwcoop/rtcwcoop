@@ -290,7 +290,7 @@ The server you attempted to join is running an incompatible version of the game.
 You or the server may be running older versions of the game. Press the auto-update\
  button if it appears on the Main Menu screen."
 
-#define PROTOCOL_VERSION    7
+#define PROTOCOL_VERSION    8
 #define GAMENAME_STRING "wolfcoop"
 
 //----(SA)	heh, whoops.  we've been talking to id servers since we got a connection...
