@@ -1156,38 +1156,38 @@ int G_SendMissionStats() {
 	int airbourne_award = 0;
 	int prop_damage_award = 0;
 
-    if (g_gametype.integer > GT_COOP) {
+	if (g_gametype.integer > GT_COOP) {
 		player = AICast_FindEntityForName( "player" );
 
-        if ( player ) {
+		if ( player ) {
 			attempts = AICast_NumAttempts( player->s.number ) + 1;    // attempts tracks '0' as attempt 1
-            AICast_AgePlayTime( player->s.number );
-            playtime = AICast_PlayTime( player->s.number );
+			AICast_AgePlayTime( player->s.number );
+			playtime = AICast_PlayTime( player->s.number );
 
-            for ( i = 0; i < 8; i++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
+			for ( i = 0; i < 8; i++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
 				if ( player->missionObjectives & ( 1 << i ) ) {
 					objs++;
-                }
-            }
-        }
+				}
+			}
+		}
 	} else {
 		playtime = level.time - level.startTime;
 
 		for ( j = 0; j < 8; j++ ) {  // max objectives is '8'.  FIXME: use #define somewhere
 			if ( level.missionObjectives & ( 1 << j ) ) {
 				objs++;
-            }
-        }
-    }
+			}
+		}
+	}
 
-    sec = level.numSecretsFound;
-    treas = level.numTreasureFound;
+	sec = level.numSecretsFound;
+	treas = level.numTreasureFound;
 
 	memset( cmd, 0, sizeof( cmd ) );
 	Q_strcat( cmd, sizeof( cmd ), "s=" );
 
-    // fretn - store the maptime in a cvar
-    if (!maptime_saved && objs >= level.numObjectives && g_gametype.integer == GT_COOP_SPEEDRUN) {
+	// fretn - store the maptime in a cvar
+	if (!maptime_saved && objs >= level.numObjectives && g_gametype.integer == GT_COOP_SPEEDRUN) {
 		float newtime = ( level.time - level.startTime ) / 60000.f;
 
         trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) ); 
@@ -1223,7 +1223,7 @@ int G_SendMissionStats() {
 	if ( g_gametype.integer > GT_COOP )
 	    Q_strcat( cmd, sizeof( cmd ), va( ",%i", attempts ) );
 	else
-	    Q_strcat( cmd, sizeof( cmd ), va( ",0" ) );
+	    Q_strcat( cmd, sizeof( cmd ), va( ",%i", g_attempts.integer ) );
 
 //	trap_Cvar_Set( "g_missionStats", cmd );
 	// changing to a configstring (should help w/ savegame, no?)

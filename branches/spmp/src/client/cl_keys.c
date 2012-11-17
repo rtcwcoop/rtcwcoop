@@ -1754,14 +1754,14 @@ void CL_KeyDownEvent( int key, unsigned time )
 	if ( Key_GetCatcher( ) & KEYCATCH_CONSOLE ) {
 		Console_Key( key );
 	} else if ( Key_GetCatcher( ) & KEYCATCH_UI ) {
-                int activeMenu = VM_Call( uivm, UI_GET_ACTIVE_MENU );
-
-                if (activeMenu == UIMENU_WM_QUICKBUY || activeMenu == UIMENU_WM_QUICKBUYALT
-                        || activeMenu == UIMENU_WM_QUICKMESSAGE 
-                        || activeMenu == UIMENU_WM_QUICKMESSAGEALT )
-		        CL_ParseBinding( key, qtrue, time );
-
 		if ( uivm ) {
+			int activeMenu = VM_Call( uivm, UI_GET_ACTIVE_MENU );
+
+			if (activeMenu == UIMENU_WM_QUICKBUY || activeMenu == UIMENU_WM_QUICKBUYALT
+				|| activeMenu == UIMENU_WM_QUICKMESSAGE 
+				|| activeMenu == UIMENU_WM_QUICKMESSAGEALT )
+				CL_ParseBinding( key, qtrue, time );
+
 			VM_Call( uivm, UI_KEY_EVENT, key, qtrue );
 		}
 	} else if ( Key_GetCatcher( ) & KEYCATCH_CGAME ) {
