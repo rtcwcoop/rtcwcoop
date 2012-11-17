@@ -3594,6 +3594,7 @@ static bind_t g_bindings[] =
 	{"scoresDown",       -1,             -1, -1, -1},
 	{"messagemode",  -1,             -1, -1, -1},
 	{"mp_quickmessage",  -1,             -1, -1, -1},
+	{"voicechat",  -1,             -1, -1, -1},
 #ifdef MONEY
 	{"quickbuy",    -1,             -1, -1, -1},
 #endif
