@@ -2072,7 +2072,7 @@ void LogExit( const char *string ) {
 	gclient_t       *a;
 	gclient_t       *b;
 #endif
-    char cs[MAX_INFO_STRING];
+	char cs[MAX_INFO_STRING];
 
 	G_LogPrintf( "Exit: %s\n", string );
 	level.intermissionQueued = level.time;
@@ -2083,8 +2083,8 @@ void LogExit( const char *string ) {
 
 	// L0 - 8 should be enough..
 	numSorted = level.numConnectedClients;
-	if ( numSorted > 8 ) {
-		numSorted = 8;
+	if ( numSorted > MAX_COOP_CLIENTS ) {
+		numSorted = MAX_COOP_CLIENTS;
 	}
 
 	for ( i = 0 ; i < numSorted ; i++ ) {
