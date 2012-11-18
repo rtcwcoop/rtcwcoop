@@ -7021,27 +7021,35 @@ void Text_PaintCenter( float x, float y, int font, float scale, vec4_t color, co
 }
 
 
+#define ESTIMATES 80
 static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint, float yStart, int font, float scale ) {
 	static char dlText[]    = "Downloading:";
 	static char etaText[]   = "Estimated time left:";
 	static char xferText[]  = "Transfer rate:";
+	static int tleEstimates[ESTIMATES] = { 60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,
+										   60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,
+										   60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,
+										   60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60 };
+	static int tleIndex = 0;
 
 	int downloadSize, downloadCount, downloadTime;
 	char dlSizeBuf[64], totalSizeBuf[64], xferRateBuf[64], dlTimeBuf[64];
 	int xferRate;
-	int leftWidth;
 	const char *s;
+
+	vec4_t bg_color = { 0.3f, 0.3f, 0.3f, 0.8f };
 
 	downloadSize = trap_Cvar_VariableValue( "cl_downloadSize" );
 	downloadCount = trap_Cvar_VariableValue( "cl_downloadCount" );
 	downloadTime = trap_Cvar_VariableValue( "cl_downloadTime" );
 
-	leftWidth = 320;
+	// Background
+	UI_FillRect( 0, yStart + 185, 640, 83, bg_color );
 
-	UI_SetColor( colorWhite );
-	Text_PaintCenter( centerPoint, yStart + 112, font, scale, colorWhite, dlText, 0 );
-	Text_PaintCenter( centerPoint, yStart + 144, font, scale, colorWhite, etaText, 0 );
-	Text_PaintCenter( centerPoint, yStart + 208, font, scale, colorWhite, xferText, 0 );
+	UI_SetColor( colorYellow );
+	Text_Paint( 92, yStart + 210, font, scale, colorYellow, dlText, 0, 64, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	Text_Paint( 35, yStart + 235, font, scale, colorYellow, etaText, 0, 64, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	Text_Paint( 86, yStart + 260, font, scale, colorYellow, xferText, 0, 64, ITEM_TEXTSTYLE_SHADOWEDMORE );
 
 	if ( downloadSize > 0 ) {
 		s = va( "%s (%d%%)", downloadName, downloadCount * 100 / downloadSize );
@@ -7049,14 +7057,14 @@ static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint,
 		s = downloadName;
 	}
 
-	Text_Paint( centerPoint, yStart + 244, font, 0.6f, colorWhite, s, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	Text_Paint( 260, yStart + 210, font, scale, colorYellow, s, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 
 	UI_ReadableSize( dlSizeBuf,     sizeof dlSizeBuf,       downloadCount );
 	UI_ReadableSize( totalSizeBuf,  sizeof totalSizeBuf,    downloadSize );
 
 	if ( downloadCount < 4096 || !downloadTime ) {
-		Text_PaintCenter( leftWidth, 160, font, 0.6f, colorWhite, "estimating", 0 );
-		Text_PaintCenter( leftWidth, 192, font, 0.6f, colorWhite, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
+		Text_PaintCenter( centerPoint, yStart + 235, font, scale, colorYellow, "estimating", 0 );
+		Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
 	} else {
 		if ( ( uiInfo.uiDC.realTime - downloadTime ) / 1000 ) {
 			xferRate = downloadCount / ( ( uiInfo.uiDC.realTime - downloadTime ) / 1000 );
@@ -7068,24 +7076,35 @@ static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint,
 		// Extrapolate estimated completion time
 		if ( downloadSize && xferRate ) {
 			int n = downloadSize / xferRate; // estimated time for entire d/l in secs
+			int timeleft = 0, i;
 
 			// We do it in K (/1024) because we'd overflow around 4MB
-			UI_PrintTime( dlTimeBuf, sizeof dlTimeBuf,
-						  ( n - ( ( ( downloadCount / 1024 ) * n ) / ( downloadSize / 1024 ) ) ) * 1000 );
+			tleEstimates[ tleIndex ] = ( n - ( ( ( downloadCount / 1024 ) * n ) / ( downloadSize / 1024 ) ) );
+			tleIndex++;
+			if ( tleIndex >= ESTIMATES ) {
+				tleIndex = 0;
+			}
 
-			Text_PaintCenter( leftWidth, 160, font, 0.6f, colorWhite, dlTimeBuf, 0 );
-			Text_PaintCenter( leftWidth, 192, font, 0.6f, colorWhite, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
+			for ( i = 0; i < ESTIMATES; i++ )
+				timeleft += tleEstimates[ i ];
+
+			timeleft /= ESTIMATES;
+
+			UI_PrintTime( dlTimeBuf, sizeof dlTimeBuf, timeleft );
+
+			Text_Paint( 260, yStart + 235, font, scale, colorYellow, dlTimeBuf, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+			Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
 		} else {
-			Text_PaintCenter( leftWidth, 160, font, 0.6f, colorWhite, "estimating", 0 );
+			Text_PaintCenter( centerPoint, yStart + 235, font, scale, colorYellow, "estimating", 0 );
 			if ( downloadSize ) {
-				Text_PaintCenter( leftWidth, 160, font, 0.6f, colorWhite, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
+				Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
 			} else {
-				Text_PaintCenter( leftWidth, 160, font, 0.6f, colorWhite, va( "(%s copied)", dlSizeBuf ), 0 );
+				Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s copied)", dlSizeBuf ), 0 );
 			}
 		}
 
 		if ( xferRate ) {
-			Text_PaintCenter( leftWidth, 160, font, 0.6f, colorWhite, va( "%s/Sec", xferRateBuf ), 0 );
+			Text_Paint( 260, yStart + 260, font, scale, colorYellow, va( "%s/Sec", xferRateBuf ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 		}
 	}
 }

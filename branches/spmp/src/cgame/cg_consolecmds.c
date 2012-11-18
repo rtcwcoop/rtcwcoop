@@ -712,6 +712,7 @@ static consoleCommand_t commands[] = {
 
 	// NERVE - SMF
 	{ "mp_QuickMessage", CG_QuickMessage_f },
+	{ "voicechat", CG_QuickMessage_f },
 	{ "OpenLimboMenu", CG_OpenLimbo_f },
 	{ "CloseLimboMenu", CG_CloseLimbo_f },
 	{ "LimboMessage", CG_LimboMessage_f },
