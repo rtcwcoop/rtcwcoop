@@ -485,10 +485,11 @@ void SV_MasterGameCompleteStatus() {
 	static netadr_t adr[MAX_MASTER_SERVERS];
 	int i;
 
-	// "dedicated 1" is for lan play, "dedicated 2" is for inet public play
-	if ( !com_dedicated || com_dedicated->integer != 2 ) {
-		return;     // only dedicated servers send master game status
-	}
+	//fretn, we're not ready for this yet
+	return;
+
+        if ( com_dedicated && com_dedicated->integer == 1 )
+                return; // dedicated lan servers dont talk to master, only internet and local servers
 
 	// send to group masters
 	for ( i = 0 ; i < MAX_MASTER_SERVERS ; i++ ) {
@@ -567,7 +568,7 @@ void SVC_GameCompleteStatus( netadr_t from ) {
         status[0] = 0; 
         statusLength = 0; 
 
-        for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
+        for ( i = 0 ; i < sv_maxcoopclients->integer ; i++ ) {
                 cl = &svs.clients[i];
                 if ( cl->state >= CS_CONNECTED ) {
                         ps = SV_GameClientNum( i );
@@ -583,6 +584,7 @@ void SVC_GameCompleteStatus( netadr_t from ) {
         }
 
         NET_OutOfBandPrint( NS_SERVER, from, "gameCompleteStatus\n%s\n%s", infostring, status );
+        //Com_Printf( "gameCompleteStatus\n%s\n%s", infostring, status );
 }
 
 /*

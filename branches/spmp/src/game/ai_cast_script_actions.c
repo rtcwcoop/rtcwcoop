@@ -2647,10 +2647,8 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
                 Q_strncpyz( level.nextMap, newstr, sizeof( level.nextMap ) );
         }
 
-	//if (g_cheats.integer)
-	//	trap_SendConsoleCommand( EXEC_APPEND, va("spdevmap %s\n", newstr) );
-	//else
-	//	trap_SendConsoleCommand( EXEC_APPEND, va("spmap %s\n", newstr ) );
+	//fretn send gameCompleteStatus message to master servers
+        trap_SendConsoleCommand( EXEC_APPEND, "gameCompleteStatus\n" );
 
 	return qtrue;
 }
