@@ -936,6 +936,13 @@ default values.
 #define CVAR_TEMP           256 // can be set even when cheats are disabled, but is not archived
 #define CVAR_CHEAT          512 // can not be changed if cheats are disabled
 #define CVAR_NORESTART      1024    // do not clear when a cvar_restart is issued
+#define CVAR_SERVER_CREATED 2048 // cvar was created by a server the client connected to.
+#define CVAR_PROTECTED      4096  // prevent modifying this var from VMs or the server
+// These flags are only returned by the Cvar_Flags() function
+#define CVAR_MODIFIED           8192 // Cvar was modified
+#define CVAR_NONEXISTENT        16384 // Cvar doesn't exist.
+
+
 
 // nothing outside the Cvar_*() functions should modify these fields!
 typedef struct cvar_s {

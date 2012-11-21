@@ -496,11 +496,19 @@ cvar_t *Cvar_Get( const char *var_name, const char *value, int flags );
 void    Cvar_Register( vmCvar_t *vmCvar, const char *varName, const char *defaultValue, int flags );
 // basically a slightly modified Cvar_Get for the interpreted modules
 
+// fretn - from ioq3
+int Cvar_Flags(const char *var_name);
+// returns CVAR_NONEXISTENT if cvar doesn't exist or the flags of that particular CVAR
+void Cvar_SetSafe( const char *var_name, const char *value );
+
 void    Cvar_Update( vmCvar_t *vmCvar );
 // updates an interpreted modules' version of a cvar
 
 void    Cvar_Set( const char *var_name, const char *value );
 // will create the variable with no flags if it doesn't exist
+
+cvar_t *Cvar_Set2( const char *var_name, const char *value, qboolean force );
+// same as Cvar_Set, but allows more control over setting of cvar
 
 void Cvar_SetLatched( const char *var_name, const char *value );
 // don't set the cvar immediately
@@ -701,6 +709,7 @@ void FS_PureServerSetLoadedPaks( const char *pakSums, const char *pakNames );
 // sole exception of .cfg files.
 
 qboolean FS_idPak( char *pak, char *base );
+qboolean FS_CheckDirTraversal(const char *checkdir);
 qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring );
 
 void FS_Rename( const char *from, const char *to );
