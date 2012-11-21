@@ -2049,6 +2049,33 @@ void S_StopStreamingSound( int index ) {
 }
 
 /*
+==============
+S_StopEntStreamingSound
+==============
+*/
+void S_StopEntStreamingSound( int entNum ) {
+        int i;
+
+        if ( entNum < 0 ) {
+                return;
+        }    
+
+        for ( i = 1; i < MAX_STREAMING_SOUNDS; i++ ) {    // track 0 is music/cinematics
+                if ( !streamingSounds[i].file ) {
+                        continue;
+                }    
+
+                if ( streamingSounds[i].entnum != entNum ) {
+                        continue;
+                }    
+
+                S_StopStreamingSound( i ); 
+                s_rawend[i] = 0;    // stop it /now/
+        }    
+}
+
+
+/*
 ======================
 S_StopBackgroundTrack
 ======================
