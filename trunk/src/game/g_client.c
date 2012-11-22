@@ -840,6 +840,11 @@ void SetWolfSpawnWeapons( gclient_t *client ) {
 	client->ps.weapon = WP_KNIFE;
 	client->ps.weaponstate = WEAPON_READY;
 
+	// L0 - Throw Knives
+	if ( g_throwKnives.integer > 0 ) {
+		client->pers.throwingKnives = g_throwKnives.integer;
+	} // End
+
 	// Engineer gets dynamite
 	if ( pc == PC_ENGINEER ) {
 		COM_BitSet( client->ps.weapons, WP_DYNAMITE );

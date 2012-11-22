@@ -909,6 +909,15 @@ void ClientThink_real( gentity_t *ent ) {
 		if ( ucmd->wbuttons & WBUTTON_DROP ) {
 			if ( !client->dropWeaponTime ) {
 				client->dropWeaponTime = 1; // just latch it for now
+				// L0 - Throw knives
+				if ( client->ps.weapon == WP_KNIFE ) {
+					if ( client->ps.stats[STAT_HEALTH] > 0 ) {						
+						if ( g_throwKnives.integer != 0 ) {
+							cmd_throwKnives( ent );						
+						}					
+						return;
+					}
+				} // End
 				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) ) {
 					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
                                                 // drop the current weapon

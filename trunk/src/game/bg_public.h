@@ -1205,12 +1205,13 @@ typedef enum {
 	MOD_LOPER_GROUND,
 	MOD_LOPER_HIT,
 
-#ifdef _ADMINS
-	// L0 - new MODs
+// L0 - new MODs
+#ifdef _ADMINS // I'll remove this soon..
 	MOD_SLAP,
-	MOD_ADMKILL,
-	// end
+	MOD_ADMKILL,	
 #endif
+	MOD_THROWKNIFE,
+// end
 
 // JPW NERVE multiplayer class-specific MODs
 	MOD_LT_ARTILLERY,
@@ -1218,6 +1219,7 @@ typedef enum {
 	MOD_ENGINEER,   // not sure if we'll use
 	MOD_MEDIC,      // these like this or not
 //
+	
 	MOD_BAT
 
 } meansOfDeath_t;
