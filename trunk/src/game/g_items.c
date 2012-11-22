@@ -414,6 +414,7 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	// L0 - Throw knives
 	if ( ( other->client->pers.throwingKnives < (g_throwKnives.integer + 5) ) || ( g_throwKnives.integer == 0 ) ) {			
 		other->client->pers.throwingKnives++;			
+                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = other->client->pers.throwingKnives;
 	} // End
 
 //----(SA)	added
@@ -767,6 +768,7 @@ LaunchItem
 Spawns an item and tosses it forward
 ================
 */
+#if 0
 gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity ) {
 	gentity_t   *dropped;
 
@@ -815,6 +817,7 @@ gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity ) {
 	return dropped;
 }
 
+#endif
 /*
 ================
 L0 - LaunchItem
@@ -823,7 +826,7 @@ Spawns an item and tosses it forward
 Porting this from MP since I don't want to break SP code...
 ================
 */
-gentity_t *LaunchItemMP( gitem_t *item, vec3_t origin, vec3_t velocity, int ownerNum ) {
+gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, int ownerNum ) {
 	gentity_t   *dropped;
 	trace_t tr;
 	vec3_t vec, temp;
@@ -907,7 +910,7 @@ gentity_t *Drop_Item( gentity_t *ent, gitem_t *item, float angle, qboolean novel
 		velocity[2] += 200 + crandom() * 50;
 	}
 
-	return LaunchItem( item, ent->s.pos.trBase, velocity );
+	return LaunchItem( item, ent->s.pos.trBase, velocity, ent->s.number );
 }
 
 

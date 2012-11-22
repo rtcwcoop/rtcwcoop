@@ -3919,7 +3919,7 @@ void props_locker_spawn_item( gentity_t *ent ) {
 	}
 
 //	drop = Drop_Item (ent, item, 0, qtrue);
-	drop = LaunchItem( item, ent->r.currentOrigin, tv( 0, 0, 20 ) );
+	drop = LaunchItem( item, ent->r.currentOrigin, tv( 0, 0, 20 ), ent->s.number );
 
 
 	if ( !drop ) {

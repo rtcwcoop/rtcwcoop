@@ -949,9 +949,7 @@ void ClientThink_real( gentity_t *ent ) {
 							trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
 							VectorCopy( tr.endpos, org );
 
-                                                        // fretn : the mp code accepts a clientnum for this function, sp not, need to port it ?
-							//ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
-							ent2 = LaunchItem( item, org, velocity );
+							ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
 							COM_BitClear( client->ps.weapons,weapon );
 
 //							if ( weapon == WP_MAUSER ) {

@@ -872,9 +872,7 @@ void RespawnItem( gentity_t *ent );
 void UseHoldableItem( gentity_t *ent, int item );
 void PrecacheItem( gitem_t *it );
 gentity_t *Drop_Item( gentity_t *ent, gitem_t *item, float angle, qboolean novelocity );
-gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity );
-// L0 - MP port (To avoid breaking SP code..) TODO: Merge it with original..
-gentity_t *LaunchItemMP( gitem_t *item, vec3_t origin, vec3_t velocity, int ownerNum );
+gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, int ownerNum );
 // End
 void SetRespawn( gentity_t *ent, float delay );
 void G_SpawnItem( gentity_t *ent, gitem_t *item );

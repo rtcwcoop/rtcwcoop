@@ -2891,7 +2891,7 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
         VectorCopy( tr.endpos, org );
 
-        ent2 = LaunchItem( item, org, velocity );
+        ent2 = LaunchItem( item, org, velocity, ent->s.number );
 
         ent2->count = ammo_in_clip;
         ent2->item->quantity = ammo_in_clip;
@@ -3115,10 +3115,12 @@ void Touch_Knife( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 
 		if ( g_throwKnives.integer > 0 ) {
 			other->client->pers.throwingKnives++; 
+                        other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = other->client->pers.throwingKnives;
 		}		
 		if ( g_throwKnives.integer != 0 ) { 
 			if ( other->client->pers.throwingKnives > (g_throwKnives.integer + 5) ) {
 				other->client->pers.throwingKnives = (g_throwKnives.integer + 5);
+                                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = other->client->pers.throwingKnives;
 			}
 		}		
 		if ( ent->noise_index ) {
@@ -3158,7 +3160,7 @@ void cmd_throwKnives( gentity_t *ent ) {
 	// If out or -1/unlimited
 	if ( ( ent->client->pers.throwingKnives == 0 ) && 
 		 ( g_throwKnives.integer != -1 ) ) {
-	return;
+                return;
 	}
 	
 	AngleVectors( ent->client->ps.viewangles, velocity, NULL, NULL );
@@ -3173,7 +3175,7 @@ void cmd_throwKnives( gentity_t *ent ) {
 	VectorCopy( tr.endpos, org );
 
 	G_Sound( ent, G_SoundIndex( "sound/weapons/knife/knife_slash1.wav" ) );  	
-	ent2 = LaunchItemMP( item, org, velocity, ent->client->ps.clientNum ); 
+	ent2 = LaunchItem( item, org, velocity, ent->client->ps.clientNum ); 
 	VectorCopy( ent->client->ps.viewangles, angles );
 	angles[1] += 90;
 	G_SetAngle( ent2, angles );
@@ -3182,14 +3184,15 @@ void cmd_throwKnives( gentity_t *ent ) {
 
 	if ( g_throwKnives.integer > 0 ) {
 		ent->client->pers.throwingKnives--; 
+                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = ent->client->pers.throwingKnives;
 	}
 
 	//only show the message if throwing knives are enabled
-	if ( g_throwKnives.integer > 0 ) {		
-		CP(va( "chat \"^:Knives left:^7 %d\" %i", ent->client->pers.throwingKnives, qfalse ));
-	}
+	//if ( g_throwKnives.integer > 0 ) {		
+	//	CP(va( "chat \"^:Knives left:^7 %d\" %i", ent->client->pers.throwingKnives, qfalse ));
+	//}
 
-ent->thrownKnifeTime = level.time;  
+        ent->thrownKnifeTime = level.time;  
 }
 
 /*

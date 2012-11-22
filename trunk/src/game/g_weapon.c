@@ -444,7 +444,6 @@ void weapon_callAirStrike( gentity_t *ent ) {
 	}
 }
 
-gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity );
 void Weapon_Class_Special( gentity_t *ent ) {
 
 	switch ( ent->client->ps.stats[STAT_PLAYER_CLASS] ) {

@@ -482,10 +482,15 @@ static void CG_DrawPlayerAmmoValue( rectDef_t *rect, int font, float scale, vec4
 	}
 
 	switch ( weap ) {      // some weapons don't draw ammo count text
-	case WP_KNIFE:
+	//case WP_KNIFE:
 	case WP_CLASS_SPECIAL:              // DHM - Nerve
 		return;
 
+	case WP_KNIFE:
+		if ( type == 1 ) {  // don't draw reserve value, just clip (since these weapons have all their ammo in the clip)
+			return;
+		}
+		break;
 	case WP_AKIMBO:
 		special = qtrue;
 		break;
