@@ -420,7 +420,8 @@ struct gentity_s {
 	int lastBurnedFrameNumber;              // JPW - Nerve   : to fix FT instant-kill exploit
 
 	// L0 
-	int lastPushTime;	// Shove
+	int lastPushTime;		// Shove
+	int thrownKnifeTime;	// Throwing Knives 
 	// End
 };
 
@@ -550,7 +551,7 @@ typedef struct {
 	// L0 
 	char cmd1[128];	// !command
 	char cmd2[128]; // !command attribute
-	char cmd3[128];	// !commant attribute extra
+	char cmd3[128];	// !commant attribute extra	
 	// End
 
 	int lastReinforceTime;              // DHM - Nerve :: last reinforcement
@@ -870,7 +871,8 @@ void RespawnItem( gentity_t *ent );
 void UseHoldableItem( gentity_t *ent, int item );
 void PrecacheItem( gitem_t *it );
 gentity_t *Drop_Item( gentity_t *ent, gitem_t *item, float angle, qboolean novelocity );
-gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity );
+gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, int ownerNum );
+// End
 void SetRespawn( gentity_t *ent, float delay );
 void G_SpawnItem( gentity_t *ent, gitem_t *item );
 void FinishSpawningItem( gentity_t *ent );
@@ -1312,6 +1314,7 @@ extern vmCvar_t g_extendedLog;
 extern vmCvar_t g_votesPerUser;
 extern vmCvar_t g_shove;
 extern vmCvar_t g_shoveAmount;
+extern vmCvar_t g_throwKnives;
 extern vmCvar_t	g_showMOTD;
 extern vmCvar_t g_motd1;
 extern vmCvar_t g_motd2;
@@ -1559,8 +1562,8 @@ void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
 // end
 
 // L0 
-// Shove
-void Cmd_Push_f(gentity_t* ent);
+void Cmd_Push_f(gentity_t* ent);		// Shove
+void Cmd_ThrowKnives( gentity_t *ent );	// Knife throw
 // End
 
 #include "g_coop.h"

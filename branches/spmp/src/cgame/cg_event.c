@@ -245,6 +245,21 @@ static void CG_Obituary( entityState_t *ent ) {
                         Q_strncpyz( cg.killerName, attackerName, sizeof( cg.killerName ) );
                 }
         }
+
+		// L0 - MP alike MODs (for later on)
+		if ( attacker != ENTITYNUM_WORLD ) {
+			switch ( mod ) {
+				// Knife throw
+				case MOD_THROWKNIFE:
+					message = "was impaled by";
+					message2 = "'s throwing knife";
+				break;
+				// Default..
+				default:
+					message = "was killed by";
+				break;
+			} 
+		}	// End
 }
 
 

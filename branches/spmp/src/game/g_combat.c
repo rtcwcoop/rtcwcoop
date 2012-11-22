@@ -317,12 +317,13 @@ char    *modNames[] = {
 	"MOD_LOPER_LEAP",
 	"MOD_LOPER_GROUND",
 	"MOD_LOPER_HIT",
-#ifdef _ADMINS
-	// L0 - new MODs
+// L0 - new MODs
+#ifdef _ADMINS	
 	"MOD_SLAP",
-	"MOD_ADMKILL",
-	// end
+	"MOD_ADMKILL",	
 #endif
+	"MOD_THROWKNIFE",
+// end
 // JPW NERVE
 	"MOD_LT_ARTILLERY",
 	"MOD_LT_AIRSTRIKE",

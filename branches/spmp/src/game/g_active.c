@@ -909,6 +909,15 @@ void ClientThink_real( gentity_t *ent ) {
 		if ( ucmd->wbuttons & WBUTTON_DROP ) {
 			if ( !client->dropWeaponTime ) {
 				client->dropWeaponTime = 1; // just latch it for now
+				// L0 - Throw knives
+				if ( client->ps.weapon == WP_KNIFE ) {
+					if ( client->ps.stats[STAT_HEALTH] > 0 ) {						
+						if ( g_throwKnives.integer ) {
+							Cmd_ThrowKnives( ent );						
+						}					
+						return;
+					}
+				} // End
 				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) ) {
 					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
                                                 // drop the current weapon
@@ -940,9 +949,7 @@ void ClientThink_real( gentity_t *ent ) {
 							trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
 							VectorCopy( tr.endpos, org );
 
-                                                        // fretn : the mp code accepts a clientnum for this function, sp not, need to port it ?
-							//ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
-							ent2 = LaunchItem( item, org, velocity );
+							ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
 							COM_BitClear( client->ps.weapons,weapon );
 
 //							if ( weapon == WP_MAUSER ) {

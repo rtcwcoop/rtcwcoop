@@ -411,6 +411,11 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	// add the weapon
 	COM_BitSet( other->client->ps.weapons, weapon );
 
+	// L0 - Throw knives
+	if ( g_throwKnives.integer ) {			
+                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )]++;
+	} // End
+
 //----(SA)	added
 	// snooper/garand
 	if ( weapon == WP_SNOOPERSCOPE ) {
@@ -762,6 +767,7 @@ LaunchItem
 Spawns an item and tosses it forward
 ================
 */
+#if 0
 gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity ) {
 	gentity_t   *dropped;
 
@@ -810,6 +816,75 @@ gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity ) {
 	return dropped;
 }
 
+#endif
+/*
+================
+L0 - LaunchItem
+
+Spawns an item and tosses it forward
+Porting this from MP since I don't want to break SP code...
+================
+*/
+gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, int ownerNum ) {
+	gentity_t   *dropped;
+	trace_t tr;
+	vec3_t vec, temp;
+	int i;
+
+	dropped = G_Spawn();
+
+	dropped->s.eType = ET_ITEM;
+	dropped->s.modelindex = item - bg_itemlist; // store item number in modelindex
+	dropped->s.otherEntityNum2 = 1; // DHM - Nerve :: this is taking modelindex2's place for a dropped item
+
+	dropped->classname = item->classname;
+	dropped->item = item;
+	VectorSet( dropped->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, 0 );            //----(SA)	so items sit on the ground
+	VectorSet( dropped->r.maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS );  //----(SA)	so items sit on the ground
+	dropped->r.contents = CONTENTS_TRIGGER | CONTENTS_ITEM;
+
+	dropped->clipmask = CONTENTS_SOLID | CONTENTS_MISSILECLIP;      // NERVE - SMF - fix for items falling through grates
+
+	dropped->touch = Touch_Item_Auto;
+
+	trap_Trace( &tr, origin, dropped->r.mins, dropped->r.maxs, origin, ownerNum, MASK_SOLID );
+	if ( tr.startsolid ) {
+		VectorSubtract( g_entities[ownerNum].s.origin, origin, temp );
+		VectorNormalize( temp );
+
+		for ( i = 16; i <= 48; i += 16 ) {
+			VectorScale( temp, i, vec );
+			VectorAdd( origin, vec, origin );
+
+			trap_Trace( &tr, origin, dropped->r.mins, dropped->r.maxs, origin, ownerNum, MASK_SOLID );
+			if ( !tr.startsolid ) {
+				break;
+			}
+		}
+	}
+
+	G_SetOrigin( dropped, origin );
+	dropped->s.pos.trType = TR_GRAVITY;
+	dropped->s.pos.trTime = level.time;
+	VectorCopy( velocity, dropped->s.pos.trDelta );
+
+	dropped->s.eFlags |= EF_BOUNCE_HALF;
+
+	if ( item->giType == IT_TEAM ) { // Special case for CTF flags
+		dropped->think = Team_DroppedFlagThink;
+		dropped->nextthink = level.time + 30000;
+	} else { // auto-remove after 30 seconds
+		dropped->think = G_FreeEntity;
+		dropped->nextthink = level.time + 30000;
+	}
+
+	dropped->flags = FL_DROPPED_ITEM;
+
+	trap_LinkEntity( dropped );
+
+	return dropped;
+}
+
 /*
 ================
 Drop_Item
@@ -834,7 +909,7 @@ gentity_t *Drop_Item( gentity_t *ent, gitem_t *item, float angle, qboolean novel
 		velocity[2] += 200 + crandom() * 50;
 	}
 
-	return LaunchItem( item, ent->s.pos.trBase, velocity );
+	return LaunchItem( item, ent->s.pos.trBase, velocity, ent->s.number );
 }
 
 

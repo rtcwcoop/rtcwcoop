@@ -2303,8 +2303,12 @@ void CL_Frame( int msec ) {
 	}
 
 	// L0 - Allow timescale only when in demo..
+	// fretn: explanation from L0: when multiple clients set their timescale to
+	// a high value and then simultaneous connect to a server they will crash him
+#ifndef _DEBUG
 	if (!clc.demoplaying)
 		com_timescale->value = 1;
+#endif
 	// end
 
 	// save the msec before checking pause
