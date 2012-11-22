@@ -1718,10 +1718,17 @@ void ClientBegin( int clientNum ) {
 
 	// Ridah, trigger a spawn event
 	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
-		AICast_ScriptEvent( AICast_GetCastState( clientNum ), "spawn", "" );
+	    gentity_t   *gm;
+	    gm = G_Find( NULL, FOFS( scriptName ), "game_manager" );
 
-        if (g_gametype.integer <= GT_SINGLE_PLAYER)
-			AICast_ScriptEvent( AICast_GetCastState( clientNum ), "playerstart", "" );
+	    if (gm) {
+		G_Script_ScriptEvent( gm, "trigger", "init" );
+	    }
+
+	    AICast_ScriptEvent  ( AICast_GetCastState( clientNum ), "spawn", "" );
+
+	    if (g_gametype.integer <= GT_SINGLE_PLAYER)
+		AICast_ScriptEvent( AICast_GetCastState( clientNum ), "playerstart", "" );
 	}
 
     // fretn, activate the clients pregame menu, comes from ai_cast.c

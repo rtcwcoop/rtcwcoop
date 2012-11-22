@@ -8,6 +8,19 @@ game_manager
 	spawn
 	{
 		accum 0 set 0 // objectives
+		accum 1 set 0 // single init
+	}
+	
+	trigger init
+	{
+		//print "game_manager->init"
+		accum 1 abort_if_greater_than 0
+		accum 1 bitset 1
+		
+		objectivesneeded 2
+		numsecrets 7
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 	}
 	
 	trigger checkexit
