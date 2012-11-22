@@ -552,7 +552,6 @@ typedef struct {
 	char cmd1[128];	// !command
 	char cmd2[128]; // !command attribute
 	char cmd3[128];	// !commant attribute extra	
-	int throwingKnives;	// Throwing knives
 	// End
 
 	int lastReinforceTime;              // DHM - Nerve :: last reinforcement
@@ -1564,7 +1563,7 @@ void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
 
 // L0 
 void Cmd_Push_f(gentity_t* ent);		// Shove
-void cmd_throwKnives( gentity_t *ent );	// Knife throw
+void Cmd_ThrowKnives( gentity_t *ent );	// Knife throw
 // End
 
 #include "g_coop.h"

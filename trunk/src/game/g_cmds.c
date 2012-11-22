@@ -3114,15 +3114,13 @@ void Touch_Knife( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 		int makenoise = EV_ITEM_PICKUP;
 
 		if ( g_throwKnives.integer > 0 ) {
-			other->client->pers.throwingKnives++; 
-                        other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = other->client->pers.throwingKnives;
+                        other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )]++;
 		}		
-		if ( g_throwKnives.integer != 0 ) { 
-			if ( other->client->pers.throwingKnives > (g_throwKnives.integer + 5) ) {
-				other->client->pers.throwingKnives = (g_throwKnives.integer + 5);
-                                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = other->client->pers.throwingKnives;
+		/*if ( g_throwKnives.integer != 0 ) { 
+			if ( other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] > (g_throwKnives.integer + 5) ) {
+				other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )]= (g_throwKnives.integer + 5);
 			}
-		}		
+		}*/
 		if ( ent->noise_index ) {
 			makenoise = EV_ITEM_PICKUP_QUIET;
 			G_AddEvent( other, EV_GENERAL_SOUND, ent->noise_index );
@@ -3143,7 +3141,7 @@ void Touch_Knife( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 	ent->think = 0;
 }
 // Actual command
-void cmd_throwKnives( gentity_t *ent ) {
+void Cmd_ThrowKnives( gentity_t *ent ) {
 	vec3_t velocity, angles, offset, org, mins, maxs;
 	trace_t tr;
 	gentity_t *ent2;
@@ -3157,9 +3155,8 @@ void cmd_throwKnives( gentity_t *ent ) {
 		return;
 	}
 
-	// If out or -1/unlimited
-	if ( ( ent->client->pers.throwingKnives == 0 ) && 
-		 ( g_throwKnives.integer != -1 ) ) {
+	// If out of knifes
+	if ( ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] <= 0 ) {
                 return;
 	}
 	
@@ -3183,8 +3180,7 @@ void cmd_throwKnives( gentity_t *ent ) {
 	ent2->parent = ent; 
 
 	if ( g_throwKnives.integer > 0 ) {
-		ent->client->pers.throwingKnives--; 
-                ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = ent->client->pers.throwingKnives;
+		ent->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )]--; 
 	}
 
 	//only show the message if throwing knives are enabled

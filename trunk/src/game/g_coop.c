@@ -85,7 +85,6 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 
         // fretn  
         if ( g_throwKnives.integer > 0 ) {
-                client->pers.throwingKnives = g_throwKnives.integer;
                 client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = g_throwKnives.integer;
         } 
 

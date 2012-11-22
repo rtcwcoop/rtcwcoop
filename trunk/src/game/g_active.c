@@ -912,8 +912,8 @@ void ClientThink_real( gentity_t *ent ) {
 				// L0 - Throw knives
 				if ( client->ps.weapon == WP_KNIFE ) {
 					if ( client->ps.stats[STAT_HEALTH] > 0 ) {						
-						if ( g_throwKnives.integer != 0 ) {
-							cmd_throwKnives( ent );						
+						if ( g_throwKnives.integer ) {
+							Cmd_ThrowKnives( ent );						
 						}					
 						return;
 					}

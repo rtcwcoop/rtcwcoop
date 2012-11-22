@@ -412,9 +412,8 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	COM_BitSet( other->client->ps.weapons, weapon );
 
 	// L0 - Throw knives
-	if ( ( other->client->pers.throwingKnives < (g_throwKnives.integer + 5) ) || ( g_throwKnives.integer == 0 ) ) {			
-		other->client->pers.throwingKnives++;			
-                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = other->client->pers.throwingKnives;
+	if ( g_throwKnives.integer ) {			
+                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )]++;
 	} // End
 
 //----(SA)	added
