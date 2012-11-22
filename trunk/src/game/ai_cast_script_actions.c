@@ -377,9 +377,11 @@ qboolean AICast_ScriptAction_GotoCast( cast_state_t *cs, char *params ) {
 	ent = AICast_FindEntityForName( token );
 	if ( !ent ) {
                 if (strcmp(token, "player")) // if "player" cannot be found, dont crash, server will be restarted in the next frame, because its empty
-                    G_Error( "AI Scripting: can't find AI cast with \"ainame\" = \"%s\"\n", token );
-                else
-                    G_Printf( "AI Scripting: can't find AI cast with \"ainame\" = \"%s\"\n", token );
+                        G_Error( "AI Scripting: can't find AI cast with \"ainame\" = \"%s\"\n", token );
+                else {
+                        G_Printf( "AI Scripting: can't find AI cast with \"ainame\" = \"%s\"\n", token );
+                        return qfalse;
+                }
 	}
 
 	if ( Distance( cs->bs->origin, ent->r.currentOrigin ) < SCRIPT_REACHCAST_DIST ) { // we made it
@@ -664,8 +666,10 @@ qboolean AICast_ScriptAction_FollowCast( cast_state_t *cs, char *params ) {
 	if ( !ent ) {
                 if (strcmp(params, "player")) // if "player" cannot be found, dont crash, server will be restarted in the next frame, because its empty
                         G_Error( "AI Scripting: can't find AI cast with \"ainame\" = \"%s\"\n", params );
-                else
+                else {
                         G_Printf( "AI Scripting: can't find AI cast with \"ainame\" = \"%s\"\n", params );
+                        return qfalse;
+                }
 	}
 
 	AIFunc_ChaseGoalStart( cs, ent->s.number, 64, qtrue );
