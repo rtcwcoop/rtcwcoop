@@ -596,8 +596,8 @@ qboolean G_ScriptAction_AlertEntity( gentity_t *ent, char *params ) {
 	alertent = G_Find( NULL, FOFS( targetname ), params );
 	if ( !alertent ) {
 		//G_Error( "G_Scripting: alertentity cannot find targetname \"%s\"\n", params );
-		G_Printf( "G_Scripting: alertentity cannot find targetname \"%s\"\n", params );
-                return qfalse;
+		G_Printf( S_COLOR_RED "G_Scripting: alertentity cannot find targetname \"%s\"\n", params );
+                return qtrue; // cs: need to return true here or it keeps getting called every frame.
 	}
 
 	if ( alertent->client ) {
