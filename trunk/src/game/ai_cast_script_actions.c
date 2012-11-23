@@ -1680,8 +1680,8 @@ qboolean AICast_ScriptAction_AlertEntity( cast_state_t *cs, char *params ) {
 			//G_Error( "AI Scripting: alertentity cannot find targetname \"%s\"\n", params );
                         // fretn: after a map restart, this is called even before a bot is spawned
                         // which results in a server error .. we don't like this. (real fix is for later)
-			G_Printf( "AI Scripting: alertentity cannot find targetname \"%s\"\n", params );
-                        return qfalse;
+			G_Printf( S_COLOR_RED "AI Scripting: alertentity cannot find targetname \"%s\"\n", params );
+                        return qtrue; // cs: need to return true here or it keeps getting called every frame.
 		}
 	}
 
