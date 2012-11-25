@@ -240,6 +240,7 @@ void SV_BoundMaxClients( int minimum ) {
 	}
 }
 
+
 /*
 ===============
 SV_Startup
@@ -255,14 +256,14 @@ void SV_Startup( void ) {
 		Com_Error( ERR_FATAL, "SV_Startup: svs.initialized" );
 	}
 	SV_BoundMaxClients( 1 );
-    SV_BoundMaxCoopClients( 1 );
+	SV_BoundMaxCoopClients( 1 );
 
 	// RF, avoid trying to allocate large chunk on a fragmented zone
 	svs.clients = calloc( sizeof( client_t ) * sv_maxclients->integer, 1 );
 	if ( !svs.clients ) {
 		Com_Error( ERR_FATAL, "SV_Startup: unable to allocate svs.clients" );
 	}
-
+	//svs.clients = Z_Malloc (sizeof(client_t) * sv_maxclients->integer );
 
 	if ( com_dedicated->integer ) {
 		svs.numSnapshotEntities = sv_maxclients->integer * PACKET_BACKUP * 64;
@@ -317,8 +318,8 @@ void SV_ChangeMaxClients( void ) {
 	}
 
 	// free old clients arrays
+	//Z_Free( svs.clients );
 	free( svs.clients );    // RF, avoid trying to allocate large chunk on a fragmented zone
-
 
 	// allocate new clients
 	// RF, avoid trying to allocate large chunk on a fragmented zone
@@ -326,6 +327,7 @@ void SV_ChangeMaxClients( void ) {
 	if ( !svs.clients ) {
 		Com_Error( ERR_FATAL, "SV_Startup: unable to allocate svs.clients" );
 	}
+	//svs.clients = Z_Malloc ( sv_maxclients->integer * sizeof(client_t) );
 
 	Com_Memset( svs.clients, 0, sv_maxclients->integer * sizeof( client_t ) );
 
@@ -528,6 +530,10 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// wipe the entire per-level structure
 	SV_ClearServer();
 
+	// MrE: main zone should be pretty much emtpy at this point
+	// except for file system data and cached renderer data
+	//Z_LogHeap();
+
 	// allocate empty config strings
 	for ( i = 0 ; i < MAX_CONFIGSTRINGS ; i++ ) {
 		sv.configstrings[i] = CopyString( "" );
@@ -542,7 +548,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 			SV_ChangeMaxClients();
 		}
 
-                SV_BoundMaxCoopClients( 1 );
+		SV_BoundMaxCoopClients( 1 );
 	}
 
 	// clear pak references
@@ -567,10 +573,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
                 if (svs.clients[i].state >= CS_CONNECTED) {
                         svs.clients[i].oldServerTime = sv.time;
                 }   
-        }   
-
+        } 
 	// Ridah
-        // fretn - what about local clients ?
+	// DHM - Nerve :: We want to use the completion bar in multiplayer as well
 	if ( sv_gametype->integer <= GT_SINGLE_PLAYER ) {
 		SV_SetExpectedHunkUsage( va( "maps/%s.bsp", server ) );
 	} else {
@@ -581,9 +586,22 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// make sure we are not paused
 	Cvar_Set( "cl_paused", "0" );
 
+#if !defined( DO_LIGHT_DEDICATED )
 	// get a new checksum feed and restart the file system
 	srand( Sys_Milliseconds() );
 	sv.checksumFeed = ( ( (int) rand() << 16 ) ^ rand() ) ^ Sys_Milliseconds();
+
+	// DO_LIGHT_DEDICATED
+	// only comment out when you need a new pure checksum string and it's associated random feed
+	//Com_DPrintf("SV_SpawnServer checksum feed: %p\n", sv.checksumFeed);
+
+#else // DO_LIGHT_DEDICATED implementation below
+	// we are not able to randomize the checksum feed since the feed is used as key for pure_checksum computations
+	// files.c 1776 : pack->pure_checksum = Com_BlockChecksumKey( fs_headerLongs, 4 * fs_numHeaderLongs, LittleLong(fs_checksumFeed) );
+	// we request a fake randomized feed, files.c knows the answer
+	srand( Sys_Milliseconds() );
+	sv.checksumFeed = FS_RandChecksumFeed();
+#endif
 	FS_Restart( sv.checksumFeed );
 
 	CM_LoadMap( va( "maps/%s.bsp", server ), qfalse, &checksum );
@@ -596,7 +614,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// serverid should be different each time
 	sv.serverId = com_frameTime;
 	sv.restartedServerId = sv.serverId;
-        sv.checksumFeedServerId = sv.serverId;
+	sv.checksumFeedServerId = sv.serverId;
 	Cvar_Set( "sv_serverid", va( "%i", sv.serverId ) );
 
 	// clear physics interaction links
@@ -617,10 +635,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 	// run a few frames to allow everything to settle
 	for ( i = 0 ; i < 3 ; i++ ) {
-		VM_Call( gvm, GAME_RUN_FRAME, sv.time );
-		SV_BotFrame( sv.time );
+		VM_Call( gvm, GAME_RUN_FRAME, svs.time );
+		SV_BotFrame( svs.time );
 		svs.time += 100;
-		sv.time += 100;
 	}
 
 	// create a baseline for more efficient communications
@@ -633,7 +650,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 			if ( svs.clients[i].netchan.remoteAddress.type == NA_BOT ) {
 				if ( killBots || Cvar_VariableValue( "g_gametype" ) <= GT_SINGLE_PLAYER ) {
-					SV_DropClient( &svs.clients[i], " remove bots" );      //DAJ added message
+					SV_DropClient( &svs.clients[i], " remove bots" );
 					continue;
 				}
 				isBot = qtrue;
@@ -672,10 +689,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	}
 
 	// run another frame to allow things to look at all the players
-	VM_Call( gvm, GAME_RUN_FRAME, sv.time );
-	SV_BotFrame( sv.time );
+	VM_Call( gvm, GAME_RUN_FRAME, svs.time );
+	SV_BotFrame( svs.time );
 	svs.time += 100;
-	sv.time += 100;
 
 	if ( sv_pure->integer ) {
 		// the server sends these to the clients so they will only
@@ -711,6 +727,10 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	SV_SetConfigstring( CS_SERVERINFO, Cvar_InfoString( CVAR_SERVERINFO ) );
 	cvar_modifiedFlags &= ~CVAR_SERVERINFO;
 
+	// NERVE - SMF
+	//SV_SetConfigstring( CS_WOLFINFO, Cvar_InfoString( CVAR_WOLFINFO ) );
+	//cvar_modifiedFlags &= ~CVAR_WOLFINFO;
+
 	// any media configstring setting now should issue a warning
 	// and any configstring changes should be reliably transmitted
 	// to all clients
@@ -725,15 +745,87 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 	Com_Printf( "-----------------------------------\n" );
 
-	/* MrE: 2000-09-13: now called in CL_DownloadsComplete
-	// don't call when running dedicated
-	if ( !com_dedicated->integer ) {
-		// note that this is called after setting the hunk mark with Hunk_SetMark
-		CL_StartHunkUsers();
-	}
-	*/
 }
 
+// DHM - Nerve :: Update Server
+#ifdef UPDATE_SERVER
+/*
+====================
+SV_ParseVersionMapping
+
+  Reads versionmap.cfg which sets up a mapping of client version to installer to download
+====================
+*/
+void SV_ParseVersionMapping( void ) {
+	int handle;
+	char *filename = "versionmap.cfg";
+	char *buf;
+	char *buftrav;
+	char *token;
+	int len;
+
+	len = FS_SV_FOpenFileRead( filename, &handle );
+	if ( len >= 0 ) { // the file exists
+
+		buf = (char *)Z_Malloc( len + 1 );
+		memset( buf, 0, len + 1 );
+
+		FS_Read( (void *)buf, len, handle );
+		FS_FCloseFile( handle );
+
+		// now parse the file, setting the version table info
+		buftrav = buf;
+
+		token = COM_Parse( &buftrav );
+		if ( strcmp( token, "RTCW-VersionMap" ) ) {
+			Z_Free( buf );
+			Com_Error( ERR_FATAL, "invalid versionmap.cfg" );
+			return;
+		}
+
+		Com_Printf( "\n------------Update Server-------------\n\nParsing version map..." );
+
+		while ( ( token = COM_Parse( &buftrav ) ) && token[0] ) {
+			// read the version number
+			strcpy( versionMap[ numVersions ].version, token );
+
+			// read the platform
+			token = COM_Parse( &buftrav );
+			if ( token && token[0] ) {
+				strcpy( versionMap[ numVersions ].platform, token );
+			} else {
+				Z_Free( buf );
+				Com_Error( ERR_FATAL, "error parsing versionmap.cfg, after %s", versionMap[ numVersions ].version );
+				return;
+			}
+
+			// read the installer name
+			token = COM_Parse( &buftrav );
+			if ( token && token[0] ) {
+				strcpy( versionMap[ numVersions ].installer, token );
+			} else {
+				Z_Free( buf );
+				Com_Error( ERR_FATAL, "error parsing versionmap.cfg, after %s", versionMap[ numVersions ].platform );
+				return;
+			}
+
+			numVersions++;
+			if ( numVersions >= MAX_UPDATE_VERSIONS ) {
+				Z_Free( buf );
+				Com_Error( ERR_FATAL, "Exceeded maximum number of mappings(%d)", MAX_UPDATE_VERSIONS );
+				return;
+			}
+
+		}
+
+		Com_Printf( " found %d mapping%c\n--------------------------------------\n\n", numVersions, numVersions > 1 ? 's' : ' ' );
+
+		Z_Free( buf );
+	} else {
+		Com_Error( ERR_FATAL, "Couldn't open versionmap.cfg" );
+	}
+}
+#endif
 
 /*
 ===============
@@ -748,8 +840,8 @@ void SV_Init( void ) {
 	SV_AddOperatorCommands();
 
 	// serverinfo vars
-	Cvar_Get( "dmflags", "0", CVAR_SERVERINFO );
-	Cvar_Get( "fraglimit", "20", CVAR_SERVERINFO );
+	Cvar_Get( "dmflags", "0", /*CVAR_SERVERINFO*/ 0 );
+	Cvar_Get( "fraglimit", "0", /*CVAR_SERVERINFO*/ 0 );
 	Cvar_Get( "timelimit", "0", CVAR_SERVERINFO );
 	sv_gametype = Cvar_Get( "g_gametype", va("%d", GT_COOP), CVAR_SERVERINFO | CVAR_LATCH );
 
@@ -776,11 +868,7 @@ void SV_Init( void ) {
 	// systeminfo
 	Cvar_Get( "sv_cheats", "0", CVAR_SYSTEMINFO | CVAR_ROM );
 	sv_serverid = Cvar_Get( "sv_serverid", "0", CVAR_SYSTEMINFO | CVAR_ROM );
-//----(SA) VERY VERY TEMPORARY!!!!!!!!!!!
-//----(SA) this is so Activision can test milestones with
-//----(SA) the default config.  remember to change this back when shipping!!!
 	sv_pure = Cvar_Get( "sv_pure", "0", CVAR_SYSTEMINFO );
-//	sv_pure = Cvar_Get ("sv_pure", "1", CVAR_SYSTEMINFO );
 	Cvar_Get( "sv_paks", "", CVAR_SYSTEMINFO | CVAR_ROM );
 	Cvar_Get( "sv_pakNames", "", CVAR_SYSTEMINFO | CVAR_ROM );
 	Cvar_Get( "sv_referencedPaks", "", CVAR_SYSTEMINFO | CVAR_ROM );
@@ -789,13 +877,18 @@ void SV_Init( void ) {
 	// server vars
 	sv_rconPassword = Cvar_Get( "rconPassword", "", CVAR_TEMP );
 	sv_privatePassword = Cvar_Get( "sv_privatePassword", "", CVAR_TEMP );
+#ifndef UPDATE_SERVER
 	sv_fps = Cvar_Get( "sv_fps", "20", CVAR_TEMP );
-	sv_timeout = Cvar_Get( "sv_timeout", "120", CVAR_TEMP );
+#else
+	sv_fps = Cvar_Get( "sv_fps", "60", CVAR_TEMP ); // this allows faster downloads
+#endif
+	sv_timeout = Cvar_Get( "sv_timeout", "240", CVAR_TEMP );
 	sv_zombietime = Cvar_Get( "sv_zombietime", "2", CVAR_TEMP );
 	Cvar_Get( "nextmap", "", CVAR_TEMP );
 
 	sv_allowDownload = Cvar_Get( "sv_allowDownload", "1", 0 );
-	sv_master[0] = Cvar_Get( "sv_master1", "master.rtcwcoop.com", 0 );
+	//sv_master[0] = Cvar_Get( "sv_master1", "wolfmaster.idsoftware.com", 0 );      // NERVE - SMF - wolfMP master server
+	sv_master[0] = Cvar_Get( "sv_master1", "master.rtcwcoop.com", 0 );      // fretn 
 	sv_master[1] = Cvar_Get( "sv_master2", "", CVAR_ARCHIVE );
 	sv_master[2] = Cvar_Get( "sv_master3", "", CVAR_ARCHIVE );
 	sv_master[3] = Cvar_Get( "sv_master4", "", CVAR_ARCHIVE );
@@ -805,16 +898,57 @@ void SV_Init( void ) {
 	sv_padPackets = Cvar_Get( "sv_padPackets", "0", 0 );
 	sv_killserver = Cvar_Get( "sv_killserver", "0", 0 );
 	sv_mapChecksum = Cvar_Get( "sv_mapChecksum", "", CVAR_ROM );
+	sv_lanForceRate = Cvar_Get( "sv_lanForceRate", "1", CVAR_ARCHIVE );
 
-	sv_reloading = Cvar_Get( "g_reloading", "0", CVAR_ROM );   //----(SA)	added
+        sv_reloading = Cvar_Get( "g_reloading", "0", CVAR_ROM );   //----(SA)   added
 
-    Cvar_Get( "g_maxlives", "0", 0 );
+	sv_onlyVisibleClients = Cvar_Get( "sv_onlyVisibleClients", "0", 0 );       // DHM - Nerve
+
+	sv_showAverageBPS = Cvar_Get( "sv_showAverageBPS", "0", 0 );           // NERVE - SMF - net debugging
+
+	Cvar_Get( "g_maxlives", "0", 0 );
+#ifdef GS
+	Cvar_Get( "gamestate", "-1", CVAR_WOLFINFO | CVAR_ROM );
+#endif
+	// ATVI Tracker Wolfenstein Misc #263
+	Cvar_Get( "g_antilag", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
+
+	// TTimo - autodownload speed tweaks
+#ifndef UPDATE_SERVER
+	// the download netcode tops at 18/20 kb/s, no need to make you think you can go above
+	sv_dl_maxRate = Cvar_Get( "sv_dl_maxRate", "42000", CVAR_ARCHIVE );
+#else
+	// the update server is on steroids, sv_fps 60 and no snapshotMsec limitation, it can go up to 30 kb/s
+	sv_dl_maxRate = Cvar_Get( "sv_dl_maxRate", "60000", CVAR_ARCHIVE );
+#endif
 
 	// initialize bot cvars so they are listed and can be set before loading the botlib
 	SV_BotInitCvars();
 
 	// init the botlib here because we need the pre-compiler in the UI
 	SV_BotInitBotLib();
+
+	// DHM - Nerve
+#ifdef UPDATE_SERVER
+	SV_Startup();
+	SV_ParseVersionMapping();
+
+	// serverid should be different each time
+	sv.serverId = com_frameTime + 100;
+	sv.restartedServerId = sv.serverId; // I suppose the init here is just to be safe
+	sv.checksumFeedServerId = sv.serverId;
+	Cvar_Set( "sv_serverid", va( "%i", sv.serverId ) );
+	Cvar_Set( "mapname", "Update" );
+
+	// allocate empty config strings
+	{
+		int i;
+
+		for ( i = 0 ; i < MAX_CONFIGSTRINGS ; i++ ) {
+			sv.configstrings[i] = CopyString( "" );
+		}
+	}
+#endif
 }
 
 
@@ -882,7 +1016,6 @@ void SV_Shutdown( char *finalmsg ) {
     
                 for(index = 0; index < sv_maxclients->integer; index++)
                         SV_FreeClient(&svs.clients[index]);
-
 		free( svs.clients );    // RF, avoid trying to allocate large chunk on a fragmented zone
 	}
 	memset( &svs, 0, sizeof( svs ) );
@@ -894,3 +1027,4 @@ void SV_Shutdown( char *finalmsg ) {
 	// disconnect any local clients
 	CL_Disconnect( qfalse );
 }
+

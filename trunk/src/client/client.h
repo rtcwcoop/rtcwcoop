@@ -39,7 +39,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #define RETRANSMIT_TIMEOUT  3000    // time between connection packet retransmits
 
-#define LIMBOCHAT_WIDTH     140     // NERVE - SMF
+#define LIMBOCHAT_WIDTH     140     // NERVE - SMF - NOTE TTimo buffer size indicator, not related to screen bbox
 #define LIMBOCHAT_HEIGHT    7       // NERVE - SMF
 
 // snapshots are a view of the server at a given time
@@ -64,7 +64,7 @@ typedef struct {
 											// making the snapshot current
 } clSnapshot_t;
 
-extern int cl_connectedToPureServer;
+
 
 /*
 =============================================================================
@@ -116,7 +116,8 @@ typedef struct {
 	int cgameUserCmdValue;              // current weapon to add to usercmd_t
 	int cgameUserHoldableValue;         // current holdable item to add to usercmd_t	//----(SA)	added
 	float cgameSensitivity;
-	int cgameCld;                       // NERVE - SMF
+	int	cgameCld;						// NERVE - SMF
+	vec3_t cgameClientLerpOrigin;       // DHM - Nerve
 
 	// cmds[cmdNumber] is the predicted command, [cmdNumber-1] is the last
 	// properly generated command
@@ -143,16 +144,17 @@ typedef struct {
 	entityState_t parseEntities[MAX_PARSE_ENTITIES];
 
 	// NERVE - SMF
+	// NOTE TTimo - UI uses LIMBOCHAT_WIDTH strings (140),
+	// but for the processing in CL_AddToLimboChat we need some safe room
 	char limboChatMsgs[LIMBOCHAT_HEIGHT][LIMBOCHAT_WIDTH * 3 + 1];
 	int limboChatPos;
-	// -NERVE - SMF
 
-	qboolean cameraMode;    //----(SA)	added for control of input while watching cinematics
+	qboolean cameraMode;
+
 #ifdef LOCALISATION
         qboolean corruptedTranslationFile;
         char translationVersion[MAX_STRING_TOKENS];
 #endif
-
 } clientActive_t;
 
 extern clientActive_t cl;
@@ -184,9 +186,12 @@ typedef struct {
 	int challenge;                          // from the server to use for connecting
 	int checksumFeed;                       // from the server for checksum calculations
 
+	int onlyVisibleClients;                 // DHM - Nerve
+
 	// these are our reliable messages that go to the server
 	int reliableSequence;
 	int reliableAcknowledge;                // the last one the server has executed
+	// TTimo - NOTE: incidentally, reliableCommands[0] is never used (always start at reliableAcknowledge+1)
 	char reliableCommands[MAX_RELIABLE_COMMANDS][MAX_TOKEN_CHARS];
 
 	// server message (unreliable) and command (reliable) sequence
@@ -221,6 +226,10 @@ typedef struct {
 	qboolean firstDemoFrameSkipped;
 	fileHandle_t demofile;
 
+	qboolean waverecording;
+	fileHandle_t wavefile;
+	int wavetime;
+
 	int timeDemoFrames;             // counter of rendered frames
 	int timeDemoStart;              // cls.realtime before first frame
 	int timeDemoBaseTime;           // each frame will be at this time + frameNum * 50
@@ -248,25 +257,25 @@ typedef struct {
 } ping_t;
 
 typedef struct {
-	netadr_t adr;
-	char hostName[MAX_NAME_LENGTH];
-	char mapName[MAX_NAME_LENGTH];
-	char game[MAX_NAME_LENGTH];
-	int netType;
-	int gameType;
-	int clients;
-	int maxClients;
-	int minPing;
-	int maxPing;
-	int ping;
-	qboolean visible;
-	int allowAnonymous;
-	int friendlyFire;               // NERVE - SMF
-	int maxlives;                   // NERVE - SMF
-	int tourney;                    // NERVE - SMF
-	int punkbuster;                 // DHM - Nerve
-	int antilag;         // TTimo
-	char gameName[MAX_NAME_LENGTH];         // Arnout
+        netadr_t adr;
+        char hostName[MAX_NAME_LENGTH];
+        char mapName[MAX_NAME_LENGTH];
+        char game[MAX_NAME_LENGTH];
+        int netType;
+        int gameType;
+        int clients;
+        int maxClients;
+        int minPing;
+        int maxPing;
+        int ping;
+        qboolean visible;
+        int allowAnonymous;
+        int friendlyFire;               // NERVE - SMF
+        int maxlives;                   // NERVE - SMF
+        int tourney;                    // NERVE - SMF
+        int punkbuster;                 // DHM - Nerve
+        int antilag;         // TTimo
+        char gameName[MAX_NAME_LENGTH];         // Arnout
         int coop;
         int gameskill;
         int airespawn;
@@ -278,12 +287,13 @@ typedef struct {
 	unsigned short port;
 } serverAddress_t;
 
+#define MAX_AUTOUPDATE_SERVERS  5
 typedef struct {
 	connstate_t state;              // connection status
 	int keyCatchers;                // bit flags
 
 	qboolean cddialog;              // bring up the cd needed dialog next frame
-	qboolean endgamemenu;           // bring up the end game credits menu next frame
+	qboolean endgamemenu;
 
 	char servername[MAX_OSPATH];            // name of server from original connect (used by reconnect)
 
@@ -326,22 +336,25 @@ typedef struct {
 
 	netadr_t authorizeServer;
 
+	// DHM - Nerve :: Auto-update Info
+	char autoupdateServerNames[MAX_AUTOUPDATE_SERVERS][MAX_QPATH];
+	netadr_t autoupdateServer;
+
 	// rendering info
 	glconfig_t glconfig;
 	qhandle_t charSetShader;
 	qhandle_t whiteShader;
 	qhandle_t consoleShader;
-	qhandle_t consoleShader2;   //----(SA)	added
-
+	qhandle_t consoleShader2;       // NERVE - SMF - merged from WolfSP
 } clientStatic_t;
 
 extern clientStatic_t cls;
 
 //=============================================================================
 
-extern vm_t            *cgvm;   // interface to cgame dll or vm
-extern vm_t            *uivm;   // interface to ui dll or vm
-extern refexport_t re;          // interface to refresh .dll
+extern vm_t            *cgvm;   // interface to cgame shared library
+extern vm_t            *uivm;   // interface to ui shared library
+extern refexport_t re;          // interface to refresh shared library
 
 
 //
@@ -354,10 +367,14 @@ extern cvar_t  *cl_timegraph;
 extern cvar_t  *cl_maxpackets;
 extern cvar_t  *cl_packetdup;
 extern cvar_t  *cl_shownet;
+extern cvar_t  *cl_shownuments;             // DHM - Nerve
+extern cvar_t  *cl_visibleClients;          // DHM - Nerve
 extern cvar_t  *cl_showSend;
+extern cvar_t  *cl_showServerCommands;      // NERVE - SMF
 extern cvar_t  *cl_timeNudge;
 extern cvar_t  *cl_showTimeDelta;
 extern cvar_t  *cl_freezeDemo;
+extern cvar_t  *cl_consoleKeys; // fretn
 
 extern cvar_t  *cl_yawspeed;
 extern cvar_t  *cl_pitchspeed;
@@ -366,13 +383,14 @@ extern cvar_t  *cl_anglespeedkey;
 
 extern cvar_t  *cl_recoilPitch;     // RF
 
+extern cvar_t  *cl_bypassMouseInput;    // NERVE - SMF
+
 extern cvar_t  *cl_sensitivity;
 extern cvar_t  *cl_freelook;
 extern cvar_t  *cl_master;
 
 extern cvar_t  *cl_mouseAccel;
 extern cvar_t  *cl_showMouseRate;
-extern cvar_t  *cl_consoleKeys;
 
 extern cvar_t  *m_pitch;
 extern cvar_t  *m_yaw;
@@ -407,6 +425,11 @@ void CL_AddReliableCommand( const char *cmd );
 
 void CL_StartHunkUsers( void );
 
+#ifndef UPDATE_SERVER
+void CL_CheckAutoUpdate( void );
+void CL_GetAutoUpdate( void );
+#endif
+
 void CL_Disconnect_f( void );
 void CL_GetChallengePacket( void );
 void CL_Vid_Restart_f( void );
@@ -440,6 +463,8 @@ void CL_TranslateString( const char *string, char *dest_buffer );
 const char* CL_TranslateStringBuf( const char *string ); // TTimo
 // -NERVE - SMF
 #endif
+
+void CL_OpenURL( const char *url ); // TTimo
 
 //
 // cl_input
@@ -508,7 +533,7 @@ void CL_VerifyCode( void );
 
 float CL_KeyState( kbutton_t *key );
 char *Key_KeynumToString( int keynum, qboolean bTranslate );
-int Key_StringToKeynum( char *str );
+int Key_StringToKeynum( char *str );;
 
 //
 // cl_parse.c
@@ -519,6 +544,8 @@ void CL_SystemInfoChanged( void );
 void CL_ParseServerMessage( msg_t *msg );
 
 //====================================================================
+
+void    CL_UpdateInfoPacket( netadr_t from );       // DHM - Nerve
 
 void    CL_ServerInfoPacket( netadr_t from, msg_t *msg );
 void    CL_LocalServers_f( void );
@@ -616,3 +643,8 @@ void LAN_SaveServersToCache();
 void CL_Netchan_Transmit( netchan_t *chan, msg_t* msg ); //int length, const byte *data );
 void CL_Netchan_TransmitNextFragment( netchan_t *chan );
 qboolean CL_Netchan_Process( netchan_t *chan, msg_t *msg );
+
+// 
+// snd_dma.c
+//
+void S_StopEntStreamingSound( int entNum );

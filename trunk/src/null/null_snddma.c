@@ -57,7 +57,8 @@ sfxHandle_t S_RegisterSound( const char *name, qboolean compressed ) {
 void S_StartLocalSound( sfxHandle_t sfxHandle, int channelNum ) {
 }
 
-void S_ClearSoundBuffer( qboolean killStreaming ) {
+//void S_ClearSoundBuffer( qboolean killStreaming ) {
+void S_ClearSoundBuffer( void ) {
 }
 
 // TTimo: added for win32 dedicated

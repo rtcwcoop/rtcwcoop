@@ -209,7 +209,6 @@ SV_LinkEntity
 ===============
 */
 #define MAX_TOTAL_ENT_LEAFS     128
-worldSector_t *debugNode;
 void SV_LinkEntity( sharedEntity_t *gEnt ) {
 	worldSector_t   *node;
 	int leafs[MAX_TOTAL_ENT_LEAFS];
@@ -422,7 +421,7 @@ void SV_AreaEntities_r( worldSector_t *node, areaParms_t *ap ) {
 		}
 
 		if ( ap->count == ap->maxcount ) {
-			Com_DPrintf( "SV_AreaEntities: MAXCOUNT\n" );
+			Com_Printf( "SV_AreaEntities: MAXCOUNT\n" );
 			return;
 		}
 
@@ -528,6 +527,9 @@ void SV_ClipToEntity( trace_t *trace, const vec3_t start, const vec3_t mins, con
 }
 
 
+// FIXME: Copied from cm_local.h
+#define BOX_MODEL_HANDLE        511
+
 /*
 ====================
 SV_ClipMoveToEntities
@@ -579,13 +581,14 @@ void SV_ClipMoveToEntities( moveclip_t *clip ) {
 			continue;
 		}
 
-		// RF, special case, ignore chairs if we are carrying them
-		if ( touch->s.eType == ET_PROP && touch->s.otherEntityNum == clip->passEntityNum + 1 ) {
-			continue;
-		}
-
 		// might intersect, so do an exact clip
 		clipHandle = SV_ClipHandleForEntity( touch );
+
+		// DHM - Nerve :: If clipping against BBOX, set to correct contents
+		// fretn - not implemented yet
+		//if ( clipHandle == BOX_MODEL_HANDLE ) {
+	//		CM_SetTempBoxModelContents( touch->r.contents );
+	//	}
 
 		origin = touch->r.currentOrigin;
 		angles = touch->r.currentAngles;
@@ -623,6 +626,12 @@ void SV_ClipMoveToEntities( moveclip_t *clip ) {
 			clip->trace = trace;
 			clip->trace.startsolid |= oldStart;
 		}
+
+		// DHM - Nerve :: Reset contents to default
+		// fretn : not implemented yet
+		//if ( clipHandle == BOX_MODEL_HANDLE ) {
+		//	CM_SetTempBoxModelContents( CONTENTS_BODY );
+		//}
 	}
 }
 
@@ -718,12 +727,9 @@ int SV_PointContents( const vec3_t p, int passEntityNum ) {
 			angles = vec3_origin;   // boxes don't rotate
 		}
 
-		// RF, ignore this test if the origin is at the world origin
-		//if (!VectorCompare( hit->s.origin, vec3_origin )) {
 		c2 = CM_TransformedPointContents( p, clipHandle, hit->s.origin, hit->s.angles );
 
 		contents |= c2;
-		//}
 	}
 
 	return contents;

@@ -58,29 +58,25 @@ LAN_LoadCachedServers
 ====================
 */
 void LAN_LoadCachedServers() {
-	// TTimo: stub, this is only relevant to MP, SP kills the servercache.dat (and favorites)
-	// show_bug.cgi?id=445
-	/*
-	  int size;
-	  fileHandle_t fileIn;
-	  cls.numglobalservers = cls.nummplayerservers = cls.numfavoriteservers = 0;
-	  cls.numGlobalServerAddresses = 0;
-	  if (FS_SV_FOpenFileRead("servercache.dat", &fileIn)) {
-		  FS_Read(&cls.numglobalservers, sizeof(int), fileIn);
-		  FS_Read(&cls.nummplayerservers, sizeof(int), fileIn);
-		  FS_Read(&cls.numfavoriteservers, sizeof(int), fileIn);
-		  FS_Read(&size, sizeof(int), fileIn);
-		  if (size == sizeof(cls.globalServers) + sizeof(cls.favoriteServers) + sizeof(cls.mplayerServers)) {
-			  FS_Read(&cls.globalServers, sizeof(cls.globalServers), fileIn);
-			  FS_Read(&cls.mplayerServers, sizeof(cls.mplayerServers), fileIn);
-			  FS_Read(&cls.favoriteServers, sizeof(cls.favoriteServers), fileIn);
-		  } else {
-			  cls.numglobalservers = cls.nummplayerservers = cls.numfavoriteservers = 0;
-			  cls.numGlobalServerAddresses = 0;
-		  }
-		  FS_FCloseFile(fileIn);
-	  }
-	*/
+	int size;
+	fileHandle_t fileIn;
+	cls.numglobalservers = cls.nummplayerservers = cls.numfavoriteservers = 0;
+	cls.numGlobalServerAddresses = 0;
+	if ( FS_SV_FOpenFileRead( "servercache.dat", &fileIn ) ) {
+		FS_Read( &cls.numglobalservers, sizeof( int ), fileIn );
+		FS_Read( &cls.nummplayerservers, sizeof( int ), fileIn );
+		FS_Read( &cls.numfavoriteservers, sizeof( int ), fileIn );
+		FS_Read( &size, sizeof( int ), fileIn );
+		if ( size == sizeof( cls.globalServers ) + sizeof( cls.favoriteServers ) + sizeof( cls.mplayerServers ) ) {
+			FS_Read( &cls.globalServers, sizeof( cls.globalServers ), fileIn );
+			FS_Read( &cls.mplayerServers, sizeof( cls.mplayerServers ), fileIn );
+			FS_Read( &cls.favoriteServers, sizeof( cls.favoriteServers ), fileIn );
+		} else {
+			cls.numglobalservers = cls.nummplayerservers = cls.numfavoriteservers = 0;
+			cls.numGlobalServerAddresses = 0;
+		}
+		FS_FCloseFile( fileIn );
+	}
 }
 
 /*
@@ -89,29 +85,25 @@ LAN_SaveServersToCache
 ====================
 */
 void LAN_SaveServersToCache() {
-	// TTimo: stub, this is only relevant to MP, SP kills the servercache.dat (and favorites)
-	// show_bug.cgi?id=445
-	/*
-	  int size;
-	  fileHandle_t fileOut;
-  #ifdef __MACOS__	//DAJ MacOS file typing
-	  {
-		  extern _MSL_IMP_EXP_C long _fcreator, _ftype;
-		  _ftype = 'WlfB';
-		  _fcreator = 'WlfS';
-	  }
-  #endif
-	  fileOut = FS_SV_FOpenFileWrite("servercache.dat");
-	  FS_Write(&cls.numglobalservers, sizeof(int), fileOut);
-	  FS_Write(&cls.nummplayerservers, sizeof(int), fileOut);
-	  FS_Write(&cls.numfavoriteservers, sizeof(int), fileOut);
-	  size = sizeof(cls.globalServers) + sizeof(cls.favoriteServers) + sizeof(cls.mplayerServers);
-	  FS_Write(&size, sizeof(int), fileOut);
-	  FS_Write(&cls.globalServers, sizeof(cls.globalServers), fileOut);
-	  FS_Write(&cls.mplayerServers, sizeof(cls.mplayerServers), fileOut);
-	  FS_Write(&cls.favoriteServers, sizeof(cls.favoriteServers), fileOut);
-	  FS_FCloseFile(fileOut);
-	*/
+	int size;
+	fileHandle_t fileOut;
+#ifdef __MACOS__    //DAJ MacOS file typing
+	{
+		extern _MVM_IMP_EXP_C long _fcreator, _ftype;
+		_ftype = 'WlfB';
+		_fcreator = 'WlfM';
+	}
+#endif
+	fileOut = FS_SV_FOpenFileWrite( "servercache.dat" );
+	FS_Write( &cls.numglobalservers, sizeof( int ), fileOut );
+	FS_Write( &cls.nummplayerservers, sizeof( int ), fileOut );
+	FS_Write( &cls.numfavoriteservers, sizeof( int ), fileOut );
+	size = sizeof( cls.globalServers ) + sizeof( cls.favoriteServers ) + sizeof( cls.mplayerServers );
+	FS_Write( &size, sizeof( int ), fileOut );
+	FS_Write( &cls.globalServers, sizeof( cls.globalServers ), fileOut );
+	FS_Write( &cls.mplayerServers, sizeof( cls.mplayerServers ), fileOut );
+	FS_Write( &cls.favoriteServers, sizeof( cls.favoriteServers ), fileOut );
+	FS_FCloseFile( fileOut );
 }
 
 
@@ -668,7 +660,7 @@ static void GetClipboardData( char *buf, int buflen ) {
 Key_KeynumToStringBuf
 ====================
 */
-static void Key_KeynumToStringBuf( int keynum, char *buf, int buflen ) {
+void Key_KeynumToStringBuf( int keynum, char *buf, int buflen ) {
 	Q_strncpyz( buf, Key_KeynumToString( keynum, qtrue ), buflen );
 }
 
@@ -677,7 +669,7 @@ static void Key_KeynumToStringBuf( int keynum, char *buf, int buflen ) {
 Key_GetBindingBuf
 ====================
 */
-static void Key_GetBindingBuf( int keynum, char *buf, int buflen ) {
+void Key_GetBindingBuf( int keynum, char *buf, int buflen ) {
 	char    *value;
 
 	value = Key_GetBinding( keynum );
@@ -703,7 +695,12 @@ Ket_SetCatcher
 ====================
 */
 void Key_SetCatcher( int catcher ) {
-	cls.keyCatchers = catcher;
+	// NERVE - SMF - console overrides everything
+	if ( cls.keyCatchers & KEYCATCH_CONSOLE ) {
+		cls.keyCatchers = catcher | KEYCATCH_CONSOLE;
+	} else {
+		cls.keyCatchers = catcher;
+	}
 }
 
 
@@ -1129,7 +1126,7 @@ int CL_UISystemCalls( int *args ) {
 		S_StopBackgroundTrack();
 		return 0;
 	case UI_S_STARTBACKGROUNDTRACK:
-		S_StartBackgroundTrack( VMA( 1 ), VMA( 2 ), args[3] );   //----(SA)	added fadeup time
+		S_StartBackgroundTrack( VMA( 1 ), VMA( 2 ) );
 		return 0;
 
 	case UI_REAL_TIME:
@@ -1168,8 +1165,23 @@ int CL_UISystemCalls( int *args ) {
 		// NERVE - SMF
 	case UI_CL_GETLIMBOSTRING:
 		return CL_GetLimboString( args[1], VMA( 2 ) );
-		// -NERVE - SMF
 
+/*
+		// DHM - Nerve
+	case UI_CHECKAUTOUPDATE:
+		CL_CheckAutoUpdate();
+		return 0;
+
+	case UI_GET_AUTOUPDATE:
+		CL_GetAutoUpdate();
+		return 0;
+		// DHM - Nerve
+
+	case UI_OPENURL:
+		CL_OpenURL( (const char *)VMA( 1 ) );
+		return 0;
+
+*/
 	default:
 		Com_Error( ERR_DROP, "Bad UI system trap: %i", args[0] );
 
@@ -1232,7 +1244,6 @@ void CL_InitUI( void ) {
 	}
 
 	// init for this gamestate
-//	VM_Call( uivm, UI_INIT );
 	VM_Call( uivm, UI_INIT, ( cls.state >= CA_AUTHORIZING && cls.state < CA_ACTIVE ) );
 }
 
@@ -1244,6 +1255,15 @@ qboolean UI_usesUniqueCDKey() {
 		return qfalse;
 	}
 }
+/*
+qboolean UI_checkKeyExec( int key ) {
+	if ( uivm ) {
+		return VM_Call( uivm, UI_CHECKEXECKEY, key );
+	} else {
+		return qfalse;
+	}
+}
+*/
 
 /*
 ====================

@@ -246,7 +246,9 @@ sfxHandle_t trap_S_RegisterSound( const char *sample ) {
 }
 
 void    trap_S_StartBackgroundTrack( const char *intro, const char *loop, int fadeupTime ) {
-	syscall( CG_S_STARTBACKGROUNDTRACK, intro, loop, fadeupTime );
+	//syscall( CG_S_STARTBACKGROUNDTRACK, intro, loop, fadeupTime );
+        // fretn
+	syscall( CG_S_STARTBACKGROUNDTRACK, intro, loop );
 }
 
 void    trap_S_FadeBackgroundTrack( float targetvol, int time, int num ) {   // yes, i know.  fadebackground coming in, fadestreaming going out.  will have to see where functionality leads...

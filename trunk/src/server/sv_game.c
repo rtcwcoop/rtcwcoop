@@ -934,14 +934,13 @@ static void SV_InitGameVM( qboolean restart ) {
 
 	// clear all gentity pointers that might still be set from
 	// a previous level
-	// fretn: should be done before the game init call (see mp code)
 	for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
 		svs.clients[i].gentity = NULL;
 	}
 
 	// use the current msec count for a random seed
 	// init for this gamestate
-	VM_Call( gvm, GAME_INIT, sv.time, Com_Milliseconds(), restart );
+	VM_Call( gvm, GAME_INIT, svs.time, Com_Milliseconds(), restart );
 }
 
 
@@ -977,19 +976,18 @@ Called on a normal map change, not on a map_restart
 ===============
 */
 void SV_InitGameProgs( void ) {
-	cvar_t  *var;
-	//FIXME these are temp while I make bots run in vm
-	extern int bot_enable;
+        cvar_t  *var;
+        //FIXME these are temp while I make bots run in vm
+        extern int bot_enable;
 
-	var = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
-	if ( var ) {
-		bot_enable = var->integer;
-	} else {
-		bot_enable = 0;
-	}
+        var = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
+        if ( var ) {
+                bot_enable = var->integer;
+        } else {
+                bot_enable = 0; 
+        } 
 
-	// load the dll or bytecode
-	//gvm = VM_Create( "qagame", SV_GameSystemCalls, Cvar_VariableValue( "vm_game" ) );
+	// load the dll
 	gvm = VM_Create( "qagame", SV_GameSystemCalls, VMI_NATIVE );
 	if ( !gvm ) {
 		Com_Error( ERR_FATAL, "VM_Create on game failed" );
@@ -1034,19 +1032,17 @@ SV_GetTag
   return qfalse if unable to retrieve tag information for this client
 ====================
 */
-#ifndef DEDICATED
-extern qboolean CL_GetTag( int clientNum, char *tagname, orientation_t *or );
-#endif
+extern qboolean CL_GetTag( int clientNum, char *tagname, orientation_t * or );
 
 qboolean SV_GetTag( int clientNum, char *tagname, orientation_t *or ) {
+#ifndef DEDICATED // TTimo: dedicated only binary defines DEDICATED
 	if ( com_dedicated->integer ) {
 		return qfalse;
 	}
 
-#ifndef DEDICATED
 	return CL_GetTag( clientNum, tagname, or );
 #else
-        return qfalse;
+	return qfalse;
 #endif
 }
 
@@ -1058,5 +1054,5 @@ SV_GetModelInfo
 ===================
 */
 qboolean SV_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo ) {
-	return VM_Call( gvm, GAME_GETMODELINFO, clientNum, modelName, modelInfo );
+        return VM_Call( gvm, GAME_GETMODELINFO, clientNum, modelName, modelInfo );
 }

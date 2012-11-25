@@ -32,6 +32,10 @@ If you have questions concerning this license or the applicable additional terms
 #include "../game/botlib.h"
 #include "../botai/botai.h"
 
+
+// fretn - for macosx quick fix
+#include <stdarg.h>
+
 #define MAX_DEBUGPOLYS      128
 
 typedef struct bot_debugpoly_s
@@ -180,7 +184,7 @@ void QDECL BotImport_Print( int type, char *fmt, ... ) {
 	va_list ap;
 
 	va_start( ap, fmt );
-	vsprintf( str, fmt, ap );
+	Q_vsnprintf( str, sizeof( str ), fmt, ap );
 	va_end( ap );
 
 	switch ( type ) {
@@ -340,8 +344,19 @@ BotImport_FreeMemory
 ==================
 */
 void BotImport_FreeMemory( void *ptr ) {
-	free( ptr );
+	Z_Free( ptr );
 }
+
+/*
+==================
+BotImport_FreeZoneMemory
+==================
+*/
+/*
+void BotImport_FreeZoneMemory( void ) {
+	Z_FreeTags( TAG_BOTLIB );
+}
+*/
 
 /*
 =================
@@ -578,11 +593,6 @@ void SV_BotInitBotLib( void ) {
 	Com_Printf( "Bypassing CD checks\n" );
 #endif
 
-	/*
-	if ( botlib_export ) {
-		SV_BotLibShutdown();
-	}*/
-
 	botlib_import.Print = BotImport_Print;
 	botlib_import.Trace = BotImport_Trace;
 	botlib_import.EntityTrace = BotImport_EntityTrace;
@@ -595,6 +605,7 @@ void SV_BotInitBotLib( void ) {
 	//memory management
 	botlib_import.GetMemory = BotImport_GetMemory;
 	botlib_import.FreeMemory = BotImport_FreeMemory;
+	//botlib_import.FreeZoneMemory = BotImport_FreeZoneMemory;
 	botlib_import.HunkAlloc = BotImport_HunkAlloc;
 
 	// file system acess

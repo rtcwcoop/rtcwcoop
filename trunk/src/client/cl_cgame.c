@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 
 extern botlib_export_t *botlib_export;
 
-//fretn: TODO
+//fretn
 extern qboolean loadCamera( int camNum, const char *name );
 extern void startCamera( int camNum, int time );
 extern qboolean getCameraInfo( int camNum, int time, vec3_t *origin, vec3_t *angles, float *fov );
@@ -43,6 +43,10 @@ extern qboolean getCameraInfo( int camNum, int time, vec3_t *origin, vec3_t *ang
 extern void SV_SendMoveSpeedsToGame( int entnum, char *text );
 extern qboolean SV_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo );
 
+// NERVE - SMF
+void Key_GetBindingBuf( int keynum, char *buf, int buflen );
+void Key_KeynumToStringBuf( int keynum, char *buf, int buflen );
+// -NERVE - SMF
 
 /*
 ====================
@@ -189,6 +193,17 @@ void CL_SetUserCmdValue( int userCmdValue, int holdableValue, float sensitivityS
 }
 
 /*
+==================
+CL_SetClientLerpOrigin
+==================
+*/
+void CL_SetClientLerpOrigin( float x, float y, float z ) {
+	cl.cgameClientLerpOrigin[0] = x;
+	cl.cgameClientLerpOrigin[1] = y;
+	cl.cgameClientLerpOrigin[2] = z;
+}
+
+/*
 ==============
 CL_AddCgameCommand
 ==============
@@ -281,6 +296,7 @@ qboolean CL_GetServerCommand( int serverCommandNumber ) {
 	char    *s;
 	char    *cmd;
 	static char bigConfigString[BIG_INFO_STRING];
+	int argc;
 
 	// if we have irretrievably lost a reliable command, drop the connection
 	if ( serverCommandNumber <= clc.serverCommandSequence - MAX_RELIABLE_COMMANDS ) {
@@ -301,14 +317,22 @@ qboolean CL_GetServerCommand( int serverCommandNumber ) {
 	s = clc.serverCommands[ serverCommandNumber & ( MAX_RELIABLE_COMMANDS - 1 ) ];
 	clc.lastExecutedServerCommand = serverCommandNumber;
 
-	Com_DPrintf( "serverCommand: %i : %s\n", serverCommandNumber, s );
+	if ( cl_showServerCommands->integer ) {         // NERVE - SMF
+		Com_DPrintf( "serverCommand: %i : %s\n", serverCommandNumber, s );
+	}
 
 rescan:
 	Cmd_TokenizeString( s );
 	cmd = Cmd_Argv( 0 );
+	argc = Cmd_Argc();
 
 	if ( !strcmp( cmd, "disconnect" ) ) {
-		Com_Error( ERR_SERVERDISCONNECT,"Server disconnected\n" );
+		// NERVE - SMF - allow server to indicate why they were disconnected
+		if ( argc >= 2 ) {
+			Com_Error( ERR_SERVERDISCONNECT, va( "Server Disconnected - %s", Cmd_Argv( 1 ) ) );
+		} else {
+			Com_Error( ERR_SERVERDISCONNECT,"Server disconnected\n" );
+		}
 	}
 
 	if ( !strcmp( cmd, "bcs0" ) ) {
@@ -386,50 +410,53 @@ rescan:
 	return qtrue;
 }
 
+// DHM - Nerve :: Copied from server to here
 /*
 ====================
 CL_SetExpectedHunkUsage
- 
+
   Sets com_expectedhunkusage, so the client knows how to draw the percentage bar
 ====================
 */
 void CL_SetExpectedHunkUsage( const char *mapname ) {
-        int handle;
-        char *memlistfile = "hunkusage.dat";
-        char *buf;
-        char *buftrav;
-        char *token;
-        int len; 
+	int handle;
+	char *memlistfile = "hunkusage.dat";
+	char *buf;
+	char *buftrav;
+	char *token;
+	int len;
 
-        len = FS_FOpenFileByMode( memlistfile, &handle, FS_READ );
-        if ( len >= 0 ) { // the file exists, so read it in, strip out the current entry for this map, and save it out, so we can append the new value
+	len = FS_FOpenFileByMode( memlistfile, &handle, FS_READ );
+	if ( len >= 0 ) { // the file exists, so read it in, strip out the current entry for this map, and save it out, so we can append the new value
 
-                buf = (char *)Z_Malloc( len + 1 ); 
-               memset( buf, 0, len + 1 ); 
+		buf = (char *)Z_Malloc( len + 1 );
+		memset( buf, 0, len + 1 );
 
-                FS_Read( (void *)buf, len, handle );
-                FS_FCloseFile( handle );
+		FS_Read( (void *)buf, len, handle );
+		FS_FCloseFile( handle );
 
-                // now parse the file, filtering out the current map
-                buftrav = buf; 
-                while ( ( token = COM_Parse( &buftrav ) ) && token[0] ) {
-                        if ( !Q_strcasecmp( token, (char *)mapname ) ) {
-                                // found a match
-                                token = COM_Parse( &buftrav );  // read the size
-                                if ( token && token[0] ) {
-                                        // this is the usage
-                                        Cvar_Set( "com_expectedhunkusage", token );
-                                        Z_Free( buf );
-                                        return;
-                                }    
-                        }    
-                }    
+		// now parse the file, filtering out the current map
+		buftrav = buf;
+		while ( ( token = COM_Parse( &buftrav ) ) && token[0] ) {
+			if ( !Q_strcasecmp( token, (char *)mapname ) ) {
+				// found a match
+				token = COM_Parse( &buftrav );  // read the size
+				if ( token && token[0] ) {
+					// this is the usage
+					Cvar_Set( "com_expectedhunkusage", token );
+					Z_Free( buf );
+					return;
+				}
+			}
+		}
 
-                Z_Free( buf );
-        }    
-        // just set it to a negative number,so the cgame knows not to draw the percent bar
-        Cvar_Set( "com_expectedhunkusage", "-1" );
+		Z_Free( buf );
+	}
+	// just set it to a negative number,so the cgame knows not to draw the percent bar
+	Cvar_Set( "com_expectedhunkusage", "-1" );
 }
+
+// dhm - nerve
 
 /*
 ====================
@@ -441,9 +468,15 @@ Just adds default parameters that cgame doesn't need to know about
 void CL_CM_LoadMap( const char *mapname ) {
 	int checksum;
 
-        // if we are not running a server, give the client some hunkinfo so he can draw a loading bar
-        if ( !com_sv_running->integer )
-                CL_SetExpectedHunkUsage( mapname );
+	// DHM - Nerve :: If we are not running the server, then set expected usage here
+	if ( !com_sv_running->integer ) {
+		CL_SetExpectedHunkUsage( mapname );
+	} else
+	{
+		// TTimo
+		// catch here when a local server is started to avoid outdated com_errorDiagnoseIP
+		Cvar_Set( "com_errorDiagnoseIP", "" );
+	}
 
 	CM_LoadMap( mapname, qtrue, &checksum );
 }
@@ -584,22 +617,15 @@ int CL_CgameSystemCalls( int *args ) {
 		return 0;
 	case CG_S_CLEARLOOPINGSOUNDS:
 		S_ClearLoopingSounds(); // (SA) modified so no_pvs sounds can function
-		// RF, if killall, then stop all sounds
-		if ( args[1] == 1 ) {
-			S_ClearSounds( qtrue, qfalse );
-		} else if ( args[1] == 2 ) {
-			S_ClearSounds( qtrue, qtrue );
-		}
 		return 0;
 	case CG_S_ADDLOOPINGSOUND:
 		// FIXME MrE: handling of looping sounds changed
 		S_AddLoopingSound( args[1], VMA( 2 ), VMA( 3 ), args[4], args[5], args[6] );
 		return 0;
-// not in use
-//	case CG_S_ADDREALLOOPINGSOUND:
-//		S_AddLoopingSound( args[1], VMA(2), VMA(3), args[4], args[5], args[6] );
-//		//S_AddRealLoopingSound( args[1], VMA(2), VMA(3), args[4], args[5] );
-//		return 0;
+	/*case CG_S_ADDREALLOOPINGSOUND:
+		S_AddLoopingSound( args[1], VMA( 2 ), VMA( 3 ), args[4], args[5], args[6] );
+		//S_AddRealLoopingSound( args[1], VMA(2), VMA(3), args[4], args[5] );
+		return 0;*/
 
 //----(SA)	added
 	case CG_S_STOPSTREAMINGSOUND:
@@ -628,7 +654,7 @@ int CL_CgameSystemCalls( int *args ) {
 		return S_RegisterSound( VMA( 1 ), qfalse );
 #endif  ///// (SA) DOOMSOUND
 	case CG_S_STARTBACKGROUNDTRACK:
-		S_StartBackgroundTrack( VMA( 1 ), VMA( 2 ), args[3] );  //----(SA)	added fadeup time
+		S_StartBackgroundTrack( VMA( 1 ), VMA( 2 ) );
 		return 0;
 	case CG_S_FADESTREAMINGSOUND:
 		S_FadeStreamingSound( VMF( 1 ), args[2], args[3] ); //----(SA)	added music/all-streaming options
@@ -700,9 +726,9 @@ int CL_CgameSystemCalls( int *args ) {
 	case CG_R_DRAWSTRETCHPIC:
 		re.DrawStretchPic( VMF( 1 ), VMF( 2 ), VMF( 3 ), VMF( 4 ), VMF( 5 ), VMF( 6 ), VMF( 7 ), VMF( 8 ), args[9] );
 		return 0;
-        case CG_R_DRAWROTATEDPIC:
-                re.DrawRotatedPic( VMF( 1 ), VMF( 2 ), VMF( 3 ), VMF( 4 ), VMF( 5 ), VMF( 6 ), VMF( 7 ), VMF( 8 ), args[9], VMF( 10 ) ); 
-                return 0;
+	case CG_R_DRAWROTATEDPIC:
+		re.DrawRotatedPic( VMF( 1 ), VMF( 2 ), VMF( 3 ), VMF( 4 ), VMF( 5 ), VMF( 6 ), VMF( 7 ), VMF( 8 ), args[9], VMF( 10 ) );
+		return 0;
 	case CG_R_DRAWSTRETCHPIC_GRADIENT:
 		re.DrawStretchPicGradient( VMF( 1 ), VMF( 2 ), VMF( 3 ), VMF( 4 ), VMF( 5 ), VMF( 6 ), VMF( 7 ), VMF( 8 ), args[9], VMA( 10 ), args[11] );
 		return 0;
@@ -729,8 +755,11 @@ int CL_CgameSystemCalls( int *args ) {
 	case CG_GETUSERCMD:
 		return CL_GetUserCmd( args[1], VMA( 2 ) );
 	case CG_SETUSERCMDVALUE:
-		CL_SetUserCmdValue( args[1], args[2], VMF( 3 ), args[4] );    //----(SA)	modified	// NERVE - SMF - added fourth arg [cld]
+		CL_SetUserCmdValue( args[1], args[2], VMF( 3 ), args[4]);
 		return 0;
+	/*case CG_SETCLIENTLERPORIGIN:
+		CL_SetClientLerpOrigin( VMF( 1 ), VMF( 2 ), VMF( 3 ) );
+		return 0;*/
 	case CG_MEMORY_REMAINING:
 		return Hunk_MemoryRemaining();
 	case CG_KEY_ISDOWN:
@@ -872,6 +901,8 @@ int CL_CgameSystemCalls( int *args ) {
 #endif
 			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_LIMBO" ) )    {
 				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_LIMBO );
+			//} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_AUTOUPDATE" ) )    {
+		//		VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_AUTOUPDATE );
 			}
 			// -NERVE - SMF
 			else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "hbook1" ) ) {   //----(SA)
@@ -898,23 +929,39 @@ int CL_CgameSystemCalls( int *args ) {
 			CL_AddToLimboChat( VMA( 1 ) );
 		}
 		return 0;
+
+	/*case CG_KEY_GETBINDINGBUF:
+		Key_GetBindingBuf( args[1], VMA( 2 ), args[3] );
+		return 0;
+
+	case CG_KEY_SETBINDING:
+		Key_SetBinding( args[1], VMA( 2 ) );
+		return 0;
+
+	case CG_KEY_KEYNUMTOSTRINGBUF:
+		Key_KeynumToStringBuf( args[1], VMA( 2 ), args[3] );
+		return 0;
+
+	case CG_TRANSLATE_STRING:
+		CL_TranslateString( VMA( 1 ), VMA( 2 ) );
+		return 0;*/
 		// - NERVE - SMF
 
 	case CG_GETMODELINFO:
-                // fretn: FIXME
-                // doesn't work for COOP mode
+		// fretn: FIXME
+		// doesn't work for COOP mode
 		return SV_GetModelInfo( args[1], VMA( 2 ), VMA( 3 ) );
 
-                // fretn - render to texture
+        // fretn - render to texture
         case CG_R_RENDERTOTEXTURE:
                 re.RenderToTexture( args[1], args[2], args[3], args[4], args[5] );
                 return 0;
-                //bani
+        //bani
         case CG_R_GETTEXTUREID:
                 return re.GetTextureId( VMA( 1 ) ); 
-                //bani - flush gl rendering buffers
+        //bani - flush gl rendering buffers
 #ifdef LOCALISATION
-                // - NERVE - SMF
+        // - NERVE - SMF
         case CG_TRANSLATE_STRING:
                 CL_TranslateString( VMA( 1 ), VMA( 2 ) ); 
                 return 0;
@@ -1055,9 +1102,7 @@ void CL_InitCGame( void ) {
 	} else {
 		interpret = Cvar_VariableValue( "vm_cgame" );
 	}
-	//cgvm = VM_Create( "cgame", CL_CgameSystemCalls, interpret );
 	cgvm = VM_Create( "cgame", CL_CgameSystemCalls, VMI_NATIVE );
-//	cgvm = VM_Create( "cgame", CL_CgameSystemCalls, Cvar_VariableValue( "vm_cgame" ) );
 	if ( !cgvm ) {
 		Com_Error( ERR_DROP, "VM_Create on cgame failed" );
 	}
@@ -1067,7 +1112,6 @@ void CL_InitCGame( void ) {
 	// use the lastExecutedServerCommand instead of the serverCommandSequence
 	// otherwise server commands sent just before a gamestate are dropped
 	VM_Call( cgvm, CG_INIT, clc.serverMessageSequence, clc.lastExecutedServerCommand, clc.clientNum );
-//	VM_Call( cgvm, CG_INIT, clc.serverMessageSequence, clc.serverCommandSequence );
 
 	// we will send a usercmd this frame, which
 	// will cause the server to send us the first snapshot
@@ -1278,10 +1322,6 @@ void CL_SetCGameTime( void ) {
 			// do nothing?
 			CL_FirstSnapshot();
 		} else {
-                        //fretn - testing .. if a second player joins the game an error is dropped after a while ..
-                        //I think this is solved by adding sv.time from ioq3
-			//CL_FirstSnapshot();
-			//Com_Printf( "ERROR_DROP: cl.snap.serverTime < cl.oldFrameServerTime\n" );
 			Com_Error( ERR_DROP, "cl.snap.serverTime < cl.oldFrameServerTime" );
 		}
 	}

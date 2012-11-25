@@ -32,6 +32,7 @@ If you have questions concerning this license or the applicable additional terms
  *
  * desc:		portable code to mix sounds for snd_dma.c
  *
+ * $Archive: /Wolfenstein MP/src/client/snd_mix.c $
  *
  *****************************************************************************/
 
@@ -45,6 +46,7 @@ int     *snd_p;
 int snd_linear_count;
 short   *snd_out;
 
+//fretn
 //#if !( defined __linux__ && defined __i386__ )
 //#if !id386
 
@@ -78,6 +80,7 @@ void S_WriteLinearBlastStereo16( void ) {
 		}
 	}
 }
+
 /*
 #else // !id386
 
@@ -130,7 +133,6 @@ LClampDone2:
 
 // snd_mixa.s
 void S_WriteLinearBlastStereo16( void );
-
 #endif
 */
 
@@ -193,11 +195,8 @@ void S_TransferPaintBuffer( int endtime ) {
 
 		// write a fixed sine wave
 		count = ( endtime - s_paintedtime );
-		for ( i = 0 ; i < count ; i++ ) {
-			float v;
-			v = sin( M_PI * 2 * i / 64 );
-			paintbuffer[i].left = paintbuffer[i].right = v * 0x400000;
-		}
+		for ( i = 0 ; i < count ; i++ )
+			paintbuffer[i].left = paintbuffer[i].right = sin( ( s_paintedtime + i ) * 0.1 ) * 20000 * 256;
 	}
 
 
@@ -479,6 +478,14 @@ int S_GetVoiceAmplitude( int entityNum ) {
 
 	return (int)s_entityTalkAmplitude[entityNum];
 }
+#else
+
+// NERVE - SMF
+int S_GetVoiceAmplitude( int entityNum ) {
+	return 0;
+}
+// -NERVE - SMF
+
 #endif
 
 /*
@@ -726,7 +733,7 @@ void S_PaintChannelFromMuLaw( channel_t *ch, sfx_t *sc, int count, int sampleOff
 	}
 }
 
-#define TALK_FUTURE_SEC 0.25        // go this far into the future (seconds)
+#define TALK_FUTURE_SEC 0.2     // go this far into the future (seconds)
 
 /*
 ===================
@@ -741,16 +748,11 @@ void S_PaintChannels( int endtime ) {
 	int ltime, count;
 	int sampleOffset;
 	streamingSound_t *ss;
-	qboolean firstPass = qtrue;
 
 	if ( s_mute->value ) {
 		snd_vol = 0;
 	} else {
 		snd_vol = s_volume->value * 256;
-	}
-
-	if ( snd.volCurrent < 1 ) { // only when fading (at map start/end)
-		snd_vol = (int)( (float)snd_vol * snd.volCurrent );
 	}
 
 	//Com_Printf ("%i to %i\n", s_paintedtime, endtime);
@@ -759,7 +761,6 @@ void S_PaintChannels( int endtime ) {
 		// we may need to fill it multiple times
 		end = endtime;
 		if ( endtime - s_paintedtime > PAINTBUFFER_SIZE ) {
-			Com_DPrintf( "endtime exceeds PAINTBUFFER_SIZE %i\n", endtime - s_paintedtime );
 			end = s_paintedtime + PAINTBUFFER_SIZE;
 		}
 
@@ -779,7 +780,6 @@ void S_PaintChannels( int endtime ) {
 				// precalculating this saves zillions of cycles
 //DAJ				fsir = ((float)s_rawVolume[si].left/255.0f);
 //DAJ				fsil = ((float)s_rawVolume[si].right/255.0f);
-
 				for ( i = s_paintedtime ; i < stop ; i++ ) {
 					s = i & ( MAX_RAW_SAMPLES - 1 );
 //DAJ					paintbuffer[i-s_paintedtime].left += (int)((float)s_rawsamples[si][s].left * fsir);
@@ -788,9 +788,8 @@ void S_PaintChannels( int endtime ) {
 					paintbuffer[i - s_paintedtime].left += ( s_rawsamples[si][s].left * s_rawVolume[si].left ) >> 8;
 					paintbuffer[i - s_paintedtime].right += ( s_rawsamples[si][s].right * s_rawVolume[si].right ) >> 8;
 				}
-
 #ifdef TALKANIM
-				if ( firstPass && ss->channel == CHAN_VOICE && ss->entnum < MAX_CLIENTS ) {
+				if ( ss->channel == CHAN_VOICE && ss->entnum < MAX_CLIENTS ) {
 					int talkcnt, talktime;
 					int sfx_count, vstop;
 					int data;
@@ -836,10 +835,15 @@ void S_PaintChannels( int endtime ) {
 			ltime = s_paintedtime;
 			sc = ch->thesfx;
 
-			// (SA) hmm, why was this commented out?
-			if ( !sc->inMemory ) {
-				S_memoryLoad( sc );
+//			if (!sc->inMemory) {
+//				S_memoryLoad(sc);
+//			}
+
+			// DHM - Nerve :: Somehow ch->startSample can get here with values around 0x40000000
+			if ( ch->startSample > ltime ) {
+				ch->startSample = ltime;
 			}
+			// dhm - end
 
 			sampleOffset = ltime - ch->startSample;
 			count = end - ltime;
@@ -851,7 +855,7 @@ void S_PaintChannels( int endtime ) {
 #ifdef TALKANIM
 				// Ridah, talking animations
 				// TODO: check that this entity has talking animations enabled!
-				if ( firstPass && ch->entchannel == CHAN_VOICE && ch->entnum < MAX_CLIENTS ) {
+				if ( ch->entchannel == CHAN_VOICE && ch->entnum < MAX_CLIENTS ) {
 					int talkofs, talkcnt, talktime;
 					// we need to go into the future, since the interpolated behaviour of the facial
 					// animation creates lag in the time it takes to display the current facial frame
@@ -911,7 +915,7 @@ void S_PaintChannels( int endtime ) {
 #ifdef TALKANIM
 					// Ridah, talking animations
 					// TODO: check that this entity has talking animations enabled!
-					if ( firstPass && ch->entchannel == CHAN_VOICE && ch->entnum < MAX_CLIENTS ) {
+					if ( ch->entchannel == CHAN_VOICE && ch->entnum < MAX_CLIENTS ) {
 						int talkofs, talkcnt, talktime;
 						// we need to go into the future, since the interpolated behaviour of the facial
 						// animation creates lag in the time it takes to display the current facial frame
@@ -948,6 +952,5 @@ void S_PaintChannels( int endtime ) {
 		// transfer out according to DMA format
 		S_TransferPaintBuffer( end );
 		s_paintedtime = end;
-		firstPass = qfalse;
 	}
 }

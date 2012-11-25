@@ -2089,6 +2089,9 @@ void LogExit( const char *string ) {
 		numSorted = MAX_COOP_CLIENTS;
 	}
 
+        //fretn send gameCompleteStatus message to master servers
+        trap_SendConsoleCommand( EXEC_APPEND, "gameCompleteStatus\n" );
+
 	for ( i = 0 ; i < numSorted ; i++ ) {
 		int ping;
 

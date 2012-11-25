@@ -72,6 +72,9 @@ cvar_t      *con_debug;
 cvar_t      *con_conspeed;
 cvar_t      *con_notifytime;
 
+// DHM - Nerve :: Must hold CTRL + SHIFT + ~ to get console
+cvar_t      *con_restricted;
+
 #define DEFAULT_CONSOLE_WIDTH   78
 
 vec4_t console_color = {1.0, 1.0, 1.0, 1.0};
@@ -86,6 +89,10 @@ void Con_ToggleConsole_f( void ) {
 	// closing a full screen console restarts the demo loop
 	if ( cls.state == CA_DISCONNECTED && cls.keyCatchers == KEYCATCH_CONSOLE ) {
 		CL_StartDemoLoop();
+		return;
+	}
+
+	if ( con_restricted->integer && ( !keys[K_CTRL].down || !keys[K_SHIFT].down ) ) {
 		return;
 	}
 
@@ -104,7 +111,6 @@ Con_MessageMode_f
 void Con_MessageMode_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qfalse;
-//	chat_limbo = qfalse;		// NERVE - SMF
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 
@@ -119,7 +125,6 @@ Con_MessageMode2_f
 void Con_MessageMode2_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qtrue;
-//	chat_limbo = qfalse;		// NERVE - SMF
 	Field_Clear( &chatField );
 	chatField.widthInChars = 25;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -137,7 +142,6 @@ void Con_MessageMode3_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
-//	chat_limbo = qfalse;		// NERVE - SMF
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -155,7 +159,6 @@ void Con_MessageMode4_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
-//	chat_limbo = qfalse;		// NERVE - SMF
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -168,13 +171,7 @@ Con_StartLimboMode_f
 ================
 */
 void Con_StartLimboMode_f( void ) {
-//	chat_playerNum = -1;
-//	chat_team = qfalse;
-	chat_limbo = qtrue;     // NERVE - SMF
-//	Field_Clear( &chatField );
-//	chatField.widthInChars = 30;
-
-//	cls.keyCatchers ^= KEYCATCH_MESSAGE;
+	chat_limbo = qtrue;
 }
 
 /*
@@ -183,13 +180,7 @@ Con_StopLimboMode_f
 ================
 */
 void Con_StopLimboMode_f( void ) {
-//	chat_playerNum = -1;
-//	chat_team = qfalse;
-	chat_limbo = qfalse;        // NERVE - SMF
-//	Field_Clear( &chatField );
-//	chatField.widthInChars = 30;
-
-//	cls.keyCatchers &= ~KEYCATCH_MESSAGE;
+	chat_limbo = qfalse;
 }
 // -NERVE - SMF
 
@@ -367,9 +358,10 @@ Con_Init
 void Con_Init( void ) {
 	int i;
 
-	con_notifytime = Cvar_Get( "con_notifytime", "3", 0 );
+	con_notifytime = Cvar_Get( "con_notifytime", "7", 0 ); // JPW NERVE increased per id req for obits
 	con_conspeed = Cvar_Get( "scr_conspeed", "3", 0 );
 	con_debug = Cvar_Get( "con_debug", "0", CVAR_ARCHIVE ); //----(SA)	added
+	con_restricted = Cvar_Get( "con_restricted", "0", CVAR_INIT );      // DHM - Nerve
 
 	Field_Clear( &g_consoleField );
 	g_consoleField.widthInChars = g_console_field_width;
@@ -400,11 +392,11 @@ void Con_Linefeed( qboolean skipnotify ) {
 
 	// mark time for transparent overlay
 	if ( con.current >= 0 ) {
-                if ( skipnotify ) { 
-                        con.times[con.current % NUM_CON_TIMES] = 0;
-                } else {
-                        con.times[con.current % NUM_CON_TIMES] = cls.realtime;
-                } 
+		if ( skipnotify ) {
+			con.times[con.current % NUM_CON_TIMES] = 0;
+		} else {
+			con.times[con.current % NUM_CON_TIMES] = cls.realtime;
+		}
 	}
 
 	con.x = 0;
@@ -429,14 +421,14 @@ void CL_ConsolePrint( char *txt ) {
 	int y;
 	int c, l;
 	int color;
-        qboolean skipnotify = qfalse;
-        int prev;
+	qboolean skipnotify = qfalse;       // NERVE - SMF
+	int prev;                           // NERVE - SMF
 
-        // NERVE - SMF - work around for text that shows up in console but not in notify
-        if ( !Q_strncmp( txt, "[skipnotify]", 12 ) ) {
-                skipnotify = qtrue;
-                txt += 12;
-        }
+	// NERVE - SMF - work around for text that shows up in console but not in notify
+	if ( !Q_strncmp( txt, "[skipnotify]", 12 ) ) {
+		skipnotify = qtrue;
+		txt += 12;
+	}
 
 	// for some demos we don't want to ever show anything on the console
 	if ( cl_noprint && cl_noprint->integer ) {
@@ -503,17 +495,17 @@ void CL_ConsolePrint( char *txt ) {
 	// mark time for transparent overlay
 
 	if ( con.current >= 0 ) {
-                // NERVE - SMF
-                if ( skipnotify ) {
-                        prev = con.current % NUM_CON_TIMES - 1;
-                        if ( prev < 0 ) {
-                                prev = NUM_CON_TIMES - 1;
-                        }
-                        con.times[prev] = 0;
-                } else {
-                        // -NERVE - SMF
-                        con.times[con.current % NUM_CON_TIMES] = cls.realtime;
-                }
+		// NERVE - SMF
+		if ( skipnotify ) {
+			prev = con.current % NUM_CON_TIMES - 1;
+			if ( prev < 0 ) {
+				prev = NUM_CON_TIMES - 1;
+			}
+			con.times[prev] = 0;
+		} else {
+			// -NERVE - SMF
+			con.times[con.current % NUM_CON_TIMES] = cls.realtime;
+		}
 	}
 }
 
@@ -615,12 +607,26 @@ void Con_DrawNotify( void ) {
 	// draw the chat line
 	if ( cls.keyCatchers & KEYCATCH_MESSAGE ) {
 		if ( chat_team ) {
+#ifdef LOCALISATION
+			char buf[128];
+			CL_TranslateString( "say_team:", buf );
+			SCR_DrawBigString( 8, v, buf, 1.0f );
+			skip = strlen( buf ) + 2;
+#else
 			SCR_DrawBigString( 8, v, "say_team:", 1.0f );
-			skip = 11;
+                        skip = 11;
+#endif
 		} else
 		{
+#ifdef LOCALISATION
+			char buf[128];
+			CL_TranslateString( "say:", buf );
+			SCR_DrawBigString( 8, v, buf, 1.0f );
+			skip = strlen( buf ) + 1;
+#else
 			SCR_DrawBigString( 8, v, "say:", 1.0f );
-			skip = 5;
+                        skip = 5;
+#endif
 		}
 
 		Field_BigDraw( &chatField, skip * BIGCHAR_WIDTH, v,
@@ -645,7 +651,6 @@ void Con_DrawSolidConsole( float frac ) {
 	short           *text;
 	int row;
 	int lines;
-//	qhandle_t		conShader;
 	int currentColor;
 	vec4_t color;
 
@@ -669,7 +674,8 @@ void Con_DrawSolidConsole( float frac ) {
 	} else {
 		SCR_DrawPic( 0, 0, SCREEN_WIDTH, y, cls.consoleShader );
 
-		if ( frac >= 0.5f ) {  // only draw when the console is down all the way (for now)
+		// NERVE - SMF - merged from WolfSP
+		if ( frac >= 0.5f ) {
 			color[0] = color[1] = color[2] = frac * 2.0f;
 			color[3] = 1.0f;
 			re.SetColor( color );
@@ -678,6 +684,7 @@ void Con_DrawSolidConsole( float frac ) {
 			SCR_DrawPic( 192, 70, 256, 128, cls.consoleShader2 );
 			re.SetColor( NULL );
 		}
+		// -NERVE - SMF
 	}
 
 	color[0] = 0;
@@ -767,27 +774,27 @@ Con_DrawConsole
 */
 void Con_DrawConsole( void ) {
 
-        // check for console width changes from a vid mode change
-        Con_CheckResize();
+	// check for console width changes from a vid mode change
+	Con_CheckResize();
 
-        // if disconnected, render console full screen
-        if ( cls.state == CA_DISCONNECTED ) { 
-                if ( !( cls.keyCatchers & ( KEYCATCH_UI | KEYCATCH_CGAME ) ) ) { 
-                        Con_DrawSolidConsole( 1.0 );
-                        return;
-                }   
-        }   
+	// if disconnected, render console full screen
+	if ( cls.state == CA_DISCONNECTED ) {
+		if ( !( cls.keyCatchers & ( KEYCATCH_UI | KEYCATCH_CGAME ) ) ) {
+			Con_DrawSolidConsole( 1.0 );
+			return;
+		}
+	}
 
-        if ( con.displayFrac ) { 
-                Con_DrawSolidConsole( con.displayFrac );
-        } else {
-                // draw notify lines
-                if ( cls.state == CA_ACTIVE ) { 
-                        Con_DrawNotify();
-                }   
-        } 
+	if ( con.displayFrac ) {
+		Con_DrawSolidConsole( con.displayFrac );
+	} else {
+		// draw notify lines
+		if ( cls.state == CA_ACTIVE ) {
+			Con_DrawNotify();
+		}
+	}
 
-        return;
+	return;
 }
 
 //================================================================

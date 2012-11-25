@@ -35,11 +35,12 @@ If you have questions concerning this license or the applicable additional terms
 
 //=============================================================================
 
-
 #define PERS_SCORE              0       // !!! MUST NOT CHANGE, SERVER AND
 										// GAME BOTH REFERENCE !!!
 
 #define MAX_ENT_CLUSTERS    16
+
+#define MAX_BPS_WINDOW      20          // NERVE - SMF - net debugging
 
 typedef struct svEntity_s {
 	struct worldSector_s *worldSector;
@@ -64,10 +65,10 @@ typedef struct {
 	qboolean restarting;                // if true, send configstring changes during SS_LOADING
 	int serverId;                       // changes each server start
 	int restartedServerId;              // serverId before a map_restart
-	int checksumFeed;                   //
-        // show_bug.cgi?id=475
-        // the serverId associated with the current checksumFeed (always <= serverId)
-        int checksumFeedServerId;
+	int checksumFeed;                   // the feed key that we use to compute the pure checksum strings
+	// show_bug.cgi?id=475
+	// the serverId associated with the current checksumFeed (always <= serverId)
+	int checksumFeedServerId;
 	int snapshotCounter;                // incremented for each snapshot built
 	int timeResidual;                   // <= 1000 / sv_frame->value
 	int nextFrameTime;                  // when time > nextFrameTime, process world
@@ -86,7 +87,21 @@ typedef struct {
 	int gameClientSize;                 // will be > sizeof(playerState_t) due to game private data
 
 	int restartTime;
-        int time;
+	int time;
+
+	// NERVE - SMF - net debugging
+	int bpsWindow[MAX_BPS_WINDOW];
+	int bpsWindowSteps;
+	int bpsTotalBytes;
+	int bpsMaxBytes;
+
+	int ubpsWindow[MAX_BPS_WINDOW];
+	int ubpsTotalBytes;
+	int ubpsMaxBytes;
+
+	float ucompAve;
+	int ucompNum;
+	// -NERVE - SMF
 } server_t;
 
 
@@ -108,8 +123,7 @@ typedef struct {
 
 typedef enum {
 	CS_FREE,        // can be reused for a new connection
-	CS_ZOMBIE,      // client has been disconnected, but don't reuse
-					// connection for a couple seconds
+	CS_ZOMBIE,      // client has been disconnected, but don't reuse connection for a couple seconds
 	CS_CONNECTED,   // has been assigned to a client_t, but no gamestate yet
 	CS_PRIMED,      // gamestate has been sent, but client hasn't sent a usercmd
 	CS_ACTIVE       // client is fully in game
@@ -129,19 +143,17 @@ typedef struct {
 	//
 	char    *rover;
 } reliableCommands_t;
-
 typedef struct netchan_buffer_s {
-        msg_t msg;
-        byte msgBuffer[MAX_MSGLEN];
-        struct netchan_buffer_s *next;
+	msg_t msg;
+	byte msgBuffer[MAX_MSGLEN];
+	struct netchan_buffer_s *next;
 } netchan_buffer_t;
 
 typedef struct client_s {
 	clientState_t state;
 	char userinfo[MAX_INFO_STRING];                 // name, etc
 
-	char			reliableCommands[MAX_RELIABLE_COMMANDS][MAX_STRING_CHARS];
-	//reliableCommands_t reliableCommands;
+	char reliableCommands[MAX_RELIABLE_COMMANDS][MAX_STRING_CHARS];
 	int reliableSequence;                   // last added reliable message, not necesarily sent or acknowledged yet
 	int reliableAcknowledge;                // last acknowledged reliable message
 	int reliableSent;                       // last sent reliable message, not necesarily acknowledged yet
@@ -182,15 +194,15 @@ typedef struct client_s {
 	int rate;                           // bytes / second
 	int snapshotMsec;                   // requests a snapshot every snapshotMsec unless rate choked
 	int pureAuthentic;
+	qboolean gotCP;  // TTimo - additional flag to distinguish between a bad pure checksum, and no cp command at all
 	netchan_t netchan;
-        qboolean gotCP;  // TTimo - additional flag to distinguish between a bad pure checksum, and no cp command at all
-        int oldServerTime;
-        // TTimo
-        // queuing outgoing fragmented messages to send them properly, without udp packet bursts
-        // in case large fragmented messages are stacking up
-        // buffer them into this queue, and hand them out to netchan as needed
-        netchan_buffer_t *netchan_start_queue;
-        netchan_buffer_t **netchan_end_queue;
+	int oldServerTime;
+	// TTimo
+	// queuing outgoing fragmented messages to send them properly, without udp packet bursts
+	// in case large fragmented messages are stacking up
+	// buffer them into this queue, and hand them out to netchan as needed
+	netchan_buffer_t *netchan_start_queue;
+	netchan_buffer_t **netchan_end_queue;
 } client_t;
 
 //=============================================================================
@@ -209,8 +221,8 @@ typedef struct {
 	int time;                       // time the last packet was sent to the autherize server
 	int pingTime;                   // time the challenge response was sent to client
 	int firstTime;                  // time the adr was first used, for authorize timeout checks
-        int firstPing;                  // Used for min and max ping checks
-        qboolean connected;
+	int firstPing;                  // Used for min and max ping checks
+	qboolean connected;
 } challenge_t;
 
 
@@ -236,11 +248,31 @@ typedef struct {
 	netadr_t authorizeAddress;              // for rcon return messages
 } serverStatic_t;
 
+//================
+// DHM - Nerve
+#ifdef UPDATE_SERVER
+
+typedef struct {
+	char version[MAX_QPATH];
+	char platform[MAX_QPATH];
+	char installer[MAX_QPATH];
+} versionMapping_t;
+
+
+#define MAX_UPDATE_VERSIONS 128
+extern versionMapping_t versionMap[MAX_UPDATE_VERSIONS];
+extern int numVersions;
+// Maps client version to appropriate installer
+
+#endif
+// DHM - Nerve
+
 //=============================================================================
 
 extern serverStatic_t svs;                  // persistant server info across maps
 extern server_t sv;                         // cleared each map
-extern vm_t            *gvm;                // game virtual machine
+extern vm_t            *gvm;                // game shared library
+
 
 #define MAX_MASTER_SERVERS  5
 
@@ -250,6 +282,9 @@ extern cvar_t  *sv_zombietime;
 extern cvar_t  *sv_rconPassword;
 extern cvar_t  *sv_privatePassword;
 extern cvar_t  *sv_allowDownload;
+extern cvar_t  *sv_friendlyFire;        // NERVE - SMF
+extern cvar_t  *sv_maxlives;            // NERVE - SMF
+extern cvar_t  *sv_tourney;             // NERVE - SMF
 extern cvar_t  *sv_maxclients;
 extern cvar_t  *sv_maxcoopclients;
 extern cvar_t  *sv_privateClients;
@@ -266,16 +301,23 @@ extern cvar_t  *sv_maxRate;
 extern cvar_t  *sv_minPing;
 extern cvar_t  *sv_maxPing;
 extern cvar_t  *sv_gametype;
-//fretn
 extern cvar_t  *sv_pure;
 extern cvar_t  *sv_floodProtect;
 extern cvar_t  *sv_allowAnonymous;
+extern cvar_t  *sv_lanForceRate;
+extern cvar_t  *sv_onlyVisibleClients;
+
+extern cvar_t  *sv_showAverageBPS;          // NERVE - SMF - net debugging
 
 // Rafael gameskill
 extern cvar_t  *sv_gameskill;
 // done
 
+// TTimo - autodl
+extern cvar_t *sv_dl_maxRate;
+
 extern cvar_t  *sv_reloading;   //----(SA)	added
+
 
 //===========================================================
 
@@ -293,6 +335,7 @@ void SV_RemoveOperatorCommands( void );
 void SV_MasterHeartbeat( const char *hbname );
 void SV_MasterShutdown( void );
 
+void SV_MasterGameCompleteStatus();     // NERVE - SMF
 
 
 
@@ -308,12 +351,6 @@ void SV_GetUserinfo( int index, char *buffer, int bufferSize );
 void SV_ChangeMaxClients( void );
 void SV_SpawnServer( char *server, qboolean killBots );
 
-//RF, reliable commands
-char *SV_GetReliableCommand( client_t *cl, int index );
-void SV_FreeAcknowledgedReliableCommands( client_t *cl );
-qboolean SV_AddReliableCommand( client_t *cl, int index, const char *cmd );
-void SV_InitReliableCommandsForClient( client_t *cl, int commands );
-void SV_FreeReliableCommandsForClient( client_t *cl );
 
 
 //
@@ -329,13 +366,13 @@ void SV_ExecuteClientMessage( client_t *cl, msg_t *msg );
 void SV_UserinfoChanged( client_t *cl );
 
 void SV_ClientEnterWorld( client_t *client, usercmd_t *cmd );
-void SV_FreeClient(client_t *client);
 void SV_DropClient( client_t *drop, const char *reason );
 
 void SV_ExecuteClientCommand( client_t *cl, const char *s, qboolean clientOK );
 void SV_ClientThink( client_t *cl, usercmd_t *cmd );
 
 void SV_WriteDownloadToClient( client_t *cl, msg_t *msg );
+void SV_FreeClient(client_t *client);
 
 //
 // sv_ccmds.c
@@ -439,10 +476,10 @@ void SV_ClipToEntity( trace_t *trace, const vec3_t start, const vec3_t mins, con
 //
 // sv_net_chan.c
 //
-void SV_Netchan_FreeQueue(client_t *client);
-void SV_Netchan_Transmit( client_t *client, msg_t *msg );    //int length, const byte *data );
+void SV_Netchan_Transmit( client_t *client, msg_t *msg );
 void SV_Netchan_TransmitNextFragment( client_t *client );
 qboolean SV_Netchan_Process( client_t *client, msg_t *msg );
+void SV_Netchan_FreeQueue(client_t *client);
 
 extern cvar_t  *sv_maxlives;
 extern cvar_t  *sv_reinforce;

@@ -400,7 +400,9 @@ void trap_S_StopBackgroundTrack( void ) {
 }
 
 void trap_S_StartBackgroundTrack( const char *intro, const char *loop, int fadeupTime ) {
-	syscall( UI_S_STARTBACKGROUNDTRACK, intro, loop, fadeupTime );
+	//syscall( UI_S_STARTBACKGROUNDTRACK, intro, loop, fadeupTime );
+        //fretn
+	syscall( UI_S_STARTBACKGROUNDTRACK, intro, loop );
 }
 
 int trap_RealTime( qtime_t *qtime ) {

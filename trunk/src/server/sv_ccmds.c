@@ -149,13 +149,13 @@ static void SV_Map_f( void ) {
 	char mapname[MAX_QPATH];
 	qboolean killBots, cheat, buildScript;
 	char expanded[MAX_QPATH];
-	int savegameTime = -1;
+	// TTimo: unused
+	int			savegameTime = -1;
 
 	map = Cmd_Argv( 1 );
 	if ( !map ) {
 		return;
 	}
-
 	buildScript = Cvar_VariableIntegerValue( "com_buildScript" );
 
 	if ( !buildScript && sv_reloading->integer && sv_reloading->integer != RELOAD_NEXTMAP ) {  // game is in 'reload' mode, don't allow starting new maps yet.
@@ -234,15 +234,17 @@ static void SV_Map_f( void ) {
 		return;
 	}
 
+#ifdef GS
+	Cvar_Set( "gamestate", va( "%i", GS_INITIALIZE ) );       // NERVE - SMF - reset gamestate on map/devmap
+#endif
 	Cvar_Set( "r_mapFogColor", "0" );       //----(SA)	added
 	Cvar_Set( "r_waterFogColor", "0" );     //----(SA)	added
 	Cvar_Set( "r_savegameFogColor", "0" );      //----(SA)	added
-
 	// force latched values to get set
 	Cvar_Get( "g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
-	Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH ); 
+	Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );
 	// done
 
 	Cvar_SetValue( "g_episode", 0 ); //----(SA) added
@@ -277,7 +279,6 @@ static void SV_Map_f( void ) {
                 }
 	} 
 
-
 	// save the map name here cause on a map restart we reload the q3config.cfg
 	// and thus nuke the arguments of the map command
 	Q_strncpyz( mapname, map, sizeof( mapname ) );
@@ -294,8 +295,73 @@ static void SV_Map_f( void ) {
 	} else {
 		Cvar_Set( "sv_cheats", "0" );
 	}
-
 }
+
+#ifdef GS
+/*
+================
+SV_CheckTransitionGameState
+
+NERVE - SMF
+================
+*/
+static qboolean SV_CheckTransitionGameState( gamestate_t new_gs, gamestate_t old_gs ) {
+	if ( old_gs == new_gs && new_gs != GS_PLAYING ) {
+		return qfalse;
+	}
+
+//	if ( old_gs == GS_WARMUP && new_gs != GS_WARMUP_COUNTDOWN )
+//		return qfalse;
+
+//	if ( old_gs == GS_WARMUP_COUNTDOWN && new_gs != GS_PLAYING )
+//		return qfalse;
+
+	if ( old_gs == GS_WAITING_FOR_PLAYERS && new_gs != GS_WARMUP ) {
+		return qfalse;
+	}
+
+	if ( old_gs == GS_INTERMISSION && new_gs != GS_WARMUP ) {
+		return qfalse;
+	}
+
+	if ( old_gs == GS_RESET && ( new_gs != GS_WAITING_FOR_PLAYERS && new_gs != GS_WARMUP ) ) {
+		return qfalse;
+	}
+
+	return qtrue;
+}
+
+/*
+================
+SV_TransitionGameState
+
+NERVE - SMF
+================
+*/
+static qboolean SV_TransitionGameState( gamestate_t new_gs, gamestate_t old_gs, int delay ) {
+	// we always do a warmup before starting match
+	if ( old_gs == GS_INTERMISSION && new_gs == GS_PLAYING ) {
+		new_gs = GS_WARMUP;
+	}
+
+	// check if its a valid state transition
+	if ( !SV_CheckTransitionGameState( new_gs, old_gs ) ) {
+		return qfalse;
+	}
+
+	if ( new_gs == GS_RESET ) {
+		if ( atoi( Cvar_VariableString( "g_noTeamSwitching" ) ) ) {
+			new_gs = GS_WAITING_FOR_PLAYERS;
+		} else {
+			new_gs = GS_WARMUP;
+		}
+	}
+
+	Cvar_Set( "gamestate", va( "%i", new_gs ) );
+
+	return qtrue;
+}
+#endif
 
 /*
 ================
@@ -310,7 +376,10 @@ static void SV_MapRestart_f( void ) {
 	client_t    *client;
 	char        *denied;
 	qboolean isBot;
-	int delay;
+	int delay = 0;
+#ifdef GS
+	gamestate_t new_gs, old_gs;     // NERVE - SMF
+#endif
 
 	// make sure we aren't restarting twice in the same frame
 	if ( com_frameTime == sv.serverId ) {
@@ -342,6 +411,21 @@ static void SV_MapRestart_f( void ) {
 		SV_SetConfigstring( CS_WARMUP, va( "%i", sv.restartTime ) );
 		return;
 	}
+
+#if GS
+	// NERVE - SMF - read in gamestate or just default to GS_PLAYING
+	old_gs = atoi( Cvar_VariableString( "gamestate" ) );
+
+	if ( Cmd_Argc() > 2 ) {
+		new_gs = atoi( Cmd_Argv( 2 ) );
+	} else {
+		new_gs = GS_PLAYING;
+	}
+
+	if ( !SV_TransitionGameState( new_gs, old_gs, delay ) ) {
+		return;
+	}
+#endif
 
 	// check for changes in variables that can't just be restarted
 	// check for maxclients change
@@ -382,13 +466,12 @@ static void SV_MapRestart_f( void ) {
 		Hunk_FreeTempMemory( buffer );
 	}
 	// done.
-
 	// toggle the server bit so clients can detect that a
 	// map_restart has happened
 	svs.snapFlagServerBit ^= SNAPFLAG_SERVERCOUNT;
 
 	// generate a new serverid
-	sv.restartedServerId = sv.serverId;
+	// TTimo - don't update restartedserverId there, otherwise we won't deal correctly with multiple map_restart
 	sv.serverId = com_frameTime;
 	Cvar_Set( "sv_serverid", va( "%i", sv.serverId ) );
 
@@ -409,15 +492,14 @@ static void SV_MapRestart_f( void ) {
 	sv.state = SS_LOADING;
 	sv.restarting = qtrue;
 
-        Cvar_Set( "sv_serverRestarting", "1" );
+	Cvar_Set( "sv_serverRestarting", "1" );
 
 	SV_RestartGameProgs();
 
 	// run a few frames to allow everything to settle
 	for ( i = 0 ; i < 3 ; i++ ) {
-		VM_Call( gvm, GAME_RUN_FRAME, sv.time );
+		VM_Call( gvm, GAME_RUN_FRAME, svs.time );
 		svs.time += 100;
-		sv.time += 100;
 	}
 
 	sv.state = SS_GAME;
@@ -457,11 +539,10 @@ static void SV_MapRestart_f( void ) {
 	}
 
 	// run another frame to allow things to look at all the players
-	VM_Call( gvm, GAME_RUN_FRAME, sv.time );
+	VM_Call( gvm, GAME_RUN_FRAME, svs.time );
 	svs.time += 100;
-	sv.time += 100;
 
-        Cvar_Set( "sv_serverRestarting", "0" );
+	Cvar_Set( "sv_serverRestarting", "0" );
 }
 
 /*
@@ -483,7 +564,6 @@ void    SV_LoadGame_f( void ) {
 //	if(sv_reloading->integer && sv_reloading->integer != RELOAD_FAILED )	// game is in 'reload' mode, don't allow starting new maps yet.
 		return;
 	}
-
 	Q_strncpyz( filename, Cmd_Argv( 1 ), sizeof( filename ) );
 	if ( !filename[0] ) {
 		Com_Printf( "You must specify a savegame to load\n" );
@@ -507,11 +587,11 @@ void    SV_LoadGame_f( void ) {
 		return;
 	}
 
-	//buffer = Hunk_AllocateTempMemory(size);
+	buffer = Hunk_AllocateTempMemory( size );
 	FS_ReadFile( filename, (void **)&buffer );
 
 	// read the mapname, if it is the same as the current map, then do a fast load
-	Com_sprintf( mapname, sizeof( mapname ), (const char*)( buffer + sizeof( int ) ) );
+	Com_sprintf( mapname, sizeof( mapname ), (const char*)(buffer + sizeof( int ) ) );
 
 	if ( com_sv_running->integer && ( com_frameTime != sv.serverId ) ) {
 		// check mapname
@@ -579,7 +659,7 @@ static void SV_Kick_f( void ) {
 				if ( cl->netchan.remoteAddress.type == NA_LOOPBACK ) {
 					continue;
 				}
-				SV_DropClient( cl, "was kicked" );
+				SV_DropClient( cl, "player kicked" ); // JPW NERVE to match front menu message
 				cl->lastPacketTime = svs.time;  // in case there is a funny zombie
 			}
 		} else if ( !Q_stricmp( Cmd_Argv( 1 ), "allbots" ) )        {
@@ -601,7 +681,7 @@ static void SV_Kick_f( void ) {
 		return;
 	}
 
-	SV_DropClient( cl, "was kicked" );
+	SV_DropClient( cl, "player kicked" ); // JPW NERVE to match front menu message
 	cl->lastPacketTime = svs.time;  // in case there is a funny zombie
 }
 
@@ -745,7 +825,7 @@ static void SV_KickNum_f( void ) {
 		return;
 	}
 
-	SV_DropClient( cl, "was kicked" );
+	SV_DropClient( cl, "player kicked" );
 	cl->lastPacketTime = svs.time;  // in case there is a funny zombie
 }
 
@@ -754,7 +834,6 @@ static void SV_KickNum_f( void ) {
 SV_Status_f
 ================
 */
-// L0 - FIXME : Rcon crashes when game is hosted locally (non-ded) - to test bug try with 2 clients and doing /rcon status..
 static void SV_Status_f( void ) {
 	int i, j, l;
 	client_t    *cl;
@@ -772,7 +851,7 @@ static void SV_Status_f( void ) {
 
 	Com_Printf( "num score ping name            lastmsg address               qport rate\n" );
 	Com_Printf( "--- ----- ---- --------------- ------- --------------------- ----- -----\n" );
-	for ( i = 0,cl = svs.clients ; i < sv_maxcoopclients->integer ; i++,cl++ ) // L0 - loop player spots..
+	for ( i = 0,cl = svs.clients ; i < sv_maxcoopclients->integer ; i++,cl++ )
 	{
 		if ( !cl->state ) {
 			continue;
@@ -783,7 +862,6 @@ static void SV_Status_f( void ) {
 			continue;
 		}
 		// End
-
 		Com_Printf( "%3i ", i );
 		ps = SV_GameClientNum( i );
 		Com_Printf( "%5i ", ps->persistant[PERS_SCORE] );
@@ -932,6 +1010,17 @@ static void SV_KillServer_f( void ) {
 	SV_Shutdown( "killserver" );
 }
 
+/*
+=================
+SV_GameCompleteStatus_f
+
+NERVE - SMF
+=================
+*/
+void SV_GameCompleteStatus_f( void ) {
+	SV_MasterGameCompleteStatus();
+}
+
 //===========================================================
 
 /*
@@ -961,6 +1050,7 @@ void SV_AddOperatorCommands( void ) {
 	Cmd_AddCommand( "spmap", SV_Map_f );
 	Cmd_AddCommand( "coopmap", SV_Map_f );
 	Cmd_AddCommand( "coopdevmap", SV_Map_f );
+	Cmd_AddCommand( "gameCompleteStatus", SV_GameCompleteStatus_f );      // NERVE - SMF
 #ifndef WOLF_SP_DEMO
 	Cmd_AddCommand( "spdevmap", SV_Map_f );
 #endif

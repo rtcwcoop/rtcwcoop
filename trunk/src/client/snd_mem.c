@@ -32,13 +32,13 @@ If you have questions concerning this license or the applicable additional terms
  *
  * desc:		sound caching
  *
- * $Archive: /Wolf5/src/client/snd_mem.c $
+ * $Archive: /Wolfenstein MP/src/client/snd_mem.c $
  *
  *****************************************************************************/
 
 #include "snd_local.h"
 
-#define DEF_COMSOUNDMEGS "64"    // (SA) upped for GD
+#define DEF_COMSOUNDMEGS "24"    // (SA) upped for GD
 
 /*
 ===============================================================================
@@ -107,7 +107,8 @@ void SND_setup() {
 
 	buffer = malloc( scs * sizeof( sndBuffer ) );
 	// allocate the stack based hunk allocator
-	sfxScratchBuffer = malloc( SND_CHUNK_SIZE * sizeof( short ) * 4 );  //Hunk_Alloc(SND_CHUNK_SIZE * sizeof(short) * 4);
+//DAJ HOG	sfxScratchBuffer = malloc(SND_CHUNK_SIZE * sizeof(short) * 4);
+	sfxScratchBuffer = Hunk_Alloc( SND_CHUNK_SIZE * sizeof( short ) * 4, h_high );  //DAJ HOG was CO
 	sfxScratchPointer = NULL;
 
 	inUse = scs * sizeof( sndBuffer );
@@ -393,6 +394,7 @@ qboolean S_LoadSound( sfx_t *sfx ) {
 
 	samples = Hunk_AllocateTempMemory( info.samples * sizeof( short ) * 2 );
 
+	// DHM - Nerve
 	sfx->lastTimeUsed = Sys_Milliseconds() + 1;
 
 	// each of these compression schemes works just fine
