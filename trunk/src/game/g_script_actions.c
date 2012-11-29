@@ -595,9 +595,12 @@ qboolean G_ScriptAction_AlertEntity( gentity_t *ent, char *params ) {
 	// find this targetname
 	alertent = G_Find( NULL, FOFS( targetname ), params );
 	if ( !alertent ) {
-		//G_Error( "G_Scripting: alertentity cannot find targetname \"%s\"\n", params );
-		G_Printf( S_COLOR_RED "G_Scripting: alertentity cannot find targetname \"%s\"\n", params );
-                return qtrue; // cs: need to return true here or it keeps getting called every frame.
+		// check for ainame here too since some logic has moved to game_manager
+		alertent = G_Find( NULL, FOFS( aiName ), params );
+		if ( !alertent || !alertent->client ) {
+			G_Printf( S_COLOR_RED "G_Scripting: alertentity cannot find targetname \"%s\"\n", params );
+			return qtrue; // cs: need to return true here or it keeps getting called every frame.
+		}
 	}
 
 	if ( alertent->client ) {
