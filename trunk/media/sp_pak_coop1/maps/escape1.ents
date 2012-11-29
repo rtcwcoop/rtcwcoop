@@ -57,6 +57,13 @@
 
 // REINFROCES
 
+// to fix the ai scripts lots of script logic must be moved from
+// .ai to .script, because g_script_actions uses targetname
+// for the alertentity call we have to add a targetname field to the entity
+// but, the g_script_actions code has been modified by cs so it has a fallback
+// and looks for an ainame if it cant find the targetname, adding a targetname
+// makes it 'faster' because this is checked first.
+
 {
 "classname" "ai_soldier"
 "origin" "1671 277 -759"
