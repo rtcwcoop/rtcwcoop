@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Download">
+      <UniqueIdentifier>{98cc65c3-bbe0-43f2-a516-01396533540c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\sys\con_log.c">
@@ -453,6 +456,15 @@
     <ClCompile Include="..\..\src\game\q_math.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\qcommon\dl_main.c">
+      <Filter>Download</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\qcommon\dl_main_curl.c">
+      <Filter>Download</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\qcommon\dl_main_stubs.c">
+      <Filter>Download</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\sys\sys_loadlib.h">
@@ -634,6 +646,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\jpeg-6\jversion.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\qcommon\dl_local.h">
+      <Filter>Download</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\qcommon\dl_public.h">
+      <Filter>Download</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

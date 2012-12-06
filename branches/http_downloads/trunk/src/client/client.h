@@ -209,14 +209,27 @@ typedef struct {
 
 	// file transfer from server
 	fileHandle_t download;
-	char downloadTempName[MAX_OSPATH];
-	char downloadName[MAX_OSPATH];
+	// L0 - HTTP downloads - NOTE: downloadName and downloadTempName have to be patched in all functions (switch from clc to cls..)..
+	// i didn't comment it as it's useless but if there's a copy-dump from this source, one has to bare that in mind..!
+	//char downloadTempName[MAX_OSPATH];
+	//char downloadName[MAX_OSPATH];
+	// End
 	int downloadNumber;
 	int downloadBlock;          // block we are waiting for
 	int downloadCount;          // how many bytes we got
 	int downloadSize;           // how many bytes we got
 	char downloadList[MAX_INFO_STRING];        // list of paks we need to download
-	qboolean downloadRestart;       // if true, we need to do another FS_Restart because we downloaded a pak
+	// L0 - HTTP downloads
+	int downloadFlags;         // misc download behaviour flags sent by the server	
+	//qboolean downloadRestart;       // if true, we need to do another FS_Restart because we downloaded a pak
+	// End
+
+	// L0 - HTTP downloads
+	qboolean bWWWDl;    // we have a www download going
+	qboolean bWWWDlAborting;    // disable the CL_WWWDownload until server gets us a gamestate (used for aborts)
+	char redirectedList[MAX_INFO_STRING];        // list of files that we downloaded through a redirect since last FS_ComparePaks
+	char badChecksumList[MAX_INFO_STRING];        // list of files for which wwwdl redirect is broken (wrong checksum)
+	// End
 
 	// demo information
 	char demoName[MAX_QPATH];
@@ -346,6 +359,16 @@ typedef struct {
 	qhandle_t whiteShader;
 	qhandle_t consoleShader;
 	qhandle_t consoleShader2;       // NERVE - SMF - merged from WolfSP
+
+	// L0 - HTTP downloads
+	// in the static stuff since this may have to survive server disconnects
+	// if new stuff gets added, CL_ClearStaticDownload code needs to be updated for clear up
+	qboolean bWWWDlDisconnected; // keep going with the download after server disconnect
+	char downloadName[MAX_OSPATH];
+	char downloadTempName[MAX_OSPATH];    // in wwwdl mode, this is OS path (it's a qpath otherwise)
+	char originalDownloadName[MAX_QPATH];    // if we get a redirect, keep a copy of the original file path
+	qboolean downloadRestart; // if true, we need to do another FS_Restart because we downloaded a pak
+	// End
 } clientStatic_t;
 
 extern clientStatic_t cls;

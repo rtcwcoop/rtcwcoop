@@ -14,6 +14,7 @@
     <ProjectGuid>{F30728C1-0189-46BF-8B54-A0C20C87E894}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>bzzwolfsp</RootNamespace>
+    <ProjectName>rtcwcoop</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -57,7 +58,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\src\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>/NODEFAULTLIB:libcmtd.lib;/NODEFAULTLIB:msvcrt;msvcrtd.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;Winmm.lib;sdl.lib;sdlmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>/NODEFAULTLIB:libcmtd.lib;/NODEFAULTLIB:msvcrt;msvcrtd.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;Winmm.lib;sdl.lib;sdlmain.lib;../../src/curl-7.12.2/lib/libcurld.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>../../$(TargetFileName)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -80,7 +81,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\src\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>../../$(TargetFileName)</OutputFile>
-      <AdditionalDependencies>msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;sdlmain.lib;sdl.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;sdlmain.lib;sdl.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;Winmm.lib;../../src/curl-7.12.2/lib/libcurld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -174,6 +175,15 @@
     <ClCompile Include="..\..\src\qcommon\cm_trace.c" />
     <ClCompile Include="..\..\src\qcommon\common.c" />
     <ClCompile Include="..\..\src\qcommon\cvar.c" />
+    <ClCompile Include="..\..\src\qcommon\dl_main.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\qcommon\dl_main_curl.c" />
+    <ClCompile Include="..\..\src\qcommon\dl_main_stubs.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\qcommon\files.c" />
     <ClCompile Include="..\..\src\qcommon\huffman.c" />
     <ClCompile Include="..\..\src\qcommon\md4.c" />
@@ -278,6 +288,8 @@
     <ClInclude Include="..\..\src\qcommon\cm_patch.h" />
     <ClInclude Include="..\..\src\qcommon\cm_polylib.h" />
     <ClInclude Include="..\..\src\qcommon\cm_public.h" />
+    <ClInclude Include="..\..\src\qcommon\dl_local.h" />
+    <ClInclude Include="..\..\src\qcommon\dl_public.h" />
     <ClInclude Include="..\..\src\qcommon\qcommon.h" />
     <ClInclude Include="..\..\src\qcommon\qfiles.h" />
     <ClInclude Include="..\..\src\qcommon\unzip.h" />

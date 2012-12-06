@@ -637,7 +637,10 @@ int     FS_LoadStack();
 int     FS_GetFileList(  const char *path, const char *extension, char *listbuf, int bufsize );
 int     FS_GetModList(  char *listbuf, int bufsize );
 char   *FS_BuildOSPath( const char *base, const char *game, const char *qpath );
-qboolean FS_CreatePath( char *OSPath );
+
+// L0 - (modifed and declared for) HTTP downloads 
+int FS_CreatePath( const char *OSPath_ );
+// End
 
 fileHandle_t    FS_FOpenFileWrite( const char *qpath );
 // will properly create any needed paths and deal with seperater character issues
@@ -744,9 +747,13 @@ qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring );
 
 void FS_Rename( const char *from, const char *to );
 
-void    FS_CopyFileOS(  char *from, char *to ); //DAJ
+void FS_CopyFileOS(  char *from, char *to ); //DAJ
 
 qboolean FS_VerifyPak( const char *pak );
+
+// L0 - HTTP downloads (ET port)
+#include "dl_public.h"
+// End
 
 
 /*
@@ -936,6 +943,7 @@ void CL_InitKeyCommands( void );
 // config files, but the rest of client startup will happen later
 
 void CL_Init( void );
+void CL_ClearStaticDownload( void ); // L0 - HTTP downloads
 void CL_Disconnect( qboolean showMainMenu );
 void CL_Shutdown( char *finalmsg );
 void CL_Frame( int msec );
