@@ -1,0 +1,9 @@
+md3_part, "head.md3"
+md3_hat, "acc/helmet_american/sol.md3"
+
+tag_head,
+
+h_head,models/players/multi/head_american.tga
+h_mouthin,models/players/multi/head_american.tga
+h_teethbot,models/players/multi/head_american.tga
+h_teethup,models/players/multi/head_american.tga

@@ -1,0 +1,6 @@
+ 
+Originally a 1/4 inch steel bolt was threaded to a self-locking nut. This nut all too frequently wore so badly that the clamp was shot off the gun. We now use a 5/16 inch bolt screwed into a castellated nut, locked in place by a cotter pin. 
+
+Off-center firing pin strikes were also a major problem in the beginning. As the bolt head moves forward into battery, just prior to rotation it looses all alignment guidance, which was provided by machined lobes on the rotor. This allowed the bolt head to wander off-center, resulting in off-center firing pin strikes. We have recently manufactured a new rotor which holds it's tolerances much closer than encountered on the original version.
+
+The feeder/delinker represented the single greatest problem in the original design. Whenever a belt restriction occurred (a rather common event) the belt would slew sideways while entering the delinker and one of the stripper teeth would literally pierce the

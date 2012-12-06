@@ -1,0 +1,18 @@
+Exercise 17: The MG42 Machinegun
+
+This exercise will teach you how to mount and fire the MG42 machinegun from a fixed position.
+
+Instructions:
+
+Move to the rear of the MG42 mounted machinegun on the bench in front of you. When you are position directly behind the weapon press your 'activate' key to mount the weapon.
+
+Once mounted simply press and hold the 'attack' key. You may continue to fire the weapon until all immediate threats have been neutralized. It is not necessary to reload the MG42 machinegun.
+
+To dismount the MG42 press your 'activate' key once again.
+
+When you are ready, move to the next station.
+
+Time Limit: None
+
+
+

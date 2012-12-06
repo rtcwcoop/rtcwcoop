@@ -1,0 +1,834 @@
+
+//
+// Hienrich
+//
+
+Heinrich_loseArmor
+{
+	random
+
+	sound sound/player/heinrich/armor/armour_crash1.wav
+	sound sound/player/heinrich/armor/armour_crash2.wav
+	sound sound/player/heinrich/armor/armour_crash3.wav
+	sound sound/player/heinrich/armor/armour_crash4.wav
+}
+
+
+
+/////////////////
+// BEAST
+/////////////////
+
+beastStep
+{
+	channel body
+
+	shake 0.2 1024
+
+	sound sound/beast/step1.wav
+	sound sound/beast/step2.wav
+	sound sound/beast/step3.wav
+	sound sound/beast/step4.wav
+}
+
+helgaAttackPlayer
+{
+	channel voice
+	sound sound/beast/growl1.wav
+	sound sound/beast/growl2.wav
+	sound sound/beast/growl3.wav
+}
+
+helgaSpiritStartSound
+{
+	channel auto
+	sound sound/beast/skull_shriek1.wav
+	sound sound/beast/skull_shriek2.wav
+}
+
+beastDeathFall1
+{
+	channel voice
+	sound sound/beast/beast_death1.wav
+}
+
+//////////////////
+//
+// German infantry Sounds
+//
+//////////////////
+
+infantryAttackPlayer
+{
+	channel voice
+	sound sound/player/infantryss/attack/attack1.wav
+	sound sound/player/infantryss/attack/attack2.wav
+	sound sound/player/infantryss/attack/attack3.wav
+	sound sound/player/infantryss/attack/attack3.wav
+}
+
+infantryOrders
+{
+	channel voice
+	sound sound/player/infantryss/orders/angreif.wav
+	sound sound/player/infantryss/orders/kook.wav
+	sound sound/player/infantryss/orders/shnell.wav
+	sound sound/player/infantryss/orders/swine.wav
+}
+
+infantryDeathflame1
+{
+	sound sound/player/infantryss/death/death_flame1.wav
+}
+
+infantryDeathtesla1
+{
+	sound sound/player/infantryss/death/death_tesla1.wav
+}
+
+infantryDeathtesla2
+{
+	sound sound/player/infantryss/death/death_tesla2.wav
+}
+
+infantryDeathgut
+{
+	sound sound/player/infantryss/death/death_gut.wav
+}
+
+infantryDeathforward
+{
+	sound sound/player/infantryss/death/death_forward.wav
+}
+
+infantryDeathknife1
+{
+	sound sound/player/infantryss/death/death_knife1.wav
+}
+
+infantryDeathknife2
+{
+	sound sound/player/infantryss/death/death_knife2.wav
+}
+
+infantryDeathriflehead1
+{
+	sound sound/player/infantryss/death/death_rifle_head1.wav
+}
+
+infantryDeathriflehead2
+{
+	sound sound/player/infantryss/death/death_rifle_head2.wav
+}
+
+infantryDeathrifletorso1
+{
+	sound sound/player/infantryss/death/death_rifle_torso1.wav
+}
+
+infantryDeathrifletorso2
+{
+	sound sound/player/infantryss/death/death_rifle_torso2.wav
+}
+
+infantryDeathmachine1
+{
+	sound sound/player/infantryss/death/death_machinegun1.wav
+}
+
+infantryDeathmachine2
+{
+	sound sound/player/infantryss/death/death_machinegun2.wav
+}
+
+infantryDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/death1.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/heifer.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/death2.wav
+	sound sound/player/infantryss/death/meingut.wav
+	sound sound/player/infantryss/death/death3.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/death4.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/_infantryss/death/death1.wav
+	sound sound/player/_infantryss/death/death2.wav
+	sound sound/player/_infantryss/death/death3.wav
+	sound sound/player/_infantryss/death/death4.wav
+	sound sound/player/_infantryss/death/death5.wav
+	sound sound/player/_infantryss/death/leben.wav
+}
+
+infantryFlameDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/flame_scream1.wav
+	sound sound/player/infantryss/death/flame_scream2.wav
+	sound sound/player/infantryss/death/flame_scream3.wav
+}
+
+infantrySilentDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/death_knifevo.wav
+}
+
+infantryPain
+{
+	channel voice
+	sound sound/player/infantryss/pain/hurt25.wav
+	sound sound/player/infantryss/pain/hurt50.wav
+	sound sound/player/infantryss/pain/hurt75.wav
+	sound sound/player/_infantryss/pain/pain1.wav
+	sound sound/player/_infantryss/pain/pain2.wav
+	sound sound/player/_infantryss/pain/pain3.wav
+	sound sound/player/_infantryss/pain/pain4.wav
+	sound sound/player/_infantryss/pain/pain5.wav
+	sound sound/player/_infantryss/pain/pain6.wav
+	sound sound/player/_infantryss/pain/pain7.wav
+}
+
+infantryBulletImpact
+{
+	channel voice
+	sound sound/player/infantryss/inspect/hear1.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/inspect/hear2.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/inspect/hear2.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/inspect/hear3.wav
+}
+
+infantryInspectSound
+{
+	channel voice
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/inspect/hear1.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/inspect/hear2.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/inspect/hear1.wav
+	sound sound/player/infantryss/inspect/hear4.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/inspect/hear3.wav
+}
+
+infantryRelaxQuery
+{
+	channel voice
+	sound sound/player/infantryss/rel_quer/hmm1.wav
+	sound sound/player/infantryss/rel_quer/hmm2.wav
+	sound sound/player/infantryss/rel_quer/hmm3.wav
+	sound sound/player/infantryss/rel_quer/hmm4.wav
+}
+
+infantryQueryRelax
+{
+	channel voice
+	sound sound/player/infantryss/quer_rel/nada1.wav
+	sound sound/player/infantryss/quer_rel/nada2.wav
+	sound sound/player/infantryss/quer_rel/nada3.wav
+	sound sound/player/infantryss/quer_rel/nada4.wav
+}
+
+infantryRelaxCombat
+{
+	channel voice
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/relax_combat/who_are_you.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+}
+
+//////////////////
+//
+// Blackguard Sounds
+//
+//////////////////
+
+blackguardAttackPlayer
+{
+	channel voice
+	sound sound/player/infantryss/attack/attack1.wav
+	sound sound/player/infantryss/attack/attack2.wav
+	sound sound/player/infantryss/attack/attack3.wav
+	sound sound/player/infantryss/attack/attack3.wav
+}
+
+blackguardOrders
+{
+	channel voice
+	sound sound/player/infantryss/orders/angreif.wav
+	sound sound/player/infantryss/orders/kook.wav
+	sound sound/player/infantryss/orders/shnell.wav
+	sound sound/player/infantryss/orders/swine.wav
+}
+
+blackguardDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/death1.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/heifer.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/death2.wav
+	sound sound/player/infantryss/death/meingut.wav
+	sound sound/player/infantryss/death/death3.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/death4.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/_blackguard/death/death1.wav
+	sound sound/player/_blackguard/death/death2.wav
+	sound sound/player/_blackguard/death/death3.wav
+	sound sound/player/_blackguard/death/death4.wav
+	sound sound/player/_blackguard/death/death5.wav
+	sound sound/player/_blackguard/death/leben.wav
+}
+
+blackguardFlameDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/flame_scream1.wav
+	sound sound/player/infantryss/death/flame_scream2.wav
+	sound sound/player/infantryss/death/flame_scream3.wav
+	sound sound/player/_blackguard/death/onfire1.wav
+}
+
+blackguardSilentDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/death_knifevo.wav
+}
+
+blackguardPain
+{
+	channel voice
+	sound sound/player/infantryss/pain/hurt25.wav
+	sound sound/player/infantryss/pain/hurt50.wav
+	sound sound/player/infantryss/pain/hurt75.wav
+	sound sound/player/_blackguard/pain/pain1.wav
+	sound sound/player/_blackguard/pain/pain2.wav
+	sound sound/player/_blackguard/pain/pain3.wav
+	sound sound/player/_blackguard/pain/pain4.wav
+	sound sound/player/_blackguard/pain/pain5.wav
+	sound sound/player/_blackguard/pain/pain6.wav
+}
+
+//////////////////
+//
+// Venom Soldier Sounds
+//
+//////////////////
+
+venomDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/death1.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/death2.wav
+	sound sound/player/infantryss/death/death3.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/infantryss/death/death4.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/_venom/death/death1.wav
+	sound sound/player/_venom/death/death2.wav
+	sound sound/player/_venom/death/death3.wav
+	sound sound/player/_venom/death/death4.wav
+	sound sound/player/_venom/death/leben.wav
+}
+
+venomSilentDeath
+{
+	channel voice
+	sound sound/player/infantryss/death/death_knifevo.wav
+}
+
+venomPain
+{
+	channel voice
+	sound sound/player/infantryss/pain/hurt25.wav
+	sound sound/player/infantryss/pain/hurt50.wav
+	sound sound/player/infantryss/pain/hurt75.wav
+	sound sound/player/_venom/pain/pain1.wav
+	sound sound/player/_venom/pain/pain2.wav
+	sound sound/player/_venom/pain/pain3.wav
+	sound sound/player/_venom/pain/pain4.wav
+	sound sound/player/_venom/pain/pain5.wav
+	sound sound/player/_venom/pain/pain6.wav
+	sound sound/player/_venom/pain/pain7.wav
+	sound sound/player/_venom/pain/pain8.wav
+	sound sound/player/_venom/pain/pain9.wav
+}
+
+/////////////////////////
+//
+// Elite Guard Sounds
+//
+/////////////////////////
+
+eliteGuardPain
+{
+	channel voice
+	sound sound/player/eliteguard/pain/hurt1.wav
+	sound sound/player/eliteguard/pain/hurt2.wav
+	sound sound/player/eliteguard/pain/hurt3.wav
+	sound sound/player/eliteguard/pain/hurt4.wav
+	sound sound/player/_eliteguard1/pain/pain1.wav
+	sound sound/player/_eliteguard1/pain/pain2.wav
+	sound sound/player/_eliteguard1/pain/pain3.wav
+	sound sound/player/_eliteguard1/pain/pain4.wav
+	sound sound/player/_eliteguard1/pain/pain5.wav
+	sound sound/player/_eliteguard1/pain/pain6.wav
+	sound sound/player/_eliteguard1/pain/pain7.wav
+	sound sound/player/_eliteguard1/pain/pain8.wav
+	sound sound/player/_eliteguard2/pain/pain1.wav
+	sound sound/player/_eliteguard2/pain/pain2.wav
+	sound sound/player/_eliteguard2/pain/pain3.wav
+	sound sound/player/_eliteguard2/pain/pain4.wav
+	sound sound/player/_eliteguard2/pain/pain5.wav
+}
+
+eliteGuardDeathtesla2
+{
+	sound sound/player/infantryss/death/death_tesla2.wav
+}
+
+eliteGuardDeathknife1
+{
+	sound sound/player/infantryss/death/death_knife1.wav
+}
+
+eliteGuardDeathriflehead1
+{
+	sound sound/player/infantryss/death/death_rifle_head1.wav
+}
+
+eliteGuardDeathrifletorso2
+{
+	sound sound/player/infantryss/death/death_rifle_torso2.wav
+}
+
+eliteGuardDeathmachine1
+{
+	sound sound/player/infantryss/death/death_machinegun1.wav
+}
+
+eliteGuardDeathmachine2
+{
+	sound sound/player/infantryss/death/death_machinegun2.wav
+}
+
+eliteGuardDeath
+{
+	channel voice
+	sound sound/player/eliteguard/death/death1.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/eliteguard/death/death5.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/eliteguard/death/death2.wav
+	sound sound/player/eliteguard/death/death3.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/eliteguard/death/death4.wav
+	sound sound/scenaric/general/blank.wav
+	sound sound/player/_eliteguard1/death/death1.wav
+	sound sound/player/_eliteguard1/death/death2.wav
+	sound sound/player/_eliteguard1/death/death3.wav
+	sound sound/player/_eliteguard1/death/death4.wav
+	sound sound/player/_eliteguard1/death/death5.wav
+	sound sound/player/_eliteguard1/death/death6.wav
+	sound sound/player/_eliteguard1/death/death7.wav
+	sound sound/player/_eliteguard1/death/death8.wav
+	sound sound/player/_eliteguard1/death/leben.wav
+	sound sound/player/_eliteguard2/death/death1.wav
+	sound sound/player/_eliteguard2/death/death2.wav
+	sound sound/player/_eliteguard2/death/death3.wav
+	sound sound/player/_eliteguard2/death/death4.wav
+	sound sound/player/_eliteguard2/death/death5.wav
+	sound sound/player/_eliteguard2/death/death6.wav
+	sound sound/player/_eliteguard2/death/fuhrer1.wav
+	sound sound/player/_eliteguard2/death/leben.wav
+}
+
+eliteGuardFlameDeath
+{
+	channel voice
+	sound sound/player/eliteguard/death/fem_flame_scream.wav
+}
+
+eliteGuardSilentDeath
+{
+	channel voice
+	sound sound/player/eliteguard/death/death1.wav
+}
+
+/////////////////////////
+//
+// Super/Proto Sounds
+//
+/////////////////////////
+
+superSoldierDeathFall
+{
+	channel voice
+	sound sound/player/supersoldier/death/sup_death1.wav
+}
+
+/////////////////////////
+//
+// Heinrich Sounds
+//
+/////////////////////////
+
+heinrichStomp
+{
+	channel auto
+	sound sound/scenaric/assault/jetexplosion.wav shake 0.2 1024 2000
+}
+
+heinrichSwordImpact
+{
+	channel local
+	sound sound/player/heinrich/attack/hein_sword_hit.wav
+}
+
+heinrichSwordKnockbackWeapon
+{
+	channel weapon
+	sound sound/player/heinrich/attack/hein_sword1.wav
+}
+
+heinrichSwordKnockbackStart
+{
+	channel voice
+	sound sound/player/heinrich/attack/hein_yell2.wav
+	sound sound/player/heinrich/attack/hein_yell3.wav
+}
+
+heinrichRaiseWarriorStart
+{
+	channel voice
+	sound sound/player/heinrich/attack/hein_yell4.wav
+}
+
+heinrichSwordEarthquakeStart
+{
+	channel voice
+	sound sound/player/heinrich/attack/hein_yell7.wav
+	sound sound/player/heinrich/attack/hein_yell8.wav
+	sound sound/player/heinrich/attack/hein_yell9.wav
+}
+
+heinrichSwordSideSlashWeapon
+{
+	channel weapon
+	sound sound/player/heinrich/attack/hein_sword8.wav
+}
+
+heinrichSwordSideSlashStart
+{
+	channel voice
+	sound sound/player/heinrich/attack/hein_yell7.wav
+	sound sound/player/heinrich/attack/hein_yell8.wav
+	sound sound/player/heinrich/attack/hein_yell9.wav
+}
+
+heinrichSwordLungeStart
+{
+	channel voice
+	sound sound/player/heinrich/attack/hein_yell7.wav
+	sound sound/player/heinrich/attack/hein_yell8.wav
+	sound sound/player/heinrich/attack/hein_yell9.wav
+}
+
+heinrichPain
+{
+	channel voice
+	sound sound/player/heinrich/pain/hein_pain1.wav
+	sound sound/player/heinrich/pain/hein_pain2.wav
+	sound sound/player/heinrich/pain/hein_pain3.wav
+}
+
+heinrichDeath
+{
+	global
+	sound sound/player/heinrich/death/hein_death2.wav	
+}
+
+heinrichDeathFall1
+{
+	channel voice
+	sound sound/player/heinrich/death/hein_death1.wav
+}
+
+heinrichTauntGoodHealth
+{
+	streaming
+	channel voice
+	sound sound/scenaric/end/hein01.wav
+	sound sound/scenaric/end/hein02.wav
+	sound sound/scenaric/end/hein03.wav
+	sound sound/scenaric/end/hein04.wav
+	sound sound/scenaric/end/hein05.wav
+	sound sound/scenaric/end/hein06.wav
+	sound sound/scenaric/end/hein07.wav
+	sound sound/scenaric/end/hein08.wav
+	sound sound/scenaric/end/hein09.wav
+	sound sound/scenaric/end/hein10.wav
+	sound sound/scenaric/end/hein11.wav
+	sound sound/scenaric/end/hein12.wav
+	sound sound/scenaric/end/hein13.wav
+	sound sound/scenaric/end/hein14.wav
+}
+
+heinrichTauntLowHealth
+{
+	streaming
+	channel voice
+	sound sound/scenaric/end/hein15.wav
+	sound sound/scenaric/end/hein16.wav
+	sound sound/scenaric/end/hein17.wav
+	sound sound/scenaric/end/hein18.wav
+	sound sound/scenaric/end/hein19.wav
+}
+
+/////////////////////////
+//
+// American infantry Sounds
+//
+/////////////////////////
+
+americanOrders
+{
+	channel voice
+	sound sound/American/orders/orders1.wav
+}
+
+americanDeny
+{
+	channel voice
+	sound sound/American/deny/deny1.wav
+}
+
+americanFollow
+{
+	channel voice
+	sound sound/American/follow/follow1.wav
+	sound sound/American/follow/follow2.wav
+	sound sound/American/follow/follow3.wav
+}
+
+americanStay
+{
+	channel voice
+	sound sound/American/stay/stay1.wav
+}
+
+//////////////////////////
+//
+// Zombie Sounds
+//
+//////////////////////////
+
+zombieSightPlayer
+{
+	channel voice
+	sound sound/Zombie/firstsight/firstsight1.wav
+	sound sound/Zombie/firstsight/firstsight2.wav
+	sound sound/Zombie/firstsight/firstsight3.wav
+	sound sound/Zombie/firstsight/firstsight4.wav
+}
+
+zombieAttackPlayer
+{
+	channel voice
+	sound sound/Zombie/attack/attack1.wav
+	sound sound/Zombie/attack/attack2.wav
+	sound sound/Zombie/attack/attack3.wav
+	sound sound/Zombie/attack/attack4.wav
+}
+
+zombieOrders
+{
+	channel voice
+	sound sound/Zombie/orders/orders1.wav
+	sound sound/Zombie/orders/orders2.wav
+	sound sound/Zombie/orders/orders3.wav
+	sound sound/Zombie/orders/orders4.wav
+}
+
+zombieDeathFall
+{
+	sound sound/Zombie/death/zom_death1.wav
+}
+
+zombieDeath
+{
+	channel voice
+	sound sound/Zombie/death/death1.wav	
+	sound sound/Zombie/death/death2.wav
+	sound sound/Zombie/death/death3.wav
+	sound sound/Zombie/death/death4.wav
+}
+
+zombiePain
+{
+	channel voice
+	sound sound/Zombie/pain/pain25.wav
+	sound sound/Zombie/pain/pain50.wav
+	sound sound/Zombie/pain/pain75.wav
+}
+
+
+//////////////////////////
+//
+// Warrior Zombie Sounds
+//
+//////////////////////////
+
+warzombieSightPlayer
+{
+	channel voice
+	sound sound/zombie/firstsight/firstsight1.wav
+	sound sound/zombie/firstsight/firstsight2.wav
+	sound sound/zombie/firstsight/firstsight3.wav
+	sound sound/zombie/firstsight/firstsight4.wav
+}
+
+warzombieAttackPlayer
+{
+	channel voice
+	sound sound/Zombie/attack/attack1.wav
+	sound sound/Zombie/attack/attack2.wav
+	sound sound/Zombie/attack/attack3.wav
+	sound sound/Zombie/attack/attack4.wav
+}
+
+warzombieOrders
+{
+	channel voice
+	sound sound/zombie/orders/orders1.wav
+	sound sound/zombie/orders/orders2.wav
+	sound sound/zombie/orders/orders3.wav
+	sound sound/zombie/orders/orders4.wav
+}
+
+warzombieDeath1
+{
+	channel voice
+	sound sound/player/warrior/death/wz_death1.wav
+}
+
+warzombieDeath2
+{
+	channel voice
+	sound sound/player/warrior/death/wz_death2.wav
+}
+
+warzombieDeath3
+{
+	channel voice
+	sound sound/player/warrior/death/wz_death3.wav
+}
+
+warzombieDeath4
+{
+	channel voice
+	sound sound/player/warrior/death/wz_death3.wav
+}
+
+warzombiePain
+{
+	channel voice
+
+	sound sound/zombie/pain/pain25.wav
+	sound sound/zombie/pain/pain50.wav
+	sound sound/zombie/pain/pain75.wav
+}
+
+///////////////////////////
+//
+// Loper
+//		(SA) 6/26
+//
+///////////////////////////
+
+loperSightPlayer
+{
+	channel voice
+	sound sound/player/loper/growl1.wav
+}
+
+loperAttackPlayer
+{
+	channel voice
+	sound sound/player/loper/growl1.wav
+}
+
+loperOrders
+{
+	channel voice
+	sound sound/player/loper/growl1.wav
+}
+
+loperDeathFall1
+{
+	channel voice
+	sound sound/player/loper/death/lop_death1.wav
+}
+
+loperDeathFall2
+{
+	channel voice
+	sound sound/player/loper/death/lop_death2.wav
+}
+
+loperDeathFall3
+{
+	channel voice
+	sound sound/player/loper/death/lop_death3.wav
+}
+
+loperPain
+{
+	channel voice
+	sound sound/player/loper/growl1.wav
+}
+
+loperAttackStart
+{
+	channel body
+	sound sound/player/loper/attack/attack4.wav
+}
+
+loperAttack2Start
+{
+	channel body
+	sound sound/player/loper/attack/attack1.wav
+	sound sound/player/loper/attack/attack2.wav
+	sound sound/player/loper/attack/attack3.wav
+}
+
+loperHit1
+{
+	channel weapon
+	sound sound/weapons/melee/lop_hit2.wav
+}
+
+loperHit2
+{
+	channel weapon
+	sound sound/weapons/melee/lop_hit1.wav
+}

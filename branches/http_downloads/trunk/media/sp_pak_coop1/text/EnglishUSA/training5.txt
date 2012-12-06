@@ -1,0 +1,7 @@
+Exercise 5: Falling
+ 
+Instructions:
+
+Drop and fall freely from the structure and land safely in the sand below. This fall will cause you to lose a bit of your health. At a later time we will show you how to avoid taking damage. But for now drop and proceed to the next station where a medical kit will be provided to you.
+
+Time Limit: None

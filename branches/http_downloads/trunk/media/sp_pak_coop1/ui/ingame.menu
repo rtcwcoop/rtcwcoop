@@ -1,0 +1,210 @@
+#include "ui/menudef.h"
+{
+
+  assetGlobalDef {
+	font "fonts/font" 16						// font
+	smallFont "fonts/smallfont" 12				// font
+	bigFont "fonts/bigfont" 24					// font
+	handwritingFont "fonts/handfont" 17			// font (pt size needs to be diff than the others)
+	cursor "ui/assets/3_cursor3"				// cursor	
+	gradientBar "ui/assets/gradientbar2.tga"	// gradient bar
+	itemFocusSound "sound/misc/menu2.wav"		// sound for item getting focus (via keyboard or mouse )
+
+	fadeClamp 1.0								// sets the fadeup alpha
+	fadeCycle 1									// how often fade happens in milliseconds
+	fadeAmount 0.1								// amount to adjust alpha per cycle
+
+	shadowColor 0.1 0.1 0.1 0.25				// shadow color
+  	}
+							   
+
+\\ INGAME MENU \\
+
+menuDef {
+	name "ingame"
+	visible 0
+	fullScreen 0
+	outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+	rect 0 0 640 480
+	focusColor 1 .75 0 1
+	disableColor .5 .5 .5 1
+	onOpen { open ingame_quick }
+
+itemDef {
+	name window
+	group ingamebox
+	rect 24 10 360 12	
+//	style WINDOW_STYLE_FILLED
+//	border 1
+//	bordercolor .5 .5 .5 .5
+//	forecolor 1 1 1 1
+//	backcolor 0 0 0 .25
+	visible 1
+	decoration
+
+}
+
+	itemDef {
+		name BLACKGRAD					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name FLAME						// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name WOLFFLAMELOGO				// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+
+itemDef {
+	name serverlist
+	text "JOIN SERVER"
+	type 1
+	rect 41 90 79 20
+	textstyle 6
+	textalign ITEM_ALIGN_LEFT
+	textalignx 0   
+	textaligny 14
+	textfont	UI_FONT_NORMAL
+	textscale .23
+	forecolor .8 .8 .8 1
+	backcolor .4 .4 .4 .6  
+	visible 1 
+	action { open ingame_join ;	close ingame_quick }
+	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
+	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
+	}
+
+itemDef {
+	name callvote
+	text "CALL VOTE"
+	type 1
+	rect 160 90 65 20
+	textstyle 6
+	textalign ITEM_ALIGN_LEFT
+	textalignx 0     
+	textaligny 14
+	textfont	UI_FONT_NORMAL
+	textscale .23
+	forecolor .8 .8 .8 1
+	backcolor .4 .4 .4 .6  
+	visible 1 
+	action {
+			open ingame_callvote ; close ingame_quick }
+	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
+	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
+	}
+
+itemDef {
+	name controls
+	text "CONTROLS"
+	type 1
+	textfont UI_FONT_NORMAL
+	rect 265 90 63 20
+	textstyle 6
+	textalign ITEM_ALIGN_LEFT
+	textalignx 0    
+	textaligny 14
+	textscale .23
+	forecolor .8 .8 .8 1
+	backcolor .4 .4 .4 .6  
+	visible 1 
+	action { open ingame_controls ; close ingame_quick }
+	mouseEnter { setitemcolor controls backcolor .15 .1 .1 .7 }
+	mouseExit { setitemcolor controls backcolor .4 .4 .4 .6  }
+	}
+
+itemDef {
+	name options
+	text "HUD OPTIONS"
+	type 1
+	textfont UI_FONT_NORMAL
+	rect 368 90 80 20
+	textstyle 6
+	textalign ITEM_ALIGN_LEFT
+	textalignx 0   
+	textaligny 14
+	textscale .23
+	forecolor .8 .8 .8 1
+	backcolor .4 .4 .4 .6  
+	visible 1 
+	action { open ingame_options ; close ingame_quick }
+	mouseEnter { setitemcolor options backcolor .15 .1 .1 .7 }
+	mouseExit { setitemcolor options backcolor .4 .4 .4 .6  }
+	}
+
+itemDef {
+	name system
+	text "SYSTEM"
+	type 1
+	textfont UI_FONT_NORMAL
+	rect 488 90 46 20
+	textstyle 6
+	textalign ITEM_ALIGN_LEFT
+	textalignx 0  
+	textaligny 14
+	textscale .23
+	forecolor .8 .8 .8 1
+	backcolor .4 .4 .4 .6
+	visible 1 
+	action { open ingame_system ; close ingame_quick }
+	mouseEnter { setitemcolor system backcolor .15 .1 .1 .7 }
+	mouseExit { setitemcolor system backcolor .4 .4 .4 .6  }
+	}
+
+itemDef {
+	name leave
+	text "EXIT"
+	type 1
+	textfont UI_FONT_NORMAL
+	rect 574 90 36 20
+	textstyle 6
+	textalign ITEM_ALIGN_LEFT	
+	textalignx 0
+	textaligny 14
+	textscale .23
+	forecolor .8 .8 .8 1
+	backcolor .4 .4 .4 .6 
+	visible 1 
+	action { open ingame_leave ; close ingame_quick }
+	mouseEnter { setitemcolor leave backcolor .15 .1 .1 .7 }
+	mouseExit { setitemcolor leave backcolor .4 .4 .4 .6  }
+	}
+ 
+}
+
+}
