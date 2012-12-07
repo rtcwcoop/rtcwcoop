@@ -22,6 +22,7 @@
 
 // *23 is the left part of the steel door
 //"model" "*23"
+// type none makes it invisible, set it to "debug" and a barrel will show up
 //1368 813 -167
 {
 "health" "100"

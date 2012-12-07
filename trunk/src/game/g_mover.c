@@ -4400,7 +4400,7 @@ NOTE: if you use model2, you must have an origin brush in the explosive with the
 "dmg" - how much radius damage should be done, defaults to 0
 "health" - defaults to 100.  If health is set to '0' the brush will not be shootable.
 "targetname" - if set, no touch field will be spawned and a remote button or trigger field triggers the explosion.
-"type" - type of debris ("glass", "wood", "metal", "gibs", "brick", "rock", "fabric", "none") default is "wood"
+"type" - type of debris ("glass", "wood", "metal", "gibs", "brick", "rock", "fabric", "none") default is "wood" (use "debug" and a barrel will show up, if you're not using a brushmodel
 "mass" - defaults to 75.  This determines how much debris is emitted when it explodes.  You get one large chunk per 100 of mass (up to 8) and one small chunk per 25 of mass (up to 16).  So 800 gives the most.
 "noise" - sound to play when triggered.  The explosive will default to a sound that matches it's 'type'.  Use the sound name "nosound" (case in-sensitive) if you want it silent.
 "leaktype" - leaks particles of this type
@@ -4492,6 +4492,10 @@ void SP_func_explosive( gentity_t *ent ) {
 
 	if ( G_SpawnString( "type", "wood", &type ) ) {
 		if ( !Q_stricmp( type,"none" ) ) {
+			ent->key = -1;
+			// make it invisible too
+			ent->r.svFlags |= SVF_NOCLIENT;
+		} else if ( !Q_stricmp( type,"debug" ) ) {
 			ent->key = -1;
 		} else if ( !Q_stricmp( type,"wood" ) ) {
 			ent->key = 0;
