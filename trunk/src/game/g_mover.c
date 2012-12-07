@@ -4237,7 +4237,8 @@ void func_explosive_explode( gentity_t *self, gentity_t *inflictor, gentity_t *a
 
 	self->s.density = self->count;      // pass the "mass" to the client
 	self->s.weapon = self->duration;    // pass the "force lowgrav" to client
-	self->s.effect3Time = self->key;            // pass the type to the client ("glass", "wood", "metal", "gibs", "brick", "stone", "fabric", 0, 1, 2, 3, 4, 5, 6)
+	if (self->key > 0)			// fretn: maybe we dont want debris
+		self->s.effect3Time = self->key;            // pass the type to the client ("glass", "wood", "metal", "gibs", "brick", "stone", "fabric", 0, 1, 2, 3, 4, 5, 6)
 
 	if ( self->damage ) {
 		G_RadiusDamage( origin, self, self->damage, self->damage + 40, self, MOD_EXPLOSIVE );
@@ -4399,7 +4400,7 @@ NOTE: if you use model2, you must have an origin brush in the explosive with the
 "dmg" - how much radius damage should be done, defaults to 0
 "health" - defaults to 100.  If health is set to '0' the brush will not be shootable.
 "targetname" - if set, no touch field will be spawned and a remote button or trigger field triggers the explosion.
-"type" - type of debris ("glass", "wood", "metal", "gibs", "brick", "rock", "fabric") default is "wood"
+"type" - type of debris ("glass", "wood", "metal", "gibs", "brick", "rock", "fabric", "none") default is "wood"
 "mass" - defaults to 75.  This determines how much debris is emitted when it explodes.  You get one large chunk per 100 of mass (up to 8) and one small chunk per 25 of mass (up to 16).  So 800 gives the most.
 "noise" - sound to play when triggered.  The explosive will default to a sound that matches it's 'type'.  Use the sound name "nosound" (case in-sensitive) if you want it silent.
 "leaktype" - leaks particles of this type
@@ -4432,7 +4433,22 @@ void SP_func_explosive( gentity_t *ent ) {
 	char    *type;
 	char    *cursorhint;
 
-	trap_SetBrushModel( ent, ent->model );
+	//if ( ent->model[0] != '*') {
+	// fretn
+	// func explosives normally use a brushmodel
+	// I needed to attach a custom model to a func_explosive
+	// so I can make for example exploding barrels which trigger stuff
+	// currently barrels are hardcoded because of the mins/maxs
+	if ( !ent->model) {
+		ent->s.modelindex = G_ModelIndex( "models/furniture/barrel/barrel_b.md3" );
+		ent->clipmask   = CONTENTS_SOLID;
+		ent->r.contents = CONTENTS_SOLID;
+
+		VectorSet( ent->r.mins, -13, -13, 0 ); 
+		VectorSet( ent->r.maxs, 13, 13, 36 );
+        } else {
+		trap_SetBrushModel( ent, ent->model );
+        }
 	InitExplosive( ent );
 
 	if ( ent->spawnflags & 1 ) {  // start invis
@@ -4475,7 +4491,9 @@ void SP_func_explosive( gentity_t *ent ) {
 	}
 
 	if ( G_SpawnString( "type", "wood", &type ) ) {
-		if ( !Q_stricmp( type,"wood" ) ) {
+		if ( !Q_stricmp( type,"none" ) ) {
+			ent->key = -1;
+		} else if ( !Q_stricmp( type,"wood" ) ) {
 			ent->key = 0;
 		} else if ( !Q_stricmp( type,"glass" ) ) {
 			ent->key = 1;
@@ -4483,9 +4501,9 @@ void SP_func_explosive( gentity_t *ent ) {
 			ent->key = 2;
 		} else if ( !Q_stricmp( type,"gibs" ) )                                                                                                               {
 			ent->key = 3;
-		} else if ( !Q_stricmp( type,"brick" ) )                                                                                                                                                                      {
+		} else if ( !Q_stricmp( type,"brick" ) ) {
 			ent->key = 4;
-		} else if ( !Q_stricmp( type,"rock" ) )                                                                                                                                                                                                                              {
+		} else if ( !Q_stricmp( type,"rock" ) ) {
 			ent->key = 5;
 		} else if ( !Q_stricmp( type,"fabric" ) )                                                                                                                                                                                                                                                                                     {
 			ent->key = 6;

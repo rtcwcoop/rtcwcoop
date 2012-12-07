@@ -54,6 +54,7 @@ qboolean G_ScriptAction_Trigger( gentity_t *ent, char *params );
 qboolean G_ScriptAction_PlaySound( gentity_t *ent, char *params );
 qboolean G_ScriptAction_PlayAnim( gentity_t *ent, char *params );
 qboolean G_ScriptAction_AlertEntity( gentity_t *ent, char *params );
+qboolean G_ScriptAction_RemoveEntity( gentity_t *ent, char *params );
 qboolean G_ScriptAction_Accum( gentity_t *ent, char *params );
 qboolean G_ScriptAction_MissionFailed( gentity_t *ent, char *params );
 qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params );
@@ -71,6 +72,7 @@ qboolean G_ScriptAction_MapDescription( gentity_t *ent, char *params );
 qboolean G_ScriptAction_AxisRespawntime( gentity_t *ent, char *params );
 qboolean G_ScriptAction_AlliedRespawntime( gentity_t *ent, char *params );
 qboolean G_ScriptAction_NumberofObjectives( gentity_t *ent, char *params );
+qboolean G_ScriptAction_ObjectiveMet( gentity_t *ent, char *params );
 qboolean G_ScriptAction_ObjectiveAxisDesc( gentity_t *ent, char *params );
 qboolean G_ScriptAction_ObjectiveAlliedDesc( gentity_t *ent, char *params );
 qboolean G_ScriptAction_SetWinner( gentity_t *ent, char *params );
@@ -104,6 +106,7 @@ g_script_stack_action_t gScriptActions[] =
 	{"wait",                 G_ScriptAction_Wait},
 	{"trigger",                  G_ScriptAction_Trigger},
 	{"alertentity",              G_ScriptAction_AlertEntity},
+	{"removeentity",              G_ScriptAction_RemoveEntity},
 	{"accum",                    G_ScriptAction_Accum},
 	{"missionfailed",            G_ScriptAction_MissionFailed},
 	{"missionsuccess",           G_ScriptAction_MissionSuccess},
@@ -116,6 +119,7 @@ g_script_stack_action_t gScriptActions[] =
 	{"startcam",             G_ScriptAction_StartCam},
 	{"entityscriptname",     G_ScriptAction_EntityScriptName},
 	{"aiscriptname",         G_ScriptAction_AIScriptName},
+	{"objectivemet", G_ScriptAction_ObjectiveMet},
 	// DHM - Nerve :: multiplayer scripting commands start with "wm_" (Wolf Multiplayer)
 	{"wm_mapdescription",        G_ScriptAction_MapDescription},
 	{"wm_axis_respawntime",      G_ScriptAction_AxisRespawntime},

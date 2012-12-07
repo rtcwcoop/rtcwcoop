@@ -4,6 +4,47 @@
 "scriptname" "game_manager"
 }
 
+// door
+
+// fretn
+// the objective_info needs a model but it is not shown
+// because by default brush models where used, I had to
+// hack around to get it working 
+{
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"origin" "675 837 152"
+"spawnflags" "1"
+"classname" "trigger_objective_info"
+"track" "the Bridge defense door"
+"score" "10"
+"target" "doortarget"
+}
+
+// *23 is the left part of the steel door
+//"model" "*23"
+//1368 813 -167
+{
+"health" "100"
+"scriptname" "bridge_door"
+"origin" "685 877 130"
+"classname" "func_explosive"
+"spawnflags" "68"
+"targetname" "doortarget"
+"mass" "400" 
+"type" "none"
+"dmg" "75"
+}
+
+//dynamite
+{
+"origin" "1368 813 -140"
+"stand" "2"
+"angle" "90"
+"spawnflags" "8"
+"classname" "weapon_dynamite"
+}
+
+
 // SPAWNPOINTS
 
 {

@@ -20,7 +20,22 @@ game_manager
 	trigger objective1
 	{
 		accum 0 bitset 1
+		objectivemet 1
+		// remove the left door
+		removeentity *23
 	}
+}
+
+bridge_door //bridge steel door
+{
+        spawn
+        {   
+        }   
+
+        death
+        {   
+		trigger game_manager objective1
+        }   
 }
 
 dialog
@@ -91,7 +106,7 @@ dialog
 		trigger nazi27 unlock
 		wait 600
 		trigger player playaction1 // calls alarm music
-		alertentity openbridgedoor
+		//alertentity openbridgedoor
 	}
 
 	trigger cleardialog

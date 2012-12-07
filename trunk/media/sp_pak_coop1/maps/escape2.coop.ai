@@ -196,7 +196,13 @@ player
 		alertentity nazi27
 		trigger spawner barracks
 		trigger dialog bridgedoor
-		alertentity openbridgedoor
+		//alertentity openbridgedoor
+	}
+
+	trigger doorexplode 
+	{
+		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
 	}
 
 	trigger action17
@@ -206,7 +212,7 @@ player
 		trigger nazi25 stillalive
 		trigger nazi28 stillalive
 		trigger dialog bridgedoor
-		alertentity openbridgedoor
+		//alertentity openbridgedoor
 		
 		accum 0 abort_if_not_bitset 3
 		accum 0 bitreset 3

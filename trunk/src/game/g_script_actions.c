@@ -578,6 +578,30 @@ qboolean G_ScriptAction_PlayAnim( gentity_t *ent, char *params ) {
 	}
 };
 
+qboolean G_ScriptAction_RemoveEntity( gentity_t *ent, char *params) {
+        gentity_t   *removeent;
+
+        if ( !params || !params[0] ) {
+                G_Error( "G_Scripting: removeentity without targetname\n" );
+        }    
+
+        // find this targetname
+        removeent = G_Find( NULL, FOFS( model ), params );
+        /*if ( !removeent ) {
+G_Printf("Remove entity 2\n");
+                // check for ainame here too since some logic has moved to game_manager
+                removeent = G_Find( NULL, FOFS( aiName ), params );
+                if ( !removeent || !removeent->client ) {
+                        G_Printf( S_COLOR_RED "G_Scripting: removeentity cannot find targetname \"%s\"\n", params );
+                        return qtrue; // cs: need to return true here or it keeps getting called every frame.
+                }    
+        }    */
+
+	trap_UnlinkEntity(removeent);
+
+        return qtrue;
+}
+
 /*
 =================
 G_ScriptAction_AlertEntity
@@ -830,6 +854,57 @@ qboolean G_ScriptAction_ObjectivesNeeded( gentity_t *ent, char *params ) {
 
         return qtrue;
 }
+
+/*
+=================
+G_ScriptAction_ObjectiveMet
+
+  syntax: objectivemet <num_objective>
+=================
+*/
+qboolean G_ScriptAction_ObjectiveMet( gentity_t *ent, char *params ) {
+        vmCvar_t cvar;
+        int lvl; 
+        char *pString, *token;
+
+        pString = params;
+
+        token = COM_ParseExt( &pString, qfalse );
+        if ( !token[0] ) {
+                G_Error( "G Scripting: objectivemet requires a num_objective identifier\n" );
+        }    
+
+        lvl = atoi( token );
+
+        // if you've already got it, just return.  don't need to set 'yougotmail'
+        if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+                return qtrue;
+        }    
+
+        level.missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+
+        //set g_objective<n> cvar
+        trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );
+        // set it to make sure
+        trap_Cvar_Set( va( "g_objective%i", lvl ), "1" );
+
+
+        token = COM_ParseExt( &pString, qfalse );
+        if ( token[0] ) {
+                if ( Q_strcasecmp( token,"nodisplay" ) ) {   // unknown command
+                        G_Error( "G Scripting: missionsuccess with unknown parameter: %s\n", token );
+                }    
+        } else {    // show on-screen information
+                if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+                        trap_Cvar_Set( "cg_youGotMail", "2" ); // set flag to draw icon
+                } else {
+                        trap_SendServerCommand( -1 , "yougotmail 2\n" );
+                }    
+        }    
+
+        return qtrue;
+}
+
 
 /*
 =================

@@ -34,7 +34,11 @@ void InitTrigger( gentity_t *self ) {
 		G_SetMovedir( self->s.angles, self->movedir );
 	}
 
-	trap_SetBrushModel( self, self->model );
+        if ( self->model[0] != '*' ) {
+                self->s.modelindex   = G_ModelIndex( self->model );
+        } else {
+		trap_SetBrushModel( self, self->model );
+        } 
 
 	self->r.contents = CONTENTS_TRIGGER;        // replaces the -1 from trap_SetBrushModel
 	self->r.svFlags = SVF_NOCLIENT;
@@ -929,9 +933,9 @@ void Touch_objective_info( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 
 	if ( ent->track ) {
 		if ( ent->spawnflags & AXIS_OBJECTIVE ) {
-			trap_SendServerCommand( other - g_entities, va( "oid 0 \"" S_COLOR_RED "You are near %s\n\"", ent->track ) );
+			trap_SendServerCommand( other - g_entities, va( "oid 0 \"You are near %s\n\"", ent->track ) );
 		} else if ( ent->spawnflags & ALLIED_OBJECTIVE ) {
-			trap_SendServerCommand( other - g_entities, va( "oid 1 \"" S_COLOR_BLUE "You are near %s\n\"", ent->track ) );
+			trap_SendServerCommand( other - g_entities, va( "oid 1 \"You are near %s\n\"", ent->track ) );
 		} else {
 			trap_SendServerCommand( other - g_entities, va( "oid -1 \"You are near %s\n\"", ent->track ) );
 		}
