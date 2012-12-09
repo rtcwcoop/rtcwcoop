@@ -60,7 +60,7 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
 
 == g_spawnpoints ==
  g_spawnpoints 0 autosaves you spawnpoint every 30 seconds, if g_spawnpoint is set to 1 then you can
- save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button
+ save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button. Setting this cvar to 2 will result in a multiplayer style flagzone respawn
 
 == g_maxspawnpoints ==
  Limits the number of user droppable spawnpoints, to make the game more difficult. If you set it to zero then there is no limit at all
