@@ -1810,6 +1810,7 @@ extern vmCvar_t cg_gameType;
 extern vmCvar_t cg_entityEditCounter;
 extern vmCvar_t cg_obituaries;
 extern vmCvar_t cg_drawcompass;
+extern vmCvar_t cg_fancyfx;
 extern vmCvar_t cg_limbotime;
 
 extern vmCvar_t cg_bloodTime;

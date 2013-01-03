@@ -3252,7 +3252,7 @@ void CG_DrawActive( stereoFrame_t stereoView ) {
 
 	trap_R_RenderScene( &cg.refdef );
 
-        if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.stats[STAT_HEALTH] <= 0 || cg.snap->ps.eFlags & EF_FROZEN) {
+        if ( (cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.stats[STAT_HEALTH] <= 0 || cg.snap->ps.eFlags & EF_FROZEN) && cg_fancyfx.integer) {
                 static int texid = 0; 
                 
                 if ( !texid ) {

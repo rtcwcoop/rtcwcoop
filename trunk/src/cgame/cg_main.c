@@ -228,6 +228,7 @@ vmCvar_t cg_entityEditCounter;
 vmCvar_t cg_limbotime;
 vmCvar_t cg_obituaries;
 vmCvar_t cg_drawcompass;
+vmCvar_t cg_fancyfx; // fretn - all new visual fx can be enabled/disabled with this cvar, it will be off by default so older machines dont just crash
 
 vmCvar_t cg_bloodTime;
 vmCvar_t cg_norender;
@@ -448,6 +449,7 @@ cvarTable_t cvarTable[] = {
         //fretn
 	{ &cg_obituaries, "cg_obituaries", "2", CVAR_ARCHIVE },
 	{ &cg_drawcompass, "cg_drawcompass", "1", CVAR_ARCHIVE },
+	{ &cg_fancyfx, "cg_fancyfx", "0", CVAR_ARCHIVE },
         { &cg_entityEditCounter, "cg_entityEditCounter", "0", CVAR_ARCHIVE | CVAR_ROM },
         { &cg_limbotime,        "", "30000", 0 },
 
