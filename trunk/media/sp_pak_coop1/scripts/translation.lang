@@ -1,0 +1,1765 @@
+#version		"1.0 01/01/01"
+{
+	english		"Jump:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Springen:  "
+}
+{
+	english		"On (normal)"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Aan"
+}
+{
+	english		"Rockets:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Raketten:  "
+}
+{
+	english		"Exit"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Verlaten"
+}
+{
+	english		"Name:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Naam:"
+}
+{
+	english		"Enter Password for Protected Servers"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Geef een wachtwoord in"
+}
+{
+	english		"Drag the Slider to Increase and Decrease"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Versleep om te vermeerderen of verminderen"
+}
+{
+	english		"DEVELOPED BY"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"ONTWIKKELD DOOR"
+}
+{
+	english		"Name"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Naam"
+}
+{
+	english		"Move Forward:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Voorwaarts"
+}
+{
+	english		"QUIT"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Verlaten"
+}
+{
+	english		"Binoculars:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Verrekijker:  "
+}
+{
+	english		"Crosshairnames:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"AI Reinforce"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"AI Versterkingen"
+}
+{
+	english		"ADDITIONAL CREDITS"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Medium"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Gemiddeld"
+}
+{
+	english		"Team-Overlay:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Team informatie"
+}
+{
+	english		"Technical Director"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Engineer"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Ingenieur"
+}
+{
+	english		"Easy"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Gemakkelijk"
+}
+{
+	english		"View Empty:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Toon lege servers:"
+}
+{
+	english		"AI Respawn"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Reload Weapon:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Wapen herladen:  "
+}
+{
+	english		"Gametype:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Speltype:"
+}
+{
+	english		"Player View:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Refresh List"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Ververs de lijst"
+}
+{
+	english		"Previous Item:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Vorig:  "
+}
+{
+	english		"Skill"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Moeilijkheidsgraad"
+}
+{
+	english		"Luger"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Luger"
+}
+{
+	english		"Gametype:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Speltype"
+}
+{
+	english		"Drop Weapon:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Wapen laten vallen:  "
+}
+{
+	english		"Video Driver Info"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Video Driver informatie"
+}
+{
+	english		"Quick Message:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Snel bericht:  "
+}
+{
+	english		"Quick Message Mode:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Snel bericht type:  "
+}
+{
+	english		"Move Left:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		"Links:  "
+}
+{
+	english		"Respawn by:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"BACK"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Switch to Alternate:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Start your Server!"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Friendly Fire:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"keychange"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Crosshair:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Apply Video"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Sound Volume:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Number of Lives:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"HUD Settings"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"or"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Vote No:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"NERVE"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"SYSTEM"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Pistols:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Tesla:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Refresh All Currently Filtered Servers"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Music Volume:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Nightmare!"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Edit Game Options"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Next Weapon:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Zoom Out:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Mouse Sensitivity:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Misc"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Chat Icon Time:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"START SERVER"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"This will set your Controls,"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Zoom In:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Machineguns:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Crouch:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"800*600 (4:3)"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"POINTS"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Flamethrower:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Reset to Default Settings"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"HUD OPTIONS"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"CREDITS"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Players, Map, Gametype"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"PLEASE DON'T FORGET TO OPEN THIS PORT ON YOUR ROUTER: 27960 [TCP/UDP]"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Look"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"ARMOR"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"What Happens if You Shoot Your Friends?"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"32-bit"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Vice-President / Content Director"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"to their original defaults."
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"MULTIPLAYER BY"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Use Item:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Strafe:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"ACTIVISION"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"FlagZones"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Apply Sound"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"President / Game Director"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Kill Player:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Refresh"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Toggle Notebook:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Press ENTER or CLICK to change, Press BACKSPACE to clear"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Yes"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Server Name"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Screenshot:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Lean Left:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Compass:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Auto Item Pickup:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"DEFAULTS"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"THE COOPERATIVE GAMEPLAY"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Rifles:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Cooperative"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Model:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Invert Mouse:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"For Zooming:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"6 sec"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Select the Item to Toggle to Yes or No"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"PRODUCED BY"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Content Director"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Art & Design"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Color Depth:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Use Weapon Cycle"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"If New"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Ping"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"On + Health Penalty"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Video Settings"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"CREATE SERVER"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Next Item:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Time to beat: %2.0f:%i%i"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Assault Rifles:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Cursor Hints:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Senior Engineer"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Move"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Blood Hit on HUD:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Move Right:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Player Options"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Vote Yes:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Always Run:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Graphics and game Options"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Programming"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"First Person"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Teleport when stuck:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Texture Quality:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Are you sure?"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Show Scoreboard:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Sprint:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		" "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Previous Weapon:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Chat:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Smooth Mouse:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Venom:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Third Person Offset:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Sound Settings"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Get Updated Server List from Current Source"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Dedicated:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Brightness:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"HEALTH"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Host Name:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"On"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"NO"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Score"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"CONTROLS"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Solid Crosshair:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Skill Option"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Password:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Activate:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Shoot"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Grenades:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Server Options"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Hard"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Crosshair Alpha:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Manual Save:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Display Server Information"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Password:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Drop Ammo:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Server Info"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Choose a Respawn-system for your team!"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Knife:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Edit System Settings"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"ID SOFTWARE"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"CONNECT"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Numeric"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"32 bit"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"HUD Alpha:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Off"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Map Selection"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"CLIP"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Max Players (1-8):  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Fullscreen:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"QUALITY ASSURANCE"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"OPTIONS"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Kick:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"JOIN GAME"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Resolution:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"GRAY MATTER STUDIOS INC"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Lean Right:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Number of Deployments. 0 = unlimited"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"yes, over Internet"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Main Menu"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Attack:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Get New List"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Crosshair Size:"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Autoswitch:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Normal"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"size pulse"
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Run / Walk:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}
+{
+	english		"Move Back:  "
+	french		""
+	german		""
+	italian		""
+	spanish		""
+	hungarian	""
+	dutch		""
+}

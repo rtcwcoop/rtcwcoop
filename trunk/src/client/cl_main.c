@@ -2867,7 +2867,7 @@ void CL_ShellExecute_URL_f( void ) {
 //----(SA) end
 #ifdef LOCALISATION
 void CL_SaveTranslations_f( void ) {
-	CL_SaveTransTable( "scripts/translation.cfg", qfalse );
+	CL_SaveTransTable( "scripts/translation.lang", qfalse );
 }
 
 void CL_SaveNewTranslations_f( void ) {
@@ -2878,7 +2878,7 @@ void CL_SaveNewTranslations_f( void ) {
 		return;
 	}
 
-	strcpy( fileName, va( "translations/%s.cfg", Cmd_Argv( 1 ) ) );
+	strcpy( fileName, va( "translations/%s.lang", Cmd_Argv( 1 ) ) );
 
 	CL_SaveTransTable( fileName, qtrue );
 }
@@ -4438,7 +4438,7 @@ static trans_t* LookupTrans( char *original, char *translated[MAX_LANGUAGES], qb
 
 	// see if we want to save out the translation table everytime a string is added
 	if ( cl_debugTranslation->integer == 2 && !isLoading ) {
-		CL_SaveTransTable( "scripts/translations.cfg", qtrue);
+		CL_SaveTransTable( "scripts/translation.lang", qtrue);
 	}
 
 	return newt;
@@ -4833,9 +4833,9 @@ void CL_ReloadTranslation() {
 	}
 
 	memset( transTable, 0, sizeof( trans_t* ) * FILE_HASH_SIZE );
-	CL_LoadTransTable( "scripts/translation.cfg" );
+	CL_LoadTransTable( "scripts/translation.lang" );
 
-	fileList = FS_ListFiles( "translations", "cfg", &numFiles );
+	fileList = FS_ListFiles( "translations", ".lang", &numFiles );
 
 	for ( i = 0; i < numFiles; i++ ) {
 		CL_LoadTransTable( va( "translations/%s", fileList[i] ) );
@@ -4852,9 +4852,9 @@ void CL_InitTranslation() {
 	int numFiles, i;
 
 	memset( transTable, 0, sizeof( trans_t* ) * FILE_HASH_SIZE );
-	CL_LoadTransTable( "scripts/translation.cfg" );
+	CL_LoadTransTable( "scripts/translation.lang" );
 
-	fileList = FS_ListFiles( "translations", ".cfg", &numFiles );
+	fileList = FS_ListFiles( "translations", ".lang", &numFiles );
 
 	for ( i = 0; i < numFiles; i++ ) {
 		CL_LoadTransTable( va( "translations/%s", fileList[i] ) );
