@@ -4531,6 +4531,10 @@ void CL_SaveTransTable( const char *fileName, qboolean newOnly ) {
 				len = strlen( buf );
 				FS_Write( buf, len, f );
 
+				buf = va( "\tdutch\t\t\"%s\"\n", t->translated[LANGUAGE_DUTCH] );
+				len = strlen( buf );
+				FS_Write( buf, len, f );
+
 				buf = va( "}\n", t->original );
 				len = strlen( buf );
 				FS_Write( buf, len, f );
@@ -4743,6 +4747,21 @@ void CL_LoadTransTable( const char *fileName ) {
 		token = COM_Parse( &text_p );
 		strcpy( translated[LANGUAGE_HUNGARIAN], token );
 		if ( !CL_CheckTranslationString( original, translated[LANGUAGE_HUNGARIAN] ) ) {
+			Com_Printf( S_COLOR_YELLOW "WARNING: Translation formatting doesn't match up with English version!\n" );
+			aborted = qtrue;
+			break;
+		}
+
+		// dutch
+		token = COM_Parse( &text_p );
+		if ( Q_stricmp( "dutch", token ) ) {
+			aborted = qtrue;
+			break;
+		}
+
+		token = COM_Parse( &text_p );
+		strcpy( translated[LANGUAGE_DUTCH], token );
+		if ( !CL_CheckTranslationString( original, translated[LANGUAGE_DUTCH] ) ) {
 			Com_Printf( S_COLOR_YELLOW "WARNING: Translation formatting doesn't match up with English version!\n" );
 			aborted = qtrue;
 			break;

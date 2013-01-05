@@ -49,7 +49,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_MT;BOTLIB;NO_VM_COMPILED;C_ONLY;USE_ICON;WIN32;MONEY;_DEBUG;_WINDOWS;%(PreprocessorDefinitions); _CRT_SECURE_NO_WARNINGS;DEBUG_DL;DEBUG_ZEROCLIENT</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MT;BOTLIB;NO_VM_COMPILED;C_ONLY;USE_ICON;LOCALISATION;WIN32;MONEY;_DEBUG;_WINDOWS;%(PreprocessorDefinitions); _CRT_SECURE_NO_WARNINGS;DEBUG_DL;DEBUG_ZEROCLIENT</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\src\SDL12\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -69,7 +69,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_MT;BOTLIB;NO_VM_COMPILED;C_ONLY;USE_ICON;WIN32;MONEY;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MT;BOTLIB;NO_VM_COMPILED;C_ONLY;USE_ICON;LOCALISATION;WIN32;MONEY;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\src\SDL12\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>

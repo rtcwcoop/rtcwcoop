@@ -1420,6 +1420,9 @@ char *Key_KeynumToString( int keynum, qboolean bTranslate ) {
 		} else if ( cl_language->integer - 1 == LANGUAGE_HUNGARIAN ) {
 			//kn = keynames_h;  //use hungarian
 			kn = keynames;  //needs to be translated
+		} else if ( cl_language->integer - 1 == LANGUAGE_DUTCH ) {
+			//kn = keynames_n;  //use dutch (nederlands)
+			kn = keynames;  //needs to be translated
 		}
 	}
 #endif

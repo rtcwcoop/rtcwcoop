@@ -1078,6 +1078,8 @@ qboolean Load_Menu( int handle ) {
                                 s = va( "%s%s", out, "spanish/" );
                         } else if ( cl_language == 5 ) {
                                 s = va( "%s%s", out, "hungarian/" );
+                        } else if ( cl_language == 6 ) {
+                                s = va( "%s%s", out, "dutch/" );
                         }    
 
                         if ( UI_ParseMenu( va( "%s%s", s, filename ) ) ) {
