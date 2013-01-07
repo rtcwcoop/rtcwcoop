@@ -1270,6 +1270,7 @@ extern void trap_Cvar_Reset( const char *var_name );
 void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	int i;
 	int fps;
+	int r = (rand() % 10 ) + 1;
 
 	//if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
 		G_Printf( "------- Game Initialization -------\n" );
@@ -1280,6 +1281,10 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	srand( randomSeed );
 
 	G_RegisterCvars();
+
+	// g_random is a value from 1 - 10 (1 and 10 included)
+	// is used in the scripting to randomize entity locations, and more
+	trap_Cvar_Set("g_random", va("%d", r)); 
 
 	G_ProcessIPBans();
 

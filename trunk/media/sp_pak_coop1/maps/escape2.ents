@@ -38,7 +38,36 @@
 
 //dynamite
 {
+#if g_random == 1
 "origin" "1368 813 -140"
+#endif
+#if g_random == 2
+"origin" "1709 2221 -199"
+#endif
+#if g_random == 3
+"origin" "978 1661 -135"
+#endif
+#if g_random == 4
+"origin" "626 244 -199"
+#endif
+#if g_random == 5
+"origin" "1858 3757 -199"
+#endif
+#if g_random == 6
+"origin" "2151 3451 -103"
+#endif
+#if g_random == 7
+"origin" "1960 2802 -195"
+#endif
+#if g_random == 8
+"origin" "2157 2626 -199"
+#endif
+#if g_random == 9
+"origin" "1154 2466 -199"
+#endif
+#if g_random == 10
+"origin" "690 1741 -55"
+#endif
 "stand" "2"
 "angle" "90"
 "spawnflags" "8"
