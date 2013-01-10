@@ -95,6 +95,7 @@ float Com_GetFlamethrowerRange( void );
 //#define	DEFAULT_MODEL		"american"
 #define DEFAULT_MODEL       "bj2"
 #define DEFAULT_COOP_MODEL       "multi"
+#define DEFAULT_COOP_MODEL_AXIS       "multi_axis"
 #define DEFAULT_HEAD        "default"    // technically the default head skin.  this means "head_default.skin" for the head
 
 // RF, on fire effects

@@ -993,6 +993,25 @@ void Cmd_Kill_f( gentity_t *ent ) {
 	player_die( ent, ent, ent, 100000, MOD_SUICIDE );
 }
 
+team_t TeamCount( int ignoreClientNum, int team ) {
+        int i;
+        int count = 0; 
+
+        for ( i = 0 ; i < level.maxclients ; i++ ) {
+                if ( i == ignoreClientNum ) {
+                        continue;
+                }    
+                if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
+                        continue;
+                }    
+                if ( level.clients[i].sess.sessionTeam == team ) {
+                        count++;
+                }    
+        }    
+
+        return count;
+}
+
 
 /*
 =================
@@ -1036,6 +1055,58 @@ void SetTeam( gentity_t *ent, char *s ) {
 	} else if ( !Q_stricmp( s, "spectator" ) || !Q_stricmp( s, "s" ) ) {
 		team = TEAM_SPECTATOR;
 		specState = SPECTATOR_FREE;
+        } else if ( g_gametype.integer == GT_COOP ) {
+                int counts[TEAM_NUM_TEAMS];
+                // if running a team game, assign player to one of the teams
+                specState = SPECTATOR_NOT;
+                if ( !Q_stricmp( s, "red" ) || !Q_stricmp( s, "r" ) ) {
+                        team = TEAM_RED;
+                } else if ( !Q_stricmp( s, "blue" ) || !Q_stricmp( s, "b" ) ) {
+                        team = TEAM_BLUE;
+                } else {
+                        // pick the team with the least number of players
+                        //team = PickTeam( clientNum );
+                        team = TEAM_FREE;
+                }    
+                
+                counts[TEAM_RED] = TeamCount( ent - g_entities, TEAM_RED );
+                
+                if ( team == TEAM_BLUE && counts[TEAM_BLUE] >= 1 ) {
+                        trap_SendServerCommand( clientNum,
+                                                                        "cp \"The Axis has too many players.\n\"" );
+                        return;
+                }
+/*
+                // NERVE - SMF
+                if ( g_noTeamSwitching.integer && team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
+                        trap_SendServerCommand( clientNum, "cp \"You cannot switch during a match, please wait until the round ends.\n\"" );
+                        return; // ignore the request
+                }    
+
+                // NERVE - SMF - merge from team arena
+                if ( g_teamForceBalance.integer  ) {  
+                        int counts[TEAM_NUM_TEAMS];
+
+                        counts[TEAM_BLUE] = TeamCount( ent - g_entities, TEAM_BLUE );
+                        counts[TEAM_RED] = TeamCount( ent - g_entities, TEAM_RED );
+
+                        // We allow a spread of one
+                        if ( team == TEAM_RED && counts[TEAM_RED] - counts[TEAM_BLUE] >= 1 ) {
+                                trap_SendServerCommand( clientNum,
+                                                                                "cp \"The Axis has too many players.\n\"" );
+                                return; // ignore the request
+                        }    
+                        if ( team == TEAM_BLUE && counts[TEAM_BLUE] - counts[TEAM_RED] >= 1 ) {
+                                trap_SendServerCommand( clientNum,
+                                                                                "cp \"The Allies have too many players.\n\"" );
+                                return; // ignore the request
+                        }    
+
+                        // It's ok, the team we are switching to has less or same number of players
+                }
+                // -NERVE - SMF
+
+*/
 	} else {
 		// force them to spectators if there aren't any spots free
 		team = TEAM_FREE;

@@ -166,7 +166,7 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 	sess->ignored = 0;		// Ignored players
 	// End
 
-    Coop_DeleteStats( client - level.clients );
+        Coop_DeleteStats( client - level.clients );
 
 	G_WriteClientSessionData( client );
 }

@@ -736,6 +736,7 @@ Forces a client's skin (for Wolfenstein teamplay)
 
 #define MULTIPLAYER_MODEL   "multi"
 #define COOP_MODEL   "multi"
+#define COOP_MODEL_AXIS   "multi_axis"
 
 void SetCoopSkin( gclient_t *client, char *model, int number ) {
 
@@ -1447,8 +1448,13 @@ void ClientUserinfoChanged( int clientNum ) {
 	if ( g_forceModel.integer ) {
 		if ( g_gametype.integer > GT_COOP )
 	       	Q_strncpyz( model, DEFAULT_MODEL, sizeof( model ) );
-        else
-	      	Q_strncpyz( model, DEFAULT_COOP_MODEL, sizeof( model ) );
+        else {
+                if (client->sess.sessionTeam == TEAM_RED) {
+                        Q_strncpyz( model, DEFAULT_COOP_MODEL_AXIS, sizeof( model ) );
+                } else {
+                        Q_strncpyz( model, DEFAULT_COOP_MODEL, sizeof( model ) );
+                }
+        }
 
 		Q_strcat( model, sizeof( model ), "/default" );
 	} else {
@@ -1472,7 +1478,11 @@ void ClientUserinfoChanged( int clientNum ) {
         if (skinno > 3) 
 		    skinno = 3; 
 
-        Q_strncpyz( model, COOP_MODEL, MAX_QPATH );
+        if (client->sess.sessionTeam == TEAM_RED) {
+                Q_strncpyz( model, COOP_MODEL_AXIS, MAX_QPATH );
+        } else {
+                Q_strncpyz( model, COOP_MODEL, MAX_QPATH );
+        }
         Q_strcat( model, MAX_QPATH, "/" );
 
         SetCoopSkin( client, model, skinno );
@@ -1483,6 +1493,7 @@ void ClientUserinfoChanged( int clientNum ) {
 			//SetCoopSkin( client, head, 0  );
         //else 
 			SetCoopSkin( client, head, skinno );
+Com_Printf("head: %s\n", head);
     }
 
 	// strip the skin name
@@ -1587,13 +1598,13 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	// check to see if they are on the banned IP list
 	value = Info_ValueForKey( userinfo, "ip" );
 
-    if ( !(ent->r.svFlags & SVF_CASTAI) && ( strcmp( Info_ValueForKey( userinfo, "ip" ), "localhost" ) != 0 ) ) {
+        if ( !(ent->r.svFlags & SVF_CASTAI) && ( strcmp( Info_ValueForKey( userinfo, "ip" ), "localhost" ) != 0 ) ) {
 		// check for a password
-        value = Info_ValueForKey( userinfo, "password" );
-        if ( g_password.string[0] && strcmp( g_password.string, value ) != 0 ) {
+                value = Info_ValueForKey( userinfo, "password" );
+                if ( g_password.string[0] && strcmp( g_password.string, value ) != 0 ) {
 			return "Invalid password";
+                }
         }
-    }
 
 	// they can connect
 	ent->client = level.clients + clientNum;
@@ -1793,7 +1804,11 @@ void ClientSpawn( gentity_t *ent ) {
 	} else {
 		if ( !ent->client->pers.initialSpawn ) {
 			ent->aiName = "player";  // needed for script AI
-			ent->aiTeam = 1;        // member of allies
+                        if ( client->sess.sessionTeam == TEAM_RED ) {
+                                ent->aiTeam = 0;        // member of axis
+                        } else if ( client->sess.sessionTeam == TEAM_BLUE || client->sess.sessionTeam == TEAM_FREE ) {
+                                ent->aiTeam = 1;        // member of allies
+                        }
 			ent->client->ps.teamNum = ent->aiTeam;
 			AICast_ScriptParse( AICast_GetCastState( ent->s.number ) );
 		}
@@ -1877,24 +1892,24 @@ void ClientSpawn( gentity_t *ent ) {
 	if ( g_gametype.integer <= GT_COOP ) {
 
 		// fretn: save weapons for respawn
-        savedWeapon = client->ps.weapon;
-        savedWeaponstate = client->ps.weaponstate;
+                savedWeapon = client->ps.weapon;
+                savedWeaponstate = client->ps.weaponstate;
         
-		for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
-			savedAmmo[i] = client->ps.ammo[i];
-            savedAmmoclip[i] = client->ps.ammoclip[i];
-        }
-        for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
-			savedWeapons[i] = client->ps.weapons[i];
-        }
+                for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
+                        savedAmmo[i] = client->ps.ammo[i];
+                        savedAmmoclip[i] = client->ps.ammoclip[i];
+                }
+                for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                        savedWeapons[i] = client->ps.weapons[i];
+                }
 
-        // fretn - later on, we will disable this for speedrun
-        if ( g_gametype.integer <= GT_COOP ) {
+                // fretn - later on, we will disable this for speedrun
+                if ( g_gametype.integer <= GT_COOP ) {
 			// save the spawnpoint
 			VectorCopy(client->coopSpawnPointOrigin, saved_spawn_origin);                      
-            VectorCopy(client->coopSpawnPointAngles, saved_spawn_angles);                      
-            savedHasCoopSpawn = client->hasCoopSpawn;
-        }
+                        VectorCopy(client->coopSpawnPointAngles, saved_spawn_angles);                      
+                        savedHasCoopSpawn = client->hasCoopSpawn;
+                }
 	}
 
     // clear everything
@@ -1911,25 +1926,25 @@ void ClientSpawn( gentity_t *ent ) {
 	if ( g_gametype.integer <= GT_COOP ) {
 		
 		// fretn: restore weapons after a respawn
-        client->ps.weapon = savedWeapon;
-        client->ps.weaponstate = savedWeaponstate;
+                client->ps.weapon = savedWeapon;
+                client->ps.weaponstate = savedWeaponstate;
         
 		for ( i = 0 ; i < MAX_WEAPONS ; i++ ) {
 			client->ps.ammo[i] = savedAmmo[i];
-            client->ps.ammoclip[i] = savedAmmoclip[i];
-        }
-        for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
+                        client->ps.ammoclip[i] = savedAmmoclip[i];
+                }
+                for ( i = 0 ; i < (MAX_WEAPONS / (sizeof(int) * 8)) ; i++ ) {
 			client->ps.weapons[i] = savedWeapons[i];
-        }
+                }
         
-        // fretn - later on, we will disable this for speedrun
-        if ( g_gametype.integer <= GT_COOP ) {
+                // fretn - later on, we will disable this for speedrun
+                if ( g_gametype.integer <= GT_COOP ) {
 			// restore the spawnpoint
-            VectorCopy(saved_spawn_origin, client->coopSpawnPointOrigin);                      
-            VectorCopy(saved_spawn_angles, client->coopSpawnPointAngles);                      
-            client->hasCoopSpawn = savedHasCoopSpawn;
+                        VectorCopy(saved_spawn_origin, client->coopSpawnPointOrigin);                      
+                        VectorCopy(saved_spawn_angles, client->coopSpawnPointAngles);                      
+                        client->hasCoopSpawn = savedHasCoopSpawn;
+                }
         }
-    }
 
 	// increment the spawncount so the client will detect the respawn
 	client->ps.persistant[PERS_SPAWN_COUNT]++;
@@ -1964,33 +1979,33 @@ void ClientSpawn( gentity_t *ent ) {
 	ent->watertype = 0;
 	ent->flags = 0;
 
-    // fretn : freeze the players if needed
-    if ( g_freeze.integer && g_gametype.integer <= GT_COOP && !(ent->r.svFlags & SVF_CASTAI)) {
+        // fretn : freeze the players if needed
+        if ( g_freeze.integer && g_gametype.integer <= GT_COOP && !(ent->r.svFlags & SVF_CASTAI)) {
 		int frozen = 0;
-        int i = 0;
-        gentity_t *player;
+                int i = 0;
+                gentity_t *player;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
 			player = &g_entities[i];
         
-            if ( !player || !player->inuse || player == ent)
+                        if ( !player || !player->inuse || player == ent)
 				continue;
         
-            if (player->r.svFlags & SVF_CASTAI)
-                continue;
+                        if (player->r.svFlags & SVF_CASTAI)
+                                continue;
         
-            if ( player->client->ps.eFlags & EF_FROZEN) 
-                continue;
+                        if ( player->client->ps.eFlags & EF_FROZEN) 
+                                continue;
 
-           frozen++;
-        }
+                        frozen++;
+                }
 
-        // only freeze them when there are still others not frozen
-        if (frozen && client->ps.persistant[PERS_SPAWN_COUNT] > 1) {
+                // only freeze them when there are still others not frozen
+                if (frozen && client->ps.persistant[PERS_SPAWN_COUNT] > 1) {
 			client->ps.eFlags |= EF_FROZEN;
-            ent->flags |= FL_NOTARGET;
+                        ent->flags |= FL_NOTARGET;
+                }
         }
-    }
 
 	VectorCopy( playerMins, ent->r.mins );
 	VectorCopy( playerMaxs, ent->r.maxs );
@@ -2032,7 +2047,7 @@ void ClientSpawn( gentity_t *ent ) {
 			SetCoopSpawnWeapons( client ); 
 	}
 
-    client->pers.initialSpawn = qtrue;
+        client->pers.initialSpawn = qtrue;
 
 	// dhm - end
 
@@ -2115,7 +2130,7 @@ void ClientSpawn( gentity_t *ent ) {
 	} else {
 		// fire the targets of the spawn point
         if (!g_gametype.integer >= GT_SINGLE_PLAYER)
-			G_UseTargets( spawnPoint, ent );
+                G_UseTargets( spawnPoint, ent );
 
 		// select the highest weapon number available, after any
 		// spawn given items have fired
