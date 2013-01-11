@@ -1055,7 +1055,7 @@ void SetTeam( gentity_t *ent, char *s ) {
 	} else if ( !Q_stricmp( s, "spectator" ) || !Q_stricmp( s, "s" ) ) {
 		team = TEAM_SPECTATOR;
 		specState = SPECTATOR_FREE;
-        } else if ( g_gametype.integer == GT_COOP ) {
+        } else if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
                 int counts[TEAM_NUM_TEAMS];
                 // if running a team game, assign player to one of the teams
                 specState = SPECTATOR_NOT;
@@ -1071,7 +1071,7 @@ void SetTeam( gentity_t *ent, char *s ) {
                 
                 counts[TEAM_RED] = TeamCount( ent - g_entities, TEAM_RED );
                 
-                if ( team == TEAM_BLUE && counts[TEAM_BLUE] >= 1 ) {
+                if ( team == TEAM_BLUE && counts[TEAM_BLUE] >= 1 ) { // cvar this ?
                         trap_SendServerCommand( clientNum,
                                                                         "cp \"The Axis has too many players.\n\"" );
                         return;
@@ -1129,15 +1129,22 @@ void SetTeam( gentity_t *ent, char *s ) {
 	// execute the team change
 	//
 
+        // DHM - Nerve
+        if ( client->pers.initialSpawn && team != TEAM_SPECTATOR ) {
+                client->pers.initialSpawn = qfalse;
+        }  
+
 	// he starts at 'base'
 	client->pers.teamState.state = TEAM_BEGIN;
 	if ( oldTeam != TEAM_SPECTATOR ) {
-		// Kill him (makes sure he loses flags, etc)
-		ent->flags &= ~FL_GODMODE;
-		ent->client->ps.stats[STAT_HEALTH] = ent->health = 0;
-		player_die( ent, ent, ent, 100000, MOD_SUICIDE );
-
+                if ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
+                        // Kill him (makes sure he loses flags, etc)
+                        ent->flags &= ~FL_GODMODE;
+                        ent->client->ps.stats[STAT_HEALTH] = ent->health = 0;
+                        player_die( ent, ent, ent, 100000, MOD_SUICIDE );
+                }
 	}
+
 	// they go to the end of the line for tournements
 	if ( team == TEAM_SPECTATOR ) {
 		client->sess.spectatorTime = level.time;
@@ -1223,6 +1230,9 @@ Cmd_Team_f
 void Cmd_Team_f( gentity_t *ent ) {
 	int oldTeam;
 	char s[MAX_TOKEN_CHARS];
+
+        if ( g_gametype.integer == GT_SINGLE_PLAYER )
+                return;
 
 	if ( trap_Argc() < 2 ) {
 		oldTeam = ent->client->sess.sessionTeam;

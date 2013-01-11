@@ -200,12 +200,59 @@ void CheckCoopStatus( void ) {
 
 /*
 ================
+SelectRandomAntiCoopSpawnPoint
+
+if you play as axis in a coop game, you spawn at the spots where
+AI's spawn, if you spawn at an ai spawn that specific AI will be killed (offered)
+================
+*/
+#define MAX_SPAWN_POINTS    128
+gentity_t *SelectRandomAntiCoopSpawnPoint( vec3_t origin, vec3_t angles ) { 
+        int i = 0;
+        int count = 0;
+        int selection;
+        gentity_t       *spot = NULL;
+        gentity_t       *spots[MAX_SPAWN_POINTS];
+
+        for (i=MAX_COOP_CLIENTS; i<level.maxclients; i++) {
+                spot = g_entities + i; 
+
+                if (!spot->client)
+                        continue;
+
+                if (spot->aiInactive)
+                        continue;
+
+                if (spot->health <= 0)
+                        continue;
+
+                spots[ count ] = spot;
+                count++;
+
+        }
+
+        // what to do if no AI's are alive, where to spawn ?
+        if (!count)
+                return NULL;
+
+        selection = rand() % count;
+        spot = spots[ selection ];
+
+        VectorCopy( spot->s.origin, origin );
+        origin[2] += 9;
+        VectorCopy( spot->s.angles, angles );
+
+        return spot;
+
+}
+
+/*
+================
 SelectRandomCoopSpawnPoint
 
 go to a random point that doesn't telefrag
 ================
 */
-#define MAX_SPAWN_POINTS    128
 gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
         gentity_t   *spot;
         int count;
