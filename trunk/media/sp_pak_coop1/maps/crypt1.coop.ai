@@ -8,13 +8,7 @@ player
 {
 	spawn
 	{
-		accum 0 set 0
-		accum 1 set 0
-		accum 2 bitreset 0	// Used for if the player goes around which will skip the scooby doo scene.
-		accum 3 set 0 // don't remove exit trigger
 		cvar g_episode 1
-		objectivesneeded 2
-		numsecrets 1
 		suggestweapon weapon_mp40
 
 		abort_if_loadgame
@@ -23,12 +17,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/c_military
-		//trigger counter1 cinematic1
-		trigger counter1 cine1_cleanup
-		//trigger player cine1_cam1	// Camera1		
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -52,7 +40,25 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+	}
 
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 0 set 0
+		accum 1 set 0
+		accum 2 bitreset 0	// Used for if the player goes around which will skip the scooby doo scene.
+		accum 3 set 0 // don't remove exit trigger
+
+		objectivesneeded 2
+		numsecrets 1
+
+		mu_fade 0 1000
+		mu_queue sound/music/c_military
+		//trigger counter1 cinematic1
+		trigger counter1 cine1_cleanup
+		//trigger player cine1_cam1	// Camera1	
 	}
 
 	// --- Start cinematic 1 cameras ---

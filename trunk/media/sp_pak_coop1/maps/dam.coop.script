@@ -10,6 +10,9 @@ game_manager
 	spawn
 	{
 		accum 0 set 0 // objectives
+
+		wait 50	//Prevent bizzare things
+		trigger player map_start	//Prevents late players affecting the game
 	}
 	
 	trigger checkexit
@@ -1624,7 +1627,7 @@ checker2
 //		trigger checker2 alert_nazi1		// newly added so he can be inseen
 		alertentity nazi1
 		accum 0 abort_if_bitset 30
-		trigger player plane_cam1
+//		trigger player plane_cam1
 		alertentity bj3		// bj skin is airplane
 		alertentity plane_engines
 		accum 0 abort_if_bitset 30

@@ -8,14 +8,8 @@ player
 {
 	spawn
 	{
-		accum 0 bitreset 0	// Used to wait a few seconds before you are able to skip cinematic.
-		accum 2 set 0 // don't remove exit trigger
-		accum 0 bitset 2
-		accum 0 bitreset 3
 		cvar g_episode 4
-		objectivesneeded 3
 		suggestweapon weapon_fg42
-		numsecrets 0
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_2
@@ -23,9 +17,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/x_atmos
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -64,6 +55,22 @@ player
 
 	}
 
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+		accum 0 bitreset 0	// Used to wait a few seconds before you are able to skip cinematic.
+		accum 2 set 0 // don't remove exit trigger
+		accum 0 bitset 2
+		accum 0 bitreset 3
+
+		objectivesneeded 3
+		numsecrets 0
+
+		mu_fade 0 1000
+		mu_queue sound/music/x_atmos
+	}
+
 	trigger music1
 	{
 		mu_fade 0 1000
@@ -76,7 +83,7 @@ player
 		mu_queue sound/music/x_action
 	}
 
-	trigger 0bitset0
+//	trigger 0bitset0
 //	{
 //		accum 0 bitset 0
 //	}

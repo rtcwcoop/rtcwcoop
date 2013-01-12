@@ -8,23 +8,14 @@ game_manager
 	spawn
 	{
 		accum 0 set 0 // objectives
-		accum 1 set 0 // single init
+		//accum 1 set 0 // empty
 		accum 2 set 0 // triggers
 		accum 3 set 0 // triggers
+
+		wait 50	//Prevent bizzare things
+		trigger player map_start	//Prevents late players affecting the game
 	}
-	
-	trigger init
-	{
-		//print "game_manager->init"
-		accum 1 abort_if_greater_than 0
-		accum 1 bitset 1
 		
-		objectivesneeded 2
-		numsecrets 7
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
-	}
-	
 	trigger checkexit
 	{
 		accum 0 abort_if_not_bitset 2

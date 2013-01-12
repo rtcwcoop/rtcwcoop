@@ -9,10 +9,8 @@ player
 {
 	spawn
 	{
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 5
-		objectivesneeded 2		// taken down to 
-		numsecrets 1
+		suggestweapon weapon_mp40
 
 		abort_if_loadgame
 		mu_start sound/music/m_drums
@@ -21,9 +19,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 3000
-		mu_queue sound/music/m_drums
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -63,9 +58,22 @@ player
 		setarmor 50
 		giveinventory key_binocs
 		selectweapon weapon_sten
+	}
+
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 2		// taken down to 
+		numsecrets 1
+
+		mu_fade 0 3000
+		mu_queue sound/music/m_drums
 
 		trigger checker2 plane_cine1
-
 	}
 
 //----------Cameras-------------

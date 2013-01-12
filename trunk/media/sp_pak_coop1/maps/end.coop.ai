@@ -12,30 +12,15 @@ player
 
 	spawn
 	{
-		accum 0 bitreset 0
-		accum 2 set 0 // don't remove exit trigger
-		abort_if_loadgame
-		mu_fade 0 1000
-		mu_queue sound/music/c_atmos
-
 		cvar g_episode 6
-		objectivesneeded 1		
-		numsecrets 0
+		suggestweapon weapon_mp40
+
+		abort_if_loadgame
+		mu_start sound/music/c_atmos
 	}
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/c_chant
-		trigger counter1 action1	these three events are beggining events
-//		wait 1000 
-		trigger counter1 cinematic1	
-		trigger player cam1
-//					Newly added for himmler scene
-//		trigger counter1 himmler_cine1	
-//		wait 1000
-//		trigger player cam_himmler
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -74,6 +59,29 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+	}
+
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 0 bitreset 0
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 1		
+		numsecrets 0
+
+		mu_fade 0 1000
+		mu_queue sound/music/c_chant
+		trigger counter1 action1	these three events are beggining events
+//		wait 1000 
+		trigger counter1 cinematic1	
+		trigger player cam1
+//					Newly added for himmler scene
+//		trigger counter1 himmler_cine1	
+//		wait 1000
+//		trigger player cam_himmler
 
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif

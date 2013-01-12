@@ -8,13 +8,8 @@ player
 {
 	spawn
 	{
-		accum 0 bitset 0
-		accum 0 bitset 1
-		accum 0 bitset 2 // spawn helga once
-		accum 1 set 0
-		accum 2 set 0
-		accum 3 set 0 // don't remove exit trigger
 		cvar g_episode 1
+		suggestweapon weapon_mp40
 
 		abort_if_loadgame
 		mu_fade 0 1000
@@ -23,13 +18,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/c_atmos
-		trigger counter1 cinematic1
-		trigger player cam2
-//		trigger player cam
-//		trigger counter1 plane_cine1
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -55,6 +43,32 @@ player
 		selectweapon weapon_sten
 
 	}
+
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitset 2 // spawn helga once
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0 // don't remove exit trigger
+		
+		objectivesneeded 2
+		numsecrets 0
+
+		mu_fade 0 1000
+		mu_queue sound/music/c_atmos
+
+		trigger counter1 cinematic1
+//		trigger player cam2
+//		trigger player cam
+//		trigger counter1 plane_cine1
+
+
+	}
+
 
 	// --- Start Camera section ---
 	trigger cam1

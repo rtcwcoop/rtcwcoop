@@ -9,12 +9,8 @@ player
 {
 	spawn
 	{
-		accum 0 set 0
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 2
-		objectivesneeded 3
 		suggestweapon weapon_mauserRifle
-		numsecrets 0
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
@@ -22,10 +18,6 @@ player
 
 	playerstart
 	{
-		trigger truck1 jet_idle_loop_start
-		mu_fade 0 1000
-		mu_queue sound/music/m_grave
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -49,6 +41,21 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mauserRifle
+
+	}
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 0 set 0
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 3
+		numsecrets 0
+
+		mu_fade 0 1000
+		mu_queue sound/music/m_grave
 
 	}
 

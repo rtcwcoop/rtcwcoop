@@ -8,6 +8,22 @@ player
 {
 	spawn
 	{
+		abort_if_loadgame
+		mu_start sound/music/l_briefing_1
+	}
+
+	playerstart
+	{
+		// Weapons
+		giveweapon weapon_knife
+		giveweapon weapon_luger
+		setclip weapon_luger 8
+	}
+
+	trigger map_start
+	{
+//If something breaks at late player joining, move it here
+
 		accum 0 bitreset 0 // cell door should not trigger during cutscene
 		accum 0 bitset 1 // explosive trigger fire once
 		accum 0 bitset 2 // alarm trigger should only fire once
@@ -17,22 +33,18 @@ player
 		accum 1 set 0
 		accum 2 set 0 // don't remove exit trigger
 
-		abort_if_loadgame
-		mu_start sound/music/l_briefing_1
-	}
+		objectivesneeded 2
+		numsecrets 7
 
-	playerstart
-	{
 		mu_fade 0 1500
 		mu_queue sound/music/c_military
+
 		//trigger dummy cinematic1
 		//trigger player cam1
 		trigger dummy cine1_cleanup
-		
-		// Weapons
-		giveweapon weapon_knife
-		giveweapon weapon_luger
-		setclip weapon_luger 8
+
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 	}
 	
 	trigger fix_bitset0

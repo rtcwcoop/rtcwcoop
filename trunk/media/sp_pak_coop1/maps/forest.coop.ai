@@ -9,19 +9,8 @@ player
 {
 	spawn
 	{
-		accum 0 bitset 0
-		accum 0 bitset 1
-		accum 0 bitset 2
-		accum 0 bitset 3
-		accum 0 bitset 4
-		accum 0 bitset 5
-		accum 0 bitset 6
-		accum 0 bitset 7
-		accum 1 set 0 // counts objectives met
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 2
-		objectivesneeded 4
-		numsecrets 1
+		suggestweapon weapon_sten
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
@@ -29,9 +18,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/m_stealth
-
 		// Weapons
 
 		giveweapon weapon_knife		
@@ -49,6 +35,28 @@ player
 
 		selectweapon weapon_sten
 		
+	}
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+		accum 0 bitset 3
+		accum 0 bitset 4
+		accum 0 bitset 5
+		accum 0 bitset 6
+		accum 0 bitset 7
+		accum 1 set 0 // counts objectives met
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 4
+		numsecrets 1
+
+		mu_fade 0 1000
+		mu_queue sound/music/m_stealth
 	}
 	
 	trigger alarm_disabled

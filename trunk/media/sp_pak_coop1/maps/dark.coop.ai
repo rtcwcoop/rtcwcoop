@@ -9,17 +9,9 @@ player
 {
 	spawn
 	{
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 5
-
-		objectivesneeded 2
-		numsecrets 1
-
-		// Items
-
 		suggestweapon weapon_sten
 
-		// Weapons
 		abort_if_loadgame
 		mu_fade 0 3000
 		mu_queue sound/music/c_atmos	
@@ -27,15 +19,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 3000
-		mu_queue sound/music/c_chant
-		trigger cs_p1 go1
-		trigger cs_eg1 go1
-		trigger cs_nazi1 go1
-		trigger cs_nazi2 go1
-//		trigger player cam_darktemp
-		trigger checker1 cinematic1
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -74,6 +57,25 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+	}
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 2
+		numsecrets 1
+
+		mu_fade 0 3000
+		mu_queue sound/music/c_chant
+		trigger cs_p1 go1
+		trigger cs_eg1 go1
+		trigger cs_nazi1 go1
+		trigger cs_nazi2 go1
+//		trigger player cam_darktemp
+		trigger checker1 cinematic1
 	}
 
 	trigger cam_darktemp

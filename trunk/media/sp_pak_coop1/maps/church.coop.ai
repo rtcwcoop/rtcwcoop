@@ -9,27 +9,15 @@ player
 
 	spawn
 	{
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 1
-		objectivesneeded 3
-		numsecrets 1
 		suggestweapon weapon_sten
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
-		
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 	}
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/c_chant
-		//trigger counter1 cinematic1
-		trigger counter1 cleanup
-		//trigger player cam1
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -54,6 +42,25 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 
+	}
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 3
+		numsecrets 1
+
+		mu_fade 0 1000
+		mu_queue sound/music/c_chant
+		//trigger counter1 cinematic1
+		trigger counter1 cleanup
+		//trigger player cam1
+
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 	}
 
 	// --- Start Cinematic 1 Cameras ---

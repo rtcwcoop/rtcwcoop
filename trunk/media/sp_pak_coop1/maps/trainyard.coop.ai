@@ -8,12 +8,7 @@ player
 {
 	spawn
 	{
-		accum 0 bitset 0
-		accum 1 set 1
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 3
-		objectivesneeded 2
-		numsecrets 2
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
@@ -21,9 +16,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1500
-		mu_queue sound/music/m_grave
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -62,7 +54,21 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+	}
 
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 0 bitset 0
+		accum 1 set 1
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 2
+		numsecrets 2
+
+		mu_fade 0 1500
+		mu_queue sound/music/m_grave
 	}
 
 	trigger action1

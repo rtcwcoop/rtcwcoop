@@ -9,32 +9,14 @@ player
 {
 	spawn
 	{
-		accum 0 bitreset 0
-		accum 1 set 0
-		accum 2 set 0
-		accum 3 set 0
-		accum 4 set 0
-		accum 5 set 0 // don't remove exit trigger
-
-		// Items
-
 		cvar g_episode 5
 
-		// Weapons
-
-		objectivesneeded 7
-		numsecrets 6
-		// Ammo
-		//setammo clips
 		abort_if_loadgame
 		mu_stop 0 2000
 	}
 
 	playerstart
 	{
-		mu_stop 0 2000
-
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -73,12 +55,28 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+	}
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
 		
+		accum 0 bitreset 0
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0
+		accum 4 set 0
+		accum 5 set 0 // don't remove exit trigger
+
+		objectivesneeded 7
+		numsecrets 6
+
+		mu_stop 0 2000
+
 		alertentity alarm_nazi11
 		alertentity alarm_nazi12
 		alertentity alarm_nazi13
 		alertentity nazi16
-
 	}
 
 	trigger alarms_destroyed

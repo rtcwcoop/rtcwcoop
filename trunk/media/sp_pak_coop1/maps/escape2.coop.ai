@@ -8,25 +8,12 @@ player
 {
 	spawn
 	{
-		accum 0 bitset 0
-		accum 0 bitset 1 // alarm only fired once
-		accum 0 bitset 2 // action 13 only fired once
-		accum 0 bitset 3 // mission objective
-		accum 1 set 0 // controls streaming music
-		accum 2 set 0 // don't remove exit trigger
-		objectivesneeded 1
-		numsecrets 4
-
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
 	}
 
 	playerstart
-	{
-
-		mu_fade 0 1500
-		mu_queue sound/music/m_drums
-
+	{		
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -43,9 +30,27 @@ player
 
 		// Items
 		giveinventory key_binocs
-		selectweapon weapon_mp40
-		
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
+		selectweapon weapon_mp40	
+	}
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 0 bitset 0
+		accum 0 bitset 1 // alarm only fired once
+		accum 0 bitset 2 // action 13 only fired once
+		accum 0 bitset 3 // mission objective
+		accum 1 set 0 // controls streaming music
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 1
+		numsecrets 4
+
+		mu_fade 0 1500
+		mu_queue sound/music/m_drums
+
+	#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
 	}
 
 	trigger action1

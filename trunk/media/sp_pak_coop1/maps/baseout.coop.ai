@@ -8,10 +8,7 @@ player
 {
 	spawn
 	{
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 2
-		objectivesneeded 2
-		numsecrets 1
 		suggestweapon weapon_mp40
 
 		abort_if_loadgame
@@ -20,9 +17,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/m_situation
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -46,11 +40,24 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
-		
+	}
+
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 2
+		numsecrets 1
+
+		mu_fade 0 1000
+		mu_queue sound/music/m_situation
+
 		trigger mech1 go
 		trigger nazi1 go
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
-
 	}
 
 	trigger action1

@@ -9,24 +9,18 @@ game_manager
 	spawn
 	{
 		accum 0 set 0 // objectives
-		accum 1 set 0 // single init
+		//accum 1 set 0 // empty
 		accum 2 set 0 // triggers
 		accum 3 set 0 // helga
 		accum 4 set 0 // zombie counter
 		accum 5 set 0 // zombie spawns 1 - 4
 		accum 6 set 0 // zombie spawns 5 - 8
 		accum 6 set 0 // fence
+
+		wait 50	//Prevent bizzare things
+		trigger player map_start	//Prevents late players affecting the game
 	}
 	
-	trigger init
-	{
-		accum 1 abort_if_greater_than 0
-		accum 1 inc 1
-		
-		objectivesneeded 2
-		numsecrets 0
-	}
-
 	trigger checkexit
 	{
 		accum 0 abort_if_not_bitset 1

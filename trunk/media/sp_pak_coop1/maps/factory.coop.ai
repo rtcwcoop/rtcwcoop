@@ -8,16 +8,8 @@ player
 {
 	spawn
 	{
-		accum 0 bitset 0
-		accum 0 bitset 1
-		accum 0 bitset 2
-		accum 0 bitset 3 //control sewer spawn
-		accum 0 bitset 4 //control wakeing of last ai
-		accum 0 bitset 5 //control wakeing of black 1 & 2
-		accum 2 set 0 // don't remove exit trigger
 		cvar g_episode 3
-		objectivesneeded 2
-		numsecrets 0
+		suggestweapon weapon_mp40
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_1
@@ -25,9 +17,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1500
-		mu_queue sound/music/m_drums
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -66,10 +55,28 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
-		
+	}
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+		accum 0 bitset 3 //control sewer spawn
+		accum 0 bitset 4 //control wakeing of last ai
+		accum 0 bitset 5 //control wakeing of black 1 & 2
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 2
+		numsecrets 0
+
+		mu_fade 0 1500
+		mu_queue sound/music/m_drums
+
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
-
 	}
 
 	trigger action1

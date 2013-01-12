@@ -8,16 +8,8 @@ player
 {
 	spawn
 	{
-		accum 1 set 0	// Accum 1 is used so that help1 only gets triggered once.
-		accum 4 set 0	// Accum 4 is used so that FEM1 will not play the "scared jump" animation after already in the scaredloop.
-		accum 5 set 0	// This will keep gunner1 from getting off of the gun if he has not seen the player.
-		accum 2 set 0 // don't remove exit trigger
-		
-		suggestweapon weapon_mp40
 		cvar g_episode 1
-		objectivesneeded 2
-		numsecrets 2
-
+		suggestweapon weapon_mp40
 
 		abort_if_loadgame
 		mu_start sound/music/l_briefing_2
@@ -25,12 +17,6 @@ player
 
 	playerstart
 	{
-		mu_fade 0 1000
-		mu_queue sound/music/m_stealth
-		//trigger bookshelf cinematic1
-		//trigger player cam0
-		trigger bookshelf open
-
 		// Weapons
 		giveweapon weapon_knife	
 		giveweapon weapon_luger
@@ -49,7 +35,26 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+	}
 
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		accum 1 set 0	// Accum 1 is used so that help1 only gets triggered once.
+		accum 4 set 0	// Accum 4 is used so that FEM1 will not play the "scared jump" animation after already in the scaredloop.
+		accum 5 set 0	// This will keep gunner1 from getting off of the gun if he has not seen the player.
+		accum 2 set 0 // don't remove exit trigger
+
+		objectivesneeded 2
+		numsecrets 2
+
+		mu_fade 0 1000
+		mu_queue sound/music/m_stealth
+
+		//trigger bookshelf cinematic1
+		//trigger player cam0
+		trigger bookshelf open
 	}
 
 	// --- Start Cameras---

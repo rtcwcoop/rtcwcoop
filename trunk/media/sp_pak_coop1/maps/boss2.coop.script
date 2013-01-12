@@ -9,6 +9,9 @@ game_manager
 	spawn
 	{
 		accum 0 set 0 // objectives
+
+		wait 50	//Prevent bizzare things
+		trigger player map_start	//Prevents late players affecting the game
 	}
 	
 	trigger checkexit
