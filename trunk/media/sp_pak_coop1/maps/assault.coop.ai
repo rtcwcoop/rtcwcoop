@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 15.1.2013
 //
 //AI Scripting
 //Map: Assault
@@ -75,16 +76,6 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/m_mission
-	}
-
-	trigger lastcam1
-	{
-		startcam cs08_01
-	}
-
-	trigger lastcam2
-	{
-		startcam cs08_02
 	}
 
 	trigger broke_into_garage

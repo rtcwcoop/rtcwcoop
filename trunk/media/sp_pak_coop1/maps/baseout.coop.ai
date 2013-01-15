@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 15.1.2013
 //
 //AI Scripting
 //Map: Base Out
@@ -1997,7 +1998,8 @@ nazi9
 		idle_crouch 0.0
 		walking_speed 90
 		running_speed 275
-		alertness 1900
+		alertness 
+00
 	}
 
 	spawn
@@ -3921,12 +3923,19 @@ nazi16
 	
 	spawn
 	{
+		nosight 99999
 		wait 5
 		setammo ammo_grenades 3
 		statetype alert
 		selectweapon grenade
 		runtomarker n16spot1 nostop
 		runtomarker n16spot2
+		//Added target for the nade
+		wait 200
+		fireattarget nazi16_nade_target
+		wait 250
+		selectweapon weapon_mp40
+		sight
 		wait forever 0
 	}
 

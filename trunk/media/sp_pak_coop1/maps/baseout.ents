@@ -4,6 +4,12 @@
 "scriptname" "game_manager"
 }
 
+{
+"classname" "info_notnull"
+"origin" "316 2033 395"
+"targetname" "nazi16_nade_target"
+}
+
 // SPAWNPOINTS
 
 {
