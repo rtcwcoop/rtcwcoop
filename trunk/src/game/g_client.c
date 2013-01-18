@@ -1493,7 +1493,6 @@ void ClientUserinfoChanged( int clientNum ) {
 			//SetCoopSkin( client, head, 0  );
         //else 
 			SetCoopSkin( client, head, skinno );
-Com_Printf("head: %s\n", head);
     }
 
 	// strip the skin name
