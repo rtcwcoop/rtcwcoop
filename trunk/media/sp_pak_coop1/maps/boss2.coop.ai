@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 17.1.2013
 //
 //AI Scripting
 //Map: Xlabs
@@ -59,10 +60,21 @@ player
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
-		accum 0 bitreset 0	// Used to wait a few seconds before you are able to skip cinematic.
-		accum 2 set 0 // don't remove exit trigger
 		accum 0 bitset 2
 		accum 0 bitreset 3
+		
+//I rewrote super1 accums due to a resetscript bug - Sage
+		accum 1 bitreset 0	//COOP, Is super in place or low on health (rocket gun destroyed)
+		accum 1 bitreset 1	//COOP, Is tank1 blown?
+		accum 1 bitreset 2	//COOP, Is tank2 blown?
+		accum 1 bitreset 3	//COOP, Is tank3 blown?
+		accum 1 bitreset 4	//COOP, Is tank4 blown?
+		accum 1 bitreset 5	//COOP, Is tank5 blown?
+		accum 1 bitreset 6	//COOP, Are rockets working?
+		accum 1 bitreset 7	//COOP, XTRA, Lockplayer?
+		accum 1 bitreset 8	//COOP, XTRA, Player locked
+
+		accum 2 set 0 // don't remove exit trigger
 
 		objectivesneeded 3
 		numsecrets 0
@@ -81,18 +93,6 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/x_action
-	}
-
-//	trigger 0bitset0
-//	{
-//		accum 0 bitset 0
-//	}
-
-	trigger camerainterrupt
-	{
-		accum 0 abort_if_not_bitset 0
-		stopcam
-		trigger counter1 cleanup
 	}
 
 	trigger action1
@@ -130,51 +130,10 @@ player
 //		alertentity door1
 	}
 
-
-	trigger beam_me_back
-	{
-		teleport plyrspot2
-	}
-
 	trigger big_door1_open
 	{
 		trigger big_door1_lever open
 	}
-
-	// START, Cinematic at end.
-	trigger cam1
-	{
-		startcamblack xss01
-		teleport plyrspot1
-	}
-
-	trigger cam2
-	{
-		startcam xss02
-	}
-
-	trigger cam3
-	{
-		startcam xss03
-	}
-
-	trigger cam4
-	{
-		startcam xss04
-	}
-
-	trigger cam5
-	{
-		startcam xss05
-	}
-
-	trigger cam6
-	{
-		startcam xss06
-		teleport plyrspot2
-	}
-
-	// END, Cinematic at end.
 
 	trigger lever2_open
 	{
@@ -189,21 +148,6 @@ player
 	trigger plyr_hiding0
 	{
 		trigger proto1 p_hiding0
-	}
-
-	trigger p_hiding
-	{
-		trigger super1 p_hiding
-	}
-
-	trigger p_hiding2
-	{
-		trigger super1 p_hiding2
-	}
-
-	trigger p_no_hiding
-	{
-		trigger super1 reset
 	}
 
 	trigger action4
@@ -268,65 +212,131 @@ player
 		trigger natter go
 	}
 
+//--------Super 1 start----------
+
+	trigger s1_noshoot1_5
+	{
+	//Previously unused trigger taken for preventing cheating
+		accum 1 abort_if_bitset 7
+		accum 1 bitset 7
+		accum 1 bitset 8
+
+		lockplayer on
+	}
+
+	trigger door_closed
+	{
+		accum 1 bitset 7
+		accum 1 abort_if_not_bitset 8
+
+		lockplayer off
+	}
+
+	trigger super1_in_place
+	{
+		accum 1 bitset 0
+	}
+
+	trigger super1_low_on_health
+	{
+		//Set when super is low on health
+		//Substitutes the rockets breaking accum
+		accum 1 bitreset 0
+	}
+
+	trigger use_rocket
+	{
+		//Goes from here, because of a bug
+		accum 1 abort_if_not_bitset 0
+		trigger super1 use_rocket
+	}
+
+
+//Disable hiding for COOP
+	trigger p_hiding
+	{
+//		accum 1 abort_if_not_bitset 0
+//		trigger super1 p_hiding
+	}
+
+	trigger p_hiding2
+	{
+//		accum 1 abort_if_not_bitset 0
+//		trigger super1 p_hiding2
+	}
+
+	trigger p_no_hiding
+	{
+		accum 1 abort_if_not_bitset 0
+		trigger super1 reset
+	}
+
 	trigger tank1_bust
 	{
-		trigger super1 tank1_gone
+		accum 1 bitset 1
 	}
 
 	trigger tank2_bust
 	{
-		trigger super1 tank2_gone
+		accum 1 bitset 2
 	}
 
 	trigger tank3_bust
 	{
-		trigger super1 tank3_gone
+		accum 1 bitset 3
 	}
 
 	trigger tank4_bust
 	{
-		trigger super1 tank4_gone
+		accum 1 bitset 4
 	}
 
 	trigger tank5_bust
 	{
-		trigger super1 tank5_gone
-	}
-
-	trigger get_objective3
-	{
-		objectivemet 3
-		trigger game_manager objective3
+		accum 1 bitset 5
 	}
 
 	trigger dest_tank1
 	{
+		accum 1 abort_if_not_bitset 0
+		accum 1 abort_if_bitset 1
 		trigger super1 shoot_tank1
 	}
 
 	trigger dest_tank2
 	{
+		accum 1 abort_if_not_bitset 0
+		accum 1 abort_if_bitset 2
 		trigger super1 shoot_tank2
 	}
 
 	trigger dest_tank3
 	{
+		accum 1 abort_if_not_bitset 0
+		accum 1 abort_if_bitset 3
 		trigger super1 shoot_tank3
 	}
 
 	trigger dest_tank4
 	{
+		accum 1 abort_if_not_bitset 0
+		accum 1 abort_if_bitset 4
 		trigger super1 shoot_tank4
 	}
 
 	trigger dest_tank5
 	{
+		accum 1 abort_if_not_bitset 0
+		accum 1 abort_if_bitset 5
 		trigger super1 shoot_tank5
 	}
 
-	trigger s1_noshoot1_5
+//--------Super 1 end----------
+
+	trigger get_objective3
 	{
-		trigger natter noshoot1_5
+		objectivemet 3
+		trigger game_manager objective3
 	}
 
 	trigger endmap
@@ -338,21 +348,6 @@ player
 	trigger exitlevel
 	{
 		changelevel dam persistent
-	}
-}
-
-fake_bj
-{
-	spawn
-	{
-		godmode on
-		knockback off
-		playanim idle both forever
-	}
-
-	avoiddanger player
-	{
-		denyactivate
 	}
 }
 
@@ -708,25 +703,17 @@ deathshead
 		wait 50000 0 player
 		trigger deathshead no_sight_loop
 	}
-
-	trigger talk1
+//
+//Only playing the My pleasure to destroy you part in COOP
+//
+	trigger talk
 	{
 		resetscript
-		playsound b2_deathshead01
-		wait forever 0 fake_bj
-	}
-
-	trigger talk2
-	{
+		wait 5
 		playsound blank
+		wait 5
 		playsound b2_deathshead02
 		wait forever 0 player
-	}
-
-	trigger stop_talking
-	{
-		playsound blank
-		trigger deathshead taunt
 	}
 
 	trigger taunt
@@ -792,10 +779,8 @@ deathshead
 		wait 2600 0 player
 		playsound b2_losing3
 		wait 3000 0
-		//alertentity saddy
 		runtomarker dhspot1
 		wait 2000
-		wait 3000
 		alertentity kill_dh
 	}
 
@@ -842,13 +827,8 @@ super1
 
 	spawn
 	{
-		accum 0 bitreset 0
-		accum 0 bitreset 1
-		accum 0 bitreset 2
-		accum 0 bitreset 3
-		accum 0 bitreset 4
-		accum 0 bitreset 5
-		accum 0 bitreset 6
+		//Moved accums to player - Sage
+		godmode on		//For COOP
 		nosight 99999
 		wait 5
 		knockback off
@@ -864,20 +844,19 @@ super1
 		denyactivate
 	}
 
+	//blocked player
+	//{
+	//	deny
+	//	pushaway player
+	//}
+
 	trigger playdead_loop
 	{	
 		nosight 999999
 		playanim powered_down both forever
 	}
 
-	trigger wiggle
-	{
-		nosight 99999
-		playanim wiggle both
-		playanim powered_down both forever
-	}
-
-	trigger wake_up
+	trigger wake_up_and_go	//Combined wake_up+go for COOP
 	{
 		nosight 99999
 		alertentity fake_sound
@@ -885,30 +864,16 @@ super1
 		playanim come_alive both
 		explicit_routing on // TEMP FIX!
 		statetype alert
-		walktomarker super1spot1
-		trigger counter1 0bitset3
+		runtomarker super1spot1
 		explicit_routing off  // TEMP FIX!
 		nosight 99999
-	}
-
-	trigger beam_me_up
-	{
-		nosight 99999
-		clearanim
-		resetscript
-		teleport super1spot1
-		trigger super1 go
-	}
-
-	trigger go
-	{
-		trigger natter noshoot1_5
+		godmode off
 		trigger player music2
 		wait 5
 		trigger counter1 random_wait
-		noattack 3000
-		wait 1000
+		noattack 1000
 		sight
+		trigger player super1_in_place
 		runtomarker super1spot2
 		resetscript
 	}
@@ -925,20 +890,18 @@ super1
 
 	trigger p_hiding
 	{
-		statetype alert
-		runtomarker hide_spot
+		//statetype alert
+		//runtomarker hide_spot
 	}
 
 	trigger p_hiding2
 	{
-		accum 0 abort_if_not_bitset 7
-		statetype alert
-		runtomarker saddyspot3
+		//statetype alert
+		//runtomarker saddyspot3
 	}
 
 	trigger use_tesla
 	{
-		accum 0 abort_if_bitset 0
 		takeweapon all
 		giveweapon weapon_tesla
 		setammo ammo_cell 999
@@ -947,53 +910,23 @@ super1
 
 	trigger use_rocket
 	{
-		accum 0 abort_if_bitset 6
 		giveweapon weapon_panzerfaust
-		setammo ammo_panzerfaust 3
+		setammo ammo_panzerfaust 6
 		selectweapon weapon_panzerfaust
 	}
 
 	trigger use_venom
 	{
-		accum 0 abort_if_bitset 0
 		giveweapon weapon_venom
 		setammo ammo_127mm 999
 		selectweapon weapon_venom
 	}
 
-	trigger tank1_gone
-	{
-		accum 0 bitset 1
-	}
-
-	trigger tank2_gone
-	{
-		accum 0 bitset 2
-	}
-
-	trigger tank3_gone
-	{
-		accum 0 bitset 3
-	}
-
-	trigger tank4_gone
-	{
-		accum 0 bitset 4
-	}
-
-	trigger tank5_gone
-	{
-		accum 0 bitset 5
-	}
-
 	trigger shoot_tank1
 	{
-		accum 0 abort_if_bitset 7
-		accum 0 abort_if_bitset 6
-		accum 0 abort_if_bitset 1
 		takeweapon all
 		giveweapon weapon_panzerfaust
-		setammo  ammo_panzerfaust 3
+		setammo  ammo_panzerfaust 6
 		selectweapon weapon_panzerfaust
 		wait 500 0 tank1
 		fireattarget tank1
@@ -1006,11 +939,9 @@ super1
 
 	trigger shoot_tank2
 	{
-		accum 0 abort_if_bitset 6
-		accum 0 abort_if_bitset 2
 		takeweapon all
 		giveweapon weapon_panzerfaust
-		setammo  ammo_panzerfaust 3
+		setammo  ammo_panzerfaust 6
 		selectweapon weapon_panzerfaust
 		wait 500 0 tank2
 		fireattarget tank2
@@ -1023,11 +954,9 @@ super1
 
 	trigger shoot_tank3
 	{
-		accum 0 abort_if_bitset 6
-		accum 0 abort_if_bitset 3
 		takeweapon all
 		giveweapon weapon_panzerfaust
-		setammo  ammo_panzerfaust 3
+		setammo  ammo_panzerfaust 6
 		selectweapon weapon_panzerfaust
 		wait 500 0 tank3
 		fireattarget tank3
@@ -1040,11 +969,9 @@ super1
 
 	trigger shoot_tank4
 	{
-		accum 0 abort_if_bitset 6
-		accum 0 abort_if_bitset 4
 		takeweapon all
 		giveweapon weapon_panzerfaust
-		setammo  ammo_panzerfaust 3
+		setammo  ammo_panzerfaust 6
 		selectweapon weapon_panzerfaust
 		wait 500 0 tank4
 		fireattarget tank4
@@ -1057,12 +984,9 @@ super1
 
 	trigger shoot_tank5
 	{
-		accum 0 abort_if_bitset 7
-		accum 0 abort_if_bitset 6
-		accum 0 abort_if_bitset 5
 		takeweapon all
 		giveweapon weapon_panzerfaust
-		setammo  ammo_panzerfaust 3
+		setammo  ammo_panzerfaust 6
 		selectweapon weapon_panzerfaust
 		wait 500 0 tank5
 		fireattarget tank5
@@ -1071,16 +995,6 @@ super1
 		setammo ammo_cell 999
 		selectweapon weapon_tesla
 		resetscript
-	}
-
-	trigger noshoot1_5
-	{
-		accum 0 bitset 7
-	}
-
-	trigger reset_noshoot1_5
-	{
-		accum 0 bitreset 7
 	}
 
 	pain 1600
@@ -1111,7 +1025,7 @@ super1
 	pain 600
 	{
 		alertentity clown6
-		accum 0 bitset 6
+		trigger player super1_low_on_health
 		trigger counter1 stop_random
 		takeweapon all
 		giveweapon weapon_tesla
@@ -1156,23 +1070,9 @@ super1
 
 	death
 	{
-		trigger player music1
 		objectivemet 2
-		trigger game_manager objective2
-		trigger deathshead defeat
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_31 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_36 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_37 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_38 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_venom_39 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_41 #endif		
-		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_46 #endif
-		alertentity lastdoor2
-		trigger ldoor1 open
+
+		trigger counter1 super1_dead
 	}
 }
 
@@ -1201,26 +1101,15 @@ saddy
 		selectweapon weapon_luger
 		explicit_routing on
 		nosight 999999
-		alertentity lastdoor2
-		wait 2000 0
-		alertentity scientist1	// Spreaded out the spawning of the AI incase of any cpu hits.
-		alertentity scientist2
 		runtomarker saddyspot1 nostop
-		alertentity scientist3
-		alertentity scientist4
-		alertentity scientist5
-		runtomarker saddyspot2
-		alertentity scientist6
-		alertentity scientist7
-		trigger ldoor1 open
+		wait 1000
+		runtomarker saddyspot2 nostop
 		sight
 		wait 16000 0
 		runtomarker saddyspot3
 		explicit_routing off
 		movetype crouch
-		wait 2000 0	
-		attack player	
-		gotocast player
+		wait 2000 0
 	}
 
 	inspectfriendlycombatstart

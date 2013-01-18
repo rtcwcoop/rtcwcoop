@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 17.1.2013
 //
 //Brush Scripting
 //Map: Boss2
@@ -44,8 +45,6 @@ counter1
 	{
 		accum 0 bitreset 0	// Used so that GET OBJECTIVE 3 is used 1.
 		accum 0 bitset 1	// Used to unlock/lock the door.
-		accum 0 bitreset 2	// Used to check if FAKE_BJ is killed or not already.
-		accum 0 bitreset 3	// Used to check if the SUPER SOLDIER is in position or not.
 		accum 1 set 0	// Used for the random wait.
 		accum 2 set 0	// Used for the random weapon switch.
 		wait 5
@@ -80,7 +79,7 @@ counter1
 		accum 1 abort_if_not_equal 0
 		resetscript
 		wait 7000 0
-		trigger counter1 super1_use_rocket
+		trigger counter1 super1_use_venom
 	}
 
 	trigger wait2
@@ -101,8 +100,18 @@ counter1
 
 	trigger super1_use_rocket
 	{
-		trigger super1 use_rocket
+	//Have to use from player, due to changed accums and wait
+		trigger player use_rocket
 		wait 3000
+		trigger super1 use_tesla
+		trigger counter1 random_wait
+	}
+
+	//COOP FEATURE! Venom not in SP!
+	trigger super1_use_venom
+	{
+		trigger super1 use_venom
+		wait 8000
 		trigger super1 use_tesla
 		trigger counter1 random_wait
 	}
@@ -114,43 +123,62 @@ counter1
 		trigger player get_objective3
 	}
 
-	trigger cine1	// Cinematic where BJ meets the Supersoldier.
+	trigger cine1	// Cinematic where COOPERS meets the Supersoldier.
 	{
-		alertentity super1
-		wait 5
-		trigger deathshead talk1
-		wait 2000
-//		trigger player 0bitset0
-		wait 9500
-		trigger ldoor1 cine_open
-		wait 8000
-		accum 0 bitset 2
-		trigger super1 go
 		wait 500
-//		trigger super1 wiggle
-		wait 6500
-//		trigger super1 wake_up
-		wait 5500
-		trigger deathshead talk2
-		wait 7000
+		alertentity super1
+		wait 1000
+//Directly to Pleasure to die part
+		trigger deathshead talk
+		wait 2500
+		trigger super1 wake_up_and_go
+		wait 1000
+		trigger ldoor1 cine_open
+		wait 3000
 		trigger deathshead taunt
 	}
 
-	trigger 0bitset3
+	trigger super1_dead
 	{
-		accum 0 bitset 3
-	}
+		//New trigger for COOP
 
-	trigger cleanup
-	{
-		resetscript
-		trigger deathshead stop_talking
-//		trigger player beam_me_back
-//		trigger ldoor1 close_now
-		accum 0 abort_if_bitset 3
-		trigger super1 beam_me_up
-		accum 0 abort_if_bitset 2
-//		alertentity kill_fake_bj
+		trigger player music1
+		trigger game_manager objective2
+		trigger deathshead defeat
+
+		wait 2000
+
+		#if g_reinforce == 0 alertentity saddy #endif
+
+		//These are from old saddy spawn:
+
+		#if g_reinforce <= 1	alertentity scientist2 #endif
+		#if g_reinforce <= 1	alertentity scientist4 #endif
+		#if g_reinforce <= 1	alertentity scientist5 #endif
+		#if g_reinforce <= 1	alertentity scientist6 #endif
+
+		alertentity scientist1
+		alertentity scientist3
+		alertentity scientist7
+
+		wait 100
+
+		#if g_reinforce <= 1 alertentity coop_ai_soldier_31 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_32 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce <= 2 alertentity coop_ai_soldier_34 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_36 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_37 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_38 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_venom_39 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_41 #endif		
+		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_46 #endif
+
+		wait 500
+
+		alertentity lastdoor2
+		trigger ldoor1 open
 	}
 }
 
@@ -178,7 +206,7 @@ big_door1_lever
 		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_20 #endif
 		alertentity big_door1_sound
 		trigger big_door1 up
-		wait 2000
+		wait 4000
 		trigger proto1 go
 		wait 11000
 	}
@@ -583,14 +611,6 @@ natter
 		alertentity start_flame
 		trigger ldoor1 natter_killer
 	}
-
-	trigger noshoot1_5
-	{
-		wait 5
-		trigger super1 noshoot1_5
-		wait 5000
-		trigger super1 reset_noshoot1_5
-	}
 }
 
 ski
@@ -641,10 +661,11 @@ ldoor1
 	{
 		alertentity fake_sound
 		alertentity lastdoor_sound
-		gotomarker ldoor1_spot2 10 wait
+		gotomarker ldoor1_spot2 20 wait
 		alertentity lastdoor_sound
-		wait 6000
+		wait 2000
 		gotomarker ldoor1_spot1 25 wait
+		trigger player door_closed
 	}
 
 	trigger open
