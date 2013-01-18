@@ -530,7 +530,8 @@ void CG_DrawInformation( void ) {
 	}
 
 	trap_R_SetColor( NULL );
-//	CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, levelshot );
+	if (cgs.gametype != GT_SINGLE_PLAYER)
+		CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, levelshot );
 
 	// blend a detail texture over it
 	//detail = trap_R_RegisterShader( "levelShotDetail" );
@@ -567,9 +568,33 @@ void CG_DrawInformation( void ) {
 	}
 
 	// Ridah, in single player, cheats disabled, don't show unnecessary information
-	if ( cgs.gametype <= GT_SINGLE_PLAYER ) {
+	// fretn - only in single player
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		trap_UI_Popup( "briefing" );
 
+		trap_UpdateScreen();
+		callCount--;
+		return;
+	}
+
+	if ( cgs.gametype <= GT_COOP ) {
+                vec2_t xy = { 200, 448 };
+                vec2_t wh = { 240, 10 };
+
+                // show the percent complete bar
+                if ( expectedHunk > 0 ) {
+                        percentDone = (float)( cg_hunkUsed.integer ) / (float)( expectedHunk );
+                        if ( percentDone > 0.97 ) {
+                                percentDone = 0.97;
+                        }
+                        CG_HorizontalPercentBar( xy[0], xy[1], wh[0], wh[1], percentDone );
+                } else if ( expectedHunk == -2 ) {
+                        // we're ready, press a key to start playing
+                        if ( ( ms % 1000 ) < 700 ) {  // flashing to get our attention
+                                UI_DrawProportionalString( 320, xy[1] - 2, "press fire to begin",
+                                                                                   UI_CENTER | UI_EXSMALLFONT | UI_DROPSHADOW, color );
+                        }
+                }
 		trap_UpdateScreen();
 		callCount--;
 		return;
