@@ -287,7 +287,7 @@ itemDef {
 		textstyle 6
 		textscale .2
 		textalign ITEM_ALIGN_CENTER
-		text "ronboy (for testmap), ioquake3 team, etpro team, TitaN655"
+		text "ronboy, ioquake3, etpro, TitaN655, hirko, {SSF}Sage"
 		forecolor 1 1 1 1
 		decoration 
 		visible 0
