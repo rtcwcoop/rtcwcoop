@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 19.1.2013
 //
 //Chad's first scripting attempt.  :)
 //six treasure items
@@ -255,8 +256,11 @@ player
 		#if g_reinforce >= 2 alertentity coop_ai_blackguard_36 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_blackguard_37 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_blackguard_38 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_39 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_40 #endif
+//Removed 39 and 40, because they act retarted
+//And cannot shoot through the grid and stuck
+
+//		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_39 #endif
+//		#if g_reinforce >= 2 alertentity coop_ai_eliteguard_40 #endif
 	}
 		
 	trigger action19
