@@ -11,8 +11,8 @@ player
 	{
 		cvar g_episode 5
 
-		abort_if_loadgame
-		mu_stop 0 2000
+//		abort_if_loadgame
+//		mu_stop 0 2000
 	}
 
 	playerstart

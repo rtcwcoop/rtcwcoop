@@ -12,9 +12,9 @@ player
 		cvar g_episode 1
 		suggestweapon weapon_mp40
 
-		abort_if_loadgame
-		mu_fade 0 1000
-		mu_queue sound/music/l_briefing_1
+//		abort_if_loadgame
+//		mu_fade 0 1000
+//		mu_queue sound/music/l_briefing_1
 	}
 
 	playerstart

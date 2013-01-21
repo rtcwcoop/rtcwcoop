@@ -12,8 +12,8 @@ player
 		cvar g_episode 4
 		suggestweapon weapon_fg42
 
-		abort_if_loadgame
-		mu_start sound/music/l_briefing_2
+//		abort_if_loadgame
+//		mu_start sound/music/l_briefing_2
 	}
 
 	playerstart

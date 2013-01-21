@@ -16,12 +16,21 @@ game_manager
 		accum 4 set 0 // zombie counter
 		accum 5 set 0 // zombie spawns 1 - 4
 		accum 6 set 0 // zombie spawns 5 - 8
-		accum 6 set 0 // fence
+		accum 7 set 0 // fence
+		accum 8 set 0 // Init (music)
 
 		wait 50	//Prevent bizzare things
 		trigger player map_start	//Prevents late players affecting the game
 	}
 	
+	trigger init
+	{
+		accum 8 abort_if_not_equal 0
+		accum 8 set 1
+
+		mu_start sound/music/c_atmos
+	}
+
 	trigger checkexit
 	{
 		accum 0 abort_if_not_bitset 1

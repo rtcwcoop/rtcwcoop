@@ -11,9 +11,18 @@ game_manager
 		//accum 1 set 0 // empty
 		accum 2 set 0 // triggers
 		accum 3 set 0 // triggers
+		accum 4 set 0
 
 		wait 50	//Prevent bizzare things
 		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger init
+	{
+		accum 4 abort_if_not_equal 0
+		accum 4 set 1
+
+		mu_start sound/music/c_military
 	}
 		
 	trigger checkexit

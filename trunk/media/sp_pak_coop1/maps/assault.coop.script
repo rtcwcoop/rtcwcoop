@@ -20,6 +20,9 @@ game_manager
 	{
 		accum 1 abort_if_not_equal 0
 		accum 1 set 1
+		
+		mu_start sound/music/m_grave
+
 		wait 150
 		trigger truck1 jet_idle_loop_start
 	}

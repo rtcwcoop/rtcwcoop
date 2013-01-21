@@ -12,8 +12,8 @@ player
 		cvar g_episode 5
 		suggestweapon weapon_mp40
 
-		abort_if_loadgame
-		mu_start sound/music/m_drums
+//		abort_if_loadgame
+//		mu_start sound/music/m_drums
 	//	trigger radio static
 	}
 

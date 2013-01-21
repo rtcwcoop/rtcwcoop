@@ -8,8 +8,8 @@ player
 {
 	spawn
 	{
-		abort_if_loadgame
-		mu_start sound/music/l_briefing_1
+//		abort_if_loadgame
+//		mu_start sound/music/l_briefing_1
 	}
 
 	playerstart

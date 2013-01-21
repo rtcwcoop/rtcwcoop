@@ -13,8 +13,8 @@ player
 		cvar g_episode 2
 		suggestweapon weapon_sten
 
-		abort_if_loadgame
-		mu_start sound/music/l_briefing_2
+//		abort_if_loadgame
+//		mu_start sound/music/l_briefing_2
 
 	}
 

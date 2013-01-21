@@ -12,9 +12,9 @@ player
 		cvar g_episode 5
 		suggestweapon weapon_sten
 
-		abort_if_loadgame
-		mu_fade 0 1000
-		mu_queue sound/music/m_drums
+//		abort_if_loadgame
+//		mu_fade 0 1000
+//		mu_queue sound/music/m_drums
 	}
 
 	playerstart

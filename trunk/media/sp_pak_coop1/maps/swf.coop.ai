@@ -10,8 +10,8 @@ player
 	{
 		cvar g_episode 3
 
-		abort_if_loadgame
-		mu_start sound/music/l_briefing_1
+//		abort_if_loadgame
+//		mu_start sound/music/l_briefing_1
 		
 	}
 
@@ -69,7 +69,7 @@ player
 		numsecrets 4
 
 		mu_fade 0 1500
-		mu_queue sound/music/l_briefing_2
+		mu_queue sound/music/m_mission
 
 		trigger elevator cinematic1
 		//trigger player cam1
