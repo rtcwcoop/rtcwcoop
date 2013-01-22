@@ -1707,19 +1707,19 @@ void ClientBegin( int clientNum ) {
 	// locate ent at a spawn point
 	ClientSpawn( ent );
 
-    // fretn : maxlives        
-    if ( g_maxlives.integer > 0 ) {
-		ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
-    } else {
-        ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
-    }
+	// fretn : maxlives        
+	if ( g_maxlives.integer > 0 ) {
+		    ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
+	} else {
+	    ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+	}
 
-    // fretn : maxspawnpoints
-    if ( g_maxspawnpoints.integer > 0 ) {
-		ent->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 );
-    } else {
-        ent->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
-    }
+	// fretn : maxspawnpoints
+	if ( g_maxspawnpoints.integer > 0 ) {
+		    ent->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 );
+	} else {
+	    ent->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
+	}
 
 	// Ridah, trigger a spawn event
 	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
@@ -1736,8 +1736,8 @@ void ClientBegin( int clientNum ) {
 		AICast_ScriptEvent( AICast_GetCastState( clientNum ), "playerstart", "" );
 	}
 
-    // fretn, activate the clients pregame menu, comes from ai_cast.c
-    if ( !( ent->r.svFlags & SVF_CASTAI ) && !(client->pers.localClient) )
+	// fretn, activate the clients pregame menu, comes from ai_cast.c
+	if ( !( ent->r.svFlags & SVF_CASTAI ) && !(client->pers.localClient) )
 		trap_SendServerCommand( ent->s.clientNum, "rockandroll\n" );
 
 	if ( client->sess.sessionTeam != TEAM_SPECTATOR ) {
@@ -1745,11 +1745,11 @@ void ClientBegin( int clientNum ) {
 		tent = G_TempEntity( ent->client->ps.origin, EV_PLAYER_TELEPORT_IN );
 		tent->s.clientNum = ent->s.clientNum;
 
-        // Ridah
-        if ( !(ent->r.svFlags & SVF_CASTAI) && !(client->pers.localClient) ) {
+		// Ridah
+		if ( !(ent->r.svFlags & SVF_CASTAI) && !(client->pers.localClient) ) {
 			// done.
-            trap_SendServerCommand( -1, va( "print \"[cgnotify]%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
-        }
+			trap_SendServerCommand( -1, va( "print \"[cgnotify]%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
+        	}
 	}
 	//G_LogPrintf( "ClientBegin: %i\n", clientNum );
 
