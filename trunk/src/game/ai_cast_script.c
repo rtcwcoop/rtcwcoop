@@ -338,10 +338,11 @@ cast_script_stack_action_t *AICast_ActionForString( cast_state_t *cs, char *stri
 	for ( i = 0; scriptActions[i].actionString; i++ )
 	{
 		if ( !Q_strcasecmp( string, scriptActions[i].actionString ) ) {
-			if ( !Q_strcasecmp( string, "foundsecret" ) ) {
+			// fretn this is now ignored - use the numsecrets function
+			/*if ( !Q_strcasecmp( string, "foundsecret" ) ) {
 				level.numSecrets++;
 				G_SendMissionStats();
-			}
+			}*/
 			return &scriptActions[i];
 		}
 	}
