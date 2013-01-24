@@ -1823,22 +1823,33 @@ void ClientSpawn( gentity_t *ent ) {
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {
 					// fretn: moved this down
 					//client->pers.initialSpawn = qtrue;
-                                        if ( g_gametype.integer <= GT_COOP) {
-                                                spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
-                                                if (!spawnPoint)
-                                                {
-                                                        G_Printf("No coop spawnpoints found\n");
-                                                        spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
-                                                }
-                                        } else {
-                                                spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
-                                        }
+					if ( client->sess.sessionTeam == TEAM_RED ) {
+                                                if (g_gametype.integer <= GT_COOP_SPEEDRUN ) {
+                                                        spawnPoint = SelectRandomAntiCoopSpawnPoint(spawn_origin, spawn_angles);
+                                                        if (!spawnPoint) { // we need spawnpoints for the axis
+                                                                spawnPoint = SelectSpawnPoint(
+                                                                    client->ps.origin,
+                                                                    spawn_origin, spawn_angles );
+                                                        }
+						}
+					} else {
+						if ( g_gametype.integer <= GT_COOP) {
+							spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
+							if (!spawnPoint)
+							{
+								G_Printf("No coop spawnpoints found\n");
+								spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
+							}
+						} else {
+							spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles );
+						}
+					}
 
                                         // fretn
                                         ent->client->hasCoopSpawn = qfalse;
 				} else {
                                         if ( client->sess.sessionTeam == TEAM_RED ) {
-                                                if (g_gametype.integer <= GT_COOP ) {
+                                                if (g_gametype.integer <= GT_COOP_SPEEDRUN ) {
                                                         spawnPoint = SelectRandomAntiCoopSpawnPoint(spawn_origin, spawn_angles);
                                                         if (!spawnPoint) { // we need spawnpoints for the axis
                                                                 spawnPoint = SelectSpawnPoint(
