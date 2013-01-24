@@ -1447,14 +1447,14 @@ void ClientUserinfoChanged( int clientNum ) {
 	// set model
 	if ( g_forceModel.integer ) {
 		if ( g_gametype.integer > GT_COOP )
-	       	Q_strncpyz( model, DEFAULT_MODEL, sizeof( model ) );
-        else {
-                if (client->sess.sessionTeam == TEAM_RED) {
-                        Q_strncpyz( model, DEFAULT_COOP_MODEL_AXIS, sizeof( model ) );
-                } else {
-                        Q_strncpyz( model, DEFAULT_COOP_MODEL, sizeof( model ) );
-                }
-        }
+			Q_strncpyz( model, DEFAULT_MODEL, sizeof( model ) );
+		else {
+			if (client->sess.sessionTeam == TEAM_RED) {
+				Q_strncpyz( model, DEFAULT_COOP_MODEL_AXIS, sizeof( model ) );
+			} else {
+				Q_strncpyz( model, DEFAULT_COOP_MODEL, sizeof( model ) );
+			}
+		}
 
 		Q_strcat( model, sizeof( model ), "/default" );
 	} else {
