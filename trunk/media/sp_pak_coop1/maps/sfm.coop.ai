@@ -8,14 +8,9 @@ player
 {
 	spawn
 	{
-		cvar g_episode 3
-
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_1
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -52,9 +47,15 @@ player
 		selectweapon weapon_akimbo
 	}
 
+	playerstart
+	{
+	}
+
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+
+		cvar g_episode 3
 
 		accum 0 set 1
 		accum 1 set 1
@@ -64,8 +65,8 @@ player
 		objectivesneeded 4
 		numsecrets 1
 
-		mu_fade 0 1500
-		mu_queue sound/music/m_situation
+//		mu_fade 0 1500
+		mu_start sound/music/m_situation
 	}
 
 	trigger action1

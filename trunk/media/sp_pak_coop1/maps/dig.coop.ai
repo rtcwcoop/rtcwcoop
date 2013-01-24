@@ -11,15 +11,10 @@ player
 
 	spawn
 	{
-		cvar g_episode 6
-		suggestweapon weapon_mp40
-
+//		suggestweapon weapon_mp40
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_1
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -60,10 +55,16 @@ player
 		selectweapon weapon_sten	
 	}
 
+	playerstart
+	{
+	}
+
 
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+
+		cvar g_episode 6
 
 		accum 0 set 0
 		accum 1 set 0
@@ -72,8 +73,8 @@ player
 		objectivesneeded 2
 		numsecrets 2
 
-		mu_fade 0 1000
-		mu_queue sound\music\x_atmos
+//		mu_fade 0 1000
+		mu_start sound\music\x_atmos
 		
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif

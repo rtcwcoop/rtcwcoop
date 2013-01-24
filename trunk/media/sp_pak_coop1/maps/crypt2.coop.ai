@@ -8,15 +8,10 @@ player
 {
 	spawn
 	{
-		cvar g_episode 1
-		suggestweapon weapon_mp40
-
+//		suggestweapon weapon_mp40
 //		abort_if_loadgame
-//		mu_start sound/music/l_briefing_2	
-	}
+//		mu_start sound/music/l_briefing_2
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -41,10 +36,16 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_mp40
 	}
+
+	playerstart
+	{
+	}
 	
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+
+		cvar g_episode 1
 
 		accum 0 set 0
 		accum 1 set 0
@@ -54,8 +55,8 @@ player
 		objectivesneeded 1
 		numsecrets 2
 
-		mu_fade 0 1000
-		mu_queue sound/music/c_military
+//		mu_fade 0 1000
+		mu_start sound/music/c_military
 
 #if g_reinforce >= 2 alertentity coop_ai_zombie_4 #endif
 

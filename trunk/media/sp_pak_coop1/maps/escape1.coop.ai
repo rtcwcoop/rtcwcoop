@@ -10,14 +10,16 @@ player
 	{
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_1
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
 		setclip weapon_luger 8
+	}
+
+	playerstart
+	{
+
 	}
 
 	trigger map_start
@@ -36,8 +38,8 @@ player
 		objectivesneeded 2
 		numsecrets 7
 
-		mu_fade 0 1500
-		mu_queue sound/music/c_military
+//		mu_fade 0 1500
+		mu_start sound/music/c_military
 
 		//trigger dummy cinematic1
 		//trigger player cam1

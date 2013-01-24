@@ -10,7 +10,7 @@ game_manager
 	spawn
 	{
 		accum 0 set 0 // objectives
-		accum 1 set 0 // Init (music)
+		//accum 1 set 0 // 
 		accum 2 set 0 // triggers
 		accum 3 set 0 // helga
 		accum 4 set 0 // zombie counter
@@ -18,16 +18,7 @@ game_manager
 		accum 6 set 0 // zombie spawns 5 - 8
 		accum 7 set 0 // fence
 
-		wait 50	//Prevent bizzare things
 		trigger player map_start	//Prevents late players affecting the game
-	}
-	
-	trigger init
-	{
-		accum 1 abort_if_not_equal 0
-		accum 1 set 1
-
-		mu_start sound/music/c_atmos
 	}
 
 	trigger checkexit

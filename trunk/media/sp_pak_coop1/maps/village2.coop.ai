@@ -9,14 +9,9 @@ player
 {
 	spawn
 	{
-		cvar g_episode 5
-
 //		abort_if_loadgame
 //		mu_stop 0 2000
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -57,9 +52,15 @@ player
 		selectweapon weapon_sten
 	}
 
+	playerstart
+	{
+	}
+
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+
+		cvar g_episode 5
 		
 		accum 0 bitreset 0
 		accum 1 set 0

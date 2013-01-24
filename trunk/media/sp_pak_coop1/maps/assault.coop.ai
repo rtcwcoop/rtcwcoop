@@ -10,15 +10,10 @@ player
 {
 	spawn
 	{
-		cvar g_episode 2
-		suggestweapon weapon_mauserRifle
-
+//		suggestweapon weapon_mauserRifle
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_1
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -42,12 +37,16 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mauserRifle
+	}
 
+	playerstart
+	{
 	}
 
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+		cvar g_episode 2
 
 		accum 0 set 0
 		accum 2 set 0 // don't remove exit trigger
@@ -55,8 +54,8 @@ player
 		objectivesneeded 3
 		numsecrets 0
 
-		mu_fade 0 1000
-		mu_queue sound/music/m_grave
+//		mu_fade 0 1000
+		mu_start sound/music/m_grave
 
 	}
 

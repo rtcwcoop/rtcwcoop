@@ -9,9 +9,7 @@ player
 
 	spawn
 	{
-		cvar g_episode 1
-		suggestweapon weapon_sten
-
+//		suggestweapon weapon_sten
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_1
 	}
@@ -48,13 +46,15 @@ player
 	{
 		//If something breaks at late player joining, move it here
 
+		cvar g_episode 1
+
 		accum 2 set 0 // don't remove exit trigger
 
 		objectivesneeded 3
 		numsecrets 1
 
-		mu_fade 0 1000
-		mu_queue sound/music/c_chant
+//		mu_fade 0 1000
+		mu_start sound/music/c_chant
 		//trigger counter1 cinematic1
 		trigger counter1 cleanup
 		//trigger player cam1

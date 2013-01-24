@@ -12,15 +12,10 @@ player
 
 	spawn
 	{
-		cvar g_episode 6
-		suggestweapon weapon_mp40
-
+//		suggestweapon weapon_mp40
 //		abort_if_loadgame
 //		mu_start sound/music/c_atmos
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -61,10 +56,16 @@ player
 		selectweapon weapon_sten
 	}
 
+	playerstart
+	{
+	}
+
 
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+
+		cvar g_episode 6
 
 		accum 0 bitreset 0
 		accum 2 set 0 // don't remove exit trigger
@@ -72,9 +73,9 @@ player
 		objectivesneeded 1		
 		numsecrets 0
 
-		mu_fade 0 1000
-		mu_queue sound/music/c_chant
-		trigger counter1 action1	these three events are beggining events
+//		mu_fade 0 1000
+		mu_start sound/music/c_chant
+		trigger counter1 action1	//these three events are beggining events
 //		wait 1000 
 		trigger counter1 cinematic1	
 		trigger player cam1

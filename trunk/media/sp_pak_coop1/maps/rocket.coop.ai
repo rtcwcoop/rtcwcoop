@@ -10,16 +10,10 @@ player
 {
 	spawn
 	{
-		cvar g_episode 2
-		suggestweapon weapon_sten
-
+//		suggestweapon weapon_sten
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_2
 
-	}
-
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -44,9 +38,15 @@ player
 		selectweapon weapon_sten
 	}
 
+	playerstart
+	{
+	}
+
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+
+		cvar g_episode 2
 
 		accum 0 bitreset 0	// Used for action21/21b, support if the player jumps off the bridge.
 		accum 0 bitreset 1	// Used for voice toggle.
@@ -58,8 +58,8 @@ player
 		objectivesneeded 3
 		numsecrets 1
 
-		mu_fade 0 1000
-		mu_queue sound/music/m_grave
+//		mu_fade 0 1000
+		mu_start sound/music/m_grave
 
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif

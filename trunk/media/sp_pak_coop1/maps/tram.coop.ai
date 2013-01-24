@@ -10,10 +10,7 @@ player
 	{
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_1
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -33,6 +30,10 @@ player
 		selectweapon weapon_mp40
 	}
 
+	playerstart
+	{
+	}
+
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
@@ -48,8 +49,8 @@ player
 		objectivesneeded 3
 		numsecrets 0
 
-		mu_fade 0 1500
-		mu_queue sound/music/m_drums
+//		mu_fade 0 1500
+		mu_start sound/music/m_drums
 
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_2 #endif

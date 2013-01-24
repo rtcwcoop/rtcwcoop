@@ -9,16 +9,11 @@ player
 {
 	spawn
 	{
-		cvar g_episode 1
-		suggestweapon weapon_mp40
-
+//		suggestweapon weapon_mp40
 //		abort_if_loadgame
 //		mu_fade 0 1000
 //		mu_queue sound/music/l_briefing_1
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -42,13 +37,19 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+	}
 
+	playerstart
+	{
 	}
 
 
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
+
+		cvar g_episode 1
+
 		accum 0 bitset 0
 		accum 0 bitset 1
 		accum 0 bitset 2 // spawn helga once
@@ -59,8 +60,8 @@ player
 		objectivesneeded 2
 		numsecrets 0
 
-		mu_fade 0 1000
-		mu_queue sound/music/c_atmos
+//		mu_fade 0 1000
+		mu_start sound/music/c_atmos
 
 		//Removes all the cutscene stuff
 		trigger counter1 cine1_cleanup
