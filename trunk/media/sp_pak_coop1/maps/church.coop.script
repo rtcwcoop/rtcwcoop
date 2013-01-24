@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 24.1.2013
 //
 //Brush Scripting
 //Map: Church
@@ -402,77 +403,6 @@ counter1
 		accum 0 bitreset 16 	// Used so that "reset_d1" is only triggered once.
 		accum 0 bitreset 17	// Used for the "objectivemet"
 		accum 4 set 0	// Used to count who is in combat and who is not.
-	}
-
-	trigger cinematic1
-	{
-		wait 3000
-		trigger lightning1 once
-		wait 2000
-		trigger zemph1 anim1
-		wait 2000
-		trigger helga1 anim
-		wait 5
-		trigger helga1 talk1	// Well, what's happening?
-		wait 2000
-		trigger zemph1 talk1	// A moment please mein director.
-		wait 1500
-		alertentity dust5
-		wait 1500
-		trigger helga1 talk2 	// Is it working?
-		wait 500
-		trigger player cam1b
-		wait 1000
-		trigger player cam2
-		wait 500
-		trigger zemph1 talk2	// Please, be patient!
-		wait 1000
-		alertentity dust6
-		wait 2000
-		alertentity dust6
-		wait 2000
-		trigger player cam3
-		trigger helga1 talk3	// Enough of your stallin. Tell me, yes or no, will it work?
-		wait 5000
-		trigger counter1 cinematic1a
-	}
-
-	trigger cinematic1a
-	{
-		trigger player cam6
-		trigger zemph1 talk3	// Frau Von Bulow, how many times...
-		wait 5000
-		trigger player cam10
-		wait 3500
-		trigger player cam2
-		wait 3200
-		trigger player cam3
-		wait 300
-		trigger zemph1 anim3
-		trigger helga1 talk4	// Don't take that patroning tone with me....
-		wait 3000
-		trigger player cam2
-		trigger zemph1 talk4	// Just a moment, Just a moment...
-		wait 2000
-		trigger vacuum anim
-		wait 1000
-		trigger player cam3
-		trigger zemph1 anim3
-		trigger helga1 talk5 	// What What!?
-		wait 2000
-		trigger player cam5
-		trigger zemph1 talk5	// Ya, ya... The Extraction process is beginning.
-		wait 3000
-		trigger player cam2
-		wait 3000
-		trigger player cam3
-		mu_play sound/music/s_bighits
-		trigger helga1 talk6 	// Execllent
-		trigger lightning1 cine1
-		wait 3000
-		trigger player cam3d
-		wait 5000
-		trigger counter1 cleanup
 	}
 
 	trigger cleanup

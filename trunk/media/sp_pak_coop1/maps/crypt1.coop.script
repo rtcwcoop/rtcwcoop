@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 24.1.2013
 //
 //Brush Scripting
 //Map: Crypt1
@@ -119,77 +120,6 @@ counter1	//MISC Counter
 		accum 6 set 0		// Used to count the last zombies.
 	}
 
-
-	// ---Start Cinematic 1---
-	trigger cinematic1
-	{
-		wait 3500
-		trigger cine1_nazi1 talk1	// It's like a slaughterhouse in here...
-		wait 2400
-		trigger player cine1_cam2
-		wait 400
-		trigger cine1_nazi2 talk1	// I know... Those things are everywhere.
-		wait 2000
-		trigger cine1_nazi1 look_anim
-		wait 2000
-		trigger cine1_nazi3 talk1	// What are they? Where did they all come from?
-		wait 3000
-		trigger cine1_nazi1 talk2	// Don't ask me... No one ever tells me anything...
-		wait 1150
-		alertentity cine1_snd1
-		wait 600
-		trigger cine1_nazi1 look_at_snd1
-		trigger cine1_nazi2 look_at_snd1
-		trigger cine1_nazi3 look_at_snd1
-		wait 1550
-		trigger player cine1_cam3
-		wait 1500
-		trigger cine1_nazi1 talk3	// Mein Gott! Did you hear that?
-		wait 3000
-		trigger player cine1_cam4
-		trigger cine1_nazi2 talk2	// Ya, and I wish I hadn't.
-		wait 2000
-		trigger cine1_nazi1 talk4	// We have to get out of here... Follow me back to the entrance.
-		wait 1750
-		trigger cine1_nazi3 go1
-		wait 250
-		trigger player cine1_cam5		
-		wait 250
-		trigger cine1_nazi1 go1
-		wait 250
-		trigger cine1_nazi2 go1
-		wait 4500
-		trigger player cine1_cam6
-		wait 4000
-		trigger cine1_nazi3 talk3	// What!? The ladder... It's destroyed.
-		wait 1750
-		trigger player cine1_cam7
-		wait 1750
-		trigger cine1_nazi2 talk3	// They've sealed us in here!
-		wait 5
-		trigger counter1 cinematic1a
-	}
-
-	trigger cinematic1a
-	{
-		wait 2150
-		alertentity cine1_snd2
-		trigger player cine1_cam8
-		trigger cine1_nazi3 go2
-		wait 250
-		trigger cine1_nazi1 go2
-		wait 250
-		trigger cine1_nazi2 go2
-		wait 4000
-		trigger player cine1_cam9
-		wait 500
-		trigger cine1_nazi3 talk5	// Get ready, they're coming...
-		wait 2000
-		trigger player cine1_cam10
-		wait 4000
-		trigger counter1 cine1_cleanup
-	}
-
 	trigger cine1_cleanup
 	{
 		resetscript
@@ -209,8 +139,6 @@ counter1	//MISC Counter
 		wait 100
 		alertentity warzombie2
 	}
-	// ---End Cinematic 1---
-
 
 	trigger action2
 	{
