@@ -1288,9 +1288,9 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 	}
 */
 
-   G_LoadAndParseMoveSpeeds(modelname);
+	G_LoadAndParseMoveSpeeds(modelname);
 
-return qtrue;
+	return qtrue;
 }
 
 /*
@@ -1465,35 +1465,35 @@ void ClientUserinfoChanged( int clientNum ) {
 	client->ps.legsAnim = 0;
 	client->ps.torsoAnim = 0;
 
-    if ( g_gametype.integer <= GT_COOP &&  !(ent->r.svFlags & SVF_CASTAI)) {
+	if ( g_gametype.integer <= GT_COOP &&  !(ent->r.svFlags & SVF_CASTAI)) {
 		int skinno = 0; 
 
-        // get skin number:
-        Q_strncpyz( skin, Info_ValueForKey( userinfo, "skin" ), sizeof( skin ) ); 
-        skinno = atoi(skin);
+		// get skin number:
+		Q_strncpyz( skin, Info_ValueForKey( userinfo, "skin" ), sizeof( skin ) ); 
+		skinno = atoi(skin);
 
-        if (skinno <= 0)
+		if (skinno <= 0)
 			skinno = 1; 
 
-        if (skinno > 3) 
-		    skinno = 3; 
+		if (skinno > 3) 
+			skinno = 3; 
 
-        if (client->sess.sessionTeam == TEAM_RED) {
-                Q_strncpyz( model, COOP_MODEL_AXIS, MAX_QPATH );
-        } else {
-                Q_strncpyz( model, COOP_MODEL, MAX_QPATH );
-        }
-        Q_strcat( model, MAX_QPATH, "/" );
+		if (client->sess.sessionTeam == TEAM_RED) {
+			Q_strncpyz( model, COOP_MODEL_AXIS, MAX_QPATH );
+		} else {
+			Q_strncpyz( model, COOP_MODEL, MAX_QPATH );
+		}
+		Q_strcat( model, MAX_QPATH, "/" );
 
-        SetCoopSkin( client, model, skinno );
+		SetCoopSkin( client, model, skinno );
 
-        Q_strncpyz( head, "", MAX_QPATH );
-        // fretn : scoreboard leader gets bj his skin !
-        //if (clientNum == level.clients[ level.sortedClients[0] ].ps.clientNum)
+		Q_strncpyz( head, "", MAX_QPATH );
+		// fretn : scoreboard leader gets bj his skin !
+		//if (clientNum == level.clients[ level.sortedClients[0] ].ps.clientNum)
 			//SetCoopSkin( client, head, 0  );
-        //else 
+		//else 
 			SetCoopSkin( client, head, skinno );
-    }
+	}
 
 	// strip the skin name
 	Q_strncpyz( modelname, model, sizeof( modelname ) );
@@ -1509,7 +1509,7 @@ void ClientUserinfoChanged( int clientNum ) {
 		}
 	}
 
-    if ( g_gametype.integer > GT_COOP || ent->r.svFlags & SVF_CASTAI ) {
+	if ( g_gametype.integer > GT_COOP || ent->r.svFlags & SVF_CASTAI ) {
 //----(SA) added this for head separation
 		// set head
 		if ( g_forceModel.integer ) {
