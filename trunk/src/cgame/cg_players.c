@@ -1390,7 +1390,11 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
         if (cgs.gametype > GT_COOP) {
                 fallback = DEFAULT_MODEL;
         } else {
-                fallback = DEFAULT_COOP_MODEL;
+		if (ci->team == TEAM_RED) {
+			fallback = DEFAULT_COOP_MODEL_AXIS;
+		} else {
+			fallback = DEFAULT_COOP_MODEL;
+		}
         }
 
 	for ( i = 0 ; i < MAX_CUSTOM_SOUNDS ; i++ ) {
