@@ -1,5 +1,5 @@
-///
-///
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
+//
 /// The BIG BAD BOSS level
 /// Chad and jeremy...
 /// 10/03/00
@@ -9,7 +9,6 @@
 
 player
 {
-
 	spawn
 	{
 //		suggestweapon weapon_mp40
@@ -35,7 +34,9 @@ player
 		giveweapon weapon_sniperscope
 		giveweapon weapon_snooperrifle
 		giveweapon weapon_fg42
-			setclip weapon_fg42 20	
+			setclip weapon_fg42 20
+		giveweapon weapon_panzerfaust
+		setammo ammo_panzerfaust 1
 		giveweapon weapon_flamethrower
 		giveweapon weapon_venom
 		giveweapon weapon_tesla
@@ -67,7 +68,6 @@ player
 
 		cvar g_episode 6
 
-		accum 0 bitreset 0
 		accum 2 set 0 // don't remove exit trigger
 
 		objectivesneeded 1		
@@ -75,159 +75,53 @@ player
 
 //		mu_fade 0 1000
 		mu_start sound/music/c_chant
-		trigger counter1 action1	//these three events are beggining events
-//		wait 1000 
-		trigger counter1 cinematic1	
-		trigger player cam1
-//					Newly added for himmler scene
-//		trigger counter1 himmler_cine1	
-//		wait 1000
-//		trigger player cam_himmler
 
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_venom_9 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_venom_13 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
-		
-		#if g_reinforce >= 1 alertentity coop_ai_blackguard_15 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_blackguard_16 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_blackguard_17 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_blackguard_18 #endif
-		
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_19 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_20 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_21 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_22 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_23 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_24 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_24 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_eliteguard_26 #endif
-	}
+		wait 100
 
-	trigger cam_himmler1a
-	{
-		startcamblack cs18_04
-	}
-
-	trigger cam_himmler
-	{
-		startcamblack cs18_04
-	}
-
-	trigger cam1
-	{
-		startcam cs16_01
-	}
-
-	trigger cam2
-	{
-		startcam cs16_02
-	}
-
-	trigger cam3
-	{
-		startcam cs16_03
-	}
-
-	trigger cam3d
-	{
-		startcam cs16_03d
-	}
-
-	trigger cam4
-	{
-		startcam cs16_04
-	}
-
-	trigger cam5
-	{
-		startcam cs16_05
-	}
-
-	trigger cam6
-	{
-		startcam cs16_06
-	}
-
-	trigger cam6d
-	{
-		startcam cs15_06d
-	}
-
-	trigger cam7		// new camers for the end...
-	{
-		startcam cs16_07
-	}
-
-	trigger cam8
-	{
-		startcam cs16_08
-	}
-
-	trigger cam9
-	{
-		startcam cs16_09
-	}
-
-	trigger cam10
-	{
-		startcam cs16_10
-	}
-
-	trigger cam10d
-	{
-		startcam cs16_10d
-	}
-
-	trigger cam11
-	{
-		startcam cs16_11
-	}
-	trigger cam12
-	{
-		startcam cs16_12
-	}
-
-	trigger cam13
-	{
-		startcam cs16_13
-	}
-
-	trigger cam14
-	{
-		startcam cs16_14
-	}
-
-	trigger cam15
-	{
-		startcam cs16_15
-	}
-
-	trigger camerainterrupt
-	{
-		accum 0 abort_if_bitset 0
 		trigger counter1 cine1_cleanup
-		stopcam			
-	}
 
-	trigger 0bitset0
-	{
-		accum 0 bitset 0
+
+//Added a few enemies for reinforce 0 - Sage
+alertentity coop_ai_soldier_8
+alertentity coop_ai_soldier_14
+alertentity coop_ai_blackguard_16
+alertentity coop_ai_eliteguard_24
+alertentity coop_ai_eliteguard_26
+
+#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
+#if g_reinforce >= 2 alertentity coop_ai_venom_9 #endif
+#if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
+#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
+#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+#if g_reinforce >= 2 alertentity coop_ai_venom_13 #endif
+wait 100
+#if g_reinforce >= 1 alertentity coop_ai_blackguard_15 #endif
+#if g_reinforce >= 1 alertentity coop_ai_blackguard_17 #endif
+#if g_reinforce >= 2 alertentity coop_ai_blackguard_18 #endif
+#if g_reinforce >= 1 alertentity coop_ai_eliteguard_19 #endif
+#if g_reinforce >= 2 alertentity coop_ai_eliteguard_20 #endif
+#if g_reinforce >= 1 alertentity coop_ai_eliteguard_21 #endif
+#if g_reinforce >= 1 alertentity coop_ai_eliteguard_22 #endif
+#if g_reinforce >= 2 alertentity coop_ai_eliteguard_23 #endif
+#if g_reinforce >= 1 alertentity coop_ai_eliteguard_25 #endif
 	}
 
 	trigger action1
 	{
+		//Game starts now - Sage
+
 		trigger heinrich begin
 		trigger pillar1 swing
 		trigger rope1 swing
+
+		alertentity fem1
+		trigger fem1 getup
+		alertentity spirit1
+		alertentity spirit2
+		alertentity spirit3
 		alertentity dark4
 		alertentity dark5
 		alertentity dark6
-		alertentity killknights
 	}
 
 	trigger rocksfall
@@ -247,9 +141,11 @@ player
 
 	trigger changelevel
 	{
-		wait 15000
 		//changelevel gamefinished 250
-		changelevel escape1 persistent
+		//Ficker
+//Maybe should use nostats, to code a system for this...
+//Runs 3 times, proceeds and crashes...
+		changelevel escape1 //250 //nostats //persistent crashes
 	}
 
 	death
@@ -260,104 +156,13 @@ player
 
 ps1
 {
-
-	attributes
-	{
-		headlook off
-		starting_health 5
-		aim_accuracy 1.0
-		aggression 1.0
-		camper 0.0
-		tactical 0.0
-		reaction_time 1.0
-		aim_skill 1.0
-	}
-
 	spawn
 	{
 		takeweapon all
-		giveweapon weapon_sten
-		setammo ammo_9mm 999
-		setclip sten 32
-		selectweapon weapon_sten
-		attack player
-	}
-
-	trigger go1
-	{
-	}
-
-	trigger go2
-	{
-		walktomarker t691		// ps1spot2
-	}
-
-	trigger anim1a
-	{
-		playanim idle both 
-	}
-
-	trigger anim1
-	{
-
-		nosight 99999
-		playanim stuff both //forever
-	}
-
-	trigger anim2
-	{
-
-		playanim bow both //forever
-	}
-
-	trigger talk1		// Yes yes
-	{
-		playsound end_cs16_pri_01_1
-	}
-
-	trigger talk2		// Yes it is true
-	{
-		nosight 99999
-		playsound end_cs16_pri_02_6
-	}
-
-	trigger talk3		// I serve you my dark msater
-	{
-		playsound end_cs16_pri_03_7 
-	}
-
-	trigger talk4		// Ahahahaha
-	{
-		playsound end_cs16_pri_04_a
-		alertentity spirit4
-	}
-
-	trigger talk5
-	{
-		playsound end_eg_solo_loop
-	}
-
-	trigger talk6
-	{
-		playsound  end_liftup
-		wait 4000
-	}
-
-	trigger talk6_stop
-	{
-		playsound  blank
-	}
-
- 	enemysight
-	{
-		resetscript
-	}
-
-	death
-	{
 	}
 }
 
+//Copy dark4 scripts if you want to add dark1-3 - Sage
 dark1
 {
 
@@ -369,27 +174,6 @@ dark1
 	spawn
 	{
 		nosight 99999
-		knockback off
-		wait 5
-		playanim powered_down both forever
-		attack player
-	}
-
-	trigger anim1
-	{
-		clearanim
-		playanim come_alive both forever
-	}
-
-	trigger talk1
-	{
-		playsound end_ss_powerup
-	}
-
-	trigger pain
-	{
-		playanim pain_ceremony both
-		playanim asleep both forever
 	}
 }
 
@@ -404,27 +188,6 @@ dark2
 	spawn
 	{
 		nosight 99999
-		knockback off
-		wait 5
-		playanim powered_down both forever
-		attack player
-	}
-
-	trigger anim1
-	{
-		clearanim
-		playanim come_alive both forever
-	}
-
-	trigger talk1
-	{
-		playsound end_ss_powerup
-	}
-
-	trigger pain
-	{
-		playanim pain_ceremony both
-		playanim asleep both forever
 	}
 }
 
@@ -439,27 +202,6 @@ dark3
 	spawn
 	{
 		nosight 99999
-		knockback off
-		wait 5
-		playanim powered_down both forever
-		attack player
-	}
-
-	trigger anim1
-	{
-		clearanim
-		playanim come_alive both forever
-	}
-
-	trigger talk1
-	{
-		playsound end_ss_powerup
-	}
-
-	trigger pain
-	{
-		playanim pain_ceremony both
-		playanim asleep both forever
 	}
 }
 
@@ -621,7 +363,7 @@ heinrich
 
 	attributes
 	{
-		starting_health 6000
+		starting_health 60
 		alertness 50000
 		aim_accuracy 1.0
 		aggression 1.0
@@ -758,10 +500,8 @@ heinrich
 
 	death
 	{
-		trigger player 0bitset0
 		objectivemet 1	// mission objective complete
-		trigger game_manager objective1
-		
+
 		alertentity kill_27
 		alertentity kill_28
 		alertentity kill_29
@@ -775,14 +515,7 @@ heinrich
 		alertentity kill_37
 		alertentity kill_38
 		
-		// probably don't need this for last map
-		trigger game_manager checkexit
-		trigger counter1 endmap
-	}
-	
-	trigger endgame
-	{
-		trigger counter1 himmler_cine1
+		trigger game_manager endmap
 	}
 }
 
@@ -797,66 +530,6 @@ himmler
 
 	spawn
 	{
-		nosight 99999
-		zoom on
-		walktomarker hm_spot1
-		facetargetangles help_spot2
-		headlook off
-		takeweapon all
-		trigger himmler go1
-	}
-
-	trigger go1
-	{
-		facetargetangles help_spot2
-	}
-
-	trigger anim_loop1
-	{ 
-		playanim binocular both 
-		zoom off
-	}
-
-	trigger anim_loop2
-	{
-		playanim talking_1 both 
-	}
-
-	trigger anim_loop3
-	{
-		playanim talking_2 both 
-	}
-
-	trigger anim_loop4
-	{
-		playanim relaxed_walk_no both forever
-	}
-
-	trigger go2		// walk to car
-	{
-		facetargetangles hm_spot3
-		walktomarker hm_spot2 nostop
-		walktomarker hm_spot3
-	}
-
-	trigger talk1
-	{
-		playsound end_cs18_him_01		// He destroyed everything
-		wait 1000		// og 5200
-		zoom off
-		clearanim
-	}
-
-	trigger talk2
-	{
-		playsound end_cs18_him_02		// Ya ya
-		wait 3000
-		clearanim
-	}
-
-	trigger clean_anim
-	{
-		clearanim
 	}
 }
 
@@ -867,77 +540,8 @@ help
 		alertness 0
 		hearing_scale 0.0
 	}
-
 	spawn
 	{
-		nosight 99999
-		headlook off
-		takeweapon all	
-		trigger help go1	
-	}
-
-	trigger go1
-	{
-		nosight 99999
-		wait forever 0 himmler
-		nosight 99999
-	}
-
-	trigger go2		// walk to car
-	{
-		nosight 99999
-		walktomarker help_spot1a
-	}
-
-	trigger go3
-	{
-		walktomarker help_spot2 himmler noattack
-		clearanim
-		wait 1000 0 himmler
-	}
-
-	trigger talk1
-	{
-		playsound end_cs18_aid_01	// The plane is waiting to take back to Berlin
-	}
-
-	trigger talk2
-	{
-		playsound end_cs18_aid_02		// The furer is expecting your arrival
-		wait 2500
-		clearanim
-		wait 3000 0 himmler
-	}
-
-	trigger anim_loop1
-	{
-		playanim talking_1h both 
-	}
-
-	trigger anim_loop2
-	{
-		playanim pointing both 
-	}
-
-	trigger anim_loop3
-	{
-		playanim giving_orders both 
-		
-	}
-
-	trigger anim_loop4
-	{
-		playanim alert_walk_no both forever
-	}
-
-	bulletimpact
-	{
-		deny
-	}
-
-	statechange relaxed alert
-	{
-		deny
 	}
 }
 
@@ -1335,7 +939,7 @@ coop_ai_protosoldier_27		// Protosoldier 1
 		setammo ammo_panzerfaust 999
 		selectweapon weapon_panzerfaust
 		attack player
-		runtomarker hspot1
+		//runtomarker hspot1
 	}
 	
 	death
@@ -1361,7 +965,7 @@ coop_ai_protosoldier_28		// Protosoldier 2
 		giveweapon weapon_venom
 		setammo ammo_127mm 99999	// Venom
 		attack player
-		runtomarker hspot1
+		//runtomarker hspot1
 	}
 	
 	death
@@ -1387,7 +991,7 @@ coop_ai_protosoldier_29		// Protosoldier 3
 		setammo ammo_panzerfaust 999
 		selectweapon weapon_panzerfaust
 		attack player
-		runtomarker hspot1
+		//runtomarker hspot1
 	}
 	
 	death
@@ -1413,7 +1017,7 @@ coop_ai_protosoldier_30		// ProtoSoldier 4
 		giveweapon weapon_venom
 		setammo ammo_127mm 99999	// Venom
 		attack player
-		runtomarker hspot1
+		//runtomarker hspot1
 	}
 	
 	death

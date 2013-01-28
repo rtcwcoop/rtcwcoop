@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
 //
 // First Room  Chad and jeremy...
 // 10/03/00
@@ -6,6 +7,8 @@
 //
 
 // I hope Chad doesn't see this!
+
+// :) Maybe he will...
 game_manager
 {
 	spawn
@@ -14,16 +17,17 @@ game_manager
 
 		trigger player map_start	//Prevents late players affecting the game
 	}
-	
-	trigger checkexit
+
+	trigger endmap
 	{
-		accum 0 abort_if_not_bitset 1
-//		trigger player endgame
-	}
-	
-	trigger objective1
-	{
-		accum 0 bitset 1
+		//Don't run more than once (bug)
+
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		wait 15000
+
+		trigger player changelevel
 	}
 }
 
@@ -31,209 +35,28 @@ counter1
 {
 	spawn
 	{
-		accum 0 set 0
-		accum 1 set 0
-		accum 2 set 0
-	}
-
-	trigger action1
-	{
-		alertentity dark1
-		alertentity dark2
-		alertentity dark3
-		alertentity heinrich
-		alertentity killzombie1
-	}
-
-	trigger cinematic1
-	{
-		wait 1000
-		trigger counter1 dark_death_sequence
-	}
-
-	trigger dark_death_sequence
-	{
-		wait 2500
-		trigger ps1 anim1
-		wait 500
-		trigger player cam2
-		trigger ps1 talk5 	// chant 10 SECS LONG
-		wait 8000
-		trigger player cam6	// shot behind dark knight right side
-		wait 200
-		trigger dark3 anim1
-		wait 5
-		trigger dark3 talk1
-		wait 3300
-		trigger ps1 talk5 	// chant
-		wait 5
-		trigger player cam2
-		wait 6000
-		trigger player cam4	// cam left
-		wait 200
-		trigger dark2 anim1
-		wait 5
-		trigger dark2 talk1
-		wait 5200
-		trigger player cam2
-		wait 1500
-		trigger ps1 talk5 	// chant
-		wait 4500
-		trigger player cam5	// cam center
-		wait 700
-		trigger dark1 anim1
-		wait 5
-		trigger dark1 talk1
-		wait 2000
-		trigger player cam2
-		trigger counter2 smoke3
-		accum 2 inc 1
-		alertentity rumble1
-//		alertentity hurtdark1
-		alertentity killknights
-		alertentity spirit1
-		alertentity spirit2
-		alertentity spirit3
-		wait 1500
-		trigger player cam15
-		wait 5000
-		alertentity dark5
-		alertentity dark4
-		alertentity dark6
-		trigger counter1 cinematic1a_a
-	}
-
-	trigger cinematic1a_a			// needed for MAX lines hit
-	{
-//		trigger lift1 talk1		// test for earth sound and shake
-		trigger player cam8
-		trigger dark6 talk1
-		wait 3000
-		trigger player cam7
-		trigger dark5 talk1
-		wait 3000
-		trigger player cam9
-		trigger dark4 talk1
-		wait 3000
-		trigger player cam11
-		trigger dark6 talk2
-		trigger counter2 smoke3again
-		accum 2 inc 0
-//		wait 5
-//		alertentity spirit1
-		wait 500	// Was 3500
-		trigger ps1 talk6
-		trigger lift1 talk2
-		wait 5
-		trigger lift1 up1		// THIS STARTS CUTSCENE LIFT UP...
-		wait 5500
-		alertentity smoke1
-		accum 0 inc 1			// this says smoke is on
-		trigger ps1 talk6
-		wait 3000
-	}
-
-	trigger cinematic1a
-	{
-		wait 3000
-		trigger ps1 talk6
-		trigger heinrich anim1a
-		wait 1000
-		trigger ps1 talk6
-		wait 1000
-		trigger ps1 talk6_stop
-		trigger lift1 talk2_stop
-		trigger heinrich talk1		// I live
-		wait 2300
-		alertentity smoke1
-		accum 0 set 0			// this turns smoke off
-		wait 2300
-		trigger heinrich anim1	
-		wait 4700				// og time 6000 but I broke it up for animation
-		trigger player cam14	
-		wait 100
-		trigger ps1 talk1		// Yes yes 
-		wait 3500
-//		trigger player cam2	
-		trigger ps1 talk2		// Yes it is true
-		wait 1750				// og 1900
-		trigger player cam3
-		wait 100
-		trigger heinrich anim3
-		wait 2505
-		trigger heinrich talk2		// Who are you...
-		wait 800				// og time 2800
-		trigger ps1 anim2
-		wait 1500
-		trigger player cam12
-		wait 500
-		wait 5
-		trigger ps1 talk3		// I serve you my master
-		wait 2900
-		trigger counter1 cinematic1b
-	}
-
-	trigger cinematic1b
-	{
-		trigger player cam3
-		trigger heinrich talk3		// Rargh
-		wait 3200
-		trigger player cam13
-		trigger ps1 talk4		// Her death sound
-		trigger counter2 smoke2
-		wait 3000
-		alertentity killps1
-		wait 1000
-		alertentity fem1
-		wait 1000
-		trigger fem1 getup
-		trigger counter2 smoke2again
-		wait 1500
-		trigger heinrich anim4_reset
-		wait 1000
-		trigger player cam10
-		wait 5
-		trigger heinrich talk4		// so much to do
-		wait 4000
-		trigger player cam10d
-//		trigger player cam3d
 	}
 
 	trigger cine1_cleanup
 	{
-		trigger counter2 cleanup3
-		trigger counter2 cleanup2
-		trigger counter1 cleanup1
-	}
-
-	trigger cleanup1
-	{
-		resetscript
 		alertentity killps1
-		alertentity fem1
-		trigger fem1 getup
-		alertentity spirit1
-		alertentity spirit2
-		alertentity spirit3
 		alertentity killknights
-		alertentity dark4
-		alertentity dark5
-		alertentity dark6
-		trigger lift1 up4		// IF CUTSCENE IS ABORTED...
-		trigger counter1 smoke1_cleanup
-//		accum 0 abort_if_equal 0
-//		alertentity smoke1
-	}
+		alertentity killzombie1
 
-	trigger smoke1_cleanup			// keeps track of first set of smoke emmitters
-	{
-		accum 0 abort_if_equal 0
-		alertentity smoke1		// Used for hein
-	}
+		alertentity heinrich	//Can spawn now; nosight...
 
-	trigger smoke2_cleanup			// keeps track of second set of smoke emmitters
-	{
-		alertentity smoke2		// Used for zombie girl
+		trigger lift1 up4	
+
+
+//COOP! Moved to player action1, real start, so they won't come after you too early....
+//		alertentity fem1
+//		trigger fem1 getup
+//		alertentity spirit1
+//		alertentity spirit2
+//		alertentity spirit3
+//		alertentity dark4
+//		alertentity dark5
+//		alertentity dark6	
 	}
 
 	trigger endmap
@@ -245,96 +68,6 @@ counter1
 	{
 		resetscript
 	}
-
-	trigger before_himmler_scene
-	{
-		wait 15000
-		trigger counter1 himmler_cine1
-	}
-
-// Himmler cutscene--------------
-
-	trigger himmler_cine1
-	{
-		wait 12000
-//		trigger player cam_himmler1a
-		alertentity himmler
-		alertentity help
-		wait 2000
-		trigger himmler anim_loop1
-		wait 1000		
-		trigger player cam_himmler
-		wait 9000
-		trigger himmler talk1
-		wait 2000		
-		trigger help anim_loop4	// sturdy walk
-		wait 5
-		trigger help go3	// walks to himmler
-		wait 5
-		wait 3000
-		trigger himmler clean_anim
-		wait 2500
-		trigger help talk1
-		wait 4700		// og 6700
-		wait 2000			
-		trigger help anim_loop3
-		wait 5
-		trigger help talk2
-		wait 3000
-		trigger himmler talk2
-		wait 4000
-		wait 5
-		trigger himmler go2
-		wait 4000
-		trigger help go2
-		wait 3000		// og 5000 secs
-		trigger counter1 endmap
-	}
-}
-
-counter2
-{
-	spawn
-	{
-		accum 0 set 0
-		accum 1 set 0
-	}
-
-	trigger smoke2
-	{
-		alertentity smoke2
-		accum 0 inc 1
-	}
-		
-	trigger smoke2again
-	{
-		alertentity smoke2
-		accum 0 set 0
-	}
-
-	trigger cleanup2
-	{
-		accum 0 abort_if_equal 0
-		alertentity smoke2
-	}
-
-trigger smoke3
-	{
-		alertentity smoke3
-		accum 1 inc 1
-	}
-		
-	trigger smoke3again
-	{
-		alertentity smoke3
-		accum 1 set 0
-	}
-
-	trigger cleanup3
-	{
-		accum 1 abort_if_equal 0
-		alertentity smoke3
-	}
 }
 
 lift1
@@ -345,22 +78,12 @@ lift1
 		gotomarker liftspot2 50000 wait
 	}
 
-	trigger up1
-	{
-		wait 6300		// test
-		trigger counter1 cinematic1a
-		wait 3000
-		trigger player cam3	// heinrich close up
-		wait 1000
-		gotomarker liftspot1 50 wait
-	}
-
 	trigger up4			// THIS IS WHEN CINE IS OVER AND LIFT WOULD RAISE TO TOP IF THE SCENE WAS INTER...UPTED
 	{
 		resetscript
 		gotomarker liftspot2 50000 wait
 		gotomarker liftspot1 50000 wait
-		trigger heinrich sight_on  
+		//trigger heinrich sight_on  //COOP
 	}
 
 	trigger talk1
