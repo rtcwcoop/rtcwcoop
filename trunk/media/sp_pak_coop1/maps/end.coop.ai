@@ -363,7 +363,7 @@ heinrich
 
 	attributes
 	{
-		starting_health 60
+		starting_health 6000
 		alertness 50000
 		aim_accuracy 1.0
 		aggression 1.0
