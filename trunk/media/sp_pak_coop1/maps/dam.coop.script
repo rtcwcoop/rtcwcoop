@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
 //
 //Brush scripting
 //Map dam_106_jeremy 
@@ -773,47 +774,60 @@ radio				// LADIES AND GENTEL MEN ELVIS PRESLY
 	}
 }
 
+//Elevator is speeded up for COOP
+//DAMN BORING TO WAIT!! :P
+//And redid much of the elev/btn script!
 elevator1
 {
 	spawn
 	{
-		accum 0 bitreset 0
-		accum 1 set 0
-		accum 2 set 0
 		accum 3 set 0
 	}
 
 	trigger up
 	{
+		trigger button1 elevator_operating
+		trigger button2 elevator_operating
+
+		wait 250
+
 		playsound sound/movers/elevators/elev1_start.wav
 		wait 5
 		playsound sound/movers/elevators/elev1_loop.wav looping
-		gotomarker eupa 140 accel wait 
-		gotomarker eup 80 deccel wait
+		gotomarker eupa 220 accel wait 	//140
+		gotomarker eup 100 deccel wait	//80
 		stopsound
 		playsound sound/movers/elevators/elev1_end.wav	
-	//	trigger checker1 elevator_status_up
+
 		trigger button1 elevator_upcheckin
 		trigger button2 elevator_upcheckin
 	}
 
 	trigger down
 	{
+		trigger button1 elevator_operating
+		trigger button2 elevator_operating
+
+		wait 250
+
 		playsound sound/movers/elevators/elev1_start.wav
 		wait 5
 		playsound sound/movers/elevators/elev1_loop.wav looping
 		// gotomarker eupa 50 accel wait
-		gotomarker downa 140 accel wait 
-		gotomarker edown 50 deccel wait
+		gotomarker downa 240 accel wait 	//140
+		gotomarker edown 70 deccel wait	//50
 		stopsound
 		playsound sound/movers/elevators/elev1_end.wav	
-	//	trigger checker1 elevator_status_down
+
 		trigger button1 elevator_downcheckin
 		trigger button2 elevator_downcheckin
 	}
 
 	trigger down_with_guys_on
 	{
+		trigger button1 elevator_operating
+		trigger button2 elevator_operating
+
 		alertentity elevator_guard
 		playsound sound/movers/elevators/elev1_loop.wav looping
 		gotomarker guys_on_spot1 5000 wait
@@ -821,15 +835,16 @@ elevator1
 	 	alertentity nazi2a
 		alertentity nazi3
 //		alertentity elevator_guard
-		wait 2000
+		wait 2500
 //	 	alertentity nazi2a
-		gotomarker downa 75 accel wait 
+		gotomarker downa 95 accel wait 
 		gotomarker edown 50 deccel wait 
 		stopsound
 		playsound sound/movers/elevators/elev1_end.wav
-	//	trigger checker1 elevator_status_down
+
 		trigger button1 elevator_downcheckin
 		trigger button2 elevator_downcheckin
+
 		wait 500
 		trigger nazi2a walkthrough_door
 	}
@@ -847,56 +862,76 @@ button1
 {
 	spawn
 	{	
+		accum 1 set 0	//COOP, am I operating?
 		accum 2 set 0
 	}
 
-	trigger elevator_upcheckin
+	trigger elevator_operating
 	{
+		accum 1 set 1
+
+		gotomarker b1in 50
+		playsound sound/movers/switches/switch.wav
+	}
+
+	trigger elevator_upcheckin
+	{		
+		wait 100
+
+		gotomarker b1start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
 		accum 2 set 1
 	}
 
 	trigger elevator_downcheckin
-	{
+	{		
+		wait 100
+
+		gotomarker b1start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
 		accum 2 set 0
 	}
 
 	trigger buttons
-	{		
+	{
+		//Stop bashing you idiot
+		
+		trigger button1 fail_pushing 
+
+		accum 1 abort_if_not_equal 0	
+
 		wait 5
 		trigger button1 start
 		wait 5 
 		trigger button1 off		
 	}
 
+	trigger fail_pushing		//coop-only
+	{
+		accum 1 abort_if_not_equal 1
+		playsound sound/items/use_nothing.wav
+	}
+
 	trigger start
 	{
 		accum 2 abort_if_not_equal 0
 		wait 5
-	//	accum 2 set 1
-		resetscript
-		gotomarker b1in 50 wait
-		playsound sound/movers/switches/switch.wav
 		trigger elevator1 up
-		wait 15000
-		gotomarker b1start 50 wait 
-		playsound sound/movers/switchesswitch.wav
-		wait 1300
-	//	accum 2 set 1
 	}
 
 	trigger off
 	{
 		accum 2 abort_if_not_equal 1
 		wait 5
-	//	accum 2 set 0
-		resetscript
-		gotomarker b1in 50 wait
-		playsound sound/movers/switchesswitch.wav
 		trigger elevator1 down	
-		wait 15000
-		gotomarker b1start 50 wait 
-		playsound sound/movers/switchesswitch.wav
-	//	accum 2 set 0
 	}
 }
 
@@ -904,41 +939,70 @@ button2
 {
 	spawn
 	{	
+		accum 1 set 0	//COOP, am I operating?
 		accum 2 set 0
+	}
+
+
+	trigger elevator_operating
+	{
+		accum 1 set 1
+
+		gotomarker b2in 50
+		playsound sound/movers/switches/switch.wav
 	}
 
 	trigger elevator_upcheckin
 	{
+		wait 100
+
+		gotomarker b2start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
 		accum 2 set 1
 	}
 
 	trigger elevator_downcheckin
 	{
+		wait 100
+
+		gotomarker b2start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
 		accum 2 set 0
 	}
 
 	trigger buttons
 	{
+		//Stop bashing you idiot
+		
+		trigger button2 fail_pushing 
+
+		accum 1 abort_if_not_equal 0
+
 		wait 5
 		trigger button2 start
 		wait 5
 		trigger button2 off
 	}
 
+	trigger fail_pushing		//coop-only
+	{
+		accum 1 abort_if_not_equal 1
+		playsound sound/items/use_nothing.wav
+	}
+
 	trigger start
 	{
 		accum 2 abort_if_not_equal 0
 		wait 5
-	//	accum 2 set 1
-		resetscript
-		gotomarker b2in 50 wait
-		playsound sound/movers/switchesswitch.wav
-	//	gotomarker button_in 50 wait
-		wait 1000
-	//	gotomarker button_start 50 wait 
-		wait 1300
-		gotomarker b2start 50 wait 
-		playsound sound/movers/switchesswitch.wav
+
 		trigger elevator1 up
 	}
 
@@ -946,13 +1010,7 @@ button2
 	{
 		accum 2 abort_if_not_equal 1
 		wait 5
-	//	accum 2 set 0
-		resetscript
-		gotomarker b2in 50 wait
-		playsound sound/movers/switchesswitch.wav
-		wait 1300
-		gotomarker b2start 50 wait 
-		playsound sound/movers/switchesswitch.wav	
+
 		trigger elevator1 down
 	}
 }
@@ -1359,20 +1417,6 @@ checker2
 		alertentity alarm_on
 	}
 
-	trigger alert_nazi1
-	{
-//		trigger player cam1
-		alertentity nazi1
-		wait 1000
-		trigger nazi1 go1
-	}
-
-	trigger alert_nazi1a
-	{
-		trigger player cam1
-		trigger nazi1 go1a
-	}
-
 	trigger alarm_continued_from_checker1		// THIS IS CONTINUED FROM CHECKER 1
 	{
 //		print made it1
@@ -1621,36 +1665,15 @@ checker2
 		mu_queue sound/music/m_moving
 	}
 
-	trigger plane_cine1
+	trigger truck_cine	//COOP only
 	{
-//		trigger checker2 alert_nazi1		// newly added so he can be inseen
 		alertentity nazi1
-		accum 0 abort_if_bitset 30
-//		trigger player plane_cam1
-		alertentity bj3		// bj skin is airplane
-		alertentity plane_engines
-		accum 0 abort_if_bitset 30
-//		alertentity plane_smoke_left
-		wait 2000
-		accum 0 abort_if_bitset 30
-//		alertentity plane_radio
-		trigger bj3 talk1
-		wait 8800		// og 12850
-		accum 0 abort_if_bitset 30
-//		alertentity plane_smoke_right 
-		trigger bj3 anim_loop2
-		wait 4050
-//		trigger checker2 cine1
-//		wait 5
-		accum 0 abort_if_bitset 30
-		trigger player cam1
-		accum 0 abort_if_bitset 30
-		trigger checker2 alert_nazi1a
-	}
+		wait 100
+		trigger nazi1 go1
 
-	trigger plane_cine1_stop
-	{
-		accum 0 bitset 30
+		wait 2000
+
+		trigger nazi1 go1a
 	}
 }
 
@@ -1660,7 +1683,7 @@ parachute1			// newly added for cutscene
 	{
 	}
 
-	trigger go1
+	trigger go1		//Commented out, COOP
 	{
 		faceangles 0 90 0 5
 		playanim 1 74 looping forever

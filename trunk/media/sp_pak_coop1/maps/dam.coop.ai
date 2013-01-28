@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
 //
 //AI scripting
 //dam_106_jeremy
@@ -74,82 +75,7 @@ player
 //		mu_fade 0 3000
 		mu_start sound/music/m_drums
 
-		trigger checker2 plane_cine1
-	}
-
-//----------Cameras-------------
-
-	trigger plane_cam1
-	{
-		startcam damb25_01
-	}
-
-	trigger cam1
-	{
-		startcam dam_01
-	}
-
-	trigger cam2
-	{
-		startcam dam_02
-	}
-
-	trigger cam3
-	{
-		startcam dam_03
-	}
-
-	trigger cam3d
-	{
-		startcam dam_03d
-	}
-
-	trigger cam4
-	{
-		startcam dam_04
-	}
-
-	trigger cam5
-	{
-		startcam dam_05
-	}
-
-	trigger cam6		// Changed...
-	{
-		startcam dam_11
-	}
-
-	trigger cam7
-	{
-		startcam dam_07
-	}
-
-	trigger cam8
-	{
-		startcam dam_08
-	}
-
-	trigger cam9 
-	{
-		startcam dam_09
-	}
-
-	trigger cam10 
-	{
-		startcam dam_10
-	}
-
-//----------End Cameras --------
-
-	trigger camerainterrupt
-	{
-		mu_fade 0 3000
-		mu_queue sound/music/m_drums	
-		stopcam
-		alertentity nazi1
-		trigger nazi1 cine1_stop	// Had to do this because of cutscene method...
-		trigger officer1 cine1_stop
-		trigger checker2 plane_cine1_stop
+		trigger checker2 truck_cine		//Coop only
 	}
 
 	trigger alarm1_destroyed
@@ -479,81 +405,6 @@ player
 	}
 }
 
-bj2
-{
-	attributes
-	{
-	}
-
-	spawn
-	{
-		nosight 99999
-		parachute on
-		trigger bj2 anim_loop
-	}
-
-	trigger anim_loop
-	{
-		nosight 99999
-		playanim para both forever			
-	}
-}
-
-
-bj3
-{
-	attributes
-	{
-	}
-
-	spawn
-	{
-		takeweapon all
-		nosight 99999
-		trigger bj3 go1
-	}
-
-	trigger go1
-	{
-//		walktomarker bj3_spot1
-		facetargetangles bj3_spot1
-		trigger bj3 anim_loop		
-	}
-
-	trigger anim_loop
-	{
-		nosight 99999
-		playanim plane_1 both holdframe //forever
-//		wait 2000
-//		clearanim
-//		trigger bj3 anim_loop2			
-	}
-
-	trigger anim_loop2
-	{
-		clearanim
-		nosight 99999
-		playanim plane_2 both forever			
-	}
-
-	trigger anim_loop3
-	{
-		playanim plane_1 both
-		wait 10000
-		playanim plane_2 both		// pilots stays get ready
-	}
-
-	trigger talk1
-	{
-		playsound dam_b25_radio
-	}
-
-	trigger stop_sound
-	{
-		playsound blank
-	}
-}
-
 nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...				
 {
 	attributes
@@ -575,8 +426,7 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 		accum 2 set 0
 		accum 4 set 0
 		trigger officer1 nazi1_alive_checkin
-		trigger checker1 alive_check_in	
-		trigger nazi1 go1
+		trigger checker1 alive_check_in
 	}
 
 	trigger officer1_alive_checkin
@@ -631,7 +481,7 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 
 	trigger talk1
 	{
-		trigger player cam6
+//		trigger player cam6
 //		alertentity horn
 		accum 0 abort_if_bitset 30
 		playsound driver_open_gate	// HEY, can you openthe gate please...
@@ -646,14 +496,14 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 
 	trigger talk2
 	{
-		trigger player cam4
+//		trigger player cam4
 		accum 0 abort_if_bitset 30
 		playsound driver_what_do_you_mean_closed	// What do you mean closed..
 		wait 2700
-		trigger player cam5
+//		trigger player cam5
 		wait 2300
 		clearanim
-		trigger player cam2
+//		trigger player cam2
 		wait 200
 		trigger officer1 anim_loop2
 		wait 5
@@ -662,7 +512,7 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 
 	trigger talk3
 	{
-		trigger player cam5
+//		trigger player cam5
 		accum 0 abort_if_bitset 30
 		playsound driver_delivery_for_gen	// iknow but this delivery is for gen Von...
 		wait 9500
@@ -673,7 +523,7 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 
 	trigger talk4
 	{
-		trigger player cam7
+//		trigger player cam7
 		accum 0 abort_if_bitset 30
 		playsound driver_what			// What !!
 		wait 1100
@@ -689,9 +539,9 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 //		trigger parachute1 go1
 		playsound driver_ja_ja
 		wait 3000
-		trigger player cam5
+//		trigger player cam5
 		wait 6700
-		trigger player cam3
+//		trigger player cam3
 		wait 100
 		trigger officer1 anim_loop2
 		wait 5
@@ -704,7 +554,7 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 		accum 0 abort_if_bitset 30
 		playsound driver_what_am_I_supposed_to_do
 		wait 2600
-		trigger player cam3
+//		trigger player cam3
 //		wait 400
 		trigger officer1 anim_loop4
 		wait 5
@@ -837,7 +687,8 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 	{
 		accum 4 set 1
 		accum 0 bitset 20
-		trigger checker2 sight_check_in
+		accum 0 bitset 30
+//		trigger checker2 sight_check_in		//no funct
 		clearanim
 		statetype alert
 		giveweapon weapon_luger	
@@ -863,6 +714,16 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 	{
 		accum 4 set 1
 		trigger nazi2 alarm_on
+
+		accum 0 bitset 20
+		accum 0 bitset 30
+//		trigger checker2 sight_check_in		//no funct
+		clearanim
+		statetype alert
+		giveweapon weapon_luger	
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+		playsound blank
 	}
 
 	inspectsoundend
@@ -1384,6 +1245,7 @@ tower_nazi2 // This is nazi in second tower, whom, is on path
 		zoom off
 		walktomarker tn2spot2 
 		facetargetangles tn2spot2
+		clearanim	//added by sage, binoc+rifle=looks funny
 		takeweapon all
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
@@ -1405,9 +1267,12 @@ tower_nazi2 // This is nazi in second tower, whom, is on path
 
 	trigger look1
 	{
+		accum 4 abort_if_not_equal 0
+
 		facetargetangles tn2spot6			// This looks away
 		takeweapon all
 		playanim binocular both
+		clearanim
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
@@ -1416,6 +1281,7 @@ tower_nazi2 // This is nazi in second tower, whom, is on path
 		facetargetangles tn2spot4			// this looks towrds bridge..
 		takeweapon all
 		playanim binocular both
+		clearanim
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
@@ -1423,6 +1289,7 @@ tower_nazi2 // This is nazi in second tower, whom, is on path
 		facetargetangles tn2spot7
 		takeweapon all
 		playanim binocular both
+		clearanim
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
@@ -1461,6 +1328,11 @@ tower_nazi2 // This is nazi in second tower, whom, is on path
 	{
 		accum 4 abort_if_equal 1
 		accum 4 set 1
+		clearanim
+		takeweapon all
+		giveweapon weapon_mauserRifle
+		setammo ammo_792mm 999
+		selectweapon weapon_mauserRifle
 		accum 3 inc 1
 		accum 3 abort_if_greater_than 1
 		wait 5
@@ -1472,6 +1344,7 @@ tower_nazi2 // This is nazi in second tower, whom, is on path
 
 	trigger alarm_on_response2		// done
 	{
+
 		wait 5
 		statetype alert
 		runtomarker tn2spot4 nostop
@@ -1809,11 +1682,11 @@ officer1				// This is nazi in first tower, whom, is on path
 
 	trigger talk2
 	{
-		trigger player cam2
+//		trigger player cam2
 		accum 0 abort_if_bitset 30
 		playsound guard_I_know		// I know Iknow that is why it is closed...
 		wait 6800
-		trigger player cam3 
+//		trigger player cam3 
 		wait 9000
 		trigger nazi1 anim_loop	
 		wait 5
@@ -1822,7 +1695,7 @@ officer1				// This is nazi in first tower, whom, is on path
 
 	trigger talk3
 	{
-		trigger player cam3
+//		trigger player cam3
 		accum 0 abort_if_bitset 30
 		playsound guard_sorry_blacked_out	// We have a black out	
 		wait 2700
@@ -1836,10 +1709,10 @@ officer1				// This is nazi in first tower, whom, is on path
 		accum 0 abort_if_bitset 30
 		playsound guard_due_to_radio		// Due to radio...
 		wait 7000
-		trigger player cam3
+//		trigger player cam3
 		wait 2000
-		trigger parachute1 go1
-		trigger player cam4
+//		trigger parachute1 go1
+//		trigger player cam4
 		wait 2500
 		trigger nazi1 anim_loop	
 		wait 5
@@ -1851,7 +1724,7 @@ officer1				// This is nazi in first tower, whom, is on path
 		accum 0 abort_if_bitset 30
 		playsound guard_suit_yourself
 		wait 3400
-		trigger player cam5
+//		trigger player cam5
 		wait 200
 		trigger nazi1 anim_loop	
 		wait 5
@@ -1863,7 +1736,7 @@ officer1				// This is nazi in first tower, whom, is on path
 		accum 0 abort_if_bitset 30
 		playsound guard_look_for_crackers
 		wait 3000
-		trigger player cam3d
+//		trigger player cam3d
 		wait 200
 		clearanim
 		trigger nazi1 walk_away
