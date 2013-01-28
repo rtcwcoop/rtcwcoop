@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
 //
 //Brush scripting
 //Map Dark_57
@@ -208,60 +209,6 @@ checker1					// Remember you still beed to put physical checker in
 		trigger checker2 light_explosion_occured
 	}
 
-//-------------Cinematic----------------
-
-	trigger cinematic1
-	{
-		trigger cs_p1 go1
-		wait 2000
-		trigger cs_p1 talk1
-		wait 10550		// minus 1 seco off og time
-		trigger cs_nazi1 watch_eg1
-		trigger cs_nazi2 watch_eg1
-		wait 2250
-//		trigger player cam3
-		wait 200
-//----------------------------------------
-		trigger cs_eg1 anim1
-		wait 5
-		trigger cs_eg1 sound1
-//		wait 900
-//		trigger cs_nazi1 watch_eg1
-//		trigger cs_nazi2 watch_eg1
-		wait 3800
-//		trigger player cam2
-		wait 3450
-//		trigger player cam5
-		wait 1550
-		trigger cs_nazi1 sound1
-		wait 2900
-//		trigger player cam2
-		wait 100
-		trigger cs_eg1 sound2
-		wait 9400
-		trigger cs_eg1 anim1
-		wait 5
-//		trigger player cam2
-		wait 100
-		trigger cs_eg1 sound3
-		wait 1000
-//		trigger player cam4
-		wait 3200
-		trigger cs_nazi2 sound1
-		wait 200
-		trigger cs_nazi1 sound2
-		trigger cs_eg1 walk_back
-		wait 2300
-//		trigger player cam6
-		wait 1000
-//		trigger player cam6d
-//		trigger cs_eg1 walk_back
-		trigger cs_nazi1 go1
-		trigger cs_nazi2 go1
-		wait 5500
-		trigger checker1 cine1_cleanup
-	}
-//------------------End-----------------
 	trigger cine1_cleanup
 	{
 		resetscript

@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
 //
 //AI scripting
 //Dark_57
@@ -71,53 +72,13 @@ player
 
 //		mu_fade 0 3000
 		mu_start sound/music/c_chant
-		trigger cs_p1 go1
-		trigger cs_eg1 go1
-		trigger cs_nazi1 go1
-		trigger cs_nazi2 go1
-//		trigger player cam_darktemp
-		trigger checker1 cinematic1
-	}
+//		trigger cs_p1 go1
+//		trigger cs_eg1 go1
+//		trigger cs_nazi1 go1
+//		trigger cs_nazi2 go1
+//		trigger checker1 cinematic1
 
-	trigger cam_darktemp
-	{
-//		startcam cs15_01
-	}
-
-	trigger cam2
-	{
-//		startcam cs15_02
-	}
-
-	trigger cam3
-	{
-//		startcam cs15_03
-	}
-
-	trigger cam4
-	{
-//		startcam cs15_04
-	}
-
-	trigger cam5
-	{
-//		startcam cs15_05
-	}
-
-	trigger cam6
-	{
-//		startcam cs15_06
-	}
-
-	trigger cam6d
-	{
-//		startcam cs15_06d
-	}
-
-	trigger camerainterrupt
-	{
 		trigger checker1 cine1_cleanup
-		stopcam			
 	}
 
 	trigger light_in_court_yard
@@ -1823,7 +1784,7 @@ eg5					// This is eg who helps eg6 with mg42
 	}
 }
 
-eg6					// This is eg who mounts new mg42				
+eg6				// This is eg who mounts new mg42
 {
 	attributes
 	{
