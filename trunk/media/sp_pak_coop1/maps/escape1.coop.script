@@ -1,8 +1,10 @@
+//Cleaned for COOP by -SSF-Sage on 29.1.2013
 //
 //Brush Scripting
 //Map: Escape #1
 //Last edited by: Dan
 //
+
 game_manager
 {
 	spawn
@@ -473,88 +475,12 @@ dummy
 
 	// ---Start Cinematic1---
 
-	trigger cinematic1
-	{
-		wait 3000
-		playsound sound/movers/switches/butn2.wav
-		alertentity cine1_elect1a
-		trigger spawner dlight1on
-		wait 250
-		alertentity cine1_scream1
-		wait 3750
-		trigger spawner dlight1off
-		wait 2000
-		playsound sound/movers/switches/butn2.wav
-		alertentity cine1_elect1a
-		trigger spawner dlight1on
-		wait 250
-		alertentity cine1_scream1
-		wait 3750
-		trigger spawner dlight1off
-		wait 2000
-		trigger cine1_drz talk1		// Come in, Sergeant, Come in.
-		wait 2000
-		trigger cine1_drz anim1
-		trigger player cam2
-		trigger cine1_nazi1 go1
-		wait 7500
-		trigger cine1_drz anim1
-		trigger player cam3
-		wait 2500
-		trigger cine1_nazi1 talk1	// Orders, Herr Doctor?
-		wait 3000
-		trigger cine1_drz talk2		// Go and get zee other one...
-		trigger player cam4
-		wait 3000
-		trigger cine1_nazi1 talk2	// Jawol!
-		wait 1500
-		trigger player cam5
-		trigger cine1_nazi1 go2
-		wait 5250
-		trigger cine1_drz talk3		// Now, let's try again, shall we? Who do you work for?
-		trigger player cam7
-		wait 4750
-		trigger dummy cinematic1a
-	}
-
-	trigger cinematic1a
-	{
-		alertentity cine1_elect
-		trigger spawner dlight2on
-		alertentity cine1_nazi2
-		wait 250
-		alertentity cine1_scream2
-		alertentity kill_c_nazi1
-		trigger player cam8
-		wait 3750
-		trigger spawner dlight2off
-		wait 4500
-		alertentity cine1_nazi3
-		wait 250
-		alertentity kill_c_nazi2
-		wait 250
-		trigger player cam9
-//
-		wait 8500
-		trigger player cam11
-		wait 200
-		trigger cine_door camera_up
-		wait 500
-		trigger cine1_nazi3 go2
-//
-		wait 6000
-		trigger cine1_bj anim1
-		wait 500
-		trigger cine1_bj cine_snd
-		wait 100
-		trigger player cam11d
-		wait 3000
-		trigger dummy cine1_cleanup
-	}
 
 	trigger cine1_cleanup
 	{
-		trigger cine_door fast_up
+	//Door triggers from spawn now, foolproof - Sage
+	//	trigger cine_door fast_up	
+
 		alertentity kill_c_nazi1
 		alertentity kill_c_nazi2
 		alertentity kill_cine1
@@ -563,9 +489,11 @@ dummy
 		wait 5
 		alertentity nazi2
 		alertentity spawngun
-		trigger player fix_bitset0
-		trigger spawner dlight1off
-		trigger spawner dlight2off
+
+	//These are not active in COOP
+	//	trigger player fix_bitset0
+	//	trigger spawner dlight1off
+	//	trigger spawner dlight2off
 	}
 
 	// ---End Cinematic1---
@@ -634,21 +562,7 @@ cine_door
 {
 	spawn
 	{
-	
-	}
-
-	trigger camera_up
-	{
 		wait 5
-		playsound sound/movers/doors/door6_loopo.wav
-		gotomarker doorspot2 55
-		stopsound
-	}
-
-	trigger fast_up
-	{
-		stopsound
-		resetscript
 		gotomarker doorspot2 2000
 	}
 }
