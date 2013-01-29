@@ -59,6 +59,8 @@ player
 //		mu_fade 0 1000
 		mu_start sound/music/c_military
 		
+		wait 50
+
 		//Cine clean up :)
 		trigger counter1 cine1_cleanup
 	}
@@ -186,8 +188,10 @@ player
 
 	trigger bridge_boom
 	{
-		mu_play sound/music/s_bighits
+		trigger counter1 wz11count	//Lol who put this in bseq?
+		trigger game_manager a_boom
 	}
+
 
 	// Triggers the following AI to stand up
 	trigger action6getup	
@@ -273,7 +277,6 @@ player
 		alertentity zombie21 // Took out to see how it looks with one zombie.
 		alertentity zombie9
 		alertentity zombie11
-		trigger counter1 wz11count
 	}
 
 	// Triggers the last door to close so player gets trapped

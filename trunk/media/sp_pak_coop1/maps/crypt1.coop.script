@@ -14,6 +14,14 @@ game_manager
 		trigger player map_start	//Prevents late players affecting the game
 	}
 
+	trigger a_boom
+	{
+		mu_play sound/music/s_bighits
+		wait 8000
+		mu_stop
+		mu_start sound/music/c_chant
+	}
+
 	trigger checkexit
 	{
 		accum 0 abort_if_not_bitset 1
@@ -124,19 +132,19 @@ counter1	//MISC Counter
 	{
 		resetscript
 		alertentity kill_cine1_nazis
-		wait 100
+		wait 50
 		alertentity nazi0
-		wait 100
+		wait 50
 		alertentity nazi1
-		wait 100
+		wait 50
 		alertentity nazi2
-		wait 100
+		wait 50
 		alertentity zombie0a
-		wait 100
+		wait 50
 		alertentity zombie0
-		wait 100
+		wait 50
 		alertentity warzombie1
-		wait 100
+		wait 50
 		alertentity warzombie2
 	}
 
