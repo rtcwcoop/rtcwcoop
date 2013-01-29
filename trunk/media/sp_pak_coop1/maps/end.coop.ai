@@ -88,19 +88,20 @@ alertentity coop_ai_blackguard_16
 alertentity coop_ai_eliteguard_24
 alertentity coop_ai_eliteguard_26
 
-#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
-#if g_reinforce >= 2 alertentity coop_ai_venom_9 #endif
+#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
+//#if g_reinforce >= 2 alertentity coop_ai_venom_9 #endif
 #if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
-#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif
-#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+//#if g_reinforce >= 1 alertentity coop_ai_soldier_11 #endif
+#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
 #if g_reinforce >= 2 alertentity coop_ai_venom_13 #endif
 wait 100
 #if g_reinforce >= 1 alertentity coop_ai_blackguard_15 #endif
-#if g_reinforce >= 1 alertentity coop_ai_blackguard_17 #endif
+#if g_reinforce >= 2 alertentity coop_ai_blackguard_17 #endif
 #if g_reinforce >= 2 alertentity coop_ai_blackguard_18 #endif
-#if g_reinforce >= 1 alertentity coop_ai_eliteguard_19 #endif
+
+#if g_reinforce >= 2 alertentity coop_ai_eliteguard_19 #endif
 #if g_reinforce >= 2 alertentity coop_ai_eliteguard_20 #endif
-#if g_reinforce >= 1 alertentity coop_ai_eliteguard_21 #endif
+//#if g_reinforce >= 1 alertentity coop_ai_eliteguard_21 #endif
 #if g_reinforce >= 1 alertentity coop_ai_eliteguard_22 #endif
 #if g_reinforce >= 2 alertentity coop_ai_eliteguard_23 #endif
 #if g_reinforce >= 1 alertentity coop_ai_eliteguard_25 #endif
@@ -119,6 +120,13 @@ wait 100
 		alertentity spirit1
 		alertentity spirit2
 		alertentity spirit3
+
+//Previously cine, IF YOU WANT SUPER/PROTO, USE THESE 3!!!
+//OTHERS WILL KILL HEINRICH AND ZOMBIES
+//#if g_reinforce >= 1 alertentity dark1 #endif
+#if g_reinforce >= 1 alertentity dark2 #endif
+#if g_reinforce >= 2 alertentity dark3 #endif
+
 		alertentity dark4
 		alertentity dark5
 		alertentity dark6
@@ -163,17 +171,35 @@ ps1
 }
 
 //Copy dark4 scripts if you want to add dark1-3 - Sage
+
 dark1
 {
 
 	attributes
 	{
-		starting_health 105
+		starting_health 500
+		aim_accuracy 0.6
+		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
-		nosight 99999
+		wait 5
+		statetype alert
+		knockback off
+//		playanim asleep both forever
+		attack player
+	}
+
+ 	enemysight
+	{
+		gotocast player
+		attack player
+		resetscript
 	}
 }
 
@@ -182,12 +208,29 @@ dark2
 
 	attributes
 	{
-		starting_health 105
+		starting_health 500
+		aim_accuracy 0.6
+		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
-		nosight 99999
+		wait 5
+		statetype alert
+		knockback off
+//		playanim asleep both forever
+		attack player
+	}
+
+ 	enemysight
+	{
+		gotocast player
+		attack player
+		resetscript
 	}
 }
 
@@ -196,12 +239,29 @@ dark3
 
 	attributes
 	{
-		starting_health 105
+		starting_health 500
+		aim_accuracy 0.6
+		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
-		nosight 99999
+		wait 5
+		statetype alert
+		knockback off
+//		playanim asleep both forever
+		attack player
+	}
+
+ 	enemysight
+	{
+		gotocast player
+		attack player
+		resetscript
 	}
 }
 
@@ -432,26 +492,35 @@ heinrich
 
 	pain 5000
 	{
-		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_27 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_protosoldier_28 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_29 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_protosoldier_30 #endif
+//OTHER THAN THESE WILL KILL HEINRICH
+
+	alertentity coop_ai_warzombie_71
+#if g_reinforce >= 1 alertentity coop_ai_warzombie_72 #endif
+#if g_reinforce == 2 alertentity coop_ai_warzombie_73 #endif
+
+#if g_reinforce >= 1 alertentity coop_ai_warzombie_80 #endif
+#if g_reinforce == 2 alertentity coop_ai_warzombie_81 #endif
 	}
 
-	pain 3000
+	pain 3500
 	{
-		#if g_reinforce >= 1 alertentity coop_ai_loper_35 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_loper_36 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_loper_37 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_loper_38 #endif
+
+	alertentity coop_ai_warzombie_74
+#if g_reinforce >= 1 alertentity coop_ai_warzombie_75 #endif
+#if g_reinforce == 2 alertentity coop_ai_warzombie_76 #endif
+
+#if g_reinforce >= 1 alertentity coop_ai_warzombie_82 #endif
+#if g_reinforce == 2 alertentity coop_ai_warzombie_83 #endif
 	}
 	
-	pain 1000
+	pain 2000
 	{
-		#if g_reinforce >= 1 alertentity coop_ai_supersoldier_31 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_supersoldier_32 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_supersoldier_33 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_supersoldier_34 #endif
+	alertentity coop_ai_warzombie_77
+#if g_reinforce >= 1 alertentity coop_ai_warzombie_78 #endif
+#if g_reinforce == 2 alertentity coop_ai_warzombie_79 #endif
+
+#if g_reinforce >= 1 alertentity coop_ai_warzombie_84 #endif
+#if g_reinforce == 2 alertentity coop_ai_warzombie_85 #endif
 	}
 	
 	trigger talk1		//  I live
@@ -502,18 +571,21 @@ heinrich
 	{
 		objectivemet 1	// mission objective complete
 
-		alertentity kill_27
-		alertentity kill_28
-		alertentity kill_29
-		alertentity kill_30
-		alertentity kill_31
-		alertentity kill_32
-		alertentity kill_33
-		alertentity kill_34
-		alertentity kill_35
-		alertentity kill_36
-		alertentity kill_37
-		alertentity kill_38
+		alertentity kill_71
+		alertentity kill_72
+		alertentity kill_73
+		alertentity kill_74
+		alertentity kill_75
+		alertentity kill_76
+		alertentity kill_77
+		alertentity kill_78
+		alertentity kill_79
+		alertentity kill_80
+		alertentity kill_81
+		alertentity kill_82
+		alertentity kill_83
+		alertentity kill_84
+		alertentity kill_85
 		
 		trigger game_manager endmap
 	}
@@ -921,306 +993,362 @@ coop_ai_eliteguard_26		// 3rd room
 	}
 }
 
-coop_ai_protosoldier_27		// Protosoldier 1
+coop_ai_warzombie_71
 {
+
 	attributes
 	{
-		fov 360
-		starting_health 600
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
-		knockback off
+		wait 5
 		statetype alert
-		takeweapon all
-		giveweapon weapon_panzerfaust
-		setammo ammo_panzerfaust 999
-		selectweapon weapon_panzerfaust
+		knockback off
+//		playanim asleep both forever
 		attack player
-		//runtomarker hspot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_protosoldier_28		// Protosoldier 2
+coop_ai_warzombie_72
 {
+
 	attributes
 	{
-		fov 360
-		starting_health 600
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
-		yaw_speed 100
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
-		knockback off
+		wait 5
 		statetype alert
-		takeweapon all
-		giveweapon weapon_venom
-		setammo ammo_127mm 99999	// Venom
+		knockback off
+//		playanim asleep both forever
 		attack player
-		//runtomarker hspot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_protosoldier_29		// Protosoldier 3
+coop_ai_warzombie_73
 {
+
 	attributes
 	{
-		fov 360
-		starting_health 600
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
-		knockback off
+		wait 5
 		statetype alert
-		takeweapon all
-		giveweapon weapon_panzerfaust
-		setammo ammo_panzerfaust 999
-		selectweapon weapon_panzerfaust
+		knockback off
+//		playanim asleep both forever
 		attack player
-		//runtomarker hspot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_protosoldier_30		// ProtoSoldier 4
+coop_ai_warzombie_74
 {
+
 	attributes
 	{
-		fov 360
-		starting_health 600
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
-		yaw_speed 100
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
-		knockback off
+		wait 5
 		statetype alert
-		takeweapon all
-		giveweapon weapon_venom
-		setammo ammo_127mm 99999	// Venom
+		knockback off
+//		playanim asleep both forever
 		attack player
-		//runtomarker hspot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_supersoldier_31		// SuperSoldier 1
+coop_ai_warzombie_75
 {
+
 	attributes
 	{
-		starting_health 1300
-		aim_accuracy 0.8
-		tactical 1.0
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
-		hearing_scale 5.0
-		inner_detection_radius 500
-		alertness 2500
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
-		takeweapon all
-		giveweapon weapon_panzerfaust
-		setammo ammo_panzerfaust 999
-		selectweapon weapon_panzerfaust
-		setclip weapon_panzerfaust 999
+//		playanim asleep both forever
 		attack player
-		runtomarker ps1spot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_supersoldier_32		// SuperSoldier 2
+coop_ai_warzombie_76
 {
+
 	attributes
 	{
-		starting_health 1300
-		aim_accuracy 0.6
-		tactical 1.0
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
-		inner_detection_radius 200
-		alertness 2500		
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
-		takeweapon all
-		giveweapon weapon_tesla
-		setammo ammo_cell 999
-		selectweapon weapon_tesla
+//		playanim asleep both forever
 		attack player
-		runtomarker ps1spot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_supersoldier_33		// SuperSoldier 3
+coop_ai_warzombie_77
 {
+
 	attributes
 	{
-		starting_health 1300
-		aim_accuracy 0.8
-		tactical 1.0
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
-		hearing_scale 5.0
-		inner_detection_radius 500
-		alertness 2500
-	}
-	
-	death
-	{
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
-		takeweapon all
-		giveweapon weapon_panzerfaust
-		setammo ammo_panzerfaust 999
-		selectweapon weapon_panzerfaust
-		setclip weapon_panzerfaust 999
+//		playanim asleep both forever
 		attack player
-		runtomarker ps1spot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_supersoldier_34		// SuperSoldier 4
+coop_ai_warzombie_78
 {
+
 	attributes
 	{
-		starting_health 1300
-		aim_accuracy 0.6
-		tactical 1.0
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
-		inner_detection_radius 200
-		alertness 2500		
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
-		takeweapon all
-		giveweapon weapon_tesla
-		setammo ammo_cell 999
-		selectweapon weapon_tesla
+//		playanim asleep both forever
 		attack player
-		runtomarker ps1spot1
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_loper_35		// Loper 1
+coop_ai_warzombie_79
 {
+
 	attributes
 	{
-		starting_health 250
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
+//		playanim asleep both forever
 		attack player
-		runtomarker t691
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_loper_36		// Loper 2
+coop_ai_warzombie_80
 {
+
 	attributes
 	{
-		starting_health 250
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
+//		playanim asleep both forever
 		attack player
-		runtomarker t691
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_loper_37		// Loper 3
+coop_ai_warzombie_81
 {
+
 	attributes
 	{
-		starting_health 250
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
+//		playanim asleep both forever
 		attack player
-		runtomarker t691
-	}
-	
-	death
-	{
 	}
 }
 
-coop_ai_loper_38		// Loper 4
+coop_ai_warzombie_82
 {
+
 	attributes
 	{
-		starting_health 250
+		starting_health 105
+		aim_accuracy 1.0
 		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
 	}
 
 	spawn
 	{
+		wait 5
+		statetype alert
 		knockback off
+//		playanim asleep both forever
 		attack player
-		runtomarker t691
 	}
-	
-	death
+}
+
+coop_ai_warzombie_83
+{
+
+	attributes
 	{
+		starting_health 105
+		aim_accuracy 1.0
+		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
+	}
+
+	spawn
+	{
+		wait 5
+		statetype alert
+		knockback off
+//		playanim asleep both forever
+		attack player
+	}
+}
+
+coop_ai_warzombie_84
+{
+
+	attributes
+	{
+		starting_health 105
+		aim_accuracy 1.0
+		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
+	}
+
+	spawn
+	{
+		wait 5
+		statetype alert
+		knockback off
+//		playanim asleep both forever
+		attack player
+	}
+}
+
+coop_ai_warzombie_85
+{
+
+	attributes
+	{
+		starting_health 105
+		aim_accuracy 1.0
+		aggression 1.0
+		camper 0.0
+		tactical 0.0
+		reaction_time 1.0
+		aim_skill 1.0
+	}
+
+	spawn
+	{
+		wait 5
+		statetype alert
+		knockback off
+//		playanim asleep both forever
+		attack player
 	}
 }
