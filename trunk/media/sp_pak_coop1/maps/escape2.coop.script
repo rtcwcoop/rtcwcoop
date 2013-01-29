@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 29.1.2013
 //
 //Brush Scripting
 //Map: Escape #2
@@ -8,21 +9,22 @@ game_manager
 {
 	spawn
 	{
-		accum 0 set 0 // objectives
+//		accum 0 set 0 // objectives
 
 		trigger player map_start	//Prevents late players affecting the game
 	}
 
 	trigger checkexit
 	{
-		accum 0 abort_if_not_bitset 1
+//Don't check, map breaks if you bypass the door
+//		accum 0 abort_if_not_bitset 1
 		trigger player exitlevel
 	}
 	
 	trigger objective1
 	{
-		accum 0 bitset 1
-		objectivemet 1
+//		accum 0 bitset 1
+
 		// remove the left door
 		removeentity *23
 	}
@@ -45,6 +47,8 @@ dialog
 	spawn
 	{
 		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
 	}
 
 	trigger firstroom
@@ -105,6 +109,8 @@ dialog
 
 	trigger bridgedoor
 	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2
 		trigger nazi27 unlock
 		wait 600
 		trigger player playaction1 // calls alarm music
@@ -136,6 +142,7 @@ spawner
 		accum 0 bitset 3 // insure fire once
 		accum 0 bitset 4 // insure fire once
 		accum 0 bitset 5 // insure fire once
+		accum 0 bitset 6 // barracks once
 		accum 1 set 0 // 1 = alarm on atleast once
 		accum 2 set 0 // 0 = alarm currently off  1 = alarm currently on
 	}
@@ -215,6 +222,9 @@ spawner
 
 	trigger barracks
 	{
+		accum 0 abort_if_not_bitset 6
+		accum 0 bitreset 6
+
 		wait 2000
 		alertentity nazi26
 		alertentity nazi29

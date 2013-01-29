@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 29.1.2013
 //
 //AI Scripting
 //Map: Escape #2
@@ -41,7 +42,6 @@ player
 		accum 0 bitset 0
 		accum 0 bitset 1 // alarm only fired once
 		accum 0 bitset 2 // action 13 only fired once
-		accum 0 bitset 3 // mission objective
 		accum 1 set 0 // controls streaming music
 		accum 2 set 0 // don't remove exit trigger
 
@@ -205,11 +205,11 @@ player
 		//alertentity openbridgedoor
 	}
 
-	trigger doorexplode 
-	{
-		objectivemet 1	// mission objective complete
-		trigger game_manager objective1
-	}
+//	trigger doorexplode 
+//	{
+//		objectivemet 1	// mission objective complete
+//		trigger game_manager objective1
+//	}
 
 	trigger action17
 	{
@@ -220,10 +220,10 @@ player
 		trigger dialog bridgedoor
 		//alertentity openbridgedoor
 		
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
-		objectivemet 1	// mission objective complete
-		trigger game_manager objective1
+//		accum 0 abort_if_not_bitset 3
+//		accum 0 bitreset 3
+//		objectivemet 1	// mission objective complete
+//		trigger game_manager objective1
 	}
 
 	trigger playaction1
@@ -282,10 +282,9 @@ player
 
 	trigger got_objective1
 	{
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
+
+	//There is a trigger to trigger this near exit - Sage
 		objectivemet 1	// mission objective complete
-		trigger game_manager objective1
 	}
 
 	trigger secret1
@@ -2552,17 +2551,18 @@ nazi26
 		wait 100
 		gotomarker n26spot1 nostop
 		gotomarker n26spot2 nostop
-		gotomarker n26spot3 nostop
-		gotomarker n26spot4 nostop
+	//	gotomarker n26spot3 nostop
+	//	gotomarker n26spot4 nostop
 		explicit_routing off
 		avoid
-		gotomarker n26spot5 nostop
-		gotomarker n26spot6 nostop
-		gotomarker n26spot7 nostop
-		gotomarker n26spot8 nostop
-		alertentity n26unlock
-		gotomarker n26spot9
-		facetargetangles n26spot9
+		wait 5 player
+	//	gotomarker n26spot5 nostop
+	//	gotomarker n26spot6 nostop
+	//	gotomarker n26spot7 nostop
+	//	gotomarker n26spot8 nostop
+	//	alertentity n26unlock
+	//	gotomarker n26spot9
+	//	facetargetangles n26spot9
 		wait 5000 0
 	}
 
@@ -2604,17 +2604,17 @@ nazi27
 		explicit_routing on
 
 		wait 100
-		noattack 20000
-		runtomarker n27spot1 nostop
-		runtomarker n27spot2 nostop
-		runtomarker n27spot3 nostop
-		runtomarker n27spot4 nostop
-		explicit_routing off
-		avoid
-		attack
-		gotomarker n27spot5
-		facetargetangles n27spot5
-		wait forever 0
+	//	noattack 20000
+	//	runtomarker n27spot1 nostop
+	//	runtomarker n27spot2 nostop
+	//	runtomarker n27spot3 nostop
+	//	runtomarker n27spot4 nostop
+	//	explicit_routing off
+	//	avoid
+	//	attack
+	//	gotomarker n27spot5
+	//	facetargetangles n27spot3
+		wait 5 player
 	}
 
 	trigger unlock
@@ -2717,16 +2717,18 @@ nazi29
 
 		wait 100
 		gotomarker n29spot1 nostop
-		gotomarker n29spot2 nostop
-		gotomarker n29spot3 nostop
-		gotomarker n29spot4
+
+		wait 5 player
+	//	gotomarker n29spot2 nostop
+	//	gotomarker n29spot3 nostop
+	//	gotomarker n29spot4
 		explicit_routing off
 		avoid
-		gotomarker n29spot5 nostop
-		gotomarker n29spot6 nostop
-		gotomarker n29spot7
-		facetargetangles n29spot7
-		wait 5000
+	//	gotomarker n29spot5 nostop
+	//	gotomarker n29spot6 nostop
+	//	gotomarker n29spot7
+	//	facetargetangles n29spot4
+	//	wait 5000
 	}
 
 	inspectfriendlycombatstart
@@ -2768,11 +2770,11 @@ nazi30
 		wait 100
 		gotomarker n30spot1 nostop
 		gotomarker n30spot2 nostop
-		gotomarker n30spot3 nostop
-		gotomarker n30spot4
+	//	gotomarker n30spot3 nostop
+	//	gotomarker n30spot4
 		explicit_routing off
 		avoid
-		gotomarker n30spot5
+	//	gotomarker n30spot5
 		wait 2000
 	}
 
@@ -2915,8 +2917,8 @@ nazi33
 		wait 1000
 		gotomarker n33spot2 nostop
 		gotomarker n33spot3 nostop
-		gotomarker n33spot4
-		facetargetangles n33spot4
+	//	gotomarker n33spot4
+		facetargetangles n33spot3
 		wait 2000 0
 	}
 
@@ -2970,8 +2972,8 @@ nazi34
 		wait 3000
 		gotomarker n34spot2 nostop
 		gotomarker n34spot3 nostop
-		gotomarker n34spot4
-		facetargetangles n34spot4
+	//	gotomarker n34spot4
+		facetargetangles n34spot3
 		wait 2000 0
 	}
 

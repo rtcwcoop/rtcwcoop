@@ -12,7 +12,7 @@
 // hack around to get it working 
 {
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
-"origin" "675 837 152"
+"origin" "626 835 152"
 "spawnflags" "1"
 "classname" "trigger_objective_info"
 "track" "the Bridge defense door"
@@ -27,7 +27,7 @@
 {
 "health" "100"
 "scriptname" "bridge_door"
-"origin" "685 877 130"
+"origin" "728 855 162"
 "classname" "func_explosive"
 "spawnflags" "68"
 "targetname" "doortarget"
