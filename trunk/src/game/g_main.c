@@ -60,6 +60,7 @@ vmCvar_t g_sharedlives;
 vmCvar_t g_limbotime;
 vmCvar_t g_reinforce;
 vmCvar_t g_freeze;
+vmCvar_t g_gamestate;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
@@ -201,16 +202,17 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
 #endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-    { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
-    { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
+        { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
+        { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
-    { &g_limbotime, "g_limbotime", "10000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-    { &g_reinforce, "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
-    { &g_freeze, "g_freeze", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
+        { &g_limbotime, "g_limbotime", "10000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_reinforce, "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_freeze, "g_freeze", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_maxGameClients, "g_maxGameClients", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_spawnpoints, "g_spawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH , 0, qfalse  },
+        { &g_gamestate, "gamestate", "-1", CVAR_SERVERINFO | CVAR_ROM, 0, qfalse  },
 
 	// change anytime vars
 	{ &g_dmflags, "dmflags", "0", CVAR_SERVERINFO | CVAR_ARCHIVE, 0, qtrue  },
@@ -610,26 +612,26 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 		}
 
 		// check for friendly.
-        if (g_gametype.integer > GT_COOP) {
+                if (g_gametype.integer > GT_COOP) {
 
 			if ( traceEnt->aiTeam == AITEAM_ALLIES || traceEnt->aiTeam == AITEAM_NEUTRAL ) {
 				hintType = HINT_PLYR_FRIEND;
-                hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
-            }
-        } else {
+                                hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
+                        }
+                } else {
 			if ( traceEnt->aiTeam == AITEAM_ALLIES || traceEnt->aiTeam == AITEAM_NEUTRAL ) {
 				if ( traceEnt->r.svFlags & SVF_CASTAI) {
 					hintType = HINT_PLYR_FRIEND;
-                    hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
-                }
-            }
+                                        hintDist = CH_FRIENDLY_DIST;    // far, since this will be used to determine whether to shoot bullet weaps or not
+                                }
+                        }
 
-            /*
-            if ( traceEnt->client->ps.eFlags == EF_FROZEN ) {
+                        /*
+                        if ( traceEnt->client->ps.eFlags == EF_FROZEN ) {
 				hintType = HINT_KNIFE;
-                hintDist = CH_FRIENDLY_DIST;
-            }
-            */
+                                hintDist = CH_FRIENDLY_DIST;
+                        }
+                        */
 		}
 	}
 	//
@@ -1289,6 +1291,14 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	G_ProcessIPBans();
 
 	G_InitMemory();
+        // NERVE - SMF - intialize gamestate
+        if ( g_gamestate.integer == GS_INITIALIZE ) {
+                //if ( g_noTeamSwitching.integer ) {
+                //        trap_Cvar_Set( "gamestate", va( "%i", GS_WAITING_FOR_PLAYERS ) ); 
+                //} else {
+                        trap_Cvar_Set( "gamestate", va( "%i", GS_WARMUP ) ); 
+                //}    
+        } 
 
 	// set some level globals
 	memset( &level, 0, sizeof( level ) );
@@ -1390,8 +1400,10 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 		trap_Cvar_Set("sv_maxcoopclients", "2");
 		trap_Cvar_Set("g_teleporttime", "30000");
 	} else {
-		trap_Cvar_Set("g_doWarmup", "0");
-		trap_Cvar_Set("g_warmup", "0");
+		//trap_Cvar_Set("g_doWarmup", "0");
+		//trap_Cvar_Set("g_warmup", "0");
+		trap_Cvar_Set("g_doWarmup", "1");
+		trap_Cvar_Set("g_warmup", "20");
 	}
 
 	if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
@@ -2081,6 +2093,11 @@ void LogExit( const char *string ) {
 #endif
 	char cs[MAX_INFO_STRING];
 
+        // NERVE - SMF - do not allow LogExit to be called in non-playing gamestate
+        if ( g_gamestate.integer != GS_PLAYING ) {
+                return;
+        }
+
 	G_LogPrintf( "Exit: %s\n", string );
 	level.intermissionQueued = level.time;
 
@@ -2340,6 +2357,13 @@ void CheckExitRules( void ) {
 				// score is tied, so don't end the game
 			//	return;
 			//}
+
+                        // NERVE - SMF - do not allow LogExit to be called in non-playing gamestate
+                        // - This already happens in LogExit, but we need it for the print command
+                        if ( g_gamestate.integer != GS_PLAYING ) {
+                                return;
+                        }
+
 			trap_SendServerCommand( -1, "print \"Timelimit hit.\n\"" );
 			LogExit( "Timelimit hit." );
 			return;
@@ -2408,11 +2432,11 @@ void SetBattleScore( void ) {
 
 void CheckCoopBattle( void ) {
 
-	if ( level.numPlayingCoopClients == 0 ) {
-		return;
-    }    
+        if ( level.numPlayingCoopClients == 0 ) {
+                return;
+        }    
 
-    if ( g_gametype.integer == GT_COOP_BATTLE ) {
+        if ( g_gametype.integer == GT_COOP_BATTLE ) {
 
 		// pull in a spectator if needed
 		if ( level.numPlayingCoopClients < 2 ) {
@@ -2459,11 +2483,85 @@ void CheckCoopBattle( void ) {
 			trap_Cvar_Set( "g_restarted", "1" );
 			trap_SendConsoleCommand( EXEC_APPEND, "map_restart 0\n" );
 			level.restarted = qtrue;
-		return;
+                        return;
 		}
 	}
 }
 
+/*
+=============
+CheckGameState
+
+NERVE - SMF
+=============
+*/
+void CheckGameState() {
+        gamestate_t current_gs;
+
+        current_gs = trap_Cvar_VariableIntegerValue( "gamestate" );
+
+        if ( level.intermissiontime && current_gs != GS_INTERMISSION ) {
+                trap_Cvar_Set( "gamestate", va( "%i", GS_INTERMISSION ) );
+                return;
+        }
+/*
+        if ( g_noTeamSwitching.integer && !trap_Cvar_VariableIntegerValue( "sv_serverRestarting" ) ) {
+                if ( current_gs != GS_WAITING_FOR_PLAYERS && level.numPlayingClients <= 1 && level.lastRestartTime + 1000 < level.time ) {
+                        level.lastRestartTime = level.time;
+                        trap_SendConsoleCommand( EXEC_APPEND, va( "map_restart 0 %i\n", GS_WAITING_FOR_PLAYERS ) );
+                }
+        }
+*/
+/*
+        if ( current_gs == GS_WAITING_FOR_PLAYERS && g_minGameClients.integer > 1 &&
+                 level.numPlayingClients >= g_minGameClients.integer && level.lastRestartTime + 1000 < level.time ) {
+
+                level.lastRestartTime = level.time;
+                trap_SendConsoleCommand( EXEC_APPEND, va( "map_restart 0 %i\n", GS_WARMUP ) );
+        }
+*/
+
+        // if the warmup is changed at the console, restart it
+        if ( current_gs == GS_WARMUP_COUNTDOWN && g_warmup.modificationCount != level.warmupModificationCount ) {
+                level.warmupModificationCount = g_warmup.modificationCount;
+                current_gs = GS_WARMUP;
+        }
+
+        // check warmup latch
+        if ( current_gs == GS_WARMUP ) {
+                int delay = g_warmup.integer + 1;
+
+                if ( delay < 6 ) {
+                        trap_Cvar_Set( "g_warmup", "5" );
+                        delay = 7;
+                }
+
+                level.warmupTime = level.time + ( delay * 1000 );
+                trap_SetConfigstring( CS_WARMUP, va( "%i", level.warmupTime ) );
+                trap_Cvar_Set( "gamestate", va( "%i", GS_WARMUP_COUNTDOWN ) );
+        }
+}
+
+void CheckCoop( void ) {
+        // check because we run 3 game frames before calling Connect and/or ClientBegin
+        // for clients on a map_restart
+        if ( g_gametype.integer > GT_COOP ) {
+                return;
+        }    
+
+        if ( level.warmupTime == 0 ) {
+                return;
+        }    
+
+        // if the warmup time has counted down, restart
+        if ( level.time > level.warmupTime ) {
+                level.warmupTime += 10000;
+                trap_Cvar_Set( "g_restarted", "1" );
+                trap_SendConsoleCommand( EXEC_APPEND, "map_restart 0\n" );
+                level.restarted = qtrue;
+                return;
+        }    
+}
 
 /*
 ==================
@@ -2679,6 +2777,29 @@ void G_RunFrame( int levelTime ) {
 	level.time = levelTime;
 	msec = level.time - level.previousTime;
 
+// fretn not needed in coop (comes from mp gamestate code)
+#if 0
+        // check if current gametype is supported
+        worldspawnflags = g_entities[ENTITYNUM_WORLD].spawnflags;
+        if  ( !level.latchGametype && g_gamestate.integer == GS_PLAYING &&
+                  ( ( g_gametype.integer == GT_WOLF && ( worldspawnflags & NO_GT_WOLF ) ) ||
+                        ( g_gametype.integer == GT_WOLF_STOPWATCH && ( worldspawnflags & NO_STOPWATCH ) ) ||
+                        ( ( g_gametype.integer == GT_WOLF_CP || g_gametype.integer == GT_WOLF_CPH ) && ( worldspawnflags & NO_CHECKPOINT ) ) ) // JPW NERVE added CPH
+                  ) {
+
+                if ( !( worldspawnflags & NO_GT_WOLF ) ) {
+                        gt = 5;
+                } else {
+                        gt = 7;
+                }
+
+                trap_SendServerCommand( -1, "print \"Invalid gametype was specified, Restarting\n\"" );
+                trap_SendConsoleCommand( EXEC_APPEND, va( "wait 2 ; g_gametype %i ; map_restart 10 0\n", gt ) );
+
+                level.latchGametype = qtrue;
+        }
+#endif
+
 	// Ridah, check for loading a save game
         // fretn - we copied the pregame popup to g_client
         if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
@@ -2690,13 +2811,13 @@ void G_RunFrame( int levelTime ) {
 	// get any cvar changes
 	G_UpdateCvars();
 
-    // fretn
-    if (level.lastSpawnSave <= level.time && g_spawnpoints.integer == 0 && g_gametype.integer <= GT_COOP) {    
+        // fretn
+        if (level.lastSpawnSave <= level.time && g_spawnpoints.integer == 0 && g_gametype.integer <= GT_COOP) {    
 		level.lastSpawnSave = level.time + 30000;
-        newSpawns = qtrue;
-        //trap_SendServerCommand( -1, va( "cp \"Saved current position as \nthe next spawnpoint\n\"" ) );
-        //trap_SendServerCommand( -1, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
-    } 
+                newSpawns = qtrue;
+                //trap_SendServerCommand( -1, va( "cp \"Saved current position as \nthe next spawnpoint\n\"" ) );
+                //trap_SendServerCommand( -1, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
+        } 
 
 	//
 	// go through all allocated objects
@@ -2855,19 +2976,27 @@ void G_RunFrame( int levelTime ) {
 	// see if it is time to do a tournement restart
 //	CheckTournament();
 
-    // wait for 2 players
-    CheckCoopBattle();
+        // NERVE - SMF - check game state
+        CheckGameState();
 
-    SetBattleScore();
+        // NERVE - SMF - check game state
+        if (g_gametype.integer == GT_COOP || g_gametype.integer == GT_COOP_SPEEDRUN) {
+                CheckCoop();
+        } else if ( g_gametype.integer == GT_COOP_BATTLE ) {
+                // wait for 2 players
+                CheckCoopBattle();
+        }
+
+        SetBattleScore();
 
 	// see if it is time to end the level
 	CheckExitRules();
 
-    // fretn
-    if (g_gametype.integer <= GT_COOP)
+        // fretn
+        if (g_gametype.integer <= GT_COOP)
 		CheckCoopStatus();
-    else
-	    CheckTeamStatus(); // update to team status?
+        else
+                CheckTeamStatus(); // update to team status?
 
 	// cancel vote if timed out
 	CheckVote();	

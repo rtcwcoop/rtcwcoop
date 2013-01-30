@@ -978,6 +978,14 @@ void Cmd_Kill_f( gentity_t *ent ) {
 		return;
 	}
 
+        if ( g_gamestate.integer != GS_PLAYING ) {
+                return;
+        }    
+
+        if ( g_gametype.integer <= GT_COOP && ent->client->ps.pm_flags & PMF_LIMBO ) {
+                return;
+        } 
+
 //	if(reloading)	// waiting to start map, or exiting to next map
 	if ( g_reloading.integer ) {
 		return;
@@ -1028,7 +1036,7 @@ void SetTeam( gentity_t *ent, char *s ) {
 	// L0 - No joining if team is locked
 	if (g_gamelocked.integer) {		
 		trap_SendServerCommand( ent-g_entities, va( "cp \"You can't join because game is locked^1!\n\"2") );
-	return;
+                return;
 	}
 	// end
 
@@ -1057,6 +1065,7 @@ void SetTeam( gentity_t *ent, char *s ) {
 		specState = SPECTATOR_FREE;
         } else if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
                 int counts[TEAM_NUM_TEAMS];
+                int numAxis = 1;
                 // if running a team game, assign player to one of the teams
                 specState = SPECTATOR_NOT;
                 if ( !Q_stricmp( s, "red" ) || !Q_stricmp( s, "r" ) ) {
@@ -1070,19 +1079,25 @@ void SetTeam( gentity_t *ent, char *s ) {
                 }    
                 
                 counts[TEAM_RED] = TeamCount( ent - g_entities, TEAM_RED );
+                if (level.numPlayingClients == 8) {
+                        numAxis = 2;
+                } else {
+                        numAxis = 1;
+                }
                 
-                if ( team == TEAM_BLUE && counts[TEAM_BLUE] >= 1 ) { // cvar this ?
-                        trap_SendServerCommand( clientNum,
-                                                                        "cp \"The Axis has too many players.\n\"" );
+                if ( team == TEAM_RED && counts[TEAM_RED] >= numAxis ) { // cvar this ?
+                        trap_SendServerCommand( clientNum, "cp \"The Axis team has too many players.\n\"" );
                         return;
                 }
-/*
+
                 // NERVE - SMF
-                if ( g_noTeamSwitching.integer && team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
+                //if ( g_noTeamSwitching.integer && team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
+                if ( team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
                         trap_SendServerCommand( clientNum, "cp \"You cannot switch during a match, please wait until the round ends.\n\"" );
                         return; // ignore the request
                 }    
 
+/*
                 // NERVE - SMF - merge from team arena
                 if ( g_teamForceBalance.integer  ) {  
                         int counts[TEAM_NUM_TEAMS];
@@ -1112,8 +1127,7 @@ void SetTeam( gentity_t *ent, char *s ) {
 		team = TEAM_FREE;
 	}
 
-	if ( g_maxGameClients.integer > 0 &&
-				level.numNonSpectatorClients >= g_maxGameClients.integer ) {
+	if ( g_maxGameClients.integer > 0 && level.numNonSpectatorClients >= g_maxGameClients.integer ) {
 		team = TEAM_SPECTATOR;
 	}
 
@@ -1773,7 +1787,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	int i;
 	char arg1[MAX_STRING_TOKENS];
 	char arg2[MAX_STRING_TOKENS];
-    char cleanName[64];
+        char cleanName[64];
 	char *check; // L0 - callvote exploit fix
 
 	// L0 - Ignored players..
@@ -1782,7 +1796,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	return;
 	} // End
 
-    if ( g_gametype.integer == GT_SINGLE_PLAYER) {
+        if ( g_gametype.integer == GT_SINGLE_PLAYER) {
 		trap_SendServerCommand( ent - g_entities, "print \"Voting not allowed in single player.\n\"" );
                 return;
         }
@@ -1880,6 +1894,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	// Ignore
 	} else if ( !Q_stricmp( arg1, "ignore" ) ) {
 		int i, num = MAX_CLIENTS;
+
 		for (i = 0; i < MAX_CLIENTS; i++)
 		{
 			if (level.clients[i].pers.connected != CON_CONNECTED && g_entities[i].r.svFlags & SVF_BOT) // Not a bot!
@@ -1887,24 +1902,25 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 
 			Q_strncpyz(cleanName, level.clients[i].pers.netname, sizeof(cleanName));
 			Q_CleanStr(cleanName);
+
 			if (!Q_stricmp(cleanName, arg2))
 				num = i;
 		}
 		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "ignore %s", level.clients[num].pers.netname);
 		if (level.clients[num].sess.ignored) {
 			trap_SendServerCommand(ent-g_entities, va("print \"^3Notice: ^7%s ^7is already Ignored^3!\n\"", level.clients[num].pers.netname));
-		return;
-		} else if (num != MAX_CLIENTS){
+                        return;
+		} else if (num != MAX_CLIENTS) {
 			Com_sprintf(level.voteString, sizeof(level.voteString), "ignore \"%d\"", num);
-		}else{
+		} else {
 			trap_SendServerCommand(ent-g_entities, "print \"Client not on server.\n\"");
 			return;
 		}
 	// Unignore
 	} else if ( !Q_stricmp( arg1, "unignore" ) ) {
 		int i, num = MAX_CLIENTS;
-		for (i = 0; i < MAX_CLIENTS; i++)
-		{
+
+		for (i = 0; i < MAX_CLIENTS; i++) {
 			if (level.clients[i].pers.connected != CON_CONNECTED && g_entities[i].r.svFlags & SVF_BOT) // Not a bot!
 				continue;
 
@@ -1913,13 +1929,15 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 			if (!Q_stricmp(cleanName, arg2))
 				num = i;
 		}
+
 		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "unignore %s", level.clients[num].pers.netname);
+
 		if (!level.clients[num].sess.ignored) {
 			trap_SendServerCommand(ent-g_entities, va("print \"^3Notice: ^7%s ^7is already unignored^3!\n\"", level.clients[num].pers.netname));
-		return;
-		} else if (num != MAX_CLIENTS){
+                        return;
+		} else if (num != MAX_CLIENTS) {
 			Com_sprintf(level.voteString, sizeof(level.voteString), "unignore \"%d\"", num);
-		}else{
+		} else {
 			trap_SendServerCommand(ent-g_entities, "print \"Client not on server.\n\"");
 			return;
 		}
@@ -1927,60 +1945,69 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	// g_gameSkill
 	} else if ( !Q_stricmp( arg1, "g_gameskill" ) ) {	
 		i = atoi(arg2);
-        if ( !is_numeric(arg2) || i < 0 || i > 3) {
+
+                if ( !is_numeric(arg2) || i < 0 || i > 3) {
 			trap_SendServerCommand( ent - g_entities, "print \"Invalid argument for g_gameskill.\n\"" );
-        return;
-        }               
+                        return;
+                }               
+
 		//Com_sprintf( level.voteString, sizeof( level.voteString ), "g_gameskill %s; map_restart 5", arg2);  // Use map restart.          
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "g_gameskill %s; map_restart 5", arg2);  // Switch in game.          
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
+
 	// g_reinforce
 	} else if ( !Q_stricmp( arg1, "g_reinforce" ) ) {	
 		i = atoi(arg2);
-        if ( !is_numeric(arg2) || i < 0 || i > 2) {
+
+                if ( !is_numeric(arg2) || i < 0 || i > 2) {
 			trap_SendServerCommand( ent - g_entities, "print \"Invalid argument for g_reinforce.\n\"" );
-        return;
-        }               
+                        return;
+                }               
+
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "g_reinforce %s; map_restart 5", arg2);  // Use map restart.          
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
 	// g_freeze
 	} else if ( !Q_stricmp( arg1, "g_freeze" ) ) {	
 		i = atoi(arg2);
-        if ( !is_numeric(arg2) || i < 0 || i > 1) {
+
+                if ( !is_numeric(arg2) || i < 0 || i > 1) {
 			trap_SendServerCommand( ent - g_entities, "print \"Invalid argument for g_freeze.\n\"" );
-        return;
-        }               
+                        return;
+                }               
+
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "g_freeze %s", arg2);  // Kick starts instantly..
 		Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s", level.voteString );
-// L0 - Callvotes enhancements ends here
-    } else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
+        // L0 - Callvotes enhancements ends here
+        } else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
 		i = atoi(arg2);
-        if ( i >= GT_SINGLE_PLAYER || i < 0 ) {
+                if ( i >= GT_SINGLE_PLAYER || i < 0 ) {
 			trap_SendServerCommand( ent - g_entities, "print \"Invalid gametype.\n\"" );
-        return;
-        }
-        Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %d; map_restart 5", arg1, i ); 
-        Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s %s", arg1, gameNames[i] );
-    } else if ( !Q_stricmp( arg1,"kick" ) ) {
-        int i,kicknum = MAX_CLIENTS;
-			for ( i = 0; i < MAX_CLIENTS; i++ ) {
-				if ( level.clients[i].pers.connected != CON_CONNECTED ) {
-					continue;
+                        return;
                 }
-				// strip the color crap out
-				Q_strncpyz( cleanName, level.clients[i].pers.netname, sizeof( cleanName ) );
-                Q_CleanStr( cleanName );
-                if ( !Q_stricmp( cleanName, arg2 ) ) {
-					kicknum = i;
+                Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %d; map_restart 5", arg1, i ); 
+                Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "%s %s", arg1, gameNames[i] );
+        } else if ( !Q_stricmp( arg1,"kick" ) ) {
+                int i,kicknum = MAX_CLIENTS;
+                for ( i = 0; i < MAX_CLIENTS; i++ ) {
+                        if ( level.clients[i].pers.connected != CON_CONNECTED ) {
+                                continue;
+                        }
+
+                        // strip the color crap out
+                        Q_strncpyz( cleanName, level.clients[i].pers.netname, sizeof( cleanName ) );
+                        Q_CleanStr( cleanName );
+
+                        if ( !Q_stricmp( cleanName, arg2 ) ) {
+                                kicknum = i;
+                        }
                 }
-            }
-        //Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "kick %s", level.clients[kicknum].pers.netname );
-        if ( kicknum != MAX_CLIENTS ) { // found a client # to kick, so override votestring with better one
+                //Com_sprintf( level.voteDisplayString, sizeof( level.voteDisplayString ), "kick %s", level.clients[kicknum].pers.netname );
+                if ( kicknum != MAX_CLIENTS ) { // found a client # to kick, so override votestring with better one
 			Com_sprintf( level.voteString, sizeof( level.voteString ),"clientkick \"%d\"",kicknum );
-        } else { // if it can't do a name match, don't allow kick (to prevent votekick text spam wars)
+                } else { // if it can't do a name match, don't allow kick (to prevent votekick text spam wars)
 			trap_SendServerCommand( ent - g_entities, "print \"Client not on server.\n\"" );
-        return;
-        }
+                        return;
+                }
 	} else {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %s", arg1, arg2 );
 	}

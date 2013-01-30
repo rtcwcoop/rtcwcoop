@@ -498,17 +498,17 @@ typedef struct {
 	int playerItem;                 // DHM - Nerve :: for GT_WOLF
 	int playerSkin;                 // DHM - Nerve :: for GT_WOLF
 
-    // fretn
-    // stats for the scoreboard
-    int prop_damage;
-    int airtime;
-    int pickups;
-    int damage_given;
-    int damage_received;
-    int kills;
-    int deaths;
-    int suicides;
-    int lastBonusLifeScore;
+        // fretn
+        // stats for the scoreboard
+        int prop_damage;
+        int airtime;
+        int pickups;
+        int damage_given;
+        int damage_received;
+        int kills;
+        int deaths;
+        int suicides;
+        int lastBonusLifeScore;
 
 	// L0 
 	admLvls_t admin;		// Admins
@@ -833,6 +833,7 @@ typedef struct {
 	int motdTime;
 	// End
 
+        int lastRestartTime;
 } level_locals_t;
 
 //extern    qboolean	reloading;				// loading up a savegame
@@ -1216,6 +1217,7 @@ extern vmCvar_t g_sharedlives;
 extern vmCvar_t g_limbotime;
 extern vmCvar_t g_reinforce;
 extern vmCvar_t g_freeze;
+extern vmCvar_t g_gamestate;
 
 // Rafael gameskill
 extern vmCvar_t g_gameskill;

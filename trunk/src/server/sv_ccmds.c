@@ -234,9 +234,7 @@ static void SV_Map_f( void ) {
 		return;
 	}
 
-#ifdef GS
 	Cvar_Set( "gamestate", va( "%i", GS_INITIALIZE ) );       // NERVE - SMF - reset gamestate on map/devmap
-#endif
 	Cvar_Set( "r_mapFogColor", "0" );       //----(SA)	added
 	Cvar_Set( "r_waterFogColor", "0" );     //----(SA)	added
 	Cvar_Set( "r_savegameFogColor", "0" );      //----(SA)	added
@@ -297,7 +295,6 @@ static void SV_Map_f( void ) {
 	}
 }
 
-#ifdef GS
 /*
 ================
 SV_CheckTransitionGameState
@@ -350,18 +347,17 @@ static qboolean SV_TransitionGameState( gamestate_t new_gs, gamestate_t old_gs, 
 	}
 
 	if ( new_gs == GS_RESET ) {
-		if ( atoi( Cvar_VariableString( "g_noTeamSwitching" ) ) ) {
-			new_gs = GS_WAITING_FOR_PLAYERS;
-		} else {
+		//if ( atoi( Cvar_VariableString( "g_noTeamSwitching" ) ) ) {
+		//	new_gs = GS_WAITING_FOR_PLAYERS;
+		//} else {
 			new_gs = GS_WARMUP;
-		}
+		//}
 	}
 
 	Cvar_Set( "gamestate", va( "%i", new_gs ) );
 
 	return qtrue;
 }
-#endif
 
 /*
 ================
@@ -377,9 +373,7 @@ static void SV_MapRestart_f( void ) {
 	char        *denied;
 	qboolean isBot;
 	int delay = 0;
-#ifdef GS
 	gamestate_t new_gs, old_gs;     // NERVE - SMF
-#endif
 
 	// make sure we aren't restarting twice in the same frame
 	if ( com_frameTime == sv.serverId ) {
@@ -412,7 +406,6 @@ static void SV_MapRestart_f( void ) {
 		return;
 	}
 
-#if GS
 	// NERVE - SMF - read in gamestate or just default to GS_PLAYING
 	old_gs = atoi( Cvar_VariableString( "gamestate" ) );
 
@@ -425,7 +418,6 @@ static void SV_MapRestart_f( void ) {
 	if ( !SV_TransitionGameState( new_gs, old_gs, delay ) ) {
 		return;
 	}
-#endif
 
 	// check for changes in variables that can't just be restarted
 	// check for maxclients change

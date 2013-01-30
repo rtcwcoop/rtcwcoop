@@ -1645,6 +1645,17 @@ typedef enum {
 	MAX_LANGUAGES
 } languages_t;
 
+// NERVE - SMF - wolf server/game states
+typedef enum {
+        GS_INITIALIZE = -1,
+        GS_PLAYING,
+        GS_WARMUP_COUNTDOWN,
+        GS_WARMUP,
+        GS_INTERMISSION,
+        GS_WAITING_FOR_PLAYERS,
+        GS_RESET
+} gamestate_t;
+
 int Q_CountChar(const char *string, char tocount);
 int Com_HexStrToInt( const char *str );
 const char      *Q_stristr( const char *s, const char *find);

@@ -862,6 +862,7 @@ void SV_Init( void ) {
 	sv_floodProtect = Cvar_Get( "sv_floodProtect", "1", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_allowAnonymous = Cvar_Get( "sv_allowAnonymous", "0", CVAR_SERVERINFO );
 	sv_maxlives = Cvar_Get( "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO );
+        Cvar_Get( "gamestate", "-1", CVAR_SERVERINFO | CVAR_ROM );
 	sv_reinforce = Cvar_Get( "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
 	sv_airespawn = Cvar_Get( "g_airespawn", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
 

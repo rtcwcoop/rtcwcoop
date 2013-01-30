@@ -1663,6 +1663,7 @@ typedef struct {
 	animScriptData_t animScriptData;
 
         int currentVoiceClient;
+        gamestate_t gamestate;
 
 } cgs_t;
 

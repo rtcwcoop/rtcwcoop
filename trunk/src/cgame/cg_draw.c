@@ -2389,14 +2389,38 @@ static void CG_DrawWarmup( void ) {
 
 	sec = cg.warmup;
 	if ( !sec ) {
+/*
+                if ( cgs.gamestate == GS_WAITING_FOR_PLAYERS ) {
+                        cw = 10;
+
+                        s = CG_TranslateString( "Game Stopped - Waiting for more players" );
+
+                        w = CG_DrawStrlen( s ); 
+                        CG_DrawStringExt( 320 - w * 6, 120, s, colorWhite, qfalse, qtrue, 12, 18, 0 ); 
+
+
+                        s1 = va( CG_TranslateString( "Waiting for %i players" ), cgs.minclients );
+                        s2 = CG_TranslateString( "or call a vote to start match" );
+
+                        w = CG_DrawStrlen( s1 );
+                        CG_DrawStringExt( 320 - w * cw / 2, 160, s1, colorWhite,
+                                                          qfalse, qtrue, cw, (int)( cw * 1.5 ), 0 ); 
+
+                        w = CG_DrawStrlen( s2 );
+                        CG_DrawStringExt( 320 - w * cw / 2, 180, s2, colorWhite,
+                                                          qfalse, qtrue, cw, (int)( cw * 1.5 ), 0 ); 
+
+                        return;
+                } 
+*/
 		return;
 	}
 
 	if ( sec < 0 ) {
 		if ( cgs.gametype == GT_COOP_BATTLE )
 			s = "Waiting for 1 player";
-        else
-            return;		
+                else
+                        return;		
 
         // s = "Waiting for players";
 		w = CG_DrawStrlen( s ) * BIGCHAR_WIDTH;
@@ -2418,13 +2442,13 @@ static void CG_DrawWarmup( void ) {
 		sec = 0;
 	}	
 		
-		// L0 - Don't show if announcer is enabled!
-		if ( sec == 0 && !cg_announcer.integer) {
-	        s = va( "^2FIGHT!");			
-        } else {
-	        s = va( "Game starts in: ^2%i", sec + 1 );	        
+        // L0 - Don't show if announcer is enabled!
+        //if ( sec == 0 && !cg_announcer.integer) {
+	//        s = va( "^2FIGHT!");			
+        //} else {
+	        s = va( "(WARMUP) Game starts in: ^2%i", sec + 1 );	        
 			// countDownAnnouncer(sec); // L0 - Needs fixing / FIXME
-        }	 
+        //}	 
 
         cw = 16;
 
