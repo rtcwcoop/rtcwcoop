@@ -341,6 +341,10 @@ static qboolean SV_TransitionGameState( gamestate_t new_gs, gamestate_t old_gs, 
 		new_gs = GS_WARMUP;
 	}
 
+	if ( old_gs == GS_PLAYING && new_gs == GS_PLAYING ) {
+		new_gs = GS_WARMUP;
+	}
+
 	// check if its a valid state transition
 	if ( !SV_CheckTransitionGameState( new_gs, old_gs ) ) {
 		return qfalse;
