@@ -1271,8 +1271,16 @@ typedef struct gitem_s {
 	char        *sounds;        // string of all sounds this item will use
 
 	int gameskillnumber[4];
+	int spawnflags;
 } gitem_t;
 // END JOSEPH
+
+// gitem_t->spawnflags (items)
+#define FL_SUSPENDED            1
+#define FL_SPIN                 2
+#define FL_LEAVE_IN_WORLD       4
+#define FL_RESPAWN_SP           8
+#define FL_DROPPED              16
 
 // included in both the game dll and the client
 extern gitem_t bg_itemlist[];

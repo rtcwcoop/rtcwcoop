@@ -3867,7 +3867,6 @@ qboolean isClipOnly( int weap ) {
 qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *ps ) {
 	gitem_t *item;
 	int ammoweap;
-	qboolean multiplayer = qfalse;
 
 	if ( ent->modelindex < 1 || ent->modelindex >= bg_numItems ) {
 		Com_Error( ERR_DROP, "BG_CanItemBeGrabbed: index out of range" );
@@ -3878,23 +3877,18 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 	switch ( item->giType ) {
 
 	case IT_WEAPON:
-		// JPW NERVE -- medics & engineers can only pick up same weapon type
-		if ( multiplayer ) {
-			if ( ( ps->stats[STAT_PLAYER_CLASS] == PC_MEDIC ) || ( ps->stats[STAT_PLAYER_CLASS] == PC_ENGINEER ) ) {
-				if ( !COM_BitCheck( ps->weapons, item->giTag ) ) {
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
+		if ( COM_BitCheck( ps->weapons, item->giTag ) ) {               // you have the weap
+			if ( isClipOnly( item->giTag ) ) {
+				if ( ps->ammoclip[item->giAmmoIndex] >= ammoTable[item->giAmmoIndex].maxclip ) {
 					return qfalse;
 				}
-			}
-		} else {
-			if ( COM_BitCheck( ps->weapons, item->giTag ) ) {               // you have the weap
-				if ( isClipOnly( item->giTag ) ) {
-					if ( ps->ammoclip[item->giAmmoIndex] >= ammoTable[item->giAmmoIndex].maxclip ) {
-						return qfalse;
-					}
-				} else {
-					if ( ps->ammo[item->giAmmoIndex] >= ammoTable[item->giAmmoIndex].maxammo ) { // you are loaded with the ammo
-						return qfalse;
-					}
+			} else {
+				if ( ps->ammo[item->giAmmoIndex] >= ammoTable[item->giAmmoIndex].maxammo ) { // you are loaded with the ammo
+					return qfalse;
 				}
 			}
 		}
@@ -3902,6 +3896,10 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_AMMO:
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		ammoweap = BG_FindAmmoForWeapon( item->giTag );
 
 		if ( isClipOnly( ammoweap ) ) {
@@ -3917,6 +3915,10 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_ARMOR:
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		// we also clamp armor to the maxhealth for handicapping
 //			if ( ps->stats[STAT_ARMOR] >= ps->stats[STAT_MAX_HEALTH] * 2 ) {
 		if ( ps->stats[STAT_ARMOR] >= 100 ) {
@@ -3925,6 +3927,10 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_HEALTH:
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		if ( ent->density == ( 1 << 9 ) ) { // density tracks how many uses left
 			return qfalse;
 		}
@@ -3935,6 +3941,10 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_POWERUP:
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		if ( ent->density == ( 1 << 9 ) ) { // density tracks how many uses left
 			return qfalse;
 		}
@@ -3968,16 +3978,32 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 
 	case IT_HOLDABLE:
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		return qtrue;
 
 	case IT_TREASURE:       // treasure always picked up
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		return qtrue;
 
 	case IT_CLIPBOARD:      // clipboards always picked up
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		return qtrue;
 
 		//---- (SA) Wolf keys
 	case IT_KEY:
+		// axis players can only pickup dropped items
+		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+			return qfalse;
+		}
 		return qtrue;       // keys are always picked up
 
 	case IT_BAD:

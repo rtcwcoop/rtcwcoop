@@ -104,7 +104,7 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
 		return RESPAWN_PARTIAL_DONE;
 	}
 
-        if ( !( ent->spawnflags & 8 ) ) {
+        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
                 return RESPAWN_SP;
         }
 
@@ -115,7 +115,7 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
 //======================================================================
 int Pickup_Key( gentity_t *ent, gentity_t *other ) {
 	other->client->ps.stats[STAT_KEYS] |= ( 1 << ent->item->giTag );
-        if ( !( ent->spawnflags & 8 ) ) {
+        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
                 return RESPAWN_SP;
         }
 
@@ -131,7 +131,7 @@ Pickup_Clipboard
 */
 int Pickup_Clipboard( gentity_t *ent, gentity_t *other ) {
 
-	if ( ent->spawnflags & 4 ) {
+	if ( ent->spawnflags & FL_LEAVE_IN_WORLD ) {
 		return 0;   // leave in world
 
 	}
@@ -210,7 +210,7 @@ int Pickup_Holdable( gentity_t *ent, gentity_t *other ) {
 
 	other->client->ps.stats[STAT_HOLDABLE_ITEM] |= ( 1 << ent->item->giTag );   //----(SA)	added
 
-        if ( !( ent->spawnflags & 8 ) ) {
+        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
                 return RESPAWN_SP;
         }
 
@@ -348,7 +348,7 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 
 	Add_Ammo( other, ent->item->giTag, quantity, qfalse );   //----(SA)	modified
 
-        if ( !( ent->spawnflags & 8 ) ) {
+        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
                 return RESPAWN_SP;
         }
 
@@ -436,7 +436,7 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 
 	Add_Ammo( other, weapon, quantity, !alreadyHave );
 
-        if ( !( ent->spawnflags & 8 ) ) {
+        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
                 return RESPAWN_SP;
         }
 
@@ -909,6 +909,8 @@ gentity_t *Drop_Item( gentity_t *ent, gitem_t *item, float angle, qboolean novel
 		velocity[2] += 200 + crandom() * 50;
 	}
 
+	item->spawnflags |= FL_DROPPED;
+
 	return LaunchItem( item, ent->s.pos.trBase, velocity, ent->s.number );
 }
 
@@ -939,7 +941,7 @@ void FinishSpawningItem( gentity_t *ent ) {
 	vec3_t dest;
 	vec3_t maxs;
 
-	if ( ent->spawnflags & 1 ) { // suspended
+	if ( ent->spawnflags & FL_SUSPENDED ) { // suspended
 		VectorSet( ent->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, -ITEM_RADIUS );
 		VectorSet( ent->r.maxs, ITEM_RADIUS, ITEM_RADIUS, ITEM_RADIUS );
 		VectorCopy( ent->r.maxs, maxs );
@@ -989,7 +991,7 @@ void FinishSpawningItem( gentity_t *ent ) {
 //----(SA) moved this up so it happens for suspended items too (and made it a function)
 	G_SetAngle( ent, ent->s.angles );
 
-	if ( ent->spawnflags & 1 ) {    // suspended
+	if ( ent->spawnflags & FL_SUSPENDED ) {    // suspended
 		G_SetOrigin( ent, ent->s.origin );
 	} else {
 
@@ -1023,7 +1025,7 @@ void FinishSpawningItem( gentity_t *ent ) {
 		G_SetOrigin( ent, tr.endpos );
 	}
 
-	if ( ent->spawnflags & 2 ) {      // spin
+	if ( ent->spawnflags & FL_SPIN ) {      // spin
 		ent->s.eFlags |= EF_SPINNING;
 	}
 

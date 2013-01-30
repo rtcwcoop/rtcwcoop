@@ -948,7 +948,9 @@ void ClientThink_real( gentity_t *ent ) {
 
 							trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
 							VectorCopy( tr.endpos, org );
-
+		
+							// fretn: axis players can only pickup dropped items
+							item->spawnflags |= FL_DROPPED;
 							ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
 							COM_BitClear( client->ps.weapons,weapon );
 

@@ -2999,6 +2999,8 @@ void Cmd_DropAmmo_f ( gentity_t *ent )
         trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
         VectorCopy( tr.endpos, org );
 
+	// fretn: axis players can only pickup dropped items
+	item->spawnflags |= FL_DROPPED;
         ent2 = LaunchItem( item, org, velocity, ent->s.number );
 
         ent2->count = ammo_in_clip;

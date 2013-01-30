@@ -53,7 +53,6 @@ If you have questions concerning this license or the applicable additional terms
 
 #define INTERMISSION_DELAY_TIME 1000
 
-
 // gentity->flags
 #define FL_GODMODE              0x00000010
 #define FL_NOTARGET             0x00000020
