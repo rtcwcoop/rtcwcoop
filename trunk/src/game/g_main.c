@@ -1272,7 +1272,10 @@ extern void trap_Cvar_Reset( const char *var_name );
 void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	int i;
 	int fps;
-	int r = (rand() % 10 ) + 1;
+	int r;
+
+	srand(time(NULL));
+	r = (rand() % 10 ) + 1;
 
 	//if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
 		G_Printf( "------- Game Initialization -------\n" );
