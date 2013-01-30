@@ -1,4 +1,4 @@
-
+ 
 {
 "classname" "script_multiplayer"
 "scriptname" "game_manager"
@@ -38,6 +38,7 @@
 
 //dynamite
 {
+"classname" "ammo_dynamite"
 #if g_random == 1
 "origin" "1368 813 -140"
 #endif
@@ -68,10 +69,9 @@
 #if g_random == 10
 "origin" "690 1741 -55"
 #endif
-"stand" "2"
 "angle" "90"
 "spawnflags" "8"
-"classname" "weapon_dynamite"
+"wait" "3"
 }
 
 
