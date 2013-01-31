@@ -1032,6 +1032,7 @@ qboolean UI_ParseMenu( const char *menuFile ) {
 
 qboolean Load_Menu( int handle ) {
 	pc_token_t token;
+        char levelname[64];
         int cl_language;    // NERVE - SMF
 
 	if ( !trap_PC_ReadToken( handle, &token ) ) {
@@ -1087,8 +1088,29 @@ qboolean Load_Menu( int handle ) {
                         }    
                 }    
                 // -NERVE
-
-		UI_ParseMenu( token.string );
+                // fretn: if token.string == ui/clipboard.menu or ui/notebook.menu
+                // we should first try to load ui/mapname_clipboard.menu or ui/mapname_notebook.menu
+                // so custom map makers don't have to fuckup the stock maps clipboards
+                DC->getCVarString( "mapname", levelname, sizeof( levelname ) );
+                if (!strcmp(token.string, "ui/clipboard.menu")) {
+                        int handle;
+                        handle = trap_PC_LoadSource( va("ui/%s_clipboard.menu", levelname) );
+                        if (!handle) {
+                                UI_ParseMenu( token.string );
+                        } else {
+                                UI_ParseMenu( va("ui/%s_clipboard.menu", levelname) );
+                        }
+                } else if (!strcmp(token.string, "ui/notebook.menu")) {
+                        int handle;
+                        handle = trap_PC_LoadSource( va("ui/%s_notebook.menu", levelname) );
+                        if (!handle) {
+                                UI_ParseMenu( token.string );
+                        } else {
+                                UI_ParseMenu( va("ui/%s_notebook.menu", levelname) );
+                        }
+                } else {
+                        UI_ParseMenu( token.string );
+                }
 	}
 	return qfalse;
 }
