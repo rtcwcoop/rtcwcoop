@@ -531,9 +531,9 @@
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "-3717 4250 536"
-"angle" "-43"
+"spawnflags" "1"
+"origin" "-3707 4339 536"
+"angle" "-36"
 "targetname" "forest1"
 }
 {
@@ -640,3 +640,4 @@
 "model" "models/mapobjects/alarm-brd/alarm-brd.md3"
 "modelscale" "1.0"
 }
+

@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 31.1.2013
 //
 //Brush Scripting
 //Map: Forest
@@ -18,7 +19,9 @@ game_manager
 		accum 0 abort_if_not_bitset 2
 		accum 0 abort_if_not_bitset 3
 		accum 0 abort_if_not_bitset 4
-		trigger dialog ending
+
+//trigger dialog ending	//Uncomment to get the truck move 
+trigger player exitmap	//Comment   to get the truck move 
 	}
 	
 	trigger objective1
@@ -205,7 +208,6 @@ dialog
 		accum 0 set 0 // 1 = alarmset no new ambient dialog.
 		accum 1 set 0 // 1 = cutscene started
 		accum 2 set 0 // 1 = house 2 dead
-		accum 3 set 0 // 1 = stop cutscene from starting
 		accum 4 set 0 // objectives
 	}	
 
@@ -273,16 +275,13 @@ dialog
 	trigger ending
 	{
 		accum 0 abort_if_not_equal 0
-		accum 3 abort_if_not_equal 0
 		accum 1 set 1
 		wait 400
 		trigger alarm incutscene
-		trigger player endcamera1
-//		alertentity bj
 		trigger player movetruck
-		wait 10000
-		trigger player endcamera2
-		wait 500
+		//wait 10000
+		//wait 500
+		wait 8000
 		trigger player exitmap
 	}
 
@@ -328,60 +327,60 @@ t2body
 
 	trigger begin2
 	{
-		wait 3000
+		wait 1000
 		playsound sound/world/shift_01.wav looping
 		trigger t2bwheels begin2
 		trigger t2lwheel begin2
 		trigger t2rwheel begin2
 		trigger t2tail begin2
 		trigger t2cargo begin2
-		gotomarker t2spot2 1600
+		gotomarker t2spot2 160
 		faceangles 0 180 0 gototime
 		trigger t2rwheel right12
 		trigger t2lwheel right12
-		gotomarker t2spot3 1600
+		gotomarker t2spot3 160
 		faceangles 0 171 0 gototime
-		gotomarker t2spot4 1600
+		gotomarker t2spot4 160
 		faceangles 0 162 0 gototime
-		gotomarker t2spot5 1600
+		gotomarker t2spot5 160
 		faceangles 0 153 0 gototime
-		gotomarker t2spot6 1600
+		gotomarker t2spot6 160
 		faceangles 0 144 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot7 1600
+		gotomarker t2spot7 160
 		faceangles 0 135 0 gototime
-		gotomarker t2spot8 1600
+		gotomarker t2spot8 160
 		faceangles 0 135 0 gototime
-		gotomarker t2spot9 1600
+		gotomarker t2spot9 160
 		faceangles 0 135 0 gototime
-		gotomarker t2spot10 1600
+		gotomarker t2spot10 160
 		faceangles 0 135 0 gototime
 		trigger t2rwheel right12
 		trigger t2lwheel right12
-		gotomarker t2spot11 1600
+		gotomarker t2spot11 160
 		faceangles 0 126 0 gototime
-		gotomarker t2spot12 1600
+		gotomarker t2spot12 160
 		faceangles 0 117 0 gototime
-		gotomarker t2spot13 1600
+		gotomarker t2spot13 160
 		faceangles 0 108 0 gototime
-		gotomarker t2spot14 1600
+		gotomarker t2spot14 160
 		faceangles 0 99 0 gototime
-		gotomarker t2spot15 1600
+		gotomarker t2spot15 160
 		faceangles 0 90 0 gototime
 		trigger t2rwheel strait
 		trigger t2lwheel strait
-		gotomarker t2spot16 1300
+		gotomarker t2spot16 130
 		faceangles 0 90 0 gototime
-		gotomarker t2spot17 1000
+		gotomarker t2spot17 100
 		faceangles 0 90 0 gototime
-		gotomarker t2spot18 700
+		gotomarker t2spot18 70
 		faceangles 0 90 0 gototime
 		trigger t2bwheels stop2
 		trigger t2lwheel stop2
 		trigger t2rwheel stop2
 		playsound sound/world/idle_01.wav looping
-		gotomarker t2spot19 400
+		gotomarker t2spot19 40
 		faceangles 0 90 0 gototime
 		trigger t2body atbridge
 	}
@@ -632,41 +631,41 @@ t2cargo
 
 	trigger begin2
 	{
-		gotomarker t2spot2 1600
+		gotomarker t2spot2 160
 		faceangles 0 180 0 gototime
-		gotomarker t2spot3 1600
+		gotomarker t2spot3 160
 		faceangles 0 171 0 gototime
-		gotomarker t2spot4 1600
+		gotomarker t2spot4 160
 		faceangles 0 162 0 gototime
-		gotomarker t2spot5 1600
+		gotomarker t2spot5 160
 		faceangles 0 153 0 gototime
-		gotomarker t2spot6 1600
+		gotomarker t2spot6 160
 		faceangles 0 144 0 gototime
-		gotomarker t2spot7 1600
+		gotomarker t2spot7 160
 		faceangles 0 135 0 gototime
-		gotomarker t2spot8 1600
+		gotomarker t2spot8 160
 		faceangles 0 135 0 gototime
-		gotomarker t2spot9 1600
+		gotomarker t2spot9 160
 		faceangles 0 135 0 gototime
-		gotomarker t2spot10 1600
+		gotomarker t2spot10 160
 		faceangles 0 135 0 gototime
-		gotomarker t2spot11 1600
+		gotomarker t2spot11 160
 		faceangles 0 126 0 gototime
-		gotomarker t2spot12 1600
+		gotomarker t2spot12 160
 		faceangles 0 117 0 gototime
-		gotomarker t2spot13 1600
+		gotomarker t2spot13 160
 		faceangles 0 108 0 gototime
-		gotomarker t2spot14 1600
+		gotomarker t2spot14 160
 		faceangles 0 99 0 gototime
-		gotomarker t2spot15 1600
+		gotomarker t2spot15 160
 		faceangles 0 90 0 gototime
-		gotomarker t2spot16 1300
+		gotomarker t2spot16 130
 		faceangles 0 90 0 gototime
-		gotomarker t2spot17 1000
+		gotomarker t2spot17 100
 		faceangles 0 90 0 gototime
-		gotomarker t2spot18 700
+		gotomarker t2spot18 70
 		faceangles 0 90 0 gototime
-		gotomarker t2spot19 400
+		gotomarker t2spot19 40
 		faceangles 0 90 0 gototime
 	}
 
