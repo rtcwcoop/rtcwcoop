@@ -187,14 +187,17 @@ void CG_DrawCoopScoreboard( void )
 
 
                         place++;
-                        if (ci->team == TEAM_SPECTATOR)
+                        if (ci->team == TEAM_SPECTATOR) {
 #ifdef LOCALISATION
                                 CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va(CG_TranslateString("[SPECTATOR] %s"), ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
 #else
 				CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("[SPECTATOR] %s", ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
 #endif
-                        else
+                        } else if ( ci->team == TEAM_RED ) {
+                                CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("^1%i^7. %s", place, ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+                        } else {
                                 CG_DrawStringExt( 175, 154 + ( 28 * i) + 1, va("%i. %s", place, ci->name), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+			}
 
 #ifdef MONEY
                         if (cgs.gametype == GT_COOP_BATTLE) {
