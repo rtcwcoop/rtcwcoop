@@ -1313,102 +1313,124 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 #define AITEAM_ALLIES   1
 #define AITEAM_MONSTER  2
 #define AITEAM_NEUTRAL  7   // yes, '7'
-                // fretn: in coop, you die if you hit a civilian
-                if ( !( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) && (( targ->aiTeam == AITEAM_NEUTRAL ) || ( targ->aiTeam == AITEAM_ALLIES)) && g_gametype.integer <= GT_COOP ) {
-                        //attacker->health -= take;
-                        // fretn
-                        //attacker->die( attacker, inflictor, attacker, take, mod );
-                        /*attacker->client->ps.stats[STAT_HEALTH] = attacker->health = 0;
-                        player_die( attacker, attacker, attacker, 100000, MOD_SUICIDE );
-                        if ( attacker->s.number >= MAX_CLIENTS && attacker->health <= 0 ) { // might have revived itself in death function
-                                G_Script_ScriptEvent( attacker, "death", "" );
-                        }*/
-                        if ( g_friendlyFire.integer >= 2 ) {
-                                attacker->health = attacker->health - take;
-                                // show some pain !
-                                if ( attacker->pain )
-                                        attacker->pain( attacker, targ, take, point );
-                        }
 
-                        if ( attacker->client ) {
-                                 attacker->client->ps.stats[STAT_HEALTH] = attacker->health;
-                        }
-                }
-                else
-                {
-                        if ( g_friendlyFire.integer >= 2 ) {
-                                if  ( attacker->client && targ->client && !(attacker->r.svFlags & SVF_CASTAI) && !(targ->r.svFlags & SVF_CASTAI) ) {// if you hit a teammate, you hit yourself !
-                                        attacker->health = attacker->health - take;
-                                        // show some pain !
-                                        if ( attacker->pain )
-                                               attacker->pain( attacker, targ, take, point );
-                                } else {
-                                        targ->health = targ->health - take;
-                                }
-                        } else {
-                                targ->health = targ->health - take;
-                        }
-                        
+		// from human to bot
+		if ( !( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
+			if ( attacker->client && targ->client ) {
+				// (from axis team to a nazi or monster (=teamdamage)
+				// or 
+				// from allies team to an allies or a neutral (=teamdamage))
+				// AND friendly fire is on
+				if ( ( ( attacker->client->sess.sessionTeam == TEAM_RED && 
+				     ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER ) ) ||
+				     ( attacker->client->sess.sessionTeam == TEAM_BLUE &&
+				     ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) ) &&
+				     g_friendlyFire.integer ) {	
 
-                        // Ridah, can't gib with bullet weapons (except VENOM)
-                        if ( targ->client ) {
-                                if ( mod != MOD_VENOM && attacker == inflictor && targ->health <= GIB_HEALTH ) {
-                                        if ( targ->aiCharacter != AICHAR_ZOMBIE ) { // zombie needs to be able to gib so we can kill him (although he doesn't actually GIB, he just dies)
-                                                targ->health = GIB_HEALTH + 1;
-                                        }
-                                }
-                        }
+					if ( g_friendlyFire.integer == 1 ) {
+						targ->health = targ->health - take;
+					} else if ( g_friendlyFire.integer >= 2 ) { // hurt the attacker if he hits a teammate
+						attacker->health = attacker->health - take;
+						// show some pain !
+						if ( attacker->pain ) {
+							attacker->pain( attacker, targ, take, point );
+						}            
+					}
+				}
 
-                        //G_Printf("health at: %d\n", targ->health);
-                        if ( targ->health <= 0 ) {
-                                Coop_AddStats( targ, attacker, take, mod );
-                                if ( client ) {
-                                        targ->flags |= FL_NO_KNOCKBACK;
-                                }
+				// from axis team to a an allies or a neutral
+				// or
+				// from allies team to a nazi or monster
+				if ( ( attacker->client->sess.sessionTeam == TEAM_BLUE && 
+				     ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER ) ) ||
+				     ( attacker->client->sess.sessionTeam == TEAM_RED &&
+				     ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) ) {
 
-                                if ( targ->health < -999 ) {
-                                        targ->health = -999;
-                                }
+					targ->health = targ->health - take;
+				}
+			}
+                } else {
+                        if ( g_friendlyFire.integer == 0 ) {
+				if ( attacker->client && targ->client &&
+				     attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
+                                	targ->health = targ->health - take;
+				}
+			} else if ( g_friendlyFire.integer == 1 ) {
+				targ->health = targ->health - take;
+			} else if ( g_friendlyFire.integer >= 2 ) { // hurt the attacker if he hits a teammate
+				if ( attacker->client && targ->client ) { 
+					if ( attacker->client->sess.sessionTeam == targ->client->sess.sessionTeam ) {
 
-                                targ->enemy = attacker;
-                                if ( targ->die ) { // Ridah, mg42 doesn't have die func (FIXME)
-                                        targ->die( targ, inflictor, attacker, take, mod );
-                                }
+						attacker->health = attacker->health - take;	
+						// show some pain !
+						if ( attacker->pain ) {
+							attacker->pain( attacker, targ, take, point );
+						}
+					} else if ( attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
+						targ->health = targ->health - take;
+					}
+				}
+			}
+		}
 
-                                // if we freed ourselves in death function
-                                if ( !targ->inuse ) {
-                                        return;
-                                }
+		// Ridah, can't gib with bullet weapons (except VENOM)
+		if ( targ->client ) {
+			if ( mod != MOD_VENOM && attacker == inflictor && targ->health <= GIB_HEALTH ) {
+				if ( targ->aiCharacter != AICHAR_ZOMBIE ) { // zombie needs to be able to gib so we can kill him (although he doesn't actually GIB, he just dies)
+					targ->health = GIB_HEALTH + 1;
+				}
+			}
+		}
 
-                                // RF, entity scripting
-                                if ( targ->s.number >= MAX_CLIENTS && targ->health <= 0 ) { // might have revived itself in death function
-                                        G_Script_ScriptEvent( targ, "death", "" );
-                                }
+		//G_Printf("health at: %d\n", targ->health);
+		if ( targ->health <= 0 ) {
+			Coop_AddStats( targ, attacker, take, mod );
+			if ( client ) {
+				targ->flags |= FL_NO_KNOCKBACK;
+			}
 
-                        } else if ( targ->pain ) {
-                                if ( dir ) {  // Ridah, had to add this to fix NULL dir crash
-                                        VectorCopy( dir, targ->rotate );
-                                        VectorCopy( point, targ->pos3 ); // this will pass loc of hit
-                                } else {
-                                        VectorClear( targ->rotate );
-                                        VectorClear( targ->pos3 );
-                                }
-                                Coop_AddStats( targ, attacker, take, mod );
-                                targ->pain( targ, attacker, take, point );
-                        } else {
-                                Coop_AddStats( targ, attacker, take, mod );
-                        }
+			if ( targ->health < -999 ) {
+				targ->health = -999;
+			}
 
-                        G_ArmorDamage( targ );    //----(SA)	moved out to separate routine
+			targ->enemy = attacker;
+			if ( targ->die ) { // Ridah, mg42 doesn't have die func (FIXME)
+				targ->die( targ, inflictor, attacker, take, mod );
+			}
 
-                        // Ridah, this needs to be done last, incase the health is altered in one of the event calls
-                        if ( targ->client ) {
-                                targ->client->ps.stats[STAT_HEALTH] = targ->health;
-		        }
-                        if ( attacker->client ) {
-                                 attacker->client->ps.stats[STAT_HEALTH] = attacker->health;
-                        }
-                }
+			// if we freed ourselves in death function
+			if ( !targ->inuse ) {
+				return;
+			}
+
+			// RF, entity scripting
+			if ( targ->s.number >= MAX_CLIENTS && targ->health <= 0 ) { // might have revived itself in death function
+				G_Script_ScriptEvent( targ, "death", "" );
+			}
+
+		} else if ( targ->pain ) {
+			if ( dir ) {  // Ridah, had to add this to fix NULL dir crash
+				VectorCopy( dir, targ->rotate );
+				VectorCopy( point, targ->pos3 ); // this will pass loc of hit
+			} else {
+				VectorClear( targ->rotate );
+				VectorClear( targ->pos3 );
+			}
+			Coop_AddStats( targ, attacker, take, mod );
+			targ->pain( targ, attacker, take, point );
+		} else {
+			Coop_AddStats( targ, attacker, take, mod );
+		}
+
+		G_ArmorDamage( targ );    //----(SA)	moved out to separate routine
+
+		// Ridah, this needs to be done last, incase the health is altered in one of the event calls
+		if ( targ->client ) {
+			targ->client->ps.stats[STAT_HEALTH] = targ->health;
+		}
+		if ( attacker->client ) {
+			attacker->client->ps.stats[STAT_HEALTH] = attacker->health;
+		}
 	}
 
 }

@@ -347,10 +347,74 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
         // Telefrags only add 100 points.. not 100k!!
         if ( mod == MOD_TELEFRAG ) {
                 dmg = 100;
-        } else { dmg = dmg_ref;}
+        } else { 
+		dmg = dmg_ref;
+	}
 
-        // General player stats
-        //if ( mod != MOD_SYRINGE ) {
+	if ( attacker->client->sess.sessionTeam == TEAM_RED ) {
+		if ( targ->client->sess.sessionTeam == TEAM_BLUE ) {
+			attacker->client->sess.damage_given += dmg;
+#ifndef MONEY
+			if (g_gametype.integer != GT_COOP_BATTLE)
+				attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#else
+			attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#endif
+			targ->client->sess.damage_received += dmg;
+		} else if ( targ->client->sess.sessionTeam == TEAM_RED ) { // teamdmg
+			attacker->client->sess.damage_given -= dmg;
+#ifndef MONEY
+			if (g_gametype.integer != GT_COOP_BATTLE)
+				attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#else
+			attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#endif
+		} else { // bot
+                        attacker->client->sess.damage_given -= dmg;
+#ifndef MONEY
+                        if (g_gametype.integer != GT_COOP_BATTLE)
+                                attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#else
+                        attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#endif
+		}
+
+	} else if ( attacker->client->sess.sessionTeam == TEAM_BLUE ) {
+		if ( targ->client->sess.sessionTeam == TEAM_RED ) {
+                        attacker->client->sess.damage_given += dmg;
+#ifndef MONEY
+                        if (g_gametype.integer != GT_COOP_BATTLE)
+                                attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#else
+                        attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#endif
+                        targ->client->sess.damage_received += dmg;
+		} else if ( targ->client->sess.sessionTeam == TEAM_BLUE ) { // teamdmg
+                        attacker->client->sess.damage_given -= dmg;
+#ifndef MONEY
+                        if (g_gametype.integer != GT_COOP_BATTLE)
+                                attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#else
+                        attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+#endif
+		} else { // bot
+                        attacker->client->sess.damage_given += dmg;
+#ifndef MONEY
+                        if (g_gametype.integer != GT_COOP_BATTLE)
+                                attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#else
+                        attacker->client->ps.persistant[PERS_SCORE] += dmg;
+#endif
+                        targ->client->sess.damage_received += dmg;
+		}
+
+	} else { // bots don't need stats ?
+
+	}
+
+
+
+#if 0
                 if  ( !(targ->r.svFlags & SVF_CASTAI) ) {
                         /*if ( g_friendlyFire.integer == 3 ) {
                                 attacker->client->sess.damage_given -= (dmg*2);
@@ -376,13 +440,14 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
 #endif
                         targ->client->sess.damage_received += dmg;
                 }
+#endif
 
-                if ( targ->health <= 0 ) {
-                        attacker->client->sess.kills++;
-                        targ->client->sess.deaths++;
-                }
+	if ( targ->health <= 0 ) {
+		attacker->client->sess.kills++;
+		targ->client->sess.deaths++;
+	}
+
         CalculateRanks();
-        //}
 
 }
 

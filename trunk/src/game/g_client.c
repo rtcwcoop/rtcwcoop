@@ -1790,6 +1790,7 @@ void ClientSpawn( gentity_t *ent ) {
 	index = ent - g_entities;
 	client = ent->client;
 
+
 	// find a spawn point
 	// do it before setting health back up, so farthest
 	// ranging doesn't count this client
@@ -1801,11 +1802,16 @@ void ClientSpawn( gentity_t *ent ) {
 		spawn_origin[2] += 9;   // spawns seem to be sunk into ground?
 		VectorCopy( ent->s.angles, spawn_angles );
 	} else {
+		// fretn - force team
+		if ( client->sess.sessionTeam == TEAM_FREE ) {
+			client->sess.sessionTeam = TEAM_BLUE;
+		}
+
 		if ( !ent->client->pers.initialSpawn ) {
 			ent->aiName = "player";  // needed for script AI
                         if ( client->sess.sessionTeam == TEAM_RED ) {
                                 ent->aiTeam = 0;        // member of axis
-                        } else if ( client->sess.sessionTeam == TEAM_BLUE || client->sess.sessionTeam == TEAM_FREE ) {
+                        } else if ( client->sess.sessionTeam == TEAM_BLUE ) {
                                 ent->aiTeam = 1;        // member of allies
                         }
                         ent->client->ps.teamNum = ent->aiTeam;
