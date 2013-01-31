@@ -72,7 +72,12 @@ player
 	{
 		trigger spawner spawn1
 		trigger spawner spawn2
+
 		trigger t2body begin2
+		trigger t2cargo begin2	//Fix misalignement
+
+		wait 5
+
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_2 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_3 #endif
@@ -681,7 +686,7 @@ nazi4
 	{
 		resetscript
 		trigger nazi5 moveaway5
-		trigger post1 up1
+
 		wait 10000
 		trigger post1 down1
 		wait 500

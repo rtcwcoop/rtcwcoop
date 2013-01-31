@@ -312,28 +312,28 @@ t2body
 {
 	spawn
 	{
-		accum 0 set 0 // 1 = nazi4 is dead or running to alarm
+//NO!!		//accum 0 set 0 // 1 = nazi4 is dead or running to alarm
 	
 		wait 5000
-		gotomarker t2spot1 100
+		gotomarker t2spot1 1000
 		faceangles 0 180 0 gototime
 	}
 
 	trigger nazi4nogate
 	{
 	
-		accum 0 set 1
+		//accum 0 set 1		//COOP
 	}
 
 	trigger begin2
 	{
-		wait 1000
+		//wait 50		//Was 3000
+
 		playsound sound/world/shift_01.wav looping
 		trigger t2bwheels begin2
 		trigger t2lwheel begin2
 		trigger t2rwheel begin2
 		trigger t2tail begin2
-		trigger t2cargo begin2
 		gotomarker t2spot2 160
 		faceangles 0 180 0 gototime
 		trigger t2rwheel right12
@@ -387,7 +387,8 @@ t2body
 
 	trigger atbridge
 	{
-		accum 0 abort_if_not_equal 0
+		//accum 0 abort_if_not_equal 0	//COOP
+		trigger post1 up1			//COOP
 		trigger nazi4 salute4
 		wait 3000
 		playsound sound/world/shift_01.wav looping
@@ -625,7 +626,7 @@ t2cargo
 	spawn
 	{
 		wait 5000
-		gotomarker t2spot1 100
+		gotomarker t2spot1 1000
 		faceangles 0 180 0 gototime
 	}
 
