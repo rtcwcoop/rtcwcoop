@@ -99,12 +99,11 @@ player
 
 	trigger action2
 	{
+		trigger counter1 room2	//Bug.
 	}
 
 	trigger action3
 	{
-		trigger zombie4 getup
-		mu_play sound\music\s_bighits
 	}
 
 	trigger action4

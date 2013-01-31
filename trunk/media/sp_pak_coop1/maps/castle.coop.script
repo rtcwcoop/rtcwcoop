@@ -52,8 +52,19 @@ counter1
 		alertentity warrior3
 		alertentity zombie4
 		wait 2000
+		mu_stop
+		mu_start sound/music/c_chant
 		alertentity chop1
 		alertentity bust1
+	}
+
+	trigger room2
+	{
+		trigger zombie4 getup
+		mu_play sound\music\s_bighits
+		wait 6000
+		mu_stop
+		mu_start sound/music/c_chant
 	}
 }
 
