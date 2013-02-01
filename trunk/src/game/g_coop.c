@@ -207,12 +207,21 @@ AI's spawn, if you spawn at an ai spawn that specific AI will be killed (offered
 ================
 */
 #define MAX_SPAWN_POINTS    128
+struct gspawnpoint_s {
+        int             clientNum;
+        gentity_t       *spot;
+};
+
+typedef struct gspawnpoint_s gspawnpoint_t;
+
 gentity_t *SelectRandomAntiCoopSpawnPoint( vec3_t origin, vec3_t angles ) { 
         int i = 0;
         int count = 0;
         int selection;
         gentity_t       *spot = NULL;
-        gentity_t       *spots[MAX_SPAWN_POINTS];
+        //gentity_t       *spots[MAX_SPAWN_POINTS];
+        gspawnpoint_t   *spots[MAX_SPAWN_POINTS];
+        gspawnpoint_t   spawnpoint;
 
         for (i=MAX_COOP_CLIENTS; i<level.maxclients; i++) {
                 spot = g_entities + i; 
@@ -226,21 +235,47 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
                 if (spot->health <= 0)
                         continue;
 
-                spots[ count ] = spot;
+                spawnpoint.spot = spot;
+                spawnpoint.clientNum = i;
+
+                spots[ count ] = &spawnpoint;
+
                 count++;
 
         }
 
-        // what to do if no AI's are alive, where to spawn ?
-        if (!count)
-                return NULL;
+        // no alive and active bots found, just now look for a bot that is alive
+        if (!count) {
+                for (i=MAX_COOP_CLIENTS; i<level.maxclients; i++) {
+                        spot = g_entities + i; 
+
+                        if (!spot->client)
+                                continue;
+
+                        if (spot->health <= 0)
+                                continue;
+
+                        spawnpoint.spot = spot;
+                        spawnpoint.clientNum = i;
+
+                        spots[ count ] = &spawnpoint;
+                        count++;
+                }
+
+                // what to do if no AI's are alive, where to spawn ? (after a map_restart his can be the cause, because ai's spawn later than humans)
+                if (!count)
+                        return NULL;
+        }
 
         selection = rand() % count;
-        spot = spots[ selection ];
+        spot = spots[ selection ]->spot;
 
         VectorCopy( spot->s.origin, origin );
         origin[2] += 9;
         VectorCopy( spot->s.angles, angles );
+
+        // kill the bot
+        AICast_Die( spot, spot, spot, 100000, MOD_TELEFRAG );
 
         return spot;
 
