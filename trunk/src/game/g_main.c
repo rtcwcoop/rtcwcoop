@@ -105,7 +105,6 @@ vmCvar_t g_allowVote;
 
 vmCvar_t g_needpass;
 vmCvar_t g_weaponTeamRespawn;
-vmCvar_t g_doWarmup;
 vmCvar_t g_teamAutoJoin;
 vmCvar_t g_teamForceBalance;
 vmCvar_t g_listEntity;
@@ -224,7 +223,6 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_friendlyFire, "g_friendlyFire", "1", CVAR_ARCHIVE, 0, qtrue  },
 
 	{ &g_warmup, "g_warmup", "20", CVAR_ARCHIVE, 0, qtrue  },
-	{ &g_doWarmup, "g_doWarmup", "0", 0, 0, qtrue  },
 	{ &g_log, "g_log", "games.log", CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_logSync, "g_logSync", "0", CVAR_ARCHIVE, 0, qfalse  },
 
@@ -1397,16 +1395,13 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 		trap_Cvar_Set("g_skipcutscenes", "1");
 #endif
 		trap_Cvar_Set("g_freeze", "0");
-		trap_Cvar_Set("g_doWarmup", "1");
-		trap_Cvar_Set("g_warmup", "20");
+		//trap_Cvar_Set("g_warmup", "20");
 		//trap_Cvar_Set("g_reinforce", "0");
 		trap_Cvar_Set("sv_maxcoopclients", "2");
 		trap_Cvar_Set("g_teleporttime", "30000");
 	} else {
-		//trap_Cvar_Set("g_doWarmup", "0");
 		//trap_Cvar_Set("g_warmup", "0");
-		trap_Cvar_Set("g_doWarmup", "1");
-		trap_Cvar_Set("g_warmup", "20");
+		//trap_Cvar_Set("g_warmup", "20");
 	}
 
 	if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
