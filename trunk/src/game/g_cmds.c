@@ -860,6 +860,7 @@ void Cmd_Notarget_f( gentity_t *ent ) {
 
 void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
         gentity_t *groundEnt = &g_entities[ent->client->ps.groundEntityNum];
+
         
         if ( g_gametype.integer == GT_SINGLE_PLAYER )
                 return;
@@ -869,6 +870,9 @@ void Cmd_SetCoopSpawn_f( gentity_t *ent ) {
 
         if ( ent->health <= 0 )
                 return;
+
+	if ( ent->client->sess.sessionTeam == TEAM_RED )
+		return;
 
         // don't save spawns when not on the ground
         if ( ent->s.groundEntityNum == ENTITYNUM_NONE)
