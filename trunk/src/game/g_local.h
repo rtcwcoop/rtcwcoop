@@ -1566,6 +1566,18 @@ void Cmd_Push_f(gentity_t* ent);		// Shove
 void Cmd_ThrowKnives( gentity_t *ent );	// Knife throw
 // End
 
+typedef enum
+{
+        AITEAM_NAZI,
+        AITEAM_ALLIES,
+        AITEAM_MONSTER,
+        AITEAM_SPARE1,
+        AITEAM_SPARE2,
+        AITEAM_SPARE3,
+        AITEAM_SPARE4,
+        AITEAM_NEUTRAL
+} AITeam_t;
+
 #include "g_coop.h"
 
 // L0 - Admin's stuff

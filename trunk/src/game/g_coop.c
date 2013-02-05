@@ -31,6 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "g_coop.h"
 
 #define SPAWNPOINT_ENABLED 1
+extern void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath );
 
 // fretn - set weapons when player spawns in coop
 // in the map dam, the player gets all the weapons, bug !

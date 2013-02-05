@@ -1308,14 +1308,10 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 
 	// do the damage
 	if ( take ) {
-        // can't include ai_cast.h ..
-#define AITEAM_NAZI     0
-#define AITEAM_ALLIES   1
-#define AITEAM_MONSTER  2
-#define AITEAM_NEUTRAL  7   // yes, '7'
-
+		if ( !targ->client) {
+			targ->health = targ->health - take;
 		// from human to bot
-		if ( !( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
+		} else if ( !( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
 			if ( attacker->client && targ->client ) {
 				// (from axis team to a nazi or monster (=teamdamage)
 				// or 
