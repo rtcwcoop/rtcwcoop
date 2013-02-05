@@ -549,29 +549,40 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
         self->count = other->client->sess.sessionTeam;
 
         if ( self->s.frame == WCP_ANIM_NOFLAG ) {
-                self->s.frame = WCP_ANIM_RAISE_AMERICAN;
-                // Play a sound
-                G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
-                while ( ( ent = G_Find( ent, FOFS( classname ), "target_location" ) ) != NULL ) { 
+		if ( other->client->sess.sessionTeam == TEAM_BLUE ) {
+			self->s.frame = WCP_ANIM_RAISE_AMERICAN;
+			// Play a sound
+			G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+			while ( ( ent = G_Find( ent, FOFS( classname ), "target_location" ) ) != NULL ) { 
 
-                        if ( !ent ) { 
-                                break;
-                        }    
+				if ( !ent ) { 
+					break;
+				}    
 
-                        if (!strcmp(ent->targetname, self->target)) {
-                                trap_SendServerCommand( -1, va("cp \"%s ^7has secured \nthe %s spawnzone.\n\"", other->client->pers.netname, ent->message) );    
-                                named = qtrue;
-                                break;
-                        }
-                } 
-            
-                if (!named) 
-                        trap_SendServerCommand( -1, va("cp \"%s ^7has secured \na new spawnzone.\n\"", other->client->pers.netname) );    
+				if (!strcmp(ent->targetname, self->target)) {
+					trap_SendServerCommand( -1, va("cp \"%s ^7has secured \nthe %s spawnzone.\n\"", other->client->pers.netname, ent->message) );    
+					named = qtrue;
+					break;
+				}
+			} 
+		    
+			if (!named) 
+				trap_SendServerCommand( -1, va("cp \"%s ^7has secured \na new spawnzone.\n\"", other->client->pers.netname) );    
+		} else {
+			// if an axis touches a pole without flag, just do nothing
+			return;
+		}
 
         } else if ( self->s.frame == WCP_ANIM_NAZI_RAISED ) {
-                self->s.frame = WCP_ANIM_NAZI_TO_AMERICAN;
-                // Play a sound
-                G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+		if ( other->client->sess.sessionTeam == TEAM_BLUE ) {
+			self->s.frame = WCP_ANIM_NAZI_TO_AMERICAN;
+			G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+		}
+        } else if ( self->s.frame == WCP_ANIM_AMERICAN_RAISED ) {
+		if ( other->client->sess.sessionTeam == TEAM_RED ) {
+			self->s.frame = WCP_ANIM_AMERICAN_TO_NAZI;
+			G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+		}
         } else {
                 self->s.frame = WCP_ANIM_AMERICAN_RAISED;
         }    
@@ -587,43 +598,61 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 
         // activate all targets
         if ( self->target ) {
-                // if you touch a pole, all spawnpoints connected to it are enabled, others are disabled
+                // if you touch a pole as an american, all spawnpoints connected to it are enabled, others are disabled
                 // so we first have to disable all of them, and then enable the ones we are targetting
                 // we also have to get the other flags down
 
-                // disable all the spawnpoints
-                while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
-                        if ( !ent ) {
-                                break;
-                        }    
-                        
-                        ent->spawnflags &= ~SPAWNPOINT_ENABLED;
-                } 
+		// disable all the spawnpoints
+		while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
+			if ( !ent ) {
+				break;
+			}    
+			
+			ent->spawnflags &= ~SPAWNPOINT_ENABLED;
+		} 
 
-                // now disable all the other flags
-                while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint_trigger" ) ) != NULL ) {
-                        if ( !ent ) {
-                                break;
-                        }    
+		// now disable all the other flags
+		while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint_trigger" ) ) != NULL ) {
+			if ( !ent ) {
+				break;
+			}    
 
-                        if ( ent == self)
-                                continue;
+			if ( ent == self)
+				continue;
 
-                        ent->s.frame = WCP_ANIM_NOFLAG;
-                }
+			ent->s.frame = WCP_ANIM_NOFLAG;
+		}
 
-                // now enable the spawnpoints where targetname == coop_spawnpoint_trigger->target
-                while ( 1 ) {
-                        ent = G_Find( ent, FOFS( targetname ), self->target );
-                        if ( !ent ) {
-                                break;
-                        }    
+		if ( other->client->sess.sessionTeam == TEAM_BLUE ) {
+			// now enable the spawnpoints where targetname == coop_spawnpoint_trigger->target
+			while ( 1 ) {
+				ent = G_Find( ent, FOFS( targetname ), self->target );
+				if ( !ent ) {
+					break;
+				}    
 
-                        if ( !strcmp( ent->classname,"coop_spawnpoint" ) ) {
-                                ent->spawnflags |= SPAWNPOINT_ENABLED;
-                        }    
+				if ( !strcmp( ent->classname,"coop_spawnpoint" ) ) {
+					ent->spawnflags |= SPAWNPOINT_ENABLED;
+				}    
 
-                }    
+			}    
+
+		// if you touch a pole as a axis, disable all spawnpoints
+		// and enable the initial spawnpoints (the ones without a targetname)
+		} else if ( other->client->sess.sessionTeam == TEAM_RED ) {
+			// now enable the spawnpoints where targetname == NULL
+			while ( 1 ) {
+				ent = G_Find( ent, FOFS( targetname ), self->target );
+				if ( !ent ) {
+					break;
+				}    
+
+				if ( ent->targetname == NULL ) {
+					ent->spawnflags |= SPAWNPOINT_ENABLED;
+				}    
+
+			}    
+		}
         }    
 
 
