@@ -409,7 +409,7 @@
 
 {
 "classname" "coop_spawnpoint_trigger"
-"origin" "1002 -88 476"
+"origin" "998 -80 476"
 "angle" "-1"
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "norway0"
@@ -472,8 +472,8 @@
 }
 {
 "classname" "coop_spawnpoint_trigger"
-"origin" "3264 -3488 1028"
-"angle" "177"
+"origin" "3134 -3582 1028"
+"angle" "0"
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "norway1"
 }
