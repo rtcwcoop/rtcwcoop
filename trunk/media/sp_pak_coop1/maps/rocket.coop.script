@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 6.2.2013
 //
 // Brush Scripting
 // Map: Rocket (Inner Compound)
@@ -495,6 +496,13 @@ counter3
 		accum 0 abort_if_bitset 1
 		resetscript
 		trigger nazi2a elevator1_down
+	}
+
+	//COOP
+	trigger elevator2_down
+	{
+		wait 5000
+		trigger e2lever1 down2
 	}
 }
 
@@ -2622,8 +2630,8 @@ elevator1	// The first elevator you run into in the map.
 		playsound sound\movers\elevators\elev1_start.wav
 		trigger e1lever1 up	// This triggers the lever to move up with the elevator.
 		trigger counter1 elevator1_soundloop
-		gotomarker e1up1 50 wait
-		gotomarker e1up4 50 deccel wait
+		gotomarker e1up1 75 wait
+		gotomarker e1up4 75 deccel wait
 		trigger counter3 0bitset1	// Used so that Nazi2a knows where the elevator is.
 		stopsound
 		playsound sound\movers\elevators\elev1_end.wav
@@ -2636,8 +2644,8 @@ elevator1	// The first elevator you run into in the map.
 		playsound sound\movers\elevators\elev1_start.wav
 		trigger e1lever1 down	// This trigger the lever to mvoe down with the elevator.
 		trigger counter1 elevator1_soundloop
-		gotomarker e1down1 50 wait
-		gotomarker e1down4 50 deccel wait
+		gotomarker e1down1 75 wait
+		gotomarker e1down4 75 deccel wait
 		trigger counter3 0bitreset1	// Used so that nazi2a knows where the elevator is.
 		stopsound
 		playsound sound\movers\elevators\elev1_end.wav
@@ -2675,6 +2683,8 @@ e1upbtn
 		accum 0 bitset 1
 		accum 0 bitreset 0
 		resetscript
+		trigger e1lever1 reset //COOP
+		wait 10
 		trigger e1lever1 up2	// This triggers the lever to go down.
 	}
 
@@ -2725,6 +2735,8 @@ e1dwnbtn
 		accum 0 bitset 1
 		accum 0 bitreset 0
 		resetscript
+		trigger e1lever1 reset //COOP
+		wait 10
 		trigger e1lever1 down2	// This triggers the lever to go down.
 	}
 
@@ -2782,7 +2794,7 @@ e1lever1	// This is the elevator's lever.
 		accum 0 abort_if_bitset 0
 		resetscript
 		accum 0 bitset 0
-		trigger e1lever1 check
+//		trigger e1lever1 check	
 		wait 5	
 		trigger e1lever1 upstop // Checks to see what direction the elevator is heading.
 		wait 5
@@ -2800,6 +2812,15 @@ e1lever1	// This is the elevator's lever.
 		wait 5
 		halt
 		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger player enable_e1uplever
+		trigger player enable_e1downlever
+		trigger e1upbtn on
+		trigger e1dwnbtn on
+//COOP
 	}
 
 	trigger downstop
@@ -2812,8 +2833,28 @@ e1lever1	// This is the elevator's lever.
 		playsound sound\scenaric\rocket\elev_lever.wav
 		wait 5
 		halt
-		faceangles 0 0 0 400		
+		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger player enable_e1uplever
+		trigger player enable_e1downlever
+		trigger e1upbtn on
+		trigger e1dwnbtn on
+//COOP
 	}
+
+//COOP This is a cheap workaround, shame on me - Sage//
+//Forget up/down status when exec not in elevator (for 10 ms)
+
+	trigger reset
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+	}
+
+//COOP------------------------------------------------//
 
 	trigger up2
 	{
@@ -2824,6 +2865,7 @@ e1lever1	// This is the elevator's lever.
 		accum 0 bitset 2
 		wait 20
 		trigger e1upbtn off	// Turns off the UPBTN light
+		trigger e1dwnbtn off	//COOP
 		faceangles -20 0 0 750
 		trigger elevator1 up
 	}
@@ -2837,6 +2879,7 @@ e1lever1	// This is the elevator's lever.
 		accum 0 bitset 2
 		wait 20
 		trigger e1dwnbtn off	// Turns off the DWNBTN light.
+		trigger e1upbtn off	//COOP
 		playsound sound\scenaric\rocket\elev_lever.wav
 		faceangles 20 0 0 750
 		trigger elevator1 down	
@@ -2847,10 +2890,11 @@ e1lever1	// This is the elevator's lever.
 		accum 1 set 1
 		accum 0 bitreset 2
 		//alertentity e1updisable
+		trigger player disable_e1uplever		//COOP
 		trigger player disable_e1downlever
-		gotomarker e1lvr1up1 50 wait
+		gotomarker e1lvr1up1 75 wait
 		accum 0 bitset 0
-		gotomarker e1lvr1up4 50 deccel wait
+		gotomarker e1lvr1up4 75 deccel wait
 		wait 200
 		playsound sound\scenaric\rocket\elev_lever.wav
 		faceangles 0 0 0 400
@@ -2865,10 +2909,11 @@ e1lever1	// This is the elevator's lever.
 		accum 1 set 2
 		accum 0 bitreset 1
 		//alertentity e1downdisable
+		trigger player disable_e1downlever	//COOP
 		trigger player disable_e1uplever
-		gotomarker e1lvr1down1 50 wait
+		gotomarker e1lvr1down1 75 wait
 		accum 0 bitset 0
-		gotomarker e1lvr1down4 50 deccel wait
+		gotomarker e1lvr1down4 75 deccel wait
 		wait 200
 		playsound sound\scenaric\rocket\elev_lever.wav
 		faceangles 0 0 0 400
@@ -2915,8 +2960,8 @@ elevator2	// The 2nd elevator you run into in the map.
 		playsound sound\movers\elevators\elev1_start.wav
 		trigger e2lever1 up	// This triggers the lever to move up with the elevator.
 		trigger counter1 elevator2_soundloop
-		gotomarker e2up1 50 wait
-		gotomarker e2up4 50 deccel wait
+		gotomarker e2up1 75 wait
+		gotomarker e2up4 75 deccel wait
 		stopsound
 		playsound sound\movers\elevators\elev1_end.wav
 	}
@@ -2928,8 +2973,8 @@ elevator2	// The 2nd elevator you run into in the map.
 		playsound sound\movers\elevators\elev1_start.wav
 		trigger e2lever1 down	// This trigger the lever to mvoe down with the elevator.
 		trigger counter1 elevator2_soundloop
-		gotomarker e2down1 50 wait
-		gotomarker e2down4 50 deccel wait
+		gotomarker e2down1 75 wait
+		gotomarker e2down4 75 deccel wait
 		stopsound
 		playsound sound\movers\elevators\elev1_end.wav
 		accum 0 abort_if_bitset 0
@@ -2987,6 +3032,9 @@ e2upbtn
 		accum 0 bitset 1
 		accum 0 bitreset 0
 		resetscript
+
+		trigger e2lever1 reset //COOP
+		wait 5
 		trigger e2lever1 up2	// This triggers the lever to go down.
 	}
 
@@ -3048,6 +3096,9 @@ e2dwnbtn
 		accum 0 bitset 1
 		accum 0 bitreset 0
 		resetscript
+
+		trigger e2lever1 reset //COOP
+		wait 5
 		trigger e2lever1 down2	// This triggers the lever to go down.
 	}
 
@@ -3080,8 +3131,8 @@ e2lever1	// This is the elevator's lever.
 	spawn
 	{
 		accum 0 bitset 0 	// Accum value so that it knows to Stop.
-		accum 0 bitset 1	// Accum value so that it knows to go Down.
-		accum 0 bitreset 2	// Accum value so that it knows to go Up.
+		accum 0 bitset 1		// Accum value so that it knows to go UP.
+		accum 0 bitreset 2	// Accum value so that it knows to go DOWN.
 		accum 0 bitreset 3	// Used so if the elevator is "destroyed" the player will not be able to hit the button.
 		accum 1 set 0		// Checks to see what direction the elevator is going. (1 up, 2 down, 3 stop)
 	}
@@ -3113,7 +3164,7 @@ e2lever1	// This is the elevator's lever.
 		accum 0 abort_if_bitset 0
 		resetscript
 		accum 0 bitset 0
-		trigger e2lever1 check
+//		trigger e2lever1 check //Not used - Sage
 		wait 5	
 		trigger e2lever1 upstop // Checks to see what direction the elevator is heading.
 		wait 5
@@ -3130,6 +3181,15 @@ e2lever1	// This is the elevator's lever.
 		wait 5
 		halt
 		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger truckdoor enable_e2uplever	//coop
+		trigger truckdoor enable_e2downlever
+		trigger e2upbtn on
+		trigger e2dwnbtn on
+//COOP
 	}
 
 	trigger downstop
@@ -3141,8 +3201,28 @@ e2lever1	// This is the elevator's lever.
 		playsound sound\scenaric\rocket\elev_lever.wav
 		wait 5
 		halt
-		faceangles 0 0 0 400		
+		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger truckdoor enable_e2uplever	//coop
+		trigger truckdoor enable_e2downlever
+		trigger e2upbtn on
+		trigger e2dwnbtn on
+//COOP
 	}
+
+//COOP This is a cheap workaround, shame on me - Sage//
+//Forget up/down status when exec not in elevator (for 10 ms)
+
+	trigger reset
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+	}
+
+//COOP------------------------------------------------//
 
 	trigger up2
 	{
@@ -3153,6 +3233,7 @@ e2lever1	// This is the elevator's lever.
 		accum 0 bitset 2
 		wait 20
 		trigger e2upbtn off	// Turns off the UPBTN light
+		trigger e2dwnbtn off	//COOP
 		playsound sound\scenaric\rocket\elev_lever.wav
 		faceangles -20 0 0 750
 		trigger elevator2 up
@@ -3167,6 +3248,7 @@ e2lever1	// This is the elevator's lever.
 		accum 0 bitset 2
 		wait 20
 		trigger e2dwnbtn off	// Turns off the DWNBTN light.
+		trigger e2upbtn off	//COOP
 		playsound sound\scenaric\rocket\elev_lever.wav
 		faceangles 20 0 0 750
 		trigger elevator2 down	
@@ -3178,10 +3260,11 @@ e2lever1	// This is the elevator's lever.
 		accum 1 set 1
 		accum 0 bitreset 2
 		//alertentity e2updisable
+		trigger truckdoor disable_e2uplever	//coop
 		trigger truckdoor disable_e2downlever
-		gotomarker e2lvr1up1 50 wait
+		gotomarker e2lvr1up1 75 wait
 		accum 0 bitset 0
-		gotomarker e2lvr1up4 50 deccel wait
+		gotomarker e2lvr1up4 75 deccel wait
 		wait 20
 		wait 200
 		playsound sound\scenaric\rocket\elev_lever.wav
@@ -3198,10 +3281,11 @@ e2lever1	// This is the elevator's lever.
 		accum 1 set 2
 		accum 0 bitreset 1
 		//alertentity e2downdisable
+		trigger truckdoor disable_e2downlever	 //coop
 		trigger truckdoor disable_e2uplever
-		gotomarker e2lvr1down1 50 wait
+		gotomarker e2lvr1down1 75 wait
 		accum 0 bitset 0
-		gotomarker e2lvr1down4 50 deccel wait
+		gotomarker e2lvr1down4 75 deccel wait
 		wait 200
 		playsound sound\scenaric\rocket\elev_lever.wav
 		faceangles 0 0 0 400

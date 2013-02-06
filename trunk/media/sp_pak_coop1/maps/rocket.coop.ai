@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 6.2.2013
 //
 // AI Scripting
 // Map: Rocket (Inner Compound)
@@ -297,6 +298,11 @@ player
 		alertentity mech3
 		trigger counter2 v2_countdown
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
+
+		//COOP, incase nazi12 freezed, moved this here:
+		//Also made it go through counter3
+
+		trigger counter3 elevator2_down
 	}
 
 	trigger failed
@@ -315,9 +321,9 @@ player
 
 	trigger action9
 	{
-		alertentity nazi12
-		alertentity nazi13
-		alertentity mech3
+//		alertentity nazi12
+//		alertentity nazi13
+//		alertentity mech3
 	}
 
 	trigger action9a
@@ -1023,6 +1029,7 @@ mech1
 	{
 		accum 0 abort_if_bitset 2
 		accum 0 bitset 2
+		noavoid
 		clearanim
 		resetscript
 		attrib alertness 2048
@@ -1039,6 +1046,7 @@ mech1
 		alertentity ai_hit_alarm
 		playanim switch_alarm both
 		wait 1000 0 player
+		avoid
 		resetscript
 	}
 
@@ -1059,6 +1067,7 @@ mech1
 	{
 		statetype alert
 		attrib alertness 2048
+		accum 0 bitset 2
 		accum 0 bitset 3
 		wait 5 player
 		resetscript
@@ -1254,7 +1263,6 @@ nazi2
 		statetype alert
 		resetscript
 		runtomarker n2spot7
-		wait forever 0
 	}
 
 	statechange alert combat
@@ -1597,13 +1605,20 @@ nazi3
 		resetscript
 		runtomarker alarm1_spot1
 		facetargetangles alarm1_spot1
-		trigger nazi3 stop
+		trigger mech1 stop
 		trigger driver1 stop
 		wait 500 0
 		alertentity ai_hit_alarm
 		playanim switch_alarm both
 		wait 500 0
 		resetscript
+	}
+
+	trigger stop
+	{
+		resetscript
+		wait 5 player
+		accum 0 bitset 2
 	}
 
 	trigger back_to_marchloop1
@@ -3086,9 +3101,7 @@ nazi12
 	{
 		accum 0 bitreset 0	// Used so that none of the inspects will trigger until at the bottom.
 		setammo grenades 0
-		wait 5000 0
-		trigger e2lever1 toggle_by_ai
-		wait 2000 0
+		wait 7000 0
 		attrib hearing_scale 1.0
 		wait forever 0
 	}
