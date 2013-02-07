@@ -229,39 +229,40 @@ panzerturret
 		faceangles 0 180 0 gototime
 	}
 
+//COOP-Lowered the speed in zone3 by 10 - Sage
 	trigger complete2
 	{
 		gotomarker tankspot18 70
 		faceangles 4 180 0 gototime
-		gotomarker tankspot19 90
+		gotomarker tankspot19 80
 		faceangles 4 180 0 gototime
-		gotomarker tankspot20 70
+		gotomarker tankspot20 60
 		faceangles 0 180 0 gototime
-		gotomarker tankspot21 50
+		gotomarker tankspot21 40
 		faceangles 0 180 0 gototime
-		gotomarker tankspot22 50
+		gotomarker tankspot22 40
 		faceangles 0 180 0 gototime
-		gotomarker tankspot23 70
+		gotomarker tankspot23 60
 		faceangles 0 180 0 gototime
-		gotomarker tankspot24 90
+		gotomarker tankspot24 80
 		faceangles 0 180 0 gototime
-		gotomarker tankspot25 70
+		gotomarker tankspot25 60
 		faceangles 0 180 0 gototime
 		wait 100
 		faceangles 0 135 0 1500
 		wait 100
-		gotomarker tankspot26 50
+		gotomarker tankspot26 40
 		faceangles 0 135 0 gototime
 		wait 100
 		faceangles 0 90 0 1500
 		wait 100
-		gotomarker tankspot27 70
+		gotomarker tankspot27 60
 		faceangles 0 90 0 gototime
 	}
 
 	trigger area3
 	{
-		gotomarker tankspot28 60
+		gotomarker tankspot28 50
 		faceangles 0 90 0 gototime
 		gotomarker tankspot29 60
 		faceangles 0 90 0 gototime
@@ -416,6 +417,7 @@ panzer
 		faceangles 0 180 0 gototime
 	}
 
+//COOP-Lowered the speed in zone3 by 10 - Sage
 	trigger complete2
 	{
 		trigger panzertrackl forward
@@ -423,21 +425,21 @@ panzer
 		trigger panzerturret complete2
 		gotomarker tankspot18 70
 		faceangles 4 180 0 gototime
-		gotomarker tankspot19 90
+		gotomarker tankspot19 80
 		faceangles 4 180 0 gototime
 		trigger baracade1 break1
-		gotomarker tankspot20 70
+		gotomarker tankspot20 60
 		faceangles 0 180 0 gototime
 		alertentity nazi23
-		gotomarker tankspot21 50
+		gotomarker tankspot21 40
 		faceangles 0 180 0 gototime
-		gotomarker tankspot22 50
+		gotomarker tankspot22 40
 		faceangles 0 180 0 gototime
-		gotomarker tankspot23 70
+		gotomarker tankspot23 60
 		faceangles 0 180 0 gototime
-		gotomarker tankspot24 90
+		gotomarker tankspot24 80
 		faceangles 0 180 0 gototime
-		gotomarker tankspot25 70
+		gotomarker tankspot25 60
 		faceangles 0 180 0 gototime
 		trigger panzertrackl forward
 		trigger panzertrackr reverse
@@ -446,7 +448,7 @@ panzer
 		trigger panzertrackl forward
 		trigger panzertrackr forward
 		wait 100
-		gotomarker tankspot26 50
+		gotomarker tankspot26 40
 		faceangles 0 135 0 gototime
 		trigger panzertrackl forward
 		trigger panzertrackr reverse
@@ -455,7 +457,7 @@ panzer
 		trigger panzertrackl forward
 		trigger panzertrackr forward
 		wait 100
-		gotomarker tankspot27 70
+		gotomarker tankspot27 60
 		faceangles 0 90 0 gototime
 		trigger panzer area3
 	}
@@ -463,7 +465,7 @@ panzer
 	trigger area3
 	{
 		trigger panzerturret area3
-		gotomarker tankspot28 60
+		gotomarker tankspot28 50
 		faceangles 0 90 0 gototime
 		trigger counter zone3tank
 		gotomarker tankspot29 60
