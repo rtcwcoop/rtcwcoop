@@ -125,13 +125,15 @@ player
 
 	trigger action10
 	{
+		//Moved up here, where it should be.
+		objectivemet 1	// mission objective complete
+		trigger game_manager objective1
+
 		alertentity guard1
 		alertentity guard2
 		alertentity guard3
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_venom_14 #endif
-		objectivemet 1	// mission objective complete
-		trigger game_manager objective1
 	}
 
 	trigger action11
