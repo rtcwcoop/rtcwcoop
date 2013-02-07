@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 7.2.2013
 //
 //AI Scripting
 //Map: SWF (Secret Weapons Facility)
@@ -70,67 +71,21 @@ player
 //		mu_fade 0 1500
 		mu_start sound/music/m_mission
 
-		trigger elevator cinematic1
+		//trigger elevator cinematic1
 		//trigger player cam1
+		
+		//COOP:
+		alertentity nazi13
+		alertentity nazi2
+
+		alertentity kill_cine
 
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_2 #endif
 	}
 
-	// ---Start Camera Section---
-	trigger cam1
-	{
-		startcam cs10_01
-	}
-
-	trigger cam2
-	{
-		startcam cs10_02
-	}
-
-	trigger cam3
-	{
-		startcam cs10_03
-	}
-
-	trigger cam3d
-	{
-		startcam cs10_03d
-	}
-
-	trigger cam4
-	{
-		startcam cs10_04
-	}
-
-	trigger camend1
-	{
-		startcam swfend2
-	}
-
-	trigger camend2
-	{
-		startcam swfend2d
-	}
-
-	// ---End Camera Section---
-
-	trigger camstop
-	{
-		stopcam
-	}
-
-	trigger camerainterrupt
-	{
-		accum 0 abort_if_not_bitset 0
-		stopcam
-		trigger elevator cine_cleanup
-	}
-
-
 	trigger action1
 	{
-		trigger elevator spawnin
 		alertentity nazi3
 		alertentity nazi4
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_3 #endif
@@ -348,42 +303,9 @@ cine_death
 
 	spawn
 	{
-		accum 0 bitset 0
-		headlook off
 		takeweapon all
 		noavoid
 		nosight 99999
-		explicit_routing on
-	}
-
-	trigger anim1
-	{
-		playanim talking both
-	}
-
-	trigger dtalk1
-	{
-		accum 0 abort_if_not_bitset 0
-		playsound SWFdeath_1
-	}
-
-	trigger dtalk2
-	{
-		accum 0 abort_if_not_bitset 0
-		playsound SWFdeath_2
-	}
-
-	trigger go
-	{
-		clearanim
-		resetscript
-		wait 500 0 black3
-		walktomarker cdeath_spot1 cdeath_spot1 noattack
-	}
-
-	death 
-	{
-		accum 0 bitreset 0
 	}
 }
 
@@ -396,28 +318,8 @@ cine_major
 
 	spawn
 	{
-		accum 0 bitset 0
-		headlook off
 		takeweapon all
 		noavoid
-		wait 1000 cine_death
-	}
-
-	trigger mtalk1
-	{
-		accum 0 abort_if_not_bitset 0
-		playsound SWFmajor_1
-	}
-
-	trigger mtalk2
-	{
-		accum 0 abort_if_not_bitset 0
-		playsound SWFmajor_2
-	}
-
-	death 
-	{
-		accum 0 bitreset 0
 	}
 }
 
@@ -432,16 +334,6 @@ cine_nazi1
 	{
 		noavoid on
 		nosight 99999
-		headlook off
-		godmode on
-		knockback off
-
-		wait 100
-		walktomarker cine_n1spot1
-		walktomarker cine_n1spot2
-		wait 500
-		walktomarker cine_n1spot3
-		walktomarker cine_n1spot4
 	}
 }
 
@@ -456,18 +348,8 @@ cine_nazi2
 	{
 		noavoid on
 		nosight 99999
-		headlook off
-		godmode on
-		knockback off
-
-		wait 100
-		walktomarker cine_n2spot1
-		walktomarker cine_n2spot2
-		walktomarker cine_n2spot3
 	}
 }
-
-
 
 nazi1
 {
@@ -506,23 +388,17 @@ nazi1
 		trigger nazi1 idle1
 	}
 
-	trigger elevworks
-	{
-		accum 0 abort_if_not_equal 0
-		playsound SWFNazi1_1
-	}
-
 	pain 38
 	{
 		accum 0 abort_if_not_equal 0
 		accum 0 set 1
 
-		playsound Blank
-		clearanim
-		trigger elevator spawnin
-		resetscript
 		trigger nazi13 alerton
 		trigger nazi2 alerton
+
+		playsound Blank
+		clearanim
+		resetscript
 	}
 
 	bulletimpact
@@ -539,20 +415,13 @@ nazi1
 
 	enemysight
 	{
-		accum 0 abort_if_not_equal 0
-		accum 0 set 1
-
 		playsound Blank
 		clearanim
-		trigger elevator spawnalert
 		resetscript
 	}
 
 	death
 	{
-		accum 0 abort_if_not_equal 0
-		accum 0 set 1
-		trigger elevator spawnin
 		resetscript
 	}
 }
@@ -568,8 +437,10 @@ nazi2
 	spawn
 	{
 		setammo ammo_grenades 1
+	
+		accum 0 set 0
 
-		wait 100
+		wait 1000
 		trigger nazi2 marchloop
 	}
 
@@ -587,6 +458,8 @@ nazi2
 
 	trigger alerton
 	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
 		resetscript
 		runtomarker n2spot2 nostop
 		runtomarker n2spot3
@@ -595,6 +468,7 @@ nazi2
 	enemysight
 	{
 		resetscript
+		accum 0 set 1
 	}
 
 	bulletimpact
@@ -1160,7 +1034,7 @@ nazi13
 		accum 0 set 0 // 1 = sighted player
 		setammo ammo_grenades 1
 
-		wait 1000
+		wait 2000
 		walktomarker n13spot1
 		facetargetangles n13spot1
 		wait 200
@@ -1171,6 +1045,7 @@ nazi13
 
 	trigger alerton
 	{
+		accum 0 abort_if_not_equal 0
 		resetscript
 		statetype alert
 		runtomarker n13spot1 nostop

@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 7.2.2013
 //
 //Brush Scripting
 //Map: SWF (Secret Weapons Facility)
@@ -35,85 +36,7 @@ elevator
 {
 	spawn
 	{
-		accum 0 set 0
 		accum 1 bitreset 0	// Used to compensate for the "func_door" triggering the script twice, once when it begins to open, and once when it fully opens.
-	}
-
-	trigger cinematic1
-	{
-		alertentity cine_nazi1
-		alertentity cine_nazi2
-		wait 4000
-		trigger cine_death dtalk1
-		wait 3800
-		trigger cine_major mtalk1
-		wait 2000
-		trigger player cam3
-		wait 6250
-		trigger player cam2
-		trigger cine_death dtalk2
-		wait 1000
-		trigger cine_death anim1
-		wait 9200
-		trigger player cam4
-		trigger player cam3
-		trigger cine_major mtalk2
-		wait 1250
-		trigger cine_death go
-		wait 750
-		trigger player cam4
-		trigger player cam3d
-		wait 4000
-		trigger player camstop
-		trigger elevator cine_cleanup
-	}
-
-	trigger cine_cleanup
-	{
-		resetscript
-		alertentity kill_cine
-		trigger elevator decent
-	}
-
-	trigger decent
-	{
-		wait 1200
-		gotomarker elev1 2000 wait
-		wait 2000
-		playsound sound/movers/elevators/elev1_start.wav
-		wait 200
-		playsound sound/movers/elevators/elev1_loop.wav	looping	
-		trigger counterweight countermove
-		gotomarker elev2 60 wait
-		gotomarker elev3 50 wait
-		gotomarker elev4 40 wait
-		gotomarker elev5 20 wait
-		stopsound
-		playsound sound/movers/elevators/elev1_end.wav
-		gotomarker elev6 10 wait
-		wait 800
-		alertentity elevdoor
-		wait 1000
-		trigger nazi1 elevworks
-	}
-
-	trigger spawnin
-	{
-		accum 0 abort_if_not_equal 0
-		accum 0 set 1
-		alertentity nazi13
-		alertentity nazi2
-	}
-
-	trigger spawnalert
-	{
-		accum 0 abort_if_not_equal 0
-		accum 0 set 1
-		alertentity nazi13
-		alertentity nazi2
-		wait 1000
-		trigger nazi13 alerton
-		trigger nazi2 alerton
 	}
 
 	trigger end_cutscene
@@ -140,14 +63,6 @@ elevator
 
 counterweight
 {
-	trigger countermove
-	{
-		gotomarker counter2 60 wait
-		gotomarker counter3 50 wait
-		gotomarker counter4 40 wait
-		gotomarker counter5 20 wait
-		gotomarker counter6 10 wait
-	}
 }
 
 crane1
