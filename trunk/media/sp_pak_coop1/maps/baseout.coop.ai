@@ -212,8 +212,8 @@ player
 	trigger blowradar
 	{
 		objectivemet 1
-		trigger game_manager objective1
-		trigger radar blow
+//Sage, recreated the radar script to be safer :
+		trigger game_manager objective1	//Starts here
 	}
 
 	trigger got_objective2
@@ -5034,17 +5034,16 @@ nazi34
 	attributes
 	{
 		starting_health 40
-		hearing_scale 0.0
+		hearing_scale 1.0	//Was 0
 		aggression 1.0
 		tactical 0.1
 	}
 
 	spawn
 	{
-		nosight 5000
-		wait 5000
-		attrib hearing_scale 1.0
-		alertentity n34_unlock
+//		nosight 5000
+//		wait 5000
+//		attrib hearing_scale 1.0
 		statetype alert
 		wait 5
 		runtomarker n34spot1
@@ -5086,15 +5085,15 @@ nazi35
 	attributes
 	{
 		starting_health 40
-		hearing_scale 0.0
+		hearing_scale 1.0	//Was 0
 		aggression 0.1
 		tactical 1.0
 	}
 
 	spawn
 	{
-		nosight 5000
-		wait 5000
+//		nosight 5000
+//		wait 5000
 		statetype alert
 		wait 1000
 		runtomarker n34spot1

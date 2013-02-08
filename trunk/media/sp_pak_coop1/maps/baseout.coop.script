@@ -25,6 +25,33 @@ game_manager
 	trigger objective1
 	{
 		accum 0 bitset 1
+
+		//Sage:
+		//Now even if the radar fails to blow, due to failing at rotating, the door script should run
+		//And if nazi34 fails, the door should still unlock
+
+		wait 50
+
+		trigger radar blow	//Visually blow the radar, this used to handle obj too
+
+		trigger counter1 set7to0	//Not really used.. :D
+
+		wait 5000
+
+		//If the AI freeze, door still unlocks
+		alertentity n34_unlock 
+
+		//Two nazis to come out
+		alertentity nazi34
+		alertentity nazi35
+
+		alertentity nazi36
+		alertentity nazi37
+
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_35 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_36 #endif
 	}
 	
 	trigger objective2
@@ -409,6 +436,7 @@ radar
 	{
 		accum 0 bitreset 0
 		accum 1 set 0
+		wait 250
 		trigger radar rotateloop 
 	}
 
@@ -433,15 +461,15 @@ radar
 	{
 		accum 0 bitset 0
 	}
-
+//This WAS the trigger to sort them all - Sage
 	trigger choosefall
 	{
 		accum 0 abort_if_not_bitset 0
-		trigger counter1 set7to0
-		alertentity nazi34
-		alertentity nazi35
-		alertentity nazi36
-		alertentity nazi37
+//		trigger counter1 set7to0
+//		alertentity nazi34
+//		alertentity nazi35
+//		alertentity nazi36
+//		alertentity nazi37
 		alertentity radarsmoke1
 		resetscript
 		trigger radar fall1
@@ -451,10 +479,10 @@ radar
 		trigger radar fall3
 		wait 5
 		trigger radar fall4
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_35 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_36 #endif
+//		#if g_reinforce >= 1 alertentity coop_ai_soldier_33 #endif
+//		#if g_reinforce >= 2 alertentity coop_ai_soldier_34 #endif
+//		#if g_reinforce >= 2 alertentity coop_ai_soldier_35 #endif
+//		#if g_reinforce >= 1 alertentity coop_ai_soldier_36 #endif
 	}
 	
 	trigger fall1
@@ -531,8 +559,6 @@ radar
 		alertentity radarwall1
 		gotomarker radarspot26 1100
 		faceangles 0 0 250 gototime
-		alertentity nazi34
-		alertentity nazi35
 	}
 
 	trigger fall2
@@ -544,8 +570,6 @@ radar
 		faceangles 0 90 -40 300
 		faceangles 0 90 -60 200
 		faceangles 0 90 -80 100		
-		alertentity nazi34
-		alertentity nazi35
 	}
 
 	trigger fall3
@@ -557,8 +581,6 @@ radar
 		faceangles 0 180 40 300
 		faceangles 0 180 60 200
 		faceangles 0 180 80 100		
-		alertentity nazi34
-		alertentity nazi35
 	}
 
 	trigger fall4
@@ -570,8 +592,6 @@ radar
 		faceangles 0 270 40 300
 		faceangles 0 270 60 200
 		faceangles 0 270 80 100
-		alertentity nazi34
-		alertentity nazi35
 	}
 }
 
