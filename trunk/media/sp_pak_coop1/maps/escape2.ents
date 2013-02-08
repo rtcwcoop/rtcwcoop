@@ -74,6 +74,20 @@
 "wait" "3"
 }
 
+// AXIS SPAWNPOINTS (flags: 0 = allied and disabled; 1 = allied and enabled; 2 = axis and disabled; 3 = axis and enabled)
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3" 
+"origin" "-1013 1291 -359"
+"angle" "174"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3" 
+"origin" "-1011 1405 -359"
+"angle" "176"
+}
 
 // SPAWNPOINTS
 

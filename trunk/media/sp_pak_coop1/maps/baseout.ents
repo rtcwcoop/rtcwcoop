@@ -10,6 +10,21 @@
 "targetname" "nazi16_nade_target"
 }
 
+// AXIS SPAWNPOINTS (flags: 0 = allied and disabled; 1 = allied and enabled; 2 = axis and disabled; 3 = axis and enabled)
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3" 
+"origin" "-1498 1380 88" 
+"angle" "-177"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3" 
+"origin" "-1717 1509 88" 
+"angle" "-89"
+}
+
 // SPAWNPOINTS
 
 {

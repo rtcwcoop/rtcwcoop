@@ -4,6 +4,21 @@
 "scriptname" "game_manager"
 }
 
+// AXIS SPAWNPOINTS (flags: 0 = allied and disabled; 1 = allied and enabled; 2 = axis and disabled; 3 = axis and enabled)
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "650 1413 24" 
+"angle" "-93"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "399 1425 40" 
+"angle" "-93"
+}
+
 // SPAWNPOINTS
 
 {
