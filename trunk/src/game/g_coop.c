@@ -30,7 +30,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "g_local.h"
 #include "g_coop.h"
 
-#define SPAWNPOINT_ENABLED 1
+#define SPAWNPOINT_ENABLED      1
+#define SPAWNPOINT_AXIS         2 
 extern void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath );
 
 // fretn - set weapons when player spawns in coop
@@ -215,9 +216,10 @@ struct gspawnpoint_s {
 
 typedef struct gspawnpoint_s gspawnpoint_t;
 
-gentity_t *SelectRandomAntiCoopSpawnPoint( vec3_t origin, vec3_t angles ) { 
+gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t angles ) { 
         int i = 0;
         int count = 0;
+        int num = -1;
         int selection;
         gentity_t       *spot = NULL;
         //gentity_t       *spots[MAX_SPAWN_POINTS];
@@ -264,19 +266,41 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
                 }
 
                 // what to do if no AI's are alive, where to spawn ? (after a map_restart his can be the cause, because ai's spawn later than humans)
-                if (!count)
-                        return NULL;
+                // -> every map needs two initial axis spawnpoints, for cases like this, they need to have the enabled and axis spawnflag set (spawnflags 3)
+                if (!count) {
+                        while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) { 
+                                if ( SpotWouldTelefrag( spot ) ) { 
+                                        continue;
+                                }    
+
+                                if (spot->spawnflags & SPAWNPOINT_ENABLED && spot->spawnflags & SPAWNPOINT_AXIS) {
+                                        spawnpoint.spot = spot;
+                                        spawnpoint.clientNum = -1;
+
+                                        spots[ count ] = &spawnpoint;
+                                        count++;
+                                }   
+                        }
+
+                        if (!count) {
+                                return NULL;
+                        }
+                }
         }
 
         selection = rand() % count;
         spot = spots[ selection ]->spot;
+        num = spots[ selection ]->clientNum;
 
         VectorCopy( spot->s.origin, origin );
         origin[2] += 9;
         VectorCopy( spot->s.angles, angles );
 
         // kill the bot
-        AICast_Die( spot, spot, spot, 100000, MOD_TELEFRAG );
+        if (num > 0) {
+                AICast_Die( spot, spot, spot, 100000, MOD_TELEFRAG );
+                trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " has made an offer of flesh and blood.\n\"", ent->client->pers.netname ) );
+        }
 
         return spot;
 
@@ -303,7 +327,7 @@ gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
                         continue;
                 }    
 
-                if (spot->spawnflags & SPAWNPOINT_ENABLED) {
+                if (spot->spawnflags & SPAWNPOINT_ENABLED && !(spot->spawnflags & SPAWNPOINT_AXIS)) {
                     spots[ count ] = spot;
                     count++;
                 }
@@ -314,7 +338,7 @@ gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
 
                 if (spot)
                 {
-                        if ( !(spot->spawnflags & SPAWNPOINT_ENABLED)) {
+                        if ( !(spot->spawnflags & SPAWNPOINT_ENABLED) || spot->spawnflags & SPAWNPOINT_AXIS) {
                                 return NULL;
                         } else {
                                 VectorCopy( spot->s.origin, origin );
@@ -608,7 +632,9 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 				break;
 			}    
 			
-			ent->spawnflags &= ~SPAWNPOINT_ENABLED;
+                        if ( !(ent->spawnflags & SPAWNPOINT_AXIS) ) {
+                                ent->spawnflags &= ~SPAWNPOINT_ENABLED;
+                        }
 		} 
 
 		// now disable all the other flags
@@ -631,7 +657,7 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 					break;
 				}    
 
-				if ( !strcmp( ent->classname,"coop_spawnpoint" ) ) {
+				if ( !strcmp( ent->classname,"coop_spawnpoint" ) && !(ent->spawnflags & SPAWNPOINT_AXIS) ) {
 					ent->spawnflags |= SPAWNPOINT_ENABLED;
 				}    
 
@@ -647,7 +673,7 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 					break;
 				}    
 
-				if ( ent->targetname == NULL ) {
+				if ( ent->targetname == NULL && !(ent->spawnflags & SPAWNPOINT_AXIS)) {
 					ent->spawnflags |= SPAWNPOINT_ENABLED;
 				}    
 

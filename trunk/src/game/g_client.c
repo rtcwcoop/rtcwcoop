@@ -1831,7 +1831,7 @@ void ClientSpawn( gentity_t *ent ) {
 					//client->pers.initialSpawn = qtrue;
 					if ( client->sess.sessionTeam == TEAM_RED ) {
                                                 if (g_gametype.integer <= GT_COOP_SPEEDRUN ) {
-                                                        spawnPoint = SelectRandomAntiCoopSpawnPoint(spawn_origin, spawn_angles);
+                                                        spawnPoint = SelectRandomAntiCoopSpawnPoint(ent, spawn_origin, spawn_angles);
                                                         if (!spawnPoint) { // we need spawnpoints for the axis
                                                                 spawnPoint = SelectSpawnPoint(
                                                                     client->ps.origin,
@@ -1857,7 +1857,7 @@ void ClientSpawn( gentity_t *ent ) {
 					// fretn note: on a dedicated server when the first player arrives and he's axis
 					// no bots are alive, so no spawnpoint (bot) can be found
                                         if ( client->sess.sessionTeam == TEAM_RED && g_gametype.integer == GT_COOP_SPEEDRUN ) {
-						spawnPoint = SelectRandomAntiCoopSpawnPoint(spawn_origin, spawn_angles);
+						spawnPoint = SelectRandomAntiCoopSpawnPoint(ent, spawn_origin, spawn_angles);
 						if (!spawnPoint) { // we need spawnpoints for the axis
 							spawnPoint = SelectSpawnPoint(
 							    client->ps.origin,
