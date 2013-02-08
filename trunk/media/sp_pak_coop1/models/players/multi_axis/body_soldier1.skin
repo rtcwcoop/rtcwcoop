@@ -18,5 +18,5 @@ ammo2,models/players/multi_axis/acc/backpack/backpack_sol.tga
 ammo3,models/players/multi_axis/acc/backpack/backpack_sol.tga
 ammo4,models/players/multi_axis/acc/backpack/backpack_sol.tga
 
-md3_back, "acc/backpack/backpack_sol.md3"
+md3_back, "acc/backpack/backpack_german_sol.md3"
 
