@@ -1097,7 +1097,7 @@ void SetTeam( gentity_t *ent, char *s ) {
                 // NERVE - SMF
                 //if ( g_noTeamSwitching.integer && team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
                 if ( team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
-                        trap_SendServerCommand( clientNum, "cp \"You cannot switch during a match, please wait until the round ends.\n\"" );
+                        trap_SendServerCommand( clientNum, "cp \"Team change only allowed during warmup.\n\"" );
                         return; // ignore the request
                 }    
 
