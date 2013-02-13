@@ -865,8 +865,7 @@ zone1
 	trigger finaldown
 	{
 		accum 2 inc 1
-		accum 2 abort_if_not_equal 2	//Room for 1 
-freezing
+		accum 2 abort_if_not_equal 2	//Room for 1 freezing
 		accum 2 set -69
 
 		// activate cutscene
