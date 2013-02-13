@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 7.2.2013
 // 
 //AI Scripting
 //Map: Tram
@@ -45,6 +46,7 @@ player
 		accum 0 bitset 4
 		accum 1 set 0
 		accum 2 set 0 // don't remove exit trigger
+		accum 3 set 0 //Tram midstation direction
 
 		objectivesneeded 3
 		numsecrets 0
@@ -70,19 +72,25 @@ player
 
 	trigger 1up
 	{
-		trigger trammount mountup
-		wait 1
+		wait 250
+
 		trigger tramcar tramup
+		trigger trammount mountup
+
+		accum 0 abort_if_bitset 2	//Can we go down?
+		accum 3 set 1	//Go down next time
 	}
-	
-	trigger 1down
+
+	trigger first_start
 	{
-		trigger trammount mountdown
-		wait 1
-		trigger tramcar tramdown
-		
 		accum 0 abort_if_not_bitset 1
 		accum 0 bitreset 1
+
+		wait 250
+		trigger tramcar tramdown
+		wait 5
+		trigger trammount mountdown
+
 		objectivemet 2
 		trigger game_manager objective2
 		alertentity nazi13
@@ -99,29 +107,42 @@ player
 		mu_fade 0 500
 		mu_queue sound/music/m_drums
 	}
+
+	trigger 1down
+	{
+		accum 0 abort_if_bitset 1
+
+		wait 250
+		trigger tramcar tramdown
+		wait 5
+		trigger trammount mountdown
+	}
 	
 	trigger 2up
 	{
-		trigger trammount mountup2
-		wait 1
+		wait 250
 		trigger tramcar tramup2
+		wait 5
+		trigger trammount mountup2
 	}
 	
 	trigger 2down
 	{
-		trigger trammount mountdown2
-		wait 1
+		wait 250
 		trigger tramcar tramdown2
+		wait 5
+		trigger trammount mountdown2
 	}	
 	
 	
 	trigger starttram
 	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
 		trigger tramcar tramup
 		trigger trammount mountup
 
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
 		alertentity nazi6
 		alertentity nazi7
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
@@ -134,12 +155,42 @@ player
 //		trigger trammount mountdown
 	}
 
+//At midstation, checks if we want up or down
+//This way we don't have to interrupt the tram
+//And we are sure it goes right way
+
+	trigger tram_dispatch
+	{
+		trigger player tram_up
+		wait 5
+		trigger player tram_down
+	}
+
+	trigger tram_up
+	{
+		//change dir at 1up
+		accum 3 abort_if_not_equal 0
+		trigger player 1up
+	}
+
+	trigger tram_down
+	{
+		accum 3 abort_if_not_equal 1
+		accum 3 set 0	//Go up next time
+
+		trigger tramcar tramcontinue
+		trigger trammount mountcontinue
+	}
+
 	trigger startlower
 	{
-		trigger tramcar tramfix
-		trigger trammount mountfix
 		accum 0 abort_if_not_bitset 2
 		accum 0 bitreset 2
+		accum 3 set 1 	//Go down next time
+
+//		trigger tramcar tramfix
+//		trigger trammount mountfix
+
 		alertentity nazi16
 		alertentity nazi17
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_21 #endif
@@ -249,7 +300,7 @@ player
 
 	trigger action9
 	{
-		trigger kesler dont_shoot
+		//trigger kesler dont_shoot
 	}
 
 	trigger explode_alarm
@@ -309,36 +360,6 @@ player
 	{
 		objectivemet 3
 		trigger game_manager objective3
-	}
-
-	trigger cam1
-	{
-		startcam cs02_02
-	}
-
-	trigger clear_cam
-	{
-		stopcam
-	}
-
-	trigger cam2
-	{
-		startcam cs02_03
-	}
-
-	trigger cam3
-	{
-		startcam cs02_04
-	}
-
-	trigger cam4
-	{
-		startcam cs02_05
-	}
-
-	death
-	{
-		trigger locker1 midreset
 	}
 }
 
@@ -528,6 +549,7 @@ nazi2
 		trigger nazi1 sighted1
 		trigger nazi3 sighted3
 		trigger nazi4 sighted4
+		resetscript
 	}
 
 	inspectbodystart
@@ -1938,11 +1960,18 @@ kesler
 	{
 		nosight 999999
 
-		wait 100
+		wait 500
 		explicit_routing on
-		gotomarker keslerspot1
-		facetargetangles keslerspot1
-		wait 4000
+		runtomarker keslerspot2 nostop
+		runtomarker keslerspot3 nostop
+		//runtomarker keslerspot4 nostop
+		//runtomarker keslerspot5
+		//facetargetangles keslerspot5
+		trigger kesler walkback
+
+
+		//wait 5 player
+		//wait 4000
 	}
 
 	trigger  report
@@ -1983,6 +2012,7 @@ kesler
 	trigger walkback
 	{
 		walktomarker keslerspot6 kesler_look noattack
+		playsound Tram_Kesler3
 	}
 
 	trigger movetotalk
@@ -2002,7 +2032,7 @@ kesler
 
 	death
 	{
-		missionfailed 6 3
+		//missionfailed 6 3
 	}
 
 }

@@ -366,8 +366,8 @@
 
 {
 "classname" "coop_spawnpoint_trigger"
-"origin" "-122 -183 770"
-"angle" "85"
+"origin" "-238 202 284"
+"angle" "-85"
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "flag1"
 }
