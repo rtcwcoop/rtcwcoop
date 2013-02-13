@@ -1327,6 +1327,7 @@ void SV_Frame( int msec ) {
 	if ( svs.time > 0x70000000 ) {
 		Q_strncpyz( mapname, sv_mapname->string, MAX_QPATH );
 		SV_Shutdown( "Restarting server due to time wrapping" );
+                sv_reloading->integer = RELOAD_NEXTMAP;
 		// TTimo
 		// show_bug.cgi?id=388
 		// there won't be a map_restart if you have shut down the server
@@ -1342,6 +1343,7 @@ void SV_Frame( int msec ) {
 	if ( svs.nextSnapshotEntities >= 0x7FFFFFFE - svs.numSnapshotEntities ) {
 		Q_strncpyz( mapname, sv_mapname->string, MAX_QPATH );
 		SV_Shutdown( "Restarting server due to numSnapshotEntities wrapping" );
+                sv_reloading->integer = RELOAD_NEXTMAP;
 		// TTimo see above
 		if ( sv_gametype->integer <= GT_COOP)
 			Cbuf_AddText( va( "coopmap %s\n", mapname ) );
