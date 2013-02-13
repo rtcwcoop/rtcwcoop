@@ -1030,7 +1030,7 @@ team_t TeamCount( int ignoreClientNum, int team ) {
 SetTeam
 =================
 */
-void SetTeam( gentity_t *ent, char *s ) {
+void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 	int team, oldTeam;
 	gclient_t           *client;
 	int clientNum;
@@ -1089,14 +1089,14 @@ void SetTeam( gentity_t *ent, char *s ) {
                         numAxis = 1;
                 }
                 
-                if ( team == TEAM_RED && counts[TEAM_RED] >= numAxis ) { // cvar this ?
+                if ( team == TEAM_RED && counts[TEAM_RED] >= numAxis && !force) { // cvar this ?
                         trap_SendServerCommand( clientNum, "cp \"The Axis team has too many players.\n\"" );
                         return;
                 }
 
                 // NERVE - SMF
                 //if ( g_noTeamSwitching.integer && team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
-                if ( team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING ) {
+                if ( team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING && !force) {
                         trap_SendServerCommand( clientNum, "cp \"Team change only allowed during warmup.\n\"" );
                         return; // ignore the request
                 }    
@@ -1273,7 +1273,7 @@ void Cmd_Team_f( gentity_t *ent ) {
 
 	trap_Argv( 1, s, sizeof( s ) );
 
-	SetTeam( ent, s );
+	SetTeam( ent, s, qfalse );
 }
 
 
@@ -1311,7 +1311,7 @@ void Cmd_Follow_f( gentity_t *ent ) {
 
 	// first set them to spectator
 	if ( ent->client->sess.sessionTeam != TEAM_SPECTATOR ) {
-		SetTeam( ent, "spectator" );
+		SetTeam( ent, "spectator", qfalse );
 	}
 
 	ent->client->sess.spectatorState = SPECTATOR_FOLLOW;
@@ -1329,7 +1329,7 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 
 	// first set them to spectator
 	if ( ( ent->client->sess.spectatorState == SPECTATOR_NOT ) && ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE for limbo state
-		SetTeam( ent, "spectator" );
+		SetTeam( ent, "spectator", qfalse );
 	}
 
 	if ( dir != 1 && dir != -1 ) {

@@ -995,7 +995,7 @@ void cmd_specs(gentity_t *ent) {
 				trap_SendServerCommand(ent-g_entities, va("print \"Player %s ^7is already a spectator^1!\n\"", g_entities[nums[i]].client->pers.netname));
 			return;
 			}  else
-				SetTeam( &g_entities[nums[i]], "spectator" );
+				SetTeam( &g_entities[nums[i]], "spectator", qtrue );
 				trap_SendServerCommand(-1, va("chat \"console: %s ^7has forced player %s ^7to spectators^1!\n\"", tag, g_entities[nums[i]].client->pers.netname));
 
 					// Log it
@@ -1031,11 +1031,11 @@ void cmd_force(gentity_t *ent) {
 	}		
 		for (i = 0; i < count; i++){			
 
-			if (g_entities[nums[i]].client->sess.sessionTeam == TEAM_RED){
+			if (g_entities[nums[i]].client->sess.sessionTeam == TEAM_BLUE || g_entities[nums[i]].client->sess.sessionTeam == TEAM_RED){
 				trap_SendServerCommand(ent-g_entities, va("print \"Player %s ^7is already playing^1!\n\"", g_entities[nums[i]].client->pers.netname));
 			return;
 			}  else
-				SetTeam( &g_entities[nums[i]], "red" );
+				SetTeam( &g_entities[nums[i]], "blue", qtrue );
 				trap_SendServerCommand(-1, va("chat \"console: %s ^7has forced player %s ^7into game^1!\n\"", tag, g_entities[nums[i]].client->pers.netname));
 
 					// Log it
