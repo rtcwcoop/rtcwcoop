@@ -44,9 +44,9 @@ player
 		accum 0 bitset 2
 		accum 0 bitset 3
 		accum 0 bitset 4
+		accum 0 bitset 5  //Tram2 cannot start by going down
 		accum 1 set 0
 		accum 2 set 0 // don't remove exit trigger
-		accum 3 set 0 //Tram midstation direction
 
 		objectivesneeded 3
 		numsecrets 0
@@ -68,17 +68,6 @@ player
 		trigger gear1 on1
 		trigger gear2 on2		
 		trigger gear3 on3
-	}
-
-	trigger 1up
-	{
-		wait 250
-
-		trigger tramcar tramup
-		trigger trammount mountup
-
-		accum 0 abort_if_bitset 2	//Can we go down?
-		accum 3 set 1	//Go down next time
 	}
 
 	trigger first_start
@@ -108,6 +97,22 @@ player
 		mu_queue sound/music/m_drums
 	}
 
+	trigger 1up
+	{
+		wait 250
+
+		trigger tramcar tramup
+		trigger trammount mountup
+
+		accum 0 abort_if_bitset 2	//Button pressed?
+		accum 0 bitreset 5		//Allow going down
+
+		trigger tramcar_coop tramreturn
+		wait 5
+		trigger trammount_coop mountreturn
+		
+	}
+
 	trigger 1down
 	{
 		accum 0 abort_if_bitset 1
@@ -116,24 +121,14 @@ player
 		trigger tramcar tramdown
 		wait 5
 		trigger trammount mountdown
-	}
-	
-	trigger 2up
-	{
-		wait 250
-		trigger tramcar tramup2
+
+		accum 0 abort_if_bitset 2 //Button pressed?
+		accum 0 abort_if_bitset 5 //Can I go down?
+
+		trigger tramcar_coop tramcontinue
 		wait 5
-		trigger trammount mountup2
+		trigger trammount_coop mountcontinue
 	}
-	
-	trigger 2down
-	{
-		wait 250
-		trigger tramcar tramdown2
-		wait 5
-		trigger trammount mountdown2
-	}	
-	
 	
 	trigger starttram
 	{
@@ -149,44 +144,10 @@ player
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
 	}
 
-	trigger tramgo
-	{
-//		trigger tramcar tramdown
-//		trigger trammount mountdown
-	}
-
-//At midstation, checks if we want up or down
-//This way we don't have to interrupt the tram
-//And we are sure it goes right way
-
-	trigger tram_dispatch
-	{
-		trigger player tram_up
-		wait 5
-		trigger player tram_down
-	}
-
-	trigger tram_up
-	{
-		//change dir at 1up
-		accum 3 abort_if_not_equal 0
-		trigger player 1up
-	}
-
-	trigger tram_down
-	{
-		accum 3 abort_if_not_equal 1
-		accum 3 set 0	//Go up next time
-
-		trigger tramcar tramcontinue
-		trigger trammount mountcontinue
-	}
-
 	trigger startlower
 	{
 		accum 0 abort_if_not_bitset 2
 		accum 0 bitreset 2
-		accum 3 set 1 	//Go down next time
 
 //		trigger tramcar tramfix
 //		trigger trammount mountfix
@@ -207,12 +168,6 @@ player
 		alertentity light4on
 		trigger button2 resetbutton2
 		
-	}
-
-	trigger returnmid
-	{
-		trigger tramcar tramreturn
-		trigger trammount mountreturn
 	}
 
 	trigger openlocker1
@@ -1165,7 +1120,7 @@ nazi13
 	{
 		aim_accuracy 0.1
 		starting_health 40
-		alertness 1250
+		//alertness 1250
 		reaction_time 0.2
 		fov 180
 	}
@@ -1213,7 +1168,7 @@ nazi14
 	{
 		aim_accuracy 0.1
 		starting_health 40
-		alertness 1300
+		//alertness 1300
 		reaction_time 0.1
 	}
 
@@ -1247,7 +1202,7 @@ nazi14
 	{
 		accum 0 abort_if_not_equal 0
 		accum 0 set 1
-		attrib alertness 2500
+		//attrib alertness 2500
 		resetscript
 		gotomarker spotn14b
 		attack
@@ -2330,6 +2285,35 @@ coop_ai_soldier_16		// top of the middle station
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserrifle
 		statetype alert
+
+		noavoid
+		wait forever 0 //Do not run to death!
+	}
+
+
+	enemysight
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	inspectsoundstart
+	{
+		deny
 	}
 }
 
@@ -2347,6 +2331,33 @@ coop_ai_soldier_17		// top of middle station
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert
+		noavoid
+		wait forever 0 //Do not run to death!
+	}
+
+	enemysight
+	{
+		deny
+	}
+
+	inspectbodystart
+	{
+		deny
+	}
+
+	bulletimpact
+	{
+		deny
+	}
+
+	inspectfriendlycombatstart
+	{
+		deny
+	}
+
+	inspectsoundstart
+	{
+		deny
 	}
 }
 

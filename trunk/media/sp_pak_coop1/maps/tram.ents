@@ -3,6 +3,28 @@
 "scriptname" "game_manager"
 }
 
+//The model key provides us the original brushwork
+//that turns invisible (clips). The model2 key provides 
+//us the visual model I created - Sage
+
+{
+"classname" "script_mover"
+"origin" "-2492 -284 -160"
+"spawnflags" "2"
+"model" "*29" //THIS IS CLIP BRUSHES OF THE 29
+"model2" "models/mapobjects/coop_tram/tramcar_coop.md3"
+"scriptname" "tramcar_coop"
+}
+
+{
+"classname" "script_mover"
+"origin" "-2492 -284 -160"
+"spawnflags" "2"
+"model" "*120" //THIS IS CLIP BRUSHES OF THE 120
+"model2" "models/mapobjects/coop_tram/trammount_coop.md3"
+"scriptname" "trammount_coop"
+}
+
 // AXIS SPAWNPOINTS (flags: 0 = allied and disabled; 1 = allied and enabled; 2 = axis and disabled; 3 = axis and enabled)
 {
 "classname" "coop_spawnpoint"
