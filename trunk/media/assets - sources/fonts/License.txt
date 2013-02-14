@@ -1,0 +1,9 @@
+This was primary meant for wolfX project but works just as fine for COOP. 
+
+Note that font is rendered for "rtcw"'s way of dealing with font.
+If you want to port this to ET you'll need to edit *.dat file and 
+simply rename fontImage to name you wish to use - that is 
+if you're planning to add it as a new font...
+                                  
+Author: Nate 'L0
+Released under WTFPL License ( http://en.wikipedia.org/wiki/WTFPL ) 
