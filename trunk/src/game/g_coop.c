@@ -219,7 +219,7 @@ typedef struct gspawnpoint_s gspawnpoint_t;
 gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t angles ) { 
         int i = 0;
         int count = 0;
-        int num = -1;
+        int clientnum = -1;
         int selection;
         gentity_t       *spot = NULL;
         //gentity_t       *spots[MAX_SPAWN_POINTS];
@@ -290,14 +290,14 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t
 
         selection = rand() % count;
         spot = spots[ selection ]->spot;
-        num = spots[ selection ]->clientNum;
+        clientnum = spots[ selection ]->clientNum;
 
         VectorCopy( spot->s.origin, origin );
         origin[2] += 9;
         VectorCopy( spot->s.angles, angles );
 
         // kill the bot
-        if (num > 0) {
+        if (clientnum >= MAX_COOP_CLIENTS) {
                 AICast_Die( spot, spot, spot, 100000, MOD_TELEFRAG );
                 trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " has made an offer of flesh and blood.\n\"", ent->client->pers.netname ) );
         }
