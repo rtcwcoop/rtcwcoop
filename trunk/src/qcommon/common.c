@@ -2166,7 +2166,7 @@ void Com_Init( char *commandLine ) {
 	com_cl_running = Cvar_Get( "cl_running", "0", CVAR_ROM );
 	com_buildScript = Cvar_Get( "com_buildScript", "0", 0 );
 
-	com_introPlayed = Cvar_Get( "com_introplayed", "1", CVAR_ARCHIVE );
+	com_introPlayed = Cvar_Get( "com_introplayed", "0", CVAR_ARCHIVE );
 	com_recommendedSet = Cvar_Get( "com_recommendedSet", "0", CVAR_ARCHIVE );
         com_ansiColor = Cvar_Get( "com_ansiColor", "0", CVAR_ARCHIVE ); // fretn
 
