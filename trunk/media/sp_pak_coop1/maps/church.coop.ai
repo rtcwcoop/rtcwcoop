@@ -13,10 +13,7 @@ player
 //		suggestweapon weapon_sten
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_1
-	}
 
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -41,6 +38,10 @@ player
 		giveinventory key_binocs
 		selectweapon weapon_sten
 
+	}
+
+	playerstart
+	{
 	}
 
 	trigger map_start
