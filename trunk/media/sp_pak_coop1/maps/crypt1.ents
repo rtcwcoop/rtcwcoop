@@ -4,6 +4,35 @@
 "scriptname" "game_manager"
 }
 
+//Removes the 2 end doors
+{
+"classname" "target_kill"
+"origin" "-932 -320 176"
+"targetname" "kill106"
+"target" "t106"
+}
+
+{
+"classname" "target_relay"
+"origin" "-931 -413 186"
+"targetname" "kill106_r"
+"target" "kill106"
+}
+
+{
+"classname" "target_kill"
+"origin" "-929 -479 183"
+"targetname" "kill107"
+"target" "t107"
+}
+
+{
+"classname" "target_relay"
+"origin" "-920 -430 185"
+"targetname" "kill107_r"
+"target" "kill107"
+}
+
 // AXIS SPAWNPOINTS (flags: 0 = allied and disabled; 1 = allied and enabled; 2 = axis and disabled; 3 = axis and enabled)
 {
 "classname" "coop_spawnpoint"
@@ -348,6 +377,25 @@
 "angle" "180"
 "spawnflags" "1"
 "targetname" "coop_ai_zombie_32"
+}
+
+{
+"classname" "ai_warzombie"
+"origin" "-1596 -570 160"
+"ainame" "coop_ai_zombie_33"
+"angle" "19"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+}
+{
+"classname" "ai_warzombie"
+"origin" "-1592 -189 160"
+"ainame" "coop_ai_zombie_34"
+"angle" "-21"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
 }
 
 // FLAGZONES

@@ -14,6 +14,12 @@ game_manager
 		trigger player map_start	//Prevents late players affecting the game
 	}
 
+	trigger remove_1st_door
+	{
+		wait 3300
+		removeentity *121
+	}
+
 	trigger a_boom
 	{
 		mu_play sound/music/s_bighits
@@ -125,12 +131,13 @@ counter1	//MISC Counter
 		accum 3 set 0		// Random action3
 		accum 4 set 0		// Random action8a
 		accum 5 set 0		// Used for Zombie4 eating. IF dead, then it turns off the eating.
-		accum 6 set 0		// Used to count the last zombies.
+		accum 6 set 0		// Used to count the last Z
+
 	}
 
 	trigger cine1_cleanup
 	{
-		resetscript
+		wait 50
 		alertentity kill_cine1_nazis
 		wait 50
 		alertentity nazi0
@@ -146,6 +153,8 @@ counter1	//MISC Counter
 		alertentity warzombie1
 		wait 50
 		alertentity warzombie2
+
+		alertentity lastdoor
 	}
 
 	trigger action2
@@ -480,15 +489,21 @@ counter1	//MISC Counter
 		wait 5
 		alertentity flamezombie
 		wait 500
-		#if g_reinforce >= 1 alertentity coop_ai_zombie_28 #endif
+		alertentity coop_ai_zombie_28
 		wait 500
-		#if g_reinforce >= 2 alertentity coop_ai_zombie_29 #endif
+		alertentity coop_ai_zombie_29
 		wait 500
-		#if g_reinforce >= 2 alertentity coop_ai_zombie_30 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_30 #endif
 		wait 500
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_31 #endif
 		wait 500
 		#if g_reinforce >= 2 alertentity coop_ai_zombie_32 #endif
+		wait 1000
+
+		alertentity zombie16
+		wait 500
+		alertentity lastwall
+
 	}
 }
 

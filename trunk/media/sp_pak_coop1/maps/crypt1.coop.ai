@@ -51,6 +51,7 @@ player
 		accum 0 set 0
 		accum 1 set 0
 		accum 2 bitreset 0	// Used for if the player goes around which will skip the scooby doo scene.
+		accum 2 bitreset 1	//Sage - for big bang theory
 		accum 3 set 0 // don't remove exit trigger
 
 		objectivesneeded 2
@@ -59,12 +60,18 @@ player
 //		mu_fade 0 1000
 		mu_start sound/music/c_military
 		
-		wait 50
+		//wait 50
 
 		//Cine clean up :)
 		trigger counter1 cine1_cleanup
-	}
 
+//Remove some door stuff to not limit other players - Sage
+//1st door: button closing door->action4b->game_manager->
+//wait 5->removeentity
+//Remove the 2 doors and clips that close at last battle:
+	alertentity kill106_r
+		alertentity kill107_r
+	}
 
 	// Triggers nazi0a & nazi3 to fire at nothing.
 	trigger intro		
@@ -128,11 +135,14 @@ player
 	// Triggers wall to explode and then tells Zombie6 to stand.
 	trigger action4
 	{
+		trigger coop_ai_zombie_7 sight_on
+		trigger coop_ai_zombie_8 sight_on
 	}
 
 	// Spawns in the following AI
 	trigger action4a
 	{
+		accum 2 bitset 0		//Stop bseq - Sage
 		alertentity zombie6
 		alertentity zombie6a
 		alertentity zombie6b
@@ -148,6 +158,7 @@ player
 
 	trigger action4b
 	{
+		trigger game_manager remove_1st_door
 		trigger counter1 action4a1_b
 	}
 
@@ -179,9 +190,10 @@ player
 	// Spawns in the following AI
 	trigger action6		
 	{
-		accum 2 bitset 0
 		mu_fade 0 1000
 		mu_queue sound/music/c_chant
+		accum 2 abort_if_bitset 1
+		accum 2 bitset 1
 		alertentity zombie9
 		alertentity zombie11
 	}
@@ -258,32 +270,35 @@ player
 	// Spawns in the following AI
 	trigger action9		
 	{
-		alertentity zombie16
 		alertentity zombie17
 		alertentity zombie18
 		alertentity zombie19
-		alertentity lastguy1
-		alertentity lastguy2
-		alertentity lastguy3
-		alertentity lastzombie
+		alertentity coop_ai_zombie_33
+		alertentity coop_ai_zombie_34
+		//alertentity lastguy1
+		//alertentity lastguy2
+		//alertentity lastguy3
+		//alertentity lastzombie
 	}
 
 	// This spawns the following AI which do the BridgeSequence
 	trigger bseq		
 	{
+		accum 2 abort_if_bitset 1
+		accum 2 bitset 1
+		alertentity zombie9
+		alertentity zombie11
 		accum 2 abort_if_bitset 0
 		alertentity nazi3
 		alertentity zombie20
 		alertentity zombie21 // Took out to see how it looks with one zombie.
-		alertentity zombie9
-		alertentity zombie11
 	}
 
 	// Triggers the last door to close so player gets trapped
 	trigger lastscene
 	{
-		trigger lastzombie time2die
-		alertentity lastdoor
+		//trigger lastzombie time2die
+		//alertentity lastdoor
 	}
 
 	// Triggers zombie19 to step out of alcove
@@ -2733,7 +2748,7 @@ zombie14	// Flamer2
 
 	spawn
 	{
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		walktomarker z14spot1
 		facetargetangles z14spot1
 	}
@@ -3121,8 +3136,9 @@ zombie16 // End Flamezombie
 
 	spawn
 	{
+		wait 500
 		knockback off
-		alertentity lastwall
+		//alertentity lastwall
 		runtomarker z16spot1
 		facetargetangles z16spot1
 		wait 500 player
@@ -3764,7 +3780,7 @@ lastzombie
 
 	death
 	{
-		trigger lastguy3 go
+		//trigger lastguy3 go
 	}
 
 	enemysight
@@ -3788,10 +3804,10 @@ flamezombie
 		noaidamage on
 		nosight 99999
 		godmode on
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
 		alertentity flame1_bust
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -3832,7 +3848,6 @@ flamezombie
 
 	death
 	{
-		alertentity zombie16
 		accum 0 abort_if_bitset 0
 		alertentity hurt01
 	}
@@ -3944,6 +3959,12 @@ coop_ai_zombie_7		// switcher-room 1
 
 	spawn
 	{
+		nosight 999999
+	}
+
+	trigger sight_on
+	{
+		sight
 	}
 }
 
@@ -3959,6 +3980,12 @@ coop_ai_zombie_8		// switcher-room 2
 
 	spawn
 	{
+		nosight 999999
+	}
+
+	trigger sight_on
+	{
+		sight
 	}
 }
 
@@ -4268,10 +4295,10 @@ coop_ai_zombie_28  		// flame 1
 		noaidamage on
 		nosight 99999
 		godmode on
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
 		alertentity flame1_bust
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -4309,7 +4336,6 @@ coop_ai_zombie_28  		// flame 1
 
 	death
 	{
-		alertentity zombie16
 		accum 0 abort_if_bitset 0
 		alertentity hurt01
 	}
@@ -4334,10 +4360,10 @@ coop_ai_zombie_29  		// flame 2
 		noaidamage on
 		nosight 99999
 		godmode on
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
 		alertentity flame1_bust
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -4375,7 +4401,6 @@ coop_ai_zombie_29  		// flame 2
 
 	death
 	{
-		alertentity zombie16
 		accum 0 abort_if_bitset 0
 		alertentity hurt01
 	}
@@ -4400,10 +4425,10 @@ coop_ai_zombie_30  		// flame 3
 		noaidamage on
 		nosight 99999
 		godmode on
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
 		alertentity flame1_bust
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -4441,7 +4466,6 @@ coop_ai_zombie_30  		// flame 3
 
 	death
 	{
-		alertentity zombie16
 		accum 0 abort_if_bitset 0
 		alertentity hurt01
 	}
@@ -4466,10 +4490,10 @@ coop_ai_zombie_31  		// flame 4
 		noaidamage on
 		nosight 99999
 		godmode on
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
 		alertentity flame1_bust
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -4507,7 +4531,6 @@ coop_ai_zombie_31  		// flame 4
 
 	death
 	{
-		alertentity zombie16
 		accum 0 abort_if_bitset 0
 		alertentity hurt01
 	}
@@ -4532,10 +4555,10 @@ coop_ai_zombie_32  		// flame 5
 		noaidamage on
 		nosight 99999
 		godmode on
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
 		alertentity flame1_bust
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		godmode off
@@ -4573,12 +4596,51 @@ coop_ai_zombie_32  		// flame 5
 
 	death
 	{
-		alertentity zombie16
 		accum 0 abort_if_bitset 0
 		alertentity hurt01
 	}
 
 	enemysight
 	{
+	}
+}
+
+coop_ai_zombie_33	// extra at last room start
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+
+	death
+	{
+		trigger counter1 lastdead
+	}
+}
+
+coop_ai_zombie_34	// extra at last room start
+{
+	attributes
+	{
+		fov 240
+		starting_health 60
+		aggression 1.0
+		attrib hearing_scale 0.0
+	}
+
+	spawn
+	{
+	}
+
+	death
+	{
+		trigger counter1 lastdead
 	}
 }
