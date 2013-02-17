@@ -13,6 +13,15 @@ game_manager
 		trigger player map_start	//Prevents late players affecting the game
 	}
 
+	trigger action3_done
+	{
+		wait 2000
+		alertentity nazi6
+		alertentity nazi7
+		alertentity warzombie16
+		alertentity warzombie15
+	}
+
 	trigger checkexit
 	{
 		accum 0 abort_if_not_bitset 1
@@ -674,11 +683,8 @@ counter1
 	trigger action3_dead
 	{
 		accum 3 inc 1
-		accum 3 abort_if_not_equal 4
-		alertentity nazi6
-		alertentity nazi7
-		alertentity warzombie16
-		alertentity warzombie15
+		accum 3 abort_if_not_equal 3	//1 can freeze
+		trigger game_manager action3_done
 	}
 
 	trigger go
@@ -1154,4 +1160,13 @@ spikes
 		gotomarker spike_spot1 250 accel wait
 		alertentity spikeup
 	}
+
+//Just to have safe waiting here!
+	trigger action_music
+	{
+		mu_play sound/music/s_longout
+		wait 6000
+		mu_stop
+		mu_start sound/music/c_chant
+	}	
 }

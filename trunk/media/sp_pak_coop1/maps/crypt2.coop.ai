@@ -117,7 +117,13 @@ player
 		trigger nazi4 reset
 		trigger nazi3 reset
 		trigger nazi5 reset
-		alertentity bnazi1
+//Has burned skins, flamer is gone, so don't spawn me
+		//alertentity bnazi1 
+
+		alertentity warzombie4
+		alertentity warzombie5
+		alertentity flamer0
+
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_7 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_zombie_8 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_9 #endif
@@ -126,9 +132,7 @@ player
 
 	trigger action2
 	{
-		mu_play sound/music/s_longout
-		mu_fade 0 2000
-		mu_queue sound/music/c_chant 2000
+		trigger spikes action_music
 		trigger counter1 action2
 	}
 
@@ -144,6 +148,7 @@ player
 
 	trigger action3
 	{
+		trigger spikes action_music
 		trigger counter1 action3
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_11 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_zombie_12 #endif
@@ -308,10 +313,10 @@ bnazi1
 		noaidamage on
 		nosight 999999
 		wait 5 0
-		catchfire
-		alertentity warzombie4
-		alertentity warzombie5
-		alertentity flamer0
+		//catchfire
+		//alertentity warzombie4
+		//alertentity warzombie5
+		//alertentity flamer0
 		playanim pain_fire torso 100
 		gotomarker bn1spot1 nostop
 		sethealth 50
@@ -918,8 +923,8 @@ flamer0
 
 	spawn
 	{
-		takeweapon monsterattack2
-		giveweapon monsterattack1		
+		//takeweapon monsterattack2
+		//giveweapon monsterattack1		
 		noaidamage on
 		nosight 99999
 		wait 3000
@@ -1167,8 +1172,8 @@ flamer1
 		trigger counter1 fz1_crash
 		playanim falling_pose both 2
 		wait 250
-		takeweapon monsterattack2
-		giveweapon monsterattack1
+		//takeweapon monsterattack2
+		//giveweapon monsterattack1
 		sight
 	}
 
@@ -2070,9 +2075,9 @@ coop_ai_zombie_3 		// first room 3
 		noaidamage on
 		nosight 70000
 		
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		
@@ -2097,9 +2102,9 @@ coop_ai_zombie_4 		// hallway
 		noaidamage on
 		nosight 70000
 		
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		
@@ -2124,9 +2129,9 @@ coop_ai_zombie_5 		// secret room 1
 		noaidamage on
 		nosight 70000
 		
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		
@@ -2209,9 +2214,9 @@ coop_ai_zombie_10 		// hiding in foggy room
 		noaidamage on
 		nosight 70000
 		
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		
@@ -2250,9 +2255,9 @@ coop_ai_zombie_12 		// Button Left 1
 		noaidamage on
 		nosight 70000
 		
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		
@@ -2456,9 +2461,9 @@ coop_ai_zombie_25 		// Last room 5
 		noaidamage on
 		nosight 70000
 		
-		takeweapon monsterattack2
+		//takeweapon monsterattack2
 		knockback off
-		giveweapon monsterattack1
+		//giveweapon monsterattack1
 		playanim off_hole both
 		sight
 		
