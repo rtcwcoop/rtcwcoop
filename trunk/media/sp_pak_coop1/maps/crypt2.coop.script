@@ -290,7 +290,8 @@ swingblade
 		accum 1 set 1
 		trigger player music_stop_1000
 		wait 5
-		trigger player music3_start
+		//trigger player music3_start
+		mu_start sound/music/c_atmos 2000
 		faceangles 0 0 -140 1000
 	}
 }

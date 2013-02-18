@@ -32,6 +32,12 @@ game_manager
 	{
 		accum 0 bitset 2
 	}
+
+	trigger alarm_on
+	{
+		mu_stop 500
+		mu_start sound/music/m_action 200
+	}
 }
 
 checker1

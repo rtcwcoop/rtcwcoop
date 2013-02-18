@@ -9,13 +9,12 @@ player
 {
 	spawn
 	{
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_1
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
 		setclip weapon_luger 8
+
+		mu_start sound/music/c_military
 	}
 
 	playerstart
@@ -36,9 +35,6 @@ player
 
 		objectivesneeded 2
 		numsecrets 7
-
-//		mu_fade 0 1500
-		mu_start sound/music/c_military
 
 		wait 5
 		

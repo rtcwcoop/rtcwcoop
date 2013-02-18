@@ -8,9 +8,6 @@ player
 {
 	spawn
 	{
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_1
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -45,6 +42,8 @@ player
 		setarmor 100
 		giveinventory key_binocs
 		selectweapon weapon_akimbo
+
+		mu_start sound/music/m_situation
 	}
 
 	playerstart
@@ -63,9 +62,6 @@ player
 
 		objectivesneeded 4
 		numsecrets 1
-
-//		mu_fade 0 1500
-		mu_start sound/music/m_situation
 	}
 
 	trigger action1

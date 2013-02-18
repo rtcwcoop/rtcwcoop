@@ -32,6 +32,13 @@ game_manager
 	{
 		accum 0 bitset 2
 	}
+
+	trigger bridge_music_reset
+	{
+		mu_stop
+		wait 5
+		mu_start sound/music/c_chant
+	}
 }
 
 checker1					// Remember you still beed to put physical checker in
@@ -408,7 +415,9 @@ bridge
 		gotomarker b1spot4 500 wait
 		gotomarker b1spot5 1200 wait 
 		gotomarker b1spot6 600 wait
-		gotomarker b1spot7 300 
+		gotomarker b1spot7 300
+
+		trigger game_manager bridge_music_reset
 	}
 
 	trigger sound_stop

@@ -10,9 +10,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mp40
-//		abort_if_loadgame
-//		mu_start sound/music/m_drums
 	//	trigger radio static
 
 		// Weapons
@@ -54,6 +51,8 @@ player
 		setarmor 50
 		giveinventory key_binocs
 		selectweapon weapon_sten
+
+		mu_start sound/music/m_drums
 	}
 
 	playerstart
@@ -69,9 +68,6 @@ player
 
 		objectivesneeded 2		// taken down to 
 		numsecrets 1
-
-//		mu_fade 0 3000
-		mu_start sound/music/m_drums
 
 		trigger checker2 truck_cine		//Coop only
 	}

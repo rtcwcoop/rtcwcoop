@@ -11,10 +11,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_sten
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_2
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -37,6 +33,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+
+		mu_start sound/music/m_grave
 	}
 
 	playerstart
@@ -58,9 +56,6 @@ player
 		objectivesneeded 3
 		numsecrets 1
 
-//		mu_fade 0 1000
-		mu_start sound/music/m_grave
-
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_3 #endif
@@ -73,7 +68,7 @@ player
 	trigger change_music2
 	{
 		mu_fade 0 1000
-		mu_start sound/music/m_alarm
+		mu_queue sound/music/m_alarm
 	}
 
 	trigger change_music3
@@ -96,7 +91,7 @@ player
 
 	trigger start_music2
 	{
-		mu_start sound/music/m_alarm 2000
+		mu_queue sound/music/m_alarm 2000
 	}
 
 	// ---End Music Section---

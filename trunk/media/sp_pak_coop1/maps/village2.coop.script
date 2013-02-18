@@ -103,8 +103,7 @@ checker1
 
 	trigger alarm_music
 	{
-		mu_fade 1 1000
-		mu_queue sound/music/m_assault
+		mu_start sound/music/m_assault 500
 	}
 
 	trigger sight_check_in

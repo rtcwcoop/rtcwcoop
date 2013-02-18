@@ -9,10 +9,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mp40
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_1
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -36,6 +32,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+
+		mu_start sound/music/c_military
 	}
 
 	playerstart
@@ -55,9 +53,6 @@ player
 
 		objectivesneeded 2
 		numsecrets 1
-
-//		mu_fade 0 1000
-		mu_start sound/music/c_military
 		
 		//wait 50
 
@@ -68,7 +63,7 @@ player
 //1st door: button closing door->action4b->game_manager->
 //wait 5->removeentity
 //Remove the 2 doors and clips that close at last battle:
-	alertentity kill106_r
+		alertentity kill106_r
 		alertentity kill107_r
 	}
 

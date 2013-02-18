@@ -11,10 +11,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mp40
-//		abort_if_loadgame
-//		mu_start sound/music/c_atmos
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -55,6 +51,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+
+		mu_start sound/music/c_chant
 	}
 
 	playerstart
@@ -70,9 +68,6 @@ player
 
 		objectivesneeded 1		
 		numsecrets 0
-
-//		mu_fade 0 1000
-		mu_start sound/music/c_chant
 
 		wait 100
 

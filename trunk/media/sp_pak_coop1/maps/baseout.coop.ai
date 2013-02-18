@@ -9,10 +9,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mp40
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_1
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -36,6 +32,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+
+		mu_start sound/music/m_situation
 	}
 
 	playerstart
@@ -51,9 +49,6 @@ player
 
 		objectivesneeded 2
 		numsecrets 1
-
-//		mu_fade 0 1000
-		mu_start sound/music/m_situation
 
 		trigger mech1 go
 		trigger nazi1 go

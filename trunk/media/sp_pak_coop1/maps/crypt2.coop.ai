@@ -8,10 +8,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mp40
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_2
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -35,6 +31,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+
+		mu_start sound/music/c_military
 	}
 
 	playerstart
@@ -54,9 +52,6 @@ player
 		objectivesneeded 1
 		numsecrets 2
 
-//		mu_fade 0 1000
-		mu_start sound/music/c_military
-
 #if g_reinforce >= 2 alertentity coop_ai_zombie_4 #endif
 
 	}
@@ -69,7 +64,7 @@ player
 
 	trigger music3_start
 	{
-		mu_start sound/music/c_atmos 2000
+	//	mu_start sound/music/c_atmos 2000
 	}
 
 	trigger music_stop_3000

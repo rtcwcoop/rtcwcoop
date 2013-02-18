@@ -9,9 +9,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mp40
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_2
 		// Weapons
 		giveweapon weapon_knife	
 		giveweapon weapon_luger
@@ -30,6 +27,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mp40
+
+		mu_start sound/music/m_stealth
 	}
 
 	playerstart
@@ -50,10 +49,7 @@ player
 		objectivesneeded 2
 		numsecrets 2
 
-//		mu_fade 0 1000
-		mu_start sound/music/m_stealth
-
-		//Opening door directly in spawn - Sage
+		//Opening bookshelf directly in spawn - Sage
 		wait 100
 		alertentity kill_cine1
 	}

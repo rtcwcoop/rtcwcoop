@@ -10,9 +10,6 @@ player
 {
 	spawn
 	{
-//		abort_if_loadgame
-//		mu_stop 0 2000
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -51,6 +48,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+
+		mu_stop 0 2000
 	}
 
 	playerstart
@@ -71,8 +70,6 @@ player
 
 		objectivesneeded 7
 		numsecrets 6
-
-		mu_stop 0 2000
 
 		alertentity alarm_nazi11
 		alertentity alarm_nazi12

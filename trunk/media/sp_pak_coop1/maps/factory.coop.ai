@@ -8,10 +8,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mp40
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_1
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -50,6 +46,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_sten
+
+		mu_start sound/music/m_drums
 	}
 
 	playerstart
@@ -71,9 +69,6 @@ player
 
 		objectivesneeded 2
 		numsecrets 0
-
-//		mu_fade 0 1500
-		mu_start sound/music/m_drums
 
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_11 #endif

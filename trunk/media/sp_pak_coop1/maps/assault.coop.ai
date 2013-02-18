@@ -10,10 +10,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_mauserRifle
-//		abort_if_loadgame
-//		mu_start sound/music/l_briefing_1
-
 		// Weapons
 		giveweapon weapon_knife		
 		giveweapon weapon_luger
@@ -37,6 +33,8 @@ player
 		// Items
 		giveinventory key_binocs
 		selectweapon weapon_mauserRifle
+
+		mu_start sound/music/m_grave
 	}
 
 	playerstart
@@ -52,10 +50,6 @@ player
 
 		objectivesneeded 3
 		numsecrets 0
-
-//		mu_fade 0 1000
-		mu_start sound/music/m_grave
-
 	}
 
 	trigger change_music1

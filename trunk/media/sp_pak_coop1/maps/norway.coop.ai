@@ -9,10 +9,6 @@ player
 {
 	spawn
 	{
-//		suggestweapon weapon_sten
-//		abort_if_loadgame
-//		mu_start sound/music/m_drums
-
 		// Weapons
 		giveweapon weapon_knife
 		giveweapon weapon_luger
@@ -49,6 +45,8 @@ player
 		setarmor 50
 		giveinventory key_binocs
 		selectweapon weapon_sten
+
+		mu_start sound/music/m_drums
 	}
 
 	playerstart
@@ -63,9 +61,6 @@ player
 
 		objectivesneeded 2
 		numsecrets 1
-
-//		mu_fade 0 1000
-		mu_start sound/music/m_drums
 		
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
@@ -1206,8 +1201,7 @@ truck_nazi5				// Nazi near truck...
 	//	print alarm alarm the american is coming
 		trigger checker1 alarm_on		// Sets counter so others know alarm is on..
 		playsound intruder_alert
-		mu_stop 500
-		mu_start sound/music/m_action 200
+		trigger game_manager alarm_on
 		wait 6500 0
 		runtocast player
 	}
@@ -1404,8 +1398,7 @@ truck_nazi6				// Nazi near truck...
 	//	print alarm alarm the american is coming
 		trigger checker1 alarm_on		// Sets counter so others know alarm is on..
 		playsound intruder_alert
-		mu_stop 500
-		mu_start sound/music/m_action 200
+		trigger game_manager alarm_on
 		wait 6500 0
 		runtocast player
 	}
@@ -1555,8 +1548,7 @@ truck_nazi7				// Nazi near truck...   Getting stuck on stairs
 	//	print alarm alarm the american is coming
 		trigger checker1 alarm_on		// Sets counter so others know alarm is on..
 		playsound intruder_alert
-		mu_stop 500
-		mu_start sound/music/m_action 200
+		trigger game_manager alarm_on
 		wait 6500 0
 		runtocast player
 	}
