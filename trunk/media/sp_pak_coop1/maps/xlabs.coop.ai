@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 18.2.2013
 //
 //AI Scripting
 //Map: Xlabs
@@ -59,60 +60,17 @@ player
 
 		cvar g_episode 4
 
-		accum 2 set 0 // don't remove exit trigger
-
 		objectivesneeded 2
 		numsecrets 1
 
 //		mu_fade 0 1000
-		mu_start sound/music/x_atmos
+		mu_start sound/music/x_tension
 
-		trigger counter1 cine1_cams
-		//trigger player cam1	// Camera1
+		trigger counter2 cleanup
 
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
-	}
-
-	// --- Start Camera triggers ---
-
-	trigger cam1
-	{
-		startcamblack xlabs01
-	}
-
-	trigger cam2
-	{
-		startcam xlabs04
-	}
-
-	trigger cam3
-	{
-		startcam xlabs07
-	}
-
-	trigger cam4
-	{
-		startcam xlabs_10
-	}
-
-	trigger cam5
-	{
-		startcam xlabs05
-	}
-
-	trigger cam6
-	{
-		startcam xlabs12
-	}
-
-	// --- End Camera Triggers ---
-
-	trigger camerainterrupt
-	{
-		stopcam
-		trigger counter2 cleanup
 	}
 
 	// All of the levers in the map
@@ -304,193 +262,43 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}	
 }
 
 // --------CINEMATIC 1 START--------
 cine1_deathshead
 {
-	attributes
-	{
-		aggression 0.0
-		alertness 10
-		fov 10
-	}
-
 	spawn
 	{
-		headlook off
 		takeweapon all
 		nosight 999999
-		wait 1000 0
-		trigger cine1_deathshead animloop1
-	}
-
-	trigger animloop1
-	{
-		playanim device both
-		trigger cine1_deathshead animloop1
-	}
-
-	trigger talk1
-	{
-		playsound deathshead_1		//This had better be important...
-	}
-	
-	trigger talk2
-	{
-		playsound deathshead_2		//What? Will this fool follow me to the ends of the earth?
-		playanim device_out both 1 cine1_nazi1
-		trigger cine1_deathshead anim
-	}
-
-	trigger anim
-	{
-		clearanim
-		playanim talking both
-	}
-
-	trigger talk3
-	{
-		playsound deathshead_3	//Dispatch the remaining security force immediately...
-	}
-
-	trigger talk4
-	{
-		playsound deathshead_4	//Then I will deal with him...
-	}
-
-	trigger walkaway
-	{
-		wait 1000 0
-		clearanim
-		resetscript
-
-		walktomarker sci9spot3
 	}
 }
 
 cine1_nazi1
 {
-	attributes
-	{
-		aggression 0.0
-		alertness 10
-		fov 10
-	}
-
 	spawn
 	{
-		headlook off
 		takeweapon all
 		nosight 999999
-		wait 2000 0
-		explicit_routing on
-		trigger cine1_nazi1 go
-	}
-
-	trigger go
-	{
-		runtomarker cine1_n1spot0a nostop
-		runtomarker cine1_n1spot0b nostop
-		runtomarker cine1_n1spot0c nostop
-		runtomarker cine1_n1spot0d nostop
-		runtomarker cine1_n1spot1 nostop
-		runtomarker cine1_n1spot2 nostop
-		runtomarker cine1_n1spot3
-		wait 500 0 cine1_deathshead
-		explicit_routing off
-		trigger counter2 cine1_sync
-	}
-
-	trigger animloop
-	{
-		playanim officer_talking both
-		trigger cine1_nazi1 animloop
-	}
-
-	trigger runaway
-	{
-		clearanim
-		wait 1500 0
-		playsound cine1_nazi1_jawohl
-		clearanim
-		runtomarker cine1_n1spot2 nostop
-		runtomarker cine1_n1spot1 nostop
-		runtomarker cine1_n1spot0d nostop
-		runtomarker cine1_n1spot0c nostop
-		runtomarker cine1_n1spot0b nostop
-		runtomarker cine1_n1spot0a nostop
-	}
-
-	trigger talk1
-	{
-		playsound cine1_nazi1_1 //Sir...
-	}
-
-	trigger talk2
-	{
-		playsound cine1_nazi1_2	//Yes Sir, Zee American agent has infiltrated the X-Lab Facility.
-	}
-
-	trigger talk3
-	{
-		playsound cine1_nazi1_3  //What are your orders, Herr Oberfuhrer?
-	}
-
-	trigger talk4
-	{
-		playsound cine1_nazi1_4  //And if zee American gets past the security force?
 	}
 }
 
 cine1_scientist1
 {
-	attributes
-	{
-		aggression 0.0
-		alertness 10
-		fov 10
-	}
-
 	spawn
 	{
 		takeweapon all
 		nosight 999999
-		wait 500 0
-		trigger cine1_scientist1 animloop
 	}
-
-	trigger animloop
-	{
-		playanim device both
-		trigger cine1_scientist1 animloop
-	}
-	
 }
 
 cine1_scientist2
 {
-	attributes
-	{
-		aggression 0.0
-		alertness 10
-		fov 10
-	}
-
 	spawn
 	{
 		takeweapon all
 		nosight 999999
-		wait 900 0
-		trigger cine1_scientist2 animloop
-	}
-
-	trigger animloop
-	{
-		playanim clipboard both
-		trigger cine1_scientist2 animloop
 	}
 }
 
