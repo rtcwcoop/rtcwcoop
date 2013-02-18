@@ -3199,7 +3199,6 @@ AICast_ScriptAction_MusicStart
 ==================
 */
 qboolean AICast_ScriptAction_MusicStart( cast_state_t *cs, char *params ) {
-
 	char    *pString, *token;
 	char cvarName[MAX_QPATH];
 	int fadeupTime = 0;
