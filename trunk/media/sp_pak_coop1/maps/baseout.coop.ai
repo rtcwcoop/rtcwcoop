@@ -49,8 +49,6 @@ player
 
 		cvar g_episode 2
 
-		accum 2 set 0 // don't remove exit trigger
-
 		objectivesneeded 2
 		numsecrets 1
 
@@ -233,7 +231,6 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}
 	
 	trigger exitlevel

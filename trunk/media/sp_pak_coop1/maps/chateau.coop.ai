@@ -69,7 +69,6 @@ player
 		accum 2 set 0
 		accum 3 set 0
 		accum 4 set 0
-		accum 5 set 0 // don't remove exit trigger
 
 		objectivesneeded 2
 		numsecrets 2
@@ -426,7 +425,6 @@ player
 	trigger endmap	
 	{
 		trigger game_manager checkexit
-		accum 5 abort_if_less_than 1
 	}
 	
 	trigger exitlevel

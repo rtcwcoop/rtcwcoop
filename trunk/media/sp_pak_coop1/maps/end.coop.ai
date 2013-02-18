@@ -68,8 +68,6 @@ player
 
 		cvar g_episode 6
 
-		accum 2 set 0 // don't remove exit trigger
-
 		objectivesneeded 1		
 		numsecrets 0
 
@@ -154,11 +152,6 @@ wait 100
 //Maybe should use nostats, to code a system for this...
 //Runs 3 times, proceeds and crashes...
 		changelevel escape1 //250 //nostats //persistent crashes
-	}
-
-	death
-	{
-		trigger counter1 deathreset
 	}
 }
 

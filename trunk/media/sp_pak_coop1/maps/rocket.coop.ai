@@ -54,7 +54,6 @@ player
 		accum 0 bitset 2	// Used for elevator1's DOWN lever
 		accum 0 bitreset 3	// Used for elevator1's UP lever
 		accum 0 bitreset 4
-		accum 2 set 0 		// don't remove exit trigger
 
 		objectivesneeded 3
 		numsecrets 1
@@ -507,7 +506,6 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}
 
 	trigger exitlevel

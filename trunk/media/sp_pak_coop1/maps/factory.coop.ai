@@ -68,7 +68,6 @@ player
 		accum 0 bitset 3 //control sewer spawn
 		accum 0 bitset 4 //control wakeing of last ai
 		accum 0 bitset 5 //control wakeing of black 1 & 2
-		accum 2 set 0 // don't remove exit trigger
 
 		objectivesneeded 2
 		numsecrets 0
@@ -276,7 +275,6 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}
 	
 	trigger exitlevel

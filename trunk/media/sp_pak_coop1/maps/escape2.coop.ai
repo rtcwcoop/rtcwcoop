@@ -43,7 +43,6 @@ player
 		accum 0 bitset 1 // alarm only fired once
 		accum 0 bitset 2 // action 13 only fired once
 		accum 1 set 0 // controls streaming music
-		accum 2 set 0 // don't remove exit trigger
 
 		objectivesneeded 1
 		numsecrets 4
@@ -310,7 +309,6 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}
 	
 	trigger exitlevel

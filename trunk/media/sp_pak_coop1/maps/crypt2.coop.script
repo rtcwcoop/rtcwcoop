@@ -8,7 +8,7 @@ game_manager
 {
 	spawn
 	{
-		accum 0 set 0 // objectives
+		accum 0 bitreset 1
 
 		trigger player map_start	//Prevents late players affecting the game
 	}

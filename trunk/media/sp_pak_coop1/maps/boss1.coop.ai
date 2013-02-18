@@ -55,7 +55,6 @@ player
 		accum 0 bitset 2 // spawn helga once
 		accum 1 set 0
 		accum 2 set 0
-		accum 3 set 0 // don't remove exit trigger
 		
 		objectivesneeded 2
 		numsecrets 0
@@ -180,7 +179,6 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}
 
 	trigger endmap2

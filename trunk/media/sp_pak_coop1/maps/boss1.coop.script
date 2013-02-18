@@ -9,7 +9,8 @@ game_manager
 {
 	spawn
 	{
-		accum 0 set 0 // objectives
+		accum 0 bitreset 1
+		accum 0 bitreset 2
 		//accum 1 set 0 // 
 		accum 2 set 0 // triggers
 		accum 3 set 0 // helga

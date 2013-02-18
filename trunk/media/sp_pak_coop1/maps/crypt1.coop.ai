@@ -52,7 +52,6 @@ player
 		accum 1 set 0
 		accum 2 bitreset 0	// Used for if the player goes around which will skip the scooby doo scene.
 		accum 2 bitreset 1	//Sage - for big bang theory
-		accum 3 set 0 // don't remove exit trigger
 
 		objectivesneeded 2
 		numsecrets 1
@@ -345,7 +344,6 @@ player
 	trigger endmap		// Triggers next map
 	{
 		trigger game_manager checkexit
-		accum 3 abort_if_less_than 1
 	}
 
 	trigger exitlevel

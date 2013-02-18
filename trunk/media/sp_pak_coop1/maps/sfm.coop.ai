@@ -60,7 +60,6 @@ player
 		accum 0 set 1
 		accum 1 set 1
 		accum 2 set 0
-		accum 3 set 0 // don't remove exit trigger
 
 		objectivesneeded 4
 		numsecrets 1
@@ -299,7 +298,6 @@ player
 	trigger realend
 	{
 		trigger game_manager checkexit
-		accum 3 abort_if_less_than 1
 	}	
 }
 

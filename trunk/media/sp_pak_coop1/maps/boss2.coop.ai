@@ -75,8 +75,6 @@ player
 		accum 1 bitreset 7	//COOP, XTRA, Lockplayer?
 		accum 1 bitreset 8	//COOP, XTRA, Player locked
 
-		accum 2 set 0 // don't remove exit trigger
-
 		objectivesneeded 3
 		numsecrets 0
 
@@ -343,7 +341,6 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}
 	
 	trigger exitlevel
