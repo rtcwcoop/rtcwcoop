@@ -3199,6 +3199,7 @@ AICast_ScriptAction_MusicStart
 ==================
 */
 qboolean AICast_ScriptAction_MusicStart( cast_state_t *cs, char *params ) {
+
 	char    *pString, *token;
 	char cvarName[MAX_QPATH];
 	int fadeupTime = 0;
@@ -3238,7 +3239,7 @@ qboolean AICast_ScriptAction_MusicPlay( cast_state_t *cs, char *params ) {
 	}
 	Q_strncpyz( cvarName, token, sizeof( cvarName ) );
 
-	trap_SendServerCommand( cs->entityNum, va( "mu_play %s %d", cvarName, fadeupTime ) );
+	trap_SendServerCommand( -1, va( "mu_play %s %d", cvarName, fadeupTime ) );
 
 	return qtrue;
 }
@@ -3259,7 +3260,7 @@ qboolean AICast_ScriptAction_MusicStop( cast_state_t *cs, char *params ) {
 		fadeoutTime = atoi( token );
 	}
 
-	trap_SendServerCommand( cs->entityNum, va( "mu_stop %i", fadeoutTime ) );
+	trap_SendServerCommand( -1, va( "mu_stop %i", fadeoutTime ) );
 
 	return qtrue;
 }
@@ -3288,7 +3289,7 @@ qboolean AICast_ScriptAction_MusicFade( cast_state_t *cs, char *params ) {
 	}
 	fadetime = atoi( token );
 
-	trap_SendServerCommand( cs->entityNum, va( "mu_fade %f %i", targetvol, fadetime ) );
+	trap_SendServerCommand( -1, va( "mu_fade %f %i", targetvol, fadetime ) );
 
 	return qtrue;
 }
