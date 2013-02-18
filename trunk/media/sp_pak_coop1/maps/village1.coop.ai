@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 17.2.2013
 //
 //AI Scripting
 //Map: Village1
@@ -11,10 +12,6 @@ player
 //		suggestweapon weapon_mp40
 //		abort_if_loadgame
 //		mu_start sound/music/l_briefing_2
-	}
-
-	playerstart
-	{
 		// Weapons
 		giveweapon weapon_knife	
 		giveweapon weapon_luger
@@ -35,6 +32,10 @@ player
 		selectweapon weapon_mp40
 	}
 
+	playerstart
+	{
+	}
+
 	trigger map_start
 	{
 		//If something breaks at late player joining, move it here
@@ -52,34 +53,9 @@ player
 //		mu_fade 0 1000
 		mu_start sound/music/m_stealth
 
-		//trigger bookshelf cinematic1
-		//trigger player cam0
-		trigger bookshelf open
-	}
-
-	// --- Start Cameras---
-	trigger cam0
-	{
-		startcamblack vill1_00
-	}
-
-	trigger cam1
-	{
-		startcam vill1_01
-	}
-
-	trigger cam1d
-	{
-		startcam vill1_01d
-	}
-
-	// --- End Cameras---
-
-
-	trigger camerainterrupt
-	{
-		stopcam
-		trigger bookshelf cleanup
+		//Opening door directly in spawn - Sage
+		wait 100
+		alertentity kill_cine1
 	}
 
 	trigger nearkess
@@ -336,25 +312,6 @@ cine1_bj
 		nosight 99999
 		notarget on
 		noavoid
-		explicit_routing on
-		wait 5
-	}
-
-	trigger go
-	{
-		wait 1000
-		runtomarker k1spot1 nostop
-		runtomarker k1spot2 nostop
-		runtomarker k1spot3 nostop
-		runtomarker k1spot4 nostop
-		runtomarker k1spot5
-		runtomarker k1spot6
-		runtomarker k1spot7
-		runtomarker k1spot8
-	}
-
-	death
-	{
 	}
 }
 
@@ -370,27 +327,6 @@ cine1_kessler
 		nosight 99999
 		notarget on
 		noavoid
-		explicit_routing on
-		wait 5
-	}
-
-	trigger go
-	{
-		runtomarker k1spot1 nostop
-		runtomarker k1spot2 nostop
-		runtomarker k1spot3 nostop
-		runtomarker k1spot4 nostop
-		runtomarker k1spot5
-		runtomarker k1spot6
-		runtomarker k1spot7
-		runtomarker k1spot8
-		runtomarker k1spot9
-	}
-
-	
-
-	death
-	{
 	}
 }
 
@@ -462,6 +398,8 @@ kessler
 		anim_condition special_condition vill1_kessler
 		takeweapon all
 		noavoid
+		wait 250	//COOP
+		playsound villkess_3	//COOP
 		wait forever 0 player
 	}
 
@@ -538,7 +476,7 @@ kessler
 
 	death
 	{
-		missionfailed 6 3
+		//missionfailed 6 3
 	}
 
 	enemysight
@@ -3343,9 +3281,17 @@ partisan4
 
 	trigger player_is_close
 	{
+//Divided this into 2 triggers, wait halted sound - Sage
+		trigger bookshelf speak_wait //COOP
+
 		resetscript
+		wait 5 player
 		playsound villp4_3	// "Our british friends thought you might be able to use this... Silenced sten."
-		wait 1750 0 player
+		//wait 1750 0 player
+	}
+
+	trigger player_is_close2
+	{
 		walktomarker p4spot3a
 		facetargetangles p4spot3a
 		wait 500
@@ -3438,7 +3384,7 @@ partisan4
 
 	death player
 	{
-		missionfailed 6 4
+//		missionfailed 6 4
 	}
 
 	enemysight
@@ -4328,6 +4274,11 @@ coop_ai_soldier_21		// behind the wall
 		setammo ammo_9mm 999
 		statetype alert
 	}
+
+	inspectbodystart
+	{
+		deny
+	}
 }
 
 coop_ai_soldier_22		// door of house2
@@ -4345,6 +4296,11 @@ coop_ai_soldier_22		// door of house2
 		setammo ammo_9mm 999
 		statetype alert
 	}
+
+	inspectbodystart
+	{
+		deny
+	}
 }
 
 coop_ai_soldier_23		// upper place
@@ -4361,6 +4317,13 @@ coop_ai_soldier_23		// upper place
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert
+		wait forever 0
+	}
+
+
+	inspectbodystart
+	{
+		deny
 	}
 }
 
@@ -4382,6 +4345,12 @@ coop_ai_soldier_24		// in the window
 		setammo ammo_792mm 999
 		selectweapon weapon_sniperscope
 		statetype alert
+		//wait forever 0
+	}
+
+	inspectbodystart
+	{
+		deny
 	}
 }
 
@@ -4399,6 +4368,7 @@ coop_ai_soldier_25		// in the hallway
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert
+		wait forever 0
 	}
 }
 
@@ -4504,6 +4474,11 @@ coop_ai_soldier_32		// upper place
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert
+	}
+
+	inspectbodystart
+	{
+		deny
 	}
 }
 

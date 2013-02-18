@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 17.2.2013
 //
 //Brush Scripting
 //Map Village1
@@ -77,66 +78,24 @@ bookshelf
 		accum 0 bitreset 1	// Used for Partisan4 to check the player.
 		accum 1 set 0		// Used to count dead guys for Partisan4
 		accum 2 set 0		// Used for partisan4's response.
-	}
 
-	// --- Sync all cinematic1 ---
-
-	trigger cinematic1
-	{
-		wait 1000
-		trigger player cam1
-		wait 4000
-		trigger nazi0 talk2
-		wait 4000
-		trigger nazi1 talk2
-		trigger nazi0b go
-		wait 6000
-		trigger nazi0 talk3
-		wait 5000
-		trigger nazi1 talk3
-		trigger nazi0a go
-		wait 2000
-		wait 500
-		trigger nazi0a whistle
-		wait 5600
-		trigger nazi0a whistle
-		wait 3000
 		wait 100
-		trigger cine1_kessler go
-		trigger cine1_bj go
-		wait 150
-		trigger player cam1d
-		wait 12000
-		trigger bookshelf cleanup		
-	}
 
-	trigger cleanup
-	{
-		resetscript
-		trigger nazi0 reset
-		trigger nazi1 reset
-		alertentity kill_cine1
-		trigger kessler go
-	}
-
-	// --- End Sync all cinematic1 ---
-
-	trigger open
-	{
-		playsound sound/world/winerack.wav loop
 		gotomarker bookspot2 30
-		stopsound
-		wait 3000
-		trigger slidefloor open
 	}
-
 
 	trigger count2 	// Since there is no more counter2, I am using the bookshelf to do all the work.
 	{
 		accum 1 inc 1
-		accum 1 abort_if_less_than 4
+		accum 1 abort_if_not_equal 4
 		alertentity partisan4
 		resetscript		
+	}
+
+	trigger speak_wait	//COOP
+	{
+		wait 1750
+		trigger partisan4 player_is_close2
 	}
 
 	trigger n1check
@@ -220,12 +179,7 @@ slidefloor
 {
 	spawn
 	{
-	}
-
-	trigger open
-	{
-		playsound sound/world/winerack.wav loop
+		wait 100
 		gotomarker floorspot2 30
-		stopsound
 	}
 }
