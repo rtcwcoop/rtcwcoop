@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 18.2.2013
 //
 //Brush scripting
 //Map Village2_1117
@@ -9,7 +10,13 @@ game_manager
 {
 	spawn
 	{
-		accum 0 set 0 // objectives
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 0 bitreset 3
+		accum 0 bitreset 4
+		accum 0 bitreset 5
+		accum 0 bitreset 6
+		accum 0 bitreset 7
 
 		trigger player map_start	//Prevents late players affecting the game
 	}
@@ -161,9 +168,9 @@ checker1
 	trigger Print_objectives
 	{
 		//print Alright now you must get to the Chateau.
-		wait 2000
+		//wait 2000
 		//print Without being seen.
-		wait 2000
+		//wait 2000
 	}
 
 	trigger nazi1_alive			// nazi tells checker1 he is alive

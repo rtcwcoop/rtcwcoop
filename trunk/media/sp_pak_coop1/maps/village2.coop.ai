@@ -1,3 +1,4 @@
+//Cleaned for COOP by -SSF-Sage on 18.2.2013
 //
 //AI scripting
 //Map Village2_118
@@ -67,7 +68,6 @@ player
 		accum 2 set 0
 		accum 3 set 0
 		accum 4 set 0
-		accum 5 set 0 // don't remove exit trigger
 
 		objectivesneeded 7
 		numsecrets 6
@@ -340,7 +340,6 @@ player
 	trigger endmap
 	{
 		trigger game_manager checkexit
-		accum 5 abort_if_less_than 1
 	}	
 }
 
@@ -1541,7 +1540,7 @@ nazi4						// This nazi is in the mystic shop... is now drz
 		tactical 1.0
 		aggression 1.0
 		inner_detection_radius 100
-		alertness 400
+		alertness 512
 		reaction_time 0.9
 		hearing_scale 0.8
 //		hearing_scale_not_pvs
@@ -2374,12 +2373,12 @@ inge1						// Warming hands next to fire...
 
 	death player
 	{
-		missionfailed 6 1
+		//missionfailed 6 1
 	}
 
 	death
 	{
-		missionfailed 3	1
+		//missionfailed 3	1
 	}
 }
 
@@ -3836,7 +3835,7 @@ inge2						// Warming hands next to fire...
 
 	death player
 	{
-		missionfailed 6 1
+		//missionfailed 6 1
 	}
 }
 
@@ -5202,7 +5201,8 @@ nazi16						// This is the last nazi that can be set off the last alarm...
 
 	death
 	{
-		objectivemet 6	// mission objective complete
+		//objectivemet 6	// mission objective complete
+		trigger player alarms_destroyed
 	}
 
 	trigger run_for_bj
