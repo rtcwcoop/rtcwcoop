@@ -2456,8 +2456,7 @@ nazi8
 		accum 0 abort_if_bitset 25
 //		trigger checker1 ballroom1
 //		trigger checker1 ballroom_status
-		alertentity eg1
-		alertentity eg2
+		trigger game_manager spawn_elite
 		alertentity eg2a
 		alertentity nazi9
 		alertentity nazi10
@@ -2684,13 +2683,7 @@ nazi10								// This is new soldier with ballrooms alerted gaurds
 	{
 		accum 3 abort_if_not_equal 0
 		resetscript
-		alertentity nazi11			// This will alert the staircase guards!!!
-		alertentity nazi12
-		//alertentity nazi14
-		//alertentity nazi15
-		alertentity eg1
-		alertentity eg2
-//		alertentity eg2a
+	trigger game_manager open_east_door
 	}
 
 	inspectbodyend	
@@ -2708,13 +2701,7 @@ nazi10								// This is new soldier with ballrooms alerted gaurds
 		trigger checker1 stair_nazis_checkout
 		trigger checker1 death_check_out
 		trigger checker1 stair_nazis_choose_enemy_respond
-		alertentity nazi11			// This will alert the staircase guards!!!
-		alertentity nazi12
-		//alertentity nazi14
-		//alertentity nazi15
-		alertentity eg1
-		alertentity eg2
-//		alertentity eg2a
+		trigger game_manager open_east_door
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out
 	}
@@ -2745,7 +2732,7 @@ nazi11							// First soldier of staircase squad...
 
 	trigger go1		// ALERTED
 	{
-		alertentity unlock_right_door
+		//alertentity unlock_right_door
 		runtomarker n11spot1 nostop
 		runtomarker n11spot2 nostop
 		runtomarker n11spot3 nostop
@@ -2896,6 +2883,7 @@ nazi12								// nazi 11 12 14 15 are the nazi that come out on stairs...
 	inspectbodystart
 	{
 		statetype alert
+		deny
 	}
 		
 
@@ -2910,7 +2898,6 @@ nazi12								// nazi 11 12 14 15 are the nazi that come out on stairs...
 //		trigger checker1 death_check_out
 		trigger checker1 stair_nazis_checkout
 		trigger checker1 stair_nazis_choose_enemy_respond
-		//alertentity nazi15 				// This will spawn in another nazi when 11 dies
 		accum 0 abort_if_not_bitset 20
 		trigger checker1 sight_check_out
 	}
@@ -2996,13 +2983,7 @@ nazi13							// This is the elite guard who is leading chanting
 	inspectbodystart
 	{
 		attrib alertness 2000
-		alertentity nazi11
-		alertentity nazi12
-		//alertentity nazi14
-		//alertentity nazi15
-		alertentity eg1
-		alertentity eg2	
-//		alertentity eg2a
+		trigger game_manager open_east_door
 	}
 
 	inspectsoundstart
@@ -3012,11 +2993,7 @@ nazi13							// This is the elite guard who is leading chanting
 		setammo ammo_9mm 999
 		giveweapon weapon_sten
 		selectweapon weapon_sten
-		alertentity nazi11
-		alertentity nazi12
-		alertentity eg1
-		alertentity eg2
-//		alertentity eg2a
+		trigger game_manager open_east_door
 	}
 
 	death
@@ -5900,6 +5877,7 @@ treasure_guard1			// Guards in ballroom...
 
 	death
 	{
+		trigger game_manager open_east_door
 		trigger checker1 ballroom_checkout
 //		trigger checker1 death_check_out
 		accum 0 bitset 30

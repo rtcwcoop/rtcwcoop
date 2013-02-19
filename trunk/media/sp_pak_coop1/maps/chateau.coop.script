@@ -11,6 +11,12 @@ game_manager
 		accum 0 bitreset 1
 		accum 0 bitreset 2
 
+		accum 1 bitreset 1 //Open door
+		accum 1 bitreset 2 //Spawn nazies behind door
+		accum 1 bitreset 3 //Spawn nazies behind door
+
+
+
 		trigger player map_start	//Prevents late players affecting the game
 	}	
 
@@ -30,15 +36,44 @@ game_manager
 	{
 		accum 0 bitset 2
 	}
+
+//Let's make it safer - Sage ;)
+	trigger open_east_door
+	{
+		accum 1 abort_if_bitset 1
+		accum 1 bitset 1
+
+		alertentity unlock_right_door
+
+		wait 50
+
+//Dispatch it in checker1, so wait cmd will never break it...
+
+	trigger checker1 spawn_me_nazies_thx
+	}
+
+	trigger spawn_elite
+	{
+		accum 1 abort_if_bitset 2
+		accum 1 bitset 2
+
+		alertentity eg1
+		alertentity eg2
+	}
+
+	trigger spawn_stair_nazies
+	{
+		accum 1 abort_if_bitset 3
+		accum 1 bitset 3
+
+		alertentity nazi11
+		alertentity nazi12
+	}
 }
 
 fireplace
 {
 	spawn
-	{
-	}
-
-	trigger						
 	{
 	}
 }
@@ -371,6 +406,14 @@ checker1
 		accum 7 set 0 		// used for body count
 	}
 
+	trigger spawn_me_nazies_thx						
+	{
+		wait 50
+		trigger game_manager spawn_stair_nazies
+		wait 50
+		trigger game_manager spawn_elite
+	}
+
 	trigger music_stealth
 	{
 		trigger player stealth_low
@@ -636,8 +679,8 @@ checker1
 		resetscript 
 		alertentity nazi7
 		alertentity nazi7a
-		#if g_reinforce >= 1 alertentity nazi13 #endif			//This officer will be alerted if room is relaxed... NO longer needed
-		alertentity nazi8		// Guard with back to officers talking...
+		alertentity nazi13
+		alertentity nazi8 // Guard with back to officers
 	}
 
 	trigger nazi8and9alive				// This has nazi8 and 9 set an accum to be alive...
@@ -648,8 +691,7 @@ checker1
 	trigger nazi8and9alternate			// This has nazi10 or 13 check to see if 8 and 9 are still alive	
 	{						// If they are then only two nazis will spawn in instead of 4..
 		accum 3 abort_if_not_equal 2
-		alertentity nazi11
-		alertentity nazi12
+		trigger game_manager spawn_stair_nazies
 		accum 3 set 0 
 	}
 
@@ -694,8 +736,7 @@ checker1
 	{
 		accum 7 abort_if_greater_than 3
 		resetscript
-		alertentity nazi11
-		alertentity nazi12
+		trigger game_manager spawn_stair_nazies
 	}
 
 	trigger ballroom_status
@@ -709,8 +750,7 @@ checker1
 	trigger ballroom1		// THIS SETS CHANTING SITUATION UP FOR RELAXED ENTRY
 	{
 		accum 0 abort_if_bitset 15
-		alertentity eg2
-		alertentity eg1
+		trigger game_manager spawn_elite
 		alertentity nazi13
 		alertentity nazi13a
 		alertentity nazi13b
