@@ -43,7 +43,8 @@ player
 		accum 0 bitset 2
 		accum 0 bitset 3
 		accum 0 bitset 4
-		accum 0 bitset 5  //Tram2 cannot start by going down
+		accum 0 bitset 5  //Tram1 wait tram2 at upstation?
+
 		accum 1 set 0
 
 		objectivesneeded 3
@@ -55,6 +56,7 @@ player
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_4 #endif
 	}
 
+//Main tram power on
 	trigger switch1on
 	{
 		objectivemet 1
@@ -65,66 +67,7 @@ player
 		trigger gear3 on3
 	}
 
-	trigger first_start
-	{
-		accum 0 abort_if_not_bitset 1
-		accum 0 bitreset 1
-
-		wait 250
-		trigger tramcar tramdown
-		wait 5
-		trigger trammount mountdown
-
-		objectivemet 2
-		trigger game_manager objective2
-		alertentity nazi13
-		alertentity nazi14
-		alertentity nazi23
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_16 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
-		accum 1 abort_if_equal 2
-		accum 1 set 2
-		mu_fade 0 500
-		mu_queue sound/music/m_drums
-	}
-
-	trigger 1up
-	{
-		wait 250
-
-		trigger tramcar tramup
-		trigger trammount mountup
-
-		accum 0 abort_if_bitset 2	//Button pressed?
-		accum 0 bitreset 5		//Allow going down
-
-		trigger tramcar_coop tramreturn
-		wait 5
-		trigger trammount_coop mountreturn
-		
-	}
-
-	trigger 1down
-	{
-		accum 0 abort_if_bitset 1
-
-		wait 250
-		trigger tramcar tramdown
-		wait 5
-		trigger trammount mountdown
-
-		accum 0 abort_if_bitset 2 //Button pressed?
-		accum 0 abort_if_bitset 5 //Can I go down?
-
-		trigger tramcar_coop tramcontinue
-		wait 5
-		trigger trammount_coop mountcontinue
-	}
-	
+//Tram1 comes up first time
 	trigger starttram
 	{
 		accum 0 abort_if_not_bitset 0
@@ -139,13 +82,93 @@ player
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_13 #endif
 	}
 
+//Button1 pressed, Tram1 goes down first time
+	trigger first_start
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+
+		wait 250
+		trigger tramcar tramdown
+		wait 5
+		trigger trammount mountdown
+
+		wait 5
+		trigger player got_objective2
+
+		accum 1 abort_if_equal 2
+		accum 1 set 2
+		mu_fade 0 500
+		mu_queue sound/music/m_drums
+	}
+
+//These 2 triggers are dispatching the both trams
+	trigger trams_up
+	{
+		wait 250
+
+		trigger tramcar tramup
+		trigger trammount mountup
+
+		accum 0 abort_if_bitset 2	//Button pressed?
+
+		trigger tramcar_coop tramreturn
+		wait 5
+		trigger trammount_coop mountreturn
+		
+	}
+
+	trigger trams_down
+	{
+//Trigger first_start must run first.
+//In other words don't start loop b4 button1 is pressed ;)
+
+		accum 0 abort_if_bitset 1 
+		accum 0 abort_if_not_bitset 5 //Must we stop at top?
+
+		wait 250
+		trigger tramcar tramdown
+		wait 5
+		trigger trammount mountdown
+
+		accum 0 abort_if_bitset 2 //Button pressed?
+
+		trigger tramcar_coop tramcontinue
+		wait 5
+		trigger trammount_coop mountcontinue
+	}
+
+//These two decide if tram1 must stop at top station
+	trigger stop_tram1
+	{
+		accum 0 bitreset 5	//Stop tram1 at top station
+	}
+
+	trigger reset_tram1
+	{
+		accum 0 bitset 5		//Don't stop tram1 at top
+	}
+
+//Mid station power on
+	trigger powermid
+	{
+		accum 0 abort_if_not_bitset 3
+		accum 0 bitreset 3
+		alertentity light3on
+		alertentity light4on
+		trigger button2 resetbutton2
+		
+	}
+	
+//The tram2 button is pressed
 	trigger startlower
 	{
-		accum 0 abort_if_not_bitset 2
-		accum 0 bitreset 2
+		//We don't move the tram2 here, we just set accums
+		//to allow it move on next dispatch phase - Sage :)
 
-//		trigger tramcar tramfix
-//		trigger trammount mountfix
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2	//Button 2 pressed
+		trigger tramdummy button2_pressed //Handle tram 1vs2
 
 		alertentity nazi16
 		alertentity nazi17
@@ -156,16 +179,6 @@ player
 
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_33 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_34 #endif
-	}
-
-	trigger powermid
-	{
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
-		alertentity light3on
-		alertentity light4on
-		trigger button2 resetbutton2
-		
 	}
 
 	trigger openlocker1
@@ -312,6 +325,22 @@ player
 	{
 		objectivemet 3
 		trigger game_manager objective3
+	}
+
+	trigger got_objective2
+	{
+		objectivemet 2
+		trigger game_manager objective2
+
+		alertentity nazi13
+		alertentity nazi14
+		alertentity nazi23
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_18 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_19 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_20 #endif
 	}
 }
 
