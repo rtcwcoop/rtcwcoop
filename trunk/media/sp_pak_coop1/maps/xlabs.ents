@@ -13,9 +13,9 @@
 
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "3" 
-"origin" "-687 15 16" 
-"angle" "-86"
+"spawnflags" "3"
+"origin" "-682 12 16"
+"angle" "-22"
 }
 
 // SPAWNPOINTS 
@@ -449,3 +449,5 @@
 "angle" "155"
 "targetname" "xlabs2"
 }
+
+

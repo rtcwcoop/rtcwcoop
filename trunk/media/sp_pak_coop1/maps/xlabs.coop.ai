@@ -61,6 +61,8 @@ player
 		objectivesneeded 2
 		numsecrets 1
 
+		accum 0 bitreset 0	//Destroy secret door once
+
 		trigger counter2 cleanup
 
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
@@ -198,16 +200,27 @@ player
 
 	trigger action10a
 	{
-//		trigger lever6 off
-//		alertentity scientist13
-//		alertentity loper9
-		alertentity p2_boom
+		trigger lever6 off
+		alertentity scientist13
+		alertentity loper9
+		//alertentity p2_boom
+		trigger counter2 secret_backup //Backup script -Sage
+		wait 50
+		trigger loper9 go
 		foundsecret
+	}
+
+	trigger destroy_secret_door
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+
+		alertentity p2_boom
 	}
 
 	trigger action10
 	{
-//		trigger loper9 go3
+		//trigger loper9 go3
 	}
 
 	trigger action11
@@ -2537,7 +2550,7 @@ loper9
 {
 	attributes
 	{
-		starting_health 10
+		starting_health 30	//Low enough for proto2
 		aggression 1.0
 	}
 
@@ -2554,8 +2567,11 @@ loper9
 		walktomarker l9spot2 nostop
 		sight
 		attack scientist13
+		wait 2000
+		trigger loper9 go3
 	}
 
+//Not used anymore - Sage
 	trigger go2
 	{
 		nosight 9999
@@ -2571,18 +2587,20 @@ loper9
 
 	trigger go3
 	{
-//		alertentity proto2
-//		nosight 99999
-//		walktomarker l9spot1
-//		wait 500 0 player
-//		movetype crouch
-//		nosight 99999
-//		wait forever 0 player
+		//alertentity proto2
+		nosight 99999
+		walktomarker l9spot1
+		wait 500 0 player
+		movetype crouch
+		nosight 99999
+		wait forever 0 player
 	}
 
 	trigger stand
 	{
-		movetype run
+		resetscript
+		wait 250 proto2
+		wait forever 0
 	}
 
 	inspectfriendlycombatstart
@@ -2611,6 +2629,7 @@ loper9
 
 	death
 	{
+	trigger game_manager loper9_dead
 	}	
 }
 
@@ -2626,8 +2645,8 @@ scientist13
 		takeweapon all
 		nosight 99999
 		statetype alert
-		wait 1000 0
-		trigger loper9 go
+		//wait 1000 0
+		//trigger loper9 go
 		runtomarker sci13spot1 loper9
 		playsound xlabs_sci_misc_fear2
 	}
@@ -2659,7 +2678,7 @@ scientist13
 
 	death
 	{
-		trigger loper9 go2
+		//trigger loper9 go2
 	}
 }
 
@@ -2680,21 +2699,51 @@ proto2
 		giveweapon weapon_panzerfaust
 		setammo ammo_panzerfaust 999
 		selectweapon weapon_panzerfaust
-//		nosight 99999
-//		wait 5
+		nosight 99999
+
+		accum 0 set 0 //Enemysight check - Sage
+	}
+
+	trigger go
+	{
 		runtomarker p2spot1
-//		wait 1000 0
-//		trigger loper9 stand
-//		fireattarget loper9
+		trigger game_manager check_loper9
+	}
+
+	trigger continue_l9_alive
+	{
+		sight
+		trigger loper9 stand
+		fireattarget loper9
 		runtomarker l9spot1
 //		wait 1000 0 l9_target1
 //		wait 1000 0 p2_target1
 		fireattarget p2_target1
 //		wait 200 0
-		alertentity p2_boom
+//		alertentity p2_boom
+		trigger player destroy_secret_door
 //		sight
 		resetscript
 //		attack player
+
+		accum 0 set 1 //can enemysight
+	}
+
+	trigger continue_l9_dead
+	{
+		runtomarker l9spot1
+//		wait 1000 0 l9_target1
+//		wait 1000 0 p2_target1
+		sight
+		fireattarget p2_target1
+//		wait 200 0
+//		alertentity p2_boom
+		trigger player destroy_secret_door
+//		sight
+		resetscript
+//		attack player
+
+		accum 0 set 1 //can enemysight
 	}
 	
 	inspectfriendlycombatstart
@@ -2719,6 +2768,9 @@ proto2
 
 	enemysight player
 	{
+//Without this check, the player is seen, proto2 will never
+//breach door and backup script blows the door - Sage
+		accum 0 abort_if_not_equal 1
 		resetscript
 	}
 
