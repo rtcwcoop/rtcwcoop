@@ -9,7 +9,9 @@ game_manager
 {
 	spawn
 	{
-		accum 0 set 0 // objectives
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 1 set 0	//Bookshelf backup
 
 		trigger player map_start	//Prevents late players affecting the game
 	}
@@ -29,6 +31,17 @@ game_manager
 	trigger objective2
 	{
 		accum 0 bitset 2
+	}
+
+//This is triggered by kesler AND with a little longer timer
+//so if kesler freezes, the bookshelf still open
+
+	trigger open_bookshelf
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger bookshelf open
+		trigger kessler opened //Don't play open anim...
 	}
 }
 
@@ -79,9 +92,16 @@ bookshelf
 		accum 1 set 0		// Used to count dead guys for Partisan4
 		accum 2 set 0		// Used for partisan4's response.
 
-		wait 100
+//Immediately open at map start:
+	//	wait 100
+	//	gotomarker bookspot2 30
+	}
 
+	trigger open
+	{
+		playsound sound/world/winerack.wav loop
 		gotomarker bookspot2 30
+		stopsound
 	}
 
 	trigger count2 	// Since there is no more counter2, I am using the bookshelf to do all the work.
@@ -181,5 +201,13 @@ slidefloor
 	{
 		wait 100
 		gotomarker floorspot2 30
+		wait 100
+		trigger slidefloor bookshelf_safe_timer
+	}
+
+	trigger bookshelf_safe_timer
+	{
+		wait 35000
+		trigger game_manager open_bookshelf
 	}
 }

@@ -44,12 +44,12 @@ player
 		accum 1 set 0	// Accum 1 is used so that help1 only gets triggered once.
 		accum 4 set 0	// Accum 4 is used so that FEM1 will not play the "scared jump" animation after already in the scaredloop.
 		accum 5 set 0	// This will keep gunner1 from getting off of the gun if he has not seen the player.
-		accum 2 set 0 // don't remove exit trigger
 
 		objectivesneeded 2
 		numsecrets 2
 
-		//Opening bookshelf directly in spawn - Sage
+//Opening bookshelf directly in spawn or by kessler - Sage
+
 		wait 100
 		alertentity kill_cine1
 	}
@@ -292,7 +292,6 @@ player
 	trigger endmapb
 	{
 		trigger game_manager checkexit
-		accum 2 abort_if_less_than 1
 	}	
 }
 
@@ -379,8 +378,8 @@ kessler
 {
 	attributes
 	{
-		walking_speed 105
-		running_speed 175
+		walking_speed 180
+		running_speed 220
 		aggression 0.4
 		alertness 1024
 		idle_crouch 0.0
@@ -391,25 +390,30 @@ kessler
 
 	spawn
 	{
+		accum 0 set 0
 		anim_condition special_condition vill1_kessler
 		takeweapon all
 		noavoid
-		wait 250	//COOP
-		playsound villkess_3	//COOP
-		wait forever 0 player
+		//wait 250	//COOP
+		//playsound villkess_3	//COOP
+		//wait forever 0 player
+
+		wait 100
+
+		trigger kessler go
 	}
 
 	trigger go
 	{
-		wait 4000 0 player
+		wait 1000 0 player
 		playsound villkess_1	// "Such as it is, this is my house."
-		wait 3000 0 player
+		wait 2000 0 player
 		walktomarker k2spot1 nostop
 		playsound villkess_2	// "Down these stairs is a passage, follow me."
 		walktomarker k2spot2 nostop
-		walktomarker k2spot3 nostop
+		walktomarker k2spot3 //nostop
 		walktomarker k2spot4
-		wait 2000 0 player
+		wait 1000 0 player
 		alertentity kess_trig
 		wait forever 0 player
 	}
@@ -419,12 +423,21 @@ kessler
 		playsound villkess_3	// "I cannot Follow."
 		wait 3800 0 player
 		playsound villkess_4	// "You must hurry, Helga is almost there."
-		wait 7000 0 player
+		wait 5000 0 player
+
+		//Don't "open" if timer opened already
+		accum 0 abort_if_not_equal 0
+
 		facetargetangles k1spot9
 		playanim switch_alarm both
-		trigger bookshelf open
+		trigger game_manager open_bookshelf
 		wait 500
 		wait forever 0 player
+	}
+
+	trigger opened
+	{
+		accum 0 set 1
 	}
 
 	pain 18
