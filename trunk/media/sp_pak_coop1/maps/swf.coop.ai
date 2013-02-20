@@ -62,6 +62,7 @@ player
 		cvar g_episode 3
 
 		accum 0 bitset 0
+		accum 1 set 0 //Loper count moved here
 
 		objectivesneeded 2
 		numsecrets 4
@@ -127,7 +128,6 @@ player
 		alertentity nazi9
 		alertentity nazi10
 		alertentity nazi11
-		alertentity loper4
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_11 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_12 #endif
 	}
@@ -135,14 +135,18 @@ player
 	trigger action7
 	{
 		alertentity loper1
+		alertentity loper4
 	}
 
 	trigger action8
 	{
 		alertentity nazi12
 		trigger loper1 crash
-		#if g_reinforce >= 2 alertentity coop_ai_loper_13 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_loper_14 #endif
+		wait 250
+		alertentity loper2
+
+		#if g_reinforce >= 1 alertentity coop_ai_loper_13 #endif
+		#if g_reinforce == 2 alertentity coop_ai_loper_14 #endif
 	}
 
 	trigger action9
@@ -243,6 +247,20 @@ player
 	trigger raisewater
 	{
 		trigger waterwheel raise
+	}
+
+//Created this to be safer - Sage
+	trigger loper_counter
+	{
+		accum 1 inc 1
+	
+#if g_reinforce == 0 accum 1 abort_if_not_equal 2 #endif
+#if g_reinforce == 1 accum 1 abort_if_not_equal 3 #endif
+#if g_reinforce == 2 accum 1 abort_if_not_equal 4 #endif
+
+		alertentity n6unlock
+		wait 250
+		trigger nazi6 walkout
 	}
 
 	trigger secret1
@@ -650,14 +668,9 @@ nazi6
 
 	trigger walkout
 	{
-		accum 1 inc 1
-		accum 1 abort_if_less_than 2
-		statetype alert
 		sight
 		resetscript
-		alertentity n6unlock
-		wait 500
-		runtomarker n6spot3
+		wait 50 n6spot3	//I am paralized, atleast look ffs
 	}
 
 	death
@@ -973,7 +986,7 @@ nazi12
 
 		wait 100
 		runtomarker n12spot1
-		alertentity loper2
+		//alertentity loper2
 		fireattarget loper1 999999
 	}
 
@@ -1990,7 +2003,6 @@ loper1
 }
 
 loper2
-//TODO ! spawn trigger needs moved
 {
 	attributes
 	{
@@ -2051,10 +2063,8 @@ loper2
 
 	death
 	{
-		trigger nazi6 walkout
+		trigger player loper_counter
 	}
-
-
 }
 
 loper3
@@ -2090,7 +2100,7 @@ loper3
 
 	death
 	{
-		trigger nazi6 walkout
+		trigger player loper_counter
 	}
 }
 
@@ -2731,6 +2741,11 @@ coop_ai_loper_13		// loper 1
 	{
 		knockback off
 	}
+
+	death
+	{
+		trigger player loper_counter
+	}
 }
 
 coop_ai_loper_14		// loper 2
@@ -2745,6 +2760,11 @@ coop_ai_loper_14		// loper 2
 	spawn
 	{
 		knockback off
+	}
+
+	death
+	{
+		trigger player loper_counter
 	}
 }
 
