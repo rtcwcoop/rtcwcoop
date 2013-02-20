@@ -1,3 +1,6 @@
+//NOTE! OBJECTIVE 3:
+//KILLING ALL THE ELITES IS NO MORE AN OBJECTIVE IN COOP!
+//
 //Cleaned for COOP by -SSF-Sage on 24.1.2013
 //
 //Brush Scripting
@@ -11,7 +14,8 @@ game_manager
 	{
 		accum 0 bitreset 1
 		accum 0 bitreset 2
-		accum 0 bitreset 3
+		//accum 0 bitreset 3
+		//accum 1 set 0	//Elite counter
 
 		trigger player map_start	//Prevents late players affecting the game
 	}
@@ -20,7 +24,7 @@ game_manager
 	{
 		accum 0 abort_if_not_bitset 1
 		accum 0 abort_if_not_bitset 2	
-		accum 0 abort_if_not_bitset 3
+		//accum 0 abort_if_not_bitset 3
 		trigger player exitlevel
 	}
 	
@@ -34,10 +38,21 @@ game_manager
 		accum 0 bitset 2
 	}
 	
-	trigger objective3
-	{
-		accum 0 bitset 3
-	}
+	//trigger objective3
+	//{
+	//	accum 0 bitset 3
+	//}
+
+//This objective is removed!
+	//trigger elite_counter
+	//{
+	//	accum 1 inc 1
+//#if g_reinforce == 0 accum 1 abort_if_not_equal 20 #endif
+//#if g_reinforce == 1 accum 1 abort_if_not_equal 27 #endif
+//#if g_reinforce == 2 accum 1 abort_if_not_equal 35 #endif
+	//	accum 1 set -69
+	//	trigger player got_objective3
+	//}
 }
 
 coffincover1a
@@ -73,15 +88,6 @@ coffincover1a
 		alertentity dust2
 		wait 100
 		alertentity dust3
-	}
-
-	trigger objective3
-	{
-		accum 0 inc 1
-		#if g_reinforce == 0 accum 0 abort_if_not_equal 20 #endif
-		#if g_reinforce == 1 accum 0 abort_if_not_equal 27 #endif
-		#if g_reinforce == 2 accum 0 abort_if_not_equal 35 #endif
-		trigger player got_objective3
 	}
 
 	trigger fastopen

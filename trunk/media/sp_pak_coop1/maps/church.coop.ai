@@ -1,3 +1,6 @@
+//NOTE! 
+//KILLING ALL THE ELITES IS NO MORE AN OBJECTIVE IN COOP!
+//
 //Cleaned for COOP by -SSF-Sage on 24.1.2013
 //
 //AI Scripting
@@ -47,7 +50,7 @@ player
 
 		cvar g_episode 1
 
-		objectivesneeded 3
+		objectivesneeded 2	//Elites removed!
 		numsecrets 1
 
 		//Clean up the cine stuff
@@ -207,11 +210,11 @@ player
 		trigger game_manager objective2
 	}
 
-	trigger got_objective3
-	{
-		objectivemet 3
-		trigger game_manager objective3
-	}
+	//trigger got_objective3
+	//{
+	//	objectivemet 3
+	//	trigger game_manager objective3
+	//}
 	
 	trigger secret1
 	{
@@ -839,7 +842,7 @@ elite1
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -884,7 +887,7 @@ elite1a
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -933,7 +936,7 @@ elite1b
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	enemysight
@@ -1033,7 +1036,7 @@ elite2
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1103,7 +1106,7 @@ elite3
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1173,7 +1176,7 @@ elite4
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1243,7 +1246,7 @@ elite5
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1313,7 +1316,7 @@ elite6
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1383,7 +1386,7 @@ elite7
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1455,7 +1458,7 @@ elite8
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1564,7 +1567,7 @@ elite9
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1704,7 +1707,7 @@ elite10
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1792,7 +1795,7 @@ elite11
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	inspectfriendlycombatstart
@@ -1840,7 +1843,7 @@ elite11a
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -1911,7 +1914,7 @@ elite12
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 		trigger elite13 go_back
 		alertentity e12_deathcheck
 	}
@@ -1978,7 +1981,7 @@ elite13
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 		trigger elite12 go_back
 		alertentity e13_deathcheck
 	}
@@ -2027,7 +2030,7 @@ elite14
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 
 	statechange alert combat
@@ -2112,7 +2115,7 @@ elite15
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2168,7 +2171,7 @@ elite16
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2229,7 +2232,7 @@ elite17
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2296,7 +2299,7 @@ elite18
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2362,7 +2365,7 @@ elite19
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2428,7 +2431,7 @@ elite20
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2494,7 +2497,7 @@ elite21
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2560,7 +2563,7 @@ elite22
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2626,7 +2629,7 @@ elite23
 
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2737,7 +2740,7 @@ coop_ai_eliteguard_6		// half of the stairs 1
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2764,7 +2767,7 @@ coop_ai_eliteguard_7		// half of the stairs 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2825,7 +2828,7 @@ coop_ai_eliteguard_10	// top of the stairs 1
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2851,7 +2854,7 @@ coop_ai_eliteguard_11		// top of the stairs 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2878,7 +2881,7 @@ coop_ai_eliteguard_14		// temple 1
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2904,7 +2907,7 @@ coop_ai_eliteguard_15		// temple 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2931,7 +2934,7 @@ coop_ai_eliteguard_16		// upper floor 1
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -2957,7 +2960,7 @@ coop_ai_eliteguard_17		// upper floor 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -3051,7 +3054,7 @@ coop_ai_eliteguard_22		// bottom hallway 1
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -3078,7 +3081,7 @@ coop_ai_eliteguard_23		// bottom hallway 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -3104,7 +3107,7 @@ coop_ai_eliteguard_24		// exit room 1
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -3131,7 +3134,7 @@ coop_ai_eliteguard_25		// exit room 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -3157,7 +3160,7 @@ coop_ai_eliteguard_26		// exit room 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -3184,7 +3187,7 @@ coop_ai_eliteguard_27		// end 1
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
 
@@ -3210,6 +3213,6 @@ coop_ai_eliteguard_28		// end 2
 	
 	death
 	{
-		trigger coffincover1a objective3
+//		trigger game_manager elite_counter
 	}
 }
