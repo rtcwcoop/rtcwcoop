@@ -11,12 +11,22 @@ game_manager
 	{
 		accum 0 bitreset 1
 		accum 0 bitreset 2
-		//accum 1 set 0 // empty
-		accum 2 set 0 // triggers
-		accum 3 set 0 // triggers
-		accum 4 set 0
 
-//		wait 50	//Prevent bizzare things
+		accum 2 bitreset 1
+		accum 2 bitreset 2
+		accum 2 bitreset 3
+		accum 2 bitreset 4
+		accum 2 bitreset 5
+		accum 2 bitreset 6
+		accum 2 bitreset 7
+
+		accum 3 bitreset 1
+		accum 3 bitreset 2
+		accum 3 bitreset 3
+		accum 3 bitreset 4
+		accum 3 bitreset 5
+		accum 3 bitreset 6
+
 		trigger player map_start	//Prevents late players affecting the game
 	}
 
@@ -472,6 +482,11 @@ dummy
 		accum 0 bitset 0 // bitset = off  bitreset = on
 		accum 0 bitset 1
 		accum 1 set 0
+		accum 2 set 0	//Stop cine
+
+		wait 5
+		
+		trigger dummy cine1_cleanup
 	}
 
 	// ---Start Cinematic1---
@@ -495,6 +510,45 @@ dummy
 	//	trigger player fix_bitset0
 	//	trigger spawner dlight1off
 	//	trigger spawner dlight2off
+	}
+
+//This is remade for COOP - Sage
+	trigger dr_sequence
+	{
+		accum 2 abort_if_not_equal 0
+		wait 500
+
+		trigger nazi1 lets_try
+
+		wait 5000
+		accum 2 abort_if_not_equal 0
+
+		trigger nazi1 zap
+		wait 500
+		trigger handle turnon
+		wait 250
+		alertentity cine1_scream1
+
+		wait 6000
+		accum 2 abort_if_not_equal 0
+
+		trigger nazi1 zap
+		wait 500
+		trigger handle turnon
+		wait 250
+		alertentity cine1_scream1
+
+		wait 6000
+		accum 2 abort_if_not_equal 0
+
+		trigger nazi1 hands1
+	}
+
+	trigger stop_cine
+	{
+		accum 2 abort_if_not_equal 0
+		accum 2 set 1
+		resetscript
 	}
 
 	// ---End Cinematic1---

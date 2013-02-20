@@ -37,8 +37,6 @@ player
 		numsecrets 7
 
 		wait 5
-		
-		trigger dummy cine1_cleanup
 
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_2 #endif
@@ -46,23 +44,28 @@ player
 	
 	trigger action1
 	{
-		trigger nazi1 hmmyes1
-		trigger dummy smoke
+		//trigger nazi1 hmmyes1
+		//trigger dummy smoke
 		alertentity breakalarm
 	}
 	
 	trigger action1b
 	{
-		trigger nazi1 hands1
+		//trigger nazi1 hands1
+		trigger dummy dr_sequence
 		trigger game_manager action1b
 	}
 
 	trigger action2
 	{
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
-		trigger dialog timeing
-		accum 0 bitreset 4
+//In COOP we use this to give the dr sight, door opened.
+
+		trigger nazi1 sight_on
+
+		//accum 0 abort_if_not_bitset 0
+		//accum 0 bitreset 0
+		//trigger dialog timeing
+		//accum 0 bitreset 4
 	}
 
 	trigger action3
@@ -329,17 +332,20 @@ cine1_drz
 	}
 }
 
-// ---End Cinematic Characters---
+//This is edited for COOP (cine) - Sage
+
 nazi1 // DrZ
 {
 	attributes
 	{
 		aim_accuracy 0.1
-		starting_health 10
-		inner_detection_radius 256
+		starting_health 20
+		inner_detection_radius 512 //256
 		hearing_scale 0.5
 		hearing_scale_not_pvs 1.0
 		fov 60
+		reaction_time 0.8	//COOP
+		alertness 0	//COOP
 	}
 
 	spawn
@@ -351,16 +357,30 @@ nazi1 // DrZ
 
 		noavoid
 		wait 100
-		gotomarker n1spot1
+		walktomarker coop_dr
+		facetargetangles coop_dr
+		//nosight 999999
 		wait forever 0
 	}
 
-	trigger hmmyes1
+	trigger sight_on
 	{
-		resetscript
-		wait 1000
-		playsound Esc1Nazi1_1
-		playanim pointing both
+		//sight //this will happen when door opens
+		attrib alertness 1024
+	}
+
+	trigger lets_try
+	{
+		playsound esc1_cine1_drz_3
+	}
+
+	trigger zap
+	{
+//We have no animation to use the switch! :(
+
+		wait 5 t1052	//Look at the handle :)
+		wait 1500
+		facetargetangles coop_dr
 	}
 
 	trigger hands1
@@ -372,8 +392,14 @@ nazi1 // DrZ
 		facetargetangles n1spot2
 		attrib fov 160
 		wait 500
+
 		trigger dummy surgicalon
-		trigger nazi1 washing1
+		playanim clean_parts_2 both
+		wait 200
+		trigger dummy surgicaloff
+		//clearanim
+		wait 500
+		trigger nazi1 hmmyes1
 	}
 
 	trigger washing1
@@ -381,6 +407,26 @@ nazi1 // DrZ
 		accum 1 abort_if_not_equal 0
 		playanim clean_parts_2 both
 		trigger nazi1 washing1
+	}
+
+	trigger hmmyes1
+	{
+		//resetscript
+		//wait 1000
+		walktomarker n1spot1
+		facetargetangles n1spot1
+		playsound Esc1Nazi1_1
+		playanim pointing both
+		playanim pointing both
+		wait 1000
+		wait 50 t395	//Look at "agent"
+		wait 5000
+
+//Loop me, ah yeah! Let the agent pay! ;)
+
+		walktomarker coop_dr
+		facetargetangles coop_dr
+		trigger dummy dr_sequence
 	}
 
 	trigger door1
@@ -428,39 +474,57 @@ nazi1 // DrZ
 	{
 		accum 1 abort_if_not_equal 0
 		accum 1 set 1
-		statetype alert
-		trigger nazi1 callguard
+		resetscript
+
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+
+		playsound Esc1Nazi1_5
+		trigger dummy stop_cine
+		trigger alarm gethelp
 	}
 
 	statechange relaxed alert
 	{
 		accum 1 abort_if_not_equal 0
 		accum 1 set 1
-		trigger nazi1 callguard
+		resetscript
+
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+
+		playsound Esc1Nazi1_5
+		trigger dummy stop_cine
+		trigger alarm gethelp
 	}
 
 	statechange relaxed combat
 	{
 		accum 1 abort_if_not_equal 0
 		accum 1 set 1
-		trigger nazi1 callguard
+		resetscript
+
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+
+		playsound Esc1Nazi1_5
+		trigger dummy stop_cine
+		trigger alarm gethelp
 	}
 
 	bulletimpact
 	{
 		accum 1 abort_if_not_equal 0
-		accum 1 set 1
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		attrib alertness 1024
 		statetype alert
-		trigger nazi1 callguard
-	}
+		trigger dummy stop_cine
+		trigger alarm gethelp
 
-	attacksound
-	{
-		deny
-	}
-
-	trigger callguard
-	{
 		playsound Blank
 		clearanim
 		avoid
@@ -476,8 +540,22 @@ nazi1 // DrZ
 
 	enemysight
 	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		resetscript
+
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+
 		playsound Esc1Nazi1_5
+		trigger dummy stop_cine
 		trigger alarm gethelp
+	}
+
+	attacksound
+	{
+		deny
 	}
 
 	death
@@ -900,7 +978,6 @@ nazi4 // cell area reserve
 
 	statechange alert combat
 	{
-		playsound MiscAmerican2
 		trigger spawner zone1alert
 		trigger nazi4 combat10a
 		wait 5
@@ -910,6 +987,8 @@ nazi4 // cell area reserve
 	trigger combat10a
 	{
 		accum 1 abort_if_not_equal 0
+		accum 1 set 2
+		playsound MiscAmerican2
 		runtomarker n4spot3
 		wait 5000
 		runtomarker n4spot4
@@ -920,6 +999,8 @@ nazi4 // cell area reserve
 	trigger combat10b
 	{
 		accum 1 abort_if_not_equal 1
+		accum 1 set 2
+		playsound MiscAmerican2
 		gotomarker n4spot5
 		wait 100 player
 		wait 1000
