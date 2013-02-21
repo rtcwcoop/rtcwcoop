@@ -1362,7 +1362,7 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 		// Dunno if it's a general idea to be able to follow bots as well 
 		// but if it is, then following needs to get fixed as spectator crashes
 		// when following certain bots...
-		if (g_entities[clientnum].r.svFlags & SVF_BOT) {
+		if (g_entities[clientnum].r.svFlags & SVF_BOT && ent->client->sess.sessionTeam == TEAM_BLUE) {
 			continue;
 		} // end
 
@@ -1372,7 +1372,13 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 				continue;
 			}
 			if ( level.clients[clientnum].sess.sessionTeam != ent->client->sess.sessionTeam ) {
-				continue;
+				if (ent->client->sess.sessionTeam == TEAM_BLUE) {
+					continue;
+				} else {
+					if (level.clients[clientnum].sess.sessionTeam == TEAM_BLUE) {
+						continue;
+					}
+				} 
 			}
 		}
 // jpw
