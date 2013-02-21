@@ -1318,9 +1318,9 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 				// from allies team to an allies or a neutral (=teamdamage))
 				// AND friendly fire is on
 				if ( ( ( attacker->client->sess.sessionTeam == TEAM_RED && 
-				     ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER ) ) ||
+				     ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ||
 				     ( attacker->client->sess.sessionTeam == TEAM_BLUE &&
-				     ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) ) &&
+				     ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ) &&
 				     g_friendlyFire.integer ) {	
 
 					if ( g_friendlyFire.integer == 1 ) {

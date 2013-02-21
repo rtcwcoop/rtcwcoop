@@ -1810,9 +1810,9 @@ void ClientSpawn( gentity_t *ent ) {
 		if ( !ent->client->pers.initialSpawn ) {
 			ent->aiName = "player";  // needed for script AI
                         if ( client->sess.sessionTeam == TEAM_RED ) {
-                                ent->aiTeam = 0;        // member of axis
+                                ent->aiTeam = AITEAM_NAZI;        // member of axis
                         } else if ( client->sess.sessionTeam == TEAM_BLUE ) {
-                                ent->aiTeam = 1;        // member of allies
+                                ent->aiTeam = AITEAM_ALLIES;        // member of allies
                         }
                         ent->client->ps.teamNum = ent->aiTeam;
 			AICast_ScriptParse( AICast_GetCastState( ent->s.number ) );

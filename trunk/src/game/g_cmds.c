@@ -2884,9 +2884,6 @@ void Cmd_ClientDamage_f( gentity_t *clent ) {
 Cmd_EntityCount_f
 ==============
 */
-#define AITEAM_NAZI     0
-#define AITEAM_ALLIES   1
-#define AITEAM_MONSTER  2
 void Cmd_EntityCount_f( gentity_t *ent ) {
 	if ( !g_cheats.integer ) {
 		return;

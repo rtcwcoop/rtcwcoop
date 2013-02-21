@@ -483,12 +483,6 @@ G_CheckForCursorHints
 */
 static int nextCheckTime = 0;
 
-//----(SA)	can't include ai_cast.h that has the 'real' defines for these
-#define AITEAM_NAZI     0
-#define AITEAM_ALLIES   1
-#define AITEAM_MONSTER  2
-#define AITEAM_NEUTRAL  7   // yes, '7'
-
 void G_CheckForCursorHints( gentity_t *ent ) {
 	vec3_t forward, right, up, offset, end;
 	trace_t     *tr;
@@ -1997,12 +1991,12 @@ void ExitLevel( void ) {
 	int i;
 	gclient_t *cl;
 
-    if ( g_gametype.integer <= GT_COOP_SPEEDRUN) {
+        if ( g_gametype.integer <= GT_COOP_SPEEDRUN) {
 		//char mapname[1024];
-        //trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
-        //trap_Cvar_Set( "nextmap", va("coopmap %s", mapname) );
-        trap_Cvar_Set( "nextmap", "map_restart 0" );
-    }
+                //trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+                //trap_Cvar_Set( "nextmap", va("coopmap %s", mapname) );
+                trap_Cvar_Set( "nextmap", "map_restart 0" );
+        }
 
 	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
 	level.changemap = NULL;

@@ -1572,7 +1572,7 @@ typedef enum
         AITEAM_ALLIES,
         AITEAM_MONSTER,
         AITEAM_SPARE1,
-        AITEAM_SPARE2,
+        AITEAM_ENDMAPBOSS, // end.bsp sets "aiteam" "4" for the zombies and bosses (heinrich and friends) at the end of the map
         AITEAM_SPARE3,
         AITEAM_SPARE4,
         AITEAM_NEUTRAL
