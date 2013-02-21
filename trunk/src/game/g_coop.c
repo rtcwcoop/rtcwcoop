@@ -298,7 +298,11 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t
 
         // kill the bot
         if (clientnum >= MAX_COOP_CLIENTS) {
-                AICast_Die( spot, spot, spot, 100000, MOD_TELEFRAG );
+		if (g_friendlyFire.integer == 2) { // you loose health if you teamkill, so you kill a player at spawn, and you die immediatly, we dont really want this
+			AICast_Die( spot, spot, NULL, 100000, MOD_TELEFRAG );
+		} else {
+			AICast_Die( spot, spot, spot, 100000, MOD_TELEFRAG );
+		}
                 trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " has made an offer of flesh and blood.\n\"", ent->client->pers.netname ) );
         }
 
