@@ -952,7 +952,6 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
                         return;
                 }
         }
-     
 
 	// RF, track pain for player
 	// This is used by AI to determine how long it has been since their enemy was injured
@@ -1308,7 +1307,9 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 
 	// do the damage
 	if ( take ) {
-		if ( !targ->client) {
+                if ( mod == MOD_TELEFRAG ) { // no matter what g_friendlyfire is set to, telefrags should always work, else you get stuck in a player
+                        targ->health = targ->health - take;
+		} else if ( !targ->client) {
 			targ->health = targ->health - take;
 		// from human to bot
 		} else if ( !( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
@@ -1326,11 +1327,11 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 					if ( g_friendlyFire.integer == 1 ) {
 						targ->health = targ->health - take;
 					} else if ( g_friendlyFire.integer >= 2 ) { // hurt the attacker if he hits a teammate
-						attacker->health = attacker->health - take;
-						// show some pain !
-						if ( attacker->pain ) {
-							attacker->pain( attacker, targ, take, point );
-						}            
+                                                attacker->health = attacker->health - take;
+                                                // show some pain !
+                                                if ( attacker->pain ) {
+                                                        attacker->pain( attacker, targ, take, point );
+                                                }            
 					}
 				}
 
@@ -1357,11 +1358,11 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 				if ( attacker->client && targ->client ) { 
 					if ( attacker->client->sess.sessionTeam == targ->client->sess.sessionTeam ) {
 
-						attacker->health = attacker->health - take;	
-						// show some pain !
-						if ( attacker->pain ) {
-							attacker->pain( attacker, targ, take, point );
-						}
+                                                attacker->health = attacker->health - take;	
+                                                // show some pain !
+                                                if ( attacker->pain ) {
+                                                        attacker->pain( attacker, targ, take, point );
+                                                }
 					} else if ( attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
 						targ->health = targ->health - take;
 					}

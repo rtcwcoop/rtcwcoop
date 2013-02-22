@@ -32,7 +32,6 @@ If you have questions concerning this license or the applicable additional terms
 
 #define SPAWNPOINT_ENABLED      1
 #define SPAWNPOINT_AXIS         2 
-extern void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath );
 
 // fretn - set weapons when player spawns in coop
 // in the map dam, the player gets all the weapons, bug !
@@ -297,12 +296,9 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t
         VectorCopy( spot->s.angles, angles );
 
         // kill the bot
+        // this is handled in clientspawn in g_client.c (see g_killbox();)
         if (clientnum >= MAX_COOP_CLIENTS) {
-		if (g_friendlyFire.integer == 2) { // you loose health if you teamkill, so you kill a player at spawn, and you die immediatly, we dont really want this
-			AICast_Die( spot, spot, NULL, 100000, MOD_TELEFRAG );
-		} else {
-			AICast_Die( spot, spot, spot, 100000, MOD_TELEFRAG );
-		}
+                // do we want this spam ?
                 trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " has made an offer of flesh and blood.\n\"", ent->client->pers.netname ) );
         }
 
@@ -408,9 +404,9 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
                 return;
         }   
 
-        // Telefrags only add 100 points.. not 100k!!
+        // Telefrags dont add points
         if ( mod == MOD_TELEFRAG ) {
-                dmg = 100;
+                dmg = 0;
         } else { 
 		dmg = dmg_ref;
 	}
