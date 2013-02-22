@@ -291,13 +291,17 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t
         spot = spots[ selection ]->spot;
         clientnum = spots[ selection ]->clientNum;
 
-        VectorCopy( spot->s.origin, origin );
+	if ( spot->client ) {
+		VectorCopy( spot->client->ps.origin, origin );
+	} else {
+        	VectorCopy( spot->s.origin, origin );
+	}
         origin[2] += 9;
         VectorCopy( spot->s.angles, angles );
 
         // kill the bot
         // this is handled in clientspawn in g_client.c (see g_killbox();)
-        if (clientnum >= MAX_COOP_CLIENTS) {
+        if (clientnum >= MAX_COOP_CLIENTS && spot->client ) {
                 // do we want this spam ?
                 trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " has made an offer of flesh and blood.\n\"", ent->client->pers.netname ) );
         }
