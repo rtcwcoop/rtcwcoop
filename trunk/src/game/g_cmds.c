@@ -2812,7 +2812,7 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
         // no no no no no no no no no no no 
         // aka: I dont want this in a competitive gametype
         // yes this breaks the tesla and the spirits and others in battle gametype
-        if (g_gametype.integer == GT_COOP_BATTLE)
+        if (g_gametype.integer == GT_COOP_BATTLE || g_gametype.integer == GT_COOP_SPEEDRUN)
                 return;
 #endif
 
