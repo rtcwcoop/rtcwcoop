@@ -1762,8 +1762,15 @@ void CL_KeyDownEvent( int key, unsigned time )
 
 			if (activeMenu == UIMENU_WM_QUICKBUY || activeMenu == UIMENU_WM_QUICKBUYALT
 				|| activeMenu == UIMENU_WM_QUICKMESSAGE 
-				|| activeMenu == UIMENU_WM_QUICKMESSAGEALT )
-				CL_ParseBinding( key, qtrue, time );
+				|| activeMenu == UIMENU_WM_QUICKMESSAGEALT ) {
+
+				// allow the commands which start with + - so movement is possible
+				// during voice/buy menu popup
+				if( keys[key].binding && keys[key].binding[0] && 
+					( keys[key].binding[0] == '+' || keys[key].binding[0] == '-' )) {
+					CL_ParseBinding( key, qtrue, time );
+				}
+			}
 
 			VM_Call( uivm, UI_KEY_EVENT, key, qtrue );
 		}
