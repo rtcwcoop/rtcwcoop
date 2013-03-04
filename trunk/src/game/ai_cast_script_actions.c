@@ -1873,6 +1873,133 @@ qboolean AICast_ScriptAction_GodMode( cast_state_t *cs, char *params ) {
 
 /*
 =================
+AICast_ScriptAction_GlobalAccum
+
+  syntax: globalaccum <buffer_index> <command> <paramater>
+
+  Commands:
+
+        globalaccum <n> inc <m>
+        globalaccum <n> abort_if_less_than <m>
+        globalaccum <n> abort_if_greater_than <m>
+        globalaccum <n> abort_if_not_equal <m>
+        globalaccum <n> abort_if_equal <m>
+        globalaccum <n> set <m>
+        globalaccum <n> random <m>
+        globalaccum <n> bitset <m>
+        globalaccum <n> bitreset <m>
+        globalaccum <n> abort_if_bitset <m>
+        globalaccum <n> abort_if_not_bitset <m>
+=================
+*/
+qboolean AICast_ScriptAction_GlobalAccum( cast_state_t *cs, char *params ) {
+        char *pString, *token, lastToken[MAX_QPATH];
+        int bufferIndex;
+
+        pString = params;
+
+        token = COM_ParseExt( &pString, qfalse );
+        if ( !token[0] ) {
+                G_Error( "AI Scripting: globalaccum without a buffer index\n" );
+        }
+
+        bufferIndex = atoi( token );
+        if ( bufferIndex >= MAX_SCRIPT_ACCUM_BUFFERS ) {
+                G_Error( "AI Scripting: globalaccum buffer is outside range (0 - %i)\n", MAX_SCRIPT_ACCUM_BUFFERS );
+        }
+
+        token = COM_ParseExt( &pString, qfalse );
+        if ( !token[0] ) {
+                G_Error( "AI Scripting: globalaccum without a command\n" );
+        }
+
+        Q_strncpyz( lastToken, token, sizeof( lastToken ) );
+        token = COM_ParseExt( &pString, qfalse );
+
+        if ( !Q_stricmp( lastToken, "inc" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                level.globalAccumBuffer[bufferIndex] += atoi( token );
+        } else if ( !Q_stricmp( lastToken, "abort_if_less_than" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                if ( level.globalAccumBuffer[bufferIndex] < atoi( token ) ) {
+                        // abort the current script
+                        cs->castScriptStatus.castScriptStackHead = cs->castScriptEvents[cs->castScriptStatus.castScriptEventIndex].stack.numItems;
+                }
+        } else if ( !Q_stricmp( lastToken, "abort_if_greater_than" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                if ( level.globalAccumBuffer[bufferIndex] > atoi( token ) ) {
+                        // abort the current script
+                        cs->castScriptStatus.castScriptStackHead = cs->castScriptEvents[cs->castScriptStatus.castScriptEventIndex].stack.numItems;
+                }
+        } else if ( !Q_stricmp( lastToken, "abort_if_not_equal" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                if ( level.globalAccumBuffer[bufferIndex] != atoi( token ) ) {
+                        // abort the current script
+                        cs->castScriptStatus.castScriptStackHead = cs->castScriptEvents[cs->castScriptStatus.castScriptEventIndex].stack.numItems;
+                }
+        } else if ( !Q_stricmp( lastToken, "abort_if_equal" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                if ( level.globalAccumBuffer[bufferIndex] == atoi( token ) ) {
+                        // abort the current script
+                        cs->castScriptStatus.castScriptStackHead = cs->castScriptEvents[cs->castScriptStatus.castScriptEventIndex].stack.numItems;
+                }
+        } else if ( !Q_stricmp( lastToken, "bitset" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                level.globalAccumBuffer[bufferIndex] |= ( 1 << atoi( token ) );
+        } else if ( !Q_stricmp( lastToken, "bitreset" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                level.globalAccumBuffer[bufferIndex] &= ~( 1 << atoi( token ) );
+        } else if ( !Q_stricmp( lastToken, "abort_if_bitset" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                if ( level.globalAccumBuffer[bufferIndex] & ( 1 << atoi( token ) ) ) {
+                        // abort the current script
+                        cs->castScriptStatus.castScriptStackHead = cs->castScriptEvents[cs->castScriptStatus.castScriptEventIndex].stack.numItems;
+                }
+        } else if ( !Q_stricmp( lastToken, "abort_if_not_bitset" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                if ( !( level.globalAccumBuffer[bufferIndex] & ( 1 << atoi( token ) ) ) ) {
+                        // abort the current script
+                        cs->castScriptStatus.castScriptStackHead = cs->castScriptEvents[cs->castScriptStatus.castScriptEventIndex].stack.numItems;
+                }
+        } else if ( !Q_stricmp( lastToken, "set" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                level.globalAccumBuffer[bufferIndex] = atoi( token );
+        } else if ( !Q_stricmp( lastToken, "random" ) ) {
+                if ( !token[0] ) {
+                        G_Error( "AI Scripting: globalaccum %s requires a parameter\n", lastToken );
+                }
+                level.globalAccumBuffer[bufferIndex] = rand() % atoi( token );
+        } else {
+                G_Error( "AI Scripting: globalaccum %s: unknown command\n", params );
+        }
+
+        return qtrue;
+}
+
+
+
+/*
+=================
 AICast_ScriptAction_Accum
 
   syntax: accum <buffer_index> <command> <paramater>

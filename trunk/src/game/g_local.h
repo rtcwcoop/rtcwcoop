@@ -833,6 +833,10 @@ typedef struct {
 	// End
 
         int lastRestartTime;
+
+	// fretn - used in ai files
+	int globalAccumBuffer[G_MAX_SCRIPT_ACCUM_BUFFERS];
+
 } level_locals_t;
 
 //extern    qboolean	reloading;				// loading up a savegame

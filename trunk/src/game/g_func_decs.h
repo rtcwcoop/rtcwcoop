@@ -119,6 +119,7 @@ extern qboolean AICast_ScriptAction_ObjectiveMet ( cast_state_t * cs , char * pa
 extern qboolean AICast_ScriptAction_ObjectivesNeeded ( cast_state_t * cs , char * params ) ;
 extern qboolean AICast_ScriptAction_MissionFailed ( cast_state_t * cs , char * params ) ;
 extern qboolean AICast_ScriptAction_SpawnCast ( cast_state_t * cs , char * params ) ;
+extern qboolean AICast_ScriptAction_GlobalAccum ( cast_state_t * cs , char * params ) ;
 extern qboolean AICast_ScriptAction_Accum ( cast_state_t * cs , char * params ) ;
 extern qboolean AICast_ScriptAction_GodMode ( cast_state_t * cs , char * params ) ;
 extern qboolean AICast_ScriptAction_FireAtTarget ( cast_state_t * cs , char * params ) ;
