@@ -38,11 +38,11 @@ If you have questions concerning this license or the applicable additional terms
 #define CLIENT_WINDOW_MIN_TITLE       "wsp"
 #define GAMENAME_FOR_MASTER           "wolfsp"
 
-#define Q3_VERSION      "RTCWCoop 0.9.4"
-#define RTCWCOOP_VERSION_NUMBER "0.9.4"
+#define Q3_VERSION      "RTCWCoop 0.9.5"
+#define RTCWCOOP_VERSION_NUMBER "0.9.5"
 #define RTCWCOOP_VERSION_DIGIT_1 0
 #define RTCWCOOP_VERSION_DIGIT_2 9
-#define RTCWCOOP_VERSION_DIGIT_3 4 
+#define RTCWCOOP_VERSION_DIGIT_3 5 
 
 #define MAX_COOP_CLIENTS 8
 
