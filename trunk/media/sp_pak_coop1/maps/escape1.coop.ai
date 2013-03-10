@@ -26,12 +26,12 @@ player
 	{
 //If something breaks at late player joining, move it here
 
-		accum 0 bitset 1 // explosive trigger fire once
-		accum 0 bitset 2 // alarm trigger should only fire once
-		accum 0 bitset 3 // boardroom door fires once
-		accum 0 bitset 4 // hack to wake drz by triggering shocking device
-		accum 0 bitset 5 // explosive trigger fire once
-		accum 1 set 0
+		globalaccum 0 bitset 1 // explosive trigger fire once
+		globalaccum 0 bitset 2 // alarm trigger should only fire once
+		globalaccum 0 bitset 3 // boardroom door fires once
+		globalaccum 0 bitset 4 // hack to wake drz by triggering shocking device
+		globalaccum 0 bitset 5 // explosive trigger fire once
+		globalaccum 1 set 0
 
 		objectivesneeded 2
 		numsecrets 7
@@ -76,8 +76,8 @@ player
 
 	trigger lowernoise
 	{
-		accum 0 abort_if_not_bitset 1
-		accum 0 bitreset 1
+		globalaccum 0 abort_if_not_bitset 1
+		globalaccum 0 bitreset 1
 		trigger nazi2 alert2
 		trigger nazi3 alert3
 		trigger nazi5 alert5
@@ -110,8 +110,8 @@ player
 
 	trigger wake_radio
 	{
-		accum 0 abort_if_not_bitset 5
-		accum 0 bitreset 5
+		globalaccum 0 abort_if_not_bitset 5
+		globalaccum 0 bitreset 5
 		trigger nazi12 radioboom
 		trigger nazi13 radioboom
 	}
@@ -127,8 +127,8 @@ player
 	
 	trigger action10a
 	{
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
+		globalaccum 0 abort_if_not_bitset 3
+		globalaccum 0 bitreset 3
 		trigger game_manager action10a
 		trigger player musicmoving
 	}
@@ -194,8 +194,8 @@ player
 
 	trigger callalarm
 	{
-		accum 0 abort_if_not_bitset 2
-		accum 0 bitreset 2
+		globalaccum 0 abort_if_not_bitset 2
+		globalaccum 0 bitreset 2
 		trigger alarm alarmon
 	}
 
@@ -206,24 +206,24 @@ player
 
 	trigger musictension
 	{
-		accum 1 abort_if_equal 1
-		accum 1 set 1
+		globalaccum 1 abort_if_equal 1
+		globalaccum 1 set 1
 		mu_fade 0 1500
 		mu_queue sound/music/m_tension
 	}
 
 	trigger musicmoving
 	{
-		accum 1 abort_if_equal 2
-		accum 1 set 2
+		globalaccum 1 abort_if_equal 2
+		globalaccum 1 set 2
 		mu_fade 0 1500
 		mu_queue sound/music/m_moving
 	}
 
 	trigger musicmission
 	{
-		accum 1 abort_if_equal 3
-		accum 1 set 3
+		globalaccum 1 abort_if_equal 3
+		globalaccum 1 set 3
 		mu_fade 0 1500
 		mu_queue sound/music/m_mission
 	}
@@ -276,7 +276,7 @@ player
 	trigger shocktreatment
 	{
 		trigger handle turnon
-		accum 0 abort_if_bitset 4
+		globalaccum 0 abort_if_bitset 4
 		trigger nazi1 havelook
 	}
 }

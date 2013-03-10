@@ -38,14 +38,14 @@ player
 	{
 		//If something breaks at late player joining, move it here
 
-		accum 0 bitset 0
-		accum 0 bitset 1
-		accum 0 bitset 2
-		accum 0 bitset 3
-		accum 0 bitset 4
-		accum 0 bitset 5  //Tram1 wait tram2 at upstation?
+		globalaccum 0 bitset 0
+		globalaccum 0 bitset 1
+		globalaccum 0 bitset 2
+		globalaccum 0 bitset 3
+		globalaccum 0 bitset 4
+		globalaccum 0 bitset 5  //Tram1 wait tram2 at upstation?
 
-		accum 1 set 0
+		globalaccum 1 set 0
 
 		objectivesneeded 3
 		numsecrets 0
@@ -70,8 +70,8 @@ player
 //Tram1 comes up first time
 	trigger starttram
 	{
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
 
 		trigger tramcar tramup
 		trigger trammount mountup
@@ -85,8 +85,8 @@ player
 //Button1 pressed, Tram1 goes down first time
 	trigger first_start
 	{
-		accum 0 abort_if_not_bitset 1
-		accum 0 bitreset 1
+		globalaccum 0 abort_if_not_bitset 1
+		globalaccum 0 bitreset 1
 
 		wait 250
 		trigger tramcar tramdown
@@ -96,8 +96,8 @@ player
 		wait 5
 		trigger player got_objective2
 
-		accum 1 abort_if_equal 2
-		accum 1 set 2
+		globalaccum 1 abort_if_equal 2
+		globalaccum 1 set 2
 		mu_fade 0 500
 		mu_queue sound/music/m_drums
 	}
@@ -110,7 +110,7 @@ player
 		trigger tramcar tramup
 		trigger trammount mountup
 
-		accum 0 abort_if_bitset 2	//Button pressed?
+		globalaccum 0 abort_if_bitset 2	//Button pressed?
 
 		trigger tramcar_coop tramreturn
 		wait 5
@@ -123,15 +123,15 @@ player
 //Trigger first_start must run first.
 //In other words don't start loop b4 button1 is pressed ;)
 
-		accum 0 abort_if_bitset 1 
-		accum 0 abort_if_not_bitset 5 //Must we stop at top?
+		globalaccum 0 abort_if_bitset 1 
+		globalaccum 0 abort_if_not_bitset 5 //Must we stop at top?
 
 		wait 250
 		trigger tramcar tramdown
 		wait 5
 		trigger trammount mountdown
 
-		accum 0 abort_if_bitset 2 //Button pressed?
+		globalaccum 0 abort_if_bitset 2 //Button pressed?
 
 		trigger tramcar_coop tramcontinue
 		wait 5
@@ -141,19 +141,19 @@ player
 //These two decide if tram1 must stop at top station
 	trigger stop_tram1
 	{
-		accum 0 bitreset 5	//Stop tram1 at top station
+		globalaccum 0 bitreset 5	//Stop tram1 at top station
 	}
 
 	trigger reset_tram1
 	{
-		accum 0 bitset 5		//Don't stop tram1 at top
+		globalaccum 0 bitset 5		//Don't stop tram1 at top
 	}
 
 //Mid station power on
 	trigger powermid
 	{
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
+		globalaccum 0 abort_if_not_bitset 3
+		globalaccum 0 bitreset 3
 		alertentity light3on
 		alertentity light4on
 		trigger button2 resetbutton2
@@ -166,8 +166,8 @@ player
 		//We don't move the tram2 here, we just set accums
 		//to allow it move on next dispatch phase - Sage :)
 
-		accum 0 abort_if_not_bitset 2
-		accum 0 bitreset 2	//Button 2 pressed
+		globalaccum 0 abort_if_not_bitset 2
+		globalaccum 0 bitreset 2	//Button 2 pressed
 		trigger tramdummy button2_pressed //Handle tram 1vs2
 
 		alertentity nazi16
@@ -277,24 +277,24 @@ player
 	trigger on_alarm
 	{
 		trigger zone1 upperalarm
-		accum 1 abort_if_equal 1
-		accum 1 set 1
+		globalaccum 1 abort_if_equal 1
+		globalaccum 1 set 1
 		mu_fade 0 500
 		mu_queue sound/music/m_alarm
 	}
 
 	trigger playalarm
 	{
-		accum 1 abort_if_equal 1
-		accum 1 set 1
+		globalaccum 1 abort_if_equal 1
+		globalaccum 1 set 1
 		mu_fade 0 500
 		mu_queue sound/music/m_alarm
 	}
 
 	trigger playdrums
 	{
-		accum 1 abort_if_equal 2
-		accum 1 set 2
+		globalaccum 1 abort_if_equal 2
+		globalaccum 1 set 2
 		mu_fade 0 500
 		mu_queue sound/music/m_drums
 	}

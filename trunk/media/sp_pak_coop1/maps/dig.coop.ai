@@ -64,8 +64,8 @@ player
 
 		cvar g_episode 6
 
-		accum 0 set 0
-		accum 1 set 0
+		globalaccum 0 set 0
+		globalaccum 1 set 0
 
 		objectivesneeded 2
 		numsecrets 2
@@ -204,10 +204,10 @@ player
 
 	trigger action16
 	{
-		accum 1 abort_if_greater_than 0
+		globalaccum 1 abort_if_greater_than 0
 		trigger nazi14 alert
 		trigger nazi15 alert
-		accum 1 inc 1
+		globalaccum 1 inc 1
 	}
 		
 	trigger quake

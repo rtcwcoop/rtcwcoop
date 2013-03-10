@@ -45,9 +45,9 @@ player
 
 		cvar g_episode 1
 
-		accum 0 set 0
-		accum 1 set 0
-		accum 3 set 0 // don't spawn war zombies more than once
+		globalaccum 0 set 0
+		globalaccum 1 set 0
+		globalaccum 3 set 0 // don't spawn war zombies more than once
 
 		objectivesneeded 1
 		numsecrets 2
@@ -181,8 +181,8 @@ player
 
 	trigger swingbladestop
 	{
-		accum 3 abort_if_not_equal 0
-		accum 3 set 1
+		globalaccum 3 abort_if_not_equal 0
+		globalaccum 3 set 1
 		trigger swingblade stop
 		alertentity warboss1
 		alertentity warboss2

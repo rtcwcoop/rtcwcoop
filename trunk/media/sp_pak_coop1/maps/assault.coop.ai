@@ -46,7 +46,7 @@ player
 		//If something breaks at late player joining, move it here
 		cvar g_episode 2
 
-		accum 0 set 0
+		globalaccum 0 set 0
 
 		objectivesneeded 3
 		numsecrets 0
@@ -252,7 +252,7 @@ player
 
 	trigger set0to1
 	{
-		accum 0 set 1
+		globalaccum 0 set 1
 	}
 
 	trigger beginfuel

@@ -61,11 +61,11 @@ player
 
 		cvar g_episode 5
 
-		accum 0 bitreset 0
-		accum 0 bitreset 10		// used for secret
-		accum 2 set 0
-		accum 3 set 0
-		accum 4 set 0
+		globalaccum 0 bitreset 0
+		globalaccum 0 bitreset 10		// used for secret
+		globalaccum 2 set 0
+		globalaccum 3 set 0
+		globalaccum 4 set 0
 
 		objectivesneeded 2
 		numsecrets 2
@@ -98,8 +98,8 @@ player
 
 	trigger stealth_low
 	{
-		accum 0 abort_if_bitset 21
-		accum 0 abort_if_bitset 20
+		globalaccum 0 abort_if_bitset 21
+		globalaccum 0 abort_if_bitset 20
 //		print STEALTH
 //		mu_fade 0.4 3000
 //		mu_stop 500
@@ -110,8 +110,8 @@ player
 
 	trigger stealth_med		// actually 
 	{
-		accum 0 abort_if_bitset 21
-		accum 0 abort_if_bitset 20
+		globalaccum 0 abort_if_bitset 21
+		globalaccum 0 abort_if_bitset 20
 //		print Couple
 //		mu_fade 0.4 3000
 //		mu_stop 500
@@ -122,8 +122,8 @@ player
 
 	trigger stealth_high
 	{
-		accum 0 abort_if_bitset 21
-		accum 0 abort_if_bitset 20
+		globalaccum 0 abort_if_bitset 21
+		globalaccum 0 abort_if_bitset 20
 //		print HARD
 //		mu_fade 0.5 3000
 //		mu_stop 500
@@ -134,27 +134,27 @@ player
 
 	trigger hit_for_shelf
 	{
-		accum 0 abort_if_bitset 21
-		accum 0 bitset 21
+		globalaccum 0 abort_if_bitset 21
+		globalaccum 0 bitset 21
 		mu_fade 0 5
 		wait 5
 //		mu_play sound/music/s_barrelfall
 		wait 5200
 		mu_stop 500
 //		mu_start sound/music/m_tension 200
-		accum 0 bitreset 21
+		globalaccum 0 bitreset 21
 //		trigger player music_stop_500
 	}
 
 	trigger hit_for_ballroom
 	{
-		accum 0 abort_if_bitset 20
-		accum 0 bitset 20
+		globalaccum 0 abort_if_bitset 20
+		globalaccum 0 bitset 20
 //		mu_fade 0.0 1000
 //		mu_stop 100
 //		mu_start sound/music/s_highramp 200		// took out stinger
 		wait 9500
-		accum 0 bitreset 20
+		globalaccum 0 bitreset 20
 		mu_stop 500
 //		mu_start sound/music/m_tension 200		// took out stinger
 //		trigger player music_stop_500		
@@ -412,8 +412,8 @@ player
 	trigger choosefpta  		// This will have the fireplace rotate starting from the fireplace tools
 	{
 		trigger checker3 fptb
-		accum 0 abort_if_bitset 10	// used for so that the secret is not found twice. 
-		accum 0 bitset 10
+		globalaccum 0 abort_if_bitset 10	// used for so that the secret is not found twice. 
+		globalaccum 0 bitset 10
 		foundsecret
 	}
 

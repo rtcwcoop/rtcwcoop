@@ -47,11 +47,11 @@ player
 
 		cvar g_episode 2
 
-		accum 0 bitreset 0	// Used for action21/21b, support if the player jumps off the bridge.
-		accum 0 bitreset 1	// Used for voice toggle.
-		accum 0 bitset 2	// Used for elevator1's DOWN lever
-		accum 0 bitreset 3	// Used for elevator1's UP lever
-		accum 0 bitreset 4
+		globalaccum 0 bitreset 0	// Used for action21/21b, support if the player jumps off the bridge.
+		globalaccum 0 bitreset 1	// Used for voice toggle.
+		globalaccum 0 bitset 2	// Used for elevator1's DOWN lever
+		globalaccum 0 bitreset 3	// Used for elevator1's UP lever
+		globalaccum 0 bitreset 4
 
 		objectivesneeded 3
 		numsecrets 1
@@ -133,34 +133,34 @@ player
 
 	trigger e1_downlever
 	{
-		accum 0 abort_if_not_bitset 2
+		globalaccum 0 abort_if_not_bitset 2
 		trigger e1lever1 toggle
 	}
 
 	trigger enable_e1downlever
 	{
-		accum 0 bitset 2
+		globalaccum 0 bitset 2
 	}
 
 	trigger disable_e1downlever
 	{
-		accum 0 bitreset 2
+		globalaccum 0 bitreset 2
 	}
 
 	trigger e1_uplever
 	{
-		accum 0 abort_if_not_bitset 3
+		globalaccum 0 abort_if_not_bitset 3
 		trigger e1lever1 toggle
 	}
 
 	trigger enable_e1uplever
 	{
-		accum 0 bitset 3
+		globalaccum 0 bitset 3
 	}
 
 	trigger disable_e1uplever
 	{
-		accum 0 bitreset 3
+		globalaccum 0 bitreset 3
 	}
 
 	trigger e2_toggle_upbtn	// This triggers while the player is NOT on the elevator.
@@ -233,16 +233,16 @@ player
 
 	trigger pa_toggle1
 	{
-		accum 0 abort_if_not_bitset 1
-		accum 0 bitreset 1
+		globalaccum 0 abort_if_not_bitset 1
+		globalaccum 0 bitreset 1
 		trigger mech2 voice_pa
 		trigger mech1 voice_reg
 	}
 
 	trigger pa_toggle2
 	{
-		accum 0 abort_if_bitset 1
-		accum 0 bitset 1
+		globalaccum 0 abort_if_bitset 1
+		globalaccum 0 bitset 1
 		alertentity toggle_pa_trig
 		trigger mech2 voice_reg
 		trigger mech1 voice_pa
@@ -443,8 +443,8 @@ player
 
 	trigger action20
 	{
-		accum 0 abort_if_bitset 0
-		accum 0 bitset 0
+		globalaccum 0 abort_if_bitset 0
+		globalaccum 0 bitset 0
 		alertentity nazi41
 		alertentity nazi42
 		alertentity nazi43
@@ -456,8 +456,8 @@ player
 
 	trigger action21
 	{
-		accum 0 abort_if_bitset 4
-		accum 0 bitset 4
+		globalaccum 0 abort_if_bitset 4
+		globalaccum 0 bitset 4
 		objectivemet 3
 		trigger game_manager objective3
 		alertentity nazi40
@@ -476,9 +476,9 @@ player
 		alertentity nazi42
 		alertentity nazi43
 		alertentity nazi44
-		accum 0 abort_if_bitset 0
-		accum 0 bitset 0
-		accum 0 bitset 4
+		globalaccum 0 abort_if_bitset 0
+		globalaccum 0 bitset 0
+		globalaccum 0 bitset 4
 		objectivemet 3
 		trigger game_manager objective3
 		alertentity nazi40

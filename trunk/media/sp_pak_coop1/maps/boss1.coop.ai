@@ -48,11 +48,11 @@ player
 
 		cvar g_episode 1
 
-		accum 0 bitset 0
-		accum 0 bitset 1
-		accum 0 bitset 2 // spawn helga once
-		accum 1 set 0
-		accum 2 set 0
+		globalaccum 0 bitset 0
+		globalaccum 0 bitset 1
+		globalaccum 0 bitset 2 // spawn helga once
+		globalaccum 1 set 0
+		globalaccum 2 set 0
 		
 		objectivesneeded 2
 		numsecrets 0
@@ -68,50 +68,50 @@ player
 
 	trigger action2
 	{
-		accum 0 abort_if_not_bitset 2
-		accum 0 bitreset 2
+		globalaccum 0 abort_if_not_bitset 2
+		globalaccum 0 bitreset 2
 		
 		trigger game_manager gibhelga
 	}
 
 	trigger enterbattle
 	{
-		accum 0 abort_if_not_bitset 1
-		accum 0 bitreset 1
+		globalaccum 0 abort_if_not_bitset 1
+		globalaccum 0 bitreset 1
 		
 		trigger game_manager enterbattle
 	}
 
 	trigger exitbattle
 	{
-		accum 0 abort_if_bitset 1
-		accum 0 bitset 1
+		globalaccum 0 abort_if_bitset 1
+		globalaccum 0 bitset 1
 		
 		trigger game_manager exitbattle
 	}
 
 	trigger phitcorner1 // player has touched corner 1, check for spawning zombies
 	{
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
 		trigger counter2 corner1
-		accum 0 abort_if_not_bitset 2
-		accum 0 bitreset 2
+		globalaccum 0 abort_if_not_bitset 2
+		globalaccum 0 bitreset 2
 		
 		trigger game_manager spawnhelga
 	}
 
 	trigger phitcorner2 // player has touched corner 1, check for spawning zombies
 	{
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
 		trigger counter2 corner2
 	}
 
 	trigger phitcorner3 // player has touched corner 1, check for spawning zombies
 	{
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
 		trigger counter2 corner3
 	}
 

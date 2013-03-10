@@ -56,9 +56,9 @@ player
 
 		cvar g_episode 3
 
-		accum 0 set 1
-		accum 1 set 1
-		accum 2 set 0
+		globalaccum 0 set 1
+		globalaccum 1 set 1
+		globalaccum 2 set 0
 
 		objectivesneeded 4
 		numsecrets 1
@@ -183,15 +183,15 @@ player
 
 	trigger action10
 	{
-		accum 1 abort_if_less_than 1
-		accum 1 set 0
+		globalaccum 1 abort_if_less_than 1
+		globalaccum 1 set 0
 		trigger nazi20 takecover20
 	}
 
 	trigger action11
 	{
-		accum 1 abort_if_less_than 1
-		accum 1 set 0
+		globalaccum 1 abort_if_less_than 1
+		globalaccum 1 set 0
 		trigger nazi20 takecover20
 	}
 
@@ -230,24 +230,24 @@ player
 
 	trigger situation
 	{
-		accum 2 abort_if_equal 0
-		accum 2 set 0
+		globalaccum 2 abort_if_equal 0
+		globalaccum 2 set 0
 		mu_fade 0 1500
 		mu_queue sound/music/m_situation
 	}
 
 	trigger action
 	{
-		accum 2 abort_if_equal 1
-		accum 2 set 1
+		globalaccum 2 abort_if_equal 1
+		globalaccum 2 set 1
 		mu_fade 0 1500
 		mu_queue sound/music/m_action
 	}
 
 	trigger mission
 	{
-		accum 2 abort_if_equal 2
-		accum 2 set 2
+		globalaccum 2 abort_if_equal 2
+		globalaccum 2 set 2
 		mu_fade 0 1000
 		mu_queue sound/music/m_mission
 	}

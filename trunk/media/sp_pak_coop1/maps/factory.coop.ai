@@ -60,12 +60,12 @@ player
 
 		cvar g_episode 3
 
-		accum 0 bitset 0
-		accum 0 bitset 1
-		accum 0 bitset 2
-		accum 0 bitset 3 //control sewer spawn
-		accum 0 bitset 4 //control wakeing of last ai
-		accum 0 bitset 5 //control wakeing of black 1 & 2
+		globalaccum 0 bitset 0
+		globalaccum 0 bitset 1
+		globalaccum 0 bitset 2
+		globalaccum 0 bitset 3 //control sewer spawn
+		globalaccum 0 bitset 4 //control wakeing of last ai
+		globalaccum 0 bitset 5 //control wakeing of black 1 & 2
 
 		objectivesneeded 2
 		numsecrets 0
@@ -123,8 +123,8 @@ player
 
 	trigger action6
 	{
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
+		globalaccum 0 abort_if_not_bitset 3
+		globalaccum 0 bitreset 3
 		alertentity nazi11
 		alertentity venom1
 		alertentity nazi12		
@@ -138,13 +138,13 @@ player
 	trigger action6_alt
 	{
 		trigger nazi14 allowrelease
-		accum 0 abort_if_not_bitset 3
-		accum 0 bitreset 3
+		globalaccum 0 abort_if_not_bitset 3
+		globalaccum 0 bitreset 3
 		alertentity nazi11
 		alertentity venom1
 		alertentity nazi12
-		accum 0 abort_if_not_bitset 5
-		accum 0 bitreset 5
+		globalaccum 0 abort_if_not_bitset 5
+		globalaccum 0 bitreset 5
 		alertentity black1
 		alertentity black2
 		#if g_reinforce >= 2 alertentity coop_ai_venom_15 #endif
@@ -156,8 +156,8 @@ player
 	trigger action7 // wake up here guys from action 3
 	{
 		trigger nazi14 allowrelease
-		accum 0 abort_if_not_bitset 5
-		accum 0 bitreset 5
+		globalaccum 0 abort_if_not_bitset 5
+		globalaccum 0 bitreset 5
 		alertentity black1
 		alertentity black2
 		trigger nazi7 nowactive7
@@ -231,8 +231,8 @@ player
 
 	trigger action13
 	{
-		accum 0 abort_if_not_bitset 4
-		accum 0 bitreset 4
+		globalaccum 0 abort_if_not_bitset 4
+		globalaccum 0 bitreset 4
 		trigger black10 nowactive10
 		trigger black11 nowactive11
 		trigger black12 nowactive12
@@ -246,8 +246,8 @@ player
 
 	trigger action14
 	{
-		accum 0 abort_if_not_bitset 4
-		accum 0 bitreset 4
+		globalaccum 0 abort_if_not_bitset 4
+		globalaccum 0 bitreset 4
 		trigger black10 nowactive10
 		trigger black11 nowactive11
 		trigger black12 nowactive12
@@ -255,8 +255,8 @@ player
 
 	trigger got_objective1
 	{
-		accum 0 abort_if_not_bitset 2
-		accum 0 bitreset 2
+		globalaccum 0 abort_if_not_bitset 2
+		globalaccum 0 bitreset 2
 		objectivemet 1	// mission objective complete
 		trigger game_manager objective1
 	}

@@ -59,19 +59,19 @@ player
 
 		cvar g_episode 4
 
-		accum 0 bitset 2
-		accum 0 bitreset 3
+		globalaccum 0 bitset 2
+		globalaccum 0 bitreset 3
 		
 //I rewrote super1 accums due to a resetscript bug - Sage
-		accum 1 bitreset 0	//COOP, Is super in place or low on health (rocket gun destroyed)
-		accum 1 bitreset 1	//COOP, Is tank1 blown?
-		accum 1 bitreset 2	//COOP, Is tank2 blown?
-		accum 1 bitreset 3	//COOP, Is tank3 blown?
-		accum 1 bitreset 4	//COOP, Is tank4 blown?
-		accum 1 bitreset 5	//COOP, Is tank5 blown?
-		accum 1 bitreset 6	//COOP, Are rockets working?
-		accum 1 bitreset 7	//COOP, XTRA, Lockplayer?
-		accum 1 bitreset 8	//COOP, XTRA, Player locked
+		globalaccum 1 bitreset 0	//COOP, Is super in place or low on health (rocket gun destroyed)
+		globalaccum 1 bitreset 1	//COOP, Is tank1 blown?
+		globalaccum 1 bitreset 2	//COOP, Is tank2 blown?
+		globalaccum 1 bitreset 3	//COOP, Is tank3 blown?
+		globalaccum 1 bitreset 4	//COOP, Is tank4 blown?
+		globalaccum 1 bitreset 5	//COOP, Is tank5 blown?
+		globalaccum 1 bitreset 6	//COOP, Are rockets working?
+		globalaccum 1 bitreset 7	//COOP, XTRA, Lockplayer?
+		globalaccum 1 bitreset 8	//COOP, XTRA, Player locked
 
 		objectivesneeded 3
 		numsecrets 0
@@ -168,7 +168,7 @@ player
 
 	trigger e1_downlever
 	{
-		accum 0 abort_if_not_bitset 2
+		globalaccum 0 abort_if_not_bitset 2
 		trigger e1lever1 toggle
 		wait 8000
 		#if g_reinforce >= 1 alertentity coop_ai_venom_44 #endif
@@ -177,28 +177,28 @@ player
 
 	trigger enable_e1downlever
 	{
-		accum 0 bitset 2
+		globalaccum 0 bitset 2
 	}
 
 	trigger disable_e1downlever
 	{
-		accum 0 bitreset 2
+		globalaccum 0 bitreset 2
 	}
 
 	trigger e1_uplever
 	{
-		accum 0 abort_if_not_bitset 3
+		globalaccum 0 abort_if_not_bitset 3
 		trigger e1lever1 toggle
 	}
 
 	trigger enable_e1uplever
 	{
-		accum 0 bitset 3
+		globalaccum 0 bitset 3
 	}
 
 	trigger disable_e1uplever
 	{
-		accum 0 bitreset 3
+		globalaccum 0 bitreset 3
 	}
 
 	trigger natter_launch
@@ -211,37 +211,37 @@ player
 	trigger s1_noshoot1_5
 	{
 	//Previously unused trigger taken for preventing cheating
-		accum 1 abort_if_bitset 7
-		accum 1 bitset 7
-		accum 1 bitset 8
+		globalaccum 1 abort_if_bitset 7
+		globalaccum 1 bitset 7
+		globalaccum 1 bitset 8
 
 		lockplayer on
 	}
 
 	trigger door_closed
 	{
-		accum 1 bitset 7
-		accum 1 abort_if_not_bitset 8
+		globalaccum 1 bitset 7
+		globalaccum 1 abort_if_not_bitset 8
 
 		lockplayer off
 	}
 
 	trigger super1_in_place
 	{
-		accum 1 bitset 0
+		globalaccum 1 bitset 0
 	}
 
 	trigger super1_low_on_health
 	{
 		//Set when super is low on health
-		//Substitutes the rockets breaking accum
-		accum 1 bitreset 0
+		//Substitutes the rockets breaking globalaccum
+		globalaccum 1 bitreset 0
 	}
 
 	trigger use_rocket
 	{
 		//Goes from here, because of a bug
-		accum 1 abort_if_not_bitset 0
+		globalaccum 1 abort_if_not_bitset 0
 		trigger super1 use_rocket
 	}
 
@@ -249,79 +249,79 @@ player
 //Disable hiding for COOP
 	trigger p_hiding
 	{
-//		accum 1 abort_if_not_bitset 0
+//		globalaccum 1 abort_if_not_bitset 0
 //		trigger super1 p_hiding
 	}
 
 	trigger p_hiding2
 	{
-//		accum 1 abort_if_not_bitset 0
+//		globalaccum 1 abort_if_not_bitset 0
 //		trigger super1 p_hiding2
 	}
 
 	trigger p_no_hiding
 	{
-		accum 1 abort_if_not_bitset 0
+		globalaccum 1 abort_if_not_bitset 0
 		trigger super1 reset
 	}
 
 	trigger tank1_bust
 	{
-		accum 1 bitset 1
+		globalaccum 1 bitset 1
 	}
 
 	trigger tank2_bust
 	{
-		accum 1 bitset 2
+		globalaccum 1 bitset 2
 	}
 
 	trigger tank3_bust
 	{
-		accum 1 bitset 3
+		globalaccum 1 bitset 3
 	}
 
 	trigger tank4_bust
 	{
-		accum 1 bitset 4
+		globalaccum 1 bitset 4
 	}
 
 	trigger tank5_bust
 	{
-		accum 1 bitset 5
+		globalaccum 1 bitset 5
 	}
 
 	trigger dest_tank1
 	{
-		accum 1 abort_if_not_bitset 0
-		accum 1 abort_if_bitset 1
+		globalaccum 1 abort_if_not_bitset 0
+		globalaccum 1 abort_if_bitset 1
 		trigger super1 shoot_tank1
 	}
 
 	trigger dest_tank2
 	{
-		accum 1 abort_if_not_bitset 0
-		accum 1 abort_if_bitset 2
+		globalaccum 1 abort_if_not_bitset 0
+		globalaccum 1 abort_if_bitset 2
 		trigger super1 shoot_tank2
 	}
 
 	trigger dest_tank3
 	{
-		accum 1 abort_if_not_bitset 0
-		accum 1 abort_if_bitset 3
+		globalaccum 1 abort_if_not_bitset 0
+		globalaccum 1 abort_if_bitset 3
 		trigger super1 shoot_tank3
 	}
 
 	trigger dest_tank4
 	{
-		accum 1 abort_if_not_bitset 0
-		accum 1 abort_if_bitset 4
+		globalaccum 1 abort_if_not_bitset 0
+		globalaccum 1 abort_if_bitset 4
 		trigger super1 shoot_tank4
 	}
 
 	trigger dest_tank5
 	{
-		accum 1 abort_if_not_bitset 0
-		accum 1 abort_if_bitset 5
+		globalaccum 1 abort_if_not_bitset 0
+		globalaccum 1 abort_if_bitset 5
 		trigger super1 shoot_tank5
 	}
 

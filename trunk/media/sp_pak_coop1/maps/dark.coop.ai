@@ -189,7 +189,7 @@ player
 
 	trigger truck
 	{
-		accum 1 abort_if_equal 1 
+		globalaccum 1 abort_if_equal 1 
 		alertentity truck_nazi1
 		alertentity truck_nazi2
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_35 #endif

@@ -62,11 +62,11 @@ player
 
 		cvar g_episode 5
 		
-		accum 0 bitreset 0
-		accum 1 set 0
-		accum 2 set 0
-		accum 3 set 0
-		accum 4 set 0
+		globalaccum 0 bitreset 0
+		globalaccum 1 set 0
+		globalaccum 2 set 0
+		globalaccum 3 set 0
+		globalaccum 4 set 0
 
 		objectivesneeded 7
 		numsecrets 6

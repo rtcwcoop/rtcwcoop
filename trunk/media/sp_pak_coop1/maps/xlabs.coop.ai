@@ -61,7 +61,7 @@ player
 		objectivesneeded 2
 		numsecrets 1
 
-		accum 0 bitreset 0	//Destroy secret door once
+		globalaccum 0 bitreset 0	//Destroy secret door once
 
 		trigger counter2 cleanup
 
@@ -212,8 +212,8 @@ player
 
 	trigger destroy_secret_door
 	{
-		accum 0 abort_if_bitset 0
-		accum 0 bitset 0
+		globalaccum 0 abort_if_bitset 0
+		globalaccum 0 bitset 0
 
 		alertentity p2_boom
 	}

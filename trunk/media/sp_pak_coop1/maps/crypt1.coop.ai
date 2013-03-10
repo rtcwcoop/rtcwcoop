@@ -46,10 +46,10 @@ player
 
 		cvar g_episode 1
 
-		accum 0 set 0
-		accum 1 set 0
-		accum 2 bitreset 0	// Used for if the player goes around which will skip the scooby doo scene.
-		accum 2 bitreset 1	//Sage - for big bang theory
+		globalaccum 0 set 0
+		globalaccum 1 set 0
+		globalaccum 2 bitreset 0	// Used for if the player goes around which will skip the scooby doo scene.
+		globalaccum 2 bitreset 1	//Sage - for big bang theory
 
 		objectivesneeded 2
 		numsecrets 1
@@ -136,7 +136,7 @@ player
 	// Spawns in the following AI
 	trigger action4a
 	{
-		accum 2 bitset 0		//Stop bseq - Sage
+		globalaccum 2 bitset 0		//Stop bseq - Sage
 		alertentity zombie6
 		alertentity zombie6a
 		alertentity zombie6b
@@ -186,8 +186,8 @@ player
 	{
 		mu_fade 0 1000
 		mu_queue sound/music/c_chant
-		accum 2 abort_if_bitset 1
-		accum 2 bitset 1
+		globalaccum 2 abort_if_bitset 1
+		globalaccum 2 bitset 1
 		alertentity zombie9
 		alertentity zombie11
 	}
@@ -278,11 +278,11 @@ player
 	// This spawns the following AI which do the BridgeSequence
 	trigger bseq		
 	{
-		accum 2 abort_if_bitset 1
-		accum 2 bitset 1
+		globalaccum 2 abort_if_bitset 1
+		globalaccum 2 bitset 1
 		alertentity zombie9
 		alertentity zombie11
-		accum 2 abort_if_bitset 0
+		globalaccum 2 abort_if_bitset 0
 		alertentity nazi3
 		alertentity zombie20
 		alertentity zombie21 // Took out to see how it looks with one zombie.
@@ -4636,4 +4636,3 @@ coop_ai_zombie_34	// extra at last room start
 	{
 		trigger counter1 lastdead
 	}
-}

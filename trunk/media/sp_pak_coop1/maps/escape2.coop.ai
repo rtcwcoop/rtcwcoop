@@ -38,10 +38,10 @@ player
 	{
 		//If something breaks at late player joining, move it here
 
-		accum 0 bitset 0
-		accum 0 bitset 1 // alarm only fired once
-		accum 0 bitset 2 // action 13 only fired once
-		accum 1 set 0 // controls streaming music
+		globalaccum 0 bitset 0
+		globalaccum 0 bitset 1 // alarm only fired once
+		globalaccum 0 bitset 2 // action 13 only fired once
+		globalaccum 1 set 0 // controls streaming music
 
 		objectivesneeded 1
 		numsecrets 4
@@ -153,8 +153,8 @@ player
 
 	trigger action13
 	{
-//		accum 0 abort_if_not_bitset 2
-//		accum 0 bitreset 2
+//		globalaccum 0 abort_if_not_bitset 2
+//		globalaccum 0 bitreset 2
 		alertentity nazi12
 		alertentity doorunlock1
 	}
@@ -172,8 +172,8 @@ player
 
 	trigger action15
 	{
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
 		trigger nazi24 banzi24
 		alertentity nazi25
 		alertentity nazi28
@@ -215,24 +215,24 @@ player
 		trigger dialog bridgedoor
 		//alertentity openbridgedoor
 		
-//		accum 0 abort_if_not_bitset 3
-//		accum 0 bitreset 3
+//		globalaccum 0 abort_if_not_bitset 3
+//		globalaccum 0 bitreset 3
 //		objectivemet 1	// mission objective complete
 //		trigger game_manager objective1
 	}
 
 	trigger playaction1
 	{
-		accum 1 abort_if_not_equal 0
-		accum 1 set 1
+		globalaccum 1 abort_if_not_equal 0
+		globalaccum 1 set 1
 		mu_fade 0 500
 		mu_queue sound/music/m_alarm
 	}
 
 	trigger playmission1
 	{
-		accum 1 abort_if_not_equal 1
-		accum 1 set 0
+		globalaccum 1 abort_if_not_equal 1
+		globalaccum 1 set 0
 		mu_fade 0 1500
 		mu_queue sound/music/m_mission
 	}
@@ -252,8 +252,8 @@ player
 	trigger alarmon
 	{
 		trigger dummy toggle
-		accum 0 abort_if_not_bitset 1
-		accum 0 bitreset 1
+		globalaccum 0 abort_if_not_bitset 1
+		globalaccum 0 bitreset 1
 		trigger spawner alarmspawn
 		trigger spawner spawnnazi3
 		trigger spawner spawnnazi567

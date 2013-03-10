@@ -39,15 +39,15 @@ player
 
 		cvar g_episode 2
 
-		accum 0 bitset 0
-		accum 0 bitset 1
-		accum 0 bitset 2
-		accum 0 bitset 3
-		accum 0 bitset 4
-		accum 0 bitset 5
-		accum 0 bitset 6
-		accum 0 bitset 7
-		accum 1 set 0 // Gun pickup
+		globalaccum 0 bitset 0
+		globalaccum 0 bitset 1
+		globalaccum 0 bitset 2
+		globalaccum 0 bitset 3
+		globalaccum 0 bitset 4
+		globalaccum 0 bitset 5
+		globalaccum 0 bitset 6
+		globalaccum 0 bitset 7
+		globalaccum 1 set 0 // Gun pickup
 
 
 		objectivesneeded 4
@@ -56,8 +56,8 @@ player
 	
 	trigger alarm_disabled
 	{
-		accum 0 abort_if_not_bitset 7
-		accum 0 bitreset 7
+		globalaccum 0 abort_if_not_bitset 7
+		globalaccum 0 bitreset 7
 		objectivemet 3	// mission objective complete
 
 		trigger game_manager objective3
@@ -150,69 +150,69 @@ player
 
 	trigger explode_alarm1
 	{
-		accum 0 bitreset 1
+		globalaccum 0 bitreset 1
 	}
 
 	trigger on_alarm1
 	{
-		accum 0 abort_if_not_bitset 1
+		globalaccum 0 abort_if_not_bitset 1
 		trigger alarm alarmset
 	}
 
 	trigger explode_alarm2
 	{
-		accum 0 bitreset 2
+		globalaccum 0 bitreset 2
 		trigger nazi6 break_alarm2
 	}
 
 	trigger on_alarm2
 	{
-		accum 0 abort_if_not_bitset 2
+		globalaccum 0 abort_if_not_bitset 2
 		trigger alarm alarmset
 	}
 
 	trigger explode_alarm3
 	{
-		accum 0 bitreset 3
+		globalaccum 0 bitreset 3
 	}
 
 	trigger on_alarm3
 	{
-		accum 0 abort_if_not_bitset 3
+		globalaccum 0 abort_if_not_bitset 3
 		trigger alarm alarmset
 	}
 
 	trigger explode_alarm4
 	{
-		accum 0 bitreset 4
+		globalaccum 0 bitreset 4
 	}
 
 	trigger on_alarm4
 	{
-		accum 0 abort_if_not_bitset 4
+		globalaccum 0 abort_if_not_bitset 4
 		trigger alarm alarmset
 	}
 
 	trigger explode_alarm5
 	{
-		accum 0 bitreset 5
+		globalaccum 0 bitreset 5
 	}
 
 	trigger on_alarm5
 	{
-		accum 0 abort_if_not_bitset 5
+		globalaccum 0 abort_if_not_bitset 5
 		trigger alarm alarmset
 	}
 
 	trigger explode_alarm6
 	{
-		accum 0 bitreset 6
+		globalaccum 0 bitreset 6
 		trigger nazi25 alarmbroke
 	}
 
 	trigger on_alarm6
 	{
-		accum 0 abort_if_not_bitset 6
+		globalaccum 0 abort_if_not_bitset 6
 		trigger alarm alarmset
 	}
 
@@ -229,8 +229,8 @@ player
 
 	trigger got_objective1
 	{
-		accum 0 abort_if_not_bitset 0
-		accum 0 bitreset 0
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
 		objectivemet 1	// mission objective complete
 
 		trigger game_manager objective1
@@ -253,8 +253,8 @@ player
 		objectivemet 2	// mission objective complete
 		trigger game_manager objective2
 
-		accum 0 abort_if_not_bitset 7
-		accum 0 bitreset 7
+		globalaccum 0 abort_if_not_bitset 7
+		globalaccum 0 bitreset 7
 
 		objectivemet 3	// mission objective complete
 
@@ -263,8 +263,8 @@ player
 
 	trigger got_objective3
 	{
-		accum 1 abort_if_not_equal 0
-		accum 1 set 1
+		globalaccum 1 abort_if_not_equal 0
+		globalaccum 1 set 1
 
 		objectivemet 4	// mission objective complete
 		trigger game_manager objective4
@@ -272,7 +272,7 @@ player
 
 	trigger fail_objective2
 	{
-		accum 0 bitreset 7
+		globalaccum 0 bitreset 7
 	}
 
 	trigger endmap
