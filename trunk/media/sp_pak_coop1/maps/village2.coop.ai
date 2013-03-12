@@ -98,7 +98,9 @@ player
 	{	
 		alertentity sniper1
 		alertentity nazi5
-		#if g_reinforce >= 2 alertentity coop_ai_soldier_5 #endif
+
+		//Makes stealth impossible
+		//#if g_reinforce >= 2 alertentity coop_ai_soldier_5 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_6 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_7 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
@@ -201,7 +203,8 @@ player
 		alertentity nazi14
 		alertentity nazi15
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_37 #endif
-		#if g_reinforce >= 1 alertentity coop_ai_soldier_38 #endif
+//38 Is disabled, it makes stealth impossible - Sage
+//		#if g_reinforce >= 1 alertentity coop_ai_soldier_38 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_39 #endif
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_40 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_41 #endif
@@ -2414,9 +2417,9 @@ nazi6						// 2nd house, in room looking at food...
 		accum 3 set 1
 		accum 0 bitset 5
 		statetype alert
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 		wait 500 player
 	}
 	
@@ -2555,9 +2558,9 @@ nazi6						// 2nd house, in room looking at food...
 		deny
 		clearanim
 		playsound blank
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 		statetype alert
 		resetscript
 		wait 500 0 player
@@ -2570,9 +2573,9 @@ nazi6						// 2nd house, in room looking at food...
 		statetype alert
 		clearanim
 		playsound blank
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40		
+		selectweapon weapon_luger	
 	}
 
 	inspectsoundstart
@@ -2582,9 +2585,9 @@ nazi6						// 2nd house, in room looking at food...
 		statetype alert
 		clearanim
 		playsound blank
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 //		trigger nazi6 giveweapon
 	}
 
@@ -2598,9 +2601,9 @@ nazi6						// 2nd house, in room looking at food...
 		statetype alert
 		clearanim
 		playsound blank
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 //		trigger nazi6 giveweapon
 	}
 
@@ -2654,9 +2657,9 @@ nazi7						// 2nd house, in room looking at food... and looking at inga
 		accum 3 set 1
 		accum 0 bitset 5
 		statetype alert
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 		wait 500 player
 	}
 	
@@ -2718,9 +2721,9 @@ nazi7						// 2nd house, in room looking at food... and looking at inga
 		accum 3 set 1
 		clearanim
 		resetscript
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 		playsound MiscStopHim
 		avoid
 	}
@@ -2743,9 +2746,9 @@ nazi7						// 2nd house, in room looking at food... and looking at inga
 	{
 		clearanim
 		playsound blank
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40		
+		selectweapon weapon_luger		
 	}
 
 	trigger enable_bulletimpact
@@ -2760,9 +2763,9 @@ nazi7						// 2nd house, in room looking at food... and looking at inga
 		deny
 		clearanim
 		playsound blank
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 		statetype alert
 		resetscript
 		wait 500 0 player
@@ -2773,9 +2776,9 @@ nazi7						// 2nd house, in room looking at food... and looking at inga
 		accum 3 set 1
 		resetscript
 		statetype alert
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 	}
 
 	inspectsoundend
@@ -2786,9 +2789,9 @@ nazi7						// 2nd house, in room looking at food... and looking at inga
 	{
 		accum 3 set 1
 		statetype alert
-		giveweapon weapon_mp40
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		selectweapon weapon_mp40
+		selectweapon weapon_luger
 		resetscript
 	}
 
@@ -5334,6 +5337,10 @@ coop_ai_soldier_1		// after car
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.8
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
@@ -5342,7 +5349,7 @@ coop_ai_soldier_1		// after car
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5353,13 +5360,17 @@ coop_ai_soldier_2		// stairway
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.8
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5370,13 +5381,16 @@ coop_ai_soldier_3		// hallway
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.8
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5387,13 +5401,17 @@ coop_ai_soldier_4		// near officer1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		//aggression 1.0
+		inner_detection_radius 192
+		alertness 768
+		hearing_scale 0.8
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5404,13 +5422,16 @@ coop_ai_soldier_5		// door1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5421,6 +5442,9 @@ coop_ai_soldier_6		// understairs
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -5429,7 +5453,7 @@ coop_ai_soldier_6		// understairs
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5440,13 +5464,16 @@ coop_ai_soldier_7		// door2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5457,6 +5484,9 @@ coop_ai_soldier_8		// after corner
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
@@ -5465,7 +5495,7 @@ coop_ai_soldier_8		// after corner
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5476,13 +5506,17 @@ coop_ai_soldier_9		// house2 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
 	}
 }
 
@@ -5493,13 +5527,17 @@ coop_ai_soldier_10		// house2 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.8
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5510,13 +5548,19 @@ coop_ai_soldier_11		// near officer2 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.8
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -5527,15 +5571,19 @@ coop_ai_soldier_12		// near officer2 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.8
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
 		takeweapon all
-		giveweapon weapon_mauserRifle
-		setammo ammo_792mm 999
-		selectweapon weapon_mauserRifle
-		statetype alert
+		giveweapon weapon_luger
+		setammo ammo_9mm 999
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -5546,6 +5594,9 @@ coop_ai_soldier_13		// balcony
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -5554,7 +5605,7 @@ coop_ai_soldier_13		// balcony
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5565,13 +5616,16 @@ coop_ai_soldier_14		// near house3
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.8
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5582,13 +5636,16 @@ coop_ai_soldier_15		// near officer3
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5599,6 +5656,9 @@ coop_ai_soldier_16		// garden entrance 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -5607,7 +5667,7 @@ coop_ai_soldier_16		// garden entrance 1
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5618,13 +5678,16 @@ coop_ai_soldier_17		// garden entrance 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5635,13 +5698,16 @@ coop_ai_soldier_18		// basement-door
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5652,13 +5718,16 @@ coop_ai_soldier_19		// basement 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5669,6 +5738,9 @@ coop_ai_soldier_20		// basement 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
@@ -5677,7 +5749,7 @@ coop_ai_soldier_20		// basement 2
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5688,13 +5760,16 @@ coop_ai_soldier_21		// basement 3
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5705,13 +5780,16 @@ coop_ai_soldier_22		// basement 4
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5722,13 +5800,16 @@ coop_ai_soldier_23		// bedroom
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5739,13 +5820,16 @@ coop_ai_soldier_24		// near bedroom
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5756,6 +5840,9 @@ coop_ai_soldier_25		// garden2 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -5764,7 +5851,7 @@ coop_ai_soldier_25		// garden2 1
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5775,13 +5862,16 @@ coop_ai_soldier_26		// garden2 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5792,13 +5882,16 @@ coop_ai_soldier_27		// garden2 3
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5809,6 +5902,9 @@ coop_ai_soldier_28		// garden2 4
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -5817,7 +5913,7 @@ coop_ai_soldier_28		// garden2 4
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5828,13 +5924,16 @@ coop_ai_soldier_29		// fireplace
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5845,13 +5944,16 @@ coop_ai_soldier_30		// hallway
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5862,13 +5964,16 @@ coop_ai_soldier_31		// near officer4
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5879,6 +5984,9 @@ coop_ai_soldier_32		// exitroom
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -5887,7 +5995,7 @@ coop_ai_soldier_32		// exitroom
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5898,13 +6006,19 @@ coop_ai_soldier_33		// near officer5 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.7
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -5915,13 +6029,19 @@ coop_ai_soldier_34		// near officer5 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.7
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -5932,13 +6052,19 @@ coop_ai_soldier_35		// small room
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		reaction_time 0.7
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.5
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -5949,13 +6075,18 @@ coop_ai_soldier_36		// bedroom
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -5966,6 +6097,9 @@ coop_ai_soldier_37		// garden3 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -5974,7 +6108,7 @@ coop_ai_soldier_37		// garden3 1
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -5985,13 +6119,16 @@ coop_ai_soldier_38		// garden3 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6002,6 +6139,9 @@ coop_ai_soldier_39		// garden3 3
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -6010,7 +6150,7 @@ coop_ai_soldier_39		// garden3 3
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6021,13 +6161,18 @@ coop_ai_soldier_40		// aftergarden3 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -6038,13 +6183,18 @@ coop_ai_soldier_41		// aftergarden3 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
 	{
-		setammo ammo_grenades 0
+		takeweapon all
+		giveweapon weapon_luger
 		setammo ammo_9mm 999
-		statetype alert
+		selectweapon weapon_luger
+		//statetype alert
 	}
 }
 
@@ -6055,6 +6205,9 @@ coop_ai_soldier_42		// aftergarden3 3
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 1024
+		inner_detection_radius 192
+		hearing_scale 0.7
 	}
 
 	spawn
@@ -6063,7 +6216,7 @@ coop_ai_soldier_42		// aftergarden3 3
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6074,13 +6227,16 @@ coop_ai_soldier_43		// chateau garden 1
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6091,13 +6247,16 @@ coop_ai_soldier_44		// chateau garden 2
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6108,6 +6267,9 @@ coop_ai_soldier_45		// chateau garden 3
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
@@ -6116,7 +6278,7 @@ coop_ai_soldier_45		// chateau garden 3
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6127,13 +6289,16 @@ coop_ai_soldier_46		// chateau garden 4
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6144,13 +6309,16 @@ coop_ai_soldier_47		// chateau garden 5
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6161,13 +6329,16 @@ coop_ai_soldier_48		// chateau garden 6
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
 	{
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6178,6 +6349,9 @@ coop_ai_soldier_49		// chateau garden 7
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
@@ -6186,7 +6360,7 @@ coop_ai_soldier_49		// chateau garden 7
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
@@ -6197,6 +6371,9 @@ coop_ai_soldier_50		// chateau garden 8
 		aim_accuracy 0.6
 		starting_health 55
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 1.0
 	}
 
 	spawn
@@ -6205,7 +6382,7 @@ coop_ai_soldier_50		// chateau garden 8
 		giveweapon weapon_mauserRifle
 		setammo ammo_792mm 999
 		selectweapon weapon_mauserRifle
-		statetype alert
+		//statetype alert
 	}
 }
 
