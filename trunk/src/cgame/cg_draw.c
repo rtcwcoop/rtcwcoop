@@ -2136,7 +2136,6 @@ L0 - DrawVote looks ugly as hell..I've port it from mp.
 NOTE: Vote sounds are set in game logic (c_cmds.c /callvote)..
 =================
 */
-char* BindingFromName( const char *cvar );
 static void CG_DrawVote( void ) {
 	char *s;
 	int sec;

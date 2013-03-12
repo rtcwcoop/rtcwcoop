@@ -503,6 +503,8 @@ void        Controls_GetConfig( void );
 void        Controls_SetConfig( qboolean restart );
 void        Controls_SetDefaults( void );
 
+char        *BindingFromName( const char *cvar ); // TIHan - We need the prototype. What about BindingIDFromName?
+
 int         trap_PC_AddGlobalDefine( char *define );
 int         trap_PC_LoadSource( const char *filename );
 int         trap_PC_FreeSource( int handle );

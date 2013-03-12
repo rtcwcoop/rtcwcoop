@@ -3757,7 +3757,7 @@ int BindingIDFromName( const char *name ) {
 char g_nameBind1[32];
 char g_nameBind2[32];
 
-void BindingFromName( const char *cvar ) {
+char* BindingFromName( const char *cvar ) {
 	int i, b1, b2;
 
 	// iterate each command, set its default binding
@@ -3782,10 +3782,11 @@ void BindingFromName( const char *cvar ) {
 #endif
 				strcat( g_nameBind1, g_nameBind2 );
 			}
-			return;
+			return g_nameBind1;         // NERVE - SMF
 		}
 	}
 	strcpy( g_nameBind1, "???" );
+	return g_nameBind1;         // NERVE - SMF
 }
 
 void Item_Slider_Paint( itemDef_t *item ) {
