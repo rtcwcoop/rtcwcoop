@@ -88,178 +88,182 @@ CG_Obituary
 =============
 */
 static void CG_Obituary( entityState_t *ent ) {
-        int mod; 
-        int target, attacker;
-        char        *message;
-        char        *message2;
-        const char  *targetInfo;
-        const char  *attackerInfo;
-        char targetName[32];
-        char attackerName[32];
-        clientInfo_t    *ci, *ca; // JPW NERVE ca = attacker
-        centity_t       *tcent, *acent;
+  int           mod; 
+  int           target, attacker;
+  char          targetName[32], attackerName[32];
+  char          *message, *message2;
+  const char    *targetInfo, *attackerInfo;
+  clientInfo_t  *ci, *ca; // JPW NERVE ca = attacker
+  centity_t     *tcent, *acent;
+  qboolean      isTargetPlayer;
 
-        // Ridah, no obituaries in single player
-        if ( cgs.gametype == GT_SINGLE_PLAYER ) {
-                return;
-        }    
+  // Ridah, no obituaries in single player
+  if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+    return;
+  }    
 
-        if ( !cg_obituaries.integer )
-                return;
+  if ( !cg_obituaries.integer )
+    return;
 
-        target = ent->otherEntityNum;
-        attacker = ent->otherEntityNum2;
-        mod = ent->eventParm;
+  target = ent->otherEntityNum;
+  attacker = ent->otherEntityNum2;
+  mod = ent->eventParm;
 
-        if ( target < 0 || target >= MAX_CLIENTS ) {
-                CG_Error( "CG_Obituary: target out of range" );
-        }    
-        ci = &cgs.clientinfo[target];
-        ca = &cgs.clientinfo[attacker];
+  if ( target < 0 || target >= MAX_CLIENTS ) {
+    CG_Error( "CG_Obituary: target out of range" );
+  }    
+  ci = &cgs.clientinfo[target];
+  ca = &cgs.clientinfo[attacker];
 
-        tcent = &cg_entities[ci->clientNum];
-        acent = &cg_entities[ca->clientNum];
+  tcent = &cg_entities[ci->clientNum];
+  acent = &cg_entities[ca->clientNum];
 
-        if (target != attacker) {
-                if (tcent->currentState.aiChar == acent->currentState.aiChar)
-                        ca->lastteamkilltime = cg.time;
-                else
-                        ca->lastkilltime = cg.time;
-        }
+  isTargetPlayer = (qboolean)( tcent->currentState.aiChar == AICHAR_NONE );
 
-        if ( attacker < 0 || attacker >= MAX_CLIENTS ) {
-                attacker = ENTITYNUM_WORLD;
-                attackerInfo = NULL;
-        } else {
-                attackerInfo = CG_ConfigString( CS_PLAYERS + attacker );
-        }    
+  // TIHan - If the target is not a player, don't do anything.
+  // TIHan - FIXME: Clients seeing other players killing AI results in a message. It means the AI's aiChar is AICHAR_NONE, which is not right.
+  if ( !isTargetPlayer ) {
+    return;
+  }
 
-        targetInfo = CG_ConfigString( CS_PLAYERS + target );
-        if ( !targetInfo ) {
-                return;
-        }
-        Q_strncpyz( targetName, Info_ValueForKey( targetInfo, "n" ), sizeof( targetName ) - 2 );
-        strcat( targetName, S_COLOR_WHITE );
+  targetInfo = CG_ConfigString( CS_PLAYERS + target );
+  if ( !targetInfo ) {
+    return;
+  }
+  Q_strncpyz( targetName, Info_ValueForKey( targetInfo, "n" ), sizeof( targetName ) - 2 );
+  strcat( targetName, S_COLOR_WHITE );
 
-        message2 = "";
+  if (target != attacker) {
+    if (tcent->currentState.teamNum == acent->currentState.teamNum) {
+      ca->lastteamkilltime = cg.time;
+    }
+    else {
+      ca->lastkilltime = cg.time;
+    }
+  }
 
-        // check for single client messages
+  if ( attacker < 0 || attacker >= MAX_CLIENTS ) {
+    attacker = ENTITYNUM_WORLD;
+    attackerInfo = NULL;
+  } else {
+    attackerInfo = CG_ConfigString( CS_PLAYERS + attacker );
+  }    
 
-        switch ( mod ) {
-        case MOD_SUICIDE:
-                message = "committed suicide";
-                break;
-        case MOD_FALLING:
-                message = "fell to his death";
-                break;
-        case MOD_CRUSH:
-                message = "was crushed";
-                break;
-        case MOD_WATER:
-                message = "drowned";
-                break;
-        case MOD_SLIME:
-                message = "died by toxic materials";
-                break;
-        case MOD_TRIGGER_HURT:
-                message = "was killed";
-                break;
+  // check for single client messages
+  switch ( mod ) {
+  case MOD_SUICIDE:
+    message = "committed suicide";
+    break;
+  case MOD_FALLING:
+    message = "fell to his death";
+    break;
+  case MOD_CRUSH:
+    message = "was crushed";
+    break;
+  case MOD_WATER:
+    message = "drowned";
+    break;
+  case MOD_SLIME:
+    message = "died by toxic materials";
+    break;
+  case MOD_TRIGGER_HURT:
+    message = "was killed";
+    break;
 #ifdef _ADMINS
-        // L0 - MODs
-        case MOD_SLAP:
-                message = "was slapped to death by Admin";
-                break;
-        case MOD_ADMKILL:
-                message = "was killed by Admin";
-        break;
-        // end
+  // L0 - MODs
+  case MOD_SLAP:
+    message = "was slapped to death by Admin";
+    break;
+  case MOD_ADMKILL:
+    message = "was killed by Admin";
+  break;
+  // end
 #endif
 
-        default:
-                message = NULL;
-                break;
-        }
+  default:
+    message = NULL;
+    break;
+  }
 
-        if ( attacker == target ) {
-                switch ( mod ) {
+  if ( attacker == target ) {
+    switch ( mod ) {
 // JPW NERVE per atvi req
-                case MOD_DYNAMITE:
-                case MOD_DYNAMITE_SPLASH:
-                        message = "dynamited himself to pieces";
-                        break;
+    case MOD_DYNAMITE:
+    case MOD_DYNAMITE_SPLASH:
+      message = "dynamited himself to pieces";
+      break;
 // jpw
-                case MOD_GRENADE_SPLASH:
-                        message = "dove on his own grenade";
-                        break;
-                case MOD_ROCKET_SPLASH:
-                        message = "vaporized himself";
-                        break;
-                case MOD_AIRSTRIKE:
-                        message = "obliterated himself";
-                        break;
-                case MOD_EXPLOSIVE:
-                        message = "died in his own explosion";
-                        break;
-                default:
-                        message = "killed himself";
-                        break;
-                }
-        }
+    case MOD_GRENADE_SPLASH:
+      message = "dove on his own grenade";
+      break;
+    case MOD_ROCKET_SPLASH:
+      message = "vaporized himself";
+      break;
+    case MOD_AIRSTRIKE:
+      message = "obliterated himself";
+      break;
+    case MOD_EXPLOSIVE:
+      message = "died in his own explosion";
+      break;
+    default:
+      message = "killed himself";
+      break;
+    }
+  }
 
-        if (tcent->currentState.aiChar == AICHAR_NONE) {
-                message = "died";
-        }
+  // check for kill messages from the current clientNum
+  if ( attacker == cg.snap->ps.clientNum ) {
+    char    *s;
 
-        if ( message ) {
-                //message = CG_TranslateString( message );
-                CG_Printf( "[cgnotify]%s %s.\n", targetName, message );
-                return;
-        }
+    // TIHan - Are they on the same team?
+    if ( tcent->currentState.teamNum == acent->currentState.teamNum ) {
+      //s = va( "%s %s", CG_TranslateString( "You killed ^1TEAMMATE^7" ), targetName );
+      s = va( "%s %s", "You killed ^1TEAMMATE^7", targetName );
+      ca->lastteamkilltime = cg.time;
+    } else {
+      //s = va( "%s %s", CG_TranslateString( "You killed" ), targetName );
+      s = va( "%s %s", "You killed", targetName );
+      ca->lastkilltime = cg.time;
+    }
 
-        // check for kill messages from the current clientNum
-        if ( attacker == cg.snap->ps.clientNum ) {
-                char    *s;
+    if (cg_obituaries.integer == 2) {
+      CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
+    }
 
+    // TIHan - We already printed the message, return.
+    return;
+  }
 
-                // teams don't exist in coop, so we have to check if we kill an ai or not
-                if  ( tcent->currentState.aiChar == 0 && acent->currentState.aiChar == 0 ) {
-                        //s = va( "%s %s", CG_TranslateString( "You killed ^1TEAMMATE^7" ), targetName );
-                        s = va( "%s %s", "You killed ^1TEAMMATE^7", targetName );
-                        ca->lastteamkilltime = cg.time;
+  // check for double client messages
+  if ( !attackerInfo ) {
+    attacker = ENTITYNUM_WORLD;
+    strcpy( attackerName, "noname" );
+  } else {
+    Q_strncpyz( attackerName, Info_ValueForKey( attackerInfo, "n" ), sizeof( attackerName ) - 2 );
+    strcat( attackerName, S_COLOR_WHITE );
+    // check for kill messages about the current clientNum
+    if ( target == cg.snap->ps.clientNum ) {
+      Q_strncpyz( cg.killerName, attackerName, sizeof( cg.killerName ) );
+    }
+  }
 
-                        if (cg_obituaries.integer == 2)
-                                CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
-                }
+  message2 = "";
+	// L0 - MP alike MODs (for later on)
+	if ( attacker != ENTITYNUM_WORLD ) {
+		switch ( mod ) {
+			// Knife throw
+			case MOD_THROWKNIFE:
+				message = "was impaled by";
+				message2 = "'s throwing knife";
+			break;
+			// Default..
+			default:
+				message = "was killed by";
+			break;
+		} 
+	}	// End
 
-        }
-
-        // check for double client messages
-        if ( !attackerInfo ) {
-                attacker = ENTITYNUM_WORLD;
-                strcpy( attackerName, "noname" );
-        } else {
-                Q_strncpyz( attackerName, Info_ValueForKey( attackerInfo, "n" ), sizeof( attackerName ) - 2 );
-                strcat( attackerName, S_COLOR_WHITE );
-                // check for kill messages about the current clientNum
-                if ( target == cg.snap->ps.clientNum ) {
-                        Q_strncpyz( cg.killerName, attackerName, sizeof( cg.killerName ) );
-                }
-        }
-
-		// L0 - MP alike MODs (for later on)
-		if ( attacker != ENTITYNUM_WORLD ) {
-			switch ( mod ) {
-				// Knife throw
-				case MOD_THROWKNIFE:
-					message = "was impaled by";
-					message2 = "'s throwing knife";
-				break;
-				// Default..
-				default:
-					message = "was killed by";
-				break;
-			} 
-		}	// End
+  CG_Printf( "[cgnotify]%s %s %s%s.\n", targetName, message, attackerName, message2 );
 }
 
 
