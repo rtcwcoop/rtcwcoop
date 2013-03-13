@@ -3240,6 +3240,9 @@ coop_ai_soldier_1		// roof
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 256
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3257,6 +3260,9 @@ coop_ai_soldier_2		// in the house
 		aim_accuracy 0.5
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 256
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3277,6 +3283,8 @@ coop_ai_soldier_3		// secret-island
 		fov 100
 		leader 0.8
 		alertness 2048
+		inner_detection_radius 256
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3372,6 +3380,9 @@ coop_ai_soldier_4		// behind the stone-fence
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 256
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3388,6 +3399,9 @@ coop_ai_soldier_5		// near the officer
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 256
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3687,6 +3701,9 @@ coop_ai_soldier_9		// in the small hallway 1
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3704,6 +3721,9 @@ coop_ai_soldier_10		// in the small hallway 2
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3815,6 +3835,9 @@ coop_ai_soldier_12		// hidden in the hill
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3835,6 +3858,9 @@ coop_ai_soldier_13		// near the snooper 1
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3852,6 +3878,9 @@ coop_ai_soldier_14		// near the snooper 2
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -3872,6 +3901,9 @@ coop_ai_soldier_15		// near the snooper 3
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4053,6 +4085,9 @@ coop_ai_soldier_18		// behind the window
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4070,6 +4105,9 @@ coop_ai_soldier_19		// near the officer
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4087,6 +4125,9 @@ coop_ai_soldier_20		// behind the boxes
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4104,6 +4145,9 @@ coop_ai_soldier_21		// between the house and the fence
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4121,6 +4165,9 @@ coop_ai_soldier_22		// in the garden
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4192,6 +4239,9 @@ coop_ai_soldier_26		// in house3 1
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4209,6 +4259,9 @@ coop_ai_soldier_27		// in house3 2
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4226,6 +4279,9 @@ coop_ai_soldier_28		// fuel tank 1
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
@@ -4261,6 +4317,9 @@ coop_ai_soldier_30		// under water-tower
 		aim_accuracy 0.6
 		starting_health 30
 		camper 1
+		alertness 2048
+		inner_detection_radius 512
+		hearing_scale 0.8
 	}
 
 	spawn
