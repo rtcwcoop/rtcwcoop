@@ -156,7 +156,6 @@ AICast_Die
 ============
 */
 void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath ) {
-        gentity_t *ent;
 	int contents;
 	int killer;
 	cast_state_t    *cs;
@@ -177,18 +176,9 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	}
 
 	// cs: only if !EF_DEAD. fixes multiple obits for zombies
-	if (g_gametype.integer <= GT_COOP && (self->client && !(self->client->ps.eFlags & EF_DEAD)))
-        {
-            Coop_AddStats( self, attacker, damage, meansOfDeath );
-
-            // broadcast the death event to everyone
-            ent = G_TempEntity( self->r.currentOrigin, EV_OBITUARY );
-            ent->s.eventParm = meansOfDeath;
-            ent->s.otherEntityNum = self->s.number;
-            ent->s.otherEntityNum2 = killer;
-            ent->r.svFlags = SVF_BROADCAST; // send to everyone
-        }
-
+	if (g_gametype.integer <= GT_COOP && (self->client && !(self->client->ps.eFlags & EF_DEAD))) {
+    Coop_AddStats( self, attacker, damage, meansOfDeath );
+  }
 
 	// record the sighting (FIXME: silent weapons shouldn't do this, but the AI should react in some way)
 	if ( attacker && attacker->client ) {
