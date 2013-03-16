@@ -1142,7 +1142,8 @@ void Props_Activated( gentity_t *self ) {
 
 	self->s.eType = ET_PROP;
 
-	self->s.otherEntityNum = owner->s.number + 1;
+  // TIHan - Send the right owner.
+	self->s.otherEntityNum = owner->s.number;
 
 	trap_LinkEntity( self );
 
