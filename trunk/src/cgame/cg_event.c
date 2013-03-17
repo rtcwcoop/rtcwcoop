@@ -88,14 +88,14 @@ CG_GetClientName
 =============
 */
 static qboolean CG_GetClientName( int clientNum, char *name, int size ) {
-  const char  *info;
+	const char  *info;
 
-  info = CG_ConfigString( CS_PLAYERS + clientNum );
-  if ( !info ) {
-    return qfalse;
-  }
-  Q_strncpyz( name, Info_ValueForKey( info, "n" ), size );
-  return qtrue;
+	info = CG_ConfigString( CS_PLAYERS + clientNum );
+	if ( !info ) {
+		return qfalse;
+	}
+	Q_strncpyz( name, Info_ValueForKey( info, "n" ), size );
+	return qtrue;
 }
 
 /*
@@ -104,256 +104,256 @@ CG_Obituary
 =============
 */
 static void CG_Obituary( entityState_t *ent ) {
-  int           mod; 
-  int           target, attacker;
-  char          targetName[32], attackerName[32];
-  const char    *message, *message2;
-  clientInfo_t  *ci, *ca; // JPW NERVE ca = attacker
-  centity_t     *tcent, *acent;
+	int           mod; 
+	int           target, attacker;
+	char          targetName[32], attackerName[32];
+	const char    *message, *message2;
+	clientInfo_t  *ci, *ca; // JPW NERVE ca = attacker
+	centity_t     *tcent, *acent;
 
-  // Ridah, no obituaries in single player
-  if ( cgs.gametype == GT_SINGLE_PLAYER ) {
-    return;
-  }    
+	// Ridah, no obituaries in single player
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+		return;
+	}    
 
-  if ( !cg_obituaries.integer )
-    return;
+	if ( !cg_obituaries.integer )
+		return;
 
-  target = ent->otherEntityNum;
-  attacker = ent->otherEntityNum2;
-  mod = ent->eventParm;
+	target = ent->otherEntityNum;
+	attacker = ent->otherEntityNum2;
+	mod = ent->eventParm;
 
-  ci = &cgs.clientinfo[target];
-  ca = &cgs.clientinfo[attacker];
+	ci = &cgs.clientinfo[target];
+	ca = &cgs.clientinfo[attacker];
 
-  tcent = &cg_entities[ci->clientNum];
-  acent = &cg_entities[ca->clientNum];
+	tcent = &cg_entities[ci->clientNum];
+	acent = &cg_entities[ca->clientNum];
 
-  if ( !CG_GetClientName( target, targetName, sizeof( targetName ) - 2 ) ) {
-    CG_Printf( S_COLOR_RED "WARNING: Obituary for target doesn't have a name.\n" );
-    return;
-  }
-  strcat( targetName, S_COLOR_WHITE );
+	if ( !CG_GetClientName( target, targetName, sizeof( targetName ) - 2 ) ) {
+		CG_Printf( S_COLOR_RED "WARNING: Obituary for target doesn't have a name.\n" );
+		return;
+	}
+	strcat( targetName, S_COLOR_WHITE );
 
-  // TIHan - Out of range, what killed the target?
-  if ( attacker < 0 || attacker >= MAX_CLIENTS ) {
-    // TIHan - Made a slight modification here.
-    // JPW NERVE added mod check for machinegun (prolly mortar here too)
-	  switch ( mod ) {
-	  case MOD_MACHINEGUN:
-      message = "was riddled by machinegun fire";
-		  break;
-	  default:
-		  message = "died";
-		  break;
-	  }
-    // jpw
-    CG_Printf( "[cgnotify]%s %s.\n", targetName, message );
-    return;
-  }
+	// TIHan - Out of range, what killed the target?
+	if ( attacker < 0 || attacker >= MAX_CLIENTS ) {
+		// TIHan - Made a slight modification here.
+		// JPW NERVE added mod check for machinegun (prolly mortar here too)
+		switch ( mod ) {
+		case MOD_MACHINEGUN:
+			message = "was riddled by machinegun fire";
+			break;
+		default:
+			message = "died";
+			break;
+		}
+		// jpw
+		CG_Printf( "[cgnotify]%s %s.\n", targetName, message );
+		return;
+	}
 
-  if ( !CG_GetClientName( attacker, attackerName, sizeof( attackerName ) - 2 ) ) {
-    CG_Printf( S_COLOR_RED "WARNING: Obituary for attacker doesn't have a name.\n" );
-    return;
-  }
-  strcat( attackerName, S_COLOR_WHITE );
+	if ( !CG_GetClientName( attacker, attackerName, sizeof( attackerName ) - 2 ) ) {
+		CG_Printf( S_COLOR_RED "WARNING: Obituary for attacker doesn't have a name.\n" );
+		return;
+	}
+	strcat( attackerName, S_COLOR_WHITE );
 
-  if ( target != attacker ) {
-    // check for kill messages from the current clientNum
-    if ( attacker == cg.snap->ps.clientNum ) {
-      char *s;
+	if ( target != attacker ) {
+		// check for kill messages from the current clientNum
+		if ( attacker == cg.snap->ps.clientNum ) {
+			char *s;
 
-      // TIHan - Are they on the same team?
-      if ( tcent->currentState.teamNum == acent->currentState.teamNum ) {
-        ca->lastteamkilltime = cg.time;
-        s = va( "%s %s", "You killed ^1TEAMMATE^7", targetName );
-      } else {
-        ca->lastkilltime = cg.time;
-        s = va( "%s %s", "You killed", targetName );
-      }
+			// TIHan - Are they on the same team?
+			if ( tcent->currentState.teamNum == acent->currentState.teamNum ) {
+				ca->lastteamkilltime = cg.time;
+				s = va( "%s %s", "You killed ^1TEAMMATE^7", targetName );
+			} else {
+				ca->lastkilltime = cg.time;
+				s = va( "%s %s", "You killed", targetName );
+			}
 
-      if (cg_obituaries.integer == 2) {
-        CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
-      }
-      return;
-    } else {
-      message2 = "";
-      // check for single client messages
-      switch ( mod ) {
-      case MOD_SUICIDE:
-        message = "committed suicide";
-        break;
-      case MOD_FALLING:
-        message = "fell to his death";
-        break;
-      case MOD_CRUSH:
-        message = "was crushed";
-        break;
-      case MOD_WATER:
-        message = "drowned";
-        break;
-      case MOD_SLIME:
-        message = "died by toxic materials";
-        break;
-      case MOD_TRIGGER_HURT:
-        message = "was killed";
-        break;
-      // L0/TIHan - MODs
-		  case MOD_THROWKNIFE:
-			  message = "was impaled by";
-        message2 = "'s throwing knife";
-        break;
-      // L0/TIHan - End MODs
-      // TIHan - MODs
-		  case MOD_KNIFE_STEALTH:
-		  case MOD_KNIFE:
-		  case MOD_KNIFE2:
-			  message = "was stabbed by";
-			  message2 = "'s knife";
-			  break;
-		  case MOD_LUGER:
-			  message = "was killed by";
-			  message2 = "'s Luger 9mm";
-			  break;
-		  case MOD_COLT:
-			  message = "was killed by";
-			  message2 = " 's .45ACP 1911";
-			  break;
-		  case MOD_MP40:
-			  message = "was killed by";
-			  message2 = "'s MP40";
-			  break;
-		  case MOD_THOMPSON:
-			  message = "was killed by";
-			  message2 = "'s Thompson";
-			  break;
-		  case MOD_STEN:
-			  message = "was killed by";
-			  message2 = "'s Sten";
-			  break;
-		  case MOD_MAUSER:
-			  message = "was killed by";
-			  message2 = "'s Mauser";
-			  break;
-		  case MOD_SNIPERRIFLE:
-			  message = "was killed by";
-			  message2 = "'s sniper rifle";
-			  break;
-		  case MOD_GARAND:
-			  message = "was killed (garand) by";
-			  break;
-		  case MOD_SNOOPERSCOPE:
-			  message = "was killed (snooper) by";
-			  break;
-		  case MOD_AKIMBO:
-			  message = "was killed (dual colts) by";
-			  break;
-      // JPW NERVE - per atvi req
-		  case MOD_DYNAMITE:
-		  case MOD_DYNAMITE_SPLASH:
-			  message = "was blasted by";
-			  message2 = "'s dynamite";
-			  break;
-      // jpw
-		  case MOD_ROCKET_LAUNCHER:
-		  case MOD_ROCKET_SPLASH:
-			  message = "was blasted by";
-			  message2 = "'s Panzerfaust";
-			  break;
-		  case MOD_GRENADE_LAUNCHER:
-		  case MOD_GRENADE_SPLASH:
-		  case MOD_GRENADE_PINEAPPLE:
-			  message = "was exploded by";
-			  message2 = "'s grenade";
-			  break;
-		  case MOD_VENOM:
-			  message = "was ventilated by";
-			  message2 = "'s Venom";
-			  break;
-		  case MOD_VENOM_FULL:
-			  message = "was killed (venom shot) by";
-			  break;
-		  case MOD_FLAMETHROWER:
-			  message = "was cooked by";
-			  message2 = "'s flamethrower";
-			  break;
-		  case MOD_TESLA:
-			  message = "was killed (tesla) by";
-			  break;
-		  case MOD_SPEARGUN:
-			  message = "was killed (spear) by";
-			  break;
-		  case MOD_SPEARGUN_CO2:
-			  message = "was killed (co2 spear) by";
-			  break;
-		  case MOD_MACHINEGUN:
-			  message = "was perforated by";
-			  message2 = "'s crew-served MG42";
-			  break;
-		  case MOD_CROSS:
-			  message = "was killed (cross) by";
-			  break;
-      // JPW NERVE
-		  case MOD_AIRSTRIKE:
-			  message = "was blasted by";
-			  message2 = "'s support fire"; // JPW NERVE changed since it gets called for both air strikes and artillery
-			  break;
-  		case MOD_ROCKET:
-  			message = "ate";
-  			message2 = "'s rocket";
-  			break;
-      // TIHan - End MODs
+			if (cg_obituaries.integer == 2) {
+				CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
+			}
+			return;
+		} else {
+			message2 = "";
+			// check for single client messages
+			switch ( mod ) {
+			case MOD_SUICIDE:
+				message = "committed suicide";
+				break;
+			case MOD_FALLING:
+				message = "fell to his death";
+				break;
+			case MOD_CRUSH:
+				message = "was crushed";
+				break;
+			case MOD_WATER:
+				message = "drowned";
+				break;
+			case MOD_SLIME:
+				message = "died by toxic materials";
+				break;
+			case MOD_TRIGGER_HURT:
+				message = "was killed";
+				break;
+			// L0/TIHan - MODs
+			case MOD_THROWKNIFE:
+				message = "was impaled by";
+				message2 = "'s throwing knife";
+				break;
+			// L0/TIHan - End MODs
+			// TIHan - MODs
+			case MOD_KNIFE_STEALTH:
+			case MOD_KNIFE:
+			case MOD_KNIFE2:
+				message = "was stabbed by";
+				message2 = "'s knife";
+				break;
+			case MOD_LUGER:
+				message = "was killed by";
+				message2 = "'s Luger 9mm";
+				break;
+			case MOD_COLT:
+				message = "was killed by";
+				message2 = " 's .45ACP 1911";
+				break;
+			case MOD_MP40:
+				message = "was killed by";
+				message2 = "'s MP40";
+				break;
+			case MOD_THOMPSON:
+				message = "was killed by";
+				message2 = "'s Thompson";
+				break;
+			case MOD_STEN:
+				message = "was killed by";
+				message2 = "'s Sten";
+				break;
+			case MOD_MAUSER:
+				message = "was killed by";
+				message2 = "'s Mauser";
+				break;
+			case MOD_SNIPERRIFLE:
+				message = "was killed by";
+				message2 = "'s sniper rifle";
+				break;
+			case MOD_GARAND:
+				message = "was killed (garand) by";
+				break;
+			case MOD_SNOOPERSCOPE:
+				message = "was killed (snooper) by";
+				break;
+			case MOD_AKIMBO:
+				message = "was killed (dual colts) by";
+				break;
+			// JPW NERVE - per atvi req
+			case MOD_DYNAMITE:
+			case MOD_DYNAMITE_SPLASH:
+				message = "was blasted by";
+				message2 = "'s dynamite";
+				break;
+			// jpw
+			case MOD_ROCKET_LAUNCHER:
+			case MOD_ROCKET_SPLASH:
+				message = "was blasted by";
+				message2 = "'s Panzerfaust";
+				break;
+			case MOD_GRENADE_LAUNCHER:
+			case MOD_GRENADE_SPLASH:
+			case MOD_GRENADE_PINEAPPLE:
+				message = "was exploded by";
+				message2 = "'s grenade";
+				break;
+			case MOD_VENOM:
+				message = "was ventilated by";
+				message2 = "'s Venom";
+				break;
+			case MOD_VENOM_FULL:
+				message = "was killed (venom shot) by";
+				break;
+			case MOD_FLAMETHROWER:
+				message = "was cooked by";
+				message2 = "'s flamethrower";
+				break;
+			case MOD_TESLA:
+				message = "was killed (tesla) by";
+				break;
+			case MOD_SPEARGUN:
+				message = "was killed (spear) by";
+				break;
+			case MOD_SPEARGUN_CO2:
+				message = "was killed (co2 spear) by";
+				break;
+			case MOD_MACHINEGUN:
+				message = "was perforated by";
+				message2 = "'s crew-served MG42";
+				break;
+			case MOD_CROSS:
+				message = "was killed (cross) by";
+				break;
+			// JPW NERVE
+			case MOD_AIRSTRIKE:
+				message = "was blasted by";
+				message2 = "'s support fire"; // JPW NERVE changed since it gets called for both air strikes and artillery
+				break;
+			case MOD_ROCKET:
+				message = "ate";
+				message2 = "'s rocket";
+				break;
+			// TIHan - End MODs
 #ifdef _ADMINS
-      // L0 - MODs
-      case MOD_SLAP:
-        message = "was slapped to death by Admin";
-        break;
-      case MOD_ADMKILL:
-        message = "was killed by Admin";
-      break;
-      // end
+			// L0 - MODs
+			case MOD_SLAP:
+				message = "was slapped to death by Admin";
+				break;
+			case MOD_ADMKILL:
+				message = "was killed by Admin";
+				break;
+			// end
 #endif
-		  // Default..
-		  default:
-			  message = "was killed by";
-		    break;
-      }
+			// Default..
+			default:
+				message = "was killed by";
+				break;
+			}
 
-      // TIHan - Did someone kill a teammate?
-      if ( tcent->currentState.teamNum == acent->currentState.teamNum ) {
-			  message = "^1WAS KILLED BY TEAMMATE^7";
-			  message2 = "";
-      }
+			// TIHan - Did someone kill a teammate?
+			if ( tcent->currentState.teamNum == acent->currentState.teamNum ) {
+				message = "^1WAS KILLED BY TEAMMATE^7";
+				message2 = "";
+			}
 
-      CG_Printf( "[cgnotify]%s %s %s%s.\n", targetName, message, attackerName, message2 );
-    }
-  } else {
-    switch ( mod ) {
-    // JPW NERVE per atvi req
-    case MOD_DYNAMITE:
-    case MOD_DYNAMITE_SPLASH:
-      message = "dynamited himself to pieces";
-      break;
-    // jpw
-    case MOD_GRENADE_SPLASH:
-      message = "dove on his own grenade";
-      break;
-    case MOD_ROCKET_SPLASH:
-      message = "vaporized himself";
-      break;
-    case MOD_AIRSTRIKE:
-      message = "obliterated himself";
-      break;
-    case MOD_EXPLOSIVE:
-      message = "died in his own explosion";
-      break;
-    default:
-      message = "killed himself";
-      break;
-    }
+			CG_Printf( "[cgnotify]%s %s %s%s.\n", targetName, message, attackerName, message2 );
+		}
+	} else {
+		switch ( mod ) {
+		// JPW NERVE per atvi req
+		case MOD_DYNAMITE:
+		case MOD_DYNAMITE_SPLASH:
+			message = "dynamited himself to pieces";
+			break;
+		// jpw
+		case MOD_GRENADE_SPLASH:
+			message = "dove on his own grenade";
+			break;
+		case MOD_ROCKET_SPLASH:
+			message = "vaporized himself";
+			break;
+		case MOD_AIRSTRIKE:
+			message = "obliterated himself";
+			break;
+		case MOD_EXPLOSIVE:
+			message = "died in his own explosion";
+			break;
+		default:
+			message = "killed himself";
+			break;
+		}
 
-    CG_Printf( "[cgnotify]%s %s.\n", targetName, message );
-  }
+		CG_Printf( "[cgnotify]%s %s.\n", targetName, message );
+	}
 }
 
 

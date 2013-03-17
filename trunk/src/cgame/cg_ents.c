@@ -2072,35 +2072,35 @@ CG_Prop
 ===============
 */
 static void CG_Prop( centity_t *cent ) {
-  #define PROP_POSITION_HEIGHT 24
+	#define PROP_POSITION_HEIGHT 24
 
 	refEntity_t ent;
 	entityState_t       *s1;
 	vec3_t angles;
 	float scale;
-  int ownerNum;
-  centity_t *owner;
+	int ownerNum;
+	centity_t *owner;
 
 	if ( cg.cameraMode ) { // don't render chair in hands when in cinematic
 		return;
 	}
 
-  s1 = &cent->currentState;
-  ownerNum = s1->otherEntityNum;
-  owner = &cg_entities[ownerNum];
+	s1 = &cent->currentState;
+	ownerNum = s1->otherEntityNum;
+	owner = &cg_entities[ownerNum];
 
 	// create the render entity
 	memset( &ent, 0, sizeof( ent ) );
 
-  // TIHan - Draw the chair on the client who owns it.
+	// TIHan - Draw the chair on the client who owns it.
 	if ( cg.renderingThirdPerson || ownerNum != cg.snap->ps.clientNum ) {
-    VectorCopy( owner->lerpOrigin, ent.origin );
+		VectorCopy( owner->lerpOrigin, ent.origin );
 		VectorCopy( owner->lerpOrigin, ent.oldorigin );
 
-    ent.origin[2] += PROP_POSITION_HEIGHT;
+		ent.origin[2] += PROP_POSITION_HEIGHT;
 
-    // TIHan - Match the angles.
-    AnglesToAxis( owner->lerpAngles, ent.axis );
+		// TIHan - Match the angles.
+		AnglesToAxis( owner->lerpAngles, ent.axis );
 
 		ent.frame = s1->frame;
 		ent.oldframe = ent.frame;
@@ -2141,7 +2141,7 @@ static void CG_Prop( centity_t *cent ) {
 		{
 			ent.renderfx = RF_DEPTHHACK | RF_FIRST_PERSON;
 		}
-    AnglesToAxis( cent->lerpAngles, ent.axis );
+		AnglesToAxis( cent->lerpAngles, ent.axis );
 	}
 
 	ent.renderfx |= RF_NOSHADOW;
