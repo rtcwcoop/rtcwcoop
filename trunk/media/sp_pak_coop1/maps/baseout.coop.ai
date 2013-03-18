@@ -332,6 +332,8 @@ mech3
 		noavoid
 		takeweapon mp40
 		setammo ammo_grenades 0
+		giveweapon weapon_luger
+		setammo ammo_9mm 300
 		statetype alert
 	}
 
@@ -339,7 +341,12 @@ mech3
 	{
 		wait 1000
 		godmode off
+		sight
+		avoid
 		alertentity explode1
+		wait 50
+		//sethealth 0
+		//norespawn
 	}
 
 	death
