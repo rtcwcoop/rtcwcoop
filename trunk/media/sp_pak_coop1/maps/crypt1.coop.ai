@@ -4636,3 +4636,4 @@ coop_ai_zombie_34	// extra at last room start
 	{
 		trigger counter1 lastdead
 	}
+}
