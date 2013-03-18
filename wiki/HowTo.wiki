@@ -77,8 +77,7 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
  Set to 0 to disable this.
 
 == g_aimaxlives == 
-
-controls the number of lives of an ai
+ controls the number of lives of an ai
  Set to 0 or 1 results in no respawns at all even when g_airespawn is set to 1
  Set to 2 will result in 1 respawn (2 lives, the live when they initial spawn, and then after their first kill)
  Set to 3 will result in 2 respawns
