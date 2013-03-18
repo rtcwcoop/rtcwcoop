@@ -61,6 +61,15 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
 == cg_fancyfx ==
   cg_fancyfx 1 enables new graphical effects, currently this is only the possible greyscale stuff. This is to make sure that unsupported things on older computers don't crash the game, this cvar is off by default
 
+== g_aimaxlives == 
+
+controls the number of lives of an ai
+
+setting to 1 results in no respawns at all
+setting to 2 will result in 1 respawn (2 lives, the live when they initial spawn, and then after their first kill)
+setting to 3 will result in 2 respawns
+etc
+
 == g_spawnpoints ==
  g_spawnpoints 0 autosaves you spawnpoint every 30 seconds, if g_spawnpoint is set to 1 then you can
  save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button. Setting this cvar to 2 will result in a multiplayer style flagzone respawn
