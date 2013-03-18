@@ -386,7 +386,23 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
         if ( g_airespawn.integer && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
                 && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
-                cs->rebirthTime = level.time + 15000 + rand() % 2000;
+
+                if (g_aimaxlives.integer >= 0 && cs->respawnsleft != 0) {
+
+                        if (g_aimaxlives.integer > 0 && cs->respawnsleft > 0) {
+                                cs->respawnsleft--;
+                        }   
+
+                        if ( g_gameskill.integer == GSKILL_EASY ) { 
+                                cs->rebirthTime = level.time + 25000 + rand() % 2000;
+                        } else if ( g_gameskill.integer == GSKILL_MEDIUM ) { 
+                                cs->rebirthTime = level.time + 20000 + rand() % 2000;
+                        } else if ( g_gameskill.integer == GSKILL_HARD ) { 
+                                cs->rebirthTime = level.time + 15000 + rand() % 2000;
+                        } else if ( g_gameskill.integer == GSKILL_MAX ) { 
+                                cs->rebirthTime = level.time + 10000 + rand() % 2000;
+                        }   
+                }
         }
 
 	trap_LinkEntity( self );

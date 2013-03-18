@@ -4472,11 +4472,13 @@ static void UI_RunMenuScript( char **args ) {
 		} else if ( Q_stricmp( name, "skillhard" ) == 0 ) {
 			trap_Cvar_Set( "g_gameskill", "3" ); 
 			trap_Cvar_Set( "g_reinforce", "2" ); 
-			trap_Cvar_Set( "g_airespawn", "0" ); 
+			trap_Cvar_Set( "g_airespawn", "1" ); 
+			trap_Cvar_Set( "g_aimaxlives", "2" ); 
 		} else if ( Q_stricmp( name, "skillnightmare" ) == 0 ) {
 			trap_Cvar_Set( "g_gameskill", "3" ); 
 			trap_Cvar_Set( "g_reinforce", "2" ); 
 			trap_Cvar_Set( "g_airespawn", "1" ); 
+			trap_Cvar_Set( "g_aimaxlives", "0" ); 
 		} else if ( Q_stricmp( name, "loadGameInfo" ) == 0 ) {
 			UI_ParseGameInfo( "coopgameinfo.txt" );
 			UI_LoadBestScores( uiInfo.mapList[ui_currentMap.integer].mapLoadName, uiInfo.gameTypes[ui_gameType.integer].gtEnum );

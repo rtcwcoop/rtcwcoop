@@ -1216,6 +1216,7 @@ extern vmCvar_t g_skipcutscenes;
 #endif
 extern vmCvar_t g_maxspawnpoints;
 extern vmCvar_t g_maxlives;
+extern vmCvar_t g_aimaxlives;
 extern vmCvar_t g_sharedlives;
 extern vmCvar_t g_limbotime;
 extern vmCvar_t g_reinforce;

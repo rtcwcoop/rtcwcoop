@@ -477,6 +477,13 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
                         cs->attributes[AIM_SKILL] = 1.0;
                         cs->attributes[ATTACK_SKILL] = 1.0;
                 }
+
+                // fretn : maxlives        
+                if ( g_aimaxlives.integer > 0 ) {
+                        cs->respawnsleft = ( g_aimaxlives.integer - 1 );
+                } else {
+                        cs->respawnsleft = -1;
+                } 
         } 
 	//
 	cs->weaponInfo = weaponInfo;
