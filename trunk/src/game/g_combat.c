@@ -76,7 +76,6 @@ Toss the weapon and powerups for the killed player
 */
 void TossClientItems( gentity_t *self ) {
 	gitem_t     *item;
-	vec3_t forward;
 	int weapon;
 	float angle;
 	int i;
@@ -93,10 +92,6 @@ void TossClientItems( gentity_t *self ) {
 	default:
 		break;
 	}
-
-	AngleVectors( self->r.currentAngles, forward, NULL, NULL );
-
-	G_ThrowChair( self, forward, qtrue ); // drop chair if you're holding one  //----(SA)	added
 
 	// make a special check to see if they are changing to a new
 	// weapon that isn't the mg or gauntlet.  Without this, a client
@@ -361,12 +356,11 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	self->client->ps.pm_type = PM_DEAD;
 
-        // death stats handled out-of-band of G_Damage for external calls
-        Coop_AddStats( self, attacker, damage, meansOfDeath );
+    // death stats handled out-of-band of G_Damage for external calls
+    Coop_AddStats( self, attacker, damage, meansOfDeath );
 
 	if (g_gametype.integer <= GT_COOP)
 		trap_Cvar_Set( "g_attempts", va( "%i", g_attempts.integer + 1 ) );
-
 
 	if ( attacker ) {
 		killer = attacker->s.number;
@@ -435,6 +429,9 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			TossClientItems( self );
 		}
 	}
+
+	// TIHan - Forcefully throw the chair.
+	G_ThrowChair( self, self->r.currentAngles, qtrue );
 
 	Cmd_Score_f( self );        // show scores
 	// send updated scores to any clients that are following this one,

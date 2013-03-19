@@ -2238,8 +2238,11 @@ void ClientDisconnect( int clientNum ) {
 
 			// They don't get to take powerups with them!
 			// Especially important for stuff like CTF flags
-                        if ( g_gametype.integer == GT_SINGLE_PLAYER )
-                                TossClientItems( ent );
+            if ( g_gametype.integer == GT_SINGLE_PLAYER )
+				TossClientItems( ent );
+
+			// TIHan - Forcefully throw the chair.
+			G_ThrowChair( ent, ent->client->ps.viewangles, qtrue );
 		}
 
 		G_LogPrintf( "ClientDisconnect: %i\n", clientNum );
@@ -2442,4 +2445,17 @@ void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
 		}
 		anim->stepGap = atoi( token );
 	}
+}
+
+
+/*
+==================
+G_IsClientDead
+==================
+*/
+qboolean G_IsClientDead( int clientNum ) {
+	gentity_t *client;
+
+	client = &g_entities[clientNum];
+	return ( client->health <= 0 );
 }

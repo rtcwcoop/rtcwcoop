@@ -2339,7 +2339,6 @@ G_ThrowChair
 qboolean G_ThrowChair( gentity_t *ent, vec3_t dir, qboolean force ) {
 	trace_t trace;
 	vec3_t mins, maxs;
-//	vec3_t		forward;
 	vec3_t start, end;
 	qboolean isthrown = qtrue;
 	gentity_t   *traceEnt;
@@ -2350,13 +2349,10 @@ qboolean G_ThrowChair( gentity_t *ent, vec3_t dir, qboolean force ) {
 
 	VectorCopy( ent->r.mins, mins );
 	VectorCopy( ent->r.maxs, maxs );
-
-//	AngleVectors (ent->r.currentAngles, forward, NULL, NULL);
 	VectorCopy( ent->r.currentOrigin, start );
 
 	start[2] += 24;
 	VectorMA( start, 17, dir, start );
-//	start[2] += 24;
 
 	VectorCopy( start, end );
 	VectorMA( end, 32, dir, end );
@@ -2380,7 +2376,6 @@ qboolean G_ThrowChair( gentity_t *ent, vec3_t dir, qboolean force ) {
 		ent->melee = NULL;
 		ent->active = qfalse;
 		ent->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
-//		ent->s.eFlags &= ~EF_MELEE_ACTIVE;
 	}
 
 	if ( !isthrown && force ) {    // was not successfully thrown, but you /need/ to drop it.  break it.

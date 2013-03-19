@@ -1060,6 +1060,7 @@ void AddScore( gentity_t *ent, int score );
 void CalculateRanks( void );
 qboolean SpotWouldTelefrag( gentity_t *spot );
 qboolean G_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo );
+qboolean G_IsClientDead( int clientNum );
 
 //
 // g_svcmds.c
@@ -1178,6 +1179,7 @@ void BotTestAAS( vec3_t origin );
 
 
 // g_cmd.c
+qboolean G_ThrowChair( gentity_t *ent, vec3_t dir, qboolean force ); // TIHan - Need to call this elsewhere.
 void Cmd_Activate_f( gentity_t *ent );
 int Cmd_WolfKick_f( gentity_t *ent );
 // Ridah

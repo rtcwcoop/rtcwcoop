@@ -880,7 +880,7 @@ void Just_Got_Thrown( gentity_t *self ) {
 	float len;
 	vec3_t vec;
 	qboolean prop_hits = qfalse;
-        int i;
+	int i;
 
 	len = 0;
 
@@ -1044,7 +1044,10 @@ void Props_Activated( gentity_t *self ) {
 
 		self->active = qfalse;
 
-		G_AddEvent( owner, EV_GENERAL_SOUND, snd_chairthrow );
+		// TIHan - Only play the sound if the client owner is alive.
+		if ( !G_IsClientDead( owner->s.clientNum ) ) {
+			G_AddEvent( owner, EV_GENERAL_SOUND, snd_chairthrow );
+		}
 
 		AngleVectors( owner->client->ps.viewangles, velocity, NULL, NULL );
 		VectorScale( velocity, 250, velocity );
@@ -1142,7 +1145,7 @@ void Props_Activated( gentity_t *self ) {
 
 	self->s.eType = ET_PROP;
 
-  // TIHan - Send the right owner.
+	// TIHan - Send the right owner.
 	self->s.otherEntityNum = owner->s.number;
 
 	trap_LinkEntity( self );

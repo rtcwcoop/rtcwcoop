@@ -82,6 +82,7 @@ const char  *CG_PlaceString( int rank ) {
 	return str;
 }
 
+
 /*
 =============
 CG_GetClientName
@@ -97,6 +98,7 @@ static qboolean CG_GetClientName( int clientNum, char *name, int size ) {
 	Q_strncpyz( name, Info_ValueForKey( info, "n" ), size );
 	return qtrue;
 }
+
 
 /*
 =============
