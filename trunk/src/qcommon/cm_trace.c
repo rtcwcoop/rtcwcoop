@@ -140,18 +140,22 @@ float CM_VectorDistanceSquared( vec3_t p1, vec3_t p2 ) {
 /*
 ================
 SquareRootFloat
+
+L0 - applied render fix from ioquake fix
 ================
 */
-float SquareRootFloat( float number ) {
-	long i;
+float SquareRootFloat( float number ) {	
+	union {
+		float f;
+		int i;
+	} t;	
 	float x, y;
 	const float f = 1.5F;
 
 	x = number * 0.5F;
-	y  = number;
-	i  = *( long * ) &y;
-	i  = 0x5f3759df - ( i >> 1 );
-	y  = *( float * ) &i;
+	t.f  = number;
+	t.i  = 0x5f3759df - ( t.i >> 1 );
+	y  = t.f;
 	y  = y * ( f - ( x * y * y ) );
 	y  = y * ( f - ( x * y * y ) );
 	return number * y;

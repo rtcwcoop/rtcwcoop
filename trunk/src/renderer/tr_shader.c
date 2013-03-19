@@ -1168,7 +1168,13 @@ static void ParseSkyParms( char **text ) {
 		for ( i = 0 ; i < 6 ; i++ ) {
 			Com_sprintf( pathname, sizeof( pathname ), "%s_%s.tga"
 						 , token, suf[i] );
+// L0 - ioquake ATI skybox fix
+#ifdef GL_CLAMP_TO_EDGE
+			shader.sky.outerbox[i] = R_FindImageFile( ( char * ) pathname, qtrue, qtrue, GL_CLAMP_TO_EDGE );
+#else
 			shader.sky.outerbox[i] = R_FindImageFile( ( char * ) pathname, qtrue, qtrue, GL_CLAMP );
+#endif 
+// End				
 			if ( !shader.sky.outerbox[i] ) {
 				shader.sky.outerbox[i] = tr.defaultImage;
 			}
@@ -2366,7 +2372,7 @@ static shader_t *FinishShader( void ) {
 	shader.numUnfoggedPasses = stage;
 
 	// fogonly shaders don't have any normal passes
-	if ( stage == 0 ) {
+	if ( stage == 0 && !shader.isSky ) { // L0 - ioquake bug fix
 		shader.sort = SS_FOG;
 	}
 

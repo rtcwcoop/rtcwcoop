@@ -203,6 +203,9 @@ typedef struct client_s {
 	// buffer them into this queue, and hand them out to netchan as needed
 	netchan_buffer_t *netchan_start_queue;
 	netchan_buffer_t **netchan_end_queue;
+
+	// L0 - ioquake fix for relaibable command overflow
+	qboolean csUpdated[MAX_CONFIGSTRINGS+1];
 } client_t;
 
 //=============================================================================
@@ -344,6 +347,8 @@ void SV_MasterGameCompleteStatus();     // NERVE - SMF
 //
 void SV_SetConfigstring( int index, const char *val );
 void SV_GetConfigstring( int index, char *buffer, int bufferSize );
+// L0 - ioquake bug fix for reliable command overflow
+void SV_UpdateConfigstrings( client_t *client );
 
 void SV_SetUserinfo( int index, const char *val );
 void SV_GetUserinfo( int index, char *buffer, int bufferSize );

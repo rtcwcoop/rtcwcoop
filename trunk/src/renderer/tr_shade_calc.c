@@ -666,7 +666,7 @@ void RB_CalcColorFromEntity( unsigned char *dstColors ) {
 void RB_CalcColorFromOneMinusEntity( unsigned char *dstColors ) {
 	int i;
 	int *pColors = ( int * ) dstColors;
-	unsigned char invModulate[3];
+	unsigned char invModulate[4];  // L0 - ioquake static buffer overflow fix.
 	int c;
 
 	if ( !backEnd.currentEntity ) {
