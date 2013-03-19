@@ -4472,13 +4472,11 @@ static void UI_RunMenuScript( char **args ) {
 		} else if ( Q_stricmp( name, "skillhard" ) == 0 ) {
 			trap_Cvar_Set( "g_gameskill", "3" ); 
 			trap_Cvar_Set( "g_reinforce", "2" ); 
-			trap_Cvar_Set( "g_airespawn", "1" ); 
-			trap_Cvar_Set( "g_aimaxlives", "2" ); 
+			trap_Cvar_Set( "g_airespawn", "2" ); 
 		} else if ( Q_stricmp( name, "skillnightmare" ) == 0 ) {
 			trap_Cvar_Set( "g_gameskill", "3" ); 
 			trap_Cvar_Set( "g_reinforce", "2" ); 
-			trap_Cvar_Set( "g_airespawn", "1" ); 
-			trap_Cvar_Set( "g_aimaxlives", "0" ); 
+			trap_Cvar_Set( "g_airespawn", "-1" );  // unlimited
 		} else if ( Q_stricmp( name, "loadGameInfo" ) == 0 ) {
 			UI_ParseGameInfo( "coopgameinfo.txt" );
 			UI_LoadBestScores( uiInfo.mapList[ui_currentMap.integer].mapLoadName, uiInfo.gameTypes[ui_gameType.integer].gtEnum );
@@ -5722,9 +5720,10 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 		return UI_SelectedMap( index, &actual );
 	} else if ( feederID == FEEDER_SERVERS ) {
 		if ( index >= 0 && index < uiInfo.serverStatus.numDisplayServers ) {
-			int ping, game, coop, skill, reinforce;
+			int ping, game, coop, skill, reinforce, airespawn;
                         static char skilltext[32];
                         static char reinforcetext[32];
+                        static char airespawntext[32];
 			if ( lastServerColumn != column || lastServerTime > uiInfo.uiDC.realTime + 5000 ) {
 				trap_LAN_GetServerInfo( ui_netSource.integer, uiInfo.serverStatus.displayServers[index], info, MAX_STRING_CHARS );
 				lastServerColumn = column;
@@ -5751,8 +5750,19 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                                 return skilltext;
 			 //       return Info_ValueForKey( info, "gameskill" );
                         case SORT_AIRESPAWN:
-                                return atoi(Info_ValueForKey( info, "airespawn" )) ? "Yes" : "No";
-			 //       return Info_ValueForKey( info, "airespawn" );
+                                airespawn = atoi(Info_ValueForKey( info, "airespawn" ));
+
+                                if (airespawn == -1) {
+                                        Com_sprintf(airespawntext, sizeof(airespawntext), "Unlimited ");
+                                } else if (airespawn == 0) {
+                                        Com_sprintf(airespawntext, sizeof(airespawntext), "No ");
+                                } else if (airespawn > 0) {
+                                        Com_sprintf(airespawntext, sizeof(airespawntext), va("%i ", airespawn));
+                                }
+
+                                return airespawntext;
+
+                                //return atoi(Info_ValueForKey( info, "airespawn" )) ? "Yes" : "No";
                         case SORT_REINFORCE:
                                 reinforce= atoi(Info_ValueForKey( info, "reinforce" ));
                                 if ( reinforce== 0 )

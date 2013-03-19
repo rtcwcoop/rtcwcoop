@@ -571,7 +571,7 @@ itemDef {
 			// 	numcols     xpos	xwitdth   textlen
 			columns 6 	    0		40			30 
 							160		30			36
-							365		20		    20	
+							340		20		    20	
 							430		20			20
 							498		20			20
 							547		40			20
@@ -623,7 +623,7 @@ itemDef {
 		itemDef {
 			name Respawn 
 			group grpJoin
-			text "AI Respawn"
+			text "AI Respawns"
 			type ITEM_TYPE_BUTTON
 			textscale .25
 			textfont	UI_FONT_NORMAL

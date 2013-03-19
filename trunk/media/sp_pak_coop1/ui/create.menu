@@ -1169,7 +1169,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "With how many enemy do you want to meet?"
+				text "With how many enemies do you want to meet?"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0

@@ -836,7 +836,7 @@ void SVC_Info( netadr_t from ) {
 
         Info_SetValueForKey( infostring, "maxlives", va( "%i", sv_maxlives->integer ? 1 : 0 ) );
         Info_SetValueForKey( infostring, "reinforce", va( "%i", sv_reinforce->integer ) );
-        Info_SetValueForKey( infostring, "airespawn", va( "%i", sv_airespawn->integer ? 1 : 0 ) );
+        Info_SetValueForKey( infostring, "airespawn", va( "%i", sv_airespawn->integer ) );
 
 	// TTimo
 	antilag = Cvar_VariableString( "g_antilag" );

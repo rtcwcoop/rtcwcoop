@@ -161,6 +161,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	cast_state_t    *cs;
 	qboolean nogib = qtrue;
 	char mapname[MAX_QPATH];
+        qboolean respawn = qfalse;
 
 	// print debugging message
 	if ( aicast_debug.integer == 2 && attacker->s.number == 0 ) {
@@ -384,12 +385,20 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 	}
 
-        if ( g_airespawn.integer && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
+        if (g_airespawn.integer == -1) { // unlimited lives
+                respawn = qtrue;
+        } else if (g_airespawn.integer == 0) { // no ai respawning
+                respawn = qfalse;
+        } else if (g_airespawn.integer > 0) {
+                respawn = qtrue;
+        }
+
+        if ( respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
                 && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
 
-                if (g_aimaxlives.integer >= 0 && cs->respawnsleft != 0) {
+                if (cs->respawnsleft != 0) {
 
-                        if (g_aimaxlives.integer > 0 && cs->respawnsleft > 0) {
+                        if (cs->respawnsleft > 0) {
                                 cs->respawnsleft--;
                         }   
 
@@ -427,9 +436,11 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			cs->deathfunc( self, attacker, damage, meansOfDeath );   //----(SA)	added mod
 		}
 	} else {
+
 		// really dead now, so call the script
-                if ( g_airespawn.integer && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
+                if ( respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
                                 && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
+
                         if (!cs->died) {
                                 G_UseTargets( self, self ); // fretn - testing
                                 AICast_ScriptEvent( cs, "death", "" );

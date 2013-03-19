@@ -56,7 +56,7 @@ vmCvar_t g_skipcutscenes;
 #endif
 vmCvar_t g_maxspawnpoints;
 vmCvar_t g_maxlives;
-vmCvar_t g_aimaxlives;
+vmCvar_t g_airespawn;
 vmCvar_t g_sharedlives;
 vmCvar_t g_limbotime;
 vmCvar_t g_reinforce;
@@ -65,7 +65,6 @@ vmCvar_t g_gamestate;
 
 // Rafael gameskill
 vmCvar_t g_gameskill;
-vmCvar_t g_airespawn;
 vmCvar_t g_teleporttime;
 // done
 
@@ -195,15 +194,14 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_reloading, "g_reloading", "0", CVAR_ROM },   //----(SA)	added
 
-    //fretn
-	{ &g_airespawn, "g_airespawn", "0", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },  
+        //fretn
 	{ &g_teleporttime, "g_teleporttime", "300000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // 5 minutes by default
 #ifdef INGAME_CUTSCENES
 	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
 #endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
         { &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
-        { &g_aimaxlives, "g_aimaxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
+        { &g_airespawn, "g_airespawn", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
         { &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
         { &g_limbotime, "g_limbotime", "10000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
