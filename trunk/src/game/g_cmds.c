@@ -3304,6 +3304,11 @@ void Cmd_ThrowKnives( gentity_t *ent ) {
         ent->thrownKnifeTime = level.time;  
 }
 
+// L0 - Remove this for release..!
+void cmd_test (gentity_t *ent ) {
+	AP("cp \"Breaking \nlines like a \ncandy\n\"");
+}
+
 /*
 =================
 ClientCommand
@@ -3433,6 +3438,8 @@ void ClientCommand( int clientNum ) {
 		Cmd_Team_f( ent );
 	} else if ( Q_stricmp( cmd, "where" ) == 0 )  {
 		Cmd_Where_f( ent );
+	} else if ( Q_stricmp( cmd, "testcp" ) == 0 )  {
+		cmd_test( ent );
 	}
 	else if (Q_stricmp (cmd, "callvote") == 0)	//----(SA)	id requests these gone in sp
 		Cmd_CallVote_f (ent);

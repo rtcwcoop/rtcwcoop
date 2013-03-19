@@ -1379,8 +1379,12 @@ Called for important messages that should stay in the center of the screen
 for a few moments
 ==============
 */
+#define CP_LINEWIDTH 55         // NERVE - SMF
+
 void CG_CenterPrint( const char *str, int y, int charWidth ) {
 	unsigned char   *s;
+	int i, len;                         // NERVE - SMF
+	qboolean neednewline = qfalse;      // NERVE - SMF
 
 //----(SA)	added translation lookup
 #ifdef LOCALISATION
@@ -1390,6 +1394,21 @@ void CG_CenterPrint( const char *str, int y, int charWidth ) {
 #endif
 //----(SA)	end
 
+
+	// NERVE - SMF - turn spaces into newlines, if we've run over the linewidth
+	len = strlen( (char *)cg.centerPrint );
+	for ( i = 0; i < len; i++ ) {
+
+		// NOTE: subtract a few chars here so long words still get displayed properly
+		if ( i % ( CP_LINEWIDTH - 20 ) == 0 && i > 0 ) {
+			neednewline = qtrue;
+		}
+		if ( cg.centerPrint[i] == ' ' && neednewline ) {
+			cg.centerPrint[i] = '\n';
+			neednewline = qfalse;
+		}
+	}
+	// -NERVE - SMF
 
 	cg.centerPrintTime = cg.time;
 	cg.centerPrintY = y;
@@ -1428,6 +1447,7 @@ static void CG_DrawCenterString( void ) {
 
 	color = CG_FadeColor( cg.centerPrintTime, 1000 * cg_centertime.value );
 	if ( !color ) {
+		cg.centerPrintTime = 0;	
 		return;
 	}
 
@@ -1441,7 +1461,7 @@ static void CG_DrawCenterString( void ) {
 		char linebuffer[1024];
 
 		for ( l = 0; l < 40; l++ ) {
-			if ( !start[l] || start[l] == '\n' || !Q_strncmp( &start[l], "\\n", 1 ) ) {
+			if ( !start[l] || start[l] == '\n' ) {
 				break;
 			}
 			linebuffer[l] = start[l];
@@ -1452,18 +1472,12 @@ static void CG_DrawCenterString( void ) {
 
 		x = ( SCREEN_WIDTH - w ) / 2;
 
-		CG_DrawStringExt( x, y, linebuffer, color, qfalse, qtrue, cg.centerPrintCharWidth, (int)( cg.centerPrintCharWidth * 1.5 ), 0 );
-//		CG_Text_Paint(x, y, 2, 0.3f, color, linebuffer, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
+		CG_DrawStringExt( x, y, linebuffer, color, qfalse, qtrue, cg.centerPrintCharWidth, 
+						 (int)( cg.centerPrintCharWidth * 1.5 ), 0 );
 
-//		y += cg.centerPrintCharWidth * 1.5;
 		y += cg.centerPrintCharWidth * 2;
 
-//		while ( *start && ( *start != '\n' ) && !Q_strncmp(start, "\\n", 1) ) {
 		while ( *start && ( *start != '\n' ) ) {
-			if ( !Q_strncmp( start, "\\n", 1 ) ) {
-				start++;
-				break;
-			}
 			start++;
 		}
 		if ( !*start ) {
