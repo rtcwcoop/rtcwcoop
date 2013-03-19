@@ -356,8 +356,8 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	self->client->ps.pm_type = PM_DEAD;
 
-    // death stats handled out-of-band of G_Damage for external calls
-    Coop_AddStats( self, attacker, damage, meansOfDeath );
+	// death stats handled out-of-band of G_Damage for external calls
+	Coop_AddStats( self, attacker, damage, meansOfDeath );
 
 	if (g_gametype.integer <= GT_COOP)
 		trap_Cvar_Set( "g_attempts", va( "%i", g_attempts.integer + 1 ) );

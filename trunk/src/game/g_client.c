@@ -2238,7 +2238,7 @@ void ClientDisconnect( int clientNum ) {
 
 			// They don't get to take powerups with them!
 			// Especially important for stuff like CTF flags
-            if ( g_gametype.integer == GT_SINGLE_PLAYER )
+			if ( g_gametype.integer == GT_SINGLE_PLAYER )
 				TossClientItems( ent );
 
 			// TIHan - Forcefully throw the chair.
