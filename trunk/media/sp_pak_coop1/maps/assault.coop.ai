@@ -354,6 +354,7 @@ nazi2
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// So that he does not trigger "yell_alarm" when the Alarm is already triggered.
 		accum 1 set 0	// Garage check, see if the player has broken in or not.
 		accum 2 set 0	// used to count bulletimpacts
@@ -1861,6 +1862,7 @@ nazi7
 
 	spawn
 	{
+		norespawn
 		accum 0 set 1	// So that nazi7 does not turn on the alarm more than once.
 		accum 2 set 0	// used for bulletimpact
 		accum 4 set 0	// Used to choose a random ambient animation.
@@ -2584,6 +2586,7 @@ nazi15
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		accum 0 set 0		// If the siren for the LIFT has gone off, then this guy will recognize that using accum 0.
 		takeweapon mp40
@@ -2663,6 +2666,7 @@ nazi15a
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		accum 0 set 0		// If the siren for the LIFT has gone off, then this guy will recognize that using accum 0.
 		takeweapon mp40
@@ -3050,6 +3054,7 @@ scientist1
 
 	spawn
 	{
+		norespawn
 		headlook off
 		noavoid
 		accum 0 bitreset 0
@@ -3215,6 +3220,7 @@ trooper1
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		accum 1 bitreset 3
 		accum 1 bitreset 2	// On/Off 
@@ -3380,6 +3386,7 @@ trooper2
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		accum 1 bitreset 1
 		accum 1 bitreset 4	// Used for their "fake-death" while parachuting.
@@ -3538,6 +3545,7 @@ trooper3
 
 	spawn
 	{
+		norespawn
 		accum 1 bitreset 0	//On/Off, to make sure PAIN 15 is not triggered after he lands.
 		accum 1 bitreset 1
 		accum 1 bitreset 2
@@ -3662,6 +3670,7 @@ trooper4
 
 	spawn
 	{
+		norespawn
 		accum 1 bitreset 0	//On/Off, to make sure PAIN 15 is not triggered after he lands.
 		accum 1 bitreset 1
 		accum 1 bitreset 2
@@ -3831,6 +3840,7 @@ trooper5
 
 	spawn
 	{
+		norespawn
 		accum 1 bitreset 0	//On/Off, to make sure PAIN 15 is not triggered after he lands.
 		accum 1 bitreset 1
 		accum 1 bitreset 2
@@ -4000,6 +4010,7 @@ trooper6
 
 	spawn
 	{
+		norespawn
 		godmode on
 		accum 1 bitreset 0	//On/Off, to make sure PAIN 15 is not triggered after he lands.
 		accum 1 bitreset 2
@@ -4166,6 +4177,7 @@ officer1
 
 	spawn
 	{
+		norespawn
 		takeweapon mp40
 		giveweapon weapon_luger
 		selectweapon weapon_luger
@@ -4421,6 +4433,7 @@ trucknazi1
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -4573,6 +4586,7 @@ trucknazi2
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -4722,6 +4736,7 @@ trucknazi3
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		noavoid
 		giveweapon weapon_sniperscope
@@ -4883,6 +4898,7 @@ trucknazi4
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -5033,6 +5049,7 @@ trucknazi5
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -5180,6 +5197,7 @@ trucknazi6
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		noavoid
 		giveweapon weapon_sniperscope

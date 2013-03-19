@@ -247,6 +247,7 @@ mech1
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 	}
 
@@ -327,6 +328,7 @@ mech3
 
 	spawn
 	{
+		norespawn
 		godmode on
 		nosight 99999
 		noavoid
@@ -344,9 +346,8 @@ mech3
 		sight
 		avoid
 		alertentity explode1
-		wait 50
+		//wait 50
 		//sethealth 0
-		//norespawn
 	}
 
 	death
@@ -3786,6 +3787,7 @@ nazi14
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		nosight 99999
 		noavoid
@@ -3923,6 +3925,7 @@ nazi16
 	
 	spawn
 	{
+		norespawn
 		nosight 99999
 		wait 5
 		setammo ammo_grenades 3
