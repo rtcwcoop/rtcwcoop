@@ -498,3 +498,33 @@
 "angle" "0"
 "targetname" "trainyard1"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_luger"
+"origin" "-1664 -444 24"
+"angle" "-72"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "1503 -1162 -175"
+"angle" "100"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "2818 -234 -175"
+"angle" "-3"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

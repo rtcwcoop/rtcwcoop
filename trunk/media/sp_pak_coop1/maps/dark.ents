@@ -575,3 +575,33 @@
 "angle" "4"
 "targetname" "dark1"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_luger"
+"origin" "-187 -5307 88"
+"angle" "34"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "ammo_792mm"
+"origin" "-281 -1557 528"
+"angle" "-3"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-2625 3006 724"
+"angle" "-44"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

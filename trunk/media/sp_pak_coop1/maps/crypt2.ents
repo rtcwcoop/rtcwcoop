@@ -505,3 +505,52 @@
 "angle" "-89"
 "targetname" "crypt21"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_luger"
+"origin" "-973 -370 160"
+"angle" "-62"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "-1608 -311 -55"
+"angle" "-81"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "-1346 -1145 264"
+"angle" "-139"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//
+
+
+#if g_reinforce >= 1
+{
+"classname" "weapon_mp40"
+"origin" "-436 -510 160"
+"angle" "97"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-1365 -884 -55"
+"angle" "-165"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-1757 -2150 264"
+"angle" "-29"
+}
+#endif

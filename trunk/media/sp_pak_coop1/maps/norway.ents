@@ -611,3 +611,33 @@
 "angle" "102"
 "targetname" "norway2"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "ammo_792mm"
+"origin" "-827 3542 488"
+"angle" "-110"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "ammo_792mm"
+"origin" "-434 -3194 912"
+"angle" "116"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "-4397 -2417 473"
+"angle" "126"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

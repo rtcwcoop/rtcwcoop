@@ -554,3 +554,33 @@
 "angle" "3"
 "targetname" "dam1"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "ammo_792mm"
+"origin" "-344 -4645 2328"
+"angle" "123"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "ammo_792mm"
+"origin" "-1794 -1727 2336"
+"angle" "-166"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "25 2827 2648"
+"angle" "29"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

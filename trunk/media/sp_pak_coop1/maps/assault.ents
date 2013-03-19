@@ -573,3 +573,40 @@
 "angle" "-95"
 "targetname" "assault2"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_sten"
+"origin" "3779 3610 472"
+"angle" "-87"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_sten"
+"origin" "-3418 5215 192"
+"angle" "137"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_sten"
+"origin" "3419 172 120"
+"angle" "158"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_sten"
+"origin" "-2990 3830 664"
+"angle" "-96"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

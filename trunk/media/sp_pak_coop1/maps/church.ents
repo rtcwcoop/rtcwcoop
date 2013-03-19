@@ -435,3 +435,33 @@
 "angle" "119"
 "targetname" "church1"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_sten"
+"origin" "-591 211 136"
+"angle" "27"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_sten"
+"origin" "-609 331 704"
+"angle" "-63"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_sten"
+"origin" "667 1188 600"
+"angle" "-131"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

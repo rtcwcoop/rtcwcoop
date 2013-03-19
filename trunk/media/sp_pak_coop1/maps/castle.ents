@@ -560,3 +560,52 @@
 "angle" "89"
 "targetname" "castle1"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_luger"
+"origin" "311 -155 -362"
+"angle" "94"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "155 -151 24"
+"angle" "88"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "681 1633 56"
+"angle" "-112"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//
+
+
+#if g_reinforce >= 1
+{
+"classname" "weapon_mp40"
+"origin" "27 1023 -295"
+"angle" "-177"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-241 907 56"
+"angle" "-63"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-39 811 440"
+"angle" "-91"
+}
+#endif

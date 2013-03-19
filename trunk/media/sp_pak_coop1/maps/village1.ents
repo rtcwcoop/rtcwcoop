@@ -586,3 +586,32 @@
 "angle" "103"
 "targetname" "village11"
 }
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_luger"
+"origin" "-2750 -1544 -487"
+"angle" "-151"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-162 -1108 -199"
+"angle" "81"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-884 1715 -55"
+"angle" "-177"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

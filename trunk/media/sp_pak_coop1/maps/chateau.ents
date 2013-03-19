@@ -500,7 +500,7 @@
 }
 {
 "classname" "coop_spawnpoint_trigger"
-"origin" "-128 1918 668"
+"origin" "-256 1922 668"
 "angle" "0"
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "chateau1"
@@ -554,3 +554,33 @@
 "angle" "126"
 "targetname" "chateau1"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_luger"
+"origin" "695 1269 -215"
+"angle" "38"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "662 1661 384"
+"angle" "-135"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "-129 3386 344"
+"angle" "2"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

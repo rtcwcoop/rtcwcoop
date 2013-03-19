@@ -183,3 +183,26 @@
 "angle" "177"
 "spawnflags" "1"
 }
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_mp40"
+"origin" "-2603 361 -71"
+"angle" "177"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-1444 466 40"
+"angle" "-104"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

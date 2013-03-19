@@ -484,3 +484,32 @@
 "angle" "158"
 "targetname" "factory1"
 }
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn == 1
+{
+"classname" "weapon_luger"
+"origin" "906 -896 56"
+"angle" "-176"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "1564 91 68"
+"angle" "1"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "1170 -812 296"
+"angle" "-9"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//
