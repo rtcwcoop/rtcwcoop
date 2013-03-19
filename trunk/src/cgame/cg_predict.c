@@ -114,7 +114,7 @@ static void CG_ClipMoveToEntities( const vec3_t start, const vec3_t mins, const 
 		}
 
 		// RF, special case, ignore chairs if we are carrying them
-		if ( ent->eType == ET_PROP && ent->otherEntityNum == skipNumber + 1 ) {
+		if ( ent->eType == ET_PROP && ent->otherEntityNum == skipNumber ) {
 			continue;
 		}
 
