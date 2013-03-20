@@ -116,7 +116,7 @@ Simply login as Admin and execute command by typing in chat or console *!command
 || restart || !restart || Will restart the map. ||
 || ban || !ban < unique part of name > || Will add ip of that user to banned file. ||
 || tempban || !tempban < unique part of name > < minutes > || Will tempban user from server for the time it's set. ||
-|| addip || !addip < ip > || Adds the ip to banned file. Note you can use wildcards -> * stands for 0 to 255 so you can ban sub-range by e.g. !addip 100.*.*.* -> Get more details in [WikiSyntax banning tutorial page].||
+|| addip || !addip < ip > || Adds the ip to banned file. Note you can use wildcards -> * stands for 0 to 255 so you can ban sub-range by e.g. !addip 100.*.*.* -> Get more details in [banning banning tutorial page].||
 
 *TIP:* To view client slot number use /getstatus.
 
