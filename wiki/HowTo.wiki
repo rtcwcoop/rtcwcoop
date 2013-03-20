@@ -59,37 +59,37 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
 = Cvars =
 
 == cg_fancyfx ==
-  cg_fancyfx 1 enables new graphical effects, currently this is only the possible greyscale stuff. This is to make sure that unsupported things on older computers don't crash the game, this cvar is off by default
+  * cg_fancyfx 1 enables new graphical effects, currently this is only the possible greyscale stuff. This is to make sure that unsupported things on older computers don't crash the game, this cvar is off by default
 
 == g_spawnpoints ==
- g_spawnpoints 0 autosaves you spawnpoint every 30 seconds, if g_spawnpoint is set to 1 then you can
+  * g_spawnpoints 0 autosaves you spawnpoint every 30 seconds, if g_spawnpoint is set to 1 then you can
  save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button. Setting this cvar to 2 will result in a multiplayer style flagzone respawn
 
 == g_maxspawnpoints ==
- Limits the number of user droppable spawnpoints, to make the game more difficult. If you set it to zero then there is no limit at all
+  * Limits the number of user droppable spawnpoints, to make the game more difficult. If you set it to zero then there is no limit at all
 
 == cg_drawcrosshairnames ==
- Set to 1 if you want to see info about your teamplayers: playername, ammo, ammoclip and health, its like in the multiplayer.
- Set to 2 if you also want to see a bar that shows the armor, just like the health bar, but  below it
+  * Set to 1 if you want to see info about your teamplayers: playername, ammo, ammoclip and health, its like in the multiplayer.
+  * Set to 2 if you also want to see a bar that shows the armor, just like the health bar, but  below it
 
 == g_airespawn ==
- Set to -1 to give the ai's unlimited respawns
- Set to x to give the ai's x number of respawns
- Set to 0 to disable respawning ai's.
- Keep in mind that not all ai's will respawn
+  * Set to -1 to give the ai's unlimited respawns
+  * Set to x to give the ai's x number of respawns
+  * Set to 0 to disable respawning ai's.
+  * Keep in mind that not all ai's will respawn
 
 == g_teleporttime ==
- Sets the minimum time between two teleports. In the Battle gametype its fixed at 30000 (30 seconds).
+  * Sets the minimum time between two teleports. In the Battle gametype its fixed at 30000 (30 seconds).
 
 == r_greyscale ==
- set to 1 and everything is rendered in greyscale
- set it to a float value, eg: 0.5, then its 50 percent grey. 
- set it to 2 and only the world (not the hud and the menus) is rendered to greyscale (via rendertotexture)  when you are dead or in limbo
+  * set to 1 and everything is rendered in greyscale
+  * set it to a float value, eg: 0.5, then its 50 percent grey. 
+  * set it to 2 and only the world (not the hud and the menus) is rendered to greyscale (via rendertotexture)  when you are dead or in limbo
 
 
 == cg_drawteamoverlay ==
- Set to 1 to see playerweapon, playername and health
- Set to 2 to see playerweapon, playername, location and health
+  * Set to 1 to see playerweapon, playername and health
+  * Set to 2 to see playerweapon, playername, location and health
 
  The playerweapon is just one character, K (knife), P (pistol), S (submachinegun), E (explosive), R (rifle), H (heavy weapon). 
 
@@ -101,8 +101,8 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
 freezes freshly respawn players, they need to be activated by a stab of a knife of a friend
 
 == g_gameskill ==
- In a coop game the aim_accuracy, aim_skill, attack_skill and health of the aicast is raised by raising g_gameskill ( 0 - 2 ).
- In single player these are set in the mapname.ai script files for each aicast, the coop mode ignores these  values in the scripts.
+ * In a coop game the aim_accuracy, aim_skill, attack_skill and health of the aicast is raised by raising g_gameskill ( 0 - 2 ).
+ * In single player these are set in the mapname.ai script files for each aicast, the coop mode ignores these  values in the scripts.
 
 == sv_maxcoopclients ==
 Limits the number of coop players in a game. sv_maxclients still exists and should be set to 64. Don't lower it because the AI's also count as clients. sv_maxcoopclients shouldn't be higher than sv_maxclients - numberofai and its limited between 1 and 8
@@ -117,10 +117,10 @@ If set to 1 then the g_maxlives is a teamvalue
 1 or 0 Toggles the compass
 
 == g_friendlyfire ==
-value 0: you can't hit friends
-value 1: you can hit friends
-value 2: you can hit friends but you loose the health instead (also score goes down)
-value 3: you can hit friends but you loose the health instead (and also twice the score)
+  * value 0: you can't hit friends
+  * value 1: you can hit friends
+  * value 2: you can hit friends but you loose the health instead (also score goes down)
+  * value 3: you can hit friends but you loose the health instead (and also twice the score)
 friends are: civilians and the other coop players
 
 == g_limbotime ==
