@@ -39,7 +39,7 @@ One way of dealing and usually later on, as you get more familiar with banning, 
 This is the most trickiest part. It's not a hard too figure it out, but requires patience and persistence. 
 
 == Approach == 
-In order to improve your success rate, you'll have to learn how to find player's dynamic ranges so they be banned. Finding a range can be a nerve breaking process. Finding out what block (range) country uses is not a problem, but what range user is assigned to is. Generally those blocks are distributed amongst ISP's which additionally, split the blocks and assign ranges to users. To give you a presentation in pseudo code - we'll take Brazil for example again:
+In order to improve your success rate, you'll have to learn how to find player's dynamic ranges so they can be banned. Finding a range can be a nerve breaking process. Finding out what block (range) country uses is not a problem, but what range user is assigned to is. Generally those blocks are distributed amongst ISP's which additionally, split the blocks and assign ranges to users. To give you a presentation in pseudo code - we'll take Brazil for example again:
 
  # Brazil gets range 201.1.1.1 - 201.255.255.255 
  # Authority splits this ranges in chunks and give if to various ISP's there. 
