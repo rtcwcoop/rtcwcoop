@@ -2095,9 +2095,13 @@ static void CG_Prop( centity_t *cent ) {
 	// TIHan - Draw the chair on the client who owns it.
 	if ( cg.renderingThirdPerson || ownerNum != cg.snap->ps.clientNum ) {
 		VectorCopy( owner->lerpOrigin, ent.origin );
-		VectorCopy( owner->lerpOrigin, ent.oldorigin );
 
-		ent.origin[2] += PROP_POSITION_HEIGHT;
+		// TIHan - Use different height on crouching.
+		if ( owner->currentState.eFlags & EF_CROUCHING ) {
+			ent.origin[2] += PROP_POSITION_HEIGHT / 2;
+		} else {
+			ent.origin[2] += PROP_POSITION_HEIGHT;
+		}
 
 		// TIHan - Match the angles.
 		AnglesToAxis( owner->lerpAngles, ent.axis );
@@ -2132,8 +2136,6 @@ static void CG_Prop( centity_t *cent ) {
 			ent.oldframe = ent.frame - 1;
 			ent.backlerp = 1 - cg.frameInterpolation;
 			ent.renderfx = RF_DEPTHHACK | RF_FIRST_PERSON;
-
-			//CG_Printf ("frame %d oldframe %d\n", ent.frame, ent.oldframe);
 		} else if ( ent.frame )     {
 			ent.oldframe -= 1;
 			ent.backlerp = 1 - cg.frameInterpolation;
@@ -2141,10 +2143,10 @@ static void CG_Prop( centity_t *cent ) {
 		{
 			ent.renderfx = RF_DEPTHHACK | RF_FIRST_PERSON;
 		}
-		AnglesToAxis( cent->lerpAngles, ent.axis );
-	}
 
-	ent.renderfx |= RF_NOSHADOW;
+		AnglesToAxis( cent->lerpAngles, ent.axis );
+		ent.renderfx |= RF_NOSHADOW;
+	}
 
 	// flicker between two skins (FIXME?)
 	ent.skinNum = ( cg.time >> 6 ) & 1;
@@ -2155,9 +2157,6 @@ static void CG_Prop( centity_t *cent ) {
 	} else {
 		ent.hModel = cgs.gameModels[s1->modelindex];
 	}
-
-	// add to refresh list
-	//trap_R_AddRefEntityToScene(&ent);
 
 	// add the secondary model
 	if ( s1->modelindex2 ) {
