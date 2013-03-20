@@ -211,10 +211,10 @@ player
 	}
 
 	//trigger got_objective3
-	{//
+	//{
 	//	objectivemet 3
 	//	trigger game_manager objective3
-	}//
+	//}
 	
 	trigger secret1
 	{
