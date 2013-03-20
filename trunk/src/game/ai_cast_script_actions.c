@@ -2818,7 +2818,7 @@ qboolean AICast_ScriptAction_FoundSecret( cast_state_t *cs, char *params ) {
 
 	level.numSecretsFound++;
 #ifdef LOCALISATION
-	trap_SendServerCommand( cs->entityNum, "cp You found a secret area" );
+	trap_SendServerCommand( cs->entityNum, "cp \"You found a secret area\"" );
 #else
 	trap_SendServerCommand( cs->entityNum, "cp secretarea" );
 #endif
