@@ -1206,7 +1206,7 @@ void Props_Chair_Skyboxtouch( gentity_t *ent );
 //
 void TEMPBAN_CLIENT(gentity_t *ent, const int minsbanned);
 void clean_tempbans(void);
-char *TempBannedMessage;
+extern char *TempBannedMessage;
 int checkBanned(char *data, char * password);
 // End
 

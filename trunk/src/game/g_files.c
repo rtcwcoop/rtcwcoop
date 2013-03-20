@@ -12,6 +12,8 @@
  */
 #include "g_local.h"
 
+char *TempBannedMessage;
+
 /*
 ===========
 Tempbanned 
