@@ -4,7 +4,7 @@
 Info about configuration of server Administration for server owners as well as general howto's for server Admins.
 
 == Revision ==
-*Last update:* revision 908.  
+*Last update:* revision 1114.  
 
 = Server configuration for Owners =
 
@@ -24,6 +24,8 @@ List of all Admin related cvars:
 || adm_help || "1" || If enabled, any logged in Admin can use !list_cmds - which will show them list of all commands that are set for their level. ||
 || g_extendedLog || "0" || Logs if enabled various Admin actions - read more in g_extendedLog section. ||
 || g_votesPerUser || "1" || Set here how many votes can player call each game. ||
+|| g_bannedMessage || "You are Banned from this server!" || Message that is printed to banned users. You can use it to point to your forum so they can appeal etc.||
+|| g_usePassword || "0" || This controls if g_password is either used for ban bypassing (if player is caught in banned range) or if enabled, it sets server as private - if there's a password set. ||
 
 
 == Admin commands per level ==
@@ -112,6 +114,9 @@ Simply login as Admin and execute command by typing in chat or console *!command
 || cancelvote || !cancelvote || Cancells any vote that's currently in progress. ||
 || passvote || !passvote || Will pass any vote that's currently in progress. ||
 || restart || !restart || Will restart the map. ||
+|| ban || !ban < unique part of name > || Will add ip of that user to banned file. ||
+|| tempban || !tempban < unique part of name > < minutes > || Will tempban user from server for the time it's set. ||
+|| addip || !addip < ip > || Adds the ip to banned file. Note you can use wildcards -> * stands for 0 to 255 so you can ban sub-range by e.g. !addip 100.*.*.* -> Get more details in [WikiSyntax banning tutorial page].||
 
 *TIP:* To view client slot number use /getstatus.
 
