@@ -551,7 +551,7 @@ qboolean IPv4Valid( char *s)
         return qfalse;
     
     vrfy[0] = 0;		
-	flip_it(s, '*', '256');
+	flip_it(s, '*', (char)256);
     
     c = sscanf( s, "%3u.%3u.%3u.%3u%s", 
 				&d[0], &d[1], &d[2], &d[3], vrfy);
@@ -563,7 +563,7 @@ qboolean IPv4Valid( char *s)
         if (d[i] > 256)
             return qfalse;
 
-	flip_it(s, '256', '*');
+	flip_it(s, (char)256, '*');
 
 return qtrue;
 }
