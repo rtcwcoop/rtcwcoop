@@ -1305,8 +1305,9 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	// do the damage
 	if ( take ) {
 		// fretn - this makes it easier to make the mg42 work with this new friendlyfire code
-		if (mod == MOD_MACHINEGUN && inflictor && inflictor->r.ownerNum < MAX_COOP_CLIENTS)
+		if (mod == MOD_MACHINEGUN && inflictor && inflictor->r.ownerNum < MAX_CLIENTS) {
 			attacker = &g_entities[inflictor->r.ownerNum];
+		}
 
                 if ( mod == MOD_TELEFRAG ) { // no matter what g_friendlyfire is set to, telefrags should always work, else you get stuck in a player
                         targ->health = targ->health - take;
