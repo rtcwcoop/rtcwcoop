@@ -65,6 +65,52 @@ player
 //Remove the 2 doors and clips that close at last battle:
 		alertentity kill106_r
 		alertentity kill107_r
+
+
+//----------------------------------------
+//Make AI reinforcements not respawn
+//----------------------------------------
+		#if g_airespawn >= 1
+		wait 5
+		norespawn coop_ai_zombie_1
+		norespawn coop_ai_zombie_2
+		norespawn coop_ai_zombie_3
+		norespawn coop_ai_zombie_4
+		norespawn coop_ai_zombie_5
+		norespawn coop_ai_zombie_6
+		norespawn coop_ai_zombie_7
+		norespawn coop_ai_zombie_8
+		norespawn coop_ai_zombie_9
+		norespawn coop_ai_zombie_10
+		wait 5
+		norespawn coop_ai_zombie_11
+		norespawn coop_ai_zombie_12
+		norespawn coop_ai_zombie_13
+		norespawn coop_ai_zombie_14
+		norespawn coop_ai_zombie_15
+		norespawn coop_ai_zombie_16
+		norespawn coop_ai_zombie_17
+		norespawn coop_ai_zombie_18
+		norespawn coop_ai_zombie_19
+		norespawn coop_ai_soldier_20
+		wait 5
+		norespawn coop_ai_soldier_21
+		norespawn coop_ai_soldier_22
+		norespawn coop_ai_zombie_23
+		norespawn coop_ai_zombie_24
+		norespawn coop_ai_zombie_25
+		norespawn coop_ai_zombie_26
+		norespawn coop_ai_zombie_27
+		norespawn coop_ai_zombie_28
+		norespawn coop_ai_zombie_29
+		norespawn coop_ai_zombie_30
+		wait 5
+		norespawn coop_ai_zombie_31
+		norespawn coop_ai_zombie_32
+		norespawn coop_ai_zombie_33
+		norespawn coop_ai_zombie_34
+		#endif
+//----------------------------------------
 	}
 
 	// Triggers nazi0a & nazi3 to fire at nothing.

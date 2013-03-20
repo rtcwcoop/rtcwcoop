@@ -98,6 +98,30 @@ wait 100
 #if g_reinforce >= 1 alertentity coop_ai_eliteguard_22 #endif
 #if g_reinforce >= 2 alertentity coop_ai_eliteguard_23 #endif
 #if g_reinforce >= 1 alertentity coop_ai_eliteguard_25 #endif
+
+//----------------------------------------
+//Make AI reinforcements not respawn
+//----------------------------------------
+		#if g_airespawn >= 1
+		wait 5
+		norespawn coop_ai_warzombie_71
+		norespawn coop_ai_warzombie_72
+		norespawn coop_ai_warzombie_73
+		norespawn coop_ai_warzombie_74
+		norespawn coop_ai_warzombie_75
+		norespawn coop_ai_warzombie_76
+		norespawn coop_ai_warzombie_77
+		wait 5
+		norespawn coop_ai_warzombie_78
+		norespawn coop_ai_warzombie_79
+		norespawn coop_ai_warzombie_80
+		norespawn coop_ai_warzombie_81
+		norespawn coop_ai_warzombie_82
+		norespawn coop_ai_warzombie_83
+		norespawn coop_ai_warzombie_84
+		norespawn coop_ai_warzombie_85
+		#endif
+//----------------------------------------
 	}
 
 	trigger action1
@@ -123,6 +147,36 @@ wait 100
 		alertentity dark4
 		alertentity dark5
 		alertentity dark6
+
+
+//----------------------------------------
+//Make start AI's not respawn when end battle starts
+//----------------------------------------
+		wait 10
+
+		norespawn coop_ai_soldier_8
+		norespawn coop_ai_soldier_14
+		norespawn coop_ai_blackguard_16
+		norespawn coop_ai_eliteguard_24
+		norespawn coop_ai_eliteguard_26
+		wait 10
+		norespawn coop_ai_soldier_7
+//		norespawn coop_ai_venom_9
+		norespawn coop_ai_soldier_10
+//		norespawn coop_ai_soldier_11
+		norespawn coop_ai_soldier_12
+		norespawn coop_ai_venom_13
+		wait 10
+		norespawn coop_ai_blackguard_15
+		norespawn coop_ai_blackguard_17
+		norespawn coop_ai_blackguard_18
+		norespawn coop_ai_eliteguard_19
+		norespawn coop_ai_eliteguard_20
+//		norespawn coop_ai_eliteguard_21
+		norespawn coop_ai_eliteguard_22
+		norespawn coop_ai_eliteguard_23
+		norespawn coop_ai_eliteguard_25
+//----------------------------------------
 	}
 
 	trigger rocksfall

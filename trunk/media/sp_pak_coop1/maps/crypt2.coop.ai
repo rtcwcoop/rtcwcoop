@@ -54,6 +54,50 @@ player
 
 #if g_reinforce >= 2 alertentity coop_ai_zombie_4 #endif
 
+//----------------------------------------
+//Make AI reinforcements not respawn
+//----------------------------------------
+		#if g_airespawn >= 1
+		wait 5
+		norespawn coop_ai_zombie_1
+		norespawn coop_ai_zombie_2
+		norespawn coop_ai_zombie_3
+		norespawn coop_ai_zombie_4
+		norespawn coop_ai_zombie_5
+		norespawn coop_ai_zombie_6
+		norespawn coop_ai_zombie_7
+		norespawn coop_ai_zombie_8
+		norespawn coop_ai_zombie_9
+		norespawn coop_ai_zombie_10
+		wait 5
+		norespawn coop_ai_zombie_11
+		norespawn coop_ai_zombie_12
+		norespawn coop_ai_zombie_13
+		norespawn coop_ai_zombie_14
+		norespawn coop_ai_soldier_15
+		norespawn coop_ai_soldier_16
+		norespawn coop_ai_soldier_17
+		norespawn coop_ai_soldier_18
+		norespawn coop_ai_soldier_19
+		norespawn coop_ai_soldier_20
+		wait 5
+		norespawn coop_ai_zombie_21
+		norespawn coop_ai_zombie_22
+		norespawn coop_ai_zombie_23
+		norespawn coop_ai_zombie_24
+		norespawn coop_ai_zombie_25
+		norespawn coop_ai_zombie_26
+		norespawn coop_ai_zombie_27
+		norespawn coop_ai_zombie_28
+		norespawn coop_ai_zombie_29
+		norespawn coop_ai_zombie_30
+		wait 5
+		norespawn coop_ai_zombie_31
+		norespawn coop_ai_zombie_32
+		norespawn coop_ai_zombie_33
+		norespawn coop_ai_zombie_34
+		#endif
+//----------------------------------------
 	}
 
 	trigger music2_start
@@ -2466,6 +2510,7 @@ coop_ai_zombie_25 		// Last room 5
 }
 
 coop_ai_zombie_26 		// earthquake 1
+{
 	attributes
 	{
 		fov 240
@@ -2485,6 +2530,7 @@ coop_ai_zombie_26 		// earthquake 1
 }
 
 coop_ai_zombie_29 		// earthquake 4
+{
 	attributes
 	{
 		fov 240
@@ -2504,6 +2550,7 @@ coop_ai_zombie_29 		// earthquake 4
 }
 
 coop_ai_zombie_30 		// earthquake 5
+{
 	attributes
 	{
 		fov 240
@@ -2523,6 +2570,7 @@ coop_ai_zombie_30 		// earthquake 5
 }
 
 coop_ai_zombie_31 		// earthquake 6
+{
 	attributes
 	{
 		fov 240
@@ -2542,6 +2590,7 @@ coop_ai_zombie_31 		// earthquake 6
 }
 
 coop_ai_zombie_32 		// earthquake 7
+{
 	attributes
 	{
 		fov 240
@@ -2561,6 +2610,7 @@ coop_ai_zombie_32 		// earthquake 7
 }
 
 coop_ai_zombie_33 		// earthquake 8
+{
 	attributes
 	{
 		fov 240
@@ -2580,6 +2630,7 @@ coop_ai_zombie_33 		// earthquake 8
 }
 
 coop_ai_zombie_34 		// earthquake 9
+{
 	attributes
 	{
 		fov 240

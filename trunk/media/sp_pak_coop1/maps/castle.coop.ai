@@ -65,6 +65,58 @@ player
 
 		objectivesneeded 1
 		numsecrets 2
+
+
+//----------------------------------------
+//Make AI reinforcements not respawn
+//----------------------------------------
+		#if g_airespawn >= 1
+		wait 5
+		norespawn coop_ai_zombie_1
+		norespawn coop_ai_zombie_2
+		norespawn coop_ai_zombie_3
+		norespawn coop_ai_zombie_4
+		norespawn coop_ai_soldier_5
+		norespawn coop_ai_zombie_6
+		norespawn coop_ai_zombie_7
+		norespawn coop_ai_zombie_8
+		norespawn coop_ai_zombie_9
+		norespawn coop_ai_blackguard_10
+		wait 5
+		norespawn coop_ai_blackguard_11
+		norespawn coop_ai_blackguard_12
+		norespawn coop_ai_eliteguard_13
+		norespawn coop_ai_eliteguard_14
+		norespawn coop_ai_blackguard_15
+		norespawn coop_ai_blackguard_16
+		norespawn coop_ai_blackguard_17
+		norespawn coop_ai_eliteguard_18
+		norespawn coop_ai_eliteguard_19
+		norespawn coop_ai_blackguard_20
+		wait 5
+		norespawn coop_ai_blackguard_21
+		norespawn coop_ai_blackguard_22
+		norespawn coop_ai_blackguard_23
+		norespawn coop_ai_blackguard_24
+		norespawn coop_ai_blackguard_25
+		norespawn coop_ai_blackguard_26
+		norespawn coop_ai_blackguard_27
+		norespawn coop_ai_blackguard_28
+		norespawn coop_ai_blackguard_29
+		norespawn coop_ai_blackguard_30
+		wait 5
+		norespawn coop_ai_blackguard_31
+		norespawn coop_ai_blackguard_32
+		norespawn coop_ai_eliteguard_33
+		norespawn coop_ai_eliteguard_34
+		norespawn coop_ai_blackguard_35
+		norespawn coop_ai_blackguard_36
+		norespawn coop_ai_blackguard_37
+		norespawn coop_ai_blackguard_38
+		norespawn coop_ai_eliteguard_39
+		norespawn coop_ai_eliteguard_40
+		#endif
+//----------------------------------------
 	}
 
 	trigger action1
