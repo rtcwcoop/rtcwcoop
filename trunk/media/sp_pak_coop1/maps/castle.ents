@@ -564,7 +564,7 @@
 //
 //Respawning guns if AI respawn is used
 //
-#if g_airespawn == 1
+#if g_airespawn != 0
 {
 "classname" "weapon_luger"
 "origin" "311 -155 -362"

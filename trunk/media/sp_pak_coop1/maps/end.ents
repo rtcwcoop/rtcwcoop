@@ -654,7 +654,7 @@
 //
 //Respawning guns if AI respawn is used
 //
-#if g_airespawn == 1
+#if g_airespawn != 0
 {
 "classname" "weapon_mp40"
 "origin" "171 -3530 376"
