@@ -1296,50 +1296,23 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 /*
 ===========
 L0 - Save players IP
-
-If memory serves me right this is from soke JK source.
 ============
 */
 void SaveIP ( gclient_t * client, char * sip )
 {
-	int ipIndex, i, len;
-	int  ipPartPtr;
-
-	if( strcmp( sip, "localhost" ) == 0 || sip == NULL ){		
+	if( strcmp( sip, "localhost" ) == 0 || sip == NULL ){
+		// Localhost, just enter 0 for all values:
 		client->sess.ip[0] = 0;
 		client->sess.ip[1] = 0;
 		client->sess.ip[2] = 0;
 		client->sess.ip[3] = 0;
 		return;
-	}
+	}	
 
-	len = strlen( sip );
-	ipIndex = 0;
-	ipPartPtr = 0;
-	i = 0;
-
-	while ( i < len ){
-		char ipPart[4];
-
-		if( sip[i] >= '0' && sip[i] <= '9' ) { 
-			ipPart[ipPartPtr] = sip[i];
-			ipPartPtr++;
-		}
-		else {
-			unsigned char ip;
-			
-			ipPart[ipPartPtr] = 0;
-			ip = (unsigned char) atoi( ipPart );
-			client->sess.ip[ipIndex] = ip;
-			ipIndex++;
-			ipPartPtr = 0;
-		}
-
-		if ( ( sip[i] < '0' || sip[i] > '9' ) && sip[i] != '.' ){ 
-			return;
-		}
-		i++;
-	}
+	sscanf(sip, "%3i.%3i.%3i.%3i",
+				(int *)&client->sess.ip[0], (int *)&client->sess.ip[1], 
+				(int *)&client->sess.ip[2], (int *)&client->sess.ip[3]);
+	return;
 }
 void G_WriteClientSessionData( gclient_t *client );
 // End
@@ -1595,15 +1568,28 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	trap_GetUserinfo( clientNum, userinfo, sizeof( userinfo ) );
 
 	// check to see if they are on the banned IP list
-	value = Info_ValueForKey( userinfo, "ip" );
+	value = Info_ValueForKey( userinfo, "ip" );	
+	if ( !(ent->r.svFlags & SVF_CASTAI) && ( strcmp( Info_ValueForKey( userinfo, "ip" ), "localhost" ) != 0 ) ) {
 
-        if ( !(ent->r.svFlags & SVF_CASTAI) && ( strcmp( Info_ValueForKey( userinfo, "ip" ), "localhost" ) != 0 ) ) {
-		// check for a password
-                value = Info_ValueForKey( userinfo, "password" );
-                if ( g_password.string[0] && strcmp( g_password.string, value ) != 0 ) {
-			return "Invalid password";
-                }
-        }
+		// L0 - Low level IP spoof
+		if (strcmp(value, "")==0) {
+			return "IP ^jspoof detected^7 - you cannot enter.";
+		}
+				
+		// L0 - Only bother with this is we want to run it as private..
+		if (g_usePassword.integer) {
+			value = Info_ValueForKey( userinfo, "password" );
+			if ( g_password.string[0] && strcmp( g_password.string, value ) != 0 ) {
+				return "Invalid password";
+			}
+		// Nah we don't..check now if client is banned..
+		} else {
+			if (checkBanned(Info_ValueForKey (userinfo, "ip"), Info_ValueForKey (userinfo, "password")) == 1)
+				return g_bannedMSG.string;
+			else if (checkBanned(Info_ValueForKey (userinfo, "ip"), Info_ValueForKey (userinfo, "password")) == 2)
+				return TempBannedMessage;	
+		} // End
+	}
 
 	// they can connect
 	ent->client = level.clients + clientNum;

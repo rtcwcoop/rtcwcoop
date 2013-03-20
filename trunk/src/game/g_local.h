@@ -1066,8 +1066,6 @@ qboolean G_IsClientDead( int clientNum );
 // g_svcmds.c
 //
 qboolean    ConsoleCommand( void );
-void G_ProcessIPBans( void );
-qboolean G_FilterPacket( char *from );
 
 //
 // g_weapon.c
@@ -1203,6 +1201,14 @@ void Props_Chair_Skyboxtouch( gentity_t *ent );
 
 #include "g_team.h" // teamplay specific stuff
 
+//
+// L0 - g_files.c
+//
+void TEMPBAN_CLIENT(gentity_t *ent, const int minsbanned);
+void clean_tempbans(void);
+char *TempBannedMessage;
+int checkBanned(char *data, char * password);
+// End
 
 extern level_locals_t level;
 extern gentity_t g_entities[MAX_GENTITIES];
@@ -1318,6 +1324,8 @@ extern vmCvar_t g_gamelocked;
 extern vmCvar_t	sv_hostname;
 extern vmCvar_t g_extendedLog;
 extern vmCvar_t g_votesPerUser;
+extern vmCvar_t g_bannedMSG;
+extern vmCvar_t g_usePassword;
 extern vmCvar_t g_shove;
 extern vmCvar_t g_shoveAmount;
 extern vmCvar_t g_throwKnives;

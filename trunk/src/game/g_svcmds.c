@@ -37,259 +37,55 @@ If you have questions concerning this license or the applicable additional terms
 /*
 ==============================================================================
 
-PACKET FILTERING
-
-
-You can add or remove addresses from the filter list with:
-
-addip <ip>
-removeip <ip>
-
-The ip address is specified in dot format, and any unspecified digits will match any value, so you can specify an entire class C network with "addip 192.246.40".
-
-Removeip will only remove an address specified exactly the same way.  You cannot addip a subnet, then removeip a single host.
-
-listip
-Prints the current list of filters.
-
-g_filterban <0 or 1>
-
-If 1 (the default), then ip addresses matching the current list will be prohibited from entering the game.  This is the default setting.
-
-If 0, then only addresses matching the list will be allowed.  This lets you easily set up a private game, or a game that only allows players from your local network.
-
+L0 - Replaced old banning scheme all together.
 
 ==============================================================================
 */
 
-
-
-
-
-typedef struct ipFilter_s
-{
-	unsigned mask;
-	unsigned compare;
-} ipFilter_t;
-
-#define MAX_IPFILTERS   1024
-
-static ipFilter_t ipFilters[MAX_IPFILTERS];
-static int numIPFilters;
-
 /*
 =================
-StringToFilter
-=================
-*/
-static qboolean StringToFilter( char *s, ipFilter_t *f ) {
-	char num[128];
-	int i, j;
-	byte b[4];
-	byte m[4];
+L0 - Svcmd_AddIP_f
 
-	for ( i = 0 ; i < 4 ; i++ )
-	{
-		b[i] = 0;
-		m[i] = 0;
-	}
-
-	for ( i = 0 ; i < 4 ; i++ )
-	{
-		if ( *s < '0' || *s > '9' ) {
-			G_Printf( "Bad filter address: %s\n", s );
-			return qfalse;
-		}
-
-		j = 0;
-		while ( *s >= '0' && *s <= '9' )
-		{
-			num[j++] = *s++;
-		}
-		num[j] = 0;
-		b[i] = atoi( num );
-		if ( b[i] != 0 ) {
-			m[i] = 255;
-		}
-
-		if ( !*s ) {
-			break;
-		}
-		s++;
-	}
-
-	f->mask = *(unsigned *)m;
-	f->compare = *(unsigned *)b;
-
-	return qtrue;
-}
-
-/*
-=================
-UpdateIPBans
-=================
-*/
-static void UpdateIPBans( void ) {
-	byte b[4];
-	int i;
-	char iplist[MAX_INFO_STRING];
-
-	*iplist = 0;
-	for ( i = 0 ; i < numIPFilters ; i++ )
-	{
-		if ( ipFilters[i].compare == 0xffffffff ) {
-			continue;
-		}
-
-		*(unsigned *)b = ipFilters[i].compare;
-		Com_sprintf( iplist + strlen( iplist ), sizeof( iplist ) - strlen( iplist ),
-					 "%i.%i.%i.%i ", b[0], b[1], b[2], b[3] );
-	}
-
-	trap_Cvar_Set( "g_banIPs", iplist );
-}
-
-/*
-=================
-G_FilterPacket
-=================
-*/
-qboolean G_FilterPacket( char *from ) {
-	int i;
-	unsigned in;
-	byte m[4];
-	char *p;
-
-	i = 0;
-	p = from;
-	while ( *p && i < 4 ) {
-		m[i] = 0;
-		while ( *p >= '0' && *p <= '9' ) {
-			m[i] = m[i] * 10 + ( *p - '0' );
-			p++;
-		}
-		if ( !*p || *p == ':' ) {
-			break;
-		}
-		i++, p++;
-	}
-
-	in = *(unsigned *)m;
-
-	for ( i = 0 ; i < numIPFilters ; i++ )
-		if ( ( in & ipFilters[i].mask ) == ipFilters[i].compare ) {
-			return g_filterBan.integer != 0;
-		}
-
-	return g_filterBan.integer == 0;
-}
-
-/*
-=================
-AddIP
-=================
-*/
-static void AddIP( char *str ) {
-	int i;
-
-	for ( i = 0 ; i < numIPFilters ; i++ )
-		if ( ipFilters[i].compare == 0xffffffff ) {
-			break;
-		}               // free spot
-	if ( i == numIPFilters ) {
-		if ( numIPFilters == MAX_IPFILTERS ) {
-			G_Printf( "IP filter list is full\n" );
-			return;
-		}
-		numIPFilters++;
-	}
-
-	if ( !StringToFilter( str, &ipFilters[i] ) ) {
-		ipFilters[i].compare = 0xffffffffu;
-	}
-
-	UpdateIPBans();
-}
-
-/*
-=================
-G_ProcessIPBans
-=================
-*/
-void G_ProcessIPBans( void ) {
-	char *s, *t;
-	char str[MAX_TOKEN_CHARS];
-
-	Q_strncpyz( str, g_banIPs.string, sizeof( str ) );
-
-	for ( t = s = g_banIPs.string; *t; /* */ ) {
-		s = strchr( s, ' ' );
-		if ( !s ) {
-			break;
-		}
-		while ( *s == ' ' )
-			*s++ = 0;
-		if ( *t ) {
-			AddIP( t );
-		}
-		t = s;
-	}
-}
-
-
-/*
-=================
-Svcmd_AddIP_f
+- from S4NDMOD
 =================
 */
 void Svcmd_AddIP_f( void ) {
-	char str[MAX_TOKEN_CHARS];
+	FILE		*bannedfile;
 
-	if ( trap_Argc() < 2 ) {
-		G_Printf( "Usage:  addip <ip-mask>\n" );
-		return;
-	}
+	char	arg1[MAX_STRING_TOKENS];
+	trap_Argv(1, arg1, sizeof(arg1));
 
-	trap_Argv( 1, str, sizeof( str ) );
+	bannedfile=fopen("banned.txt","a+");
 
-	AddIP( str );
-
+	fputs(va("%s\n",arg1),bannedfile);
+	G_LogPrintf ("%s was added to the banned file\n", arg1);
+    
+	fclose(bannedfile);
 }
 
 /*
-=================
-Svcmd_RemoveIP_f
-=================
+================
+L0 - Svcmd_tempban_f 
+
+- from S4NDMOD
+================
 */
-void Svcmd_RemoveIP_f( void ) {
-	ipFilter_t f;
-	int i;
-	char str[MAX_TOKEN_CHARS];
+void Svcmd_tempban_f( void ){
+	int			clientNum;
+	int			bannedtime;
+	gentity_t	*ent;
+	char		arg1[MAX_STRING_TOKENS];
+	char		arg2[MAX_STRING_TOKENS];	
 
-	if ( trap_Argc() < 2 ) {
-		G_Printf( "Usage:  sv removeip <ip-mask>\n" );
-		return;
-	}
+	trap_Argv( 1, arg1, sizeof( arg1 ) );
+	clientNum = atoi(arg1);
+	ent = &g_entities[ clientNum ];
 
-	trap_Argv( 1, str, sizeof( str ) );
+	trap_Argv( 2, arg2, sizeof( arg2 ) );
+	bannedtime = atoi(arg2);
 
-	if ( !StringToFilter( str, &f ) ) {
-		return;
-	}
-
-	for ( i = 0 ; i < numIPFilters ; i++ ) {
-		if ( ipFilters[i].mask == f.mask &&
-			 ipFilters[i].compare == f.compare ) {
-			ipFilters[i].compare = 0xffffffffu;
-			G_Printf( "Removed.\n" );
-
-			UpdateIPBans();
-			return;
-		}
-	}
-
-	G_Printf( "Didn't find %s.\n", str );
-}
+	TEMPBAN_CLIENT(ent,bannedtime);
+} 
 
 /*
 ===================
@@ -375,6 +171,18 @@ gclient_t   *ClientForString( const char *s ) {
 	int i;
 	int idnum;
 
+	// L0 - moved this up..
+	// check for a name match
+	for ( i = 0 ; i < level.maxclients ; i++ ) {
+		cl = &level.clients[i];
+		if ( cl->pers.connected == CON_DISCONNECTED ) {
+			continue;
+		}
+		if ( !Q_stricmp( cl->pers.netname, s ) ) {
+			return cl;
+		}
+	}
+
 	// numeric values are just slot numbers
 	if ( s[0] >= '0' && s[0] <= '9' ) {
 		idnum = atoi( s );
@@ -389,17 +197,6 @@ gclient_t   *ClientForString( const char *s ) {
 			return NULL;
 		}
 		return cl;
-	}
-
-	// check for a name match
-	for ( i = 0 ; i < level.maxclients ; i++ ) {
-		cl = &level.clients[i];
-		if ( cl->pers.connected == CON_DISCONNECTED ) {
-			continue;
-		}
-		if ( !Q_stricmp( cl->pers.netname, s ) ) {
-			return cl;
-		}
 	}
 
 	G_Printf( "User %s is not on the server\n", s );
@@ -436,17 +233,16 @@ void    Svcmd_ForceTeam_f( void ) {
 L0 - Print Poll answer,,
 ============
 */
-void Svcmd_PollPrint_f() {
+void Svcmd_PollPrint_f( void ) {
 	trap_SendServerCommand(-1, va("chat \"console: Poll result is ^2Yes^7!\n\""));	
 }
 
-#ifdef _ADMINS
 /*
 ============
 L0 - Unignore
 ============
 */
-void Svcmd_Unignore_f()
+void Svcmd_Unignore_f( void )
 {
 	int clientNum;
 	char buf[5];
@@ -515,7 +311,6 @@ void Svcmd_Ignore_f()
     trap_SendServerCommand( -1 , va("chat \"console: ^7%s ^7has been ignored.\n\"",g_entities[clientNum].client->pers.netname ));
 return;
 }
-#endif
 
 
 char    *ConcatArgs( int start );
@@ -596,29 +391,6 @@ qboolean    ConsoleCommand( void ) {
 		return qtrue;
 	}
 
-	// TTimo: took out games/g_arenas.c
-	/*
-	  if (Q_stricmp (cmd, "abort_podium") == 0) {
-		  Svcmd_AbortPodium_f();
-		  return qtrue;
-	  }
-	*/
-
-	if ( Q_stricmp( cmd, "addip" ) == 0 ) {
-		Svcmd_AddIP_f();
-		return qtrue;
-	}
-
-	if ( Q_stricmp( cmd, "removeip" ) == 0 ) {
-		Svcmd_RemoveIP_f();
-		return qtrue;
-	}
-
-	if ( Q_stricmp( cmd, "listip" ) == 0 ) {
-		trap_SendConsoleCommand( EXEC_INSERT, "g_banIPs\n" );
-		return qtrue;
-	}
-
 	// L0 - Enhancements
 	// Poll
 	if (Q_stricmp(cmd, "Poll:") == 0 ) {
@@ -626,7 +398,18 @@ qboolean    ConsoleCommand( void ) {
 		return qtrue;
 	} 
 
-#ifdef _ADMINS
+	// Ban
+	if ( Q_stricmp( cmd, "addip" ) == 0 ) {
+		Svcmd_AddIP_f();
+		return qtrue;
+	}
+
+	// Tempban
+	if (Q_stricmp(cmd, "tempban") == 0){
+        Svcmd_tempban_f();
+  		return qtrue;
+	} 
+
 	// Ignore
 	if (Q_stricmp(cmd, "ignore") == 0 ) {
 		Svcmd_Ignore_f ();
@@ -637,8 +420,6 @@ qboolean    ConsoleCommand( void ) {
 		Svcmd_Unignore_f ();
 		return qtrue;
 	} 
-#endif
-
 	// L0 - end
 
 	if ( g_dedicated.integer ) {

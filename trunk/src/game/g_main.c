@@ -159,6 +159,8 @@ vmCvar_t	g_gamelocked;	// Controls if Admin locked the game so players can't joi
 vmCvar_t	sv_hostname;	// So it's more accesible
 vmCvar_t	g_extendedLog;	// Logs various admin actions in a seperate logs
 vmCvar_t	g_votesPerUser; // How many votes can user call each game
+vmCvar_t	g_bannedMSG;	// Used to point banned users to desired forum..
+vmCvar_t	g_usePassword;	// Toggles between private & public with ban bypass ability server
 // General
 vmCvar_t	g_shove;		// Enable - Disable shove 
 vmCvar_t	g_shoveAmount;	// How far one is pushed
@@ -299,6 +301,8 @@ cvarTable_t gameCvarTable[] = {
 	{ &sv_hostname, "sv_hostname", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_extendedLog, "g_extendedLog", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
+	{ &g_bannedMSG, "g_bannedMSG", "You are ^jBanned ^7from this server!", CVAR_ARCHIVE, 0, qfalse },
+	{ &g_usePassword, "g_usePassword", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_shove, "g_shove", "0", CVAR_ARCHIVE, 0, qtrue},
 	{ &g_shoveAmount, "g_shoveAmount", "0.8", CVAR_ARCHIVE, 0, qtrue}, // Don't give to much...
 	{ &g_throwKnives, "g_throwKnives", "0", CVAR_ARCHIVE, 0, qtrue },
@@ -1283,8 +1287,6 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	// is used in the scripting to randomize entity locations, and more
 	trap_Cvar_Set("g_random", va("%d", r)); 
 
-	G_ProcessIPBans();
-
 	G_InitMemory();
         // NERVE - SMF - intialize gamestate
         if ( g_gamestate.integer == GS_INITIALIZE ) {
@@ -2015,6 +2017,9 @@ void ExitLevel( void ) {
 
 	// we need to do this here before chaning to CON_CONNECTING
 	G_WriteSessionData();
+
+	// L0 - Clean up the (IP) tempbans
+	clean_tempbans();
 
 	// change all client states to connecting, so the early players into the
 	// next level will know the others aren't done reconnecting

@@ -14,6 +14,7 @@
     <ProjectGuid>{F30728C1-0189-46BF-8B54-A0C20C87E894}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>bzzwolfsp</RootNamespace>
+    <ProjectName>rtcwcoop</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

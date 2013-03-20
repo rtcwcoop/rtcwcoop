@@ -111,6 +111,7 @@
     <ClCompile Include="..\..\src\game\g_cmds.c" />
     <ClCompile Include="..\..\src\game\g_combat.c" />
     <ClCompile Include="..\..\src\game\g_coop.c" />
+    <ClCompile Include="..\..\src\game\g_files.c" />
     <ClCompile Include="..\..\src\game\g_items.c" />
     <ClCompile Include="..\..\src\game\g_main.c" />
     <ClCompile Include="..\..\src\game\g_mem.c" />

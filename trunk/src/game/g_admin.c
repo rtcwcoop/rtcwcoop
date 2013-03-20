@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 * 
 * Author: Nate L0
 * Date: 11.09/12
-* Last edit: 07.11/12
+* Last edit: 20.Mar/13
 ****************************************************************************
 */
 #include "g_local.h"
@@ -528,6 +528,46 @@ void CPSound(gentity_t *ent, char *sound){
 	te->s.teamNum = ent->s.clientNum;
 }
 
+/*
+===========
+Check if string matches IP pattern
+===========
+*/
+void flip_it (char *s, char in, char out) {
+	while (*s != 0) {
+		if (*s == in)
+			*s = out;
+		s++;
+	}
+}
+// It's not perfect but it helps..
+qboolean IPv4Valid( char *s)
+{
+    int c, i, len = strlen(s);
+	unsigned int d[4];
+	char vrfy[16];		
+
+    if (len < 7 || len > 15)
+        return qfalse;
+    
+    vrfy[0] = 0;		
+	flip_it(s, '*', '256');
+    
+    c = sscanf( s, "%3u.%3u.%3u.%3u%s", 
+				&d[0], &d[1], &d[2], &d[3], vrfy);
+
+    if (c != 4 || vrfy[0])
+        return qfalse;
+
+    for (i = 0; i < 4; i++)
+        if (d[i] > 256)
+            return qfalse;
+
+	flip_it(s, '256', '*');
+
+return qtrue;
+}
+
 /*********************************** COMMANDS ************************************/
 
 /*
@@ -799,6 +839,114 @@ void cmd_clientkick( gentity_t *ent) {
 		ent->client->sess.ip[3], targetclient->client->pers.netname,ent->client->pers.cmd3);
 	logEntry (ADMACT, log);
 
+return;
+}
+
+/*
+===========
+Ban player
+===========
+*/
+void cmd_ban(gentity_t *ent) {
+	int count = 0;
+	int i;
+	int nums[MAX_CLIENTS];
+	char *tag, *log;
+
+	tag = sortTag(ent);
+
+	count = ClientNumberFromNameMatch(ent->client->pers.cmd2, nums);
+		if (count == 0){			
+			CP("print \"Client not on server^z!\n\"");
+		return;
+		}else if (count > 1){			
+			CP(va("print \"To many people with %s in their name^z!\n\"", ent->client->pers.cmd2));
+		return;
+		} 
+		
+		for (i = 0; i < count; i++){
+			// Ban player			
+			trap_SendConsoleCommand(EXEC_APPEND, va("addip %i.%i.%i.%i", 
+				g_entities[nums[i]].client->sess.ip[0], g_entities[nums[i]].client->sess.ip[1], 
+				g_entities[nums[i]].client->sess.ip[2], g_entities[nums[i]].client->sess.ip[3] ));
+
+			// Kick player now
+			trap_DropClient( nums[i], va( "^3banned by ^3%s \n^7%s", tag, ent->client->pers.cmd3));			
+			AP(va("chat \"^zconsole:^7 %s has banned player %s^z! ^3%s\n\"", tag, g_entities[nums[i]].client->pers.netname,ent->client->pers.cmd3));		
+
+			// Log it
+			log =va("Player %s (IP:%i.%i.%i.%i) has (IP)banned user %s", 
+				ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], 
+				ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
+			logEntry (ADMACT, log);
+		}
+return;
+}
+
+/*
+===========
+tempBan ip
+===========
+*/
+void cmd_tempBanIp(gentity_t *ent) {
+	int count = 0;
+	int i;
+	int nums[MAX_CLIENTS];
+	char *tag, *log;
+
+	tag = sortTag(ent);
+
+	count = ClientNumberFromNameMatch(ent->client->pers.cmd2, nums);
+		if (count == 0){			
+			CP("print \"Client not on server^z!\n\"");
+		return;
+		}else if (count > 1){			
+			CP(va("print \"To many people with %s in their name^z!\n\"", ent->client->pers.cmd2));
+		return;
+		} 
+		
+		for (i = 0; i < count; i++){
+			char *time = (!ent->client->pers.cmd3 ? "1" : ent->client->pers.cmd3);
+
+			// TempBan player			
+			trap_SendConsoleCommand(EXEC_APPEND, va("tempban %i %s", nums[i], time ));
+
+			// Kick player now
+			trap_DropClient( nums[i], va( "^3temporarily banned by ^3%s \n^7Tempban will expire in ^3%s ^7minute(s)", tag, time));			
+			AP(va("chat \"^zconsole:^7 %s has tempbanned player %s ^7for ^z%s ^7minute(s)^z!\n\"", tag, g_entities[nums[i]].client->pers.netname, time));		
+
+			// Log it
+			log =va("Player %s (IP:%i.%i.%i.%i) tempbanned user %s by IP for %s minute(s).", 
+				ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], 
+				ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname, time );	
+			logEntry (ADMACT, log);
+		}
+return;
+}
+
+/*
+===========
+Add IP
+===========
+*/
+void cmd_addIp(gentity_t *ent) {
+	char *tag, *log;
+
+	tag = sortTag(ent);
+
+	if (!IPv4Valid(ent->client->pers.cmd2)) {
+		CP(va("print \"%s is not a valid IPv4 address!\n\"", ent->client->pers.cmd2));
+		return;
+	}
+	
+	trap_SendConsoleCommand(EXEC_APPEND, va("addip %s", ent->client->pers.cmd2 ));	
+	AP(va("chat \"^zconsole:^7 %s has added IP ^z%s ^7to banned file.\n\"", tag, ent->client->pers.cmd2));	
+
+	// Log it
+	log =va("Player %s (IP:%i.%i.%i.%i) added IP %s to banned file.", 
+		ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], 
+		ent->client->sess.ip[3], ent->client->pers.cmd2  );	
+	logEntry (ADMACT, log);
 return;
 }
 
@@ -1470,6 +1618,9 @@ qboolean do_cmds(gentity_t *ent) {
 	else if (!strcmp(cmd,"cancelvote"))		{ if (canUse(ent, qtrue)) cmd_cancelvote(ent); else cantUse(ent); return qtrue;} 
 	else if (!strcmp(cmd,"passvote"))		{ if (canUse(ent, qtrue)) cmd_passvote(ent); else cantUse(ent); return qtrue;} 
 	else if (!strcmp(cmd,"restart"))		{ if (canUse(ent, qtrue)) cmd_restart(ent); else cantUse(ent); return qtrue;} 
+	else if (!strcmp(cmd,"ban"))			{ if (canUse(ent, qtrue)) cmd_ban(ent); else cantUse(ent); return qtrue;}		
+	else if (!strcmp(cmd,"tempban"))		{ if (canUse(ent, qtrue)) cmd_tempBanIp(ent); else cantUse(ent); return qtrue;}		
+	else if (!strcmp(cmd,"addip"))			{ if (canUse(ent, qtrue)) cmd_addIp(ent); else cantUse(ent); return qtrue;}		
 	// Any other command
 	else if (canUse(ent, qfalse))			{ cmdCustom(ent, cmd); return qtrue; }	
 
@@ -1517,6 +1668,9 @@ qboolean do_help(gentity_t *ent) {
 	else if (!strcmp(cmd,"cancelvote"))		help = "Cancels any vote in progress.";
 	else if (!strcmp(cmd,"passvote"))		help = "Passes any vote in progress.";
 	else if (!strcmp(cmd,"restart"))		help = "Restarts the round.";
+	else if (!strcmp(cmd,"ban"))			help = "Bans player by IP - Usage: !ban <unique part of name>";
+	else if (!strcmp(cmd,"tempban"))		help = "Temporarily Bans player by IP - Usage: !tempban <unique part of name> <mins>";
+	else if (!strcmp(cmd,"addip"))			help = "Adds IP to banned file. You can use wildcards for subrange bans - Example: !addip 100.*.*.*";
 
 	else return qfalse;
 

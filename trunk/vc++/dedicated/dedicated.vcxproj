@@ -14,6 +14,7 @@
     <ProjectGuid>{214D0B1D-5BAB-477D-A481-699FDE17BD67}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>dedicated</RootNamespace>
+    <ProjectName>dedicated</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(SolutionName)_$(ProjectName)</TargetName>
+    <TargetName>$(SolutionName)_ded</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>$(SolutionName)_$(ProjectName)</TargetName>
+    <TargetName>$(SolutionName)_ded</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
