@@ -449,6 +449,8 @@ itemDef {
 					visible			1
 					border			1
 					bordercolor		.5 .5 .5 .5 
+					mouseenter		{ show message_skilleasy }
+					mouseexit		{ hide message_skilleasy }
 					
 					action {		play "sound/misc/nomenu.wav" ;
 									setitemcolor easy backcolor .7 .7 .0 .25 ;
@@ -475,7 +477,9 @@ itemDef {
 					backcolor		.1 .1 .1 .1 
 					visible			1
 					border			1
-					bordercolor		.5 .5 .5 .5 
+					bordercolor		.5 .5 .5 .5
+					mouseenter		{ show message_skillnormal }
+					mouseexit		{ hide message_skillnormal }
 					
 					action {		play "sound/misc/nomenu.wav" ;
 									setitemcolor easy backcolor .1 .1 .1 .1 ;
@@ -503,6 +507,8 @@ itemDef {
 					visible			1
 					border			1
 					bordercolor		.5 .5 .5 .5 
+					mouseenter		{ show message_skillhard }
+					mouseexit		{ hide message_skillhard }
 					
 					action {		play "sound/misc/nomenu.wav" ;
 									setitemcolor easy backcolor .1 .1 .1 .1 ;
@@ -526,10 +532,12 @@ itemDef {
 					textalignx		35
 					textaligny		17
 					forecolor		1 1 1 1
-					backcolor		.1 .1 .1 .1 
+					backcolor		.1 .1 .1 .2 
 					visible			1
 					border			1
 					bordercolor		.5 .5 .5 .5 
+					mouseenter		{ show message_skillnightmare }
+					mouseexit		{ hide message_skillnightmare }
 					
 					action {		play "sound/misc/nomenu.wav" ;
 									setitemcolor easy backcolor .1 .1 .1 .1 ;
@@ -1174,6 +1182,77 @@ itemDef {
 				decoration 
 				visible 0
 				}
+
+			itemDef {
+				name message_skilleasy
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Easy enemies, no extra enemies, no enemy respawning"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_skillnormal
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Normal enemies, many enemies, no enemy respawning"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+
+			itemDef {
+				name message_skillhard
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Hard enemies, maximum enemies, 2 respawns per enemy"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+
+			itemDef {
+				name message_skillnightmare
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Hard enemies, maximum enemies, infinite enemy respawns"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
 
 }
 }
