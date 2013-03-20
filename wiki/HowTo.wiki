@@ -77,6 +77,7 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
   * Set to x to give the ai's x number of respawns
   * Set to 0 to disable respawning ai's.
   * Keep in mind that not all ai's will respawn
+  * AI reinforcements only respawn if this is set to -1
 
 == g_teleporttime ==
   * Sets the minimum time between two teleports. In the Battle gametype its fixed at 30000 (30 seconds).
