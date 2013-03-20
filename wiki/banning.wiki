@@ -26,13 +26,13 @@ While ban command may seem more useful it has it's short comings. Problem with b
 === Addip range bans ===
 Ranges are supported. You can specify a range by replacing value with asterisk. Let's say for example you want to ban whole Brazil..Brazil users mostly come between range (from) 201.1.1.1 (to) 201.255.255.255 - In this case, player from this block can get any range inside it assigned. So if you want to ban everyone from this range you simply solve this by adding in banned file: `201.*.*.*`  This would basically ban anyone coming from this range. 
 
-Generally, you want to avoid banning large ranges and rather try to find a way to get instal of all the ranges user is coming from..as higher is the range, greater are the chances innocent player will be caught in that range and as a result, banned as well. 
+Generally, you want to avoid banning large ranges and rather try to find a way to get all the ranges user is coming from..as higher is the range, greater are the chances innocent player will be caught in that range and as a result, banned as well. 
 _Finding IP ranges and ban bypass dealing is explained lower.._
 
 == Manually ==
 One way of dealing and usually later on, as you get more familiar with banning, mostly used approach is by adding IPs directly to banned file over ftp or thru some kinda of web interface. Manually adding ip's is straight forward but there are few key things you have to watch for or as a result, everyone can either end up being banned or banning all together wont even work. 
 
- # Each IP has to be on it's own line, if you delete ip from banned file make sure there's no spaces or new lines left as next ip should be where one you deleted way.
+ # Each IP has to be on it's own line, if you delete ip from banned file make sure there's no spaces or new lines left as next ip should be where one you deleted was.
  # List must end with new (blank) line. Banning code expects one IP per line and a blank new line at the end when adding new IP. To make sure it's all as it should be, simply go to the last ip on the list, delete any and all spaces after it, press enter so new line gets created and save it. 
 
 = IP Ranges = 
