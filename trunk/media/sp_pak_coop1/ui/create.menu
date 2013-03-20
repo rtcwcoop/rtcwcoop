@@ -1229,7 +1229,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Hard enemies, maximum enemies, 2 respawns per enemy"
+				text "Hard enemies, max enemies, 2 respawns per enemy"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -1247,7 +1247,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Hard enemies, maximum enemies, infinite enemy respawns"
+				text "Hard enemies, max respawning enemies, infinite enemy respawns"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
