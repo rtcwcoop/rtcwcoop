@@ -570,6 +570,11 @@ qboolean COM_Eval(char *cvarname, char *condition, char *cvarvalue) {
                         copy = qtrue;
                 else 
                         copy = qfalse;
+        } else if (!Q_strcasecmp(condition, "!=")) {
+                if (cvar != value)
+                        copy = qtrue;
+                else 
+                        copy = qfalse;
         } else if (!Q_strcasecmp(condition, "<=")) {
                 if (cvar <= value)
                         copy = qtrue;
@@ -591,7 +596,7 @@ qboolean COM_Eval(char *cvarname, char *condition, char *cvarvalue) {
                 else 
                         copy = qfalse;
         } else {
-                Com_Error( ERR_DROP, "COM_Eval() Error (line %d): Unknown condition, must be ==, <=,  >=, < or >.\n", COM_GetCurrentParseLine() );
+                Com_Error( ERR_DROP, "COM_Eval() Error (line %d): Unknown condition, must be ==, !=, <=,  >=, < or >.\n", COM_GetCurrentParseLine() );
         }  
 
         return copy;
