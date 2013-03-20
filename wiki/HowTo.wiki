@@ -73,15 +73,10 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
  Set to 2 if you also want to see a bar that shows the armor, just like the health bar, but  below it
 
 == g_airespawn ==
- Set to 1 to enable this. (also check the value of g_aimaxlives)
- Set to 0 to disable this.
-
-== g_aimaxlives == 
- controls the number of lives of an ai
- Set to 0 or 1 results in no respawns at all even when g_airespawn is set to 1
- Set to 2 will result in 1 respawn (2 lives, the live when they initial spawn, and then after their first kill)
- Set to 3 will result in 2 respawns
- etc
+ Set to -1 to give the ai's unlimited respawns
+ Set to x to give the ai's x number of respawns
+ Set to 0 to disable respawning ai's.
+ Keep in mind that not all ai's will respawn
 
 == g_teleporttime ==
  Sets the minimum time between two teleports. In the Battle gametype its fixed at 30000 (30 seconds).
