@@ -1045,7 +1045,7 @@ void Props_Activated( gentity_t *self ) {
 		self->active = qfalse;
 
 		// TIHan - Only play the sound if the client owner is alive.
-		if ( !G_IsClientDead( owner->s.clientNum ) ) {
+		if ( !G_IsClientDead( owner ) ) {
 			G_AddEvent( owner, EV_GENERAL_SOUND, snd_chairthrow );
 		}
 

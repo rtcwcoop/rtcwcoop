@@ -2436,12 +2436,81 @@ void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
 
 /*
 ==================
+G_IsClientValid
+==================
+*/
+qboolean G_IsClientValid( gentity_t *entity ) {
+	if ( !entity->client )
+		return qfalse;
+
+	if ( !&g_entities[entity->s.clientNum].client )
+		return qfalse;
+
+	return qtrue;
+}
+
+
+/*
+==================
+G_IsClientActive
+==================
+*/
+qboolean G_IsClientActive( gentity_t *entity ) {
+	gclient_t *client;
+
+	if ( !entity->client ) {
+		Com_Error( ERR_FATAL, "G_IsClientActive: Entity is not a client." );
+	}
+
+	client = entity->client;
+	// TIHan - Feels a little strange, but it will have to do. We could make more various
+	// states, but I would rather not introduce more states to track. So, I think this is
+	// ok.
+	return ( client->pers.teamState.state == TEAM_ACTIVE && !G_IsClientDead( entity ) );
+}
+
+
+/*
+==================
+G_IsClientAI
+==================
+*/
+qboolean G_IsClientAI( gentity_t *entity ) {
+	if ( !entity->client ) {
+		Com_Error( ERR_FATAL, "G_IsClientAI: Entity is not a client." );
+	}
+
+	return ( entity->aiCharacter != AICHAR_NONE );
+}
+
+
+/*
+==================
 G_IsClientDead
 ==================
 */
-qboolean G_IsClientDead( int clientNum ) {
-	gentity_t *client;
+qboolean G_IsClientDead( gentity_t *entity ) {
+	if ( !entity->client ) {
+		Com_Error( ERR_FATAL, "G_IsClientDead: Entity is not a client." );
+	}
 
-	client = &g_entities[clientNum];
-	return ( client->health <= 0 );
+	return ( entity->health <= 0 );
 }
+
+
+/*
+==================
+G_IsClientOnTeam
+==================
+*/
+qboolean G_IsClientOnTeam( gentity_t *entity, team_t team ) {
+	gclient_t *client;
+
+	if ( !entity->client ) {
+		Com_Error( ERR_FATAL, "G_IsClientOnTeam: Entity is not a client." );
+	}
+
+	client = entity->client;
+	return ( client->sess.sessionTeam == team );
+}
+

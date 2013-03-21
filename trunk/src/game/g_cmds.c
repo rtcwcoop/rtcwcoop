@@ -2401,6 +2401,10 @@ void Cmd_Activate_f( gentity_t *ent ) {
 	int activatetime = level.time;
 	qboolean walking = qfalse;
 
+	// TIHan - Is the client active?
+	if ( !G_IsClientActive( ent ) )
+		return;
+
 	if ( ent->client->pers.cmd.buttons & BUTTON_WALKING ) {
 		walking = qtrue;
 	}
@@ -2444,8 +2448,6 @@ void Cmd_Activate_f( gentity_t *ent ) {
 					&& ( traceEnt->s.apos.trType == TR_STATIONARY && traceEnt->s.pos.trType == TR_STATIONARY )
 					&& traceEnt->active == qfalse ) {
 			G_TryDoor( traceEnt, ent, ent );      // (door,other,activator)
-//			Use_BinaryMover (traceEnt, ent, ent);
-//			traceEnt->active = qtrue;
 		} else if ( !Q_stricmp( traceEnt->classname, "func_invisible_user" ) )     {
 			if ( walking ) {
 				traceEnt->flags |= FL_SOFTACTIVATE;     // no noise
@@ -2458,10 +2460,6 @@ void Cmd_Activate_f( gentity_t *ent ) {
 		} else if ( traceEnt->s.eType == ET_ALARMBOX )     {
 			trace_t trace;
 
-			if ( ent->client->sess.sessionTeam == TEAM_SPECTATOR ) {
-				return;
-			}
-
 			memset( &trace, 0, sizeof( trace ) );
 
 			if ( traceEnt->use ) {
@@ -2469,10 +2467,6 @@ void Cmd_Activate_f( gentity_t *ent ) {
 			}
 		} else if ( traceEnt->s.eType == ET_ITEM )     {
 			trace_t trace;
-
-			if ( ent->client->sess.sessionTeam == TEAM_SPECTATOR ) {
-				return;
-			}
 
 			memset( &trace, 0, sizeof( trace ) );
 
@@ -2546,7 +2540,6 @@ void Cmd_Activate_f( gentity_t *ent ) {
 						ent->active = qtrue;
 						ent->melee = traceEnt;
 						ent->client->ps.eFlags |= EF_MELEE_ACTIVE;
-//						ent->s.eFlags |= EF_MELEE_ACTIVE;
 					}
 				}
 			}
@@ -3433,11 +3426,11 @@ void ClientCommand( int clientNum ) {
 		Cmd_Team_f( ent );
 	} else if ( Q_stricmp( cmd, "where" ) == 0 )  {
 		Cmd_Where_f( ent );
-	else if (Q_stricmp (cmd, "callvote") == 0)	//----(SA)	id requests these gone in sp
+	} else if (Q_stricmp (cmd, "callvote") == 0) {	//----(SA) id requests these gone in sp
 		Cmd_CallVote_f (ent);
-	else if (Q_stricmp (cmd, "vote") == 0)		//----(SA)	id requests these gone in sp
+	} else if (Q_stricmp (cmd, "vote") == 0) {		//----(SA) id requests these gone in sp
 		Cmd_Vote_f (ent);
-	else if ( Q_stricmp( cmd, "gc" ) == 0 ) {
+	} else if ( Q_stricmp( cmd, "gc" ) == 0 ) {
 		Cmd_GameCommand_f( ent );
 	} else if ( Q_stricmp( cmd, "startCamera" ) == 0 )  {
 		Cmd_StartCamera_f( ent );
