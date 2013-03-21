@@ -98,15 +98,19 @@ player
 		wait 5
 		norespawn coop_ai_soldier_11
 		norespawn coop_ai_soldier_12
+		norespawn coop_ai_loper_13	
+		norespawn coop_ai_loper_14	
 		norespawn coop_ai_soldier_15
 		norespawn coop_ai_soldier_16
 		norespawn coop_ai_soldier_17
 		norespawn coop_ai_soldier_18
 		norespawn coop_ai_soldier_19
+		norespawn coop_ai_loper_20	
 		wait 5
 		norespawn coop_ai_soldier_21
 		norespawn coop_ai_venom_22
 		norespawn coop_ai_soldier_23
+		norespawn coop_ai_loper_24
 		norespawn coop_ai_blackguard_25
 		norespawn coop_ai_blackguard_26
 		norespawn coop_ai_blackguard_27
@@ -2783,7 +2787,7 @@ coop_ai_loper_13		// loper 1
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 
@@ -2804,7 +2808,7 @@ coop_ai_loper_14		// loper 2
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 
@@ -2910,7 +2914,7 @@ coop_ai_loper_20		// below stairs
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 }
@@ -2967,7 +2971,9 @@ coop_ai_soldier_23		// service floor 2
 		statetype alert
 	}
 }
-
+coop_ai_loper_13	
+coop_ai_loper_14	
+coop_ai_loper_20	
 coop_ai_loper_24		// in secret hallway
 {
 	attributes
@@ -2979,7 +2985,7 @@ coop_ai_loper_24		// in secret hallway
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 }

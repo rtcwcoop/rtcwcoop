@@ -85,6 +85,7 @@ player
 		norespawn coop_ai_soldier_4
 		norespawn coop_ai_soldier_5
 		norespawn coop_ai_soldier_6
+		norespawn coop_ai_protosoldier_7
 		norespawn coop_ai_soldier_8
 		norespawn coop_ai_soldier_9
 		norespawn coop_ai_soldier_10
@@ -104,7 +105,8 @@ player
 		norespawn coop_ai_soldier_22
 		norespawn coop_ai_soldier_23
 		norespawn coop_ai_venom_24
-		norespawn coop_ai_soldier_27
+		norespawn coop_ai_protosoldier_25
+		norespawn coop_ai_protosoldier_26						norespawn coop_ai_soldier_27
 		norespawn coop_ai_soldier_28
 		norespawn coop_ai_soldier_29
 		norespawn coop_ai_soldier_30
@@ -1607,7 +1609,7 @@ coop_ai_protosoldier_7		// after door of downway
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all
@@ -1928,7 +1930,7 @@ coop_ai_protosoldier_25		// 2nd floor 5
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all
@@ -1949,7 +1951,7 @@ coop_ai_protosoldier_26		// before endroom 1
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all

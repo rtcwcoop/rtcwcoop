@@ -101,7 +101,7 @@ player
 		norespawn coop_ai_venom_17
 		norespawn coop_ai_venom_18
 		norespawn coop_ai_venom_19
-//		norespawn coop_ai_protosoldier_20
+		norespawn coop_ai_protosoldier_20
 		wait 5
 		norespawn coop_ai_soldier_21
 		norespawn coop_ai_soldier_25
@@ -119,12 +119,12 @@ player
 		norespawn coop_ai_venom_39
 		norespawn coop_ai_venom_40
 		wait 5
-//		norespawn coop_ai_protosoldier_41	
+		norespawn coop_ai_protosoldier_41	
 		norespawn coop_ai_venom_42
 		norespawn coop_ai_venom_43
 		norespawn coop_ai_venom_44
 		norespawn coop_ai_venom_45
-//		norespawn coop_ai_protosoldier_46
+		norespawn coop_ai_protosoldier_46
 		#endif
 //----------------------------------------
 	}
@@ -2340,7 +2340,7 @@ coop_ai_protosoldier_20		// down-lab
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all
@@ -2616,7 +2616,7 @@ coop_ai_protosoldier_41		// after-super
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all
@@ -2713,7 +2713,7 @@ coop_ai_protosoldier_46		// after-super 2
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all

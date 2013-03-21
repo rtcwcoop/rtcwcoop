@@ -79,15 +79,23 @@ player
 		norespawn coop_ai_soldier_3
 		norespawn coop_ai_soldier_4
 		norespawn coop_ai_soldier_5
+		norespawn coop_ai_loper_6
 		norespawn coop_ai_soldier_7
 		norespawn coop_ai_soldier_8
 		norespawn coop_ai_soldier_9
+		norespawn coop_ai_loper_10
 		wait 5
+		norespawn coop_ai_loper_11	
+		norespawn coop_ai_protosoldier_12
+		norespawn coop_ai_loper_13	
 		norespawn coop_ai_soldier_14
 		norespawn coop_ai_soldier_15
+		norespawn coop_ai_protosoldier_16
 		norespawn coop_ai_soldier_17
 		norespawn coop_ai_soldier_18
 		norespawn coop_ai_soldier_19
+		norespawn coop_ai_loper_20	
+		norespawn coop_ai_protosoldier_21
 		#endif
 //----------------------------------------
 	}
@@ -3299,7 +3307,7 @@ coop_ai_loper_6		// near upper hole
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 }
@@ -3365,7 +3373,7 @@ coop_ai_loper_10		// short hallway
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 }
@@ -3380,7 +3388,7 @@ coop_ai_loper_11		// ammo room
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 }
@@ -3397,7 +3405,7 @@ coop_ai_protosoldier_12		// new protosoldier
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all
@@ -3410,7 +3418,7 @@ coop_ai_loper_13		// before water entrance
 {
 	attributes
 	{
-		norespawn
+		//norespawn
 		starting_health 250
 		aggression 1.0
 	}
@@ -3466,7 +3474,7 @@ coop_ai_protosoldier_16		// new protosoldier 2
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all
@@ -3537,7 +3545,7 @@ coop_ai_loper_20		// switcher room
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 	}
 }
@@ -3553,7 +3561,7 @@ coop_ai_protosoldier_21		// exit-room
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		statetype alert
 		takeweapon all

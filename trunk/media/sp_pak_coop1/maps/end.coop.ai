@@ -152,6 +152,8 @@ wait 100
 //----------------------------------------
 //Make start AI's not respawn when end battle starts
 //----------------------------------------
+
+		#if g_airespawn >= 1
 		wait 10
 
 		norespawn coop_ai_soldier_8
@@ -176,6 +178,7 @@ wait 100
 		norespawn coop_ai_eliteguard_22
 		norespawn coop_ai_eliteguard_23
 		norespawn coop_ai_eliteguard_25
+		#endif
 //----------------------------------------
 	}
 
