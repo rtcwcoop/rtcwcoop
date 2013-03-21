@@ -1162,7 +1162,9 @@ void UI_LoadMenus( const char *menuFile, qboolean reset ) {
 		}
 	}
 
-	Com_Printf( "UI menu load time = %d milli seconds\n", trap_Milliseconds() - start );
+        if ( DC->getCVarValue( "developer" ) ) {
+                Com_Printf( "UI menu load time = %d milli seconds\n", trap_Milliseconds() - start );
+        }
 
 	trap_PC_FreeSource( handle );
 }

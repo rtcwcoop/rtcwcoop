@@ -2265,6 +2265,9 @@ Will perform callbacks to make the loading info screen update.
 */
 void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 	const char  *s;
+        int handle;
+        char levelname[64];
+        qboolean uireload = qfalse;
 
 	// clear everything
 	memset( &cgs, 0, sizeof( cgs ) );
@@ -2315,6 +2318,28 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 	cgs.levelStartTime = atoi( s );
 
 	CG_ParseServerinfo();
+
+        // if we are connected to a custom map (which dont use ui/clipboard.menu and ui/notebook.menu)
+        // reload, the mapname is only send late to the UI and else these menu files dont get loaded (see ui_main.c)
+
+        // another solution to this problem is to include these _clipboard and _notebook menu files into hud.txt
+        // but currently this crashes the game, so I went for this nasty solution
+        trap_Cvar_VariableStringBuffer( "mapname", levelname, sizeof( levelname ) );
+
+        handle = trap_PC_LoadSource( va("ui/%s_clipboard.menu", levelname) );
+        if (handle) {
+                uireload = qtrue;
+                trap_PC_FreeSource(handle);
+        }    
+
+        handle = trap_PC_LoadSource( va("ui/%s_notebook.menu", levelname) );
+        if (handle) {
+                uireload = qtrue;
+                trap_PC_FreeSource(handle);
+        }
+
+        if (uireload)
+                trap_SendConsoleCommand( "ui_restart\n" ); // major hack to make the custom maps _clipboard and _notebook menu files loading
 
 	// load the new map
 	CG_LoadingString( "collision map" );
