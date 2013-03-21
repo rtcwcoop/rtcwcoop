@@ -462,6 +462,7 @@ nazi1					// THIS IS NAZI WHO GETS OUT OF TRUCK...
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		accum 0 bitset 0 
 		accum 0 bitreset 20 
@@ -2486,6 +2487,7 @@ plank_guard				// This is nazi in first tower, whom, is on path
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 20
 		takeweapon all
 		trigger checker1 alive_check_in
@@ -2967,6 +2969,7 @@ strooper1				// GUARDS IN FRONT IN TUNNEL
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 20
 		trigger sliding_door2 lock_door
 		statetype alert
@@ -3236,6 +3239,7 @@ nazi2a				// This is nazi who comes down elevator
 
 	spawn
 	{
+norespawn
 		trigger checker1 if_alarm_on_nazi2a
 		trigger checker1 if_alarm_off_nazi2a
 	//	trigger nazi2a go1	
@@ -4873,6 +4877,7 @@ radio_nazi1				//
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 20
 		takeweapon all
 		accum 0 bitset 0
@@ -5053,6 +5058,7 @@ radio_nazi2				//
 
 	spawn
 	{
+		norespawn
 		accum 1 set 0		// Used for the "INSPECTS"
 		accum 0 bitreset 0		// Used so that "GET WEAPONS" is only triggered once.
 		accum 0 bitreset 20
@@ -5304,6 +5310,7 @@ nazi8				// 		Mechanic in gnerator room	// Bug fix when rich gets doen with map
 
 	spawn
 	{
+		norespawn
 		accum 4 set 0
 		accum 0 bitreset 20
 		takeweapon all
@@ -6078,6 +6085,7 @@ elevator_guard				// 	last last room
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 20
 		setammo ammo_grenades 5
 		trigger checker1 alive_check_in	

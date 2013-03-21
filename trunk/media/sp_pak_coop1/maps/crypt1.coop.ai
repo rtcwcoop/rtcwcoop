@@ -584,6 +584,7 @@ nazi3
 
 	spawn		//Triggers the nazi to fake-fight the zombies.
 	{
+		norespawn
 		knockback off
 		statetype alert
 		noavoid
@@ -924,6 +925,7 @@ warzombie1
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0	// Used to count how many dead guys at the beginning before turning off noaidamage.
 		accum 1 set 0
 		accum 2 bitset 0
@@ -1005,6 +1007,7 @@ warzombie2
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		accum 1 set 0
 		accum 2 bitset 0
@@ -3403,6 +3406,7 @@ zombie20
 
 	spawn
 	{
+		norespawn
 		knockback off
 		noavoid
 		godmode on
@@ -3465,6 +3469,7 @@ zombie21
 
 	spawn
 	{
+		norespawn
 		knockback off
 		noavoid
 		godmode on
@@ -3592,6 +3597,7 @@ lastguy1
 
 	spawn
 	{
+		norespawn
 		godmode on
 		nosight 999999
 		trigger lastguy1 fireloop
@@ -3654,6 +3660,7 @@ lastguy2
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 		godmode on
 		setammo grenade 0
@@ -3716,6 +3723,7 @@ lastguy3
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 		godmode on
 		takeweapon mp40
@@ -3780,6 +3788,7 @@ lastzombie
 
 	spawn
 	{
+		norespawn
 		godmode on
 		nosight 9999999
 		noattack 9999999

@@ -92,10 +92,7 @@ player
 	}
 
 	trigger action2
-	{
-		globalaccum 0 abort_if_not_bitset 2
-		globalaccum 0 bitreset 2
-		
+	{		
 		trigger game_manager gibhelga
 	}
 
@@ -120,8 +117,6 @@ player
 		globalaccum 0 abort_if_not_bitset 0
 		globalaccum 0 bitreset 0
 		trigger counter2 corner1
-		globalaccum 0 abort_if_not_bitset 2
-		globalaccum 0 bitreset 2
 		
 		trigger game_manager spawnhelga
 	}

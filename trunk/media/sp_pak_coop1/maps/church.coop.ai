@@ -1646,6 +1646,7 @@ elite10
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used to choose the next position.
 		accum 1 set 0	// Used to randomly choose a target.
 		accum 2 set 0	// Used so that only 3 grenades get tossed in each position.
@@ -1783,6 +1784,7 @@ elite11
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used so that "get_sten" is not triggered when at window.
 		statetype alert
 		giveweapon weapon_grenadelauncher

@@ -119,6 +119,8 @@ player
 		norespawn coop_ai_soldier_40
 		norespawn coop_ai_soldier_41
 		norespawn coop_ai_soldier_42
+		norespawn coop_ai_supersoldier_43
+		norespawn coop_ai_supersoldier_44
 		#endif
 //----------------------------------------
 	}
@@ -1916,6 +1918,7 @@ eg7					// THIS IS GUZRD WHO COMES FROM BEHIND SECRET...
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		statetype alert
 		takeweapon all
@@ -2055,6 +2058,7 @@ truck_nazi1					// This guard near last truck
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		trigger checker1 truck_nazis_activated
 		takeweapon all
@@ -2696,6 +2700,7 @@ cs_eg1					// This is eg who is the cutscene and talks to the officers
 
 	spawn
 	{
+		norespawn
 		statetype relax
 		headlook off
 		nosight 99999
@@ -2805,6 +2810,7 @@ cs_nazi1					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		headlook off
 		nosight 99999
 		takeweapon all
@@ -2896,6 +2902,7 @@ cs_nazi2					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		takeweapon all
 	}
@@ -2977,6 +2984,7 @@ cs_p1					// Priestess
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		takeweapon all
 	}
@@ -3063,6 +3071,7 @@ cs_ss1					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		trigger cs_ss1 anim1
 		takeweapon all
@@ -3160,6 +3169,7 @@ cs_ss2					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		trigger cs_ss2 anim1
 		takeweapon all
@@ -3256,6 +3266,7 @@ cs_ss3					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		trigger cs_ss3 anim1
 		takeweapon all
@@ -3352,6 +3363,7 @@ cs_ss4					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		trigger cs_ss4 anim1
 		takeweapon all
@@ -3448,6 +3460,7 @@ cs_ss5					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		trigger cs_ss5 anim1
 		takeweapon all
@@ -3544,6 +3557,7 @@ cs_eg2					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 	}
 	
@@ -3638,6 +3652,7 @@ cs_eg3					// This is eg who hides behind wall in second house
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 	}
 	
@@ -4436,7 +4451,7 @@ coop_ai_supersoldier_43
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		takeweapon all
 		giveweapon weapon_panzerfaust
@@ -4468,7 +4483,7 @@ coop_ai_supersoldier_44
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		knockback off
 		takeweapon all
 		giveweapon weapon_panzerfaust

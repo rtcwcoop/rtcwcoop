@@ -4479,7 +4479,7 @@ trucknazi1
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -4632,7 +4632,7 @@ trucknazi2
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -4782,7 +4782,7 @@ trucknazi3
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		statetype alert
 		noavoid
 		giveweapon weapon_sniperscope
@@ -4944,7 +4944,7 @@ trucknazi4
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -5095,7 +5095,7 @@ trucknazi5
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		statetype alert
 		noavoid
 		accum 0 bitreset 0
@@ -5243,7 +5243,7 @@ trucknazi6
 
 	spawn
 	{
-		norespawn
+		//norespawn
 		statetype alert
 		noavoid
 		giveweapon weapon_sniperscope

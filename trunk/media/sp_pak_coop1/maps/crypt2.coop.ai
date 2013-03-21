@@ -346,6 +346,7 @@ bnazi1
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		noaidamage on
 		nosight 999999
@@ -499,6 +500,7 @@ nazi3
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		noavoid on
 	}
@@ -551,6 +553,7 @@ nazi4
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 		noavoid on
 		selectweapon weapon_grenadelauncher
@@ -600,6 +603,7 @@ nazi5
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 		trigger nazi5 fireloop	
 	}
@@ -960,6 +964,7 @@ flamer0
 
 	spawn
 	{
+		norespawn
 		//takeweapon monsterattack2
 		//giveweapon monsterattack1		
 		noaidamage on
@@ -1155,6 +1160,7 @@ zombie9
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 	}
 
@@ -1479,6 +1485,7 @@ nazi6
 
 	spawn
 	{
+		norespawn
 		wait 5
 		statetype alert
 //		nosight 999999
@@ -1619,6 +1626,7 @@ warzombie16
 
 	spawn
 	{
+		norespawn
 		wait 5
 		noaidamage on
 		nosight 99999
@@ -1671,6 +1679,7 @@ zombie15
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 	}
 	
@@ -1720,6 +1729,7 @@ zombie16
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 	}
 	
@@ -1956,6 +1966,7 @@ warboss1
 
 	spawn
 	{
+		norespawn
 		knockback off
 		nosight 999999
 		playanim statue2 both forever
@@ -2016,6 +2027,7 @@ warboss2
 
 	spawn
 	{
+		norespawn
 		knockback off
 		nosight 999999
 		playanim statue2 both forever

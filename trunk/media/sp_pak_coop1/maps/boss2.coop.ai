@@ -872,6 +872,7 @@ super1
 
 	spawn
 	{
+		norespawn
 		//Moved accums to player - Sage
 		godmode on		//For COOP
 		nosight 99999
@@ -1130,6 +1131,7 @@ saddy
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		giveweapon weapon_luger
 		setammo ammo_9mm 999
