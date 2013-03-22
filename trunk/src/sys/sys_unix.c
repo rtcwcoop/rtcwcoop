@@ -722,7 +722,9 @@ void Sys_GLimpInit( void )
 {
 // L0 - See /view.php?id=128
 #ifndef DEDICATED	
+#ifndef MACOS_X
 	putenv("SDL_DISABLE_LOCK_KEYS=1");
+#endif
 #endif
 }
 
