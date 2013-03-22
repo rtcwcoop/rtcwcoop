@@ -722,7 +722,7 @@ void Sys_GLimpInit( void )
 {
 // L0 - See /view.php?id=128
 #ifndef DEDICATED	
-	_putenv("SDL_DISABLE_LOCK_KEYS=1");
+	putenv("SDL_DISABLE_LOCK_KEYS=1");
 #endif
 }
 
