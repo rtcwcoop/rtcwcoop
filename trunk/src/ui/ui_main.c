@@ -150,6 +150,8 @@ static int QDECL UI_ServersQsortCompare( const void *arg1, const void *arg2 );
 static int UI_MapCountByGameType( qboolean singlePlayer );
 static const char *UI_SelectedMap( int index, int *actual );
 static int UI_GetIndexFromSelection( int actual );
+
+qboolean    UI_CheckExecKey( int key );
 // -NERVE - SMF - enabled for multiplayer
 
 static void UI_ParseGameInfo( const char *teamFile );
@@ -238,7 +240,8 @@ Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int ar
 		return 0;
 	case UI_HASUNIQUECDKEY:             // mod authors need to observe this
 		return qtrue;
-
+	case UI_CHECKEXECKEY:
+		return UI_CheckExecKey( arg0 );
 	}
 
 	return -1;
@@ -4167,6 +4170,35 @@ void WM_PickItem( int selectionType, int itemIndex ) {
 	}
 }
 
+extern qboolean g_waitingForKey;
+extern qboolean g_editingField;
+extern itemDef_t *g_editItem;
+
+qboolean UI_CheckExecKey( int key ) {
+	menuDef_t *menu = Menu_GetFocused();
+
+	if ( g_editingField ) {
+		return qtrue;
+	}
+
+	if ( key > 256 ) {
+		return qfalse;
+	}
+
+	if ( !menu ) {
+		if ( !trap_Cvar_VariableValue( "cl_bypassMouseInput" ) ) {
+			trap_Cvar_Set( "cl_bypassMouseInput", "0" );
+		}
+		return qfalse;
+	}
+
+	if ( menu->onKey[key] ) {
+		return qtrue;
+	}
+
+	return qfalse;
+}
+
 void WM_LimboChat() {
 	char buf[200];
 
@@ -4178,10 +4210,6 @@ void WM_LimboChat() {
 
 	trap_Cvar_Set( "ui_cmd", "" );
 }
-
-extern qboolean g_waitingForKey;
-extern qboolean g_editingField;
-extern itemDef_t *g_editItem;
 
 void WM_ActivateLimboChat() {
 	menuDef_t *menu;
@@ -6717,9 +6745,15 @@ UI_KeyEvent
 */
 void _UI_KeyEvent( int key, qboolean down ) {
 
+	static qboolean bypassKeyClear = qfalse;
+
 	if ( Menu_Count() > 0 ) {
 		menuDef_t *menu = Menu_GetFocused();
 		if ( menu ) {
+			if ( trap_Cvar_VariableValue( "cl_bypassMouseInput" ) ) {
+				bypassKeyClear = qtrue;
+			}
+
 			if ( key == K_ESCAPE && down && !Menus_AnyFullScreenVisible() ) {
 				Menus_CloseAll();
 			} else {
@@ -6727,14 +6761,17 @@ void _UI_KeyEvent( int key, qboolean down ) {
 			}
 		} else {
 			trap_Key_SetCatcher( trap_Key_GetCatcher() & ~KEYCATCH_UI );
-			trap_Key_ClearStates();
+
+			// NERVE - SMF - we don't want to clear key states if bypassing input
+			if ( !bypassKeyClear ) {
+				trap_Key_ClearStates();
+			}
+
+			bypassKeyClear = qfalse;
+
 			trap_Cvar_Set( "cl_paused", "0" );
 		}
 	}
-
-	//if ((s > 0) && (s != menu_null_sound)) {
-	//  trap_S_StartLocalSound( s, CHAN_LOCAL_SOUND );
-	//}
 }
 
 /*
@@ -6975,28 +7012,39 @@ void _UI_SetActiveMenu( uiMenuCommand_t menu ) {
 			return;
 
 		case UIMENU_WM_QUICKMESSAGE:
+			DC->cursorx = 639;
+			DC->cursory = 479;
 			trap_Key_SetCatcher( KEYCATCH_UI );
 			Menus_CloseAll();
 			Menus_OpenByName( "wm_quickmessage" );
 			return;
 
 		case UIMENU_WM_QUICKMESSAGEALT:
+			DC->cursorx = 639;
+			DC->cursory = 479;
 			trap_Key_SetCatcher( KEYCATCH_UI );
 			Menus_CloseAll();
 			Menus_OpenByName( "wm_quickmessageAlt" );
 			return;
 #ifdef MONEY
-                case UIMENU_WM_QUICKBUY:
-                        trap_Key_SetCatcher( KEYCATCH_UI );
-                        Menus_CloseAll();
-                        Menus_OpenByName( "wm_quickbuy" );
-                        return;
+		case UIMENU_WM_QUICKBUY:
+			// L0 - FYI this offests cursor otherwise it's just there
+			// where you left it - eg can end up showing in middle 
+			// of screen when quickbuy or quickmessage is visible..
+			DC->cursorx = 639;
+			DC->cursory = 479;
+			trap_Key_SetCatcher( KEYCATCH_UI );
+			Menus_CloseAll();
+			Menus_OpenByName( "wm_quickbuy" );
+		return;
 
-                case UIMENU_WM_QUICKBUYALT:
-                        trap_Key_SetCatcher( KEYCATCH_UI );
-                        Menus_CloseAll();
-                        Menus_OpenByName( "wm_quickbuyAlt" );
-                        return;
+		case UIMENU_WM_QUICKBUYALT:
+			DC->cursorx = 639;
+			DC->cursory = 479;
+			trap_Key_SetCatcher( KEYCATCH_UI );
+			Menus_CloseAll();
+			Menus_OpenByName( "wm_quickbuyAlt" );
+		return;
 #endif
 
 		case UIMENU_WM_LIMBO:

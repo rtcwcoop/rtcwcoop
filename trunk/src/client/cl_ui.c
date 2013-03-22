@@ -682,30 +682,6 @@ void Key_GetBindingBuf( int keynum, char *buf, int buflen ) {
 
 /*
 ====================
-Key_GetCatcher
-====================
-*/
-int Key_GetCatcher( void ) {
-	return cls.keyCatchers;
-}
-
-/*
-====================
-Ket_SetCatcher
-====================
-*/
-void Key_SetCatcher( int catcher ) {
-	// NERVE - SMF - console overrides everything
-	if ( cls.keyCatchers & KEYCATCH_CONSOLE ) {
-		cls.keyCatchers = catcher | KEYCATCH_CONSOLE;
-	} else {
-		cls.keyCatchers = catcher;
-	}
-}
-
-
-/*
-====================
 CLUI_GetCDKey
 ====================
 */
@@ -1255,7 +1231,7 @@ qboolean UI_usesUniqueCDKey() {
 		return qfalse;
 	}
 }
-/*
+
 qboolean UI_checkKeyExec( int key ) {
 	if ( uivm ) {
 		return VM_Call( uivm, UI_CHECKEXECKEY, key );
@@ -1263,7 +1239,7 @@ qboolean UI_checkKeyExec( int key ) {
 		return qfalse;
 	}
 }
-*/
+
 
 /*
 ====================
