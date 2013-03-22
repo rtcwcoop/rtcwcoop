@@ -720,7 +720,10 @@ Unix specific GL implementation initialisation
 */
 void Sys_GLimpInit( void )
 {
-	// NOP
+// L0 - See /view.php?id=128
+#ifndef DEDICATED	
+	_putenv("SDL_DISABLE_LOCK_KEYS=1");
+#endif
 }
 
 /*

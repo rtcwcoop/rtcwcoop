@@ -688,6 +688,9 @@ void Sys_GLimpInit( void )
 			// Use the DirectX SDL backend
 			_putenv( "SDL_VIDEODRIVER=directx" );
 		}
+
+		// L0 - RTCW has this by default always off..
+		_putenv("SDL_DISABLE_LOCK_KEYS=1");
 	}
 #endif
 }
