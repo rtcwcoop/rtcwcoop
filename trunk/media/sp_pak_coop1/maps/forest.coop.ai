@@ -420,6 +420,7 @@ nazi2
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0	// 1 = alerted to player
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
@@ -1458,8 +1459,7 @@ nazi10 // First house guard 2
 
 	spawn
 	{
-		
-	
+		norespawn
 		accum 0 set 1 // 0=dont break running for help
 		accum 1 set 1 // 0=enemy spotted already
 		accum 2 set 0 // 1= don't loop reading
@@ -1602,6 +1602,7 @@ nazi11 // First house guard 3
 
 	spawn
 	{
+		norespawn
 		accum 0 set 1 // 0=enemy spotted already
 		accum 1 set 0 // 1= don't play looping anim
 		accum 2 set 0 // one bullet impact
@@ -1786,8 +1787,6 @@ nazi13 // MG42 gunner
 
 	spawn
 	{
-		
-	
 		accum 0 set 0
 		accum 1 set 0 // 1 = should be behind mg42 so best to unmount
 		setammo ammo_grenades 0
@@ -2114,8 +2113,6 @@ nazi15  // Officer at MG42 nest
 
 	spawn
 	{
-		
-	
 		accum 0 set 0 // 1 = nazi13 already going for the alarm
 		accum 1 set 0
 		setammo ammo_grenades 1
@@ -2552,6 +2549,7 @@ nazi19 // Officer in house
 	
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		takeweapon mp40
 		walktomarker spotn19a
@@ -2626,8 +2624,7 @@ nazi20 // Officer in gatehouse
 
 	spawn
 	{
-		
-	
+		norespawn
 		accum 0 set 0 // 1 = sighted player
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40

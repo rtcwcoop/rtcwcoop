@@ -475,6 +475,7 @@ nazi3
 
 	spawn
 	{
+		norespawn
 		nosight 50000
 		knockback off
 		statetype alert
@@ -576,6 +577,7 @@ nazi5
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 3
 		takeweapon weapon_mp40
 		selectweapon grenade
@@ -680,6 +682,7 @@ nazi7
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // only trigger now active once
 		setammo ammo_grenades 0
 		giveweapon weapon_panzerfaust
@@ -939,6 +942,7 @@ nazi13 // warming hands at fire
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // only trigger now active once
 		nosight 999999
 
@@ -979,6 +983,7 @@ nazi14 // mounted mg42 in halftrack
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0 // only trigger now active once
 		accum 0 bitset 1
 		nosight 999999
@@ -1346,6 +1351,7 @@ black10
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		giveweapon weapon_panzerfaust
 		setammo ammo_panzerfaust 5
@@ -1399,6 +1405,7 @@ black11
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		giveweapon weapon_fg42
 		setammo ammo_792mm 999
@@ -1448,6 +1455,7 @@ black12
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		giveweapon weapon_fg42
 		setammo ammo_792mm 999
@@ -1497,6 +1505,7 @@ black13
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		giveweapon weapon_fg42
 		setammo ammo_792mm 999
@@ -1533,6 +1542,7 @@ dummy1
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0
 
 		nosight 999999
@@ -1575,6 +1585,7 @@ dummy2
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0
 
 		nosight 999999
