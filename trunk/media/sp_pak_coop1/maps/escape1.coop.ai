@@ -387,6 +387,7 @@ nazi1 // DrZ
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		accum 1 set 0 // 1= has seen player
 		setammo ammo_grenades 0
@@ -818,6 +819,7 @@ nazi3
 
 	spawn
 	{
+		norespawn
 		accum 1 set 0 // 1 = alerted
 		accum 2 set 0 // 1 = radio tunning on
 		setammo ammo_grenades 0
@@ -1720,6 +1722,7 @@ nazi9
 
 	spawn
 	{
+		norespawn
 		accum 1 set 0 // 1 = alerted
 		takeweapon weapon_mp40
 
@@ -1904,6 +1907,7 @@ nazi12 // radioroom officer
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0 // fire alarm once
 		accum 0 bitset 1 // reset = alerted
 
@@ -2090,6 +2094,7 @@ nazi13 // radioguy
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0 // reset = radio message on
 		accum 0 bitset 1 // reset = abort radio anim and dialog
 		setammo ammo_grenades 0
