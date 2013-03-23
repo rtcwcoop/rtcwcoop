@@ -368,7 +368,8 @@ officer1
 
 	spawn
 	{
-                playername diknderm er
+		norespawn
+                //playername diknderm er	//WTF is this???
 		accum 0 set 0
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
@@ -494,6 +495,7 @@ nazi1
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		accum 1 set 0
 		setammo ammo_grenades 0
@@ -987,6 +989,7 @@ officer2
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		accum 1 set 0 // 1 = alarm already set or player upstairs
 
@@ -1973,6 +1976,7 @@ nazi15
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // 1 = alerted
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
