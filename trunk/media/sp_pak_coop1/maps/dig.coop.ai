@@ -691,6 +691,7 @@ nazi14
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		giveweapon weapon_sten
 		setclip 9mm 999
@@ -971,6 +972,10 @@ proto3
 
 	spawn
 	{
+		//Prevent possible respawn issues
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+
 		accum 0 set 0
 		explicit_routing on
 		wait 50
@@ -1337,6 +1342,7 @@ mech1
 
 	spawn
 	{
+		norespawn
 		explicit_routing on
 		noavoid on
 		wait 1000
@@ -1432,6 +1438,7 @@ mech2
 
 	spawn
 	{
+		norespawn
 		explicit_routing on
 		noavoid on
 		wait 3000

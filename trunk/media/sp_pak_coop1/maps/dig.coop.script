@@ -35,8 +35,14 @@ game_manager
 
 counter1
 {
+	spawn
+	{
+		accum 0 set 0
+	}
 	trigger action2
 	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
 		alertentity bust1
 		wait 500
 		alertentity bust2
