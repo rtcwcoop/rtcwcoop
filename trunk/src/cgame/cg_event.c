@@ -1503,19 +1503,17 @@ static const char *CG_GetClipboardName( int density ) {
 CG_PopUpClipboard
 ==============
 */
-void CG_PopUpClipboard( centity_t *clipboard, centity_t *activator ) {
+void CG_PopUpClipboard( centity_t *activator, int density ) {
 	const char		*name;
-	entityState_t	*clipboardState;
 	entityState_t	*activatorState;
 
-	clipboardState = &clipboard->currentState;
 	activatorState = &activator->currentState;
 
 	// TIHan - Only show the clipboard on the client who activated it.
 	if ( cg.snap->ps.clientNum != activatorState->clientNum )
 		return;
 
-	name = CG_GetClipboardName( clipboardState->density );
+	name = CG_GetClipboardName( density );
 	trap_Cvar_Set( "cg_clipboardName", name );    // store new current page name for the ui to pick up
 	trap_UI_Popup( "UIMENU_WM_CLIPBOARD" );
 }
@@ -2345,7 +2343,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_POPUP_CLIPBOARD:
 		DEBUGNAME( "EV_POPUP_CLIPBOARD" );
-		CG_PopUpClipboard( &cg_entities[es->eventParm], cent );
+		CG_PopUpClipboard( cent, es->eventParm );
 		break;
 
 	case EV_GIVEPAGE:

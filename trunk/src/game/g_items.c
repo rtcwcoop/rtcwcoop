@@ -569,7 +569,7 @@ void Touch_Item_Auto( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 Touch_Item
 ===============
 */
-void Touch_Item( gentity_t *entity, gentity_t *toucher, trace_t *trace ) {
+void Touch_Item( gentity_t *entity, gentity_t *activator, trace_t *trace ) {
 	int respawn;
 	int makenoise = EV_ITEM_PICKUP;
 
@@ -581,65 +581,64 @@ void Touch_Item( gentity_t *entity, gentity_t *toucher, trace_t *trace ) {
 		entity->active = qfalse;
 	}
 
-	if ( !toucher->client )
+	if ( !activator->client )
 		return;
 
-	if ( G_IsClientDead( toucher ) )
+	if ( G_IsClientDead( activator ) )
 		return;     // dead people can't pickup
 
 	// the same pickup rules are used for client side and server side
-	if ( !BG_CanItemBeGrabbed( &entity->s, &toucher->client->ps ) ) {
+	if ( !BG_CanItemBeGrabbed( &entity->s, &activator->client->ps ) ) {
 		return;
 	}
 
 	// fretn: logging for fun stats
-	toucher->client->sess.pickups++;
+	activator->client->sess.pickups++;
 
 	// call the item-specific pickup function
 	switch ( entity->item->giType ) {
 	case IT_WEAPON:
-		respawn = Pickup_Weapon( entity, toucher );
+		respawn = Pickup_Weapon( entity, activator );
 #ifdef MONEY
                 if (g_gametype.integer == GT_COOP_BATTLE)
                         entity->wait = -1;
 #endif
 		break;
 	case IT_AMMO:
-		respawn = Pickup_Ammo( entity, toucher );
+		respawn = Pickup_Ammo( entity, activator );
 #ifdef MONEY
                 if (g_gametype.integer == GT_COOP_BATTLE)
                         entity->wait = -1;
 #endif
 		break;
 	case IT_ARMOR:
-		respawn = Pickup_Armor( entity, toucher );
+		respawn = Pickup_Armor( entity, activator );
 		break;
 	case IT_HEALTH:
-		respawn = Pickup_Health( entity, toucher );
+		respawn = Pickup_Health( entity, activator );
 		break;
 	case IT_POWERUP:
-		respawn = Pickup_Powerup( entity, toucher );
+		respawn = Pickup_Powerup( entity, activator );
 		break;
 	case IT_TEAM:
-		respawn = Pickup_Team( entity, toucher );
+		respawn = Pickup_Team( entity, activator );
 		break;
 	case IT_HOLDABLE:
-		respawn = Pickup_Holdable( entity, toucher );
+		respawn = Pickup_Holdable( entity, activator );
 		break;
 	case IT_KEY:
-		respawn = Pickup_Key( entity, toucher );
+		respawn = Pickup_Key( entity, activator );
 		break;
 	case IT_TREASURE:
-		respawn = Pickup_Treasure( entity, toucher );
+		respawn = Pickup_Treasure( entity, activator );
 		break;
 	case IT_CLIPBOARD:
-		respawn = Pickup_Clipboard( entity, toucher );
+		respawn = Pickup_Clipboard( entity, activator );
 		// send the event to the client to request that the UI draw a popup
 		// (specified by the configstring in ent->s.density)
-		// TIHan - Send the entity item number so we can access this entity on the client.
-		G_AddEvent( toucher, EV_POPUP_CLIPBOARD, entity->s.number );
+		G_AddEvent( activator, EV_POPUP_CLIPBOARD, entity->s.density );
 		if ( entity->key ) {
-			G_AddEvent( toucher, EV_GIVEPAGE, entity->key );
+			G_AddEvent( activator, EV_GIVEPAGE, entity->key );
 		}
 		break;
 	default:
@@ -656,15 +655,15 @@ void Touch_Item( gentity_t *entity, gentity_t *toucher, trace_t *trace ) {
 		// (this G_AddEvent) and send the pickup as "EV_ITEM_PICKUP_QUIET"
 		// so it doesn't make the default pickup sound when the pickup event is recieved
 		makenoise = EV_ITEM_PICKUP_QUIET;
-		G_AddEvent( toucher, EV_GENERAL_SOUND, entity->noise_index );
+		G_AddEvent( activator, EV_GENERAL_SOUND, entity->noise_index );
 	}
 
 
 	// send the pickup event
-	if ( toucher->client->pers.predictItemPickup ) {
-		G_AddPredictableEvent( toucher, makenoise, entity->s.modelindex );
+	if ( activator->client->pers.predictItemPickup ) {
+		G_AddPredictableEvent( activator, makenoise, entity->s.modelindex );
 	} else {
-		G_AddEvent( toucher, makenoise, entity->s.modelindex );
+		G_AddEvent( activator, makenoise, entity->s.modelindex );
 	}
 
 	// powerup pickups are global broadcasts
@@ -678,7 +677,7 @@ void Touch_Item( gentity_t *entity, gentity_t *toucher, trace_t *trace ) {
 	}
 
 	// fire item targets
-	G_UseTargets( entity, toucher );
+	G_UseTargets( entity, activator );
 
 	// wait of -1 will not respawn
 	if ( entity->wait == -1 ) {
