@@ -885,3 +885,23 @@ gentity_t *GetFirstValidPlayer( qboolean checkHealth ) {
 	}
 	return NULL;
 }
+
+
+/*
+==================
+G_IsEntityDead
+==================
+*/
+qboolean G_IsEntityDead( gentity_t *entity ) {
+	return ( entity->health <= 0 );
+}
+
+
+/*
+==================
+G_IsEntityDead
+==================
+*/
+qboolean G_IsEntityAI( gentity_t *entity ) {
+	return ( entity->aiCharacter != AICHAR_NONE );
+}

@@ -2439,14 +2439,11 @@ void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
 
 /*
 ==================
-G_IsClientValid
+G_IsClient
 ==================
 */
-qboolean G_IsClientValid( gentity_t *entity ) {
+qboolean G_IsClient( gentity_t *entity ) {
 	if ( !entity->client )
-		return qfalse;
-
-	if ( !&g_entities[entity->s.clientNum].client )
 		return qfalse;
 
 	return qtrue;
@@ -2459,17 +2456,19 @@ G_IsClientActive
 ==================
 */
 qboolean G_IsClientActive( gentity_t *entity ) {
-	gclient_t *client;
+	if ( !G_IsClient( entity ) )
+		return qfalse;
 
-	if ( !entity->client ) {
-		Com_Error( ERR_FATAL, "G_IsClientActive: Entity is not a client." );
-	}
+	if ( G_IsClientDead( entity ) )
+		return qfalse;
 
-	client = entity->client;
-	// TIHan - Feels a little strange, but it will have to do. We could make more various
-	// states, but I would rather not introduce more states to track. So, I think this is
-	// ok.
-	return ( client->pers.teamState.state == TEAM_ACTIVE && !G_IsClientDead( entity ) );
+	if ( !G_IsClientInTeamState( entity, TEAM_ACTIVE ) )
+		return qfalse;
+
+	if ( G_IsClientOnTeam( entity, TEAM_SPECTATOR ) )
+		return qfalse;
+
+	return qtrue;
 }
 
 
@@ -2479,11 +2478,10 @@ G_IsClientAI
 ==================
 */
 qboolean G_IsClientAI( gentity_t *entity ) {
-	if ( !entity->client ) {
-		Com_Error( ERR_FATAL, "G_IsClientAI: Entity is not a client." );
-	}
+	if ( !G_IsClient( entity ) )
+		return qfalse;
 
-	return ( entity->aiCharacter != AICHAR_NONE );
+	return G_IsEntityAI( entity );
 }
 
 
@@ -2493,11 +2491,10 @@ G_IsClientDead
 ==================
 */
 qboolean G_IsClientDead( gentity_t *entity ) {
-	if ( !entity->client ) {
-		Com_Error( ERR_FATAL, "G_IsClientDead: Entity is not a client." );
-	}
+	if ( !G_IsClient( entity ) )
+		return qfalse;
 
-	return ( entity->health <= 0 );
+	return G_IsEntityDead( entity );
 }
 
 
@@ -2509,11 +2506,25 @@ G_IsClientOnTeam
 qboolean G_IsClientOnTeam( gentity_t *entity, team_t team ) {
 	gclient_t *client;
 
-	if ( !entity->client ) {
-		Com_Error( ERR_FATAL, "G_IsClientOnTeam: Entity is not a client." );
-	}
+	if ( !G_IsClient( entity ) )
+		return qfalse;
 
 	client = entity->client;
 	return ( client->sess.sessionTeam == team );
 }
 
+
+/*
+==================
+G_IsClientInTeamState
+==================
+*/
+qboolean G_IsClientInTeamState( gentity_t *entity, playerTeamStateState_t state ) {
+	gclient_t *client;
+
+	if ( !G_IsClient( entity ) )
+		return qfalse;
+
+	client = entity->client;
+	return ( client->pers.teamState.state == state );
+}

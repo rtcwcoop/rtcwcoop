@@ -501,7 +501,7 @@ void CL_ShutdownCGame( void ) {
 
 /*
 ====================
-CL_GetMenuCommand
+CL_GetUIMenuCommand
 ====================
 */
 static uiMenuCommand_t CL_GetUIMenuCommand( const char *type ) {

@@ -942,6 +942,8 @@ void G_ScriptPreprocess( char *script );
 qboolean IsPlayerEnt( gentity_t *ent );
 qboolean ScriptEventForPlayer( gentity_t *activator, char *eventStr, char *params );
 gentity_t *GetFirstValidPlayer( qboolean checkHealth );
+qboolean G_IsEntityDead( gentity_t *entity );
+qboolean G_IsEntityAI( gentity_t *entity );
 
 
 //
@@ -1060,11 +1062,12 @@ void AddScore( gentity_t *ent, int score );
 void CalculateRanks( void );
 qboolean SpotWouldTelefrag( gentity_t *spot );
 qboolean G_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo );
-qboolean G_IsClientValid( gentity_t *entity );
+qboolean G_IsClient( gentity_t *entity );
 qboolean G_IsClientActive( gentity_t *entity );
 qboolean G_IsClientAI( gentity_t *entity );
 qboolean G_IsClientDead( gentity_t *entity );
 qboolean G_IsClientOnTeam( gentity_t *entity, team_t team );
+qboolean G_IsClientInTeamState( gentity_t *entity, playerTeamStateState_t state );
 
 //
 // g_svcmds.c
