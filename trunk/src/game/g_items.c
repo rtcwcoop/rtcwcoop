@@ -186,7 +186,7 @@ void UseHoldableItem( gentity_t *ent, int item ) {
 	case HI_BOOK1:
 	case HI_BOOK2:
 	case HI_BOOK3:
-		G_AddEvent( ent, EV_POPUPBOOK, ( item - HI_BOOK1 ) + 1 );
+		G_AddEvent( ent, EV_POPUP_BOOK, ( item - HI_BOOK1 ) + 1 );
 		break;
 	}
 }
@@ -569,80 +569,77 @@ void Touch_Item_Auto( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 Touch_Item
 ===============
 */
-void Touch_Item( gentity_t *ent, gentity_t *other, trace_t *trace ) {
+void Touch_Item( gentity_t *entity, gentity_t *toucher, trace_t *trace ) {
 	int respawn;
 	int makenoise = EV_ITEM_PICKUP;
 
 	// only activated items can be picked up
-	if ( !ent->active ) {
+	if ( !entity->active ) {
 		return;
 	} else {
 		// need to set active to false if player is maxed out
-		ent->active = qfalse;
+		entity->active = qfalse;
 	}
 
-	if ( !other->client ) {
+	if ( !toucher->client )
 		return;
-	}
-	if ( other->health < 1 ) {
+
+	if ( G_IsClientDead( toucher ) )
 		return;     // dead people can't pickup
 
-	}
 	// the same pickup rules are used for client side and server side
-	if ( !BG_CanItemBeGrabbed( &ent->s, &other->client->ps ) ) {
+	if ( !BG_CanItemBeGrabbed( &entity->s, &toucher->client->ps ) ) {
 		return;
 	}
 
 	// fretn: logging for fun stats
-	other->client->sess.pickups++;
-
-	// L0 - I never seen the point of this!? On top of that with all 1.0 drop reloaders it just spams console & lags ...
-	//G_LogPrintf( "Item: %i %s\n", other->s.number, ent->item->classname );
+	toucher->client->sess.pickups++;
 
 	// call the item-specific pickup function
-	switch ( ent->item->giType ) {
+	switch ( entity->item->giType ) {
 	case IT_WEAPON:
-		respawn = Pickup_Weapon( ent, other );
+		respawn = Pickup_Weapon( entity, toucher );
 #ifdef MONEY
                 if (g_gametype.integer == GT_COOP_BATTLE)
-                        ent->wait = -1;
+                        entity->wait = -1;
 #endif
 		break;
 	case IT_AMMO:
-		respawn = Pickup_Ammo( ent, other );
+		respawn = Pickup_Ammo( entity, toucher );
 #ifdef MONEY
                 if (g_gametype.integer == GT_COOP_BATTLE)
-                        ent->wait = -1;
+                        entity->wait = -1;
 #endif
 		break;
 	case IT_ARMOR:
-		respawn = Pickup_Armor( ent, other );
+		respawn = Pickup_Armor( entity, toucher );
 		break;
 	case IT_HEALTH:
-		respawn = Pickup_Health( ent, other );
+		respawn = Pickup_Health( entity, toucher );
 		break;
 	case IT_POWERUP:
-		respawn = Pickup_Powerup( ent, other );
+		respawn = Pickup_Powerup( entity, toucher );
 		break;
 	case IT_TEAM:
-		respawn = Pickup_Team( ent, other );
+		respawn = Pickup_Team( entity, toucher );
 		break;
 	case IT_HOLDABLE:
-		respawn = Pickup_Holdable( ent, other );
+		respawn = Pickup_Holdable( entity, toucher );
 		break;
 	case IT_KEY:
-		respawn = Pickup_Key( ent, other );
+		respawn = Pickup_Key( entity, toucher );
 		break;
 	case IT_TREASURE:
-		respawn = Pickup_Treasure( ent, other );
+		respawn = Pickup_Treasure( entity, toucher );
 		break;
 	case IT_CLIPBOARD:
-		respawn = Pickup_Clipboard( ent, other );
+		respawn = Pickup_Clipboard( entity, toucher );
 		// send the event to the client to request that the UI draw a popup
-		// (specified by the configstring in ent->s.density).
-		G_AddEvent( other, EV_POPUP, ent->s.density );
-		if ( ent->key ) {
-			G_AddEvent( other, EV_GIVEPAGE, ent->key );
+		// (specified by the configstring in ent->s.density)
+		// TIHan - Send the entity item number so we can access this entity on the client.
+		G_AddEvent( toucher, EV_POPUP_CLIPBOARD, entity->s.number );
+		if ( entity->key ) {
+			G_AddEvent( toucher, EV_GIVEPAGE, entity->key );
 		}
 		break;
 	default:
@@ -654,107 +651,102 @@ void Touch_Item( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 	}
 
 	// play sounds
-	if ( ent->noise_index ) {
+	if ( entity->noise_index ) {
 		// (SA) a sound was specified in the entity, so play that sound
 		// (this G_AddEvent) and send the pickup as "EV_ITEM_PICKUP_QUIET"
 		// so it doesn't make the default pickup sound when the pickup event is recieved
 		makenoise = EV_ITEM_PICKUP_QUIET;
-		G_AddEvent( other, EV_GENERAL_SOUND, ent->noise_index );
+		G_AddEvent( toucher, EV_GENERAL_SOUND, entity->noise_index );
 	}
 
 
 	// send the pickup event
-	if ( other->client->pers.predictItemPickup ) {
-		G_AddPredictableEvent( other, makenoise, ent->s.modelindex );
+	if ( toucher->client->pers.predictItemPickup ) {
+		G_AddPredictableEvent( toucher, makenoise, entity->s.modelindex );
 	} else {
-		G_AddEvent( other, makenoise, ent->s.modelindex );
+		G_AddEvent( toucher, makenoise, entity->s.modelindex );
 	}
 
 	// powerup pickups are global broadcasts
-	if ( ent->item->giType == IT_POWERUP || ent->item->giType == IT_TEAM ) {
+	if ( entity->item->giType == IT_POWERUP || entity->item->giType == IT_TEAM ) {
 		// (SA) probably need to check for IT_KEY here too... (coop?)
-		gentity_t   *te;
+		gentity_t *temp;
 
-		te = G_TempEntity( ent->s.pos.trBase, EV_GLOBAL_ITEM_PICKUP );
-		te->s.eventParm = ent->s.modelindex;
-		te->r.svFlags |= SVF_BROADCAST;
-
-		// (SA) set if we want this to only go to the pickup client
-//		te->r.svFlags |= SVF_SINGLECLIENT;
-//		te->r.singleClient = other->s.number;
-
+		temp = G_TempEntity( entity->s.pos.trBase, EV_GLOBAL_ITEM_PICKUP );
+		temp->s.eventParm = entity->s.modelindex;
+		temp->r.svFlags |= SVF_BROADCAST;
 	}
 
 	// fire item targets
-	G_UseTargets( ent, other );
+	G_UseTargets( entity, toucher );
 
 	// wait of -1 will not respawn
-	if ( ent->wait == -1 ) {
-		ent->flags |= FL_NODRAW;
-		ent->r.svFlags |= SVF_NOCLIENT; // (SA) commented back in.
-		ent->s.eFlags |= EF_NODRAW;
-		ent->r.contents = 0;
-		ent->unlinkAfterEvent = qtrue;
+	if ( entity->wait == -1 ) {
+		entity->flags |= FL_NODRAW;
+		entity->r.svFlags |= SVF_NOCLIENT; // (SA) commented back in.
+		entity->s.eFlags |= EF_NODRAW;
+		entity->r.contents = 0;
+		entity->unlinkAfterEvent = qtrue;
 		return;
 	}
 
 	// wait of -2 will respawn but not be available for pickup anymore
 	// (partial use things that leave a spent modle (ex. plate for turkey)
 	if ( respawn == RESPAWN_PARTIAL_DONE ) {
-		ent->s.density = ( 1 << 9 );    // (10 bits of data transmission for density)
-		ent->active = qtrue;        // re-activate
-		trap_LinkEntity( ent );
+		entity->s.density = ( 1 << 9 );    // (10 bits of data transmission for density)
+		entity->active = qtrue;        // re-activate
+		trap_LinkEntity( entity );
 		return;
 	}
 
 	if ( respawn == RESPAWN_PARTIAL ) {    // multi-stage health
-		ent->s.density--;
-		if ( ent->s.density ) {        // still not completely used up ( (SA) this will change to == 0 and stage 1 will be a destroyable item (plate/etc.) )
-			ent->active = qtrue;        // re-activate
-			trap_LinkEntity( ent );
+		entity->s.density--;
+		if ( entity->s.density ) {        // still not completely used up ( (SA) this will change to == 0 and stage 1 will be a destroyable item (plate/etc.) )
+			entity->active = qtrue;        // re-activate
+			trap_LinkEntity( entity );
 			return;
 		}
 	}
 
 
 	// non zero wait overrides respawn time
-	if ( ent->wait ) {
-		respawn = ent->wait;
+	if ( entity->wait ) {
+		respawn = entity->wait;
 	}
 
 	// random can be used to vary the respawn time
-	if ( ent->random ) {
-		respawn += crandom() * ent->random;
+	if ( entity->random ) {
+		respawn += crandom() * entity->random;
 		if ( respawn < 1 ) {
 			respawn = 1;
 		}
 	}
 
 	// dropped items will not respawn
-	if ( ent->flags & FL_DROPPED_ITEM ) {
-		ent->freeAfterEvent = qtrue;
+	if ( entity->flags & FL_DROPPED_ITEM ) {
+		entity->freeAfterEvent = qtrue;
 	}
 
 	// picked up items still stay around, they just don't
 	// draw anything.  This allows respawnable items
 	// to be placed on movers.
-	ent->r.svFlags |= SVF_NOCLIENT;
-	ent->flags |= FL_NODRAW;
+	entity->r.svFlags |= SVF_NOCLIENT;
+	entity->flags |= FL_NODRAW;
 	//ent->s.eFlags |= EF_NODRAW;
-	ent->r.contents = 0;
+	entity->r.contents = 0;
 
 	// ZOID
 	// A negative respawn times means to never respawn this item (but don't
 	// delete it).  This is used by items that are respawned by third party
 	// events such as ctf flags
 	if ( respawn <= 0 ) {
-		ent->nextthink = 0;
-		ent->think = 0;
+		entity->nextthink = 0;
+		entity->think = 0;
 	} else {
-		ent->nextthink = level.time + respawn * 1000;
-		ent->think = RespawnItem;
+		entity->nextthink = level.time + respawn * 1000;
+		entity->think = RespawnItem;
 	}
-	trap_LinkEntity( ent );
+	trap_LinkEntity( entity );
 }
 
 

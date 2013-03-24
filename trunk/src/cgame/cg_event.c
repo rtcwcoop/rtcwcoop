@@ -1487,11 +1487,66 @@ void CG_SpawnSpirit( centity_t *cent ) {
 
 }
 
+
+/*
+==============
+CG_GetClipboardName
+==============
+*/
+static const char *CG_GetClipboardName( int density ) {
+	return CG_ConfigString( CS_CLIPBOARDS + density );
+}
+
+
+/*
+==============
+CG_PopUpClipboard
+==============
+*/
+void CG_PopUpClipboard( centity_t *clipboard, centity_t *activator ) {
+	const char		*name;
+	entityState_t	*clipboardState;
+	entityState_t	*activatorState;
+
+	clipboardState = &clipboard->currentState;
+	activatorState = &activator->currentState;
+
+	// TIHan - Only show the clipboard on the client who activated it.
+	if ( cg.snap->ps.clientNum != activatorState->clientNum )
+		return;
+
+	name = CG_GetClipboardName( clipboardState->density );
+	trap_Cvar_Set( "cg_clipboardName", name );    // store new current page name for the ui to pick up
+	trap_UI_Popup( "UIMENU_WM_CLIPBOARD" );
+}
+
+
+/*
+==============
+CG_PlayerDied
+
+TIHan - Since now we have a proper event for when a player dies, we could move
+        other event logic such as obituaries for the player here.
+==============
+*/
+void CG_PlayerDied( centity_t *entity, centity_t *killer ) {
+	entityState_t	*entityState;
+
+	entityState = &entity->currentState;
+
+	// TIHan - Only close the clipboard on the client who died.
+	if ( cg.snap->ps.clientNum == entityState->clientNum ) {
+		trap_UI_ClosePopup( "UIMENU_WM_CLIPBOARD" );
+	}
+}
+
+
 // cs: for debug text. these need to match the order of debugText_t
 char *classNameMap[] = {
     "coop_spawnpoint",
     "ai_trigger"
 };
+
 
 /*
 ==============
@@ -2156,6 +2211,11 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_SpawnEffect(  position );
 		break;
 
+	case EV_PLAYER_DIED:
+		DEBUGNAME( "EV_PLAYER_DIED" );
+		CG_PlayerDied( cent, &cg_entities[es->eventParm] );
+		break;
+
 	case EV_ITEM_POP:
 		DEBUGNAME( "EV_ITEM_POP" );
 		trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.respawnSound );
@@ -2278,19 +2338,14 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.fkickmiss );
 		break;
 
-	case EV_POPUPBOOK:
+	case EV_POPUP_BOOK:
+		DEBUGNAME( "EV_POPUP_BOOK" );
 		trap_UI_Popup( va( "hbook%d", es->eventParm ) );
 		break;
 
-	case EV_POPUP:
-		s = CG_ConfigString( CS_CLIPBOARDS + es->eventParm );
-		// 's' is now the name of the menu script to run
-		trap_Cvar_Set( "cg_clipboardName", s );    // store new current page name for the ui to pick up
-		trap_UI_Popup( s );
-		break;
-
-	case EV_CLOSEMENU:
-		Menus_CloseAll();
+	case EV_POPUP_CLIPBOARD:
+		DEBUGNAME( "EV_POPUP_CLIPBOARD" );
+		CG_PopUpClipboard( &cg_entities[es->eventParm], cent );
 		break;
 
 	case EV_GIVEPAGE:
@@ -2429,7 +2484,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 
 	case EV_OBITUARY:
 		DEBUGNAME( "EV_OBITUARY" );
-                CG_Obituary( es );
+		CG_Obituary( es );
 		break;
 
 		//

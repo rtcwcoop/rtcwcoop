@@ -1064,7 +1064,7 @@ extern void FinishSpawningItem ( gentity_t * ent ) ;
 extern void Use_Item ( gentity_t * ent , gentity_t * other , gentity_t * activator ) ;
 extern gentity_t * Drop_Item ( gentity_t * ent , gitem_t * item , float angle , qboolean novelocity ) ;
 extern gentity_t * LaunchItem ( gitem_t * item , vec3_t origin , vec3_t velocity, int ownerNum ) ;
-extern void Touch_Item ( gentity_t * ent , gentity_t * other , trace_t * trace ) ;
+extern void Touch_Item ( gentity_t * entity , gentity_t * toucher, trace_t * trace ) ;
 extern void Touch_Item_Auto ( gentity_t * ent , gentity_t * other , trace_t * trace ) ;
 extern void RespawnItem ( gentity_t * ent ) ;
 extern int Pickup_Armor ( gentity_t * ent , gentity_t * other ) ;

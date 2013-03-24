@@ -544,6 +544,9 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		i = ( i + 1 ) % 3;
 	}
 
+	// TIHan - We have a proper player died event.
+	G_AddEvent( self, EV_PLAYER_DIED, killer );
+
 	trap_LinkEntity( self );
 
 	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {

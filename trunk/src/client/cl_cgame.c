@@ -498,6 +498,88 @@ void CL_ShutdownCGame( void ) {
 	cgvm = NULL;
 }
 
+
+/*
+====================
+CL_GetMenuCommand
+====================
+*/
+static uiMenuCommand_t CL_GetUIMenuCommand( const char *type ) {
+	if ( !Q_stricmp( type, "briefing" ) ) {  //----(SA) added
+		return UIMENU_BRIEFING;
+	} else if ( !Q_stricmp( type, "UIMENU_WM_PICKTEAM" ) ) { // NERVE - SMF
+		return UIMENU_WM_PICKTEAM;
+	} else if ( !Q_stricmp( type, "UIMENU_WM_PICKPLAYER" ) ) {
+		return UIMENU_WM_PICKPLAYER;
+	} else if ( !Q_stricmp( type, "UIMENU_WM_QUICKMESSAGE" ) ) {
+		return UIMENU_WM_QUICKMESSAGE;
+	} else if ( !Q_stricmp( type, "UIMENU_WM_QUICKMESSAGEALT" ) ) {
+		return UIMENU_WM_QUICKMESSAGEALT;
+#ifdef MONEY
+	} else if ( !Q_stricmp( type, "UIMENU_WM_QUICKBUY" ) ) {
+		return UIMENU_WM_QUICKBUY;
+	} else if ( !Q_stricmp( type, "UIMENU_WM_QUICKBUYALT" ) ) {
+		return UIMENU_WM_QUICKBUYALT;
+#endif
+	} else if ( !Q_stricmp( type, "UIMENU_WM_LIMBO" ) ) { // -NERVE - SMF
+		return UIMENU_WM_LIMBO;
+	} else if ( !Q_stricmp( type, "hbook1" ) ) { //----(SA)
+		return UIMENU_BOOK1;
+	} else if ( !Q_stricmp( type, "hbook2" ) ) { //----(SA)
+		return UIMENU_BOOK2;
+	} else if ( !Q_stricmp( type, "hbook3" ) ) { //----(SA)
+		return UIMENU_BOOK3;
+	} else if ( !Q_stricmp( type, "pregame" ) ) { //----(SA) added
+		return UIMENU_PREGAME;
+	} else if ( !Q_stricmp( type, "UIMENU_WM_CLIPBOARD" ) ) {
+		return UIMENU_CLIPBOARD;
+	}
+	return UIMENU_NONE;
+}
+
+
+/*
+====================
+CL_InGamePopUp
+====================
+*/
+static void CL_InGamePopUp( const char *type ) {
+	uiMenuCommand_t menu = CL_GetUIMenuCommand( type );
+
+	// TIHan - This isn't a menu.
+	if ( menu == UIMENU_NONE )
+		return;
+
+	if ( menu == UIMENU_BRIEFING ) {
+		VM_Call( uivm, UI_SET_ACTIVE_MENU, menu );
+		return;
+	}
+
+	if ( cls.state == CA_ACTIVE && !clc.demoplaying ) {
+		VM_Call( uivm, UI_SET_ACTIVE_MENU, menu );
+	}
+}
+
+
+/*
+====================
+CL_InGameClosePopUp
+====================
+*/
+static void CL_InGameClosePopUp( const char *type ) {
+	uiMenuCommand_t menu = CL_GetUIMenuCommand( type );
+
+	// TIHan - This isn't a menu.
+	if ( menu == UIMENU_NONE )
+		return;
+
+	// TIHan - Close active menu.
+	if ( VM_Call( uivm, UI_GET_ACTIVE_MENU ) == menu ) {
+		VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_NONE );
+	}
+}
+
+
 static int  FloatAsInt( float f ) {
 	int temp;
 
@@ -878,50 +960,10 @@ int CL_CgameSystemCalls( int *args ) {
 		return re.GetEntityToken( VMA( 1 ), args[2] );
 
 	case CG_INGAME_POPUP:
-		if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "briefing" ) ) {  //----(SA) added
-			VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_BRIEFING );
-			return 0;
-		}
-
-		if ( cls.state == CA_ACTIVE && !clc.demoplaying ) {
-			// NERVE - SMF
-			if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_PICKTEAM" ) ) {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_PICKTEAM );
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_PICKPLAYER" ) )    {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_PICKPLAYER );
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKMESSAGE" ) )    {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKMESSAGE );
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKMESSAGEALT" ) )    {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKMESSAGEALT );
-#ifdef MONEY
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKBUY" ) )    {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKBUY );
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_QUICKBUYALT" ) )    {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_QUICKBUYALT );
-#endif
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_LIMBO" ) )    {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_LIMBO );
-			//} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "UIMENU_WM_AUTOUPDATE" ) )    {
-		//		VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_WM_AUTOUPDATE );
-			}
-			// -NERVE - SMF
-			else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "hbook1" ) ) {   //----(SA)
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_BOOK1 );
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "hbook2" ) )    { //----(SA)
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_BOOK2 );
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "hbook3" ) )    { //----(SA)
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_BOOK3 );
-			} else if ( VMA( 1 ) && !Q_stricmp( VMA( 1 ), "pregame" ) )    { //----(SA) added
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_PREGAME );
-			} else {
-				VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_CLIPBOARD );
-			}
-		}
+		CL_InGamePopUp( VMA( 1 ) );
 		return 0;
-
-		// NERVE - SMF
 	case CG_INGAME_CLOSEPOPUP:
-		VM_Call( uivm, UI_KEY_EVENT, K_ESCAPE, qtrue );
+		CL_InGameClosePopUp( VMA( 1 ) );
 		return 0;
 
 	case CG_LIMBOCHAT:

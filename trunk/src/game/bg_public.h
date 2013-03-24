@@ -828,11 +828,11 @@ typedef enum {
 	EV_GUNSPARKS,
 	EV_FLAMETHROWER_EFFECT,
 	EV_SNIPER_SOUND,
-	EV_POPUP,
-	EV_POPUPBOOK,
+	EV_POPUP_CLIPBOARD, // TIHan - Was EV_POPUP, but this is more descriptive.
+	EV_POPUP_BOOK,
 	EV_GIVEPAGE,    //----(SA)	added
-	EV_CLOSEMENU,   //----(SA)	added
 	EV_SPAWN_SPIRIT,
+	EV_PLAYER_DIED, // TIHan - Why was this never included?
 
 	// cs: debug rendering
 	EV_DBG_AABB,
