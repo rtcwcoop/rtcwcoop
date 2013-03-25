@@ -108,6 +108,9 @@ freezes freshly respawn players, they need to be activated by a stab of a knife 
 == sv_maxcoopclients ==
 Limits the number of coop players in a game. sv_maxclients still exists and should be set to 64. Don't lower it because the AI's also count as clients. sv_maxcoopclients shouldn't be higher than sv_maxclients - numberofai and its limited between 1 and 8
 
+== sv_dlrate ==
+Limits the speed of the ingame downloads, is set to 100 (KByte/sec) by default. In theory it cannot reach more than 1MByte/sec
+
 == g_maxlives ==
 The number of the times a player can die before he can't play anymore. Set to 0 to disable it.
 
