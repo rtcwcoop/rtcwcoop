@@ -2401,8 +2401,8 @@ void Cmd_Activate_f( gentity_t *ent ) {
 	int activatetime = level.time;
 	qboolean walking = qfalse;
 
-	// TIHan - Is the client active?
-	if ( !G_IsClientActive( ent ) )
+	// TIHan - Is the client dead?
+	if ( G_IsClientDead( ent ) )
 		return;
 
 	if ( ent->client->pers.cmd.buttons & BUTTON_WALKING ) {

@@ -1063,7 +1063,6 @@ void CalculateRanks( void );
 qboolean SpotWouldTelefrag( gentity_t *spot );
 qboolean G_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo );
 qboolean G_IsClient( gentity_t *entity );
-qboolean G_IsClientActive( gentity_t *entity );
 qboolean G_IsClientAI( gentity_t *entity );
 qboolean G_IsClientDead( gentity_t *entity );
 qboolean G_IsClientOnTeam( gentity_t *entity, team_t team );

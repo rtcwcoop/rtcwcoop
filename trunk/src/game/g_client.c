@@ -2171,6 +2171,11 @@ void ClientSpawn( gentity_t *ent ) {
 		trap_LinkEntity( ent );
 	}
 
+	// TIHan - Spectator's should probably have 0 health.
+	if ( G_IsClientOnTeam( ent, TEAM_SPECTATOR ) ) {
+		ent->health = 0;
+	}
+
 	// run the presend to set anything else
 	ClientEndFrame( ent );
 
@@ -2444,28 +2449,6 @@ G_IsClient
 */
 qboolean G_IsClient( gentity_t *entity ) {
 	if ( !entity->client )
-		return qfalse;
-
-	return qtrue;
-}
-
-
-/*
-==================
-G_IsClientActive
-==================
-*/
-qboolean G_IsClientActive( gentity_t *entity ) {
-	if ( !G_IsClient( entity ) )
-		return qfalse;
-
-	if ( G_IsClientDead( entity ) )
-		return qfalse;
-
-	if ( !G_IsClientInTeamState( entity, TEAM_ACTIVE ) )
-		return qfalse;
-
-	if ( G_IsClientOnTeam( entity, TEAM_SPECTATOR ) )
 		return qfalse;
 
 	return qtrue;
