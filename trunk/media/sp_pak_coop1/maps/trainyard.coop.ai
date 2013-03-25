@@ -491,6 +491,7 @@ black4
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 2
 		giveweapon weapon_fg42
 		setammo ammo_792mm 999
@@ -1674,6 +1675,7 @@ lab1
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0 // bitreset = frightened state
 		takeweapon weapon_mp40
 		wait 100
@@ -1720,6 +1722,7 @@ lab2
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0 // bitreset = player spoted
 		takeweapon weapon_mp40
 		wait 100 lab3
@@ -1805,6 +1808,7 @@ lab3
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0 // bitreset = player spoted
 		takeweapon weapon_mp40
 		wait 100 lab2
@@ -1883,6 +1887,7 @@ mechanic1
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0 // bitreset = player spoted
 		accum 0 bitset 1 // bitreset = elevator already working
 		takeweapon weapon_mp40

@@ -1028,6 +1028,7 @@ nazi13
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0
 		setammo ammo_grenades 0
 		statetype alert
@@ -1220,6 +1221,7 @@ dummy1
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		nosight 999999
 		statetype alert
@@ -1261,6 +1263,7 @@ dummy2
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		nosight 999999
 		statetype alert
@@ -1302,6 +1305,7 @@ charley
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0
 		accum 0 bitset 1
 		takeweapon all
@@ -1418,6 +1422,7 @@ joe
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0
 		accum 0 bitset 1
 		takeweapon all
@@ -1514,6 +1519,7 @@ sagewycke
 
 	spawn
 	{
+		norespawn
 		accum 0 bitset 0
 		takeweapon all
 		nosight 40000
@@ -1630,6 +1636,7 @@ nazi17
 
 	spawn
 	{
+		norespawn
 		accum 1 set 1
 
 		setammo ammo_grenades 0

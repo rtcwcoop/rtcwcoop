@@ -95,8 +95,8 @@ player
 		wait 5
 		norespawn coop_ai_soldier_31
 		norespawn coop_ai_soldier_32
-		norespawn coop_ai_soldier_33
-		norespawn coop_ai_soldier_34
+//		norespawn coop_ai_soldier_33
+//		norespawn coop_ai_soldier_34
 		#endif
 //----------------------------------------
 	}
@@ -402,6 +402,7 @@ nazi1
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // 1 = alerted
 		accum 1 set 0 // 1 = others sighted player first
 		setammo ammo_grenades 0
@@ -749,6 +750,7 @@ nazi5
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		nosight 5000
 		statetype alert
@@ -805,6 +807,7 @@ nazi6
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		statetype alert
 		nosight 20000
@@ -872,6 +875,7 @@ nazi7
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		statetype alert
 		nosight 20000
@@ -999,6 +1003,7 @@ nazi9
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
@@ -1680,6 +1685,7 @@ nazi23
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
 		giveweapon weapon_luger
@@ -1796,6 +1802,7 @@ nazi25
 
 	spawn
 	{
+		norespawn
 		accum 0 set 1
 		setammo ammo_grenades 1
 		statetype alert
@@ -1992,6 +1999,7 @@ kesler
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 
 		wait 500
@@ -2284,6 +2292,7 @@ coop_ai_soldier_12		// in the cabine
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
 		giveweapon weapon_mauserrifle
@@ -2305,6 +2314,7 @@ coop_ai_soldier_13		// in the cabine
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert
@@ -2717,6 +2727,7 @@ coop_ai_soldier_33		// tram2
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 3
 		takeweapon weapon_mp40
 		giveweapon weapon_mauserrifle
@@ -2742,6 +2753,7 @@ coop_ai_soldier_34		// tram2
 
 	spawn
 	{
+		norespawn
 		setammo ammo_grenades 3
 		takeweapon weapon_mp40
 		giveweapon weapon_mauserrifle

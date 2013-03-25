@@ -554,6 +554,7 @@ nazi0
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // Accum 0 is used so that Nazi0 doesn't trigger Kessler to say well done when he's been spotted.
 		accum 1 bitreset 0	// Used for reactions.
 		setammo ammo_grenades 0	// Grenades
@@ -637,6 +638,7 @@ nazi1
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		accum 1 set 0
 		accum 2 set 0	// This is used so when Nazi1 is in the cafe he will not react when Nazi0 is assassinated.
@@ -862,6 +864,7 @@ nazi3
 
 	spawn
 	{
+		norespawn
 		headlook off
 		takeweapon mp40
 		takeweapon luger
@@ -1070,6 +1073,7 @@ nazi5
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		setammo ammo_grenades 0	// Grenades
 		accum 0 set 0	// This is used so that nazi5 will not talk to nazi1
@@ -3040,7 +3044,7 @@ fem1
 
 	death player
 	{
-		missionfailed 6 1
+		//missionfailed 6 1
 	}
 	
 	sight player
@@ -3101,7 +3105,7 @@ fem2
 
 	death player
 	{
-		missionfailed 6 1
+		//missionfailed 6 1
 	}
 
 	sight player
@@ -3198,7 +3202,7 @@ partisan1
 
 	death player
 	{
-		missionfailed 6 2
+		//missionfailed 6 2
 	}
 
 	sight player
@@ -3267,7 +3271,7 @@ partisan2
 
 	death player
 	{
-		missionfailed 6 2
+		//missionfailed 6 2
 	}
 
 	enemysight
@@ -3476,6 +3480,7 @@ drunk1
 
 	spawn
 	{
+		norespawn
 		noavoid
 		takeweapon mp40
 		giveweapon weapon_luger

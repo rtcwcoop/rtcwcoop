@@ -427,6 +427,7 @@ nazi1a						// First nazi seen by player... Has two patterns he can choose...
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		accum 0 bitreset 0
 		accum 1 set 0
@@ -1384,6 +1385,7 @@ officer1						// Upstairts in first area
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		accum 0 bitreset 7
 		accum 0 bitreset 8
@@ -2466,6 +2468,7 @@ nazi6						// 2nd house, in room looking at food...
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		accum 0 bitset 10 
 		accum 1 set 0
@@ -2897,6 +2900,7 @@ officer2						// 2nd house, at top level listening to music
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		accum 1 set 0
 		accum 2 set 0
@@ -3038,7 +3042,7 @@ officer2						// 2nd house, at top level listening to music
 	}
 }
 
-nazi8						// 3rd house, comes outside and then mumbles something on porch..
+nazi8		// 3rd house, comes outside and then mumbles
 {
 	attributes
 	{
@@ -3175,6 +3179,7 @@ officer3						// 3rd house with crazy nazi8
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		accum 1 set 0
 		accum 2 set 0
@@ -3301,7 +3306,7 @@ officer3						// 3rd house with crazy nazi8
 	}
 }
 
-officer4						// 4th house, looking at moon
+officer4				// 4th house, looking at moon
 {
 	attributes
 	{
@@ -3317,6 +3322,7 @@ officer4						// 4th house, looking at moon
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		accum 1 set 0
 		accum 2 set 0
@@ -3669,6 +3675,7 @@ officer5	// to do need to put in markers					// 5th house last
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		accum 0 bitreset 20
 		accum 1 set 0

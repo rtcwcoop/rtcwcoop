@@ -674,6 +674,7 @@ nazi6
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // used to close window
 		accum 1 set 0 // used to unlock door and exit room
 		setammo ammo_grenades 0
@@ -1024,6 +1025,7 @@ nazi12
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 		takeweapon weapon_mp40
 		giveweapon weapon_venom
@@ -1974,6 +1976,7 @@ loper1
 
 	spawn
 	{
+		norespawn
 		nosight 999999
 		accum 0 set 0
 		knockback off
@@ -2200,6 +2203,7 @@ lab1
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // 1 = frightened state
 
 		takeweapon weapon_mp40
@@ -2260,6 +2264,7 @@ lab2
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0 // 1 = frightened state
 
 		takeweapon weapon_mp40
@@ -2360,6 +2365,7 @@ lab4
 
 	spawn
 	{
+		norespawn
 		accum 1 set 0 // 1 = alerted
 		setammo ammo_grenades 0
 		takeweapon weapon_mp40
@@ -2493,6 +2499,7 @@ lab6
 
 	spawn
 	{
+		norespawn
 		nosight 99999
 		takeweapon all
 		clearanim
@@ -2971,9 +2978,7 @@ coop_ai_soldier_23		// service floor 2
 		statetype alert
 	}
 }
-coop_ai_loper_13	
-coop_ai_loper_14	
-coop_ai_loper_20	
+
 coop_ai_loper_24		// in secret hallway
 {
 	attributes

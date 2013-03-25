@@ -1200,6 +1200,7 @@ scientist6
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		wait 5
 		trigger scientist6 scaredloop
@@ -1692,6 +1693,7 @@ scientist7
 
 	spawn
 	{
+		norespawn
 		noavoid
 		knockback off
 		takeweapon all
@@ -1782,6 +1784,7 @@ scientist8
 
 	spawn
 	{
+		norespawn
 		noavoid
 		knockback off
 		takeweapon all
@@ -1859,6 +1862,7 @@ scientist9
 
 	spawn
 	{
+		norespawn
 		noavoid
 		knockback off
 		takeweapon all
@@ -1959,6 +1963,7 @@ scientist10
 
 	spawn
 	{
+		norespawn
 		noavoid
 		knockback off
 		takeweapon all
@@ -2064,6 +2069,7 @@ nazi16
 
 	spawn
 	{
+		norespawn
 		accum 0 set 0
 		statetype alert
 		nosight 99999
@@ -2111,6 +2117,7 @@ scientist11
 
 	spawn	
 	{
+		norespawn
 		takeweapon all
 		wait 5
 		alertentity sci11_push
@@ -2392,6 +2399,7 @@ scientist12
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		nosight 99999
 		takeweapon all
@@ -2458,6 +2466,7 @@ scientist12a
 
 	spawn
 	{
+		norespawn
 		statetype alert
 		nosight 99999
 		takeweapon all
@@ -2672,6 +2681,7 @@ scientist13
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		nosight 99999
 		statetype alert
