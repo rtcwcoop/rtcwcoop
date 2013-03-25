@@ -2053,7 +2053,7 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 			}
 		}
 
-		Netchan_Setup( NS_CLIENT, &clc.netchan, from, Cvar_VariableValue( "net_qport" ) );
+		Netchan_Setup( NS_CLIENT, &clc.netchan, from, Cvar_VariableValue( "net_qport" ), clc.challenge );
 		cls.state = CA_CONNECTED;
 		clc.lastPacketSentTime = -9999;     // send first packet immediately
 		return;

@@ -734,6 +734,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 
 					client->deltaMessage = -1;
 					client->nextSnapshotTime = svs.time;    // generate a snapshot immediately
+                                        client->lastSnapshotTime = 0;   // generate a snapshot immediately
 
 					VM_Call( gvm, GAME_CLIENT_BEGIN, i );
 				}
@@ -910,6 +911,8 @@ void SV_Init( void ) {
 	sv_maxclients = Cvar_Get( "sv_maxclients", "128", CVAR_SERVERINFO | CVAR_LATCH );
 	sv_maxcoopclients = Cvar_Get( "sv_maxcoopclients", "4", CVAR_SERVERINFO | CVAR_LATCH );
 	sv_maxRate = Cvar_Get( "sv_maxRate", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
+        sv_minRate = Cvar_Get ("sv_minRate", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
+        sv_dlRate = Cvar_Get("sv_dlRate", "100", CVAR_ARCHIVE | CVAR_SERVERINFO);
 	sv_minPing = Cvar_Get( "sv_minPing", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_maxPing = Cvar_Get( "sv_maxPing", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_floodProtect = Cvar_Get( "sv_floodProtect", "1", CVAR_ARCHIVE | CVAR_SERVERINFO );
@@ -967,15 +970,6 @@ void SV_Init( void ) {
 	// ATVI Tracker Wolfenstein Misc #263
 	Cvar_Get( "g_antilag", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
 
-	// TTimo - autodownload speed tweaks
-#ifndef UPDATE_SERVER
-	// the download netcode tops at 18/20 kb/s, no need to make you think you can go above
-	sv_dl_maxRate = Cvar_Get( "sv_dl_maxRate", "42000", CVAR_ARCHIVE );
-#else
-	// the update server is on steroids, sv_fps 60 and no snapshotMsec limitation, it can go up to 30 kb/s
-	sv_dl_maxRate = Cvar_Get( "sv_dl_maxRate", "60000", CVAR_ARCHIVE );
-#endif
-
 	// initialize bot cvars so they are listed and can be set before loading the botlib
 	SV_BotInitCvars();
 
@@ -1031,6 +1025,7 @@ void SV_FinalMessage( char *message ) {
 				}
 				// force a snapshot to be sent
 				cl->nextSnapshotTime = -1;
+                                cl->lastSnapshotTime = 0;
 				SV_SendClientSnapshot( cl );
 			}
 		}

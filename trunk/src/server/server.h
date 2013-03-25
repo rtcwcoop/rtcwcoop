@@ -146,6 +146,7 @@ typedef struct {
 typedef struct netchan_buffer_s {
 	msg_t msg;
 	byte msgBuffer[MAX_MSGLEN];
+        char            clientCommandString[MAX_STRING_CHARS];  // valid command string for SV_Netchan_Encode
 	struct netchan_buffer_s *next;
 } netchan_buffer_t;
 
@@ -187,6 +188,7 @@ typedef struct client_s {
 	int lastPacketTime;                 // svs.time when packet was last received
 	int lastConnectTime;                // svs.time when connection started
 	int nextSnapshotTime;               // send another snapshot when svs.time >= nextSnapshotTime
+        int lastSnapshotTime;               // svs.time of last sent snapshot
 	qboolean rateDelayed;               // true if nextSnapshotTime was set based on rate instead of snapshotMsec
 	int timeoutCount;                   // must timeout a few frames in a row so debugging doesn't break
 	clientSnapshot_t frames[PACKET_BACKUP];     // updates can be delta'd from here
@@ -301,6 +303,8 @@ extern cvar_t  *sv_mapname;
 extern cvar_t  *sv_mapChecksum;
 extern cvar_t  *sv_serverid;
 extern cvar_t  *sv_maxRate;
+extern cvar_t  *sv_minRate;
+extern cvar_t  *sv_dlRate;
 extern cvar_t  *sv_minPing;
 extern cvar_t  *sv_maxPing;
 extern cvar_t  *sv_gametype;
@@ -315,9 +319,6 @@ extern cvar_t  *sv_showAverageBPS;          // NERVE - SMF - net debugging
 // Rafael gameskill
 extern cvar_t  *sv_gameskill;
 // done
-
-// TTimo - autodl
-extern cvar_t *sv_dl_maxRate;
 
 extern cvar_t  *sv_reloading;   //----(SA)	added
 
@@ -339,6 +340,8 @@ void SV_MasterHeartbeat( const char *hbname );
 void SV_MasterShutdown( void );
 
 void SV_MasterGameCompleteStatus();     // NERVE - SMF
+
+int SV_RateMsec(client_t *client);
 
 
 
@@ -376,7 +379,9 @@ void SV_DropClient( client_t *drop, const char *reason );
 void SV_ExecuteClientCommand( client_t *cl, const char *s, qboolean clientOK );
 void SV_ClientThink( client_t *cl, usercmd_t *cmd );
 
-void SV_WriteDownloadToClient( client_t *cl, msg_t *msg );
+int SV_WriteDownloadToClient(client_t *cl , msg_t *msg);
+int SV_SendDownloadMessages(void);
+int SV_SendQueuedMessages(void);
 void SV_FreeClient(client_t *client);
 
 //
@@ -482,7 +487,7 @@ void SV_ClipToEntity( trace_t *trace, const vec3_t start, const vec3_t mins, con
 // sv_net_chan.c
 //
 void SV_Netchan_Transmit( client_t *client, msg_t *msg );
-void SV_Netchan_TransmitNextFragment( client_t *client );
+int  SV_Netchan_TransmitNextFragment( client_t *client );
 qboolean SV_Netchan_Process( client_t *client, msg_t *msg );
 void SV_Netchan_FreeQueue(client_t *client);
 

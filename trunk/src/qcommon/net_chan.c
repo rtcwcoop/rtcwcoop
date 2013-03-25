@@ -90,7 +90,7 @@ Netchan_Setup
 called to open a channel to a remote system
 ==============
 */
-void Netchan_Setup( netsrc_t sock, netchan_t *chan, netadr_t adr, int qport ) {
+void Netchan_Setup( netsrc_t sock, netchan_t *chan, netadr_t adr, int qport, int challenge ) {
 	memset( chan, 0, sizeof( *chan ) );
 
 	chan->sock = sock;
@@ -98,6 +98,7 @@ void Netchan_Setup( netsrc_t sock, netchan_t *chan, netadr_t adr, int qport ) {
 	chan->qport = qport;
 	chan->incomingSequence = 0;
 	chan->outgoingSequence = 1;
+	chan->challenge = challenge;
 }
 
 /*
@@ -108,19 +109,23 @@ Send one fragment of the current message
 =================
 */
 void Netchan_TransmitNextFragment( netchan_t *chan ) {
-	msg_t send;
-	byte send_buf[MAX_PACKETLEN];
-	int fragmentLength;
+	msg_t		send;
+	byte		send_buf[MAX_PACKETLEN];
+	int			fragmentLength;
+	int			outgoingSequence;
 
 	// write the packet header
 	MSG_InitOOB( &send, send_buf, sizeof( send_buf ) );                // <-- only do the oob here
 
-	MSG_WriteLong( &send, chan->outgoingSequence | FRAGMENT_BIT );
+	outgoingSequence = chan->outgoingSequence | FRAGMENT_BIT;
+	MSG_WriteLong(&send, outgoingSequence);
 
 	// send the qport if we are a client
 	if ( chan->sock == NS_CLIENT ) {
 		MSG_WriteShort( &send, qport->integer );
 	}
+
+	MSG_WriteLong(&send, NETCHAN_GENCHECKSUM(chan->challenge, chan->outgoingSequence));
 
 	// copy the reliable message to the packet first
 	fragmentLength = FRAGMENT_SIZE;
@@ -134,6 +139,10 @@ void Netchan_TransmitNextFragment( netchan_t *chan ) {
 
 	// send the datagram
 	NET_SendPacket( chan->sock, send.cursize, send.data, chan->remoteAddress );
+
+	// Store send time and size of this packet for rate control
+	chan->lastSentTime = Sys_Milliseconds();
+	chan->lastSentSize = send.cursize;
 
 	if ( showpackets->integer ) {
 		Com_Printf( "%s send %4i : s=%i fragment=%i,%i\n"
@@ -189,17 +198,24 @@ void Netchan_Transmit( netchan_t *chan, int length, const byte *data ) {
 	MSG_InitOOB( &send, send_buf, sizeof( send_buf ) );
 
 	MSG_WriteLong( &send, chan->outgoingSequence );
-	chan->outgoingSequence++;
 
 	// send the qport if we are a client
 	if ( chan->sock == NS_CLIENT ) {
 		MSG_WriteShort( &send, qport->integer );
 	}
 
+	MSG_WriteLong(&send, NETCHAN_GENCHECKSUM(chan->challenge, chan->outgoingSequence));
+
+	chan->outgoingSequence++;
+
 	MSG_WriteData( &send, data, length );
 
 	// send the datagram
 	NET_SendPacket( chan->sock, send.cursize, send.data, chan->remoteAddress );
+
+	// Store send time and size of this packet for rate control
+	chan->lastSentTime = Sys_Milliseconds();
+	chan->lastSentSize = send.cursize;
 
 	if ( showpackets->integer ) {
 		Com_Printf( "%s send %4i : s=%i ack=%i\n"
@@ -224,7 +240,6 @@ copied out.
 */
 qboolean Netchan_Process( netchan_t *chan, msg_t *msg ) {
 	int sequence;
-	int qport;
 	int fragmentStart, fragmentLength;
 	qboolean fragmented;
 
@@ -242,7 +257,15 @@ qboolean Netchan_Process( netchan_t *chan, msg_t *msg ) {
 
 	// read the qport if we are a server
 	if ( chan->sock == NS_SERVER ) {
-		qport = MSG_ReadShort( msg );
+		MSG_ReadShort( msg );
+	}
+
+	{
+		int checksum = MSG_ReadLong(msg);
+
+		// UDP spoofing protection
+		if(NETCHAN_GENCHECKSUM(chan->challenge, sequence) != checksum)
+			return qfalse;
 	}
 
 	// read the fragment information
@@ -537,6 +560,62 @@ void NET_SendLoopPacket( netsrc_t sock, int length, const void *data, netadr_t t
 
 //=============================================================================
 
+typedef struct packetQueue_s {
+        struct packetQueue_s *next;
+        int length;
+        byte *data;
+        netadr_t to;
+        int release;
+} packetQueue_t;
+
+packetQueue_t *packetQueue = NULL;
+
+static void NET_QueuePacket( int length, const void *data, netadr_t to,
+	int offset )
+{
+	packetQueue_t *new, *next = packetQueue;
+
+	if(offset > 999)
+		offset = 999;
+
+	new = Z_Malloc(sizeof(packetQueue_t));
+	new->data = Z_Malloc(length);
+	Com_Memcpy(new->data, data, length);
+	new->length = length;
+	new->to = to;
+	new->release = Sys_Milliseconds() + (int)((float)offset / com_timescale->value);	
+	new->next = NULL;
+
+	if(!packetQueue) {
+		packetQueue = new;
+		return;
+	}
+	while(next) {
+		if(!next->next) {
+			next->next = new;
+			return;
+		}
+		next = next->next;
+	}
+}
+
+void NET_FlushPacketQueue(void)
+{
+	packetQueue_t *last;
+	int now;
+
+	while(packetQueue) {
+		now = Sys_Milliseconds();
+		if(packetQueue->release >= now)
+			break;
+		Sys_SendPacket(packetQueue->length, packetQueue->data,
+			packetQueue->to);
+		last = packetQueue;
+		packetQueue = packetQueue->next;
+		Z_Free(last->data);
+		Z_Free(last);
+	}
+}
 
 void NET_SendPacket( netsrc_t sock, int length, const void *data, netadr_t to ) {
 
@@ -556,7 +635,15 @@ void NET_SendPacket( netsrc_t sock, int length, const void *data, netadr_t to ) 
 		return;
 	}
 
-	Sys_SendPacket( length, data, to );
+	if ( sock == NS_CLIENT && cl_packetdelay->integer > 0 ) {
+		NET_QueuePacket( length, data, to, cl_packetdelay->integer );
+	}
+	else if ( sock == NS_SERVER && sv_packetdelay->integer > 0 ) {
+		NET_QueuePacket( length, data, to, sv_packetdelay->integer );
+	}
+	else {
+		Sys_SendPacket( length, data, to );
+	}
 }
 
 /*
