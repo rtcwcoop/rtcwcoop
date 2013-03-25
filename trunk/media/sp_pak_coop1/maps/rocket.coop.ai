@@ -75,7 +75,7 @@ player
 		norespawn coop_ai_soldier_6
 		norespawn coop_ai_soldier_7
 		norespawn coop_ai_soldier_8
-		norespawn coop_ai_soldier_9
+//		norespawn coop_ai_soldier_9
 		norespawn coop_ai_soldier_10
 		wait 5
 		norespawn coop_ai_soldier_11
@@ -579,6 +579,7 @@ driver1
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used to tell whether he should go to the alarm or not.
 		accum 0 bitreset 1	// Used so that this AI does not trigger counter1 turn on alarm twice.
 		accum 0 bitreset 2	// Used to check if this AI should respond to the player more than once.
@@ -898,6 +899,7 @@ mech1
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 1	// Used so that this AI does not trigger counter1 turn on alarm twice.
 		accum 0 bitreset 2	// If alarm has gone off, then this AI will not respond to sounds, deadbodies, bulletimpacts, etc.
 		accum 0 bitreset 3	// Statechange does not trigger until this is "bitset."
@@ -1991,6 +1993,7 @@ mech2
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used to know when to turn on his sight.
 		accum 0 bitreset 1	// Used so that mech2 does not trigger the train to go if dead.
 		accum 0 bitreset 2	// Used to stop the animation loop while in combat.
@@ -2368,6 +2371,7 @@ nazi6
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		accum 0 bitreset 9	// USed so that OFF_SIGHT is not triggered while in combat.
 		accum 0 bitreset 1	// Used so that inspectsound gets triggers after he's at the top of the elevator.
@@ -2484,6 +2488,7 @@ nazi7
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 9	// Used so that OFF_SIGHT is not triggered while in combat.
 		accum 0 bitreset 0
 		statetype alert
@@ -3082,6 +3087,7 @@ mech3
 
 	spawn
 	{
+		norespawn
 		takeweapon all
 		trigger mech3 animloop
 	}
@@ -3143,6 +3149,7 @@ nazi12
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used so that none of the inspects will trigger until at the bottom.
 		setammo grenades 0
 		wait 7000 0
@@ -3206,6 +3213,7 @@ nazi13
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0 //Used so that none of the inspects triggere before off elevator stops.
 		setammo grenades 0
 		wait 7000 0
@@ -3265,6 +3273,7 @@ scientist0
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used so that the INSPECTS don't trigger while after enemy has been spotted.
 		takeweapon all
 		playsound rocket_sci0_hurry_up // print Come on you guys! Hurry it up...
@@ -3340,6 +3349,7 @@ mech4
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used so that the INSPECTS don't trigger while after enemy has been spotted.
 		takeweapon all
 		wait 750
@@ -3419,6 +3429,7 @@ mech5
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used so that the INSPECTS don't trigger while after enemy has been spotted.
 		takeweapon all
 		trigger mech5 animloop
@@ -3633,6 +3644,7 @@ scientist2
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used so that the INSPECTS don't trigger while after enemy has been spotted.
 		accum 0 bitreset 1
 		takeweapon all
@@ -3955,6 +3967,7 @@ scientist6
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0	// Used so that the INSPECTS don't trigger while after enemy has been spotted.
 		wait 5
 		takeweapon all
@@ -5295,8 +5308,9 @@ nazi40
 
 	spawn
 	{
+		//norespawn
 		statetype alert
-		alertentity unlockexitdoor
+		//alertentity unlockexitdoor
 		wait 10
 		runtomarker n40spot1
 	}
@@ -5711,6 +5725,8 @@ coop_ai_soldier_9		// down on the elevator
 
 	spawn
 	{
+		norespawn
+
 		setammo ammo_grenades 0
 		setammo ammo_9mm 999
 		statetype alert

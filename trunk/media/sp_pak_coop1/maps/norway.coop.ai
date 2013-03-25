@@ -1936,6 +1936,7 @@ mechanic1			// Mechanic1...
 
 	spawn
 	{
+		norespawn
 		trigger checker1 zone2_checkin_relax
 		wait 5
 		accum 4 set 0
@@ -2159,6 +2160,7 @@ mechanic2			// First
 
 	spawn
 	{
+		norespawn
 		accum 0 bitreset 0
 		accum 4 set 0
 		accum 6 set 0

@@ -12,6 +12,7 @@ game_manager
 		accum 0 bitreset 1
 		accum 0 bitreset 2
 		accum 0 bitreset 3
+		accum 1 set 0	//Exit door
 
 		trigger player map_start	//Prevents late players affecting the game
 	}
@@ -36,7 +37,14 @@ game_manager
 	
 	trigger objective3
 	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+
 		accum 0 bitset 3
+
+		//To make this safer, moved from nazi40 spawn - Sage
+
+		alertentity unlockexitdoor
 	}
 }
 
