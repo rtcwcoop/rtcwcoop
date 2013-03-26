@@ -2962,7 +2962,7 @@ void CL_Init( void ) {
         cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);  // fretn
 
 
-	cl_allowDownload = Cvar_Get( "cl_allowDownload", "0", CVAR_ARCHIVE );
+	cl_allowDownload = Cvar_Get( "cl_allowDownload", "1", CVAR_ARCHIVE );
 
 	// init autoswitch so the ui will have it correctly even
 	// if the cgame hasn't been started
