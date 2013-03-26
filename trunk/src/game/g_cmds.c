@@ -1067,7 +1067,7 @@ void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 	} else if ( !Q_stricmp( s, "spectator" ) || !Q_stricmp( s, "s" ) ) {
 		team = TEAM_SPECTATOR;
 		specState = SPECTATOR_FREE;
-        } else if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
+        } else if ( g_gametype.integer != GT_COOP_BATTLE ) {
                 int counts[TEAM_NUM_TEAMS];
                 int numAxis = 1;
                 // if running a team game, assign player to one of the teams
