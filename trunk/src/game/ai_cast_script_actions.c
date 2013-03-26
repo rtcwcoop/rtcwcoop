@@ -1568,6 +1568,8 @@ qboolean AICast_ScriptAction_TakeWeapon( cast_state_t *cs, char *params ) {
 AICast_ScriptAction_RandomRespawn
 
   syntax: randomrespawn [targetname]
+ 	when using this in a player script block on multiple ai's, put some waits inbetween the list
+	to make it more random (the random number is based on the time)
 =================
 */
 qboolean AICast_ScriptAction_RandomRespawn( cast_state_t *cs, char *params ) {
