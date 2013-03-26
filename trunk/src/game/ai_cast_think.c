@@ -1450,7 +1450,8 @@ void AICast_Blocked( cast_state_t *cs, bot_moveresult_t *moveresult, int activat
 			// try and get them to move, in case we can't get around them
 			blockEnt = -1;
 			for ( i = 0; i < move.numtouch; i++ ) {
-				if ( move.touchents[i] >= MAX_CLIENTS ) {
+				// TIHan - Check against coop clients.
+				if ( move.touchents[i] >= MAX_COOP_CLIENTS ) {
 					if ( !Q_stricmp( g_entities[move.touchents[i]].classname, "script_mover" ) ) {
 						// avoid script_mover's
 						blockEnt = move.touchents[i];
@@ -1543,7 +1544,8 @@ void AICast_Blocked( cast_state_t *cs, bot_moveresult_t *moveresult, int activat
 			VectorSubtract( pos, cs->bs->cur_ps.origin, dir );
 			VectorNormalize( dir );
 			cs->blockedAvoidYaw = vectoyaw( dir );
-			if ( blockEnt >= MAX_CLIENTS ) {
+			// TIHan - Check against coop clients.
+			if ( blockEnt >= MAX_COOP_CLIENTS ) {
 				cs->blockedAvoidTime = level.time + 100 + rand() % 200;
 			} else {
 				cs->blockedAvoidTime = level.time + 300 + rand() % 400;
@@ -1566,6 +1568,13 @@ void AICast_Blocked( cast_state_t *cs, bot_moveresult_t *moveresult, int activat
 
 	vectoangles( dir, cs->ideal_viewangles );
 	cs->ideal_viewangles[2] *= 0.5;
+
+	// TIHan - This mildly improves AI from getting trapped in one another. Could be better.
+	if ( cs->blockedAvoidTime > 5000 ) {
+		if ( g_entities[blockEnt].aiCharacter != AICHAR_NONE ) {
+			trap_EA_MoveBack( blockEnt );
+		}
+	}
 }
 
 /*
