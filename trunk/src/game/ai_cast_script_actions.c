@@ -1563,6 +1563,47 @@ qboolean AICast_ScriptAction_TakeWeapon( cast_state_t *cs, char *params ) {
 	return qtrue;
 };
 
+/*
+=================
+AICast_ScriptAction_RandomRespawn
+
+  syntax: randomrespawn [targetname]
+=================
+*/
+qboolean AICast_ScriptAction_RandomRespawn( cast_state_t *cs, char *params ) {
+	gentity_t *ent;
+	cast_state_t *entcs;
+	qboolean respawn = qfalse;
+
+        respawn = (trap_Milliseconds() % 2 ); // returns 1 or 0 -> qtrue or qfalse -> this is a good comment -> or not ?
+
+//Com_Printf("respawn: %d %d\n", level.time, respawn);
+
+        if ( !params || !params[0] ) {
+		// if no targetname is set, the calling entity will stop respawning
+		cs->norespawn = respawn;
+		return qtrue;
+        }
+
+        // find this targetname
+        ent = G_Find( NULL, FOFS( targetname ), params );
+        if ( !ent ) {
+                ent = G_Find( NULL, FOFS( aiName ), params ); // look for an AI
+                if ( !ent || !ent->client ) { // accept only AI for aiName check
+			// fretn: if the aiName is not found, disable the respawning of the entity that is calling it
+			cs->norespawn = respawn;
+                        return qtrue; // cs: need to return true here or it keeps getting called every frame.
+                }
+        }
+
+	entcs = AICast_GetCastState( ent->s.clientNum );
+
+	if (entcs) {
+        	entcs->norespawn = respawn;
+	}
+
+        return qtrue;
+}
 
 /*
 =================
