@@ -79,43 +79,43 @@ player
 //----------------------------------------
 		#if g_airespawn >= 1
 		wait 5
-		norespawn coop_ai_soldier_1
-		norespawn coop_ai_soldier_2
-		norespawn coop_ai_soldier_3
-		norespawn coop_ai_soldier_4
-		norespawn coop_ai_soldier_5
-		norespawn coop_ai_soldier_6
-		norespawn coop_ai_soldier_7
-		norespawn coop_ai_soldier_8
-		norespawn coop_ai_soldier_9
-		norespawn coop_ai_soldier_10
+		randomrespawn coop_ai_soldier_1
+		randomrespawn coop_ai_soldier_2
+		randomrespawn coop_ai_soldier_3
+		randomrespawn coop_ai_soldier_4
+		randomrespawn coop_ai_soldier_5
+		randomrespawn coop_ai_soldier_6
+		randomrespawn coop_ai_soldier_7
+		randomrespawn coop_ai_soldier_8
+		randomrespawn coop_ai_soldier_9
+		randomrespawn coop_ai_soldier_10
 		wait 5
-		norespawn coop_ai_soldier_11
-		norespawn coop_ai_soldier_12
-		norespawn coop_ai_venom_13
-		norespawn coop_ai_blackguard_14
-		norespawn coop_ai_venom_15
-		norespawn coop_ai_soldier_16
-		norespawn coop_ai_soldier_17
-		norespawn coop_ai_blackguard_18
-		norespawn coop_ai_soldier_19
-		norespawn coop_ai_soldier_20
+		randomrespawn coop_ai_soldier_11
+		randomrespawn coop_ai_soldier_12
+		randomrespawn coop_ai_venom_13
+		randomrespawn coop_ai_blackguard_14
+		randomrespawn coop_ai_venom_15
+		randomrespawn coop_ai_soldier_16
+		randomrespawn coop_ai_soldier_17
+		randomrespawn coop_ai_blackguard_18
+		randomrespawn coop_ai_soldier_19
+		randomrespawn coop_ai_soldier_20
 		wait 5
-		norespawn coop_ai_blackguard_21
-		norespawn coop_ai_blackguard_22
-		norespawn coop_ai_blackguard_23
-		norespawn coop_ai_soldier_24
-		norespawn coop_ai_soldier_25
-		norespawn coop_ai_blackguard_26
-		norespawn coop_ai_soldier_27
-		norespawn coop_ai_blackguard_28
-		norespawn coop_ai_blackguard_29
-		norespawn coop_ai_blackguard_30
+		randomrespawn coop_ai_blackguard_21
+		randomrespawn coop_ai_blackguard_22
+		randomrespawn coop_ai_blackguard_23
+		randomrespawn coop_ai_soldier_24
+		randomrespawn coop_ai_soldier_25
+		randomrespawn coop_ai_blackguard_26
+		randomrespawn coop_ai_soldier_27
+		randomrespawn coop_ai_blackguard_28
+		randomrespawn coop_ai_blackguard_29
+		randomrespawn coop_ai_blackguard_30
 		wait 5
-		norespawn coop_ai_blackguard_31
-		norespawn coop_ai_soldier_32
-		norespawn coop_ai_venom_33
-		norespawn coop_ai_blackguard_34
+		randomrespawn coop_ai_blackguard_31
+		randomrespawn coop_ai_soldier_32
+		randomrespawn coop_ai_venom_33
+		randomrespawn coop_ai_blackguard_34
 		#endif
 //----------------------------------------
 	}

@@ -65,23 +65,23 @@ player
 //----------------------------------------
 		#if g_airespawn >= 1
 		wait 5
-		norespawn coop_ai_zombie_1
-		norespawn coop_ai_zombie_2
-		norespawn coop_ai_zombie_3
-		norespawn coop_ai_zombie_4
-		norespawn coop_ai_zombie_5
-		norespawn coop_ai_zombie_6
-		norespawn coop_ai_zombie_7
-		norespawn coop_ai_zombie_8
-		norespawn coop_ai_zombie_9
-		norespawn coop_ai_zombie_10
+		randomrespawn coop_ai_zombie_1
+		randomrespawn coop_ai_zombie_2
+		randomrespawn coop_ai_zombie_3
+		randomrespawn coop_ai_zombie_4
+		randomrespawn coop_ai_zombie_5
+		randomrespawn coop_ai_zombie_6
+		randomrespawn coop_ai_zombie_7
+		randomrespawn coop_ai_zombie_8
+		randomrespawn coop_ai_zombie_9
+		randomrespawn coop_ai_zombie_10
 		wait 5
-		norespawn coop_ai_zombie_11
-		norespawn coop_ai_zombie_12
-		norespawn coop_ai_zombie_13
-		norespawn coop_ai_zombie_14
-		norespawn coop_ai_zombie_15
-		norespawn coop_ai_zombie_16
+		randomrespawn coop_ai_zombie_11
+		randomrespawn coop_ai_zombie_12
+		randomrespawn coop_ai_zombie_13
+		randomrespawn coop_ai_zombie_14
+		randomrespawn coop_ai_zombie_15
+		randomrespawn coop_ai_zombie_16
 		#endif
 //----------------------------------------
 	}
