@@ -920,7 +920,8 @@ void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start,
 //	trap_Trace (&tr, start, NULL, NULL, end, ENTITYNUM_NONE, MASK_SHOT);
 
 	// cs: et sdk antilag 
-	G_Trace(source, &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT_NOCORPSE);
+	// TIHan - Using MASK_SHOT so we can gib corpses.
+	G_Trace(source, &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT);
 	// end
 
     AICast_ProcessBullet( attacker, start, tr.endpos );
