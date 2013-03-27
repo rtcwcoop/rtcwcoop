@@ -1577,9 +1577,9 @@ qboolean AICast_ScriptAction_RandomRespawn( cast_state_t *cs, char *params ) {
 	cast_state_t *entcs;
 	qboolean respawn = qfalse;
 
-        respawn = (trap_Milliseconds() % 2 ); // returns 1 or 0 -> qtrue or qfalse -> this is a good comment -> or not ?
+        respawn = (rand() % 2 ); // returns 1 or 0 -> qtrue or qfalse -> this is a good comment -> or not ?
 
-//Com_Printf("respawn: %d %d\n", level.time, respawn);
+	Com_Printf("respawn: %d\n", respawn);
 
         if ( !params || !params[0] ) {
 		// if no targetname is set, the calling entity will stop respawning
