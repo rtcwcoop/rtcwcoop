@@ -2812,82 +2812,83 @@ static void FS_AddGameDirectory( const char *path, const char *dir ) {
 
 	qsort( sorted, numfiles, 4, paksort );
         
-        // fretn: the order is: first sp_ paks, then pak0, then mp_ paks, then all the others
-        // so we have to do this in reverse overhere
+	// fretn: the order is: first others, sp_ paks, then pak0, then mp_ paks
+	// so we have to do this in reverse overhere
 
-        // so first all the 'others'
-        for ( i = 0 ; i < numfiles ; i++ ) {
-                if ( Q_strncmp( sorted[i],"sp_",3 ) && Q_strncmp( sorted[i],"mp_",3 ) && Q_strncmp( sorted[i], "pak0",4 ) ) { 
-                        pakfile = FS_BuildOSPath( path, dir, sorted[i] );
-                        if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
-                                continue;
-                        }    
 
-                        // store the game name for downloading
-                        strcpy( pak->pakGamename, dir );
-
-                        search = Z_Malloc( sizeof( searchpath_t ) ); 
-                        search->pack = pak; 
-                        search->next = fs_searchpaths;
-                        fs_searchpaths = search;
-                }
-        }
-
-        // no we prepend the mp_ paks
+	// first we put the mp_ paks
 	for ( i = 0 ; i < numfiles ; i++ ) {
 		if ( !Q_strncmp( sorted[i],"mp_",3 ) ) {
-                        pakfile = FS_BuildOSPath( path, dir, sorted[i] );
-                        if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
-                                continue;
-                        }    
+			pakfile = FS_BuildOSPath( path, dir, sorted[i] );
+			if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
+				continue;
+			}    
 
-                        // store the game name for downloading
-                        strcpy( pak->pakGamename, dir );
+			// store the game name for downloading
+			strcpy( pak->pakGamename, dir );
 
-                        search = Z_Malloc( sizeof( searchpath_t ) ); 
-                        search->pack = pak; 
-                        search->next = fs_searchpaths;
-                        fs_searchpaths = search;
-                }
-        }
+			search = Z_Malloc( sizeof( searchpath_t ) ); 
+			search->pack = pak; 
+			search->next = fs_searchpaths;
+			fs_searchpaths = search;
+		}
+	}
 
         // no we prepend pak0
 	for ( i = 0 ; i < numfiles ; i++ ) {
 		if ( !Q_strncmp( sorted[i],"pak0",4 ) ) {
-                        pakfile = FS_BuildOSPath( path, dir, sorted[i] );
-                        if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
-                                continue;
-                        }    
+			pakfile = FS_BuildOSPath( path, dir, sorted[i] );
+			if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
+				continue;
+			}    
 
-                        // store the game name for downloading
-                        strcpy( pak->pakGamename, dir );
+			// store the game name for downloading
+			strcpy( pak->pakGamename, dir );
 
-                        search = Z_Malloc( sizeof( searchpath_t ) ); 
-                        search->pack = pak; 
-                        search->next = fs_searchpaths;
-                        fs_searchpaths = search;
-                }
-        }
+			search = Z_Malloc( sizeof( searchpath_t ) ); 
+			search->pack = pak; 
+			search->next = fs_searchpaths;
+			fs_searchpaths = search;
+		}
+	}
 
-        // and now finally the sp_ paks
+	// and now finally the sp_ paks
 	for ( i = 0 ; i < numfiles ; i++ ) {
 		if ( !Q_strncmp( sorted[i],"sp_",3 ) ) {
-                        pakfile = FS_BuildOSPath( path, dir, sorted[i] );
-                        if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
-                                continue;
-                        }    
+			pakfile = FS_BuildOSPath( path, dir, sorted[i] );
+			if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
+				continue;
+			}    
 
-                        // store the game name for downloading
-                        strcpy( pak->pakGamename, dir );
+			// store the game name for downloading
+			strcpy( pak->pakGamename, dir );
 
-                        search = Z_Malloc( sizeof( searchpath_t ) ); 
-                        search->pack = pak; 
-                        search->next = fs_searchpaths;
-                        fs_searchpaths = search;
-                }
-        }
+			search = Z_Malloc( sizeof( searchpath_t ) ); 
+			search->pack = pak; 
+			search->next = fs_searchpaths;
+			fs_searchpaths = search;
+		}
+	}
 
-        // done
+	// and lastly all the 'others'
+	for ( i = 0 ; i < numfiles ; i++ ) {
+		if ( Q_strncmp( sorted[i],"sp_",3 ) && Q_strncmp( sorted[i],"mp_",3 ) && Q_strncmp( sorted[i], "pak0",4 ) ) { 
+			pakfile = FS_BuildOSPath( path, dir, sorted[i] );
+			if ( ( pak = FS_LoadZipFile( pakfile, sorted[i] ) ) == 0 ) {
+				continue;
+			}    
+
+			// store the game name for downloading
+			strcpy( pak->pakGamename, dir );
+
+			search = Z_Malloc( sizeof( searchpath_t ) ); 
+			search->pack = pak; 
+			search->next = fs_searchpaths;
+			fs_searchpaths = search;
+		}
+	}
+
+	// done
 	Sys_FreeFileList( pakfiles );
 }
 
