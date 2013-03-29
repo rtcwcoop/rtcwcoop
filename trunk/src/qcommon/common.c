@@ -1070,13 +1070,68 @@ void Hunk_SmallLog( void ) {
 
 /*
 =================
-Com_InitZoneMemory
+Com_AllocHunkMemory
+=================
+*/
+static void Com_AllocHunkMemory( const int nAlloc, const int nMinAlloc ) {
+#define HUNKMEGS_CHUNK 32
+
+	const int startTotal = ( 1024 * 1024 * nAlloc );
+	const int minTotal = ( 1024 * 1024 * nMinAlloc );
+	const int chunk = ( 1024 * 1024 * HUNKMEGS_CHUNK );
+
+	int start, end;
+	int total;
+	byte *data;
+
+	start = Sys_Milliseconds();
+
+	total = startTotal;
+#ifdef OLD_HUNK_ALLOC
+	data = ( byte * )malloc( total + 31 );
+	if ( !data ) {
+		Com_Error( ERR_FATAL, "Hunk data failed to allocate %i megs", total / ( 1024 * 1024 ) );
+	}
+#else
+	while ( 1 ) {
+		data = ( byte * )malloc( total + 31 );
+		if ( data ) {
+			// TIHan - We got a successful allocation.
+			Com_Printf( "Hunk data successfully allocated %i megs.\n", total / ( 1024 * 1024 ) );
+			if ( startTotal != total ) {
+				Com_Printf( "WARNING: Hunk data unable to specifically allocate %i megs.\n", startTotal / ( 1024 * 1024 ) );
+			}
+			break;
+		} else {
+			// TIHan - We got a failed allocation. Let's reduce the total
+			//         and try again. If the total is below the minimum,
+			//         we failed any allocation.
+			total -= chunk;
+			if ( total < minTotal ) {
+				Com_Error( ERR_FATAL, "Hunk data failed to allocate minimum %i megs", nMinAlloc );
+			}
+		}
+	}
+#endif
+
+	// cacheline align
+	data = ( byte * )( ( (int)data + 31 ) & ~31 );
+	s_hunkTotal = total;
+	s_hunkData = data;
+
+	end = Sys_Milliseconds();
+	Com_Printf( "Com_AllocHunkMemory: %i msec\n", end - start );
+}
+
+/*
+=================
+Com_InitHunkMemory
 =================
 */
 void Com_InitHunkMemory( void ) {
 	cvar_t  *cv;
+	int nAlloc;
 	int nMinAlloc;
-	char *pMsg = NULL;
 
 	// make sure the file system has allocated and "not" freed any temp blocks
 	// this allows the config and product id files ( journal files too ) to be loaded
@@ -1092,26 +1147,17 @@ void Com_InitHunkMemory( void ) {
 	// if we are not dedicated min allocation is 56, otherwise min is 1
 	if ( com_dedicated && com_dedicated->integer ) {
 		nMinAlloc = MIN_DEDICATED_COMHUNKMEGS;
-		pMsg = "Minimum com_hunkMegs for a dedicated server is %i, allocating %i megs.\n";
 	} else {
 		nMinAlloc = MIN_COMHUNKMEGS;
-		pMsg = "Minimum com_hunkMegs is %i, allocating %i megs.\n";
 	}
 
 	if ( cv->integer < nMinAlloc ) {
-		s_hunkTotal = 1024 * 1024 * nMinAlloc;
-		Com_Printf( pMsg, nMinAlloc, s_hunkTotal / ( 1024 * 1024 ) );
+		nAlloc = nMinAlloc;
 	} else {
-		s_hunkTotal = cv->integer * 1024 * 1024;
+		nAlloc = cv->integer;
 	}
 
-
-	s_hunkData = malloc( s_hunkTotal + 31 );
-	if ( !s_hunkData ) {
-		Com_Error( ERR_FATAL, "Hunk data failed to allocate %i megs", s_hunkTotal / ( 1024 * 1024 ) );
-	}
-	// cacheline align
-	s_hunkData = ( byte * )( ( (int)s_hunkData + 31 ) & ~31 );
+	Com_AllocHunkMemory( nAlloc, nMinAlloc );
 	Hunk_Clear();
 
 	Cmd_AddCommand( "meminfo", Com_Meminfo_f );
