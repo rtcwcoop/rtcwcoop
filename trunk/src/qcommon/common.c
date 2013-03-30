@@ -1094,7 +1094,7 @@ static void Com_AllocHunkMemory( const int nAlloc, const int nMinAlloc ) {
 	}
 #else
 	while ( 1 ) {
-		data = ( byte * )malloc( total + 31 );
+		data = ( byte * )calloc( total + 31, 1 );
 		if ( data ) {
 			// TIHan - We got a successful allocation.
 			Com_Printf( "Hunk data successfully allocated %i megs.\n", total / ( 1024 * 1024 ) );
