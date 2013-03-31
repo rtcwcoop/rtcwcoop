@@ -1305,6 +1305,11 @@ void Cmd_Follow_f( gentity_t *ent ) {
 		return;
 	}
 
+	// TIHan - Only follow players.
+	if ( !IsPlayerEnt( ent ) ) {
+		return;
+	}
+
 	// can't follow another spectator
 	if ( level.clients[ i ].sess.sessionTeam == TEAM_SPECTATOR ) {
 		return;
@@ -1346,6 +1351,11 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 		}
 		if ( clientnum < 0 ) {
 			clientnum = level.maxclients - 1;
+		}
+
+		// TIHan - Only follow players.
+		if ( !IsPlayerEnt( &g_entities[clientnum] ) ) {
+			continue;
 		}
 
 		// can only follow connected clients
