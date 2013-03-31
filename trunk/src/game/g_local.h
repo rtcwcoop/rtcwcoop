@@ -942,6 +942,7 @@ void G_ScriptPreprocess( char *script );
 qboolean IsPlayerEnt( gentity_t *ent );
 qboolean ScriptEventForPlayer( gentity_t *activator, char *eventStr, char *params );
 gentity_t *GetFirstValidPlayer( qboolean checkHealth );
+gentity_t *GetFirstValidAlliedPlayer( qboolean checkHealth );
 qboolean G_IsEntityDead( gentity_t *entity );
 qboolean G_IsEntityAI( gentity_t *entity );
 

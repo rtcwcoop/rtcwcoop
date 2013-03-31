@@ -888,6 +888,21 @@ gentity_t *GetFirstValidPlayer( qboolean checkHealth ) {
 
 
 /*
+================
+GetFirstValidAlliedPlayer
+================
+*/
+gentity_t *GetFirstValidAlliedPlayer( qboolean checkHealth ) {
+	gentity_t *entity = GetFirstValidPlayer( checkHealth );
+
+	if ( entity && G_IsClientOnTeam( entity, TEAM_BLUE ) ) {
+		return entity;
+	}
+	return NULL;
+}
+
+
+/*
 ==================
 G_IsEntityDead
 ==================

@@ -2359,7 +2359,8 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 		G_Error( "AI Scripting: missionsuccess requires a num_objective identifier\n" );
 	}
 
-	player = GetFirstValidPlayer(qtrue);
+	// TIHan - Only get allies.
+	player = GetFirstValidAlliedPlayer( qtrue );
 	if ( !player ) {
 		return qfalse;  // hold the script here
 	}
@@ -2683,7 +2684,8 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	int exitTime = 20000;
 
 
-	player = GetFirstValidPlayer(qtrue);
+	// TIHan - Only get allies.
+	player = GetFirstValidAlliedPlayer( qtrue );
 	if ( !player ) {
 		return qtrue;  // get out of here
 	}

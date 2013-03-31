@@ -948,8 +948,9 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 		G_Error( "AI Scripting: missionsuccess requires a mission_level identifier\n" );
 	}
 
-	player = GetFirstValidPlayer(qtrue);
-	if (!player) {
+	// TIHan - Only get allies.
+	player = GetFirstValidAlliedPlayer( qtrue );
+	if ( !player ) {
 		return qfalse;  // hold the script here
 	}
 
