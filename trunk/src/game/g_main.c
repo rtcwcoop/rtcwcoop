@@ -461,6 +461,42 @@ void G_EndGame( void ) {
 }
 
 
+/*
+================
+G_CanShowExitHint
+
+this is effectively an 'exit' brush.  they should be created with:
+
+classname = 'ai_trigger'
+ainame = 'player'
+target = 'endmap'
+================
+*/
+static qboolean G_CanShowExitHint( gentity_t *entity, gentity_t *brush ) {
+	if ( Q_stricmp( brush->classname, "ai_trigger" ) ) {
+		return qfalse;
+	}
+
+	if ( Q_stricmp( brush->aiName, "player" ) ) {
+		return qfalse;
+	}
+
+	if ( Q_stricmp( brush->target, "endmap" ) ) {
+		return qfalse;
+	}
+
+	// TIHan - Only allies can show the exit hint.
+	if ( !G_IsClientOnTeam( entity, TEAM_BLUE ) ) {
+		return qfalse;
+	}
+
+	if ( g_gametype.integer == GT_COOP_BATTLE ) {
+		return qfalse;
+	}
+	return qtrue;
+}
+
+
 #define CH_KNIFE_DIST       48  // from g_weapon.c
 #define CH_LADDER_DIST      100
 #define CH_WATER_DIST       100
@@ -664,40 +700,28 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 
 		if ( checkEnt ) {
 			if ( checkEnt->s.eType == ET_GENERAL ) {
+				if ( G_CanShowExitHint( ent, traceEnt ) ) {
+					hintDist = CH_EXIT_DIST;
 
-				// this is effectively an 'exit' brush.  they should be created with:
-				//
-				// classname = 'ai_trigger'
-				// ainame = 'player'
-				// target = 'endmap'
-				//
-				if ( !Q_stricmp( traceEnt->classname, "ai_trigger" ) ) {
-					if ( ( !Q_stricmp( traceEnt->aiName, "player" ) ) &&
-						 ( !Q_stricmp( traceEnt->target, "endmap" ) ) && 
-                           g_gametype.integer != GT_COOP_BATTLE ) {
-
-						hintDist = CH_EXIT_DIST;
-
-						if ( G_SendMissionStats() ) {  // update the 'time' in the exit stats
-							if ( zooming ) {
-								hintType = HINT_EXIT_FAR;
-							} else {
-								hintType = HINT_EXIT;
-							}
+					if ( G_SendMissionStats() ) {  // update the 'time' in the exit stats
+						if ( zooming ) {
+							hintType = HINT_EXIT_FAR;
 						} else {
-							if ( zooming ) {
-								hintType = HINT_NOEXIT_FAR;
-							} else {
-								hintType = HINT_NOEXIT;
-							}
+							hintType = HINT_EXIT;
 						}
-
-						// show distance in the cursorhint bar
-						if ( dist <= 255 ) {
-							hintVal = (int)dist;    // range for this hint is 256, so it happens to translate nicely
+					} else {
+						if ( zooming ) {
+							hintType = HINT_NOEXIT_FAR;
 						} else {
-							hintVal = 255;
+							hintType = HINT_NOEXIT;
 						}
+					}
+
+					// show distance in the cursorhint bar
+					if ( dist <= 255 ) {
+						hintVal = (int)dist;    // range for this hint is 256, so it happens to translate nicely
+					} else {
+						hintVal = 255;
 					}
 				}
 			} else if ( checkEnt->s.eType == ET_MG42 )      {
