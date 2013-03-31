@@ -1368,14 +1368,6 @@ void Cmd_FollowCycle_f( gentity_t *ent, int dir ) {
 			continue;
 		}
 
-		// L0 - Only follow players when spectacting.
-		// Dunno if it's a general idea to be able to follow bots as well 
-		// but if it is, then following needs to get fixed as spectator crashes
-		// when following certain bots...
-		if (g_entities[clientnum].r.svFlags & SVF_BOT && ent->client->sess.sessionTeam == TEAM_BLUE) {
-			continue;
-		} // end
-
 // JPW NERVE -- couple extra checks for limbo mode
 		if ( ent->client->ps.pm_flags & PMF_LIMBO ) {
 			if ( level.clients[clientnum].ps.pm_flags & PMF_LIMBO ) {
