@@ -1382,7 +1382,7 @@ nazi17
 {
 	attributes
 	{
-		aim_accuracy 0.1
+		aim_accuracy 0.4
 		starting_health 30
 		reaction_time 0.1
 		aggression 1.0
@@ -2076,16 +2076,16 @@ kesler
 	{
 		//missionfailed 6 3
 	}
-
 }
 
 coop_ai_soldier_1		// in the 1st barrack (at the start)
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2103,6 +2103,7 @@ coop_ai_soldier_2		// in the 1st barrack (at the start)
 		aim_accuracy 0.1
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2120,9 +2121,10 @@ coop_ai_soldier_3		// in the 1st barrack (at the start)
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2140,6 +2142,7 @@ coop_ai_soldier_4		// at the end of the hallway
 		aim_accuracy 0.1
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2160,6 +2163,7 @@ coop_ai_soldier_5		// behind the servicer
 		aim_accuracy 0.2
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2180,6 +2184,7 @@ coop_ai_soldier_6		// near the fence
 		aim_accuracy 0.15
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2200,6 +2205,7 @@ coop_ai_soldier_7		// upper place
 		aim_accuracy 0.2
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2217,9 +2223,10 @@ coop_ai_soldier_8		// near the fireplace
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2234,9 +2241,10 @@ coop_ai_soldier_9		// behind the door
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2251,9 +2259,10 @@ coop_ai_soldier_10		// near the big lever
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2268,9 +2277,10 @@ coop_ai_soldier_11		// near the big lever
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2288,6 +2298,7 @@ coop_ai_soldier_12		// in the cabine
 		aim_accuracy 0.2
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2307,9 +2318,10 @@ coop_ai_soldier_13		// in the cabine
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2329,6 +2341,7 @@ coop_ai_soldier_14		// on the middle station
 		aim_accuracy 0.2
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2346,9 +2359,10 @@ coop_ai_soldier_15		// in the office of middle station
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2366,6 +2380,7 @@ coop_ai_soldier_16		// top of the middle station
 		aim_accuracy 0.3
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2412,9 +2427,10 @@ coop_ai_soldier_17		// top of middle station
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 3072
 	}
 
 	spawn
@@ -2456,9 +2472,10 @@ coop_ai_soldier_18		// at the bottom of the ladder
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2473,9 +2490,10 @@ coop_ai_soldier_19		// in the switcher room
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2490,9 +2508,10 @@ coop_ai_soldier_20		// in the switcher room
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2510,6 +2529,7 @@ coop_ai_soldier_21		// at the dead-end
 		aim_accuracy 0.3
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2527,9 +2547,10 @@ coop_ai_soldier_22		// at the dead-end
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2547,6 +2568,7 @@ coop_ai_soldier_23		// at the dead-end
 		aim_accuracy 0.2
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2564,9 +2586,10 @@ coop_ai_soldier_24		// in the ammo room
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2581,9 +2604,10 @@ coop_ai_soldier_25		// on the iron grid
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn
@@ -2598,9 +2622,10 @@ coop_ai_soldier_26		// in the radio room
 {
 	attributes
 	{
-		aim_accuracy 0.6
+		aim_accuracy 0.4
 		starting_health 30
 		camper 1
+		alertness 2816
 	}
 
 	spawn

@@ -744,3 +744,23 @@ tramdummy
 		trigger player trams_down
 	}
 }
+
+//Visible models since the model2 key did not show for all :(
+
+tramcar_coop_model
+{
+	spawn
+	{
+		wait 100
+		attachtotag tramcar_coop tag_tram
+	}
+}
+
+trammount_coop_model
+{
+	spawn
+	{
+		wait 100
+		attachtotag trammount_coop tag_tram
+	}
+}

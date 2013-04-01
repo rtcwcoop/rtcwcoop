@@ -12,7 +12,7 @@
 "origin" "-2492 -284 -160"
 "spawnflags" "2"
 "model" "*29" //THIS IS CLIP BRUSHES OF THE 29
-"model2" "models/mapobjects/coop_tram/tramcar_coop.md3"
+"model2" "models/mapobjects/coop_tram/tram_fake_tag.md3"
 "scriptname" "tramcar_coop"
 }
 
@@ -21,8 +21,24 @@
 "origin" "-2492 -284 -160"
 "spawnflags" "2"
 "model" "*120" //THIS IS CLIP BRUSHES OF THE 120
-"model2" "models/mapobjects/coop_tram/trammount_coop.md3"
+"model2" "models/mapobjects/coop_tram/tram_fake_tag.md3"
 "scriptname" "trammount_coop"
+}
+
+{
+"classname" "misc_gamemodel"
+"origin" "-2492 -284 -160"
+"model" "models/mapobjects/coop_tram/tramcar_coop.md3"
+"scriptname" "tramcar_coop_model"
+"targetname" "tramcar_coop_model"
+}
+
+{
+"classname" "misc_gamemodel"
+"origin" "-2492 -284 -160"
+"model" "models/mapobjects/coop_tram/trammount_coop.md3"
+"scriptname" "trammount_coop_model"
+"targetname" "trammount_coop_model"
 }
 
 // AXIS SPAWNPOINTS (flags: 0 = allied and disabled; 1 = allied and enabled; 2 = axis and disabled; 3 = axis and enabled)
@@ -558,6 +574,12 @@
 "angle" "-9"
 "spawnflags" "8"
 "wait" "10"
+}
+//One gun only
+{
+"classname" "weapon_sniperScope"
+"origin" "3027 -232 793"
+"angle" "87"
 }
 #endif
 //
