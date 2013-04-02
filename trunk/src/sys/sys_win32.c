@@ -782,8 +782,26 @@ int Sys_GetProcessorId( void ) {
 }
 
 int Sys_GetHighQualityCPU() {
-        // TODO TTimo see win_shared.c IsP3 || IsAthlon
-        return 0;
+#define HIGH_QUALITY_CPU_RATE 1500
+
+	DWORD size = _MAX_PATH;
+	DWORD mhz = _MAX_PATH;
+	HKEY hKey;
+
+	long success = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
+			"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+			0,
+			KEY_READ,
+			&hKey );
+    
+	if( success != ERROR_SUCCESS ) {
+		return 0;
+	}
+
+	RegQueryValueEx( hKey, "~MHz", NULL, NULL, (LPBYTE) &mhz, &size );
+
+	// TIHan - If the processor is 1500mhz or above, we have a high quality cpu.
+    return mhz >= HIGH_QUALITY_CPU_RATE;
 }
 
 void Sys_InitStreamThread( void ) {
