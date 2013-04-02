@@ -1993,13 +1993,11 @@ void CG_RunLerpFrameRate( clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, c
 					lf->oldFramePos[0] = cent->currentState.pos.trBase[0];
 					lf->oldFramePos[1] = cent->currentState.pos.trBase[1];
 				}
-				// TTimo
-				// show_bug.cgi?id=407
-				if ( cg.snap != cg.nextSnap ) {
+
+				if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 					moveSpeed = Distance( cent->currentState.pos.trBase, cent->nextState.pos.trBase ) / ( (float)( cg.nextSnap->serverTime - cg.snap->serverTime ) / 1000.0 );
-				} else
-				{
-					moveSpeed = 0;
+				} else {
+					moveSpeed = Distance( cent->lerpOrigin, lf->oldFramePos ) / ( (float)( cg.time - lf->oldFrameTime ) / 1000.0 );
 				}
 			}
 			//
