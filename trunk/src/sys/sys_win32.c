@@ -259,24 +259,24 @@ unsigned int Sys_ProcessorCount( void ) {
 	size_t i;
 	size_t elements;
 	unsigned int cores = 0;
-    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION info = NULL;
-    DWORD size = 0;
+	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION info = NULL;
+	DWORD size = 0;
 
 	GetLogicalProcessorInformation( info, &size );
 	info = malloc( size );
-    if ( GetLogicalProcessorInformation( info, &size ) == FALSE ) {
+	if ( GetLogicalProcessorInformation( info, &size ) == FALSE ) {
 		free( info );
-        return 0;
-    }
+		return 0;
+	}
      
-    elements = size / sizeof( SYSTEM_LOGICAL_PROCESSOR_INFORMATION );  
-    for ( i = 0; i < elements; ++i ) {
-        if ( info[i].Relationship == RelationProcessorCore ) {
-            ++cores;
-        }
-    }
+	elements = size / sizeof( SYSTEM_LOGICAL_PROCESSOR_INFORMATION );  
+	for ( i = 0; i < elements; ++i ) {
+		if ( info[i].Relationship == RelationProcessorCore ) {
+			++cores;
+		}
+	}
 	free( info );
-    return cores;
+	return cores;
 }
 
 /*
