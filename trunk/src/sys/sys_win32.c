@@ -263,6 +263,10 @@ unsigned int Sys_ProcessorCount( void ) {
 	DWORD size = 0;
 
 	GetLogicalProcessorInformation( info, &size );
+	if ( GetLastError() != ERROR_INSUFFICIENT_BUFFER ) {
+		return 0;
+	}
+
 	info = malloc( size );
 	if ( GetLogicalProcessorInformation( info, &size ) == FALSE ) {
 		free( info );
@@ -832,7 +836,7 @@ int Sys_GetHighQualityCPU() {
 	RegQueryValueEx( hKey, "~MHz", NULL, NULL, (LPBYTE) &mhz, &size );
 
 	// TIHan - If the processor is 1500mhz or above, we have a high quality cpu.
-    return mhz >= HIGH_QUALITY_CPU_RATE;
+	return mhz >= HIGH_QUALITY_CPU_RATE;
 }
 
 void Sys_InitStreamThread( void ) {
