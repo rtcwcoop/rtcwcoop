@@ -31,13 +31,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <ctype.h>
 #include <errno.h>
 
+// TIHan - For now, let's not have threading on dedicated servers.
+#ifndef DEDICATED
+// TIHan - Let's only use threading on Win32 for now.
+#if defined( WIN32 ) || defined( _WIN32 )
+#define THREADING
+#endif
+#endif
+
 #ifndef DEDICATED
 #ifdef USE_LOCAL_HEADERS
 #	include "SDL.h"
 #	include "SDL_cpuinfo.h"
+#ifdef THREADING
+#	include "SDL_thread.h"
+#endif
 #else
 #	include <SDL.h>
 #	include <SDL_cpuinfo.h>
+#ifdef THREADING
+#	include <SDL_thread.h>
+#endif
 #endif
 #endif
 
@@ -592,6 +606,99 @@ void Sys_SigHandler( int signal )
 	else
 		Sys_Exit( 2 );
 }
+
+#ifdef THREADING
+
+struct thread_s {
+	struct SDL_Thread *sdl;
+};
+
+struct mutex_s {
+	struct SDL_mutex *sdl;
+};
+
+/*
+=================
+Sys_CreateThread
+=================
+*/
+thread_t *Sys_CreateThread( void *function, void *data ) {
+	thread_t *thread = ( thread_t * )malloc( sizeof( thread_t ) );
+	if ( !thread ) {
+		Com_Error( ERR_FATAL, "Unable to create thread" );
+	}
+
+	thread->sdl = SDL_CreateThread( ( int ( SDLCALL * )( void * ) )function, data);
+	return thread;
+}
+
+/*
+=================
+Sys_JoinThread
+=================
+*/
+void Sys_JoinThread( thread_t *thread ) {
+	SDL_WaitThread( thread->sdl, NULL );
+}
+
+/*
+=================
+Sys_DestroyThread
+=================
+*/
+void Sys_DestroyThread( thread_t *thread ) {
+	SDL_KillThread( thread->sdl );
+	free( thread );
+}
+
+/*
+=================
+Sys_CreateMutex
+=================
+*/
+mutex_t *Sys_CreateMutex() {
+	mutex_t *mutex = ( mutex_t * )malloc( sizeof( mutex_t ) );
+	if ( !mutex ) {
+		Com_Error( ERR_FATAL, "Unable to create mutex" );
+	}
+
+	mutex->sdl = SDL_CreateMutex();
+	return mutex;
+}
+
+/*
+=================
+Sys_LockMutex
+=================
+*/
+void Sys_LockMutex( mutex_t *mutex ) {
+	if ( SDL_mutexP( mutex->sdl ) == -1 ) {
+		Com_Error( ERR_FATAL, "Unable to lock mutex" );
+	}
+}
+
+/*
+=================
+Sys_UnlockMutex
+=================
+*/
+void Sys_UnlockMutex( mutex_t *mutex ) {
+	if ( SDL_mutexV( mutex->sdl ) == -1 ) {
+		Com_Error( ERR_FATAL, "Unable to unlock mutex" );
+	}
+}
+
+/*
+=================
+Sys_DestroyMutex
+=================
+*/
+void Sys_DestroyMutex( mutex_t *mutex ) {
+	SDL_DestroyMutex( mutex->sdl );
+	free( mutex );
+}
+
+#endif
 
 /*
 =================
