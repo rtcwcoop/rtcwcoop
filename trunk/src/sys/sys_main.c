@@ -31,13 +31,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <ctype.h>
 #include <errno.h>
 
-// TIHan - For now, let's not have threading on dedicated servers.
-#ifndef DEDICATED
-// TIHan - Let's only use threading on Win32 for now.
-#if defined( WIN32 ) || defined( _WIN32 )
-#define THREADING
-#endif
-#endif
+#include "sys_local.h"
+#include "sys_loadlib.h"
+
+#include "../game/q_shared.h"
+#include "../qcommon/qcommon.h"
+
+#include "../client/client.h"
 
 #ifndef DEDICATED
 #ifdef USE_LOCAL_HEADERS
@@ -54,14 +54,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 #endif
 #endif
-
-#include "sys_local.h"
-#include "sys_loadlib.h"
-
-#include "../game/q_shared.h"
-#include "../qcommon/qcommon.h"
-
-#include "../client/client.h"
 
 static char binaryPath[ MAX_OSPATH ] = { 0 };
 static char installPath[ MAX_OSPATH ] = { 0 };

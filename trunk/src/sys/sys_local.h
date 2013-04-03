@@ -68,7 +68,11 @@ const char *Sys_Basename( char *path );
 int Sys_PID( void );
 qboolean Sys_PIDIsRunning( int pid );
 
-#ifdef THREADING
+// TIHan - For now, let's not have threading on dedicated servers.
+#ifndef DEDICATED
+// TIHan - Let's only use threading on Win32 for now.
+#if defined( WIN32 ) || defined( _WIN32 )
+#define THREADING
 
 typedef struct thread_s thread_t;
 typedef struct mutex_s mutex_t;
@@ -81,4 +85,5 @@ void Sys_LockMutex( mutex_t *mutex );
 void Sys_UnlockMutex( mutex_t *mutex );
 void Sys_DestroyMutex( mutex_t *mutex );
 
+#endif
 #endif
