@@ -979,8 +979,10 @@ void ClientThink_real( gentity_t *ent ) {
 	}
 
 	// check for inactivity timer, but never drop the local client of a non-dedicated server
-	if ( !ClientInactivityTimer( client ) ) {
-		return;
+	if ( !G_IsEntityAI( ent ) ) { // fretn, don't drop bots
+		if ( !ClientInactivityTimer( client ) ) {
+			return;
+		}
 	}
 //----(SA) commented out
 	// clear the rewards if time

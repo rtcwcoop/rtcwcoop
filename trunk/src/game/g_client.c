@@ -1793,8 +1793,8 @@ void ClientSpawn( gentity_t *ent ) {
 			client->sess.sessionTeam = TEAM_BLUE;
 		}
 
-                // fretn: force this player to AICHAR_NONE (for G_IsClientAI)
-                ent->aiCharacter = AICHAR_NONE;
+		// fretn: force this player to AICHAR_NONE (for G_IsClientAI)
+		ent->aiCharacter = AICHAR_NONE;
 
 		if ( !ent->client->pers.initialSpawn ) {
 			ent->aiName = "player";  // needed for script AI
