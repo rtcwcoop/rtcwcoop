@@ -1169,11 +1169,14 @@ static void ParseSkyParms( char **text ) {
 			Com_sprintf( pathname, sizeof( pathname ), "%s_%s.tga"
 						 , token, suf[i] );
 // L0 - ioquake ATI skybox fix
+// fretn: undoing this again, people are reporting that the fog doesnt work on tram sometimes
+#if 0
 #ifdef GL_CLAMP_TO_EDGE
 			shader.sky.outerbox[i] = R_FindImageFile( ( char * ) pathname, qtrue, qtrue, GL_CLAMP_TO_EDGE );
 #else
 			shader.sky.outerbox[i] = R_FindImageFile( ( char * ) pathname, qtrue, qtrue, GL_CLAMP );
 #endif 
+#endif
 // End				
 			if ( !shader.sky.outerbox[i] ) {
 				shader.sky.outerbox[i] = tr.defaultImage;
@@ -2372,7 +2375,12 @@ static shader_t *FinishShader( void ) {
 	shader.numUnfoggedPasses = stage;
 
 	// fogonly shaders don't have any normal passes
+// fretn: undoing this again, people are reporting that the fog doesnt work on tram sometimes
+#if 0
 	if ( stage == 0 && !shader.isSky ) { // L0 - ioquake bug fix
+#else
+	if ( stage == 0 ) {
+#endif
 		shader.sort = SS_FOG;
 	}
 
