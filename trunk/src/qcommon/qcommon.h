@@ -203,11 +203,10 @@ typedef struct {
 } netadr_t;
 
 
-void        NET_Restart_f( void );
+void            NET_Restart_f( void );
 void        NET_Init( void );
 void        NET_Shutdown( void );
 void        NET_Restart( void );
-void        NET_FlushPacketQueue(void);
 void        NET_Config( qboolean enableNetworking );
 
 void        NET_SendPacket( netsrc_t sock, int length, const void *data, netadr_t to );
@@ -222,8 +221,6 @@ const char  *NET_AdrToStringwPort( netadr_t a );
 qboolean    NET_StringToAdr( const char *s, netadr_t *a );
 qboolean    NET_GetLoopPacket( netsrc_t sock, netadr_t *net_from, msg_t *net_message );
 void        NET_Sleep( int msec );
-
-#define NETCHAN_GENCHECKSUM(challenge, sequence) ((challenge) ^ ((sequence) * (challenge)))
 
 
 //----(SA)	increased for larger submodel entity counts
@@ -266,14 +263,10 @@ typedef struct {
 	int unsentFragmentStart;
 	int unsentLength;
 	byte unsentBuffer[MAX_MSGLEN];
-
-        int                     challenge;
-        int             lastSentTime;
-        int             lastSentSize;
 } netchan_t;
 
 void Netchan_Init( int qport );
-void Netchan_Setup( netsrc_t sock, netchan_t *chan, netadr_t adr, int qport, int challenge );
+void Netchan_Setup( netsrc_t sock, netchan_t *chan, netadr_t adr, int qport );
 
 void Netchan_Transmit( netchan_t *chan, int length, const byte *data );
 void Netchan_TransmitNextFragment( netchan_t *chan );
@@ -494,7 +487,6 @@ char    *Cmd_Cmd( void );
 // if arg > argc, so string operations are allways safe.
 
 void    Cmd_TokenizeString( const char *text );
-void    Cmd_TokenizeStringIgnoreQuotes( const char *text_in );
 // Takes a null terminated string.  Does not need to be /n terminated.
 // breaks the string up into arg tokens.
 
@@ -860,16 +852,7 @@ extern cvar_t  *com_cameraMode;
 extern cvar_t  *cl_paused;
 extern cvar_t  *sv_paused;
 
-extern  cvar_t  *cl_packetdelay;
-extern  cvar_t  *sv_packetdelay;
-
 extern cvar_t  *com_ansiColor;
-extern  cvar_t  *com_unfocused;
-extern  cvar_t  *com_maxfpsUnfocused;
-extern  cvar_t  *com_minimized;
-extern  cvar_t  *com_maxfpsMinimized;
-extern  cvar_t  *com_busyWait;
-
 
 // com_speeds times
 extern int time_game;
@@ -1019,11 +1002,9 @@ void SCR_DebugGraph( float value, int color );   // FIXME: move logging to commo
 //
 void SV_Init( void );
 void SV_Shutdown( char *finalmsg );
-int SV_FrameMsec(void);
 void SV_Frame( int msec );
 void SV_PacketEvent( netadr_t from, msg_t *msg );
 qboolean SV_GameCommand( void );
-int SV_SendQueuedPackets(void);
 
 
 //
@@ -1285,6 +1266,7 @@ extern huffman_t clientHuffTables;
 #error unknown OS
 #endif
 void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
+
 #endif // _QCOMMON_H_
 
 // TIHan - For now, let's not have threading on dedicated servers.
