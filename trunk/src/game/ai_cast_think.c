@@ -1146,7 +1146,7 @@ void AICast_PredictMovement( cast_state_t *cs, int numframes, float frametime, a
 	playerState_t ps;
 	pmove_t pm;
 	trace_t tr;
-	vec3_t end, startHitVec, thisHitVec, lastOrg, projPoint;
+	vec3_t end, startHitVec = { 0, 0, 0 }, thisHitVec, lastOrg, projPoint;
 	qboolean checkReachMarker;
 	gentity_t   *ent = &g_entities[cs->entityNum];
 	bot_input_t bi;
@@ -1282,7 +1282,7 @@ AICast_GetAvoid
 */
 qboolean AICast_GetAvoid( cast_state_t *cs, bot_goal_t *goal, vec3_t outpos, qboolean reverse, int blockEnt ) {
 	float yaw, oldyaw, distmoved, bestmoved, bestyaw;
-	vec3_t bestpos;
+	vec3_t bestpos = { 0, 0, 0 };
 	aicast_predictmove_t castmove;
 	usercmd_t ucmd;
 	qboolean enemyVisible;

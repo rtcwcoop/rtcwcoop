@@ -147,7 +147,7 @@ static void SV_Map_f( void ) {
 	char        *map;
 	char smapname[MAX_QPATH];
 	char mapname[MAX_QPATH];
-	qboolean killBots, cheat, buildScript;
+	qboolean killBots, cheat = qfalse, buildScript;
 	char expanded[MAX_QPATH];
 	// TTimo: unused
 	int			savegameTime = -1;

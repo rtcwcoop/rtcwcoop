@@ -111,13 +111,13 @@ static leakyBucket_t buckets[ MAX_BUCKETS ];
 static leakyBucket_t *bucketHashes[ MAX_HASHES ];
 
 /*
- ================
+================
 SVC_HashForAddress
 ================
 */
 static long SVC_HashForAddress( netadr_t address ) {
-        byte            *ip;
-        size_t  size;
+        byte            *ip = NULL;
+        size_t  size = 0;
         int                     i;
         long            hash = 0;
 

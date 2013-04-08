@@ -920,3 +920,4 @@ G_IsEntityDead
 qboolean G_IsEntityAI( gentity_t *entity ) {
 	return ( entity->aiCharacter != AICHAR_NONE );
 }
+

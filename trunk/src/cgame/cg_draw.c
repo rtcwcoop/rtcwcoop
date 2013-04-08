@@ -2524,7 +2524,7 @@ CG_DrawFlashZoomTransition
 static void CG_DrawFlashZoomTransition( void ) {
 	vec4_t color;
 	float frac;
-	int fadeTime;
+	int fadeTime = 0;
 
 	if ( !cg.snap ) {
 		return;

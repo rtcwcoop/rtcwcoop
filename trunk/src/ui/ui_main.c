@@ -1310,7 +1310,7 @@ static void UI_DrawNetGameType( rectDef_t *rect, int font, float scale, vec4_t c
 }
 
 static void UI_UIDrawSkill( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
-        char *txt;
+        char *txt = NULL;
 
 	if ( ui_skill.integer < 1 || ui_skill.integer > 3 ) {
 		trap_Cvar_Set( "ui_skill", "1" );
@@ -1327,7 +1327,7 @@ static void UI_UIDrawSkill( rectDef_t *rect, int font, float scale, vec4_t color
 }
 
 static void UI_DrawReinforce( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
-        char *txt;
+        char *txt = NULL;
 
 	if ( ui_reinforce.integer < 0 || ui_reinforce.integer > 2 ) {
 		trap_Cvar_Set( "ui_reinforce", "0" );

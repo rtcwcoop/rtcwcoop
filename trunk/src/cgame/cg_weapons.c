@@ -4165,7 +4165,7 @@ CG_WeaponBank_f
 ==============
 */
 void CG_WeaponBank_f( void ) {
-	int num, i, curweap;
+	int num = 0, i, curweap;
 	int curbank = 0, curcycle = 0, bank = 0, cycle = 0;
 
 	if ( !cg.snap ) {
@@ -4305,7 +4305,7 @@ The current weapon has just run out of ammo
 */
 void CG_OutOfAmmoChange( void ) {
 	int i;
-	int bank, cycle;
+	int bank = 0, cycle = 0;
 	int equiv = WP_NONE;
 
 	//
@@ -4906,7 +4906,7 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, in
 	float light;
 	vec3_t lightColor;
 	localEntity_t   *le;
-	int r;
+	int r = 0;
 	qboolean alphaFade = qfalse;
 	qboolean isSprite;
 	int duration;

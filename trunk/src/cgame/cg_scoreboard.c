@@ -45,8 +45,8 @@ void CG_DrawCoopScoreboard( void )
         long score;
         int ping;
 #ifdef MONEY
-        int deaths;
-        float damage_ratio;
+        int deaths = 0;
+        float damage_ratio = 0.0f;
         int highest_score;
         float highest_damage_ratio;
         int lowest_deaths;

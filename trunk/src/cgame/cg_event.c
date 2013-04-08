@@ -2988,3 +2988,4 @@ void CG_CheckEvents( centity_t *cent ) {
 	cent->currentState.event = cent->previousEvent;
 }
 */
+

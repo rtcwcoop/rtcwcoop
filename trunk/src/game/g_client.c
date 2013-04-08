@@ -1760,7 +1760,7 @@ void ClientSpawn( gentity_t *ent ) {
 	clientPersistant_t saved;
 	clientSession_t savedSess;
 	int persistant[MAX_PERSISTANT];
-	gentity_t   *spawnPoint;
+	gentity_t   *spawnPoint = NULL;
 	int flags;
 	int savedPing;
 	//int savedTeam;
@@ -1768,10 +1768,10 @@ void ClientSpawn( gentity_t *ent ) {
         // fretn
         int savedAmmo[MAX_WEAPONS];
         int savedAmmoclip[MAX_WEAPONS];
-        int savedWeapon, savedWeaponstate;
+        int savedWeapon = 0, savedWeaponstate = 0;
         int savedWeapons[MAX_WEAPONS];
-	vec3_t saved_spawn_origin, saved_spawn_angles;
-        qboolean savedHasCoopSpawn;
+	vec3_t saved_spawn_origin = { 0, 0, 0 }, saved_spawn_angles = { 0, 0, 0 };
+        qboolean savedHasCoopSpawn = qtrue;
 
 	index = ent - g_entities;
 	client = ent->client;
