@@ -523,7 +523,7 @@ void CG_LoseHat( centity_t *cent, vec3_t dir ) {
 	int clientNum;
 //	int i, count, tagIndex, gibIndex;
 	int tagIndex;
-	vec3_t origin, velocity;
+	vec3_t origin = { 0 }, velocity = { 0 };
 
 	clientNum = cent->currentState.clientNum;
 	if ( clientNum < 0 || clientNum >= MAX_CLIENTS ) {
