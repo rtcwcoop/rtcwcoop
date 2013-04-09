@@ -1267,8 +1267,6 @@ extern huffman_t clientHuffTables;
 #endif
 void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
 
-#endif // _QCOMMON_H_
-
 // TIHan - For now, let's not have threading on dedicated servers.
 #ifndef DEDICATED
 // TIHan - Let's only use threading on Win32 for now.
@@ -1289,3 +1287,4 @@ void Sys_DestroyMutex( mutex_t *mutex );
 #endif
 #endif
 
+#endif // _QCOMMON_H_
