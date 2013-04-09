@@ -1288,3 +1288,4 @@ void Sys_DestroyMutex( mutex_t *mutex );
 #endif
 
 #endif // _QCOMMON_H_
+
