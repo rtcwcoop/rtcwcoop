@@ -4822,9 +4822,10 @@ void CL_LoadTransTable( const char *fileName ) {
 CL_ReloadTranslation
 =======================
 */
-void CL_ReloadTranslation() {
+void CL_ReloadTranslation( void ) {
 	char    **fileList;
 	int numFiles, i;
+	char fileName[MAX_QPATH];
 
 	for ( i = 0; i < FILE_HASH_SIZE; i++ ) {
 		if ( transTable[i] ) {
@@ -4838,7 +4839,8 @@ void CL_ReloadTranslation() {
 	fileList = FS_ListFiles( "translations", ".lang", &numFiles );
 
 	for ( i = 0; i < numFiles; i++ ) {
-		CL_LoadTransTable( va( "translations/%s", fileList[i] ) );
+		Com_sprintf( fileName, sizeof (fileName), "translations/%s", fileList[i] );
+		CL_LoadTransTable( fileName );
 	}
 }
 
@@ -4847,9 +4849,10 @@ void CL_ReloadTranslation() {
 CL_InitTranslation
 =======================
 */
-void CL_InitTranslation() {
+void CL_InitTranslation( void ) {
 	char    **fileList;
 	int numFiles, i;
+	char fileName[MAX_QPATH];
 
 	memset( transTable, 0, sizeof( trans_t* ) * FILE_HASH_SIZE );
 	CL_LoadTransTable( "scripts/translation.lang" );
@@ -4857,7 +4860,8 @@ void CL_InitTranslation() {
 	fileList = FS_ListFiles( "translations", ".lang", &numFiles );
 
 	for ( i = 0; i < numFiles; i++ ) {
-		CL_LoadTransTable( va( "translations/%s", fileList[i] ) );
+		Com_sprintf( fileName, sizeof (fileName), "translations/%s", fileList[i] );
+		CL_LoadTransTable( fileName );
 	}
 }
 
