@@ -4,17 +4,17 @@
 "scriptname" "game_manager"
 }
 
-// AXIS SPAWNPOINTS (flags: 0 = allied and disabled; 1 = allied and enabled; 2 = axis and disabled; 3 = axis and enabled)
+// AXIS SPAWNPOINTS (flags: 0 = disabled; 1 enabled; 2 = allied and disabled; 3 = allied and enabled; 4 = axis and disabled; 5 = axis and enabled; 6 = axis and allied and disabled; 7 = axis and allied and enabled)
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "3" 
+"spawnflags" "5" 
 "origin" "-127 -1822 -39"
 "angle" "1" 
 }
 
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "3" 
+"spawnflags" "5" 
 "origin" "-162 -1625 -39"
 "angle" "-5"
 }
@@ -24,49 +24,49 @@
 
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "814 -2436 -39"
 "angle" "88"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "703 -2432 -39"
 "angle" "88"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "706 -2347 -39"
 "angle" "88"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "805 -2350 -39"
 "angle" "88"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "776 -2271 -39"
 "angle" "88"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "699 -2268 -39"
 "angle" "88"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "702 -2169 -39"
 "angle" "88"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "1"
+"spawnflags" "3"
 "origin" "766 -2171 -39"
 "angle" "88"
 }

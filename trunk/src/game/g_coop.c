@@ -31,7 +31,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "g_coop.h"
 
 #define SPAWNPOINT_ENABLED      1
-#define SPAWNPOINT_AXIS         2 
+#define SPAWNPOINT_ALLIES       2 
+#define SPAWNPOINT_AXIS         4
 
 // fretn - set weapons when player spawns in coop
 // in the map dam, the player gets all the weapons, bug !
@@ -216,98 +217,97 @@ struct gspawnpoint_s {
 typedef struct gspawnpoint_s gspawnpoint_t;
 
 gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t angles ) { 
-        int i = 0;
-        int count = 0;
-        int clientnum = -1;
-        int selection;
-        gentity_t       *spot = NULL;
-        //gentity_t       *spots[MAX_SPAWN_POINTS];
-        gspawnpoint_t   *spots[MAX_SPAWN_POINTS];
-        gspawnpoint_t   spawnpoint;
+	int i = 0;
+	int count = 0;
+	int clientnum = -1;
+	int selection;
+	gentity_t       *spot = NULL;
+	//gentity_t       *spots[MAX_SPAWN_POINTS];
+	gspawnpoint_t   *spots[MAX_SPAWN_POINTS];
+	gspawnpoint_t   spawnpoint;
 
-        for (i=MAX_COOP_CLIENTS; i<level.maxclients; i++) {
-                spot = g_entities + i; 
+	for (i=MAX_COOP_CLIENTS; i<level.maxclients; i++) {
+		spot = g_entities + i; 
 
-                if (!spot->client)
-                        continue;
+		if (!spot->client)
+			continue;
 
-                if (spot->aiInactive)
-                        continue;
+		if (spot->aiInactive)
+			continue;
 
-                if (spot->health <= 0)
-                        continue;
+		if (spot->health <= 0)
+			continue;
 
-                spawnpoint.spot = spot;
-                spawnpoint.clientNum = i;
+		spawnpoint.spot = spot;
+		spawnpoint.clientNum = i;
 
-                spots[ count ] = &spawnpoint;
+		spots[ count ] = &spawnpoint;
 
-                count++;
+		count++;
+	}
 
-        }
+	// no alive and active bots found, just now look for a bot that is alive
+	if (!count) {
+		for (i=MAX_COOP_CLIENTS; i<level.maxclients; i++) {
+			spot = g_entities + i; 
 
-        // no alive and active bots found, just now look for a bot that is alive
-        if (!count) {
-                for (i=MAX_COOP_CLIENTS; i<level.maxclients; i++) {
-                        spot = g_entities + i; 
+			if (!spot->client)
+				continue;
 
-                        if (!spot->client)
-                                continue;
+			if (spot->health <= 0)
+				continue;
 
-                        if (spot->health <= 0)
-                                continue;
+			spawnpoint.spot = spot;
+			spawnpoint.clientNum = i;
 
-                        spawnpoint.spot = spot;
-                        spawnpoint.clientNum = i;
+			spots[ count ] = &spawnpoint;
+			count++;
+		}
 
-                        spots[ count ] = &spawnpoint;
-                        count++;
-                }
+		// what to do if no AI's are alive, where to spawn ? (after a map_restart his can be the cause, because ai's spawn later than humans)
+		// -> every map needs two initial axis spawnpoints, for cases like this, they need to have the enabled and axis spawnflag set (spawnflags 5)
+		if (!count) {
+			while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) { 
+				if ( SpotWouldTelefrag( spot ) ) { 
+					continue;
+				}    
 
-                // what to do if no AI's are alive, where to spawn ? (after a map_restart his can be the cause, because ai's spawn later than humans)
-                // -> every map needs two initial axis spawnpoints, for cases like this, they need to have the enabled and axis spawnflag set (spawnflags 3)
-                if (!count) {
-                        while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) { 
-                                if ( SpotWouldTelefrag( spot ) ) { 
-                                        continue;
-                                }    
+				if (spot->spawnflags & SPAWNPOINT_ENABLED && spot->spawnflags & SPAWNPOINT_AXIS) {
+					spawnpoint.spot = spot;
+					spawnpoint.clientNum = -1;
 
-                                if (spot->spawnflags & SPAWNPOINT_ENABLED && spot->spawnflags & SPAWNPOINT_AXIS) {
-                                        spawnpoint.spot = spot;
-                                        spawnpoint.clientNum = -1;
+					spots[ count ] = &spawnpoint;
+					count++;
+				}   
+			}
 
-                                        spots[ count ] = &spawnpoint;
-                                        count++;
-                                }   
-                        }
+			if (!count) {
+				return NULL;
+			}
+		}
+	}
 
-                        if (!count) {
-                                return NULL;
-                        }
-                }
-        }
-
-        selection = rand() % count;
-        spot = spots[ selection ]->spot;
-        clientnum = spots[ selection ]->clientNum;
+	selection = rand() % count;
+	spot = spots[ selection ]->spot;
+	clientnum = spots[ selection ]->clientNum;
 
 	if ( spot->client ) {
 		VectorCopy( spot->client->ps.origin, origin );
 	} else {
-        	VectorCopy( spot->s.origin, origin );
+		VectorCopy( spot->s.origin, origin );
 	}
-        origin[2] += 9;
-        VectorCopy( spot->s.angles, angles );
 
-        // kill the bot
-        // this is handled in clientspawn in g_client.c (see g_killbox();)
-        if (clientnum >= MAX_COOP_CLIENTS && spot->client ) {
-                // do we want this spam ?
-                trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " has made an offer of flesh and blood.\n\"", ent->client->pers.netname ) );
-        }
+	origin[2] += 9;
+	VectorCopy( spot->s.angles, angles );
 
-        return spot;
+	// kill the bot
+	// this is handled in clientspawn in g_client.c (see g_killbox();)
+	if (clientnum >= MAX_COOP_CLIENTS && spot->client ) {
+		// do we want this spam ?
+		trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " has made an offer of flesh and blood.\n\"", ent->client->pers.netname ) );
+	}
 
+	return spot;
 }
 
 /*
@@ -318,75 +318,72 @@ go to a random point that doesn't telefrag
 ================
 */
 gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
-        gentity_t   *spot;
-        int count;
-        int selection;
-        gentity_t   *spots[MAX_SPAWN_POINTS];
+	gentity_t   *spot;
+	int count;
+	int selection;
+	gentity_t   *spots[MAX_SPAWN_POINTS];
 
-        count = 0; 
-        spot = NULL;
+	count = 0; 
+	spot = NULL;
 
-        while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
-                if ( SpotWouldTelefrag( spot ) ) {
-                        continue;
-                }    
+	while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
+		if ( SpotWouldTelefrag( spot ) ) {
+			continue;
+		}    
 
-                if (spot->spawnflags & SPAWNPOINT_ENABLED && !(spot->spawnflags & SPAWNPOINT_AXIS)) {
-                    spots[ count ] = spot;
-                    count++;
-                }
-        }    
+		if (spot->spawnflags & SPAWNPOINT_ENABLED && spot->spawnflags & SPAWNPOINT_ALLIES) {
+			spots[ count ] = spot;
+			count++;
+		}
+	}    
 
-        if ( !count ) { // no spots that won't telefrag
-                spot = G_Find( NULL, FOFS( classname ), "coop_spawnpoint" );
+	if ( !count ) { // no spots that won't telefrag
+		spot = G_Find( NULL, FOFS( classname ), "coop_spawnpoint" );
 
-                if (spot)
-                {
-                        if ( !(spot->spawnflags & SPAWNPOINT_ENABLED) || spot->spawnflags & SPAWNPOINT_AXIS) {
-                                return NULL;
-                        } else {
-                                VectorCopy( spot->s.origin, origin );
-                                origin[2] += 9;
-                                VectorCopy( spot->s.angles, angles );
+		if (spot) {
+			if ( !(spot->spawnflags & SPAWNPOINT_ENABLED)) {
+				return NULL;
+			} else {
+				VectorCopy( spot->s.origin, origin );
+				origin[2] += 9;
+				VectorCopy( spot->s.angles, angles );
 
-                                return spot;
-                        }
-                }
-                else
-                {
-                        return NULL;
-                }
-        }    
+				return spot;
+			}
+		} else {
+			return NULL;
+		}
+	}    
 
-        selection = rand() % count;
-        spot = spots[ selection ];
+	selection = rand() % count;
+	spot = spots[ selection ];
 
-        VectorCopy( spot->s.origin, origin );
-        origin[2] += 9;
-        VectorCopy( spot->s.angles, angles );
+	VectorCopy( spot->s.origin, origin );
+	origin[2] += 9;
+	VectorCopy( spot->s.angles, angles );
 
-        return spot;
+	return spot;
 }
 
 // Resets player's current stats
 void Coop_DeleteStats( int clientnum ) { 
-        gclient_t *cl = &level.clients[clientnum];
+	gclient_t *cl = &level.clients[clientnum];
 
 	cl->sess.prop_damage = 0;
 	cl->sess.airtime = 0;
 	cl->sess.pickups = 0;
-        cl->sess.damage_given = 0;
-        cl->sess.damage_received = 0;
-        cl->sess.deaths = 0;
-        cl->sess.kills = 0;
-        cl->sess.suicides = 0;
+	cl->sess.damage_given = 0;
+	cl->sess.damage_received = 0;
+	cl->sess.deaths = 0;
+	cl->sess.kills = 0;
+	cl->sess.suicides = 0;
 
-        cl->sess.lastBonusLifeScore = 0;
+	cl->sess.lastBonusLifeScore = 0;
 }
 
 // Records accuracy, damage, and kill/death stats.
 void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod ) { 
-        int dmg;
+	int dmg;
 
 
 	if ( !targ->client && attacker && attacker->client) {
@@ -394,24 +391,24 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
 		return;
 	}
 
-        // Keep track of only active player-to-player interactions in a real game
-        if ( !targ || !targ->client ||
-                 ( g_gametype.integer >= GT_SINGLE_PLAYER && ( targ->s.eFlags == EF_DEAD || targ->client->ps.pm_type == PM_DEAD ) ) ) { 
-                return;
-        }   
+	// Keep track of only active player-to-player interactions in a real game
+	if ( !targ || !targ->client ||
+				( g_gametype.integer >= GT_SINGLE_PLAYER && ( targ->s.eFlags == EF_DEAD || targ->client->ps.pm_type == PM_DEAD ) ) ) { 
+		return;
+	}   
 
-        // Suicides only affect the player specifically
-        if ( targ == attacker || !attacker || !attacker->client ) { 
-                if ( targ->health <= 0 ) { 
-                        targ->client->sess.suicides++;
-                }   
-                return;
-        }   
+	// Suicides only affect the player specifically
+	if ( targ == attacker || !attacker || !attacker->client ) { 
+		if ( targ->health <= 0 ) { 
+			targ->client->sess.suicides++;
+		}   
+		return;
+	}   
 
-        // Telefrags dont add points
-        if ( mod == MOD_TELEFRAG ) {
-                dmg = 0;
-        } else { 
+	// Telefrags dont add points
+	if ( mod == MOD_TELEFRAG ) {
+		dmg = 0;
+	} else { 
 		dmg = dmg_ref;
 	}
 
@@ -434,84 +431,54 @@ void Coop_AddStats( gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod )
 			attacker->client->ps.persistant[PERS_SCORE] -= dmg;
 #endif
 		} else { // bot
-                        attacker->client->sess.damage_given -= dmg;
+			attacker->client->sess.damage_given -= dmg;
 #ifndef MONEY
-                        if (g_gametype.integer != GT_COOP_BATTLE)
-                                attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+			if (g_gametype.integer != GT_COOP_BATTLE)
+				attacker->client->ps.persistant[PERS_SCORE] -= dmg;
 #else
-                        attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+			attacker->client->ps.persistant[PERS_SCORE] -= dmg;
 #endif
 		}
 
 	} else if ( attacker->client->sess.sessionTeam == TEAM_BLUE ) {
 		if ( targ->client->sess.sessionTeam == TEAM_RED ) {
-                        attacker->client->sess.damage_given += dmg;
+			attacker->client->sess.damage_given += dmg;
 #ifndef MONEY
-                        if (g_gametype.integer != GT_COOP_BATTLE)
-                                attacker->client->ps.persistant[PERS_SCORE] += dmg;
+			if (g_gametype.integer != GT_COOP_BATTLE)
+				attacker->client->ps.persistant[PERS_SCORE] += dmg;
 #else
-                        attacker->client->ps.persistant[PERS_SCORE] += dmg;
+			attacker->client->ps.persistant[PERS_SCORE] += dmg;
 #endif
-                        targ->client->sess.damage_received += dmg;
+			targ->client->sess.damage_received += dmg;
 		} else if ( targ->client->sess.sessionTeam == TEAM_BLUE ) { // teamdmg
-                        attacker->client->sess.damage_given -= dmg;
+			attacker->client->sess.damage_given -= dmg;
 #ifndef MONEY
-                        if (g_gametype.integer != GT_COOP_BATTLE)
-                                attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+			if (g_gametype.integer != GT_COOP_BATTLE)
+				attacker->client->ps.persistant[PERS_SCORE] -= dmg;
 #else
-                        attacker->client->ps.persistant[PERS_SCORE] -= dmg;
+			attacker->client->ps.persistant[PERS_SCORE] -= dmg;
 #endif
 		} else { // bot
-                        attacker->client->sess.damage_given += dmg;
+			attacker->client->sess.damage_given += dmg;
 #ifndef MONEY
-                        if (g_gametype.integer != GT_COOP_BATTLE)
-                                attacker->client->ps.persistant[PERS_SCORE] += dmg;
+			if (g_gametype.integer != GT_COOP_BATTLE)
+				attacker->client->ps.persistant[PERS_SCORE] += dmg;
 #else
-                        attacker->client->ps.persistant[PERS_SCORE] += dmg;
+			attacker->client->ps.persistant[PERS_SCORE] += dmg;
 #endif
-                        targ->client->sess.damage_received += dmg;
+			targ->client->sess.damage_received += dmg;
 		}
 
 	} else { // bots don't need stats ?
 
 	}
 
-
-
-#if 0
-                if  ( !(targ->r.svFlags & SVF_CASTAI) ) {
-                        /*if ( g_friendlyFire.integer == 3 ) {
-                                attacker->client->sess.damage_given -= (dmg*2);
-                                if (g_gametype.integer != GT_COOP_BATTLE)
-                                        attacker->client->ps.persistant[PERS_SCORE] -= (dmg*2);
-                        } else {*/
-                                attacker->client->sess.damage_given -= dmg;
-#ifndef MONEY
-                                if (g_gametype.integer != GT_COOP_BATTLE)
-                                        attacker->client->ps.persistant[PERS_SCORE] -= dmg;
-#else
-                                attacker->client->ps.persistant[PERS_SCORE] -= dmg;
-#endif
-                                targ->client->sess.damage_received += dmg;
-                        //}
-                } else {
-                        attacker->client->sess.damage_given += dmg;
-#ifndef MONEY
-                        if (g_gametype.integer != GT_COOP_BATTLE)
-                                attacker->client->ps.persistant[PERS_SCORE] += dmg;
-#else
-                        attacker->client->ps.persistant[PERS_SCORE] += dmg;
-#endif
-                        targ->client->sess.damage_received += dmg;
-                }
-#endif
-
 	if ( targ->health <= 0 ) {
 		attacker->client->sess.kills++;
 		targ->client->sess.deaths++;
 	}
 
-        CalculateRanks();
+	CalculateRanks();
 
 }
 
@@ -562,25 +529,26 @@ void spawnpoint_trigger_think( gentity_t *self ) {
 
 
 void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
-        gentity_t *ent = NULL;
-        qboolean named = qfalse;
+	gentity_t *ent = NULL;
+	qboolean named = qfalse;
 
-        /*if ( self->count == other->client->sess.sessionTeam ) {
-                return;
-        }*/
+	/*if ( self->count == other->client->sess.sessionTeam ) {
+			return;
+	}*/
 
-        // TODO: AI's should be able to recapture the flags
-        if (other->r.svFlags & SVF_CASTAI)
-                return;
+	// TODO: AI's should be able to recapture the flags
+	if (other->r.svFlags & SVF_CASTAI)
+		return;
 
-        // Set controlling team
-        self->count = other->client->sess.sessionTeam;
+	// Set controlling team
+	self->count = other->client->sess.sessionTeam;
 
-        if ( self->s.frame == WCP_ANIM_NOFLAG ) {
+	if ( self->s.frame == WCP_ANIM_NOFLAG ) {
 		if ( other->client->sess.sessionTeam == TEAM_BLUE ) {
 			self->s.frame = WCP_ANIM_RAISE_AMERICAN;
 			// Play a sound
 			G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
+
 			while ( ( ent = G_Find( ent, FOFS( classname ), "target_location" ) ) != NULL ) { 
 
 				if ( !ent ) { 
@@ -593,7 +561,7 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 					break;
 				}
 			} 
-		    
+		
 			if (!named) 
 				trap_SendServerCommand( -1, va("cp \"%s ^7has secured \na new spawnzone.\n\"", other->client->pers.netname) );    
 		} else {
@@ -601,44 +569,43 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 			return;
 		}
 
-        } else if ( self->s.frame == WCP_ANIM_NAZI_RAISED ) {
+	} else if ( self->s.frame == WCP_ANIM_NAZI_RAISED ) {
 		if ( other->client->sess.sessionTeam == TEAM_BLUE ) {
 			self->s.frame = WCP_ANIM_NAZI_TO_AMERICAN;
 			G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
 		}
-        } else if ( self->s.frame == WCP_ANIM_AMERICAN_RAISED ) {
+	} else if ( self->s.frame == WCP_ANIM_AMERICAN_RAISED ) {
 		if ( other->client->sess.sessionTeam == TEAM_RED ) {
 			self->s.frame = WCP_ANIM_AMERICAN_TO_NAZI;
 			G_AddEvent( self, EV_GENERAL_SOUND, self->soundPos1 );
 		}
-        } else {
-                self->s.frame = WCP_ANIM_AMERICAN_RAISED;
-        }    
+	} else {
+		self->s.frame = WCP_ANIM_AMERICAN_RAISED;
+	}    
 
 
-        // Don't allow touch again until animation is finished
-        self->touch = NULL;
+	// Don't allow touch again until animation is finished
+	self->touch = NULL;
 
-        self->think = spawnpoint_trigger_think;
-        self->nextthink = level.time + 1000;
+	self->think = spawnpoint_trigger_think;
+	self->nextthink = level.time + 1000;
 
-
-
-        // activate all targets
-        if ( self->target ) {
-                // if you touch a pole as an american, all spawnpoints connected to it are enabled, others are disabled
-                // so we first have to disable all of them, and then enable the ones we are targetting
-                // we also have to get the other flags down
+	// activate all targets
+	if ( self->target ) {
+		// if you touch a pole as an american, all spawnpoints connected to it are enabled, others are disabled
+		// so we first have to disable all of them, and then enable the ones we are targetting
+		// we also have to get the other flags down
 
 		// disable all the spawnpoints
 		while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
 			if ( !ent ) {
 				break;
 			}    
-			
-                        if ( !(ent->spawnflags & SPAWNPOINT_AXIS) ) {
-                                ent->spawnflags &= ~SPAWNPOINT_ENABLED;
-                        }
+		
+			// don't disable axis spawnpoints
+			if ( !(ent->spawnflags & SPAWNPOINT_AXIS) ) {
+					ent->spawnflags &= ~SPAWNPOINT_ENABLED;
+			}
 		} 
 
 		// now disable all the other flags
@@ -657,11 +624,12 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 			// now enable the spawnpoints where targetname == coop_spawnpoint_trigger->target
 			while ( 1 ) {
 				ent = G_Find( ent, FOFS( targetname ), self->target );
+
 				if ( !ent ) {
 					break;
 				}    
 
-				if ( !strcmp( ent->classname,"coop_spawnpoint" ) && !(ent->spawnflags & SPAWNPOINT_AXIS) ) {
+				if ( !strcmp( ent->classname,"coop_spawnpoint" ) && ent->spawnflags & SPAWNPOINT_ALLIES ) {
 					ent->spawnflags |= SPAWNPOINT_ENABLED;
 				}    
 
@@ -673,19 +641,17 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 			// now enable the spawnpoints where targetname == NULL
 			while ( 1 ) {
 				ent = G_Find( ent, FOFS( targetname ), self->target );
+
 				if ( !ent ) {
 					break;
 				}    
 
-				if ( ent->targetname == NULL && !(ent->spawnflags & SPAWNPOINT_AXIS)) {
+				if ( ent->targetname == NULL && ent->spawnflags & SPAWNPOINT_ALLIES) {
 					ent->spawnflags |= SPAWNPOINT_ENABLED;
 				}    
-
 			}    
 		}
-        }    
-
-
+	}    
 }
 
 
@@ -700,52 +666,48 @@ When axis capture, it will call "axis_capture".
 
 */
 void SP_coop_spawnpoint_trigger( gentity_t *ent ) {
-        char *capture_sound;
+	char *capture_sound;
 
-        if (g_spawnpoints.integer != 2)
-                return;
+	if (g_spawnpoints.integer != 2)
+		return;
 
-        /*if ( !ent->scriptName ) {
-                G_Error( "team_WOLF_checkpoint must have a \"scriptname\"\n" );
-        }*/
+	// Make sure the ET_TRAP entity type stays valid
+	ent->s.eType        = ET_TRAP;
 
-        // Make sure the ET_TRAP entity type stays valid
-        ent->s.eType        = ET_TRAP;
+	// Model is user assignable, but it will always try and use the animations for flagpole.md3
+	if ( ent->model ) {
+		ent->s.modelindex   = G_ModelIndex( ent->model );
+	} else {
+		ent->s.modelindex   = G_ModelIndex( "models/multiplayer/flagpole/flagpole.md3" );
+	}
 
-        // Model is user assignable, but it will always try and use the animations for flagpole.md3
-        if ( ent->model ) {
-                ent->s.modelindex   = G_ModelIndex( ent->model );
-        } else {
-                ent->s.modelindex   = G_ModelIndex( "models/multiplayer/flagpole/flagpole.md3" );
-        }
+	G_SpawnString( "noise", "sound/movers/doors/door6_open.wav", &capture_sound );
+	ent->soundPos1  = G_SoundIndex( capture_sound );
 
-        G_SpawnString( "noise", "sound/movers/doors/door6_open.wav", &capture_sound );
-        ent->soundPos1  = G_SoundIndex( capture_sound );
+	ent->clipmask   = CONTENTS_SOLID;
+	ent->r.contents = CONTENTS_SOLID;
 
-        ent->clipmask   = CONTENTS_SOLID;
-        ent->r.contents = CONTENTS_SOLID;
+	VectorSet( ent->r.mins, -8, -8, 0 );
+	VectorSet( ent->r.maxs, 8, 8, 128 );
 
-        VectorSet( ent->r.mins, -8, -8, 0 );
-        VectorSet( ent->r.maxs, 8, 8, 128 );
+	G_SetOrigin( ent, ent->s.origin );
+	G_SetAngle( ent, ent->s.angles );
 
-        G_SetOrigin( ent, ent->s.origin );
-        G_SetAngle( ent, ent->s.angles );
+	// s.frame is the animation number
+	ent->s.frame    = WCP_ANIM_NOFLAG;
 
-        // s.frame is the animation number
-        ent->s.frame    = WCP_ANIM_NOFLAG;
+	// s.teamNum is which set of animations to use ( only 1 right now )
+	ent->s.teamNum  = 1;
 
-        // s.teamNum is which set of animations to use ( only 1 right now )
-        ent->s.teamNum  = 1;
+	// Used later to set animations (and delay between captures)
+	ent->nextthink = 0;
 
-        // Used later to set animations (and delay between captures)
-        ent->nextthink = 0;
+	// 'count' signifies which team holds the checkpoint
+	ent->count = -1;
 
-        // 'count' signifies which team holds the checkpoint
-        ent->count = -1;
+	ent->touch      = spawnpoint_trigger_touch;
+	ent->use        = spawnpoint_trigger_use;       // allow 'capture' from trigger
 
-        ent->touch      = spawnpoint_trigger_touch;
-        ent->use        = spawnpoint_trigger_use;       // allow 'capture' from trigger
-
-        trap_LinkEntity( ent );
+	trap_LinkEntity( ent );
 }
 
