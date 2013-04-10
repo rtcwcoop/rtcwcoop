@@ -2076,7 +2076,7 @@ qboolean Item_ListBox_HandleKey( itemDef_t *item, int key, qboolean down, qboole
 			}
 		} else {
 			viewmax = ( item->window.rect.h / listPtr->elementHeight );
-			if ( key == K_UPARROW || key == K_KP_UPARROW ) {
+			if ( key == K_UPARROW || key == K_KP_UPARROW || key == K_MWHEELUP ) {
 				if ( !listPtr->notselectable ) {
 					listPtr->cursorPos--;
 					if ( listPtr->cursorPos < 0 ) {
@@ -2098,7 +2098,7 @@ qboolean Item_ListBox_HandleKey( itemDef_t *item, int key, qboolean down, qboole
 				}
 				return qtrue;
 			}
-			if ( key == K_DOWNARROW || key == K_KP_DOWNARROW ) {
+			if ( key == K_DOWNARROW || key == K_KP_DOWNARROW || key == K_MWHEELDOWN ) {
 				if ( !listPtr->notselectable ) {
 					listPtr->cursorPos++;
 					if ( listPtr->cursorPos < listPtr->startPos ) {
@@ -2123,6 +2123,8 @@ qboolean Item_ListBox_HandleKey( itemDef_t *item, int key, qboolean down, qboole
 		}
 		// mouse hit
 		if ( key == K_MOUSE1 || key == K_MOUSE2 ) {
+			Item_ListBox_MouseEnter( item, DC->cursorx, DC->cursory );
+
 			if ( item->window.flags & WINDOW_LB_LEFTARROW ) {
 				listPtr->startPos--;
 				if ( listPtr->startPos < 0 ) {
