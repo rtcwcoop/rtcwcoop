@@ -599,6 +599,38 @@ void Sys_SigHandler( int signal )
 		Sys_Exit( 2 );
 }
 
+/*
+=================
+Sys_Malloc
+=================
+*/
+void *Sys_Malloc( size_t size ) {
+	void *p = NULL;
+
+	errno = 0;
+	p = malloc( size );
+	if ( !p || errno == ENOMEM )
+		return NULL;
+
+	return p;
+}
+
+/*
+=================
+Sys_Malloc0
+=================
+*/
+void *Sys_Malloc0( size_t size ) {
+	void *p = Sys_Malloc( size );
+
+	if ( !p ) {
+		return NULL;
+	}
+
+	memset( p, 0, size );
+	return p;
+}
+
 #ifdef THREADING
 
 struct thread_s {

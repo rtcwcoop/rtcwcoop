@@ -1267,6 +1267,10 @@ extern huffman_t clientHuffTables;
 #endif
 void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
 
+// TIHan - System memory allocation.
+void *Sys_Malloc( size_t size );
+void *Sys_Malloc0( size_t size );
+
 // TIHan - For now, let's not have threading on dedicated servers.
 #ifndef DEDICATED
 // TIHan - Let's only use threading on Win32 for now.

@@ -1078,13 +1078,13 @@ static void Com_AllocHunkMemory( const int nAlloc, const int nMinAlloc ) {
 
 	total = startTotal;
 #ifdef OLD_HUNK_ALLOC
-	data = ( byte * )malloc( total + 31 );
+	data = malloc( total + 31 );
 	if ( !data ) {
 		Com_Error( ERR_FATAL, "Hunk data failed to allocate %i megs", total / ( 1024 * 1024 ) );
 	}
 #else
 	while ( 1 ) {
-		data = ( byte * )calloc( total + 31, 1 );
+		data = Sys_Malloc0( total + 31 );
 		if ( data ) {
 			// TIHan - We got a successful allocation.
 			Com_Printf( "Hunk data successfully allocated %i megs.\n", total / ( 1024 * 1024 ) );
