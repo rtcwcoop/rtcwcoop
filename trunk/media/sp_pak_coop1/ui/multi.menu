@@ -318,15 +318,15 @@ itemDef {
 			name			passwordEntry
 			group			grpJoin
 			visible			1
-			rect			160 198 200 15
+			rect			160 198 270 15
 			textstyle		6			
 			forecolor		1 1 1 1
 			outlinecolor	1 1 0 .5
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_EDITFIELD
 			style			0
-			maxChars		16
-			maxpaintchars	16
+			maxChars		32
+			maxpaintchars	32
 			text			"Password:"
 			cvar			"password"
 			textscale		.25
