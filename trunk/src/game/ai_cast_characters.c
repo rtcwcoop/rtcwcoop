@@ -952,9 +952,14 @@ void AIChar_SetBBox( gentity_t *ent, cast_state_t *cs, qboolean useHeadTag ) {
 	if ( !useHeadTag ) {
 		VectorCopy( bbmins[cs->aasWorldIndex], ent->client->ps.mins );
 		VectorCopy( bbmaxs[cs->aasWorldIndex], ent->client->ps.maxs );
-		ent->client->ps.maxs[2] = aiDefaults[cs->aiCharacter].crouchstandZ[1];
+		if (ent->client->ps.pm_type == PM_DEAD) {
+			ent->client->ps.maxs[2] = -8;
+		} else {
+			ent->client->ps.maxs[2] = aiDefaults[cs->aiCharacter].crouchstandZ[1];
+		}
 		VectorCopy( ent->client->ps.mins, ent->r.mins );
 		VectorCopy( ent->client->ps.maxs, ent->r.maxs );
+
 		ent->client->ps.crouchMaxZ = aiDefaults[cs->aiCharacter].crouchstandZ[0];
 		ent->s.density = cs->aasWorldIndex;
 	} else if ( trap_GetTag( ent->s.number, "tag_head", &or ) ) {  // if not found, then just leave it
