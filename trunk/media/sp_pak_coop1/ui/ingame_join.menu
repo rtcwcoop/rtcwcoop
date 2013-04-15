@@ -50,15 +50,15 @@ menuDef {
 			group			grpJoin
 			text			"Get New List"
 			type			ITEM_TYPE_BUTTON
-			textscale		.25
+			textscale		.28
 			style			WINDOW_STYLE_FILLED	
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			10 30 105 15
+			rect			10 21 105 20
 			textalign		1
 			textalignx		52		// center
-			textaligny		11
+			textaligny		14
 			textfont		UI_FONT_NORMAL
 			backcolor		.3 .5 .2 .3
 			forecolor		1 1 1 1
@@ -76,16 +76,16 @@ menuDef {
 			name			refreshFilter
 			group			grpJoin
 			text			"Refresh List"
-			textscale		.25
+			textscale		.28
 			style			WINDOW_STYLE_FILLED
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_BUTTON
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			10 55 105 15
+			rect			10 46 105 20
 			textalign		1
 			textalignx		52		// center
-			textaligny		11
+			textaligny		14
 			backcolor		.3 .5 .2 .3 
 			forecolor		1 1 1 1
 			visible			1 
@@ -102,14 +102,14 @@ menuDef {
 			group			grpJoin
 			type			ITEM_TYPE_BUTTON
 			textfont		UI_FONT_NORMAL
-			textscale		.25
+			textscale		.28
 			style			WINDOW_STYLE_FILLED
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			10 80 105 15
+			rect			10 71 105 20
 			textalign		1
 			textalignx		52		// center
-			textaligny		11
+			textaligny		14
 			backcolor		.3 .5 .2 .3
 			forecolor		1 1 1 1
 			visible			1
@@ -156,7 +156,7 @@ menuDef {
 			name			window_limbo_name
 			group			grpJoin
 			visible			1
-			rect			140 30 130 15
+			rect			140 18 130 15
 			textstyle		6			
 			forecolor		1 1 1 1
 			outlinecolor	1 1 0 .5
@@ -173,6 +173,28 @@ menuDef {
 			textaligny		14
 			}
 
+      itemDef {
+			name			download
+			group			grpJoin
+			visible			1
+			rect			140 38 130 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			textstyle		6
+			maxChars		16
+			maxpaintchars	16
+			text			"Downloads:"
+			cvar			"cl_download"
+			cvarFloatList	{ "No" 0 "Yes" 1 }
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
 	
 		itemDef {
 			name			gametypefield
@@ -180,7 +202,7 @@ menuDef {
 			style			0	
 			textfont		UI_FONT_NORMAL
 			ownerdraw		UI_NETSOURCE
-			rect			140 55 130 15 
+			rect			140 58 130 15 
 			textstyle		6
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
@@ -190,36 +212,30 @@ menuDef {
 			visible 		1
 			
 			action			{ play "sound/misc/kcaction.wav" }
-			mouseEnter		{ show message_source }
-			mouseExit		{ hide message_source }
 			}
 
-		itemDef {
+
+			itemDef {
 			name			passwordEntry
 			group			grpJoin
-			style			0
-			textstyle		6
-			text			"Password:"
-			type			ITEM_TYPE_EDITFIELD
-			maxChars		16
-			maxpaintchars	8
-			cvar			"password"
-			textfont		UI_FONT_NORMAL
-			rect			140 80 130 15
-			textalign		ITEM_ALIGN_LEFT		
-			textalignx		0     
-			textaligny		14
-			textscale		.25
-			forecolor		1 1 1 1
 			visible			1
+			rect			140 78 200 15
+			textstyle		6			
+			forecolor		1 1 1 1
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		16
+			maxpaintchars	16
+			text			"Password:"
+			cvar			"password"
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
 
-			action {
-				play "sound/misc/kcaction.wav" ; 
-				open password_popmenu
-			}
-			mouseEnter		{ show message_password ; setitemcolor password backcolor .1 .2 .37 1 }
-			mouseExit		{ hide message_password ; setitemcolor password backcolor .3 .5 .2 .3 }
-			}
 
 	//  3RD COLUMN  //
 
@@ -228,7 +244,7 @@ menuDef {
 			name			window_limbo_model
 			group			grpJoin
 			visible			1
-			rect			290 30 150 15		
+			rect			290 18 150 15		
 			forecolor		1 1 1 1
 			backcolor		0 0 0 0
 			outlinecolor	1 1 0 .5
@@ -257,7 +273,7 @@ menuDef {
 			text			"Gametype:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
-			rect			290 55 100 15
+			rect			290 38 100 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -266,8 +282,6 @@ menuDef {
 			visible			1
 			
 			action			{ play "sound/misc/kcaction.wav" }
-			mouseEnter		{ show message_typefilter }
-			mouseExit		{ hide message_typefilter }
 			}
 
 		itemDef {
@@ -279,7 +293,7 @@ menuDef {
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
-			rect			290 80 100 15
+			rect			290 58 100 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0
 			textaligny		14
@@ -290,7 +304,6 @@ menuDef {
 			action {
 				play		"sound/misc/nomenu.wav" ;
 							uiScript RefreshFilter }
-			
 			}
 
 		

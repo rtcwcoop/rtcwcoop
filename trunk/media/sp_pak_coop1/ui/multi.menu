@@ -168,15 +168,15 @@ itemDef {
 			group			grpJoin
 			text			"Get New List"
 			type			ITEM_TYPE_BUTTON
-			textscale		.25
+			textscale		.28
 			style			WINDOW_STYLE_FILLED	
 			//background	"ui_mp/assets/button_red.tga"
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 145 105 15
+			rect			30 141 105 20
 			textalign		1
 			textalignx		52		// center
-			textaligny		11
+			textaligny		14
 			textfont		UI_FONT_NORMAL
 			backcolor		.3 .5 .2 .3
 			forecolor		1 1 1 1
@@ -194,16 +194,16 @@ itemDef {
 			name			refreshFilter
 			group			grpJoin
 			text			"Refresh List"
-			textscale		.25
+			textscale		.28
 			style			WINDOW_STYLE_FILLED
 			textfont		UI_FONT_NORMAL
 			type			ITEM_TYPE_BUTTON
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 170 105 15
+			rect			30 166 105 20
 			textalign		1
 			textalignx		52		// center
-			textaligny		11
+			textaligny		14
 			backcolor		.3 .5 .2 .3 
 			forecolor		1 1 1 1
 			visible			1 
@@ -220,14 +220,14 @@ itemDef {
 			group			grpJoin
 			type			ITEM_TYPE_BUTTON
 			textfont		UI_FONT_NORMAL
-			textscale		.25
+			textscale		.28
 			style			WINDOW_STYLE_FILLED
 			border			1
 			bordercolor		.5 .5 .5 .5
-			rect			30 195 105 15
+			rect			30 191 105 20
 			textalign		1
 			textalignx		52		// center
-			textaligny		11
+			textaligny		14
 			backcolor		.3 .5 .2 .3
 			forecolor		1 1 1 1
 			visible			1
@@ -250,7 +250,7 @@ itemDef {
 			name			window_limbo_name
 			group			grpJoin
 			visible			1
-			rect			160 145 130 15
+			rect			160 138 130 15
 			textstyle		6			
 			forecolor		1 1 1 1
 			outlinecolor	1 1 0 .5
@@ -265,8 +265,34 @@ itemDef {
 			textalign		ITEM_ALIGN_LEFT	
 			textalignx		0
 			textaligny		14
+			mouseEnter		{ show message_name }
+			mouseExit		{ hide message_name }
 			}
-
+			
+      itemDef {
+			name			download
+			group			grpJoin
+			visible			1
+			rect			160 158 130 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			textstyle		6
+			maxChars		16
+			maxpaintchars	16
+			text			"Downloads:"
+			cvar			"cl_download"
+			cvarFloatList	{ "No" 0 "Yes" 1 }
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			mouseEnter		{ show message_download }
+			mouseExit		{ hide message_download }
+			}
 	
 		itemDef {
 			name			gametypefield
@@ -274,7 +300,7 @@ itemDef {
 			style			0	
 			textfont		UI_FONT_NORMAL
 			ownerdraw		UI_NETSOURCE
-			rect			160 170 130 15 
+			rect			160 178 130 15 
 			textstyle		6
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
@@ -287,32 +313,28 @@ itemDef {
 			mouseEnter		{ show message_source }
 			mouseExit		{ hide message_source }
 			}
-
-		itemDef {
+			
+					itemDef {
 			name			passwordEntry
 			group			grpJoin
-			style			0
-			textstyle		6
-			text			"Password:"
-			type			ITEM_TYPE_EDITFIELD
-			maxChars		16
-			maxpaintchars	8
-			cvar			"password"
-			textfont		UI_FONT_NORMAL
-			rect			160 195 130 15
-			textalign		ITEM_ALIGN_LEFT		
-			textalignx		0     
-			textaligny		14
-			textscale		.25
-			forecolor		1 1 1 1
 			visible			1
-
-			action {
-				play "sound/misc/kcaction.wav" ; 
-				open password_popmenu
-			}
-			mouseEnter		{ show message_password ; setitemcolor password backcolor .1 .2 .37 1 }
-			mouseExit		{ hide message_password ; setitemcolor password backcolor .3 .5 .2 .3 }
+			rect			160 198 200 15
+			textstyle		6			
+			forecolor		1 1 1 1
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		16
+			maxpaintchars	16
+			text			"Password:"
+			cvar			"password"
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			mouseEnter		{ show message_password}
+			mouseExit		{ hide message_password}
 			}
 
 	//  3TD COLUMN  //
@@ -322,7 +344,7 @@ itemDef {
 			name			window_limbo_model
 			group			grpJoin
 			visible			1
-			rect			310 145 150 15		
+			rect			310 138 150 15		
 			forecolor		1 1 1 1
 			backcolor		0 0 0 0
 			outlinecolor	1 1 0 .5
@@ -339,6 +361,8 @@ itemDef {
 			textalign		ITEM_ALIGN_LEFT	
 			textalignx		0
 			textaligny		14
+			mouseEnter		{ show message_model}
+			mouseExit		{ hide message_model}
 			}
 
 			
@@ -350,7 +374,7 @@ itemDef {
 			text			"Gametype:"
 			ownerdraw		UI_JOINGAMETYPE
 			textfont		UI_FONT_NORMAL
-			rect			310 170 100 15
+			rect			310 158 100 15
 			textalign		ITEM_ALIGN_LEFT		
 			textalignx		0     
 			textaligny		14
@@ -372,7 +396,7 @@ itemDef {
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
-			rect			310 195 100 15
+			rect			310 178 100 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0
 			textaligny		14
@@ -383,6 +407,8 @@ itemDef {
 			action {
 				play		"sound/misc/nomenu.wav" ;
 							uiScript RefreshFilter }
+			mouseEnter		{ show message_empty }
+			mouseExit		{ hide message_empty }
 			
 			}
 
@@ -1104,6 +1130,74 @@ itemDef {
 			textaligny 25
 			textscale .255
 			text "Search Current Server List for Friends"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+			
+		  itemDef {
+			name message_download
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textfont	UI_FONT_NORMAL
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Allow downloads from the server"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+			
+			itemDef {
+			name message_name
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textfont	UI_FONT_NORMAL
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Set your player name"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+			
+			itemDef {
+			name message_model
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textfont	UI_FONT_NORMAL
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Set your player model"
+			forecolor 1 1 1 1
+			decoration 
+			visible 0
+			}
+			
+			itemDef {
+			name message_empty
+			group grpmessage
+			style 0 
+			rect 320 437 128 30
+			textalign 1
+			textstyle 1
+			textfont	UI_FONT_NORMAL
+			textalignx 0
+			textaligny 25
+			textscale .255
+			text "Show empty servers"
 			forecolor 1 1 1 1
 			decoration 
 			visible 0
