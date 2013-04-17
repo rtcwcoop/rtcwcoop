@@ -1077,7 +1077,20 @@ static void Com_AllocHunkMemory( const int nAlloc, const int nMinAlloc ) {
 	start = Sys_Milliseconds();
 
 	total = startTotal;
-#ifdef OLD_HUNK_ALLOC
+
+// TIHan - UNIX systems will use the old way of allocating the hunk. Linux
+//         will always return a pointer even though the system doesn't have
+//         that memory available. It also doesn't use that memory right away;
+//         as this is called 'optimistic' memory. A solution for that is to use
+//         memset and poke a value of 0 in each byte for the allocation. This forces
+//         the OS to use that memory; however, the program will crash if the attempted allocation
+//         is over the capable amount - remember Linux giving us a pointer anyway? I think
+//         the only time Linux returns NULL is when the specific 32-bit process goes over 4096mb.
+//         TODO: A possible solution is checking exactly how much free (continuous?) memory
+//               we have and determine how much we can allocate, preferrably only 2/3 of the memory
+//               with a max of 1024mb (should also do this for Windows).
+//               We could also look into GLib's g_try_malloc/0.
+#if !defined( _WIN32 ) 
 	data = malloc( total + 31 );
 	if ( !data ) {
 		Com_Error( ERR_FATAL, "Hunk data failed to allocate %i megs", total / ( 1024 * 1024 ) );
