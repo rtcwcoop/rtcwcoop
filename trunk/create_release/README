@@ -1,0 +1,7 @@
+put all files in this folder
+
+binaries, readmes, libraries
+also create the main folder and put the pk3's and libraries inthere
+
+then run ./build_release.sh x.x.x
+zip files will be created in the parent folder
