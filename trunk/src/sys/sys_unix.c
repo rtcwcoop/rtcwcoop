@@ -810,7 +810,7 @@ int Sys_GetProcessorId( void ) {
         return CPUID_GENERIC;
 }
 
-int Sys_GetHighQualityCPU() {
+int Sys_GetHighQualityCPU( void ) {
         // TODO TTimo see win_shared.c IsP3 || IsAthlon
         return 0;
 }
@@ -971,7 +971,7 @@ char *Sys_DefaultCDPath( void ) {
         return cdPath;
 }
 
-void *Sys_InitializeCriticalSection() {
+void *Sys_InitializeCriticalSection( void ) {
         return (void *)-1;
 }
 

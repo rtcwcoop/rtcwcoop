@@ -89,7 +89,7 @@ angles_t        &Normalize180( void );
 
 extern angles_t ang_zero;
 
-inline angles_t::angles_t() {
+inline angles_t::angles_t( void ) {
 }
 
 inline angles_t::angles_t( float pitch, float yaw, float roll ) {

@@ -50,13 +50,13 @@ static idVec4 red( 1, 0, 0, 1 );
 
 class idPointListInterface {
 public:
-idPointListInterface() {
+idPointListInterface( void ) {
 	selectedPoints.Clear();
 };
-virtual ~idPointListInterface() {
+virtual ~idPointListInterface( void ) {
 };
 
-virtual int numPoints() {
+virtual int numPoints( void ) {
 	return 0;
 }
 
@@ -126,14 +126,14 @@ int selectPoint( int index, bool single ) {
 	return -1;
 }
 
-void selectAll() {
+void selectAll( void ) {
 	selectedPoints.Clear();
 	for ( int i = 0; i < numPoints(); i++ ) {
 		selectedPoints.Append( i );
 	}
 }
 
-void deselectAll() {
+void deselectAll( void ) {
 	selectedPoints.Clear();
 }
 
@@ -156,7 +156,7 @@ virtual void updateSelection( const idVec3 &move ) {
 	}
 }
 
-void drawSelection() {
+void drawSelection( void ) {
 	int count = selectedPoints.Num();
 	for ( int i = 0; i < count; i++ ) {
 		glBox( red, *getPoint( selectedPoints[i] ), 4 );
@@ -173,7 +173,7 @@ class idSplineList {
 
 public:
 
-idSplineList() {
+idSplineList( void ) {
 	clear();
 }
 
@@ -182,18 +182,18 @@ idSplineList( const char *p ) {
 	name = p;
 };
 
-~idSplineList() {
+~idSplineList( void ) {
 	clear();
 };
 
-void clearControl() {
+void clearControl( void ) {
 	for ( int i = 0; i < controlPoints.Num(); i++ ) {
 		delete controlPoints[i];
 	}
 	controlPoints.Clear();
 }
 
-void clearSpline() {
+void clearSpline( void ) {
 	for ( int i = 0; i < splinePoints.Num(); i++ ) {
 		delete splinePoints[i];
 	}
@@ -203,7 +203,7 @@ void clearSpline() {
 void parse( const char *( *text ) );
 void write( fileHandle_t file, const char *name );
 
-void clear() {
+void clear( void ) {
 	clearControl();
 	clearSpline();
 	splineTime.Clear();
@@ -225,7 +225,7 @@ void draw( bool editMode );
 void addToRenderer();
 
 void setSelectedPoint( idVec3 *p );
-idVec3 *getSelectedPoint() {
+idVec3 *getSelectedPoint( void ) {
 	return selected;
 }
 
@@ -241,11 +241,11 @@ void addPoint( float x, float y, float z ) {
 
 void updateSelection( const idVec3 &move );
 
-void startEdit() {
+void startEdit( void ) {
 	editMode = true;
 }
 
-void stopEdit() {
+void stopEdit( void ) {
 	editMode = false;
 }
 
@@ -255,11 +255,11 @@ void setGranularity( float f ) {
 	granularity = f;
 }
 
-float getGranularity() {
+float getGranularity( void ) {
 	return granularity;
 }
 
-int numPoints() {
+int numPoints( void ) {
 	return controlPoints.Num();
 }
 
@@ -292,7 +292,7 @@ float totalDistance();
 
 static idVec3 zero;
 
-int getActiveSegment() {
+int getActiveSegment( void ) {
 	return activeSegment;
 }
 
@@ -301,7 +301,7 @@ void setActiveSegment( int i ) {
 	activeSegment = i;
 }
 
-int numSegments() {
+int numSegments( void ) {
 	return splinePoints.Num();
 }
 
@@ -312,7 +312,7 @@ void setColors( idVec3 &path, idVec3 &segment, idVec3 &control, idVec3 &active )
 	activeColor = active;
 }
 
-const char *getName() {
+const char *getName( void ) {
 	return name.c_str();
 }
 
@@ -320,7 +320,7 @@ void setName( const char *p ) {
 	name = p;
 }
 
-bool validTime() {
+bool validTime( void ) {
 	if ( dirty ) {
 		buildSpline();
 	}
@@ -372,7 +372,7 @@ struct idVelocity {
 class idCameraPosition : public idPointListInterface {
 public:
 
-virtual void clearVelocities() {
+virtual void clearVelocities( void ) {
 	// TTimo: MSVCism
 	int i;
 	for ( i = 0; i < velocities.Num(); i++ ) {
@@ -382,7 +382,7 @@ virtual void clearVelocities() {
 	velocities.Clear();
 }
 
-virtual void clear() {
+virtual void clear( void ) {
 	editMode = false;
 	clearVelocities();
 }
@@ -391,7 +391,7 @@ idCameraPosition( const char *p ) {
 	name = p;
 }
 
-idCameraPosition() {
+idCameraPosition( void ) {
 	time = 0;
 	name = "position";
 }
@@ -400,7 +400,7 @@ idCameraPosition( long t ) {
 	time = t;
 }
 
-virtual ~idCameraPosition() {
+virtual ~idCameraPosition( void ) {
 	clear();
 }
 
@@ -420,7 +420,7 @@ virtual void start( long t ) {
 	startTime = t;
 }
 
-long getTime() {
+long getTime( void ) {
 	return time;
 }
 
@@ -428,7 +428,7 @@ virtual void setTime( long t ) {
 	time = t;
 }
 
-float getBaseVelocity() {
+float getBaseVelocity( void ) {
 	return baseVelocity;
 }
 
@@ -457,7 +457,7 @@ virtual void parse( const char *( *text ) ) {};
 virtual void write( fileHandle_t file, const char *name );
 virtual bool parseToken( const char *key, const char *( *text ) );
 
-const char *getName() {
+const char *getName( void ) {
 	return name.c_str();
 }
 
@@ -465,17 +465,17 @@ void setName( const char *p ) {
 	name = p;
 }
 
-virtual void startEdit() {      //DAJ added void
+virtual void startEdit( void ) {      //DAJ added void
 	editMode = true;
 }
 
-virtual void stopEdit() {       //DAJ added void
+virtual void stopEdit( void ) {       //DAJ added void
 	editMode = false;
 }
 
-virtual void draw() {};
+virtual void draw( void ) {};
 
-const char *typeStr() {
+const char *typeStr( void ) {
 	return positionStr[static_cast<int>( type )];
 }
 
@@ -500,7 +500,7 @@ float baseVelocity;
 class idFixedPosition : public idCameraPosition {
 public:
 
-void init() {
+void init( void ) {
 	pos.Zero();
 	type = idCameraPosition::FIXED;
 }
@@ -523,7 +523,7 @@ virtual void addPoint( const float x, const float y, const float z ) {
 }
 
 
-~idFixedPosition() {
+~idFixedPosition( void ) {
 }
 virtual const idVec3 *getPosition( long t ) {
 	return &pos;
@@ -532,7 +532,7 @@ virtual const idVec3 *getPosition( long t ) {
 void parse( const char *( *text ) );
 void write( fileHandle_t file, const char *name );
 
-virtual int numPoints() {
+virtual int numPoints( void ) {
 	return 1;
 }
 
@@ -555,7 +555,7 @@ idVec3 pos;
 class idInterpolatedPosition : public idCameraPosition {
 public:
 
-void init() {
+void init( void ) {
 	type = idCameraPosition::INTERPOLATED;
 	first = true;
 	startPos.Zero();
@@ -572,7 +572,7 @@ idInterpolatedPosition( idVec3 start, idVec3 end, long time ) : idCameraPosition
 	endPos = end;
 }
 
-~idInterpolatedPosition() {
+~idInterpolatedPosition( void ) {
 }
 
 virtual const idVec3 *getPosition( long t );
@@ -580,7 +580,7 @@ virtual const idVec3 *getPosition( long t );
 void parse( const char *( *text ) );
 void write( fileHandle_t file, const char *name );
 
-virtual int numPoints() {
+virtual int numPoints( void ) {
 	return 2;
 }
 
@@ -641,7 +641,7 @@ float distSoFar;
 class idSplinePosition : public idCameraPosition {
 public:
 
-void init() {
+void init( void ) {
 	type = idCameraPosition::SPLINE;
 }
 
@@ -653,7 +653,7 @@ idSplinePosition( long time ) : idCameraPosition( time ) {
 	init();
 }
 
-~idSplinePosition() {
+~idSplinePosition( void ) {
 }
 
 virtual void start( long t ) {
@@ -673,7 +673,7 @@ void addControlPoint( idVec3 &v ) {
 void parse( const char *( *text ) );
 void write( fileHandle_t file, const char *name );
 
-virtual int numPoints() {
+virtual int numPoints( void ) {
 	return target.numPoints();
 }
 
@@ -707,7 +707,7 @@ float distSoFar;
 class idCameraFOV {
 public:
 
-idCameraFOV() {
+idCameraFOV( void ) {
 	time = 0;
 	length = 0;
 	fov = 90;
@@ -726,7 +726,7 @@ idCameraFOV( int s, int e, long t ) {
 }
 
 
-~idCameraFOV() {
+~idCameraFOV( void ) {
 }
 
 void setFOV( float f ) {
@@ -800,7 +800,7 @@ enum eventType {
 
 static const char* eventStr[EVENT_COUNT];
 
-idCameraEvent() {
+idCameraEvent( void ) {
 	paramStr = "";
 	type = EVENT_NA;
 	time = 0;
@@ -812,22 +812,22 @@ idCameraEvent( eventType t, const char *param, long n ) {
 	time = n;
 }
 
-~idCameraEvent() {
+~idCameraEvent( void ) {
 };
 
-eventType getType() {
+eventType getType( void ) {
 	return type;
 }
 
-const char *typeStr() {
+const char *typeStr( void ) {
 	return eventStr[static_cast<int>( type )];
 }
 
-const char *getParam() {
+const char *getParam( void ) {
 	return paramStr.c_str();
 }
 
-long getTime() {
+long getTime( void ) {
 	return time;
 }
 
@@ -842,7 +842,7 @@ void setTriggered( bool b ) {
 	triggered = b;
 }
 
-bool getTriggered() {
+bool getTriggered( void ) {
 	return triggered;
 }
 
@@ -857,7 +857,7 @@ bool triggered;
 class idCameraDef {
 public:
 
-void clear() {
+void clear( void ) {
 	currentCameraPosition = 0;
 	cameraRunning = false;
 	lastDirection.Zero();
@@ -890,12 +890,12 @@ idCameraPosition *startNewCamera( idCameraPosition::positionType type ) {
 	return cameraPosition;
 }
 
-idCameraDef() {
+idCameraDef( void ) {
 	cameraPosition = NULL;
 	clear();
 }
 
-~idCameraDef() {
+~idCameraDef( void ) {
 	clear();
 }
 
@@ -905,7 +905,7 @@ void addEvent( idCameraEvent *event );
 
 static int sortEvents( const void *p1, const void *p2 );
 
-int numEvents() {
+int numEvents( void ) {
 	return events.Num();
 }
 
@@ -933,7 +933,7 @@ static idCameraPosition *newFromType( idCameraPosition::positionType t ) {
 
 void addTarget( const char *name, idCameraPosition::positionType type );
 
-idCameraPosition *getActiveTarget() {
+idCameraPosition *getActiveTarget( void ) {
 	if ( targetPositions.Num() == 0 ) {
 		addTarget( NULL, idCameraPosition::FIXED );
 	}
@@ -948,7 +948,7 @@ idCameraPosition *getActiveTarget( int index ) {
 	return targetPositions[index];
 }
 
-int numTargets() {
+int numTargets( void ) {
 	return targetPositions.Num();
 }
 
@@ -975,16 +975,16 @@ void setBaseTime( float f ) {
 	baseTime = f;
 }
 
-float getBaseTime() {
+float getBaseTime( void ) {
 	return baseTime;
 }
 
-float getTotalTime() {
+float getTotalTime( void ) {
 	return totalTime;
 }
 
 void startCamera( long t );
-void stopCamera() {
+void stopCamera( void ) {
 	cameraRunning = true;
 }
 void getActiveSegmentInfo( int segment, idVec3 &origin, idVec3 &direction, float *fv );
@@ -1020,7 +1020,7 @@ void draw( bool editMode ) {
 	}
 }
 
-int numPoints() {
+int numPoints( void ) {
 	if ( cameraEdit ) {
 		return cameraPosition->numPoints();
 	}
@@ -1034,7 +1034,7 @@ const idVec3 *getPoint( int index ) {
 	return getActiveTarget()->getPoint( index );
 }
 
-void stopEdit() {
+void stopEdit( void ) {
 	editMode = false;
 	if ( cameraEdit ) {
 		cameraPosition->stopEdit();
@@ -1059,7 +1059,7 @@ void startEdit( bool camera ) {
 
 bool waitEvent( int index );
 
-const char *getName() {
+const char *getName( void ) {
 	return name.c_str();
 }
 
@@ -1067,7 +1067,7 @@ void setName( const char *p ) {
 	name = p;
 }
 
-idCameraPosition *getPositionObj() {
+idCameraPosition *getPositionObj( void ) {
 	if ( cameraPosition == NULL ) {
 		cameraPosition = new idFixedPosition();
 	}

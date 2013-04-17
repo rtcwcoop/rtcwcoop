@@ -57,7 +57,7 @@ static void GetClientState( uiClientState_t *state ) {
 LAN_LoadCachedServers
 ====================
 */
-void LAN_LoadCachedServers() {
+void LAN_LoadCachedServers( void ) {
 	int size;
 	fileHandle_t fileIn;
 	cls.numglobalservers = cls.nummplayerservers = cls.numfavoriteservers = 0;
@@ -84,7 +84,7 @@ void LAN_LoadCachedServers() {
 LAN_SaveServersToCache
 ====================
 */
-void LAN_SaveServersToCache() {
+void LAN_SaveServersToCache( void ) {
 	int size;
 	fileHandle_t fileOut;
 #ifdef __MACOS__    //DAJ MacOS file typing
@@ -1224,7 +1224,7 @@ void CL_InitUI( void ) {
 }
 
 
-qboolean UI_usesUniqueCDKey() {
+qboolean UI_usesUniqueCDKey( void ) {
 	if ( uivm ) {
 		return ( VM_Call( uivm, UI_HASUNIQUECDKEY ) == qtrue );
 	} else {

@@ -249,7 +249,7 @@ Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int ar
 
 
 
-void AssetCache() {
+void AssetCache( void ) {
 	int n;
 	//if (Assets.textFont == NULL) {
 	//}
@@ -968,7 +968,7 @@ qboolean Asset_Parse( int handle ) {
 	return qfalse;
 }
 
-void Font_Report() {
+void Font_Report( void ) {
 	int i;
 	Com_Printf( "Font Info\n" );
 	Com_Printf( "=========\n" );
@@ -977,7 +977,7 @@ void Font_Report() {
 	}
 }
 
-void UI_Report() {
+void UI_Report( void ) {
 	String_Report();
 	//Font_Report();
 
@@ -1220,7 +1220,7 @@ static void UI_LoadTranslationStrings( void ) {
 #endif
 
 
-void UI_Load() {
+void UI_Load( void ) {
 	char lastName[1024];
 	menuDef_t *menu = Menu_GetFocused();
 	char *menuSet = UI_Cvar_VariableString( "ui_menuFiles" );
@@ -2020,7 +2020,7 @@ static void UI_DrawTierGameType( rectDef_t *rect, int font, float scale, vec4_t 
 
 // TTimo: unused
 /*
-static const char *UI_OpponentLeaderName() {
+static const char *UI_OpponentLeaderName( void ) {
 	int i = UI_TeamIndexFromName(UI_Cvar_VariableString("ui_opponentName"));
 	return uiInfo.teamList[i].teamMembers[0];
 }
@@ -2055,12 +2055,12 @@ static const int UI_AIIndexFromName(const char *name) {
 	return 0;
 }
 
-static const char *UI_OpponentLeaderHead() {
+static const char *UI_OpponentLeaderHead( void ) {
 	const char *leader = UI_OpponentLeaderName();
 	return UI_AIFromName(leader);
 }
 
-static const char *UI_OpponentLeaderModel() {
+static const char *UI_OpponentLeaderModel( void ) {
 	int i;
 	const char *head = UI_OpponentLeaderHead();
 	for (i = 0; i < uiInfo.characterCount; i++) {
@@ -2106,7 +2106,7 @@ static void UI_DrawOpponent( rectDef_t *rect ) {
 
 }
 
-static void UI_NextOpponent() {
+static void UI_NextOpponent( void ) {
 	int i = UI_TeamIndexFromName( UI_Cvar_VariableString( "ui_opponentName" ) );
 	int j = UI_TeamIndexFromName( UI_Cvar_VariableString( "ui_teamName" ) );
 	i++;
@@ -2122,7 +2122,7 @@ static void UI_NextOpponent() {
 	trap_Cvar_Set( "ui_opponentName", uiInfo.teamList[i].teamName );
 }
 
-static void UI_PriorOpponent() {
+static void UI_PriorOpponent( void ) {
 	int i = UI_TeamIndexFromName( UI_Cvar_VariableString( "ui_opponentName" ) );
 	int j = UI_TeamIndexFromName( UI_Cvar_VariableString( "ui_teamName" ) );
 	i--;
@@ -2391,7 +2391,7 @@ static void UI_DrawCrosshair( rectDef_t *rect, float scale, vec4_t color ) {
 UI_BuildPlayerList
 ===============
 */
-static void UI_BuildPlayerList() {
+static void UI_BuildPlayerList( void ) {
 	uiClientState_t cs;
 	int n, count, team, team2, playerTeamNumber;
 	char info[MAX_INFO_STRING];
@@ -3516,7 +3516,7 @@ void UI_SavegameSort( int column, qboolean force ) {
 UI_LoadMods
 ===============
 */
-static void UI_LoadMods() {
+static void UI_LoadMods( void ) {
 	int numdirs;
 	char dirlist[2048];
 	char    *dirptr;
@@ -3549,7 +3549,7 @@ UI_LoadTeams
 */
 // TTimo: unused
 /*
-static void UI_LoadTeams() {
+static void UI_LoadTeams( void ) {
 	char	teamList[4096];
 	char	*teamName;
 	int		i, len, count;
@@ -3573,7 +3573,7 @@ static void UI_LoadTeams() {
 UI_DelSavegame
 ==============
 */
-static void UI_DelSavegame() {
+static void UI_DelSavegame( void ) {
 	int ret, i;
 
 	i = UI_SavegameIndexFromName2( ui_savegameName.string );
@@ -3778,7 +3778,7 @@ static void UI_LoadSavegames( char *dir ) {
 UI_LoadMovies
 ===============
 */
-static void UI_LoadMovies() {
+static void UI_LoadMovies( void ) {
 	char movielist[4096];
 	char    *moviename;
 	int i, len;
@@ -3810,7 +3810,7 @@ static void UI_LoadMovies() {
 UI_LoadDemos
 ===============
 */
-static void UI_LoadDemos() {
+static void UI_LoadDemos( void ) {
 	char demolist[4096];
 	char demoExt[32];
 	char    *demoname;
@@ -3969,7 +3969,7 @@ static uiitemType_t itemTypes[] = {
 };
 
 
-int WM_getWeaponIndex() {
+int WM_getWeaponIndex( void ) {
 	int lookupIndex, i;
 
 	lookupIndex = trap_Cvar_VariableValue( "mp_weapon" );
@@ -3997,7 +3997,7 @@ void WM_getWeaponAnim( const char **torso_anim, const char **legs_anim ) {
 	}
 }
 
-static void WM_ChangePlayerType() {
+static void WM_ChangePlayerType( void ) {
 	int i, j, playerType;
 	menuDef_t *menu = Menu_GetFocused();
 	itemDef_t *itemdef, *itemdef2;
@@ -4039,7 +4039,7 @@ static void WM_ChangePlayerType() {
 	}
 }
 
-void WM_GetSpawnPoints() {
+void WM_GetSpawnPoints( void ) {
 	char cs[MAX_STRING_CHARS];
 	const char *s;
 	int i;
@@ -4068,7 +4068,7 @@ void WM_GetSpawnPoints() {
 	}
 }
 
-void WM_HideItems() {
+void WM_HideItems( void ) {
 	menuDef_t *menu = Menu_GetFocused();
 
 	Menu_ShowItemByName( menu, "window_pickplayer", qfalse );
@@ -4199,7 +4199,7 @@ qboolean UI_CheckExecKey( int key ) {
 	return qfalse;
 }
 
-void WM_LimboChat() {
+void WM_LimboChat( void ) {
 	char buf[200];
 
 	trap_Cvar_VariableStringBuffer( "ui_cmd", buf, 200 );
@@ -4211,7 +4211,7 @@ void WM_LimboChat() {
 	trap_Cvar_Set( "ui_cmd", "" );
 }
 
-void WM_ActivateLimboChat() {
+void WM_ActivateLimboChat( void ) {
 	menuDef_t *menu;
 	itemDef_t *itemdef;
 
@@ -5660,7 +5660,7 @@ static int UI_GetIndexFromSelection( int actual ) {
 	return 0;
 }
 
-static void UI_UpdatePendingPings() {
+static void UI_UpdatePendingPings( void ) {
 	trap_LAN_ResetPings( ui_netSource.integer );
 	uiInfo.serverStatus.refreshActive = qtrue;
 	uiInfo.serverStatus.refreshtime = uiInfo.uiDC.realTime + 1000;
@@ -6803,7 +6803,7 @@ void _UI_MouseEvent( int dx, int dy ) {
 
 }
 
-void UI_LoadNonIngame() {
+void UI_LoadNonIngame( void ) {
 	const char *menuSet = UI_Cvar_VariableString( "ui_menuFiles" );
 	if ( menuSet == NULL || menuSet[0] == '\0' ) {
 #ifdef WOLF_SP_DEMO

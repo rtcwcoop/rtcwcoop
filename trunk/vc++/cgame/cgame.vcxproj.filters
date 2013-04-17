@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\src\cgame\cg_info.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\cgame\cg_hud.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\cgame\cg_localents.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cgame\cg_marks.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cgame\cg_newDraw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cgame\cg_particles.c">

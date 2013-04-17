@@ -2861,7 +2861,7 @@ static void CG_DrawObjectiveInfo( void ) {
 //==================================================================================
 
 
-void CG_DrawTimedMenus() {
+void CG_DrawTimedMenus(void) {
 	if ( cg.voiceTime ) {
 		int t = cg.time - cg.voiceTime;
 		if ( t > 2500 ) {
@@ -3110,7 +3110,7 @@ void CG_StartShakeCamera( float p, int duration, vec3_t src, float radius ) {
 CG_CalcShakeCamera
 ====================
 */
-void CG_CalcShakeCamera() {
+void CG_CalcShakeCamera(void) {
 	float val, scale, dist, x, sx;
 	float bx = 0.0f; // TTimo: init
 	int i;
@@ -3170,7 +3170,7 @@ void CG_CalcShakeCamera() {
 CG_ApplyShakeCamera
 ====================
 */
-void CG_ApplyShakeCamera() {
+void CG_ApplyShakeCamera(void) {
 	VectorAdd( cg.refdefViewAngles, cg.cameraShakeAngles, cg.refdefViewAngles );
 	AnglesToAxis( cg.refdefViewAngles, cg.refdef.viewaxis );
 }
@@ -3184,7 +3184,7 @@ void CG_CoopStartShakeCamera( float p ) {
         cg.cameraShakePhase = crandom() * M_PI; // start chain in random dir
 }
 
-void CG_ShakeCamera() {
+void CG_ShakeCamera(void) {
         float x, val; 
 
         if ( cg.time > cg.cameraShakeTime ) {

@@ -46,14 +46,14 @@ class strdata
 public:
 strdata () : len( 0 ), refcount( 0 ), data( NULL ), alloced( 0 ) {
 }
-~strdata () {
+~strdata ( void ) {
 	if ( data ) {
 		delete [] data;
 	}
 }
 
-void AddRef() { refcount++; }
-bool DelRef() {      // True if killed
+void AddRef( void ) { refcount++; }
+bool DelRef( void ) {      // True if killed
 	refcount--;
 	if ( refcount < 0 ) {
 		delete this;
@@ -157,7 +157,7 @@ void     BackSlashesToSlashes();
 
 };
 
-inline idStr::~idStr() {
+inline idStr::~idStr( void ) {
 	if ( m_data ) {
 		m_data->DelRef();
 		m_data = NULL;
@@ -714,7 +714,7 @@ inline bool idStr::isNumeric
 	return idStr::isNumeric( m_data->data );
 }
 
-inline idStr::operator const char*() {
+inline idStr::operator const char*( void ) {
 	return c_str();
 }
 

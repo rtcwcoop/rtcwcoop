@@ -680,7 +680,7 @@ void Sys_DestroyThread( thread_t *thread ) {
 Sys_CreateMutex
 =================
 */
-mutex_t *Sys_CreateMutex() {
+mutex_t *Sys_CreateMutex(void) {
 	mutex_t *mutex = ( mutex_t * )malloc( sizeof( mutex_t ) );
 	if ( !mutex ) {
 		Com_Error( ERR_FATAL, "Unable to create mutex" );

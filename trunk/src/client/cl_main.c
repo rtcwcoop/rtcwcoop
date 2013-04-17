@@ -520,13 +520,13 @@ void CL_ReadDemoMessage( void ) {
 ====================
 */
 
-void CL_WriteWaveOpen() {
+void CL_WriteWaveOpen( void ) {
 	// we will just save it as a 16bit stereo 22050kz pcm file
 	clc.wavefile = FS_FOpenFileWrite( "demodata.pcm" );
 	clc.wavetime = -1;
 }
 
-void CL_WriteWaveClose() {
+void CL_WriteWaveClose( void ) {
 	// and we're outta here
 	FS_FCloseFile( clc.wavefile );
 }
@@ -534,7 +534,7 @@ void CL_WriteWaveClose() {
 extern int s_soundtime;
 extern portable_samplepair_t *paintbuffer;
 
-void CL_WriteWaveFilePacket() {
+void CL_WriteWaveFilePacket( void ) {
 	int total, i;
 	if ( clc.wavetime == -1 ) {
 		clc.wavetime = s_soundtime;

@@ -75,7 +75,7 @@ void SND_free( sndBuffer *v ) {
 SND_malloc
 ================
 */
-sndBuffer*  SND_malloc() {
+sndBuffer*  SND_malloc( void ) {
 	sndBuffer *v;
 
 	while ( freelist == NULL ) {
@@ -96,7 +96,7 @@ sndBuffer*  SND_malloc() {
 SND_setup
 ================
 */
-void SND_setup() {
+void SND_setup( void ) {
 	sndBuffer *p, *q;
 	cvar_t  *cv;
 	int scs;
@@ -443,6 +443,6 @@ qboolean S_LoadSound( sfx_t *sfx ) {
 S_DisplayFreeMemory
 ================
 */
-void S_DisplayFreeMemory() {
+void S_DisplayFreeMemory( void ) {
 	Com_Printf( "%d bytes free sound buffer memory, %d total used\n", inUse, totalInUse );
 }

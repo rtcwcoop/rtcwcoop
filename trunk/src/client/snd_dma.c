@@ -266,7 +266,7 @@ void S_ChannelFree( channel_t *v ) {
 S_ChannelMalloc
 ================
 */
-channel_t*  S_ChannelMalloc() {
+channel_t*  S_ChannelMalloc( void ) {
 	channel_t *v;
 	if ( freelist == NULL ) {
 		return NULL;
@@ -282,7 +282,7 @@ channel_t*  S_ChannelMalloc() {
 S_ChannelSetup
 ================
 */
-void S_ChannelSetup() {
+void S_ChannelSetup( void ) {
 	channel_t *p, *q;
 
 	// clear all the sounds so they don't
@@ -1141,7 +1141,7 @@ void S_ByteSwapRawSamples( int samples, int width, int s_channels, short *data )
 S_GetRawSamplePointer
 ============
 */
-portable_samplepair_t *S_GetRawSamplePointer() {
+portable_samplepair_t *S_GetRawSamplePointer( void ) {
 	return s_rawsamples[0];
 }
 
@@ -1286,7 +1286,7 @@ void S_Respatialize( int entityNum, const vec3_t head, vec3_t axis[3], int inwat
 	VectorCopy( axis[2], listener_axis[2] );
 }
 
-void S_ThreadRespatialize() {
+void S_ThreadRespatialize( void ) {
 	int i;
 	channel_t   *ch;
 	vec3_t origin;

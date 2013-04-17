@@ -87,7 +87,7 @@ friend void     InverseMultiply( const mat3_t &inv, const mat3_t &b, mat3_t &dst
 friend mat3_t   SkewSymmetric( idVec3 const &src );
 };
 
-ID_INLINE mat3_t::mat3_t() {
+ID_INLINE mat3_t::mat3_t( void ) {
 }
 
 ID_INLINE mat3_t::mat3_t( float src[ 3 ][ 3 ] ) {

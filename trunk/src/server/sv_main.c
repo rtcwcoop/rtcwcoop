@@ -484,7 +484,7 @@ SV_MasterGameCompleteStatus
 NERVE - SMF - Sends gameCompleteStatus messages to all master servers
 =================
 */
-void SV_MasterGameCompleteStatus() {
+void SV_MasterGameCompleteStatus( void ) {
 	static netadr_t adr[MAX_MASTER_SERVERS];
 	int i;
 

@@ -2243,7 +2243,7 @@ int msg_hData[256] = {
 	13504,      // 255
 };
 
-void MSG_initHuffman() {
+void MSG_initHuffman(void) {
 	int i,j;
 
 	msgInit = qtrue;
@@ -2257,7 +2257,7 @@ void MSG_initHuffman() {
 }
 
 /*
-void MSG_NUinitHuffman() {
+void MSG_NUinitHuffman(void) {
 	byte	*data;
 	int		size, i, ch;
 	int		array[256];

@@ -1798,9 +1798,6 @@ extern vmCvar_t cg_bigFont;
 
 extern vmCvar_t cg_blinktime;           //----(SA)	added
 
-extern vmCvar_t cg_currentSelectedPlayer;
-extern vmCvar_t cg_currentSelectedPlayerName;
-
 // Rafael - particle switch
 extern vmCvar_t cg_wolfparticles;
 // done
@@ -1958,7 +1955,7 @@ void CG_DrawTopBottom( float x, float y, float w, float h, float size );
 
 
 //
-// cg_draw.c, cg_newDraw.c
+// cg_draw.c, cg_hud.c
 //
 extern int sortedTeamPlayers[TEAM_MAXOVERLAY];
 extern int numSortedTeamPlayers;
@@ -1974,6 +1971,8 @@ void CG_ObjectivePrint( const char *str, int charWidth, int team );     // NERVE
 void CG_DrawHead( float x, float y, float w, float h, int clientNum, vec3_t headAngles );
 void CG_DrawActive( stereoFrame_t stereoView );
 void CG_DrawFlagModel( float x, float y, float w, float h, int team );
+void CG_CheckForCursorHints( void );
+int CG_OwnerDrawWidth( int ownerDraw, int font, float scale );
 
 #define CPri(x) CG_CenterPrint(x, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.2), SMALLCHAR_WIDTH);
 
@@ -1982,20 +1981,12 @@ void CG_OwnerDraw( float x, float y, float w, float h, float text_x, float text_
 void CG_Text_Paint( float x, float y, int font, float scale, vec4_t color, const char *text, float adjust, int limit, int style );    //----(SA)	modified
 int CG_Text_Width( const char *text, int font, float scale, int limit );
 int CG_Text_Height( const char *text, int font, float scale, int limit );
-void CG_SelectPrevPlayer();
-void CG_SelectNextPlayer();
 float CG_GetValue( int ownerDraw, int type ); // 'type' is relative or absolute (fractional-'0.5' or absolute- '50' health)
 qboolean CG_OwnerDrawVisible( int flags );
 void CG_RunMenuScript( char **args );
-void CG_ShowResponseHead();
-void CG_SetPrintString( int type, const char *p );
-void CG_InitTeamChat();
 void CG_GetTeamColor( vec4_t *color );
-const char *CG_GetGameStatusText();
-const char *CG_GetKillerText();
 void CG_Draw3DModel( float x, float y, float w, float h, qhandle_t model, qhandle_t skin, vec3_t origin, vec3_t angles );
 void CG_Text_PaintChar( float x, float y, float width, float height, float scale, float s, float t, float s2, float t2, qhandle_t hShader );
-const char *CG_GameTypeString();
 qboolean CG_YourTeamHasFlag();
 qboolean CG_OtherTeamHasFlag();
 qhandle_t CG_StatusHandle( int task );
@@ -2272,8 +2263,7 @@ void CG_ProcessSnapshots( void );
 // cg_info.c
 //
 void CG_LoadingString( const char *s );
-void CG_LoadingItem( int itemNum );
-void CG_LoadingClient( int clientNum );
+void CG_DrawExitStats( void );
 void CG_DrawInformation( void );
 const char *CG_translateString( const char *str );
 

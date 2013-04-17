@@ -78,7 +78,7 @@ quat_t          &Normalize( void );
 quat_t operator-();
 };
 
-inline quat_t::quat_t() {
+inline quat_t::quat_t( void ) {
 }
 
 inline quat_t::quat_t( float x, float y, float z, float w ) {
@@ -190,7 +190,7 @@ inline quat_t& quat_t::Normalize( void ) {
 	return *this;
 }
 
-inline quat_t quat_t::operator-() {
+inline quat_t quat_t::operator-( void ) {
 	return quat_t( -x, -y, -z, -w );
 }
 

@@ -816,7 +816,7 @@ int Sys_GetProcessorId( void ) {
         return CPUID_GENERIC;
 }
 
-int Sys_GetHighQualityCPU() {
+int Sys_GetHighQualityCPU(void) {
 #define HIGH_QUALITY_CPU_RATE 1500
 
 	DWORD size = _MAX_PATH;
@@ -871,7 +871,7 @@ char *Sys_DefaultCDPath( void ) {
         return cdPath;
 }
 
-void *Sys_InitializeCriticalSection() {
+void *Sys_InitializeCriticalSection( void ) {
         return (void *)-1;
 }
 

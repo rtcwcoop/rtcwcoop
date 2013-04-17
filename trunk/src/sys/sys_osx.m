@@ -142,7 +142,7 @@ char *Sys_StripAppBundle( char *dir )
 
 static unsigned int _Sys_ProcessorCount = 0;
 
-unsigned int Sys_ProcessorCount() {
+unsigned int Sys_ProcessorCount( void ) {
         return 1;
         if ( !_Sys_ProcessorCount ) { 
                 int name[] = {CTL_HW, HW_NCPU};

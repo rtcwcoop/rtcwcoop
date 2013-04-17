@@ -139,10 +139,10 @@ public:
 #endif
 
 #ifndef FAT_VEC3
-	idVec3() {
+	idVec3( void ) {
 	};
 #else
-	idVec3() {
+	idVec3( void ) {
 		dist = 0.0f;
 	};
 #endif
@@ -406,10 +406,10 @@ public:
 
 extern Bounds boundsZero;
 
-ID_INLINE Bounds::Bounds() {
+ID_INLINE Bounds::Bounds( void ) {
 }
 
-ID_INLINE bool Bounds::IsCleared() {
+ID_INLINE bool Bounds::IsCleared( void ) {
 	return b[0][0] > b[1][0];
 }
 
@@ -434,16 +434,16 @@ ID_INLINE Bounds::Bounds( const idVec3 &mins, const idVec3 &maxs ) {
 	b[1] = maxs;
 }
 
-ID_INLINE idVec3 Bounds::Center() {
+ID_INLINE idVec3 Bounds::Center( void ) {
 	return idVec3( ( b[1][0] + b[0][0] ) * 0.5f, ( b[1][1] + b[0][1] ) * 0.5f, ( b[1][2] + b[0][2] ) * 0.5f );
 }
 
-ID_INLINE void Bounds::Clear() {
+ID_INLINE void Bounds::Clear( void ) {
 	b[0][0] = b[0][1] = b[0][2] = 99999;
 	b[1][0] = b[1][1] = b[1][2] = -99999;
 }
 
-ID_INLINE void Bounds::Zero() {
+ID_INLINE void Bounds::Zero( void ) {
 	b[0][0] = b[0][1] = b[0][2] =
 							b[1][0] = b[1][1] = b[1][2] = 0;
 }
@@ -492,7 +492,7 @@ ID_INLINE void Bounds::AddBounds( const Bounds &bb ) {
 	}
 }
 
-ID_INLINE float Bounds::Radius() {
+ID_INLINE float Bounds::Radius( void ) {
 	int i;
 	float total;
 	float a, aa;
@@ -541,7 +541,7 @@ public:
 	float dist;
 #endif
 	idVec4();
-	~idVec4() {
+	~idVec4( void ) {
 	};
 
 	idVec4( float x, float y, float z, float dist );
@@ -549,7 +549,7 @@ public:
 	float           &operator[]( int index );
 };
 
-ID_INLINE idVec4::idVec4() {
+ID_INLINE idVec4::idVec4( void ) {
 }
 ID_INLINE idVec4::idVec4( float x, float y, float z, float dist ) {
 	this->x = x;

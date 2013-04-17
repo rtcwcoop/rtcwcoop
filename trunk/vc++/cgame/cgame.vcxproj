@@ -86,10 +86,10 @@
     <ClCompile Include="..\..\src\cgame\cg_event.c" />
     <ClCompile Include="..\..\src\cgame\cg_flamethrower.c" />
     <ClCompile Include="..\..\src\cgame\cg_info.c" />
+    <ClCompile Include="..\..\src\cgame\cg_hud.c" />
     <ClCompile Include="..\..\src\cgame\cg_localents.c" />
     <ClCompile Include="..\..\src\cgame\cg_main.c" />
     <ClCompile Include="..\..\src\cgame\cg_marks.c" />
-    <ClCompile Include="..\..\src\cgame\cg_newDraw.c" />
     <ClCompile Include="..\..\src\cgame\cg_omnibot.c" />
     <ClCompile Include="..\..\src\cgame\cg_particles.c" />
     <ClCompile Include="..\..\src\cgame\cg_players.c" />

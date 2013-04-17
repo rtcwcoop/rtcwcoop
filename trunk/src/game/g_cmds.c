@@ -3084,7 +3084,7 @@ void Cmd_DrawTriggers_f( gentity_t *clent ) {
 }
 
 #ifdef _DEBUG
-void Cmd_AlertEntity_f() {
+void Cmd_AlertEntity_f( void ) {
 	char targetName[MAX_STRING_TOKENS];
 	gentity_t   *alertent;
 

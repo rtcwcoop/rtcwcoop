@@ -154,11 +154,11 @@ void glBox( idVec3 &color, idVec3 &point, float size ) {
 
 }
 
-void splineTest() {
+void splineTest( void ) {
 	//g_splineList->load("p:/doom/base/maps/test_base1.camera");
 }
 
-void splineDraw() {
+void splineDraw( void ) {
 	//g_splineList->addToRenderer();
 }
 
@@ -171,7 +171,7 @@ void debugLine( idVec3 &color, float x, float y, float z, float x2, float y2, fl
 	//D_DebugLine(color, from, to);
 }
 
-void idSplineList::addToRenderer() {
+void idSplineList::addToRenderer( void ) {
 
 	if ( controlPoints.Num() == 0 ) {
 		return;
@@ -229,7 +229,7 @@ void idSplineList::addToRenderer() {
 	}
 }
 
-void idSplineList::buildSpline() {
+void idSplineList::buildSpline( void ) {
 	//int start = Sys_Milliseconds();
 	clearSpline();
 	for ( int i = 3; i < controlPoints.Num(); i++ ) {
@@ -306,7 +306,7 @@ void idSplineList::draw( bool editMode ) {
 
 }
 
-float idSplineList::totalDistance() {
+float idSplineList::totalDistance( void ) {
 
 	// FIXME: save dist and return
 	//
@@ -622,7 +622,7 @@ bool idCameraDef::waitEvent( int index ) {
 #define NUM_CCELERATION_SEGS 10
 #define CELL_AMT 5
 
-void idCameraDef::buildCamera() {
+void idCameraDef::buildCamera( void ) {
 	int i;
 	//int lastSwitch = 0; // TTimo: unused
 	idList<float> waits;

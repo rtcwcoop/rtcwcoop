@@ -161,7 +161,7 @@ void G_AttachBodyParts(gentity_t* ent) {
 	}
 }
 
-void G_DettachBodyParts() {
+void G_DettachBodyParts( void ) {
 	int			i;
 	gentity_t	*list;
 

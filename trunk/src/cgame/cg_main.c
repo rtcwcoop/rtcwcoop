@@ -249,8 +249,6 @@ vmCvar_t cg_showAIState;
 vmCvar_t cg_notebook;
 vmCvar_t cg_notebookpages;          // bitflags for the currently accessable pages.  if they wanna cheat, let 'em.  Most won't, or will wait 'til they actually play it.
 
-vmCvar_t cg_currentSelectedPlayer;
-vmCvar_t cg_currentSelectedPlayerName;
 vmCvar_t cg_cameraMode;
 vmCvar_t cg_cameraOrbit;
 vmCvar_t cg_cameraOrbitDelay;
@@ -437,8 +435,6 @@ cvarTable_t cvarTable[] = {
 
 	{ &cg_blood, "com_blood", "1", CVAR_ARCHIVE },
 	{ &cg_synchronousClients, "g_syncronousClients", "0", 0 },    // communicated by systeminfo
-	{ &cg_currentSelectedPlayer, "cg_currentSelectedPlayer", "0", CVAR_ARCHIVE},
-	{ &cg_currentSelectedPlayerName, "cg_currentSelectedPlayerName", "", CVAR_ARCHIVE},
 
 	// Rafael - particle switch
 	{ &cg_wolfparticles, "cg_wolfparticles", "1", CVAR_ARCHIVE },
@@ -1497,8 +1493,6 @@ static void CG_RegisterGraphics( void ) {
 	for ( i = 1 ; i < bg_numItems ; i++ ) {
 		if ( items[ i ] == '1' || cg_buildScript.integer ) {
 
-// TODO: get weapons added to the list that are 'set' from a script
-			CG_LoadingItem( i );
 			CG_RegisterItemVisuals( i );
 		}
 	}
@@ -1596,7 +1590,6 @@ static void CG_RegisterClients( void ) {
 		if ( !clientInfo[0] ) {
 			continue;
 		}
-		CG_LoadingClient( i );
 		CG_NewClientInfo( i );
 	}
 }
@@ -2091,20 +2084,6 @@ void CG_Text_PaintWithCursor( float x, float y, int font, float scale, vec4_t co
 	CG_Text_Paint( x, y, font, scale, color, text, 0, limit, style );
 }
 
-static int CG_OwnerDrawWidth( int ownerDraw, int font, float scale ) {
-	switch ( ownerDraw ) {
-	case CG_GAME_TYPE:
-		return CG_Text_Width( CG_GameTypeString(), font, scale, 0 );
-	case CG_GAME_STATUS:
-		return CG_Text_Width( CG_GetGameStatusText(), font, scale, 0 );
-		break;
-	case CG_KILLER:
-		return CG_Text_Width( CG_GetKillerText(), font, scale, 0 );
-		break;
-	}
-	return 0;
-}
-
 static int CG_PlayCinematic( const char *name, float x, float y, float w, float h ) {
 	return trap_CIN_PlayCinematic( name, x, y, w, h, CIN_loop );
 }
@@ -2157,7 +2136,7 @@ CG_LoadHudMenu();
 
 =================
 */
-void CG_LoadHudMenu() {
+void CG_LoadHudMenu(void) {
 	char buff[1024];
 	const char *hudSet;
 
@@ -2229,12 +2208,7 @@ void CG_LoadHudMenu() {
 	CG_LoadMenus( hudSet );
 }
 
-void CG_AssetCache() {
-	//if (Assets.textFont == NULL) {
-	//  trap_R_RegisterFont("fonts/arial.ttf", 72, &Assets.textFont);
-	//}
-	//Assets.background = trap_R_RegisterShaderNoMip( ASSET_BACKGROUND );
-	//Com_Printf("Menu Size: %i bytes\n", sizeof(Menus));
+void CG_AssetCache(void) {
 	cgDC.Assets.gradientBar = trap_R_RegisterShaderNoMip( ASSET_GRADIENTBAR );
 	cgDC.Assets.fxBasePic = trap_R_RegisterShaderNoMip( ART_FX_BASE );
 	cgDC.Assets.fxPic[0] = trap_R_RegisterShaderNoMip( ART_FX_RED );

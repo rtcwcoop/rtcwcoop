@@ -81,7 +81,7 @@ idList<type>::~idList<type>
 ================
 */
 template< class type >
-inline idList<type>::~idList() {
+inline idList<type>::~idList( void ) {
 	Clear();
 }
 

@@ -31,44 +31,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "cg_local.h"
 #include "../ui/ui_shared.h"
 
-#define MAX_LOADING_PLAYER_ICONS    16
-#define MAX_LOADING_ITEM_ICONS      26
-
-static int loadingPlayerIconCount;
-static int loadingItemIconCount;
-static qhandle_t loadingPlayerIcons[MAX_LOADING_PLAYER_ICONS];
-static qhandle_t loadingItemIcons[MAX_LOADING_ITEM_ICONS];
-
-
-/*
-===================
-CG_DrawLoadingIcons
-===================
-*/
-static void CG_DrawLoadingIcons( void ) {
-	int n;
-	int x, y;
-
-	// JOSEPH 5-2-00 Per MAXX
-	return;
-
-	for ( n = 0; n < loadingPlayerIconCount; n++ ) {
-		x = 16 + n * 78;
-		y = 324;
-		CG_DrawPic( x, y, 64, 64, loadingPlayerIcons[n] );
-	}
-
-	for ( n = 0; n < loadingItemIconCount; n++ ) {
-		y = 400;
-		if ( n >= 13 ) {
-			y += 40;
-		}
-		x = 16 + n % 13 * 48;
-		CG_DrawPic( x, y, 32, 32, loadingItemIcons[n] );
-	}
-}
-
-
 /*
 ======================
 CG_LoadingString
@@ -82,85 +44,7 @@ void CG_LoadingString( const char *s ) {
 		CG_Printf( va( "LOADING... %s\n",s ) );   //----(SA)	added so you can see from the console what's going on
 
 	}
-	trap_UpdateScreen();
 }
-
-/*
-===================
-CG_LoadingItem
-===================
-*/
-void CG_LoadingItem( int itemNum ) {
-	gitem_t     *item;
-
-	item = &bg_itemlist[itemNum];
-
-	if ( item->giType == IT_KEY ) { // do not show keys at level startup //----(SA)
-		return;
-	}
-
-//----(SA)	Max Kaufman request that we don't show any pacifier stuff for items
-	return;
-//----(SA)	end
-
-
-	if ( item->icon && loadingItemIconCount < MAX_LOADING_ITEM_ICONS ) {
-		loadingItemIcons[loadingItemIconCount++] = trap_R_RegisterShaderNoMip( item->icon );
-	}
-
-	CG_LoadingString( cgs.itemPrintNames[item - bg_itemlist] );
-}
-
-/*
-===================
-CG_LoadingClient
-===================
-*/
-void CG_LoadingClient( int clientNum ) {
-	const char      *info;
-	char            *skin;
-	char personality[MAX_QPATH];
-	char model[MAX_QPATH];
-	char iconName[MAX_QPATH];
-
-	if ( cgs.gametype <= GT_SINGLE_PLAYER  && clientNum > 0 ) { // for now only show the player's icon in SP games
-		return;
-	}
-
-	info = CG_ConfigString( CS_PLAYERS + clientNum );
-
-	Q_strncpyz( model, Info_ValueForKey( info, "model" ), sizeof( model ) );
-	skin = Q_strrchr( model, '/' );
-	if ( skin ) {
-		*skin++ = '\0';
-	} else {
-		skin = "default";
-	}
-
-	Com_sprintf( iconName, MAX_QPATH, "models/players/%s/icon_%s.tga", model, skin );
-
-// (SA) ignore player icons for the moment
-	if ( !( cg_entities[clientNum].currentState.aiChar ) ) {
-//		if ( loadingPlayerIconCount < MAX_LOADING_PLAYER_ICONS ) {
-//			loadingPlayerIcons[loadingPlayerIconCount++] = trap_R_RegisterShaderNoMip( iconName );
-//		}
-	}
-
-	Q_strncpyz( personality, Info_ValueForKey( info, "n" ), sizeof( personality ) );
-	Q_CleanStr( personality );
-
-	if ( cgs.gametype <= GT_SINGLE_PLAYER ) {
-		trap_S_RegisterSound( va( "sound/player/announce/%s.wav", personality ) );
-	}
-
-	CG_LoadingString( personality );
-}
-
-/*
-====================
-CG_DrawStats
-====================
-*/
 
 typedef struct {
 	char    *label;
@@ -196,80 +80,6 @@ static statsItem_t statsItems[] = {
 #endif
 	{ NULL }
 };
-
-//	int			numSecrets;
-//	int			numTreasure;
-//	int			numTreasureFound;
-//	int			numArtifacts;
-//	int			numObjectives;
-
-
-
-/*
-==============
-CG_DrawStats
-==============
-*/
-void CG_DrawStats( char *stats ) {
-	int i, y, v, j;
-	#define MAX_STATS_VARS  64
-	int vars[MAX_STATS_VARS];
-	char *str, *token;
-	char *formatStr;
-	int varIndex;
-	char string[MAX_QPATH];
-
-	UI_DrawProportionalString( 320, 120, "MISSION STATS",
-							   UI_CENTER | UI_SMALLFONT | UI_DROPSHADOW, colorWhite );
-
-	Q_strncpyz( string, stats, sizeof( string ) );
-	str = string;
-	// convert commas to spaces
-	for ( i = 0; str[i]; i++ ) {
-		if ( str[i] == ',' ) {
-			str[i] = ' ';
-		}
-	}
-
-	for ( i = 0, y = 0, v = 0; statsItems[i].label; i++ ) {
-		y += statsItems[i].YOfs;
-
-//		UI_DrawProportionalString( statsItems[i].labelX, y, statsItems[i].label,
-//			statsItems[i].labelFlags, *statsItems[i].labelColor );
-
-		if ( statsItems[i].numVars ) {
-			varIndex = v;
-			for ( j = 0; j < statsItems[i].numVars; j++ ) {
-				token = COM_Parse( &str );
-				if ( !token || !token[0] ) {
-					CG_Error( "error parsing mission stats\n" );
-					return;
-				}
-
-				vars[v++] = atoi( token );
-			}
-
-			// build the formatStr
-			switch ( statsItems[i].numVars ) {
-			case 1:
-				formatStr = va( statsItems[i].format, vars[varIndex] );
-				break;
-			case 2:
-				formatStr = va( statsItems[i].format, vars[varIndex], vars[varIndex + 1] );
-				break;
-			case 3:
-				formatStr = va( statsItems[i].format, vars[varIndex], vars[varIndex + 1], vars[varIndex + 2] );
-				break;
-			case 4:
-				formatStr = va( statsItems[i].format, vars[varIndex], vars[varIndex + 1], vars[varIndex + 2], vars[varIndex + 3] );
-				break;
-			}
-
-//			UI_DrawProportionalString( statsItems[i].formatX, y, formatStr,
-//				statsItems[i].formatFlags, *statsItems[i].formatColor );
-		}
-	}
-}
 
 /*
 ==============
@@ -363,18 +173,12 @@ void CG_DrawExitStats( void ) {
 #endif
 	color2[0] = color2[1] = color2[2] = 1;
 	if ( cg.cursorHintIcon == HINT_NOEXIT ) {
-		// "exit not available"
-//		CG_Text_Paint(250, 320, 2, 0.3f, color2, va("%s", CG_TranslateString("end_noexit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-		//----(SA)	scale change per MK
 #ifdef LOCALISATION
 		CG_Text_Paint( 260, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "Exit not yet available" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 #else
 		CG_Text_Paint( 260, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "end_noexit" ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 #endif
 	} else {
-		// "forward to proceed"
-//		CG_Text_Paint(230, 320, 2, 0.3f, color2, va("%s", CG_TranslateString("end_exit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-		//----(SA)	scale change per MK
 #ifdef LOCALISATION
 		CG_Text_Paint( 250, 65, 2, 0.225f, color2, va( "%s", CG_translateString( "Proceed forward to exit..." ) ), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 #else
@@ -392,7 +196,6 @@ void CG_DrawExitStats( void ) {
 		y += statsItems[i].YOfs;
 
 		VectorCopy4( statsItems[i].labelColor, color2 );
-//		statsItems[i].labelColor[3] = statsItems[i].formatColor[3] = color[3];	// set proper alpha
 		color2[3] = statsItems[i].formatColor[3] = color[3];    // set proper alpha
 
 
@@ -425,7 +228,6 @@ void CG_DrawExitStats( void ) {
 			}
 
 			CG_Text_Paint( statsItems[i].formatX, y, 2, 0.3, statsItems[i].formatColor, formatStr, 0, 0, statsItems[i].formatFlags );
-//			UI_DrawProportionalString( statsItems[i].formatX, y, formatStr, statsItems[i].formatFlags, *statsItems[i].formatColor );
 		}
 
 		if ( i == 1 ) {  // 'objectives'
@@ -441,9 +243,6 @@ void CG_DrawExitStats( void ) {
 			}
 		}
 
-//		UI_DrawProportionalString( statsItems[i].labelX, y, statsItems[i].label, statsItems[i].labelFlags, *statsItems[i].labelColor );
-
-//		CG_Text_Paint(statsItems[i].labelX, y, 2, 0.3, statsItems[i].labelColor, va("%s:", CG_TranslateString(statsItems[i].label)), 0, 0, statsItems[i].labelFlags);
 #ifdef LOCALISATION
 		CG_Text_Paint( statsItems[i].labelX, y, 2, 0.3, color2, va( "%s:", CG_TranslateString( statsItems[i].label ) ), 0, 0, statsItems[i].labelFlags );
 #else
@@ -464,7 +263,6 @@ void CG_DrawExitStats( void ) {
 	ci = &cgs.clientinfo[cg.scores[cg.pickupmaster].client];
 	CG_Text_Paint(214, y+(3*28), 2, 0.3, statsItems[2].formatColor, "Pickup artist:", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 	CG_Text_Paint(348, y+(3*28), 2, 0.3, statsItems[2].formatColor, va( "%s", ci->name), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE);
-// end (parse it)
 }
 
 

@@ -428,7 +428,7 @@ For rcon use when you want to transmit without altering quoting
 ATVI Wolfenstein Misc #284
 ============
 */
-char *Cmd_Cmd() {
+char *Cmd_Cmd(void) {
         return cmd_cmd;
 }
 

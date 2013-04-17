@@ -985,7 +985,7 @@ void G_FindTeams( void ) {
 G_RemapTeamShaders
 ==============
 */
-void G_RemapTeamShaders() {
+void G_RemapTeamShaders( void ) {
 }
 
 
@@ -1163,7 +1163,7 @@ G_SendMissionStats
 	for updating the g_missionStats string to the client
 ==============
 */
-int G_SendMissionStats() {
+int G_SendMissionStats( void ) {
 	char cmd[MAX_QPATH];
 	gentity_t   *player;
 	int i, j, attempts = 0, playtime = 0, minutes, objs = 0, sec = 0, treas = 0;
@@ -2512,7 +2512,7 @@ CheckGameState
 NERVE - SMF
 =============
 */
-void CheckGameState() {
+void CheckGameState( void ) {
         gamestate_t current_gs;
 
         current_gs = trap_Cvar_VariableIntegerValue( "gamestate" );

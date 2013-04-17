@@ -118,8 +118,7 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_SHOW_LANPLAYONLY                 0x00001000
 #define CG_SHOW_MINED                       0x00002000
 #define CG_SHOW_HEALTHOK                    0x00004000
-#define CG_SHOW_TEAMINFO                    0x00008000
-#define CG_SHOW_NOTEAMINFO                  0x00010000
+
 #define CG_SHOW_OTHERTEAMHASFLAG            0x00020000
 #define CG_SHOW_YOURTEAMHASENEMYFLAG        0x00040000
 #define CG_SHOW_ANYNONTEAMGAME              0x00080000
@@ -168,12 +167,6 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_PLAYER_HEALTH            4
 #define CG_PLAYER_AMMO_ICON         5
 #define CG_PLAYER_AMMO_VALUE        6
-#define CG_SELECTEDPLAYER_HEAD      7
-#define CG_SELECTEDPLAYER_NAME      8
-#define CG_SELECTEDPLAYER_LOCATION  9
-#define CG_SELECTEDPLAYER_STATUS    10
-#define CG_SELECTEDPLAYER_WEAPON    11
-#define CG_SELECTEDPLAYER_POWERUP   12
 
 #define CG_FLAGCARRIER_HEAD         13
 #define CG_FLAGCARRIER_NAME         14
@@ -207,8 +200,6 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_PLAYER_HASFLAG           38
 #define CG_GAME_TYPE                39  // not done
 
-#define CG_SELECTEDPLAYER_ARMOR     40
-#define CG_SELECTEDPLAYER_HEALTH    41
 #define CG_PLAYER_STATUS            42
 #define CG_FRAGGED_MSG              43  // painted with old system
 #define CG_PROXMINED_MSG            44  // painted with old system
@@ -229,8 +220,6 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_GAUNTLET                 59
 #define CG_SPECTATORS               60
 #define CG_TEAMINFO                 61
-#define CG_VOICE_HEAD               62
-#define CG_VOICE_NAME               63
 #define CG_PLAYER_HASFLAG2D         64
 #define CG_HARVESTER_SKULLS2D       65  // only shows in harvester
 #define CG_CAPFRAGLIMIT             66
