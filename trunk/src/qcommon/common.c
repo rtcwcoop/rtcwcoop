@@ -1067,8 +1067,10 @@ static void Com_AllocHunkMemory( const int nAlloc, const int nMinAlloc ) {
 #define HUNKMEGS_CHUNK 32
 
 	const size_t startTotal = ( 1024 * 1024 * nAlloc );
+#if defined( _WIN32 ) 
 	const size_t minTotal = ( 1024 * 1024 * nMinAlloc );
 	const size_t chunk = ( 1024 * 1024 * HUNKMEGS_CHUNK );
+#endif
 
 	int start, end;
 	size_t total;
