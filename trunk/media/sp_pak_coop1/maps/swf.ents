@@ -412,57 +412,58 @@
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "274 -818 512"
 "angle" "-15"
 "targetname" "swf1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "281 -883 512"
 "angle" "-4"
 "targetname" "swf1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "767 -1055 512"
 "angle" "-179"
 "targetname" "swf1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "675 -1055 512"
 "angle" "-179"
 "targetname" "swf1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "606 -1055 512"
 "angle" "-161"
 "targetname" "swf1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "445 -1252 512"
 "angle" "103"
 "targetname" "swf1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "291 -1248 512"
 "angle" "72"
+
 
 "targetname" "swf1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "460 -873 512"
 "angle" "-125"
 "targetname" "swf1"
@@ -476,56 +477,56 @@
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1378 794 344"
 "angle" "145"
 "targetname" "swf2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1304 1047 344"
 "angle" "128"
 "targetname" "swf2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1351 1058 344"
 "angle" "176"
 "targetname" "swf2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1375 834 344"
 "angle" "143"
 "targetname" "swf2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1337 789 344"
 "angle" "138"
 "targetname" "swf2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1296 1002 344"
 "angle" "-141"
 "targetname" "swf2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1296 1133 344"
 "angle" "-125"
 "targetname" "swf2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "1296 1086 344"
 "angle" "-143"
 "targetname" "swf2"
@@ -539,56 +540,56 @@
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-850 200 344"
 "angle" "-64"
 "targetname" "swf3"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-854 274 344"
 "angle" "-72"
 "targetname" "swf3"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-811 345 344"
 "angle" "-77"
 "targetname" "swf3"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-746 306 344"
 "angle" "-90"
 "targetname" "swf3"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-755 238 344"
 "angle" "-83"
 "targetname" "swf3"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-760 168 344"
 "angle" "-87"
 "targetname" "swf3"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-770 398 344"
 "angle" "-87"
 "targetname" "swf3"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-852 419 344"
 "angle" "-85"
 "targetname" "swf3"

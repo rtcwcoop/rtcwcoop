@@ -272,7 +272,7 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t
 					continue;
 				}    
 
-				if (spot->spawnflags & SPAWNPOINT_ENABLED && spot->spawnflags & SPAWNPOINT_AXIS) {
+				if ((spot->spawnflags & SPAWNPOINT_ENABLED) && (spot->spawnflags & SPAWNPOINT_AXIS) ) {
 					spawnpoint.spot = spot;
 					spawnpoint.clientNum = -1;
 
@@ -326,12 +326,18 @@ gentity_t *SelectRandomCoopSpawnPoint( vec3_t origin, vec3_t angles ) {
 	count = 0; 
 	spot = NULL;
 
+
+/*	while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
+		G_Printf("spawnpoint: %d %d %d\n", (spot->spawnflags & SPAWNPOINT_ENABLED) ? 1 : 0, (spot->spawnflags & SPAWNPOINT_ALLIES) ? 1 : 0, (spot->spawnflags & SPAWNPOINT_AXIS) ? 1 : 0 );
+	}
+*/
+	spot = NULL;
 	while ( ( spot = G_Find( spot, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
 		if ( SpotWouldTelefrag( spot ) ) {
 			continue;
 		}    
 
-		if (spot->spawnflags & SPAWNPOINT_ENABLED && spot->spawnflags & SPAWNPOINT_ALLIES) {
+		if ((spot->spawnflags & SPAWNPOINT_ENABLED) && (spot->spawnflags & SPAWNPOINT_ALLIES)) {
 			spots[ count ] = spot;
 			count++;
 		}
@@ -629,7 +635,7 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 					break;
 				}    
 
-				if ( !strcmp( ent->classname,"coop_spawnpoint" ) && ent->spawnflags & SPAWNPOINT_ALLIES ) {
+				if ( !strcmp( ent->classname,"coop_spawnpoint" ) && (ent->spawnflags & SPAWNPOINT_ALLIES) ) {
 					ent->spawnflags |= SPAWNPOINT_ENABLED;
 				}    
 
@@ -646,7 +652,7 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 					break;
 				}    
 
-				if ( ent->targetname == NULL && ent->spawnflags & SPAWNPOINT_ALLIES) {
+				if ( ent->targetname == NULL && (ent->spawnflags & SPAWNPOINT_ALLIES) ) {
 					ent->spawnflags |= SPAWNPOINT_ENABLED;
 				}    
 			}    

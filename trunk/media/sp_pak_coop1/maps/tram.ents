@@ -432,56 +432,56 @@
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "60 -78 472"
 "angle" "-135"
 "targetname" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "5 -94 472"
 "angle" "-130"
 "targetname" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-49 -85 472"
 "angle" "-125"
 "targetname" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-107 -83 472"
 "angle" "-104"
 "targetname" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-165 -77 472"
 "angle" "-79"
 "targetname" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-221 -74 472"
 "angle" "-69"
 "targetname" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-270 -75 472"
 "angle" "-55"
 "targetname" "flag1"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-323 -76 472"
 "angle" "-52"
 "targetname" "flag1"
@@ -495,56 +495,56 @@
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2407 -355 -487"
 "angle" "176"
 "targetname" "flag2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2464 -351 -487"
 "angle" "176"
 "targetname" "flag2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2533 -347 -487"
 "angle" "176"
 "targetname" "flag2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2601 -350 -487"
 "angle" "155"
 "targetname" "flag2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2376 -27 -487"
 "angle" "-157"
 "targetname" "flag2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2466 -40 -487"
 "angle" "-157"
 "targetname" "flag2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2560 -56 -487"
 "angle" "-147"
 "targetname" "flag2"
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "0"
+"spawnflags" "2"
 "origin" "-2624 -65 -487"
 "angle" "-142"
 "targetname" "flag2"
