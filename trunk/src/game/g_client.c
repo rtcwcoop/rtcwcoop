@@ -1813,19 +1813,19 @@ void ClientSpawn( gentity_t *ent ) {
 				spawn_origin, spawn_angles );
 		} else {
 			do {
-                                // fretn
+				// fretn
 				// the first spawn should be at a good looking spot
 				if ( !client->pers.initialSpawn && client->pers.localClient ) {
 					// fretn: moved this down
 					//client->pers.initialSpawn = qtrue;
 					if ( client->sess.sessionTeam == TEAM_RED ) {
-                                                if (g_gametype.integer != GT_COOP_BATTLE ) {
-                                                        spawnPoint = SelectRandomAntiCoopSpawnPoint(ent, spawn_origin, spawn_angles);
-                                                        if (!spawnPoint) { // we need spawnpoints for the axis
-                                                                spawnPoint = SelectSpawnPoint(
-                                                                    client->ps.origin,
-                                                                    spawn_origin, spawn_angles );
-                                                        }
+						if (g_gametype.integer != GT_COOP_BATTLE ) {
+							spawnPoint = SelectRandomAntiCoopSpawnPoint(ent, spawn_origin, spawn_angles);
+							if (!spawnPoint) { // we need spawnpoints for the axis
+								spawnPoint = SelectSpawnPoint(
+									client->ps.origin,
+									spawn_origin, spawn_angles );
+							}
 						}
 					} else {
 						if ( g_gametype.integer <= GT_COOP) {
@@ -1840,35 +1840,31 @@ void ClientSpawn( gentity_t *ent ) {
 						}
 					}
 
-                                        // fretn
-                                        ent->client->hasCoopSpawn = qfalse;
+					// fretn
+					ent->client->hasCoopSpawn = qfalse;
 				} else {
 					// fretn note: on a dedicated server when the first player arrives and he's axis
 					// no bots are alive, so no spawnpoint (bot) can be found
-                                        if ( client->sess.sessionTeam == TEAM_RED && g_gametype.integer != GT_COOP_BATTLE ) {
+					if ( client->sess.sessionTeam == TEAM_RED && g_gametype.integer != GT_COOP_BATTLE ) {
 						spawnPoint = SelectRandomAntiCoopSpawnPoint(ent, spawn_origin, spawn_angles);
 						if (!spawnPoint) { // we need spawnpoints for the axis
-							spawnPoint = SelectSpawnPoint(
-							    client->ps.origin,
-							    spawn_origin, spawn_angles );
+							spawnPoint = SelectSpawnPoint(client->ps.origin, spawn_origin, spawn_angles );
 						}
-                                        } else {
-                                                if (g_gametype.integer <= GT_COOP && ent->client->hasCoopSpawn) {
-                                                        // todo: select random spot from friends
-                                                        VectorCopy(client->coopSpawnPointOrigin, spawn_origin);                      
-                                                        VectorCopy(client->coopSpawnPointAngles, spawn_angles);                      
-                                                        spawnPoint = ent;
+					} else {
+						if (g_gametype.integer <= GT_COOP && ent->client->hasCoopSpawn) {
+							// todo: select random spot from friends
+							VectorCopy(client->coopSpawnPointOrigin, spawn_origin);                      
+							VectorCopy(client->coopSpawnPointAngles, spawn_angles);                      
+							spawnPoint = ent;
 
-                                                // don't spawn near existing origin if possible
-                                                } else {
-                                                        spawnPoint = SelectRandomCoopSpawnPoint(spawn_origin, spawn_angles);
-                                                        if (!spawnPoint) {
-                                                                spawnPoint = SelectSpawnPoint(
-                                                                    client->ps.origin,
-                                                                    spawn_origin, spawn_angles );
-                                                        }
-                                                }
-                                        }
+						// don't spawn near existing origin if possible
+						} else {
+							spawnPoint = SelectRandomCoopSpawnPoint(spawn_origin, spawn_angles);
+							if (!spawnPoint) {
+								spawnPoint = SelectSpawnPoint(client->ps.origin, spawn_origin, spawn_angles );
+							}
+						}
+					}
 				}
 
 				// Tim needs to prevent bots from spawning at the initial point
