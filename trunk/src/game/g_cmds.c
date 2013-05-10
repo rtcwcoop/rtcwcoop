@@ -1235,10 +1235,32 @@ to free floating spectator mode
 =================
 */
 void StopFollowing( gentity_t *ent ) {
+	ent->client->sess.sessionTeam = TEAM_SPECTATOR;
 	ent->client->ps.persistant[ PERS_TEAM ] = TEAM_SPECTATOR;
-	ent->client->sess.spectatorState = SPECTATOR_FREE;
-	ent->r.svFlags &= ~SVF_BOT;
-	ent->client->ps.clientNum = ent - g_entities;
+
+	// ATVI Wolfenstein Misc #474
+	// divert behaviour if TEAM_SPECTATOR, moved the code from SpectatorThink to put back into free fly correctly
+	// (I am not sure this can be called in non-TEAM_SPECTATOR situation, better be safe)
+	if ( ent->client->sess.sessionTeam == TEAM_SPECTATOR ) {
+		// drop to free floating, somewhere above the current position (that's the client you were following)
+		vec3_t pos, angle;
+		int enterTime;
+		gclient_t   *client = ent->client;
+		VectorCopy( client->ps.origin, pos ); pos[2] += 16;
+		VectorCopy( client->ps.viewangles, angle );
+		// ATVI Wolfenstein Misc #414, backup enterTime
+		enterTime = client->pers.enterTime;
+		SetTeam( ent, "spectator" );
+		client->pers.enterTime = enterTime;
+		VectorCopy( pos, client->ps.origin );
+		SetClientViewAngle( ent, angle );
+	} else
+	{
+		// legacy code, FIXME: useless?
+		ent->client->sess.spectatorState = SPECTATOR_FREE;
+		ent->r.svFlags &= ~SVF_BOT;
+		ent->client->ps.clientNum = ent - g_entities;
+	}
 }
 
 /*
@@ -1312,6 +1334,10 @@ void Cmd_Follow_f( gentity_t *ent ) {
 
 	// can't follow another spectator
 	if ( level.clients[ i ].sess.sessionTeam == TEAM_SPECTATOR ) {
+		return;
+	}
+
+	if ( level.clients[ i ].ps.pm_flags & PMF_LIMBO ) {
 		return;
 	}
 
