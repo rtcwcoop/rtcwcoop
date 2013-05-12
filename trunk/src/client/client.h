@@ -533,7 +533,18 @@ void CL_VerifyCode( void );
 
 float CL_KeyState( kbutton_t *key );
 char *Key_KeynumToString( int keynum, qboolean bTranslate );
-int Key_StringToKeynum( char *str );;
+int Key_StringToKeynum( char *str );
+
+//
+//cl_irc.c
+//
+void CL_OW_IRCSetup(void);
+void CL_OW_InitIRC(void);
+void CL_OW_IRCInitiateShutdown(void);
+void CL_OW_IRCWaitShutdown(void);
+void CL_OW_IRCSay(void);
+qboolean CL_OW_IRCIsConnected(void);
+qboolean CL_OW_IRCIsRunning(void);
 
 //
 // cl_parse.c

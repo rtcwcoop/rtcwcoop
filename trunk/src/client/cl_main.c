@@ -2909,6 +2909,8 @@ void CL_Init( void ) {
 
 	CL_InitInput();
 
+	CL_OW_IRCSetup();
+
 	//
 	// register our variables
 	//
@@ -3090,6 +3092,10 @@ void CL_Init( void ) {
 	Cmd_AddCommand( "fs_openedList", CL_OpenedPK3List_f );
 	Cmd_AddCommand( "fs_referencedList", CL_ReferencedPK3List_f );
 
+	Cmd_AddCommand ("irc_connect", CL_OW_InitIRC);
+	Cmd_AddCommand ("irc_quit", CL_OW_IRCInitiateShutdown);
+	Cmd_AddCommand ("irc_say", CL_OW_IRCSay);	
+
 	// Ridah, startup-caching system
 	Cmd_AddCommand( "cache_startgather", CL_Cache_StartGather_f );
 	Cmd_AddCommand( "cache_usedfile", CL_Cache_UsedFile_f );
@@ -3157,6 +3163,8 @@ void CL_Shutdown( char *finalmsg ) {
 
 	CL_ShutdownUI();
 
+	CL_OW_IRCInitiateShutdown();
+
 	Cmd_RemoveCommand( "cmd" );
 	Cmd_RemoveCommand( "configstrings" );
 	Cmd_RemoveCommand( "userinfo" );
@@ -3186,6 +3194,8 @@ void CL_Shutdown( char *finalmsg ) {
 
 	Cmd_RemoveCommand( "updatehunkusage" );
 	// done.
+
+	CL_OW_IRCWaitShutdown();
 
 	Cvar_Set( "cl_running", "0" );
 

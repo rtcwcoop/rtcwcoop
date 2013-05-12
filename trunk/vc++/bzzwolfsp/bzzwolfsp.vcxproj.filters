@@ -453,6 +453,12 @@
     <ClCompile Include="..\..\src\game\q_math.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\client\cl_irc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\qcommon\htable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\sys\sys_loadlib.h">
@@ -633,6 +639,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\jpeg-6\jversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\qcommon\htable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

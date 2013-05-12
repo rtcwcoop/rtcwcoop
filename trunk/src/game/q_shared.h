@@ -95,6 +95,13 @@ If you have questions concerning this license or the applicable additional terms
 #define idppc 1
 #endif
 
+// L0 (iortcw port) Ignore __attribute__ on non-gcc platforms
+#ifndef __GNUC__
+	#ifndef __attribute__
+		#define __attribute__(x)
+	#endif
+#endif
+
 #if (defined _MSC_VER)
 #define Q_EXPORT __declspec(dllexport)
 #elif (defined __SUNPRO_C)
@@ -812,6 +819,7 @@ char    *Q_strrchr( const char* string, int c );
 // buffer size safe library replacements
 void    Q_strncpyz( char *dest, const char *src, int destsize );
 void    Q_strcat( char *dest, int size, const char *src );
+int		Q_strnicmp(const char *string1, const char *string2, int n); // IRC
 
 // strlen that discounts Quake color sequences
 int Q_PrintStrlen( const char *string );

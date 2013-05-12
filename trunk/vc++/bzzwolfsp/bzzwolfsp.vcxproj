@@ -120,6 +120,7 @@
     <ClCompile Include="..\..\src\client\cl_cin.c" />
     <ClCompile Include="..\..\src\client\cl_console.c" />
     <ClCompile Include="..\..\src\client\cl_input.c" />
+    <ClCompile Include="..\..\src\client\cl_irc.c" />
     <ClCompile Include="..\..\src\client\cl_keys.c" />
     <ClCompile Include="..\..\src\client\cl_main.c" />
     <ClCompile Include="..\..\src\client\cl_net_chan.c" />
@@ -178,6 +179,7 @@
     <ClCompile Include="..\..\src\qcommon\common.c" />
     <ClCompile Include="..\..\src\qcommon\cvar.c" />
     <ClCompile Include="..\..\src\qcommon\files.c" />
+    <ClCompile Include="..\..\src\qcommon\htable.c" />
     <ClCompile Include="..\..\src\qcommon\huffman.c" />
     <ClCompile Include="..\..\src\qcommon\md4.c" />
     <ClCompile Include="..\..\src\qcommon\msg.c" />
@@ -281,6 +283,7 @@
     <ClInclude Include="..\..\src\qcommon\cm_patch.h" />
     <ClInclude Include="..\..\src\qcommon\cm_polylib.h" />
     <ClInclude Include="..\..\src\qcommon\cm_public.h" />
+    <ClInclude Include="..\..\src\qcommon\htable.h" />
     <ClInclude Include="..\..\src\qcommon\qcommon.h" />
     <ClInclude Include="..\..\src\qcommon\qfiles.h" />
     <ClInclude Include="..\..\src\qcommon\unzip.h" />
