@@ -1250,7 +1250,7 @@ void StopFollowing( gentity_t *ent ) {
 		VectorCopy( client->ps.viewangles, angle );
 		// ATVI Wolfenstein Misc #414, backup enterTime
 		enterTime = client->pers.enterTime;
-		SetTeam( ent, "spectator" );
+		SetTeam( ent, "spectator", qfalse );
 		client->pers.enterTime = enterTime;
 		VectorCopy( pos, client->ps.origin );
 		SetClientViewAngle( ent, angle );
