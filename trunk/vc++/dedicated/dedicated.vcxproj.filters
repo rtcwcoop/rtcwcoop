@@ -207,6 +207,9 @@
     <ClCompile Include="..\..\src\botlib\l_script.c">
       <Filter>Botlib</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\server\sv_wallhack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\sys\win_resource.rc">

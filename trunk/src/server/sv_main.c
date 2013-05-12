@@ -85,6 +85,14 @@ cvar_t  *sv_reinforce;
 cvar_t  *sv_airespawn;
 cvar_t  *sv_reloading;  //----(SA)	added
 
+#ifdef FEATURE_ANTICHEAT
+cvar_t *wh_active;
+cvar_t *wh_bbox_horz;
+cvar_t *wh_bbox_vert;
+cvar_t *wh_add_xy;
+cvar_t *wh_check_fov;
+#endif
+
 void SVC_GameCompleteStatus( netadr_t from );       // NERVE - SMF
 typedef struct leakyBucket_s leakyBucket_t;
 struct leakyBucket_s {

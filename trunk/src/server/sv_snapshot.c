@@ -300,6 +300,9 @@ static void SV_AddEntitiesVisibleFromPoint( vec3_t origin, clientSnapshot_t *fra
 	int clientarea, clientcluster;
 	int leafnum;
 	int c_fullsend;
+#ifdef FEATURE_ANTICHEAT
+	int wh;		// L0 - So it can be tweaked.
+#endif
 	byte    *clientpvs;
 	byte    *bitvector;
 
@@ -485,6 +488,37 @@ static void SV_AddEntitiesVisibleFromPoint( vec3_t origin, clientSnapshot_t *fra
 			}
 		}
 
+#ifdef FEATURE_ANTICHEAT
+		// L0 - Ugly but does it's job.
+		// 
+		// 1 = counts AI's so they're hidden as well, 2 only hides players so normal WH will still show 
+		// AI thru wall but hide players (theoretically). 
+		wh =( (wh_active->integer == 1) 
+			? sv_maxclients->integer : sv_maxcoopclients->integer ); 
+		
+		if (e < wh)     // client
+		{
+			sharedEntity_t *client;
+
+			if (e == frame->ps.clientNum)
+			{
+				continue;
+			}
+
+			client = SV_GentityNum(frame->ps.clientNum);
+
+			if (wh_active->integer && !portal && !(client->r.svFlags & SVF_BOT) && 
+				(frame->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR))
+			{
+				if (!SV_CanSee(frame->ps.clientNum, e))
+				{
+					SV_RandomizePos(frame->ps.clientNum, e);
+					SV_AddEntToSnapshot(svEnt, ent, eNums);
+					continue;
+				}
+			}
+		}
+#endif
 		// add it
 		SV_AddEntToSnapshot( svEnt, ent, eNums );
 
@@ -613,6 +647,15 @@ static void SV_BuildClientSnapshot( client_t *client ) {
 		ent = SV_GentityNum( entityNumbers.snapshotEntities[i] );
 		state = &svs.snapshotEntities[svs.nextSnapshotEntities % svs.numSnapshotEntities];
 		*state = ent->s;
+#ifdef FEATURE_ANTICHEAT
+		if (wh_active->integer && entityNumbers.snapshotEntities[i] < sv_maxclients->integer)
+		{
+			if (SV_PositionChanged(entityNumbers.snapshotEntities[i]))
+			{
+				SV_RestorePos(entityNumbers.snapshotEntities[i]);
+			}
+		}
+#endif
 		svs.nextSnapshotEntities++;
 		// this should never hit, map should always be restarted first in SV_Frame
 		if ( svs.nextSnapshotEntities >= 0x7FFFFFFE ) {

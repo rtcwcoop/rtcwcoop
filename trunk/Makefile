@@ -102,6 +102,10 @@ ifndef USE_BLOOM
 USE_BLOOM=1
 endif
 
+ifndef FEATURE_ANTICHEAT
+FEATURE_ANTICHEAT=1
+endif
+
 ifndef USE_LOCAL_HEADERS
 USE_LOCAL_HEADERS=1
 endif
@@ -677,6 +681,7 @@ WOLFOBJ = \
   $(B)/client/sv_main.o \
   $(B)/client/sv_net_chan.o \
   $(B)/client/sv_snapshot.o \
+  $(B)/client/sv_wallhack.o \
   $(B)/client/sv_world.o \
   \
   $(B)/client/q_math.o \
