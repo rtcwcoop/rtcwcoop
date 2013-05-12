@@ -98,6 +98,10 @@ ifndef USE_INTERNAL_ZLIB
 USE_INTERNAL_ZLIB=1
 endif
 
+ifndef USE_BLOOM
+USE_BLOOM=1
+endif
+
 ifndef USE_LOCAL_HEADERS
 USE_LOCAL_HEADERS=1
 endif
@@ -748,6 +752,7 @@ WOLFOBJ = \
   \
   $(B)/client/tr_animation.o \
   $(B)/client/tr_backend.o \
+  $(B)/client/tr_bloom.o \
   $(B)/client/tr_bsp.o \
   $(B)/client/tr_cmds.o \
   $(B)/client/tr_cmesh.o \

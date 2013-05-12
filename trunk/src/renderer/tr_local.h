@@ -933,6 +933,10 @@ typedef struct {
 	qboolean projection2D;      // if qtrue, drawstretchpic doesn't need to change modes
 	byte color2D[4];
 	qboolean vertexes2D;        // shader needs to be finished
+#ifdef USE_BLOOM
+	qboolean	doneBloom;		// done bloom this frame
+	qboolean	doneSurfaces;   // done any 3d surfaces already
+#endif
 	trRefEntity_t entity2D;     // currentEntity will point at this when doing 2D rendering
 } backEndState_t;
 
@@ -1442,6 +1446,9 @@ typedef struct shaderCommands_s
 
 extern shaderCommands_t tess;
 
+#ifdef USE_BLOOM
+void RB_SetGL2D (void);
+#endif
 void RB_BeginSurface( shader_t *shader, int fogNum );
 void RB_EndSurface( void );
 void RB_CheckOverflow( int verts, int indexes );
@@ -1788,6 +1795,12 @@ void SaveJPG( char * filename, int quality, int image_width, int image_height, u
 void R_InitFreeType();
 void R_DoneFreeType();
 void RE_RegisterFont( const char *fontName, int pointSize, fontInfo_t *font );
+
+//Bloom Stuff
+#ifdef USE_BLOOM
+void R_BloomInit( void );
+void R_BloomScreen( void );
+#endif
 
 // Ridah, caching system
 // NOTE: to disable this for development, set "r_cache 0" in autoexec.cfg

@@ -480,6 +480,9 @@
     <ClCompile Include="..\..\src\jpeg-6\jmemnobs.c">
       <Filter>jpeg\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\renderer\tr_bloom.c">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\sys\sys_loadlib.h">

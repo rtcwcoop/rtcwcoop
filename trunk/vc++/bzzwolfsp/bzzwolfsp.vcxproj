@@ -189,6 +189,7 @@
     <ClCompile Include="..\..\src\qcommon\vm.c" />
     <ClCompile Include="..\..\src\renderer\tr_animation.c" />
     <ClCompile Include="..\..\src\renderer\tr_backend.c" />
+    <ClCompile Include="..\..\src\renderer\tr_bloom.c" />
     <ClCompile Include="..\..\src\renderer\tr_bsp.c" />
     <ClCompile Include="..\..\src\renderer\tr_cmds.c" />
     <ClCompile Include="..\..\src\renderer\tr_cmesh.c" />

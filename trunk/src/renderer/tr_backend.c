@@ -1486,6 +1486,9 @@ const void  *RB_DrawSurfs( const void *data ) {
 	backEnd.refdef = cmd->refdef;
 	backEnd.viewParms = cmd->viewParms;
 
+#ifdef USE_BLOOM
+	backEnd.doneSurfaces = qtrue;
+#endif
 	RB_RenderDrawSurfList( cmd->drawSurfs, cmd->numDrawSurfs );
 
 	return (const void *)( cmd + 1 );
@@ -1627,6 +1630,11 @@ const void  *RB_SwapBuffers( const void *data ) {
 
 	backEnd.projection2D = qfalse;
 
+#ifdef USE_BLOOM
+	backEnd.doneBloom = qfalse;
+	backEnd.doneSurfaces = qfalse;
+#endif
+
 	return (const void *)( cmd + 1 );
 }
 
@@ -1683,11 +1691,15 @@ void RB_ExecuteRenderCommands( const void *data ) {
 			data = RB_SetColor( data );
 			break;
 		case RC_STRETCH_PIC:
+#ifdef USE_BLOOM
+			//Check if it's time for BLOOM!
+			R_BloomScreen();
+#endif
 			data = RB_StretchPic( data );
 			break;
-                case RC_ROTATED_PIC:
-                        data = RB_RotatedPic( data );
-                        break;
+		case RC_ROTATED_PIC:
+			data = RB_RotatedPic( data );
+			break;
 		case RC_STRETCH_PIC_GRADIENT:
 			data = RB_StretchPicGradient( data );
 			break;
@@ -1698,12 +1710,16 @@ void RB_ExecuteRenderCommands( const void *data ) {
 			data = RB_DrawBuffer( data );
 			break;
 		case RC_SWAP_BUFFERS:
+#ifdef USE_BLOOM
+			//Check if it's time for BLOOM!
+			R_BloomScreen();
+#endif
 			data = RB_SwapBuffers( data );
 			break;
-                        //bani
-                case RC_RENDERTOTEXTURE:
-                        data = RB_RenderToTexture( data );
-                        break;
+		//bani
+		case RC_RENDERTOTEXTURE:
+			data = RB_RenderToTexture( data );
+		break;
 
 		case RC_END_OF_LIST:
 		default:
