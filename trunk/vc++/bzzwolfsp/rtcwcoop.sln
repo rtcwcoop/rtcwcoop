@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bzzwolfsp", "bzzwolfsp.vcxproj", "{F30728C1-0189-46BF-8B54-A0C20C87E894}"
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtcwcoop", "bzzwolfsp.vcxproj", "{F30728C1-0189-46BF-8B54-A0C20C87E894}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ui", "..\ui\ui.vcxproj", "{7C112508-A884-4FCB-B3E3-DD3FB6081086}"
 EndProject
