@@ -461,13 +461,9 @@ CL_JoystickMove
 =================
 */
 void CL_JoystickMove( usercmd_t *cmd ) {
-	int movespeed;
 	float anglespeed;
 
-	if ( kb[KB_SPEED].active ^ cl_run->integer ) {
-		movespeed = 2;
-	} else {
-		movespeed = 1;
+	if ( !(kb[KB_SPEED].active ^ cl_run->integer )) {
 		cmd->buttons |= BUTTON_WALKING;
 	}
 
@@ -702,7 +698,6 @@ Create a new usercmd_t structure for this frame
 =================
 */
 void CL_CreateNewCommands( void ) {
-	usercmd_t   *cmd;
 	int cmdNum;
 
 	// no need to create usercmds until we have a gamestate
@@ -724,7 +719,6 @@ void CL_CreateNewCommands( void ) {
 	cl.cmdNumber++;
 	cmdNum = cl.cmdNumber & CMD_MASK;
 	cl.cmds[cmdNum] = CL_CreateCmd();
-	cmd = &cl.cmds[cmdNum];
 }
 
 /*

@@ -201,10 +201,9 @@ CL_ChangeReliableCommand
 ======================
 */
 void CL_ChangeReliableCommand( void ) {
-	int r, index, l;
+	int index, l;
 
 	// NOTE TTimo: what is the randomize for?
-	r = clc.reliableSequence - ( random() * 5 );
 	index = clc.reliableSequence & ( MAX_RELIABLE_COMMANDS - 1 );
 	l = strlen( clc.reliableCommands[ index ] );
 	if ( l >= MAX_STRING_CHARS - 1 ) {
@@ -3529,10 +3528,8 @@ CL_GetServerStatus
 ===================
 */
 serverStatus_t *CL_GetServerStatus( netadr_t from ) {
-	serverStatus_t *serverStatus;
 	int i, oldest, oldestTime;
 
-	serverStatus = NULL;
 	for ( i = 0; i < MAX_SERVERSTATUSREQUESTS; i++ ) {
 		if ( NET_CompareAdr( from, cl_serverStatusList[i].address ) ) {
 			return &cl_serverStatusList[i];
@@ -4294,15 +4291,11 @@ CL_AddToLimboChat
 =======================
 */
 void CL_AddToLimboChat( const char *str ) {
-	int len;
-	char *p, *ls;
-	int lastcolor;
-	int chatHeight;
+	int len = 0;
+	char *p;
 	int i;
 
-	chatHeight = LIMBOCHAT_HEIGHT;
 	cl.limboChatPos = LIMBOCHAT_HEIGHT - 1;
-	len = 0;
 
 	// copy old strings
 	for ( i = cl.limboChatPos; i > 0; i-- ) {
@@ -4313,23 +4306,17 @@ void CL_AddToLimboChat( const char *str ) {
 	p = cl.limboChatMsgs[0];
 	*p = 0;
 
-	lastcolor = '7';
-
-	ls = NULL;
 	while ( *str ) {
 		if ( len > LIMBOCHAT_WIDTH - 1 ) {
 			break;
 		}
 
 		if ( Q_IsColorString( str ) ) {
-			*p++ = *str++;
-			lastcolor = *str;
+			*p++ = *str++;			
 			*p++ = *str++;
 			continue;
 		}
-		if ( *str == ' ' ) {
-			ls = p;
-		}
+		
 		*p++ = *str++;
 		len++;
 	}

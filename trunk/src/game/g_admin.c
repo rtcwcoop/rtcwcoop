@@ -689,8 +689,6 @@ Ignore user based upon client number
 void cmd_clientIgnore( gentity_t *ent )
 {
 	int	player_id;
-	gentity_t	*target_ent;
-	gclient_t	*client;
 	gentity_t	*targetclient;	 
 	char *tag, *log;
 
@@ -706,8 +704,6 @@ void cmd_clientIgnore( gentity_t *ent )
 		return;
 
 	targetclient = g_entities + player_id; 
-	target_ent = g_entities + player_id;
-	client = target_ent->client;
 
 	if (targetclient->client->sess.ignored ) {
 		trap_SendServerCommand(ent-g_entities, va("print \"Player %s ^7is already ignored^1!\"", targetclient->client->pers.netname ));
@@ -733,8 +729,6 @@ UnIgnore user based upon client number
 void cmd_clientUnignore( gentity_t *ent )
 {
 	int	player_id;
-	gentity_t	*target_ent;
-	gclient_t	*client;
 	gentity_t	*targetclient;	 
 	char *tag, *log;
 
@@ -746,8 +740,6 @@ void cmd_clientUnignore( gentity_t *ent )
 	}
 
 	targetclient = g_entities + player_id; 
-	target_ent = g_entities + player_id;
-	client = target_ent->client;
 
 	if (targetclient->client->sess.ignored == 0 ) {
 		trap_SendServerCommand(ent-g_entities, va("print \"Player %s ^7is already unignored^1!\"", targetclient->client->pers.netname ));
@@ -813,8 +805,6 @@ Kick player based upon clientnumber + optional <msg> (NOT PRINTED ATM DUE ERROR 
 */
 void cmd_clientkick( gentity_t *ent) {
 	int	player_id;
-	gentity_t	*target_ent;
-	gclient_t	*client;
 	gentity_t	*targetclient;	
 	char *tag, *log;
 
@@ -826,8 +816,6 @@ void cmd_clientkick( gentity_t *ent) {
 	}
 
 	targetclient = g_entities + player_id; 
-	target_ent = g_entities + player_id;
-	client = target_ent->client;
 
 	//kick the client
 	trap_DropClient( player_id, va( "^3kicked by ^3admin. ^7%s", ent->client->pers.cmd3));
@@ -1305,8 +1293,6 @@ Shows message to selected user in center print
 */
 void cmd_cp(gentity_t *ent) {	
 	int	player_id;
-	gentity_t	*target_ent;
-	gclient_t	*client;
 	gentity_t	*targetclient;	
 	char *s, *log;
 
@@ -1318,8 +1304,6 @@ void cmd_cp(gentity_t *ent) {
 	}
 
 	targetclient = g_entities + player_id; 
-	target_ent = g_entities + player_id;
-	client = target_ent->client;
 
 	// CP to user
 	trap_SendServerCommand(targetclient-g_entities, va("cp \"^1ADMIN WARNING^7! \n%s\n\"2",  s));	
@@ -1589,10 +1573,8 @@ Admin commands
 qboolean do_cmds(gentity_t *ent) { 
 	char alt[128];
 	char cmd[128];
-	char *tag;
 
 	admCmds(ent->client->pers.cmd1, alt, cmd, qfalse);
-	tag = sortTag(ent);
 
 	if (!strcmp(cmd,"incognito"))			{ if (canUse(ent, qtrue)) cmd_incognito(ent); else cantUse(ent);	return qtrue;}
 	else if (!strcmp(cmd,"list_cmds"))		{ cmd_listCmds(ent);	return qtrue;}

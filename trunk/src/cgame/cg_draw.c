@@ -820,7 +820,7 @@ CG_DrawTeamInfo
 =================
 */
 static void CG_DrawTeamInfo( void ) {
-        int w, h;
+        int w;
         int i, len; 
         vec4_t hcolor;
         int chatHeight;
@@ -841,9 +841,7 @@ static void CG_DrawTeamInfo( void ) {
         if ( cgs.teamLastChatPos != cgs.teamChatPos ) {
                 if ( cg.time - cgs.teamChatMsgTimes[cgs.teamLastChatPos % chatHeight] > cg_teamChatTime.integer ) {
                         cgs.teamLastChatPos++;
-                }    
-
-                h = ( cgs.teamChatPos - cgs.teamLastChatPos ) * TINYCHAR_HEIGHT;
+                }   
 
                 w = 0; 
 
@@ -972,7 +970,7 @@ CG_DrawNotify
 #define NOTIFYLOC_X 0
 
 static void CG_DrawNotify( void ) {
-        int w, h;
+        int w;
         int i, len; 
         vec4_t hcolor;
         int chatHeight;
@@ -993,8 +991,6 @@ static void CG_DrawNotify( void ) {
                 if ( cg.time - cgs.notifyMsgTimes[cgs.notifyLastPos % chatHeight] > notifytime ) {
                         cgs.notifyLastPos++;
                 }    
-
-                h = ( cgs.notifyPos - cgs.notifyLastPos ) * TINYCHAR_HEIGHT;
 
                 w = 0; 
 

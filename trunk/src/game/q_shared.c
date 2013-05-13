@@ -500,53 +500,72 @@ COM_Compress
 ================
 */
 int COM_Compress( char *data_p ) {
-	char *datai, *datao;
-	int c, pc, size;
-	qboolean ws = qfalse;
+char *in, *out;
+	int c;
+	qboolean newline = qfalse, whitespace = qfalse;
 
-	size = 0;
-	pc = 0;
-	datai = datao = data_p;
-	if ( datai ) {
-		while ( ( c = *datai ) != 0 ) {
-			if ( c == 13 || c == 10 ) {
-				*datao = c;
-				datao++;
-				ws = qfalse;
-				pc = c;
-				datai++;
-				size++;
-				// skip double slash comments
-			} else if ( c == '/' && datai[1] == '/' ) {
-				while ( *datai && *datai != '\n' ) {
-					datai++;
+	in = out = data_p;
+	if (in) {
+		while ((c = *in) != 0) {
+			// skip double slash comments
+			if ( c == '/' && in[1] == '/' ) {
+				while (*in && *in != '\n') {
+					in++;
 				}
-				ws = qfalse;
-				// skip /* */ comments
-			} else if ( c == '/' && datai[1] == '*' ) {
-				while ( *datai && ( *datai != '*' || datai[1] != '/' ) ) {
-					datai++;
-				}
-				if ( *datai ) {
-					datai += 2;
-				}
-				ws = qfalse;
+			// skip /* */ comments
+			} else if ( c == '/' && in[1] == '*' ) {
+				while ( *in && ( *in != '*' || in[1] != '/' ) ) 
+					in++;
+				if ( *in ) 
+					in += 2;
+				// record when we hit a newline
+			} else if ( c == '\n' || c == '\r' ) {
+				newline = qtrue;
+				in++;
+				// record when we hit whitespace
+			} else if ( c == ' ' || c == '\t') {
+				whitespace = qtrue;
+				in++;
+				// an actual token
 			} else {
-				if ( ws ) {
-					*datao = ' ';
-					datao++;
+				// if we have a pending newline, emit it (and it counts as whitespace)
+				if (newline) {
+					*out++ = '\n';
+					newline = qfalse;
+					whitespace = qfalse;
+				} if (whitespace) {
+					*out++ = ' ';
+					whitespace = qfalse;
 				}
-				*datao = c;
-				datao++;
-				datai++;
-				ws = qfalse;
-				pc = c;
-				size++;
+
+				// copy quoted strings unmolested
+				if (c == '"') {
+					*out++ = c;
+					in++;
+					while (1) {
+						c = *in;
+						if (c && c != '"') {
+							*out++ = c;
+							in++;
+						} else {
+							break;
+						}
+					}
+					if (c == '"') {
+						*out++ = c;
+						in++;
+					}
+				} else {
+					*out = c;
+					out++;
+					in++;
+				}
 			}
 		}
+
+		*out = 0;
 	}
-	*datao = 0;
-	return size;
+	return out - data_p;
 }
 
 #ifdef GAMEDLL

@@ -56,7 +56,7 @@ If you have questions concerning this license or the applicable additional terms
 // Changes Globals:		-
 //===========================================================================
 int GeneticSelection( int numranks, float *rankings ) {
-	float sum, select;
+	float sum;
 	int i, index;
 
 	sum = 0;
@@ -70,7 +70,6 @@ int GeneticSelection( int numranks, float *rankings ) {
 	if ( sum > 0 ) {
 		//select a bot where the ones with the higest rankings have
 		//the highest chance of being selected
-		select = random() * sum;
 		for ( i = 0; i < numranks; i++ )
 		{
 			if ( rankings[i] < 0 ) {

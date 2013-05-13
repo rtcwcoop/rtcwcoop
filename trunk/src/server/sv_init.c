@@ -118,7 +118,7 @@ SV_SetConfigstring
 ===============
 */
 void SV_SetConfigstring( int index, const char *val ) {
-	int len, i;	
+	int i;	
 	client_t    *client;
 
 	if ( index < 0 || index >= MAX_CONFIGSTRINGS ) {
@@ -158,9 +158,6 @@ void SV_SetConfigstring( int index, const char *val ) {
 				continue;
 			}
 
-//			SV_SendServerCommand( client, "cs %i \"%s\"\n", index, val );
-
-			len = strlen( val );
 			// L0 - ioquake bug fix for reliable command overflow	
 			SV_SendConfigstring(client, index);
 			// End

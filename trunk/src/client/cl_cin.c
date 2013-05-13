@@ -1726,7 +1726,6 @@ void CIN_DrawCinematic( int handle ) {
 
 void CL_PlayCinematic_f( void ) {
 	char    *arg, *s;
-	qboolean holdatend;
 	int bits = CIN_system;
 
 	Com_DPrintf( "CL_PlayCinematic_f\n" );
@@ -1737,7 +1736,6 @@ void CL_PlayCinematic_f( void ) {
 	arg = Cmd_Argv( 1 );
 	s = Cmd_Argv( 2 );
 
-	holdatend = qfalse;
 	if ( ( s && s[0] == '1' ) || Q_stricmp( arg,"demoend.roq" ) == 0 || Q_stricmp( arg,"end.roq" ) == 0 ) {
 		bits |= CIN_hold;
 	}

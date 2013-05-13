@@ -2081,7 +2081,6 @@ static void UI_DrawOpponent( rectDef_t *rect ) {
 	static playerInfo_t info2;
 	char model[MAX_QPATH];
 	char headmodel[MAX_QPATH];
-	char team[256];
 	vec3_t viewangles;
 	vec3_t moveangles;
 
@@ -2089,7 +2088,6 @@ static void UI_DrawOpponent( rectDef_t *rect ) {
 
 		strcpy( model, UI_Cvar_VariableString( "ui_opponentModel" ) );
 		strcpy( headmodel, UI_Cvar_VariableString( "ui_opponentModel" ) );
-		team[0] = '\0';
 
 		memset( &info2, 0, sizeof( playerInfo_t ) );
 		viewangles[YAW]   = 180 - 10;
@@ -2540,7 +2538,7 @@ static void UI_DrawGLInfo( rectDef_t *rect, int font, float scale, vec4_t color,
 static void UI_DrawLimboChat( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
 	int i, count;
 	char buf[140];
-	float x, y, w, h;
+	float x, y;
 
 	memset( buf, 0, 140 );
 
@@ -2555,8 +2553,6 @@ static void UI_DrawLimboChat( rectDef_t *rect, int font, float scale, vec4_t col
 	for ( i = 0; i < count; i++ ) {
 		x = rect->x;
 		y = rect->y + 9 * i;
-		w = 1;
-		h = 1;
 
 		trap_GetLimboString( i, buf );
 		Text_Paint( x, y, font, scale, color, buf, 0, 0, textStyle );
@@ -4393,8 +4389,7 @@ static void UI_RunMenuScript( char **args ) {
 
 	if ( String_Parse( args, &name ) ) {
 		if ( Q_stricmp( name, "StartServer" ) == 0 ) {
-			int i, clients;
-			float skill;
+			int i, clients;			
 			trap_Cvar_Set( "cg_thirdPerson", "0" );
 			trap_Cvar_Set( "cg_cameraOrbit", "0" );
 			//trap_Cvar_Set( "ui_singlePlayerActive", "0" );
@@ -4406,8 +4401,7 @@ static void UI_RunMenuScript( char **args ) {
 			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
 #endif
 			trap_Cvar_SetValue( "g_gametype", Com_Clamp( 0, 2, uiInfo.gameTypes[ui_netGameType.integer].gtEnum ) );
-			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
-			skill = trap_Cvar_VariableValue( "g_spSkill" );
+			trap_Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );			
 			// set max clients based on spots
 			clients = 0;
 			for ( i = 0; i < PLAYERS_PER_TEAM; i++ ) {
@@ -5735,7 +5729,7 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 	static char hostname[1024];
 	static char clientBuff[32];
 	static int lastServerColumn = -1, lastSaveColumn = -1;
-	static int lastServerTime = 0, lastSaveTime = 0;
+	static int lastServerTime = 0;
 	*handle = -1;
 	if ( feederID == FEEDER_HEADS ) {
 		if ( index >= 0 && index < uiInfo.characterCount ) {
@@ -5891,8 +5885,7 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 //			int ping, game;
 			if ( lastSaveColumn != column ) {
 //				trap_LAN_GetServerInfo(ui_netSource.integer, uiInfo.serverStatus.displayServers[index], info, MAX_STRING_CHARS);
-				lastSaveColumn = column;
-				lastSaveTime = uiInfo.uiDC.realTime;
+				lastSaveColumn = column;			
 			}
 
 			switch ( column ) {
@@ -6582,7 +6575,6 @@ UI_Init
 */
 void _UI_Init( qboolean inGameLoad ) {
 	const char *menuSet;
-	int start;
 
 	//uiInfo.inGameLoad = inGameLoad;
 
@@ -6677,8 +6669,6 @@ void _UI_Init( qboolean inGameLoad ) {
 	uiInfo.uiDC.whiteShader = trap_R_RegisterShaderNoMip( "white" );
 
 	AssetCache();
-
-	start = trap_Milliseconds();
 
 	uiInfo.teamCount = 0;
 	uiInfo.characterCount = 0;

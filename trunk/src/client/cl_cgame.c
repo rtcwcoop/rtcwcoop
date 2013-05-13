@@ -1125,7 +1125,6 @@ void CL_InitCGame( void ) {
 	const char          *info;
 	const char          *mapname;
 	int t1, t2;
-	vmInterpret_t interpret;
 
 	t1 = Sys_Milliseconds();
 
@@ -1136,14 +1135,7 @@ void CL_InitCGame( void ) {
 	info = cl.gameState.stringData + cl.gameState.stringOffsets[ CS_SERVERINFO ];
 	mapname = Info_ValueForKey( info, "mapname" );
 	Com_sprintf( cl.mapname, sizeof( cl.mapname ), "maps/%s.bsp", mapname );
-
-	// load the dll or bytecode
-	if ( cl_connectedToPureServer != 0 ) {
-		// if sv_pure is set we only allow qvms to be loaded
-		interpret = VMI_COMPILED;
-	} else {
-		interpret = Cvar_VariableValue( "vm_cgame" );
-	}
+	
 	cgvm = VM_Create( "cgame", CL_CgameSystemCalls, VMI_NATIVE );
 	if ( !cgvm ) {
 		Com_Error( ERR_DROP, "VM_Create on cgame failed" );
@@ -1231,7 +1223,6 @@ or bursted delayed packets.
 #define RESET_TIME  500
 
 void CL_AdjustTimeDelta( void ) {
-	int resetTime;
 	int newDelta;
 	int deltaDelta;
 
@@ -1240,13 +1231,6 @@ void CL_AdjustTimeDelta( void ) {
 	// the delta never drifts when replaying a demo
 	if ( clc.demoplaying ) {
 		return;
-	}
-
-	// if the current time is WAY off, just correct to the current value
-	if ( com_sv_running->integer ) {
-		resetTime = 100;
-	} else {
-		resetTime = RESET_TIME;
 	}
 
 	newDelta = cl.snap.serverTime - cls.realtime;

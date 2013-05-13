@@ -40,14 +40,11 @@ int drawTeamOverlayModificationCount = -1;
 static void CG_DrawPlayerArmorValue( rectDef_t *rect, int font, float scale, vec4_t color, qhandle_t shader, int textStyle ) {
 	char num[16];
 	int value;
-	centity_t   *cent;
 	playerState_t   *ps;
 
-	cent = &cg_entities[cg.snap->ps.clientNum];
 	ps = &cg.snap->ps;
 
 	value = ps->stats[STAT_ARMOR];
-
 
 	if ( shader ) {
 		trap_R_SetColor( color );
@@ -205,12 +202,10 @@ CG_DrawPlayerAmmoIcon
 */
 static void CG_DrawPlayerAmmoIcon( rectDef_t *rect, qboolean draw2D ) {
 	centity_t   *cent;
-	playerState_t   *ps;
 	vec3_t angles;
 	vec3_t origin;
 
 	cent = &cg_entities[cg.snap->ps.clientNum];
-	ps = &cg.snap->ps;
 
 	// TTimo: gcc: suggests () around && within ||
 	if ( draw2D || ( !cg_draw3dIcons.integer && cg_drawIcons.integer ) ) {
@@ -1188,11 +1183,7 @@ CG_DrawFatigue
 static void CG_DrawFatigue( rectDef_t *rect, vec4_t color, int align ) {
 	//	vec4_t	color = {0, 1, 0, 1}, color2 = {1, 0, 0, 1};
 	vec4_t colorBonus = {1, 1, 0, 0.45f};   // yellow (a little more solid for the 'bonus' stamina)
-	float barFrac;  //, omBarFrac;
 	int flags = 0;
-
-	barFrac = (float)cg.snap->ps.sprintTime / SPRINTTIME;
-//	omBarFrac = 1.0f-barFrac;
 
 	if ( align != HUD_HORIZONTAL ) {
 		flags |= 4;   // BAR_VERT

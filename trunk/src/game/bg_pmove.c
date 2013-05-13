@@ -3529,7 +3529,7 @@ void PM_UpdateLean( playerState_t *ps, usercmd_t *cmd, pmove_t *tpm ) {
 		start[2] += ps->viewheight;
 		VectorCopy( ps->viewangles, viewangles );
 		viewangles[ROLL] = 0;
-		AngleVectors( ps->viewangles, NULL, right, NULL );
+		AngleVectors( viewangles, NULL, right, NULL );
 		VectorNormalize( right );
 		right[2] = ( leanofs < 0 ) ? 0.25 : -0.25;
 		VectorMA( start, leanofs, right, end );

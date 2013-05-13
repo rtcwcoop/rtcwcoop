@@ -768,9 +768,6 @@ CL_ParseServerMessage
 */
 void CL_ParseServerMessage( msg_t *msg ) {
 	int cmd;
-	msg_t msgback;
-
-	msgback = *msg;
 
 	if ( cl_shownet->integer == 1 ) {
 		Com_Printf( "%i ",msg->cursize );

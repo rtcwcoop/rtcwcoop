@@ -383,7 +383,6 @@ SCR_DrawDebugGraph
 void SCR_DrawDebugGraph( void ) {
 	int a, x, y, w, i, h;
 	float v;
-	int color;
 
 	//
 	// draw the graph
@@ -399,8 +398,7 @@ void SCR_DrawDebugGraph( void ) {
 	for ( a = 0 ; a < w ; a++ )
 	{
 		i = ( current - 1 - a + 1024 ) & 1023;
-		v = values[i].value;
-		color = values[i].color;
+		v = values[i].value;	
 		v = v * cl_graphscale->integer + cl_graphshift->integer;
 
 		if ( v < 0 ) {

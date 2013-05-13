@@ -698,46 +698,19 @@ CG_MoveFlameChunk
 void CG_MoveFlameChunk( flameChunk_t *f, int t ) {
 	vec3_t newOrigin, sOrg;
 	trace_t trace;
-	int jiggleCount;
 	float dot;
-	//static vec3_t	umins = {-1,-1,-1}; // TTimo: unused
-	//static vec3_t	umaxs = { 1, 1, 1}; // TTimo: unused
 
 	// subtract friction from speed
 	if ( f->velSpeed > 1 && f->lastFrictionTake < t - 50 ) {
 		CG_FlameAdjustSpeed( f, /*(0.3+0.7*f->speedScale) **/ -( (float)( t - f->lastFrictionTake ) / 1000.0 ) * FLAME_FRICTION_PER_SEC );
 		f->lastFrictionTake = t;
 	}
-/*
-	// adjust size
-	if (f->size < f->sizeMax) {
-		//f->sizeMax = FLAME_START_MAX_SIZE + ((1.0 - (f->velSpeed / FLAME_START_SPEED)) * (FLAME_MAX_SIZE - FLAME_START_MAX_SIZE));
-		if ((t - f->timeStart) < f->blueLife)
-			f->sizeRate = GET_FLAME_BLUE_SIZE_SPEED(FLAME_START_MAX_SIZE);	// use a constant so the blue flame doesn't distort
-		else
-			f->sizeRate = GET_FLAME_SIZE_SPEED(f->sizeMax);
 
-		f->size += f->sizeRate * (float)(t - f->baseOrgTime);
-		if (f->size > f->sizeMax) {
-			f->size = f->sizeMax;
-		}
-	}
-*/
-
-	jiggleCount = 0;
 	VectorCopy( f->baseOrg, sOrg );
 	while ( f->velSpeed > 1 && ( ( t - f->baseOrgTime ) > 20 ) ) {
 		CG_FlameCalcOrg( f, t, newOrigin );
 
-		//if (cg_entities[f->ownerCent].currentState.aiChar != AICHAR_ZOMBIE) {
-		// trace a line from previous position to new position
 		CG_Trace( &trace, sOrg, flameChunkMins, flameChunkMaxs, newOrigin, f->ownerCent, MASK_SHOT );
-		//} else {
-		//	trace.startsolid = 0;
-		//	trace.surfaceFlags = 0;
-		//	trace.fraction = 1.0;
-		//	VectorCopy( newOrigin, trace.endpos );
-		//}
 
 		if ( trace.startsolid ) {
 			// if it's young, let it go through solids briefly
@@ -775,16 +748,13 @@ void CG_MoveFlameChunk( flameChunk_t *f, int t ) {
 		if ( f->velSpeed > 20 ) {
 			f->velSpeed = 20;
 		}
-		// adjust size
-		//f->sizeMax = FLAME_START_MAX_SIZE + ((/*1.0 -*/ (f->velSpeed / FLAME_START_SPEED)) * (FLAME_MAX_SIZE - FLAME_START_MAX_SIZE));
-		//f->sizeRate = GET_FLAME_SIZE_SPEED(f->sizeMax);
+	
 		VectorCopy( f->velDir, f->parentFwd );
 
 		VectorCopy( f->baseOrg, sOrg );
 	}
 
-	CG_FlameCalcOrg( f, t, f->org );
-	//f->baseOrgTime = t;	// incase we skipped the movement
+	CG_FlameCalcOrg( f, t, f->org );	
 }
 
 /*
@@ -885,7 +855,6 @@ void CG_AddFlameSpriteToScene( flameChunk_t *f, float lifeFrac, float alpha ) {
 	vec2_t fovRadius;
 	vec2_t rdist, rST;
 	int rollAngleClamped;
-	static vec3_t lastPos;
 
 	CG_FlameDamage( f->ownerCent, f->org, f->size );
 
@@ -1076,7 +1045,6 @@ void CG_AddFlameSpriteToScene( flameChunk_t *f, float lifeFrac, float alpha ) {
 	}
 
 	trap_R_AddPolyToScene( flameShaders[frameNum], 4, verts );
-	VectorCopy( f->org, lastPos );
 }
 
 /*
@@ -1098,7 +1066,7 @@ void CG_AddFlameToScene( flameChunk_t *fHead ) {
 
 	//flameChunk_t *lastSoundFlameChunk=NULL; // TTimo: unused
 	flameChunk_t *lastBlowChunk = NULL;
-	qboolean isClientFlame, firing;
+	qboolean isClientFlame;
 	int shader;
 
 	flameChunk_t *lastBlueChunk = NULL;
@@ -1125,11 +1093,8 @@ void CG_AddFlameToScene( flameChunk_t *fHead ) {
 
 	if ( ( cg_entities[fHead->ownerCent].currentState.eFlags & EF_FIRING ) /*(centFlameInfo[fHead->ownerCent].lastClientFrame == cg_entities[fHead->ownerCent].lastWeaponClientFrame)*/ && ( centFlameInfo[fHead->ownerCent].lastFlameChunk == fHead ) ) {
 		headTimeStart = fHead->timeStart;
-		firing = qtrue;
-	} else {
-		//isClientFlame = qfalse;
+	} else {	
 		headTimeStart = cg.time;
-		firing = qfalse;
 	}
 
 	// Zombie ignition is just to make on/off transitions look better

@@ -88,7 +88,7 @@ send "\b \b"
 static void CON_Back( void )
 {
 	char key;
-	size_t size;
+	size_t UNUSED_VAR size;
 
 	key = '\b';
 	size = write(STDOUT_FILENO, &key, 1);
@@ -146,8 +146,10 @@ static void CON_Show( void )
 		ttycon_hide--;
 		if (ttycon_hide == 0)
 		{
-			size_t size;
+			size_t UNUSED_VAR size;
 			size = write(STDOUT_FILENO, "]", 1);
+			// L0 - (FINISHME) Port this ..
+			//size = write(STDOUT_FILENO, TTY_CONSOLE_PROMPT, strlen(TTY_CONSOLE_PROMPT));
 			if (TTY_con.cursor)
 			{
 				for (i=0; i<TTY_con.cursor; i++)
@@ -329,7 +331,7 @@ char *CON_Input( void )
 	int avail;
 	char key;
 	field_t *history;
-	size_t size;
+	size_t UNUSED_VAR size;
 
 	if(ttycon_on)
 	{

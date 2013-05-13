@@ -65,11 +65,9 @@ AIFunc_ZombieFlameAttack()
 #define ZOMBIE_FLAME_DURATION       4000
 
 char *AIFunc_ZombieFlameAttack( cast_state_t *cs ) {
-	bot_state_t *bs;
 	gentity_t *ent;
 	//
 	ent = &g_entities[cs->entityNum];
-	bs = cs->bs;
 	//
 	ent->s.onFireEnd = level.time + 2000;
 	//
@@ -187,11 +185,9 @@ extern void weapon_zombiespirit( gentity_t *ent, gentity_t *missile );
 int lastZombieSpiritAttack;
 
 char *AIFunc_ZombieAttack2( cast_state_t *cs ) {
-	bot_state_t *bs;
 	gentity_t *ent;
 	//
 	ent = &g_entities[cs->entityNum];
-	bs = cs->bs;
 	//
 	if ( cs->enemyNum < 0 ) {
 		return AIFunc_DefaultStart( cs );
@@ -833,10 +829,9 @@ char *AIFunc_StimSoldierAttack2( cast_state_t *cs ) {
 }
 
 char *AIFunc_StimSoldierAttack2Start( cast_state_t *cs ) {
-	gentity_t   *ent;
-	//
+
 	cs->weaponFireTimes[cs->weaponNum] = level.time;
-	ent = &g_entities[cs->entityNum];
+	
 	//
 	// face them
 	AICast_AimAtEnemy( cs );

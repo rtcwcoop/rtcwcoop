@@ -785,12 +785,6 @@ int CG_ParseVoiceChats( const char *filename, voiceChatList_t *voiceChatList, in
         char **p, *ptr;
         char *token;
         voiceChat_t *voiceChats;
-        qboolean compress;
-
-        compress = qtrue;
-        if ( cg_buildScript.integer ) {
-                compress = qfalse;
-        }
 
         len = trap_FS_FOpenFile( filename, &f, FS_READ );
         if ( !f ) {

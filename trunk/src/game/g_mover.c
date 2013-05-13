@@ -1695,7 +1695,6 @@ so the movement delta can be calculated
 */
 void InitMoverRotate( gentity_t *ent ) {
 	vec3_t move;
-	float distance;
 	float light;
 	vec3_t color;
 	qboolean lightSet, colorSet;
@@ -1750,7 +1749,7 @@ void InitMoverRotate( gentity_t *ent ) {
 
 	// calculate time to reach second position from speed
 	VectorSubtract( ent->pos2, ent->pos1, move );
-	distance = VectorLength( move );
+	VectorLength( move );
 	if ( !ent->speed ) {
 		ent->speed = 100;
 	}
@@ -2147,7 +2146,7 @@ G_TryDoor
 ==============
 */
 void G_TryDoor( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
-	int soundrange = 0;
+	//int soundrange = 0;
 	qboolean walking = qfalse, locked = qfalse;
 
 	walking = (qboolean)( ent->flags & FL_SOFTACTIVATE );
@@ -2191,11 +2190,11 @@ void G_TryDoor( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 				ent->teammaster->active = qtrue;
 				if ( walking ) {
 					ent->teammaster->flags |= FL_SOFTACTIVATE;      // no noise generated
-				} else {
+				} /*else {
 					if ( activator ) {
 						soundrange = HEAR_RANGE_DOOR_OPEN;
 					}
-				}
+				}*/
 
 				Use_BinaryMover( ent->teammaster, activator, activator );
 				G_UseTargets( ent->teammaster, activator );
@@ -2204,24 +2203,25 @@ void G_TryDoor( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 				ent->active = qtrue;
 				if ( walking ) {
 					ent->flags |= FL_SOFTACTIVATE;      // no noise
-				} else {
+				} /*else {
 					if ( activator ) {
 						soundrange = HEAR_RANGE_DOOR_OPEN;
 					}
-				}
+				}*/
 
 				Use_BinaryMover( ent, activator, activator );
 				G_UseTargets( ent, activator );
 			}
-
+/*
 			if ( ent->flags & FL_DOORNOISE ) { // this door always plays the 'regular' open sound event
 				soundrange = HEAR_RANGE_DOOR_OPEN;
 			}
-
+*/
 //			if(soundrange)
 //				AICast_AudibleEvent( activator->s.clientNum, ent->s.origin, soundrange );
 		}
 	}
+
 }
 //----(SA)	end
 

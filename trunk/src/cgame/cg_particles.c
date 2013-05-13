@@ -268,20 +268,15 @@ void CG_AddParticleToScene( cparticle_t *p, vec3_t org, float alpha ) {
 		// dot product removal  (gets you the dist^2, which you needed anyway, also dot lets you adjust lod when zooming)
 		if ( 1 ) {
 			vec3_t dir;
-			float dot, distSqrd;
+			float distSqrd;
 
 			VectorSubtract( cg.refdef.vieworg, org, dir );
 			distSqrd = dir[0] * dir[0] + dir[1] * dir[1] + dir[2] * dir[2];
-
-			dot = DotProduct( dir, cg.refdef.viewaxis[0] );
-
+			
 			if ( distSqrd > ( cg_particleDist.value * cg_particleDist.value ) ) {
 				return;
 			}
 		}
-
-
-
 		// done.
 
 		if ( p->type == P_BUBBLE || p->type == P_BUBBLE_TURBULENT ) {
@@ -933,9 +928,7 @@ void CG_AddParticles( void ) {
 	float alpha;
 	float time, time2;
 	vec3_t org;
-	int color;
 	cparticle_t     *active, *tail;
-	int type;
 	vec3_t rotate_ang;
 
 	if ( !initparticles ) {
@@ -1035,15 +1028,11 @@ void CG_AddParticles( void ) {
 			alpha = 1;
 		}
 
-		color = p->color;
-
 		time2 = time * time;
 
 		org[0] = p->org[0] + p->vel[0] * time + p->accel[0] * time2;
 		org[1] = p->org[1] + p->vel[1] * time + p->accel[1] * time2;
 		org[2] = p->org[2] + p->vel[2] * time + p->accel[2] * time2;
-
-		type = p->type;
 
 		CG_AddParticleToScene( p, org, alpha );
 	}

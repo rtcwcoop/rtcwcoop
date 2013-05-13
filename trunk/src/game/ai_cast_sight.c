@@ -224,7 +224,7 @@ AICast_CheckVisibility
 */
 qboolean AICast_CheckVisibility( gentity_t *srcent, gentity_t *destent ) {
 	vec3_t dir, entangles, middle, eye, viewangles;
-	cast_state_t        *cs, *ocs;
+	cast_state_t        *cs;
 	float fov, dist;
 	int viewer, ent;
 	cast_visibility_t   *vis;
@@ -238,7 +238,7 @@ qboolean AICast_CheckVisibility( gentity_t *srcent, gentity_t *destent ) {
 	ent = destent->s.number;
 	//
 	cs = AICast_GetCastState( viewer );
-	ocs = AICast_GetCastState( ent );
+	AICast_GetCastState( ent );
 	//
 	vis = &cs->vislist[ent];
 	//

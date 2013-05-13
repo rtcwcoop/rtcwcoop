@@ -412,9 +412,7 @@ void AAS_CalculateAreaTravelTimes( void ) {
 	aas_reversedlink_t *revlink;
 	aas_reachability_t *reach;
 	aas_areasettings_t *settings;
-	int starttime;
 
-	starttime = Sys_MilliSeconds();
 	//if there are still area travel times, free the memory
 	if ( ( *aasworld ).areatraveltimes ) {
 		AAS_RoutingFreeMemory( ( *aasworld ).areatraveltimes );
@@ -826,7 +824,7 @@ void AAS_InitRoutingUpdate( void ) {
 //===========================================================================
 
 void AAS_CreateAllRoutingCache( void ) {
-	int i, j, k, t, tfl, numroutingareas;
+	int i, j, k, tfl, numroutingareas;
 	aas_areasettings_t *areasettings;
 	aas_reachability_t *reach;
 
@@ -866,11 +864,10 @@ void AAS_CreateAllRoutingCache( void ) {
 			}
 			if ( !( ( *aasworld ).areasettings[j].areaflags & AREA_USEFORROUTING ) ) {
 				continue;
-			}
-			t = AAS_AreaTravelTimeToGoalArea( j, ( *aasworld ).areawaypoints[j], i, tfl );
+			}	
+			AAS_AreaTravelTimeToGoalArea( j, ( *aasworld ).areawaypoints[j], i, tfl );
 			( *aasworld ).frameroutingupdates = 0;
-			//if (t) break;
-			//Log_Write("traveltime from %d to %d is %d", i, j, t);
+			
 		} //end for
 	} //end for
 } //end of the function AAS_CreateAllRoutingCache
@@ -2185,7 +2182,7 @@ float VectorDistance( vec3_t v1, vec3_t v2 );
 extern void ProjectPointOntoVector( vec3_t point, vec3_t vStart, vec3_t vEnd, vec3_t vProj ) ;
 int AAS_NearestHideArea( int srcnum, vec3_t origin, int areanum, int enemynum, vec3_t enemyorigin, int enemyareanum, int travelflags ) {
 	int i, j, nextareanum, badtravelflags, numreach, bestarea;
-	unsigned short int t, besttraveltime, enemytraveltime;
+	unsigned short int t, besttraveltime;
 	aas_routingupdate_t *updateliststart, *updatelistend, *curupdate, *nextupdate;
 	aas_reachability_t *reach;
 	float dist1, dist2;
@@ -2221,9 +2218,11 @@ int AAS_NearestHideArea( int srcnum, vec3_t origin, int areanum, int enemynum, v
 	} //end else
 	besttraveltime = 0;
 	bestarea = 0;
+
 	if ( enemyareanum ) {
-		enemytraveltime = AAS_AreaTravelTimeToGoalArea( areanum, origin, enemyareanum, travelflags );
+		AAS_AreaTravelTimeToGoalArea( areanum, origin, enemyareanum, travelflags );
 	}
+
 	VectorSubtract( enemyorigin, origin, enemyVec );
 	enemytraveldist = VectorNormalize( enemyVec );
 	startVisible = botimport.AICast_VisibleFromPos( enemyorigin, enemynum, origin, srcnum, qfalse );
@@ -2406,7 +2405,7 @@ int AAS_NearestHideArea( int srcnum, vec3_t origin, int areanum, int enemynum, v
 //===========================================================================
 int AAS_FindAttackSpotWithinRange( int srcnum, int rangenum, int enemynum, float rangedist, int travelflags, float *outpos ) {
 	int i, nextareanum, badtravelflags, numreach, bestarea;
-	unsigned short int t, besttraveltime, enemytraveltime;
+	unsigned short int t, besttraveltime;
 	aas_routingupdate_t *updateliststart, *updatelistend, *curupdate, *nextupdate;
 	aas_reachability_t *reach;
 	vec3_t srcorg, rangeorg, enemyorg;
@@ -2446,8 +2445,8 @@ int AAS_FindAttackSpotWithinRange( int srcnum, int rangenum, int enemynum, float
 	enemyarea = BotFuzzyPointReachabilityArea( enemyorg );
 	//
 	besttraveltime = 0;
-	bestarea = 0;
-	enemytraveltime = AAS_AreaTravelTimeToGoalArea( srcarea, srcorg, enemyarea, travelflags );
+	bestarea = 0;	
+	AAS_AreaTravelTimeToGoalArea( srcarea, srcorg, enemyarea, travelflags );
 	//
 	badtravelflags = ~travelflags;
 	//

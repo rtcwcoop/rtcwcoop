@@ -529,7 +529,7 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 	float dist;
 	gentity_t   *checkEnt, *traceEnt = 0;
 	playerState_t *ps;
-	int hintType, hintDist, hintVal, oldHintType;
+	int hintType, hintDist, hintVal;
 	qboolean zooming, indirectHit;      // indirectHit means the checkent was not the ent hit by the trace (checkEnt!=traceEnt)
 	int trace_contents;                 // DHM - Nerve
 
@@ -582,8 +582,6 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 	// cs: removed corpse since they can block doors.
 	trace_contents = ( CONTENTS_TRIGGER | CONTENTS_SOLID | CONTENTS_PLAYERCLIP | CONTENTS_BODY /*| CONTENTS_CORPSE*/ );   // SP fine checking corpses.
 	trap_Trace( tr, offset, NULL, NULL, end, ps->clientNum, trace_contents );
-
-	oldHintType = ps->serverCursorHint; // store the old one so we know when there's a transition
 
 	// reset all
 	hintType    = ps->serverCursorHint      = HINT_NONE;
@@ -2780,8 +2778,7 @@ Advances the non-player objects in the world
 void G_RunFrame( int levelTime ) {
 	int i;
 	gentity_t   *ent;
-	int msec;
-        qboolean newSpawns = qfalse; // fretn
+	qboolean newSpawns = qfalse; // fretn
 //int start, end;
 
 	// if we are waiting for the level to restart, do nothing
@@ -2792,7 +2789,6 @@ void G_RunFrame( int levelTime ) {
 	level.framenum++;
 	level.previousTime = level.time;
 	level.time = levelTime;
-	msec = level.time - level.previousTime;
 
 // fretn not needed in coop (comes from mp gamestate code)
 #if 0

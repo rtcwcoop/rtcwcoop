@@ -378,17 +378,6 @@ void AAS_Accelerate( vec3_t velocity, float frametime, vec3_t wishdir, float wis
 	}
 } //end of the function AAS_Accelerate
 //===========================================================================
-//
-// Parameter:			-
-// Returns:				-
-// Changes Globals:		-
-//===========================================================================
-void AAS_AirControl( vec3_t start, vec3_t end, vec3_t velocity, vec3_t cmdmove ) {
-	vec3_t dir;
-
-	VectorSubtract( end, start, dir );
-} //end of the function AAS_AirControl
-//===========================================================================
 // applies ground friction to the given velocity
 //
 // Parameter:				-
@@ -444,7 +433,7 @@ int AAS_PredictClientMovement( struct aas_clientmove_s *move,
 	float sv_maxstep, sv_maxsteepness, sv_jumpvel, friction;
 	float gravity, delta, maxvel, wishspeed, accelerate;
 	//float velchange, newvel;
-	int n, i, j, pc, step, swimming, ax, crouch, event, jump_frame, areanum;
+	int n, i, j, pc, step, swimming, crouch, event, jump_frame, areanum;
 	int areas[20], numareas;
 	vec3_t points[20];
 	vec3_t org, end, feet, start, stepend, lastorg, wishdir;
@@ -499,8 +488,7 @@ int AAS_PredictClientMovement( struct aas_clientmove_s *move,
 		} //end if
 		crouch = qfalse;
 		//apply command movement
-		if ( n < cmdframes ) {
-			ax = 0;
+		if ( n < cmdframes ) {			
 			maxvel = sv_maxwalkvelocity;
 			accelerate = sv_airaccelerate;
 			VectorCopy( cmdmove, wishdir );
@@ -520,13 +508,11 @@ int AAS_PredictClientMovement( struct aas_clientmove_s *move,
 				else
 				{
 					accelerate = sv_walkaccelerate;
-				} //end else
-				ax = 2;
+				} //end else				
 			} //end if
 			if ( swimming ) {
 				maxvel = sv_maxswimvelocity;
-				accelerate = sv_swimaccelerate;
-				ax = 3;
+				accelerate = sv_swimaccelerate;				
 			} //end if
 			else
 			{
@@ -540,19 +526,6 @@ int AAS_PredictClientMovement( struct aas_clientmove_s *move,
 			VectorScale( frame_test_vel, 1 / frametime, frame_test_vel );
 			AAS_Accelerate( frame_test_vel, frametime, wishdir, wishspeed, accelerate );
 			VectorScale( frame_test_vel, frametime, frame_test_vel );
-			/*
-			for (i = 0; i < ax; i++)
-			{
-				velchange = (cmdmove[i] * frametime) - frame_test_vel[i];
-				if (velchange > sv_maxacceleration) velchange = sv_maxacceleration;
-				else if (velchange < -sv_maxacceleration) velchange = -sv_maxacceleration;
-				newvel = frame_test_vel[i] + velchange;
-				//
-				if (frame_test_vel[i] <= maxvel && newvel > maxvel) frame_test_vel[i] = maxvel;
-				else if (frame_test_vel[i] >= -maxvel && newvel < -maxvel) frame_test_vel[i] = -maxvel;
-				else frame_test_vel[i] = newvel;
-			} //end for
-			*/
 		} //end if
 		if ( crouch ) {
 			presencetype = PRESENCE_CROUCH;

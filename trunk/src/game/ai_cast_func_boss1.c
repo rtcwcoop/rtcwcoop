@@ -63,12 +63,10 @@ If you have questions concerning this license or the applicable additional terms
 extern int lastZombieSpiritAttack;
 
 char *AIFunc_Helga_SpiritAttack( cast_state_t *cs ) {
-	bot_state_t *bs;
 	gentity_t *ent;
 	//
 	cs->aiFlags |= AIFL_SPECIAL_FUNC;
 	ent = &g_entities[cs->entityNum];
-	bs = cs->bs;
 	// make sure we're still playing the right anim
 	if ( ( ent->client->ps.torsoAnim & ~ANIM_TOGGLEBIT ) - BG_AnimationIndexForString( "attack1", cs->entityNum ) ) {
 		return AIFunc_DefaultStart( cs );
@@ -507,7 +505,6 @@ char *AIFunc_Heinrich_SwordKnockback( cast_state_t *cs ) {
 //	float	enemyDist;
 //	aicast_predictmove_t move;
 //	vec3_t	vec;
-	cast_state_t *ecs;
 
 	cs->aiFlags |= AIFL_SPECIAL_FUNC;
 
@@ -518,7 +515,7 @@ char *AIFunc_Heinrich_SwordKnockback( cast_state_t *cs ) {
 		return AIFunc_DefaultStart( cs );
 	}
 
-	ecs = AICast_GetCastState( cs->enemyNum );
+	AICast_GetCastState( cs->enemyNum );
 
 	if ( ent->client->ps.torsoTimer < 500 ) {
 		if ( !ent->client->ps.legsTimer ) {
@@ -930,7 +927,7 @@ char *AIFunc_Heinrich_RaiseDeadStart( cast_state_t *cs ) {
 	int i, cnt, free;
 	gentity_t   *ent = &g_entities[cs->entityNum];
 //	gentity_t	*enemy = &g_entities[cs->enemyNum];
-	gentity_t *trav, *spirits;
+	gentity_t *trav;
 	float circleDist;
 	//
 	// count the number of active warriors
@@ -978,8 +975,7 @@ char *AIFunc_Heinrich_RaiseDeadStart( cast_state_t *cs ) {
 	trav = NULL;
 	// TTimo: gcc: suggest () around assignment used as truth value
 	while ( ( trav = G_Find( trav, FOFS( classname ), "func_bats" ) ) ) {
-		if ( trav->spawnflags & 4 ) {
-			spirits = trav;
+		if ( trav->spawnflags & 4 ) {			
 			circleDist = trav->radius;
 			trav = G_Find( NULL, FOFS( targetname ), trav->target );
 			if ( trav ) {
@@ -1005,7 +1001,7 @@ char *AIFunc_Heinrich_RaiseDeadStart( cast_state_t *cs ) {
 
 char *AIFunc_Heinrich_SpawnSpiritsStart( cast_state_t *cs ) {
 	gentity_t   *ent = &g_entities[cs->entityNum];
-	gentity_t *trav, *spirits;
+	gentity_t *trav;
 	float circleDist;
 	//
 	// enable all the spirit spawners
@@ -1020,8 +1016,7 @@ char *AIFunc_Heinrich_SpawnSpiritsStart( cast_state_t *cs ) {
 	trav = NULL;
 	// TTimo: gcc: suggest () around assignment used as truth value
 	while ( ( trav = G_Find( trav, FOFS( classname ), "func_bats" ) ) ) {
-		if ( trav->spawnflags & 4 ) {
-			spirits = trav;
+		if ( trav->spawnflags & 4 ) {			
 			circleDist = trav->radius;
 			trav = G_Find( NULL, FOFS( targetname ), trav->target );
 			if ( trav ) {

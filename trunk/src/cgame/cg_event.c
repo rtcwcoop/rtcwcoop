@@ -758,7 +758,7 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 	int i;
 	localEntity_t   *le;
 	refEntity_t     *re;
-	int howmany, total;
+	int howmany;
 	int pieces[6];              // how many of each piece
 	qhandle_t modelshader = 0;
 	float materialmul = 1;              // multiplier for different types
@@ -826,8 +826,6 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 		pieces[3] = 4;
 		pieces[4] = 4;
 	}
-
-	total = pieces[5] + pieces[4] + pieces[3] + pieces[2] + pieces[1] + pieces[0];
 
 	if ( sound ) {
 		trap_S_StartSound( origin, ENTITYNUM_WORLD, CHAN_AUTO, cgs.gameSounds[sound] );
@@ -1091,17 +1089,8 @@ CG_Effect
 void CG_Effect( centity_t *cent, vec3_t origin, vec3_t dir ) {
 	localEntity_t   *le;
 	refEntity_t     *re;
-//	int				howmany;
-	int mass;
-//	int				large, small;
 
 	VectorSet( dir, 0, 0, 1 );    // straight up.
-
-	mass = cent->currentState.density;
-
-//		1 large per 100, 1 small per 24
-//	large	= (int)(mass / 100);
-//	small	= (int)(mass / 24) + 1;
 
 	if ( cent->currentState.eventParm & 1 ) {  // fire
 		vec3_t sprVel, sprOrg;
@@ -1383,9 +1372,6 @@ void CG_Shard( centity_t *cent, vec3_t origin, vec3_t dir ) {
 void CG_ShardJunk( centity_t *cent, vec3_t origin, vec3_t dir ) {
 	localEntity_t   *le;
 	refEntity_t     *re;
-	int type;
-
-	type = cent->currentState.density;
 
 	le = CG_AllocLocalEntity();
 	re = &le->refEntity;

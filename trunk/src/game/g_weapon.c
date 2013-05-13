@@ -818,8 +818,7 @@ void EmitterCheck( gentity_t *ent, gentity_t *attacker, trace_t *tr ) {
 
 
 void SniperSoundEFX( vec3_t pos ) {
-	gentity_t *sniperEnt;
-	sniperEnt = G_TempEntity( pos, EV_SNIPER_SOUND );
+	G_TempEntity( pos, EV_SNIPER_SOUND );
 }
 
 
@@ -1044,7 +1043,6 @@ void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start,
 //----(SA)	end
 
 		} else {
-			int oldHealth;
 
 			// Ridah, don't hurt team-mates
 			// DHM - Nerve :: Only in single player
@@ -1054,7 +1052,6 @@ void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start,
 			}
 			// done.
 
-			oldHealth = traceEnt->health;
 			G_Damage( traceEnt, attacker, attacker, forward, tr.endpos, damage, dflags, ammoTable[attacker->s.weapon].mod );
 
 			// allow bullets to "pass through" func_explosives if they break by taking another simultanious shot
@@ -1409,7 +1406,6 @@ void VenomPattern( vec3_t origin, vec3_t origin2, int seed, gentity_t *ent ) {
 	float r, u;
 	vec3_t end;
 	vec3_t forward, right, up;
-	int oldScore;
 	qboolean hitClient = qfalse;
 
 	// derive the right and up vectors from the forward vector, because
@@ -1417,8 +1413,6 @@ void VenomPattern( vec3_t origin, vec3_t origin2, int seed, gentity_t *ent ) {
 	VectorNormalize2( origin2, forward );
 	PerpendicularVector( right, forward );
 	CrossProduct( forward, right, up );
-
-	oldScore = ent->client->ps.persistant[PERS_SCORE];
 
 	// generate the "random" spread pattern
 	for ( i = 0 ; i < DEFAULT_VENOM_COUNT ; i++ ) {

@@ -543,7 +543,6 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 	int event, eventParm;
 	gclient_t   *client;
 	int damage;
-	vec3_t dir;
 	int stunTime;           //----(SA)	added
 	float fallSoundMul;
 //	vec3_t		origin, angles;
@@ -610,7 +609,6 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 				VectorClear( ent->client->ps.velocity );
 			}
 
-			VectorSet( dir, 0, 0, 1 );
 			ent->pain_debounce_time = level.time + 200; // no normal pain sound
 			G_Damage( ent, NULL, NULL, NULL, NULL, damage, 0, MOD_FALLING );
 			// falls through to FALL_SHORT
@@ -1618,14 +1616,11 @@ while a slow client may have multiple ClientEndFrame between ClientThink.
 */
 void ClientEndFrame( gentity_t *ent ) {
 	int i;
-	clientPersistant_t  *pers;
 
 	if ( ( ent->client->sess.sessionTeam == TEAM_SPECTATOR ) || ( ent->client->ps.pm_flags & PMF_LIMBO ) ) { // JPW NERVE
 		SpectatorClientEndFrame( ent );
 		return;
 	}
-
-	pers = &ent->client->pers;
 
 	if ( !ent->aiCharacter ) {
 		// turn off any expired powerups

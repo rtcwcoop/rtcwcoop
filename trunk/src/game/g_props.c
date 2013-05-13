@@ -879,7 +879,6 @@ void Props_Chair_Die( gentity_t *ent, gentity_t *inflictor, gentity_t *attacker,
 void Just_Got_Thrown( gentity_t *self ) {
 	float len;
 	vec3_t vec;
-	qboolean prop_hits = qfalse;
 	int i;
 
 	len = 0;
@@ -900,7 +899,6 @@ void Just_Got_Thrown( gentity_t *self ) {
 					continue;
 
 				if ( player != self->enemy ) {
-					prop_hits = qtrue;
 					G_Damage( self->enemy, self, player, NULL, NULL, 5, 0, MOD_CRUSH );
 
 					self->die = Props_Chair_Die;
@@ -1967,18 +1965,9 @@ void smoker_think( gentity_t *ent ) {
 
 void SP_OilSlick( gentity_t *ent ) {
 	gentity_t *tent;
-	gentity_t   *target = NULL;
-	vec3_t point;
 
 	if ( ent->target ) {
-		target = G_Find( NULL, FOFS( targetname ), ent->target );
-	}
-
-	if ( target ) {
-		VectorCopy( target->s.origin, point );
-		point[2] = ent->r.currentOrigin[2]; // just in case
-	} else {
-		VectorCopy( ent->r.currentOrigin, point );
+		G_Find( NULL, FOFS( targetname ), ent->target );
 	}
 
 	tent = G_TempEntity( ent->r.currentOrigin, EV_OILSLICK );

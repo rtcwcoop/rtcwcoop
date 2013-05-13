@@ -2967,7 +2967,7 @@ we are not interested in a download string format, we want something human-reada
 */
 qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring ) {
 	searchpath_t    *sp;
-	qboolean havepak, badchecksum;
+	qboolean havepak;
         char *origpos = neededpaks;
 	int i;
 
@@ -2979,7 +2979,6 @@ qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring ) {
 
 	for ( i = 0 ; i < fs_numServerReferencedPaks ; i++ ) {
 		// Ok, see if we have this pak file
-		badchecksum = qfalse;
 		havepak = qfalse;
 
 		// never autodownload any of the id paks
@@ -3157,7 +3156,9 @@ FS_Startup
 */
 static void FS_Startup( const char *gameName ) {
 	const char *homePath;
+#ifndef DEDICATED
 	cvar_t  *fs;
+#endif
 
 	Com_Printf( "----- FS_Startup -----\n" );
 
@@ -3212,11 +3213,11 @@ static void FS_Startup( const char *gameName ) {
 			FS_AddGameDirectory( fs_homepath->string, fs_gamedirvar->string );
 		}
 	}
+
 #ifndef DEDICATED
 	Com_ReadCDKey( BASEGAME );
-#endif
+
 	fs = Cvar_Get( "fs_game", "", CVAR_INIT | CVAR_SYSTEMINFO );
-#ifndef DEDICATED
 	if ( fs && fs->string[0] != 0 ) {
 		Com_AppendCDKey( fs->string );
 	}

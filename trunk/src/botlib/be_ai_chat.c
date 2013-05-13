@@ -2779,7 +2779,6 @@ int BotAllocChatState( void ) {
 // Changes Globals:		-
 //========================================================================
 void BotFreeChatState( int handle ) {
-	bot_chatstate_t *cs;
 	bot_consolemessage_t m;
 	int h;
 
@@ -2791,7 +2790,6 @@ void BotFreeChatState( int handle ) {
 		botimport.Print( PRT_FATAL, "invalid chat state %d\n", handle );
 		return;
 	} //end if
-	cs = botchatstates[handle];
 	if ( LibVarGetValue( "bot_reloadcharacters" ) ) {
 		BotFreeChatFile( handle );
 	} //end if

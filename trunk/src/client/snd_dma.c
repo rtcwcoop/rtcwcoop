@@ -589,13 +589,9 @@ void S_SpatializeOrigin( vec3_t origin, int master_vol, int *left_vol, int *righ
 	vec_t lscale, rscale, scale;
 	vec3_t source_vec;
 	vec3_t vec;
-
-//	const float dist_mult = SOUND_ATTENUATE;
-	float dist_mult, dist_fullvol;
+	float dist_fullvol;
 
 	dist_fullvol = range * 0.064f;        // default range of 1250 gives 80
-	dist_mult = dist_fullvol * 0.00001f;  // default range of 1250 gives .0008
-//	dist_mult = range*0.00000064f;		// default range of 1250 gives .0008
 
 	// calculate stereo seperation and distance attenuation
 	VectorSubtract( origin, listener_origin, source_vec );

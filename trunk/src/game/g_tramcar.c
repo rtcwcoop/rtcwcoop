@@ -210,7 +210,6 @@ void Calc_Roll( gentity_t *ent ) {
 	vec3_t forward;
 	vec3_t right;
 	float dot;
-	float dot2;
 	vec3_t tang;
 
 	target = ent->nextTrain;
@@ -222,12 +221,11 @@ void Calc_Roll( gentity_t *ent ) {
 	VectorSubtract( target->nextTrain->nextTrain->s.origin, ent->r.currentOrigin, vec );
 	VectorNormalize( vec );
 
-	dot = DotProduct( vec, forward );
-	dot2 = DotProduct( vec, right );
+	dot = DotProduct( vec, right );
 
 	ent->angle = (int) ent->angle;
 
-	if ( dot2 > 0 ) {
+	if ( dot > 0 ) {
 		if ( ent->s.apos.trBase[ROLL] < -( ent->angle * 2 ) ) {
 			ent->s.apos.trBase[ROLL] += 2;
 		} else if ( ent->s.apos.trBase[ROLL] > -( ent->angle * 2 ) ) {
@@ -237,7 +235,7 @@ void Calc_Roll( gentity_t *ent ) {
 		if ( ent->s.apos.trBase[ROLL] > 90 ) {
 			ent->s.apos.trBase[ROLL] = 90;
 		}
-	} else if ( dot2 < 0 )     {
+	} else if ( dot < 0 )     {
 		if ( ent->s.apos.trBase[ROLL] > -( ent->angle * 2 ) ) {
 			ent->s.apos.trBase[ROLL] -= 2;
 		} else if ( ent->s.apos.trBase[ROLL] < -( ent->angle * 2 ) ) {
@@ -250,12 +248,6 @@ void Calc_Roll( gentity_t *ent ) {
 	} else {
 		ent->s.apos.trBase[ROLL] = 0;
 	}
-
-
-// G_Printf ("dot: %5.2f dot2: %5.2f\n", dot, dot2);
-
-
-//	VectorCopy (ent->r.currentAngles, ent->TargetAngles);
 
 	trap_LinkEntity( ent );
 

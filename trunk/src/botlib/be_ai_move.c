@@ -1529,7 +1529,6 @@ bot_moveresult_t BotTravel_WaterJump( bot_movestate_t *ms, aas_reachability_t *r
 //===========================================================================
 bot_moveresult_t BotFinishTravel_WaterJump( bot_movestate_t *ms, aas_reachability_t *reach ) {
 	vec3_t dir, pnt;
-	float dist;
 	bot_moveresult_t_cleared( result );
 
 	//botimport.Print(PRT_MESSAGE, "BotFinishTravel_WaterJump\n");
@@ -1549,7 +1548,6 @@ bot_moveresult_t BotFinishTravel_WaterJump( bot_movestate_t *ms, aas_reachabilit
 	dir[0] += crandom() * 10;
 	dir[1] += crandom() * 10;
 	dir[2] += 70 + crandom() * 10;
-	dist = VectorNormalize( dir );
 	//elemantary actions
 	EA_Move( ms->client, dir, 400 );
 	//set the ideal view angles
@@ -2971,7 +2969,7 @@ bot_moveresult_t BotFinishTravel_WeaponJump( bot_movestate_t *ms, aas_reachabili
 // Changes Globals:		-
 //===========================================================================
 bot_moveresult_t BotTravel_JumpPad( bot_movestate_t *ms, aas_reachability_t *reach ) {
-	float dist, speed;
+	float speed;
 	vec3_t hordir;
 	bot_moveresult_t_cleared( result );
 
@@ -2979,7 +2977,6 @@ bot_moveresult_t BotTravel_JumpPad( bot_movestate_t *ms, aas_reachability_t *rea
 	hordir[0] = reach->start[0] - ms->origin[0];
 	hordir[1] = reach->start[1] - ms->origin[1];
 	hordir[2] = 0;
-	dist = VectorNormalize( hordir );
 	//
 	BotCheckBlocked( ms, hordir, qtrue, &result );
 	speed = 400;

@@ -423,18 +423,20 @@ CG_AddTrailToScene
   TODO: this can do with some major optimization
 ==============
 */
-static vec3_t vforward, vright, vup;
+struct {
+	vec3_t vforward, vright, vup;
+} trailOrientation;
+#define MAX_TRAIL_VERTS     2048
+static polyVert_t verts[MAX_TRAIL_VERTS];
+static polyVert_t outVerts[MAX_TRAIL_VERTS * 3];
 
 void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
-	#define MAX_TRAIL_VERTS     2048
-	polyVert_t verts[MAX_TRAIL_VERTS];
-	polyVert_t outVerts[MAX_TRAIL_VERTS * 3];
 	int k, i, n, l, numOutVerts;
 	polyVert_t mid;
 	float mod[4];
-	float sInc = 0.0f, s = 0.0f;   // TTimo: init
+	float sInc, s;
 	trailJunc_t *j, *jNext;
-	vec3_t fwd, up, p, v;
+	vec3_t up, p, v;
 	// clipping vars
 	#define TRAIL_FADE_CLOSE_DIST   64.0
 	#define TRAIL_FADE_FAR_SCALE    4.0
@@ -445,8 +447,8 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 	if ( trail->flags & TJFL_SPARKHEADFLARE ) {
 		j = trail;
 		VectorCopy( j->pos, p );
-		VectorMA( p, -j->width * 2, vup, p );
-		VectorMA( p, -j->width * 2, vright, p );
+		VectorMA( p, -j->width * 2, trailOrientation.vup, p );
+		VectorMA( p, -j->width * 2, trailOrientation.vright, p );
 		VectorCopy( p, verts[0].xyz );
 		verts[0].st[0] = 0;
 		verts[0].st[1] = 0;
@@ -456,8 +458,8 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 		verts[0].modulate[3] = ( unsigned char )( j->alpha * 255.0 );
 
 		VectorCopy( j->pos, p );
-		VectorMA( p, -j->width * 2, vup, p );
-		VectorMA( p, j->width * 2, vright, p );
+		VectorMA( p, -j->width * 2, trailOrientation.vup, p );
+		VectorMA( p, j->width * 2, trailOrientation.vright, p );
 		VectorCopy( p, verts[1].xyz );
 		verts[1].st[0] = 0;
 		verts[1].st[1] = 1;
@@ -467,8 +469,8 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 		verts[1].modulate[3] = ( unsigned char )( j->alpha * 255.0 );
 
 		VectorCopy( j->pos, p );
-		VectorMA( p, j->width * 2, vup, p );
-		VectorMA( p, j->width * 2, vright, p );
+		VectorMA( p, j->width * 2, trailOrientation.vup, p );
+		VectorMA( p, j->width * 2, trailOrientation.vright, p );
 		VectorCopy( p, verts[2].xyz );
 		verts[2].st[0] = 1;
 		verts[2].st[1] = 1;
@@ -478,8 +480,8 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 		verts[2].modulate[3] = ( unsigned char )( j->alpha * 255.0 );
 
 		VectorCopy( j->pos, p );
-		VectorMA( p,  j->width * 2, vup, p );
-		VectorMA( p, -j->width * 2, vright, p );
+		VectorMA( p,  j->width * 2, trailOrientation.vup, p );
+		VectorMA( p, -j->width * 2, trailOrientation.vright, p );
 		VectorCopy( p, verts[3].xyz );
 		verts[3].st[0] = 1;
 		verts[3].st[1] = 0;
@@ -494,6 +496,8 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 //	if (trail->flags & TJFL_CROSSOVER && iteration < 1) {
 //		iteration = 1;
 //	}
+
+	sInc = 0;
 
 	if ( !numJuncs ) {
 		// first count the number of juncs in the trail
@@ -523,6 +527,7 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 		return;
 	}
 
+	s = 0;
 	if ( trail->sType == STYPE_STRETCH ) {
 		//sInc = ((1.0 - 0.1) / (float)(numJuncs));	// hack, the end of funnel shows a bit of the start (looping)
 		s = 0.05;
@@ -538,7 +543,6 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 	while ( jNext ) {
 
 		// first get the directional vectors to the next junc
-		VectorSubtract( jNext->pos, j->pos, fwd );
 		GetPerpendicularViewVector( cg.refdef.vieworg, j->pos, jNext->pos, up );
 
 		// if it's a crossover, draw it twice
@@ -721,7 +725,6 @@ void CG_AddTrailToScene( trailJunc_t *trail, int iteration, int numJuncs ) {
 			CG_AddTrailToScene( trail, iteration + 1, numJuncs );
 		}
 	}
-
 }
 
 /*
@@ -736,11 +739,10 @@ void CG_AddTrails( void ) {
 	if ( !initTrails ) {
 		CG_ClearTrails();
 	}
-
-	//AngleVectors( cg.snap->ps.viewangles, vforward, vright, vup );
-	VectorCopy( cg.refdef.viewaxis[0], vforward );
-	VectorCopy( cg.refdef.viewaxis[1], vright );
-	VectorCopy( cg.refdef.viewaxis[2], vup );
+		
+	VectorCopy( cg.refdef.viewaxis[0], trailOrientation.vforward );
+	VectorCopy( cg.refdef.viewaxis[1], trailOrientation.vright );
+	VectorCopy( cg.refdef.viewaxis[2], trailOrientation.vup );
 
 	// update the settings for each junc
 	j = activeTrails;

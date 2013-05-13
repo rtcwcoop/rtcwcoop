@@ -243,27 +243,34 @@ Cmd_Exec_f
 ===============
 */
 void Cmd_Exec_f( void ) {
-	char    *f;
-	int len;
+	qboolean quiet;
+	union {
+		char	*c;
+		void	*v;
+	} f;
 	char filename[MAX_QPATH];
 
+	quiet = !Q_stricmp(Cmd_Argv(0), "exec@");
+
 	if ( Cmd_Argc() != 2 ) {
-		Com_Printf( "exec <filename> : execute a script file\n" );
+		Com_Printf ("exec%s <filename> : execute a script file%s\n",
+		            quiet ? "@" : "", quiet ? " without notification" : "");
 		return;
 	}
 
 	Q_strncpyz( filename, Cmd_Argv( 1 ), sizeof( filename ) );
 	COM_DefaultExtension( filename, sizeof( filename ), ".cfg" );
-	len = FS_ReadFile( filename, (void **)&f );
-	if ( !f ) {
-		Com_Printf( "couldn't exec %s\n",Cmd_Argv( 1 ) );
+	FS_ReadFile( filename, &f.v);
+	if (!f.c) {
+		Com_Printf ("couldn't exec %s\n", filename);
 		return;
 	}
-	Com_Printf( "execing %s\n",Cmd_Argv( 1 ) );
+	if (!quiet)
+		Com_Printf ("execing %s\n", filename);
 
-	Cbuf_InsertText( f );
+	Cbuf_InsertText( f.c );
 
-	FS_FreeFile( f );
+	FS_FreeFile( f.v );
 }
 
 
@@ -706,6 +713,7 @@ Cmd_Init
 void Cmd_Init( void ) {
 	Cmd_AddCommand( "cmdlist",Cmd_List_f );
 	Cmd_AddCommand( "exec",Cmd_Exec_f );
+	Cmd_AddCommand ("exec@",Cmd_Exec_f);
 	Cmd_AddCommand( "vstr",Cmd_Vstr_f );
 	Cmd_AddCommand( "echo",Cmd_Echo_f );
 	Cmd_AddCommand( "wait", Cmd_Wait_f );

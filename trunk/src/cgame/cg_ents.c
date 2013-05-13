@@ -170,7 +170,6 @@ void CG_LoseArmor( centity_t *cent, int index ) {
 							"tag_calfleft",
 							"tag_calfright"};
 
-	clientInfo_t *ci;
 	// TTimo: bunch of inits
 	int totalparts = 0, dynamicparts = 0, protoParts = 9, superParts = 16, heinrichParts = 22;
 	char        **tags = NULL;
@@ -178,7 +177,6 @@ void CG_LoseArmor( centity_t *cent, int index ) {
 	qhandle_t sound = 0;    //----(SA)	added
 	int dmgbits = 16;         // 32/2;
 	int clientNum;
-	int tagIndex;
 	vec3_t origin, velocity, dir;
 
 
@@ -215,7 +213,6 @@ void CG_LoseArmor( centity_t *cent, int index ) {
 	if ( clientNum < 0 || clientNum >= MAX_CLIENTS ) {
 		CG_Error( "Bad clientNum on player entity" );
 	}
-	ci = &cgs.clientinfo[ clientNum ];
 
 	// check if the model for the damaged part to fling is there
 	if ( cent->currentState.dmgFlags & ( 1 << ( index + dynamicparts ) ) ) {
@@ -226,7 +223,7 @@ void CG_LoseArmor( centity_t *cent, int index ) {
 		return;
 	}
 
-	tagIndex = CG_GetOriginForTag( cent, &cent->pe.torsoRefEnt, tags[index], 0, origin, NULL );
+	CG_GetOriginForTag( cent, &cent->pe.torsoRefEnt, tags[index], 0, origin, NULL );
 
 	// calculate direction vector based on player center->tag position
 	VectorSubtract( origin, cent->currentState.origin, dir );
@@ -238,13 +235,9 @@ void CG_LoseArmor( centity_t *cent, int index ) {
 	}
 //----(SA)	end
 
-//#define FLY_VELOCITY 75
-//#define FLY_JUMP 200
 #define FLY_VELOCITY 200
 #define FLY_JUMP 300
 
-//	velocity[0] = dir[0]*(0.75+random())*FLY_VELOCITY;
-//	velocity[1] = dir[1]*(0.75+random())*FLY_VELOCITY;
 	velocity[0] = dir[0] * FLY_VELOCITY;
 	velocity[1] = dir[1] * FLY_VELOCITY;
 	velocity[2] = FLY_JUMP - 50 + dir[2] * ( 0.5 + random() ) * FLY_VELOCITY;
@@ -318,7 +311,6 @@ void CG_LoseArmor( centity_t *cent, int index ) {
 		}
 	}
 }
-
 
 /*
 ==============
@@ -404,7 +396,6 @@ void CG_AddLightstyle( centity_t *cent ) {
 	int r, g, b;
 	int stringlength;
 	float offset;
-	int offsetwhole;
 	int otime;
 	int lastch, nextch;
 
@@ -425,7 +416,6 @@ void CG_AddLightstyle( centity_t *cent ) {
 	cent->dl_time = cg.time;
 
 	offset = ( (float)otime ) / LS_FRAMETIME;
-	offsetwhole = (int)offset;
 
 	cent->dl_backlerp += offset;
 
@@ -957,7 +947,6 @@ static void CG_Item( centity_t *cent ) {
 	refEntity_t ent;
 	entityState_t       *es;
 	gitem_t             *item;
-	float scale;
 	qboolean hasStand, highlight;
 	float highlightFadeScale = 1.0f;
 
@@ -985,8 +974,8 @@ static void CG_Item( centity_t *cent ) {
         CG_RegisterItemVisuals( item - bg_itemlist );
 
 
-        // fretn: the shaders are wrong, so disable this for now
-        /*
+	// fretn: the shaders are wrong, so disable this for now
+/*
 	if ( cg_simpleItems.integer && item->giType != IT_TEAM ) {
 		memset( &ent, 0, sizeof( ent ) );
 		ent.reType = RT_SPRITE;
@@ -1000,10 +989,7 @@ static void CG_Item( centity_t *cent ) {
 		trap_R_AddRefEntityToScene( &ent );
 		return;
 	}
-        */
-
-	scale = 0.005 + cent->currentState.number * 0.00001;
-
+*/
 	memset( &ent, 0, sizeof( ent ) );
 
 	ent.nonNormalizedAxes = qfalse;
@@ -1780,7 +1766,6 @@ CG_Explosive
 ===============
 */
 static void CG_Explosive( centity_t *cent ) {
-	lerpFrame_t         *traplf;
 	refEntity_t ent;
 	entityState_t       *s1;
 
@@ -1789,8 +1774,6 @@ static void CG_Explosive( centity_t *cent ) {
 
 	// create the render entity
 	memset( &ent, 0, sizeof( ent ) );
-
-	traplf = &cent->lerpFrame;
 
 //----(SA)	added animation stuff
 	if ( cent->currentState.modelindex2 ) {    // there's a 'model2'

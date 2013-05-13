@@ -42,14 +42,14 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 	gclient_t   *cl;
         gentity_t *tmpent;
 	int numSorted;
-	int scoreFlags;
+//	int scoreFlags;
 
         int counter = 0;
 
 	// send the latest information on all clients
 	string[0] = 0;
 	stringlength = 0;
-	scoreFlags = 0;
+//	scoreFlags = 0;
 
 
 	// don't send more than 32 scores (FIXME?)
@@ -3042,14 +3042,14 @@ Cmd_SetSpawnPoint_f
 */
 void Cmd_SetSpawnPoint_f( gentity_t *clent ) {
 	char arg[MAX_TOKEN_CHARS];
-	int spawnIndex;
+	//int spawnIndex;
 
 	if ( trap_Argc() != 2 ) {
 		return;
 	}
 
 	trap_Argv( 1, arg, sizeof( arg ) );
-	spawnIndex = atoi( arg );
+//	spawnIndex = atoi( arg );
 }
 // -NERVE - SMF
 

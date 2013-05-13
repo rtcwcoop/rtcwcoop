@@ -193,7 +193,7 @@ Sets the coordinates of the rendered window
 
 static void CG_CalcVrect( void ) {
 	int xsize, ysize;
-	float lbheight, lbdiff;
+	float lbheight;
 
 	// NERVE - SMF
 	if ( cg.limboMenu ) {
@@ -235,7 +235,6 @@ static void CG_CalcVrect( void ) {
 // letterbox is yy:yy  (85% of 'normal' height)
 
 	lbheight = ysize * 0.85;
-	lbdiff = ysize - lbheight;
 
 	if ( cg_letterbox.integer ) {
 		ysize = lbheight;
@@ -1050,14 +1049,9 @@ Sets cg.refdef view values
 ===============
 */
 static int CG_CalcViewValues( void ) {
-	playerState_t   *ps;
-	static vec3_t oldOrigin = {0,0,0};
+	playerState_t   *ps;	
 
 	memset( &cg.refdef, 0, sizeof( cg.refdef ) );
-
-	// strings for in game rendering
-	// Q_strncpyz( cg.refdef.text[0], "Park Ranger", sizeof(cg.refdef.text[0]) );
-	// Q_strncpyz( cg.refdef.text[1], "19", sizeof(cg.refdef.text[1]) );
 
 	// calculate size of 3D view
 	CG_CalcVrect();
@@ -1081,13 +1075,6 @@ static int CG_CalcViewValues( void ) {
 			cg.refdef.fov_y = cg.refdef.fov_y * 360 / M_PI;
 			cg.refdef.fov_x = fov;
 
-			// RF, had to disable, sometimes a loadgame to a camera in the same position
-			// can cause the game to not know where the camera is, therefore snapshots
-			// dont show the correct entities
-			//if(VectorCompare(origin, oldOrigin))
-			//	return 0;
-
-			VectorCopy( origin, oldOrigin );
 			trap_SendClientCommand( va( "setCameraOrigin %f %f %f", origin[0], origin[1], origin[2] ) );
 			return 0;
 
