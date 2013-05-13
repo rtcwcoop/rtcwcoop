@@ -1514,27 +1514,37 @@ void ClientUserinfoChanged( int clientNum ) {
 //----(SA) modified these for head separation
 
 	if ( ent->r.svFlags & SVF_BOT ) {
-
 		s = va( "n\\%s\\t\\%i\\model\\%s\\head\\%s\\c1\\%s\\hc\\%i\\w\\%i\\l\\%i\\skill\\%s",
 				client->pers.netname, client->sess.sessionTeam, model, head, c1,
 				client->pers.maxHealth, client->sess.wins, client->sess.losses,
 				Info_ValueForKey( userinfo, "skill" ) );
-	} else {
-		// L0 - Store IP on user change as it gets lost after events..
-		s = va( "n\\%s\\t\\%i\\model\\%s\\head\\%s\\c1\\%s\\hc\\%i\\w\\%i\\l\\%i\\ip\\%i.%i.%i.%i",
+	} else {		
+		s = va( "n\\%s\\t\\%i\\model\\%s\\head\\%s\\c1\\%s\\hc\\%i\\w\\%i\\l\\%i",
 				client->pers.netname, client->sess.sessionTeam, model, head, c1,
-				client->pers.maxHealth, client->sess.wins, client->sess.losses, client->sess.ip[0],
-			client->sess.ip[1], client->sess.ip[2], client->sess.ip[3] );
-		// End
+				client->pers.maxHealth, client->sess.wins, client->sess.losses );		
 	}
 
 //----(SA) end
 
 	trap_SetConfigstring( CS_PLAYERS + clientNum, s );
 
-	// L0 - Log ip's of players
-	if (!(ent->r.svFlags & SVF_CASTAI))
+	// L0 
+	// Moved log print bellow to fix an exploit (command could reveal IP of players..) 
+	// as well as cleared half of garbage that's completely unimportant for Admins..
+	if (!(ent->r.svFlags & SVF_CASTAI)) {
+		char *team;
+
+		team = (client->sess.sessionTeam == TEAM_RED) ? "Axis" : 
+			((client->sess.sessionTeam == TEAM_BLUE) ? "Allied" : "Spectator");
+
+		// Half of stuff is garbage for end user so only essentials..
+		s = va( "name\\%s\\team\\%s\\IP\\%i.%i.%i.%i",
+				client->pers.netname, team,
+				client->sess.ip[0],client->sess.ip[1], 
+				client->sess.ip[2], client->sess.ip[3] );		
+
 		G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s ); 
+	}
 }
 
 /*
