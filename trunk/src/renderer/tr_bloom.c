@@ -30,6 +30,7 @@ static cvar_t *r_bloom_alpha;
 static cvar_t *r_bloom_darken;
 static cvar_t *r_bloom_intensity;
 static cvar_t *r_bloom_diamond_size;
+static cvar_t *cg_fancyfx;
 
 /* 
 ============================================================================== 
@@ -173,6 +174,8 @@ R_InitBloomTextures
 */
 void R_InitBloomTextures( void )
 {
+	if( !cg_fancyfx->integer )
+		return;
 	if( !r_bloom->integer )
 		return;
 	memset( &bloom, 0, sizeof( bloom ));
@@ -390,6 +393,8 @@ R_BloomScreen
 */
 void R_BloomScreen( void )
 {
+	if( !cg_fancyfx->integer )
+		return;
 	if( !r_bloom->integer )
 		return;
 	if ( backEnd.doneBloom )
@@ -436,6 +441,7 @@ void R_BloomScreen( void )
 void R_BloomInit( void ) {
 	memset( &bloom, 0, sizeof( bloom ));
 
+	cg_fancyfx = ri.Cvar_Get( "cg_fancyfx", "0", CVAR_ARCHIVE );
 	r_bloom = ri.Cvar_Get( "r_bloom", "0", CVAR_ARCHIVE );
 	r_bloom_alpha = ri.Cvar_Get( "r_bloom_alpha", "0.3", CVAR_ARCHIVE );
 	r_bloom_diamond_size = ri.Cvar_Get( "r_bloom_diamond_size", "8", CVAR_ARCHIVE );

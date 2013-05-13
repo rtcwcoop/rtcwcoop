@@ -102,6 +102,10 @@ ifndef USE_BLOOM
 USE_BLOOM=1
 endif
 
+ifndef USE_IRC
+USE_IRC=1
+endif
+
 ifndef FEATURE_ANTICHEAT
 FEATURE_ANTICHEAT=1
 endif
@@ -461,6 +465,18 @@ ifdef DEFAULT_BASEDIR
   BASE_CFLAGS += -DDEFAULT_BASEDIR=\\\"$(DEFAULT_BASEDIR)\\\"
 endif
 
+ifeq ($(USE_BLOOM),1)
+  CLIENT_CFLAGS += -DUSE_BLOOM
+endif
+
+ifeq ($(USE_IRC),1)
+  CLIENT_CFLAGS += -DUSE_IRC
+endif
+
+ifeq ($(FEATURE_ANTICHEAT),1)
+  SERVER_CFLAGS += -DFEATURE_ANTICHEAT
+endif
+
 ifeq ($(USE_LOCAL_HEADERS),1)
   BASE_CFLAGS += -DUSE_LOCAL_HEADERS
 endif
@@ -642,7 +658,6 @@ WOLFOBJ = \
   $(B)/client/cl_cin.o \
   $(B)/client/cl_console.o \
   $(B)/client/cl_input.o \
-  $(B)/client/cl_irc.o \
   $(B)/client/cl_keys.o \
   $(B)/client/cl_main.o \
   $(B)/client/cl_net_chan.o \
@@ -681,7 +696,6 @@ WOLFOBJ = \
   $(B)/client/sv_main.o \
   $(B)/client/sv_net_chan.o \
   $(B)/client/sv_snapshot.o \
-  $(B)/client/sv_wallhack.o \
   $(B)/client/sv_world.o \
   \
   $(B)/client/q_math.o \
@@ -757,7 +771,6 @@ WOLFOBJ = \
   \
   $(B)/client/tr_animation.o \
   $(B)/client/tr_backend.o \
-  $(B)/client/tr_bloom.o \
   $(B)/client/tr_bsp.o \
   $(B)/client/tr_cmds.o \
   $(B)/client/tr_cmesh.o \
@@ -807,6 +820,20 @@ WOLFOBJ += \
   $(B)/client/zutil.o
 endif
 
+ifeq ($(FEATURE_ANTICHEAT),1)
+  WOLFOBJ += \
+    $(B)/client/sv_wallhack.o
+endif
+
+ifeq ($(USE_BLOOM),1)
+  WOLFOBJ += \
+    $(B)/client/tr_bloom.o
+endif
+
+ifeq ($(USE_IRC),1)
+  WOLFOBJ += \
+    $(B)/client/cl_irc.o
+endif
 
 ifeq ($(PLATFORM),mingw32)
   WOLFOBJ += \
@@ -913,6 +940,11 @@ WOLFDOBJ = \
   \
   $(B)/ded/con_log.o \
   $(B)/ded/sys_main.o
+
+ifeq ($(FEATURE_ANTICHEAT),1)
+  WOLFDOBJ += \
+    $(B)/ded/sv_wallhack.o
+endif
 
 ifeq ($(USE_INTERNAL_ZLIB),1)
 WOLFDOBJ += \

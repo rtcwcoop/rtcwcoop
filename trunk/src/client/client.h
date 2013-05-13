@@ -538,6 +538,7 @@ int Key_StringToKeynum( char *str );
 //
 //cl_irc.c
 //
+#ifdef USE_IRC
 void CL_OW_IRCSetup(void);
 void CL_OW_InitIRC(void);
 void CL_OW_IRCInitiateShutdown(void);
@@ -545,6 +546,7 @@ void CL_OW_IRCWaitShutdown(void);
 void CL_OW_IRCSay(void);
 qboolean CL_OW_IRCIsConnected(void);
 qboolean CL_OW_IRCIsRunning(void);
+#endif
 
 //
 // cl_parse.c
