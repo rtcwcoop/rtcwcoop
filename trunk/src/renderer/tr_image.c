@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -618,22 +618,10 @@ static void Upload32(   unsigned *data,
 	GLenum internalFormat = GL_RGB;
 	float rMax = 0, gMax = 0, bMax = 0;
 	static int rmse_saved = 0;
-	float rmse;
 
 	// do the root mean square error stuff first
 	if ( r_rmse->value ) {
 		while ( R_RMSE( (byte *)data, width, height ) < r_rmse->value ) {
-			rmse_saved += ( height * width * 4 ) - ( ( width >> 1 ) * ( height >> 1 ) * 4 );
-			resampledBuffer = R_GetImageBuffer( ( width >> 1 ) * ( height >> 1 ) * 4, BUFFER_RESAMPLED );
-			ResampleTexture( data, width, height, resampledBuffer, width >> 1, height >> 1 );
-			data = resampledBuffer;
-			width = width >> 1;
-			height = height >> 1;
-			//ri.Printf( PRINT_ALL, "r_rmse of %f has saved %dkb\n", r_rmse->value, ( rmse_saved / 1024 ) );
-		}
-	} else {
-		// just do the RMSE of 1 (reduce perfect)
-		while ( R_RMSE( (byte *)data, width, height ) < 1.0 ) {
 			rmse_saved += ( height * width * 4 ) - ( ( width >> 1 ) * ( height >> 1 ) * 4 );
 			resampledBuffer = R_GetImageBuffer( ( width >> 1 ) * ( height >> 1 ) * 4, BUFFER_RESAMPLED );
 			ResampleTexture( data, width, height, resampledBuffer, width >> 1, height >> 1 );
@@ -690,31 +678,6 @@ static void Upload32(   unsigned *data,
 		scaled_height >>= 1;
 	}
 
-	rmse = R_RMSE( (byte *)data, width, height );
-
-	if ( r_lowMemTextureSize->integer && ( scaled_width > r_lowMemTextureSize->integer || scaled_height > r_lowMemTextureSize->integer ) && rmse < r_lowMemTextureThreshold->value ) {
-		int scale;
-
-		for ( scale = 1 ; scale < r_lowMemTextureSize->integer; scale <<= 1 ) {
-			;
-		}
-
-		while ( scaled_width > scale || scaled_height > scale ) {
-			scaled_width >>= 1;
-			scaled_height >>= 1;
-		}
-
-		ri.Printf( PRINT_ALL, "r_lowMemTextureSize forcing reduction from %i x %i to %i x %i\n", width, height, scaled_width, scaled_height );
-
-		resampledBuffer = R_GetImageBuffer( scaled_width * scaled_height * 4, BUFFER_RESAMPLED );
-		ResampleTexture( data, width, height, resampledBuffer, scaled_width, scaled_height );
-		data = resampledBuffer;
-		width = scaled_width;
-		height = scaled_height;
-
-	}
-
-
 	//
 	// clamp to minimum size
 	//
@@ -735,26 +698,23 @@ static void Upload32(   unsigned *data,
 	c = width * height;
 	scan = ( (byte *)data );
 	samples = 3;
-        if( r_greyscale->integer == 1)
-        {
-                for ( i = 0; i < c; i++ )
-                {
-                        byte luma = LUMA(scan[i*4], scan[i*4 + 1], scan[i*4 + 2]);
-                        scan[i*4] = luma;
-                        scan[i*4 + 1] = luma;
-                        scan[i*4 + 2] = luma;
-                }
-        }
-        else if( r_greyscale->value && r_greyscale->integer < 1)
-        {
-                for ( i = 0; i < c; i++ )
-                {
-                        float luma = LUMA(scan[i*4], scan[i*4 + 1], scan[i*4 + 2]);
-                        scan[i*4] = LERP(scan[i*4], luma, r_greyscale->value);
-                        scan[i*4 + 1] = LERP(scan[i*4 + 1], luma, r_greyscale->value);
-                        scan[i*4 + 2] = LERP(scan[i*4 + 2], luma, r_greyscale->value);
-                }
-        }
+	if ( r_greyscale->integer == 1 ) {
+		for ( i = 0; i < c; i++ )
+		{
+			byte luma = LUMA( scan[i * 4], scan[i * 4 + 1], scan[i * 4 + 2] );
+			scan[i * 4] = luma;
+			scan[i * 4 + 1] = luma;
+			scan[i * 4 + 2] = luma;
+		}
+	} else if ( r_greyscale->value && r_greyscale->integer < 1 )     {
+		for ( i = 0; i < c; i++ )
+		{
+			float luma = LUMA( scan[i * 4], scan[i * 4 + 1], scan[i * 4 + 2] );
+			scan[i * 4] = LERP( scan[i * 4], luma, r_greyscale->value );
+			scan[i * 4 + 1] = LERP( scan[i * 4 + 1], luma, r_greyscale->value );
+			scan[i * 4 + 2] = LERP( scan[i * 4 + 2], luma, r_greyscale->value );
+		}
+	}
 	if ( !lightMap ) {
 		for ( i = 0; i < c; i++ )
 		{
@@ -774,61 +734,56 @@ static void Upload32(   unsigned *data,
 		}
 		// select proper internal format
 		if ( samples == 3 ) {
-                        if(r_greyscale->integer == 1)
-                        {
-                                if(r_texturebits->integer == 16)
-                                        internalFormat = GL_LUMINANCE8;
-                                else if(r_texturebits->integer == 32)
-                                        internalFormat = GL_LUMINANCE16;
-                                else
-                                        internalFormat = GL_LUMINANCE;
-                        }
-                        else
-                        {
-                                if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
-                                        // TODO: which format is best for which textures?
-                                        internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-                                } else if ( !noCompress && glConfig.textureCompression == TC_S3TC )   {
-                                        internalFormat = GL_RGB4_S3TC;
-                                } else if ( r_texturebits->integer == 16 )   {
-                                        internalFormat = GL_RGB5;
-                                } else if ( r_texturebits->integer == 32 )   {
-                                        internalFormat = GL_RGB8;
-                                } else
-                                {
-                                        internalFormat = 3;
-                                }
-                        } 
-		} else if ( samples == 4 )   {
-                        if(r_greyscale->integer == 1)
-                        {
-                                if(r_texturebits->integer == 16)
-                                        internalFormat = GL_LUMINANCE8_ALPHA8;
-                                else if(r_texturebits->integer == 32)
-                                        internalFormat = GL_LUMINANCE16_ALPHA16;
-                                else
-                                        internalFormat = GL_LUMINANCE_ALPHA;
-                        }
-                        else
-                        {
-                                if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
-                                        // TODO: which format is best for which textures?
-                                        internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-                                } else if ( r_texturebits->integer == 16 )   {
-                                        internalFormat = GL_RGBA4;
-                                } else if ( r_texturebits->integer == 32 )   {
-                                        internalFormat = GL_RGBA8;
-                                } else
-                                {
-                                        internalFormat = 4;
-                                }
+			if ( r_greyscale->integer == 1 ) {
+				if ( r_texturebits->integer == 16 ) {
+					internalFormat = GL_LUMINANCE8;
+				} else if ( r_texturebits->integer == 32 ) {
+					internalFormat = GL_LUMINANCE16;
+				} else {
+					internalFormat = GL_LUMINANCE;
+				}
+			} else {
+				if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
+					// TODO: which format is best for which textures?
+					internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+				} else if ( !noCompress && glConfig.textureCompression == TC_S3TC ) {
+					internalFormat = GL_RGB4_S3TC;
+				} else if ( r_texturebits->integer == 16 ) {
+					internalFormat = GL_RGB5;
+				} else if ( r_texturebits->integer == 32 ) {
+					internalFormat = GL_RGB8;
+				} else {
+					internalFormat = 3;
+				}
+			}
+		} else if ( samples == 4 ) {
+			if ( r_greyscale->integer == 1 ) {
+				if ( r_texturebits->integer == 16 ) {
+					internalFormat = GL_LUMINANCE8_ALPHA8;
+				} else if ( r_texturebits->integer == 32 ) {
+					internalFormat = GL_LUMINANCE16_ALPHA16;
+				} else {
+					internalFormat = GL_LUMINANCE_ALPHA;
+				}
+			} else {
+				if ( !noCompress && glConfig.textureCompression == TC_EXT_COMP_S3TC ) {
+					// TODO: which format is best for which textures?
+					internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+				} else if ( r_texturebits->integer == 16 ) {
+					internalFormat = GL_RGBA4;
+				} else if ( r_texturebits->integer == 32 ) {
+					internalFormat = GL_RGBA8;
+				} else {
+					internalFormat = 4;
+				}
 			}
 		}
 	} else {
-                if(r_greyscale->integer == 1)
-                        internalFormat = GL_LUMINANCE;
-                else 
-                        internalFormat = 3;
+		if ( r_greyscale->integer == 1 ) {
+			internalFormat = GL_LUMINANCE;
+		} else {
+			internalFormat = 3;
+		}
 	}
 	// copy or resample data as appropriate for first MIP level
 	if ( ( scaled_width == width ) &&
@@ -842,8 +797,7 @@ static void Upload32(   unsigned *data,
 			goto done;
 		}
 		memcpy( scaledBuffer, data, width * height * 4 );
-	} else
-	{
+	} else {
 		// use the normal mip-mapping function to go down from here
 		while ( width > scaled_width || height > scaled_height ) {
 			R_MipMap( (byte *)data, width, height );
@@ -944,7 +898,7 @@ image_t *R_CreateImageExt( const char *name, const byte *pic, int width, int hei
 	// RF, if the shader hasn't specifically asked for it, don't allow compression
 	if ( r_ext_compressed_textures->integer == 2 && ( tr.allowCompress != qtrue ) ) {
 		noCompress = qtrue;
-	} else if ( r_ext_compressed_textures->integer == 1 && ( tr.allowCompress < 0 ) )     {
+	} else if ( r_ext_compressed_textures->integer == 1 && ( tr.allowCompress < 0 ) ) {
 		noCompress = qtrue;
 	}
 
@@ -1466,7 +1420,7 @@ void LoadTGA( const char *name, byte **pic, int *width, int *height ) {
 				}
 			}
 		}
-	} else if ( targa_header.image_type == 10 )       { // Runlength encoded RGB images
+	} else if ( targa_header.image_type == 10 ) {       // Runlength encoded RGB images
 		unsigned char red,green,blue,alphabyte,packetHeader,packetSize,j;
 
 		red = 0;
@@ -1888,8 +1842,8 @@ void jpegDest( j_compress_ptr cinfo, byte* outfile, int size ) {
 	 */
 	if ( cinfo->dest == NULL ) { /* first time for this JPEG object? */
 		cinfo->dest = (struct jpeg_destination_mgr *)
-				  ( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_PERMANENT,
-												 sizeof( my_destination_mgr ) );
+					  ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_PERMANENT,
+													sizeof( my_destination_mgr ) );
 	}
 
 	dest = (my_dest_ptr) cinfo->dest;
@@ -2476,14 +2430,14 @@ void R_DeleteTextures( void ) {
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
 #ifdef qglBindTexture
-        if ( qglActiveTextureARB ) {
-                GL_SelectTexture( 1 );
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-                GL_SelectTexture( 0 );
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-        } else {
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-        }
+	if ( qglActiveTextureARB ) {
+		GL_SelectTexture( 1 );
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+		GL_SelectTexture( 0 );
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+	} else {
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+	}
 #endif
 }
 
@@ -2624,11 +2578,11 @@ qboolean RE_GetSkinModel( qhandle_t skinid, const char *type, char *name ) {
 /*
 ==============
 RE_GetShaderFromModel
-	return a shader index for a given model's surface
-	'withlightmap' set to '0' will create a new shader that is a copy of the one found
-	on the model, without the lighmap stage, if the shader has a lightmap stage
+    return a shader index for a given model's surface
+    'withlightmap' set to '0' will create a new shader that is a copy of the one found
+    on the model, without the lighmap stage, if the shader has a lightmap stage
 
-	NOTE: only works for bmodels right now.  Could modify for other models (md3's etc.)
+    NOTE: only works for bmodels right now.  Could modify for other models (md3's etc.)
 ==============
 */
 qhandle_t RE_GetShaderFromModel( qhandle_t modelid, int surfnum, int withlightmap ) {
@@ -3061,7 +3015,7 @@ qboolean R_CropImage( char *name, byte **pic, int border, int *width, int *heigh
 					f -= fCol[i];
 					if ( f <= 0 ) {
 						f = 0;
-					} else { f *= fScale[i];}
+					} else { f *= fScale[i]; }
 					if ( f > 255 ) {
 						f = 255;
 					}
@@ -3179,14 +3133,14 @@ qboolean R_CropImage( char *name, byte **pic, int border, int *width, int *heigh
 	// this is used for some explosions
 	/*
 	for (i=0; i<2; i++) {
-		if (i==0)	center = width;
-		else		center = height;
+	    if (i==0)	center = width;
+	    else		center = height;
 
-		if ((*center/2 - mins[i]) > (maxs[i] - *center/2)) {
-			maxs[i] = *center/2 + (*center/2 - mins[i]);
-		} else {
-			mins[i] = *center/2 - (maxs[i] - *center/2);
-		}
+	    if ((*center/2 - mins[i]) > (maxs[i] - *center/2)) {
+	        maxs[i] = *center/2 + (*center/2 - mins[i]);
+	    } else {
+	        mins[i] = *center/2 - (maxs[i] - *center/2);
+	    }
 	}
 	*/
 
@@ -3261,7 +3215,7 @@ qboolean R_CropImage( char *name, byte **pic, int border, int *width, int *heigh
 		if ( ( maxs[i] - mins[i] ) < lastBox[i] ) {
 			if ( i == 0 ) {
 				center = width;
-			} else { center = height;}
+			} else { center = height; }
 
 			maxs[i] = *center / 2 + ( lastBox[i] / 2 );
 			mins[i] = maxs[i] - lastBox[i];
@@ -3547,14 +3501,14 @@ void R_PurgeImage( image_t *image ) {
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
 #ifdef qglBindTexture
-        if ( qglActiveTextureARB ) {
-                GL_SelectTexture( 1 );
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-                GL_SelectTexture( 0 );
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-        } else {
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-        }
+	if ( qglActiveTextureARB ) {
+		GL_SelectTexture( 1 );
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+		GL_SelectTexture( 0 );
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+	} else {
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+	}
 #endif
 }
 
@@ -3625,14 +3579,14 @@ void R_BackupImages( void ) {
 
 	memset( glState.currenttextures, 0, sizeof( glState.currenttextures ) );
 #ifdef qglBindTexture
-        if ( qglActiveTextureARB ) {
-                GL_SelectTexture( 1 );
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-                GL_SelectTexture( 0 );
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-        } else {
-                qglBindTexture( GL_TEXTURE_2D, 0 );
-        }
+	if ( qglActiveTextureARB ) {
+		GL_SelectTexture( 1 );
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+		GL_SelectTexture( 0 );
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+	} else {
+		qglBindTexture( GL_TEXTURE_2D, 0 );
+	}
 #endif
 }
 
@@ -3676,19 +3630,19 @@ image_t *R_FindCachedImage( const char *name, int hash ) {
 R_GetTextureId
 */
 int R_GetTextureId( const char *name ) {
-        int i;
+	int i;
 
 //      ri.Printf( PRINT_ALL, "R_GetTextureId [%s].\n", name );
 
-        for ( i = 0 ; i < tr.numImages ; i++ ) {
-                if ( !strcmp( name, tr.images[ i ]->imgName ) ) {
+	for ( i = 0 ; i < tr.numImages ; i++ ) {
+		if ( !strcmp( name, tr.images[ i ]->imgName ) ) {
 //                      ri.Printf( PRINT_ALL, "Found textureid %d\n", i );
-                        return i;
-                }    
-        }    
+			return i;
+		}
+	}
 
 //      ri.Printf( PRINT_ALL, "Image not found.\n" );
-        return -1;
+	return -1;
 }
 
 /*
