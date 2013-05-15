@@ -111,6 +111,7 @@ Con_MessageMode_f
 void Con_MessageMode_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qfalse;
+	chat_irc = qfalse;
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 
@@ -125,6 +126,7 @@ Con_MessageMode2_f
 void Con_MessageMode2_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qtrue;
+	chat_irc = qfalse;
 	Field_Clear( &chatField );
 	chatField.widthInChars = 25;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -142,6 +144,7 @@ void Con_MessageMode3_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
+	chat_irc = qfalse;
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -159,6 +162,20 @@ void Con_MessageMode4_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
+	chat_irc = qfalse;
+	Field_Clear( &chatField );
+	chatField.widthInChars = 30;
+	cls.keyCatchers ^= KEYCATCH_MESSAGE;
+}
+
+/*
+================
+Con_IrcMessageMode_f
+================
+*/
+void Con_IrcMessageMode_f( void ) {
+	chat_playerNum = -1;
+	chat_irc = qtrue;
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -375,6 +392,7 @@ void Con_Init( void ) {
 	Cmd_AddCommand( "messagemode2", Con_MessageMode2_f );
 	Cmd_AddCommand( "messagemode3", Con_MessageMode3_f );
 	Cmd_AddCommand( "messagemode4", Con_MessageMode4_f );
+	Cmd_AddCommand( "ircmessagemode", Con_IrcMessageMode_f );
 	Cmd_AddCommand( "startLimboMode", Con_StartLimboMode_f );     // NERVE - SMF
 	Cmd_AddCommand( "stopLimboMode", Con_StopLimboMode_f );           // NERVE - SMF
 	Cmd_AddCommand( "clear", Con_Clear_f );
@@ -614,6 +632,16 @@ void Con_DrawNotify( void ) {
 			skip = strlen( buf ) + 2;
 #else
 			SCR_DrawBigString( 8, v, "say_team:", 1.0f );
+                        skip = 11;
+#endif
+		} else if ( chat_irc ) {
+#ifdef LOCALISATION
+			char buf[128];
+			CL_TranslateString( "say_irc:", buf );
+			SCR_DrawBigString( 8, v, buf, 1.0f );
+			skip = strlen( buf ) + 2;
+#else
+			SCR_DrawBigString( 8, v, "say_irc:", 1.0f );
                         skip = 11;
 #endif
 		} else
