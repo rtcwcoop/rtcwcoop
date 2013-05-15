@@ -278,6 +278,9 @@ typedef enum {
 	CG_EVENT_HANDLING,
 //	void (*CG_EventHandling)(int type);
 
+	CG_IRC_CHAT,
+//	void CG_AddToTeamChat(char *msg)
+
 	CG_GET_TAG,
 //	qboolean CG_GetTag( int clientNum, char *tagname, orientation_t *or );
 

@@ -61,6 +61,9 @@ Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int ar
 #pragma export off
 #endif
 	switch ( command ) {
+	case CG_IRC_CHAT:
+		CG_AddToTeamChat((char *)arg0);
+		return qtrue;
 	case CG_GET_TAG:
 		return CG_GetTag( arg0, (char *)arg1, (orientation_t *)arg2 );
 	case CG_DRAW_ACTIVE_FRAME:

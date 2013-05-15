@@ -726,7 +726,6 @@ static consoleCommand_t commands[] = {
 #ifdef MONEY
 	{ "quickbuy", CG_QuickBuy_f },
 #endif
-
 	{ "nodebuglines", CG_DisableDebugLines_f }
 };
 
