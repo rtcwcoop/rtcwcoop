@@ -397,13 +397,17 @@ R_BloomScreen
 =================
 */
 void R_BloomScreen( void ) {
-	if ( !cg_fancyfx->integer ) {
-		return;
-	}
 	if ( !r_bloom->integer ) {
 		return;
 	}
+	if ( !cg_fancyfx->integer ) {
+		ri.Cvar_Set( "r_bloom", "0" );
+		Com_Printf( S_COLOR_YELLOW "WARNING: 'cg_fancyfx' is not set to 1, bloom effect disabled\n" );
+		return;
+	}
 	if ( r_rmse->integer ) { // this breaks bloom
+		ri.Cvar_Set( "r_bloom", "0" );
+		Com_Printf( S_COLOR_YELLOW "WARNING: 'r_rmse' is not set to 0, bloom effect disabled\n" );
 		return;
 	}
 	if ( backEnd.doneBloom ) {
