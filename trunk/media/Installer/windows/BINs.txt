@@ -1,0 +1,18 @@
+Files here reflect where should be placed.
+Top = Root
+Main = Main folder..
+---------
+
+
+libmysql.dll
+----
+
+If engine is compiled with SQL enabled client will need to have this file.
+Ones that have web server (xampp or similar) installed or ODBC connector etc
+will already have this file but most don't, so just distribute it with installer
+or archive..
+
+It's a clean cut file and works fine on xp >> win 7 - 32 or 64bit.
+If at any given time game will support native 64bit platform in that case
+bin for 64bit will probably need to be added as well, but we'll cross that 
+bridge once and if we get to it.  
