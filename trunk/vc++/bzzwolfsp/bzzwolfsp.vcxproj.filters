@@ -34,6 +34,9 @@
     <Filter Include="jpeg\Source Files">
       <UniqueIdentifier>{47faface-b8a0-4520-8570-2d20dbe385f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{c4588bd9-c971-477c-bd23-b833d108bd89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\sys\con_log.c">
@@ -483,6 +486,12 @@
     <ClCompile Include="..\..\src\renderer\tr_bloom.c">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\database\db_main.c">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\database\db_mysql.c">
+      <Filter>Database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\sys\sys_loadlib.h">
@@ -667,6 +676,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\jpeg-6\jdct.h">
       <Filter>jpeg\Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\database\database.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
