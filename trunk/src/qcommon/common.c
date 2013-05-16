@@ -33,6 +33,10 @@ If you have questions concerning this license or the applicable additional terms
 #include "qcommon.h"
 #include <setjmp.h>
 
+#ifdef SQL
+#include "../database/database.h"
+#endif
+
 #define MAXPRINTMSG 4096
 
 #define MAX_NUM_ARGVS   50
@@ -2297,6 +2301,10 @@ void Com_Init( char *commandLine ) {
 		Cvar_Set( "com_recommendedSet", "1" );
 	}
 
+#ifdef SQL
+	OW_Init();
+#endif
+
 	if ( !com_dedicated->integer ) {
 		//Cbuf_AddText ("cinematic gmlogo.RoQ\n");
 		if ( !com_introPlayed->integer ) {
@@ -2623,6 +2631,10 @@ void Com_Shutdown( void ) {
 		FS_FCloseFile( com_journalFile );
 		com_journalFile = 0;
 	}
+
+#ifdef SQL
+	OW_Shutdown();
+#endif
 
 }
 

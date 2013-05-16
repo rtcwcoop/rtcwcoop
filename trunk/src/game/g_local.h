@@ -1571,7 +1571,6 @@ typedef enum
 	shard_rubble
 } shards_t;
 
-
 // cs: et sdk antilag
 void G_StoreClientPosition( gentity_t* ent );
 void G_ResetMarkers( gentity_t* ent );
@@ -1581,6 +1580,20 @@ void G_HistoricalTraceEnd( gentity_t *ent );
 void G_Trace( gentity_t* ent, trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentmask );
 void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
 // end
+
+// L0 - SQL
+#ifdef SQL
+int				trap_SQL_RunQuery( const char *query );
+void			trap_SQL_FinishQuery( int queryid );
+qboolean		trap_SQL_NextRow( int queryid );
+int				trap_SQL_RowCount( int queryid );
+void			trap_SQL_GetFieldbyID( int queryid, int fieldid, char *buffer, int len );
+void			trap_SQL_GetFieldbyName( int queryid, const char *name, char *buffer, int len );
+int				trap_SQL_GetFieldbyID_int( int queryid, int fieldid );
+int				trap_SQL_GetFieldbyName_int( int queryid, const char *name );
+int				trap_SQL_FieldCount( int queryid );
+void			trap_SQL_CleanString( const char *in, char *out, int len );
+#endif
 
 // L0 
 void Cmd_Push_f(gentity_t* ent);		// Shove

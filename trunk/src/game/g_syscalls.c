@@ -809,3 +809,51 @@ void trap_BotResetWeaponState( int weaponstate ) {
 int trap_GeneticParentsAndChildSelection( int numranks, float *ranks, int *parent1, int *parent2, int *child ) {
 	return syscall( BOTLIB_AI_GENETIC_PARENTS_AND_CHILD_SELECTION, numranks, ranks, parent1, parent2, child );
 }
+
+#ifdef SQL
+
+int trap_SQL_RunQuery( const char *query ) {
+	return syscall( G_SQL_RUNQUERY, query );
+}
+
+void trap_SQL_FinishQuery( int queryid ) {
+	syscall( G_SQL_FINISHQUERY, queryid );
+	return;
+}
+
+qboolean trap_SQL_NextRow( int queryid ) {
+	return (qboolean)syscall( G_SQL_NEXTROW, queryid );
+}
+
+int trap_SQL_RowCount( int queryid ) {
+	return syscall( G_SQL_ROWCOUNT, queryid );
+}
+
+void trap_SQL_GetFieldbyID( int queryid, int fieldid, char *buffer, int len ) {
+	syscall( G_SQL_GETFIELDBYID, queryid, fieldid, buffer, len );
+	return;
+}
+
+void trap_SQL_GetFieldbyName( int queryid, const char *name, char *buffer, int len ) {
+	syscall( G_SQL_GETFIELDBYNAME, queryid, name, buffer, len );
+	return;
+}
+
+int trap_SQL_GetFieldbyID_int( int queryid, int fieldid ) {
+	return syscall( G_SQL_GETFIELDBYID_INT, queryid, fieldid );
+}
+
+int trap_SQL_GetFieldbyName_int( int queryid, const char *name ) {
+	return syscall( G_SQL_GETFIELDBYNAME_INT, queryid, name );
+}
+
+int trap_SQL_FieldCount( int queryid ) {
+	return syscall( G_SQL_FIELDCOUNT, queryid );
+}
+
+void trap_SQL_CleanString( const char *in, char *out, int len ) {
+	syscall( G_SQL_CLEANSTRING, in, out, len );
+	return;
+}
+
+#endif // SQL

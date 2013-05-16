@@ -16,6 +16,9 @@
     <Filter Include="Botlib">
       <UniqueIdentifier>{791d89e5-33f3-468a-888e-ef8c09818928}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{28d9eaa9-7382-4e59-b0f8-75495c125645}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\server\sv_bot.c">
@@ -210,10 +213,21 @@
     <ClCompile Include="..\..\src\server\sv_wallhack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\database\db_main.c">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\database\db_mysql.c">
+      <Filter>Database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\sys\win_resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\database\database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -54,14 +54,16 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_MT;DEDICATED;BOTLIB;NO_VM_COMPILED;C_ONLY;LOCALISATION;USE_ICON;WIN32;MONEY;_DEBUG;_CONSOLE;FEATURE_ANTICHEAT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MT;DEDICATED;BOTLIB;NO_VM_COMPILED;C_ONLY;LOCALISATION;USE_ICON;WIN32;MONEY;_DEBUG;_CONSOLE;FEATURE_ANTICHEAT;SQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>..\..\src\mysql\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>winmm.lib;msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
+      <AdditionalLibraryDirectories>..\..\src\mysql\lib\win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,6 +116,8 @@
     <ClCompile Include="..\..\src\botlib\l_precomp.c" />
     <ClCompile Include="..\..\src\botlib\l_script.c" />
     <ClCompile Include="..\..\src\botlib\l_struct.c" />
+    <ClCompile Include="..\..\src\database\db_main.c" />
+    <ClCompile Include="..\..\src\database\db_mysql.c" />
     <ClCompile Include="..\..\src\game\q_math.c" />
     <ClCompile Include="..\..\src\game\q_shared.c" />
     <ClCompile Include="..\..\src\null\null_client.c" />
@@ -152,6 +156,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\sys\win_resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\database\database.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
