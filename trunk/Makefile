@@ -102,12 +102,16 @@ ifndef USE_BLOOM
 USE_BLOOM=1
 endif
 
+ifndef USE_SQL
+USE_SQL=1
+endif
+
 ifndef USE_IRC
 USE_IRC=1
 endif
 
 ifndef FEATURE_ANTICHEAT
-FEATURE_ANTICHEAT=1
+FEATURE_ANTICHEAT=0
 endif
 
 ifndef USE_LOCAL_HEADERS
@@ -131,8 +135,10 @@ BR=$(BUILD_DIR)/release-$(PLATFORM)-$(ARCH)
 CDIR=$(MOUNT_DIR)/client
 SDIR=$(MOUNT_DIR)/server
 RDIR=$(MOUNT_DIR)/renderer
+DBDIR=$(MOUNT_DIR)/database
 CMDIR=$(MOUNT_DIR)/qcommon
 SDLDIR=$(MOUNT_DIR)/sdl
+MYSQLDIR=$(MOUNT_DIR)/mysql
 SYSDIR=$(MOUNT_DIR)/sys
 GDIR=$(MOUNT_DIR)/game
 CGDIR=$(MOUNT_DIR)/cgame
@@ -264,8 +270,13 @@ ifeq ($(PLATFORM),linux)
 
   CLIENT_LIBS=$(SDL_LIBS) -lGL
 
+  ifeq ($(USE_SQL),1)
+	LIBS += -lmysqlclient
+  endif
+
   ifeq ($(USE_LOCAL_HEADERS),1)
     CLIENT_CFLAGS += -I$(SDLHDIR)/include
+    SERVER_CFLAGS += -I$(MYSQLDIR)/include
   endif
 
   ifeq ($(ARCH),i386)
@@ -469,6 +480,10 @@ ifeq ($(USE_BLOOM),1)
   CLIENT_CFLAGS += -DUSE_BLOOM
 endif
 
+ifeq ($(USE_SQL),1)
+  SERVER_CFLAGS += -DSQL
+endif
+
 ifeq ($(USE_IRC),1)
   CLIENT_CFLAGS += -DUSE_IRC
 endif
@@ -562,7 +577,7 @@ endef
 #############################################################################
 
 default: debug
-all: debug release
+all: debug release pk3
 
 debug:
 	@$(MAKE) targets B=$(BD) CFLAGS="$(CFLAGS) $(BASE_CFLAGS) $(DEPEND_CFLAGS)" \
@@ -830,6 +845,12 @@ ifeq ($(USE_BLOOM),1)
     $(B)/client/tr_bloom.o
 endif
 
+ifeq ($(USE_SQL),1)
+  WOLFOBJ += \
+    $(B)/client/db_main.o \
+    $(B)/client/db_mysql.o
+endif
+
 ifeq ($(USE_IRC),1)
   WOLFOBJ += \
     $(B)/client/cl_irc.o
@@ -965,6 +986,12 @@ else
   WOLFDOBJ += \
     $(B)/ded/sys_unix.o \
     $(B)/ded/con_tty.o
+endif
+
+ifeq ($(USE_SQL),1)
+  WOLFDOBJ += \
+    $(B)/ded/db_main.o \
+    $(B)/ded/db_mysql.o
 endif
 
 ifeq ($(PLATFORM),darwin)
@@ -1140,6 +1167,9 @@ $(B)/client/%.o: $(ZDIR)/%.c
 $(B)/client/%.o: $(RDIR)/%.c
 	$(DO_CC)
 
+$(B)/client/%.o: $(DBDIR)/%.c
+	$(DO_CC)
+
 $(B)/client/%.o: $(SDLDIR)/%.c
 	$(DO_CC)
 
@@ -1171,6 +1201,9 @@ $(B)/ded/%.o: $(BLIBDIR)/%.c
 	$(DO_BOT_CC)
 
 $(B)/ded/%.o: $(ZDIR)/%.c
+	$(DO_DED_CC)
+
+$(B)/ded/%.o: $(DBDIR)/%.c
 	$(DO_DED_CC)
 
 $(B)/ded/%.o: $(SYSDIR)/%.c
@@ -1297,8 +1330,11 @@ ifneq ($(BUILD_GAME_SO),0)
 					$(COPYDIR)/main/.
 endif
 
+pk3: 
+	./create_pk3.sh
+
 clean: clean-debug clean-release
-	@$(MAKE) -C $(LOKISETUPDIR) clean
+	rm -f media/*.pk3
 
 clean-debug:
 	@$(MAKE) clean2 B=$(BD)
