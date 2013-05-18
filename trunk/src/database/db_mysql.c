@@ -31,7 +31,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    include <winsock.h>
 #    include <mysql.h>
 #else
+#ifdef USE_LOCAL_HEADERS
+#    include <mysql.h>
+#else
 #    include <mysql/mysql.h>
+#endif
 #endif
 
 extern cvar_t *db_enable;
