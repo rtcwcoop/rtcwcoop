@@ -103,7 +103,7 @@ USE_BLOOM=1
 endif
 
 ifndef USE_SQL
-USE_SQL=1
+USE_SQL=0
 endif
 
 ifndef USE_IRC
@@ -276,7 +276,9 @@ ifeq ($(PLATFORM),linux)
 
   ifeq ($(USE_LOCAL_HEADERS),1)
     CLIENT_CFLAGS += -I$(SDLHDIR)/include
-    SERVER_CFLAGS += -I$(MYSQLDIR)/include
+	ifeq ($(USE_SQL),1)
+		SERVER_CFLAGS += -I$(MYSQLDIR)/include
+	endif
   endif
 
   ifeq ($(ARCH),i386)
@@ -323,8 +325,16 @@ ifeq ($(PLATFORM),darwin)
   BASE_CFLAGS += -fno-strict-aliasing -DMACOS_X -fno-common -pipe
   BASE_CFLAGS += -D_THREAD_SAFE=1
 
+  ifeq ($(USE_SQL),1)
+	LIBS += -lmysqlclient
+  endif
+
   ifeq ($(USE_LOCAL_HEADERS),1)
     BASE_CFLAGS += -I$(SDLHDIR)/include
+
+	ifeq ($(USE_SQL),1)
+		SERVER_CFLAGS += -I$(MYSQLDIR)/include
+	endif
   endif
 
   # We copy sdlmain before ranlib'ing it so that subversion doesn't think
