@@ -1,3 +1,0 @@
-Basically just dumping stuff that can be dumped in archive (zips)
-when distributed, so clients don't need to obtain them on their own as 
-they're required by the game (depending if compiled with certain feature..). 
