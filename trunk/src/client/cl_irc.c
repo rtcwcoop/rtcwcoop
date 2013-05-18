@@ -1413,7 +1413,7 @@ static void IRC_Display( int event, const char *nick, const char *message )
 	buffer[IRC_RECV_BUF_SIZE * 2 - 1] = 0;
 
 	Com_Printf("^1IRC: %s", buffer);
-	VM_Call( cgvm, CG_IRC_CHAT, buffer );
+	VM_Call( cgvm, CG_IRC_CHAT, va("^1IRC: %s", buffer) );
 }
 
 /*--------------------------------------------------------------------------*/
