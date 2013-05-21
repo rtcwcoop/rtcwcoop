@@ -41,6 +41,7 @@ player
 		globalaccum 0 bitset 0
 		globalaccum 0 bitset 1 // alarm only fired once
 		globalaccum 0 bitset 2 // action 13 only fired once
+		globalaccum 0 bitset 3 //Objectivemet 1
 		globalaccum 1 set 0 // controls streaming music
 
 		objectivesneeded 1
@@ -319,7 +320,11 @@ player
 	trigger got_objective1
 	{
 
-	//There is a trigger to trigger this near exit - Sage
+	//The last door triggers this - Sage
+
+		globalaccum 0 abort_if_not_bitset 3
+		globalaccum 0 bitreset 3
+
 		objectivemet 1	// mission objective complete
 	}
 
