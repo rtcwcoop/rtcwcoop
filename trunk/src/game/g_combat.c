@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ void TossClientItems( gentity_t *self ) {
 	}
 
 	// dropped items stay forever in SP and coop games where NPC's do not respawn
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_gameskill.integer < GSKILL_MAX ) {  
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_gameskill.integer < GSKILL_MAX ) {
 		if ( drop ) {
 			drop->nextthink = 0;
 		}
@@ -308,9 +308,9 @@ char    *modNames[] = {
 	"MOD_LOPER_GROUND",
 	"MOD_LOPER_HIT",
 // L0 - new MODs
-#ifdef _ADMINS	
+#ifdef _ADMINS
 	"MOD_SLAP",
-	"MOD_ADMKILL",	
+	"MOD_ADMKILL",
 #endif
 	"MOD_THROWKNIFE",
 // end
@@ -354,8 +354,9 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	// death stats handled out-of-band of G_Damage for external calls
 	Coop_AddStats( self, attacker, damage, meansOfDeath );
 
-	if (g_gametype.integer <= GT_COOP)
+	if ( g_gametype.integer <= GT_COOP ) {
 		trap_Cvar_Set( "g_attempts", va( "%i", g_attempts.integer + 1 ) );
+	}
 
 	if ( attacker ) {
 		killer = attacker->s.number;
@@ -395,23 +396,24 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	self->client->ps.persistant[PERS_KILLED]++;
 
-        if ( g_gametype.integer != GT_COOP_BATTLE) {
-                if ( attacker && attacker->client ) {
-                        if ( attacker == self || OnSameTeam( self, attacker ) ) {
-                                AddScore( attacker, -1 );
-                        } else {
-                                if (g_gametype.integer <= GT_COOP)
-                                        AddScore( attacker, -2 );
-                                else
-                                        AddScore( attacker, 1 );
+	if ( g_gametype.integer != GT_COOP_BATTLE ) {
+		if ( attacker && attacker->client ) {
+			if ( attacker == self || OnSameTeam( self, attacker ) ) {
+				AddScore( attacker, -1 );
+			} else {
+				if ( g_gametype.integer <= GT_COOP ) {
+					AddScore( attacker, -2 );
+				} else {
+					AddScore( attacker, 1 );
+				}
 
-                                // done.
-                                attacker->client->lastKillTime = level.time;
-                        }
-                } else {
-                        AddScore( self, -1 );
-                }
-        }
+				// done.
+				attacker->client->lastKillTime = level.time;
+			}
+		} else {
+			AddScore( self, -1 );
+		}
+	}
 
 	// Add team bonuses
 	Team_FragBonuses( self, inflictor, attacker );
@@ -472,8 +474,8 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	// remove powerups
 	memset( self->client->ps.powerups, 0, sizeof( self->client->ps.powerups ) );
 
-        // fretn: don't print this in coop play, we just respawn
-        // mission should fail if we both die
+	// fretn: don't print this in coop play, we just respawn
+	// mission should fail if we both die
 	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		trap_SendServerCommand( -1, "mu_play sound/music/l_failed_1.wav 0\n" );
 		trap_SetConfigstring( CS_MUSIC_QUEUE, "" );  // clear queue so it'll be quiet after hit
@@ -616,7 +618,7 @@ qboolean IsHeadShotWeapon( int mod, gentity_t *targ, gentity_t *attacker ) {
 	}
 
 	switch ( targ->aiCharacter ) {
-		// get out quick for ai's that don't take headshots
+	// get out quick for ai's that don't take headshots
 	case AICHAR_ZOMBIE:
 	case AICHAR_WARZOMBIE:
 	case AICHAR_HELGA:      // boss1 (beast)
@@ -628,7 +630,7 @@ qboolean IsHeadShotWeapon( int mod, gentity_t *targ, gentity_t *attacker ) {
 	}
 
 	switch ( mod ) {
-		// players are allowed headshots from these weapons
+	// players are allowed headshots from these weapons
 	case MOD_LUGER:
 	case MOD_COLT:
 	case MOD_AKIMBO:
@@ -802,9 +804,9 @@ gentity_t* G_BuildHead( gentity_t *ent ) {
 /*
 ==============
 G_ArmorDamage
-	brokeparts is how many should be broken off now
-	curbroke is how many are broken
-	the difference is how many to pop off this time
+    brokeparts is how many should be broken off now
+    curbroke is how many are broken
+    the difference is how many to pop off this time
 ==============
 */
 void G_ArmorDamage( gentity_t *targ ) {
@@ -888,7 +890,7 @@ T_Damage
 targ		entity that is being damaged
 inflictor	entity that is causing the damage
 attacker	entity that caused the inflictor to damage targ
-	example: targ=monster, inflictor=rocket, attacker=player
+    example: targ=monster, inflictor=rocket, attacker=player
 
 dir			direction of the attack for knockback
 point		point at which the damage is being inflicted, used for headshots
@@ -898,10 +900,10 @@ knockback	force to be applied against targ as a result of the damage
 inflictor, attacker, dir, and point can be NULL for environmental effects
 
 dflags		these flags are used to control how T_Damage works
-	DAMAGE_RADIUS			damage was indirect (from a nearby explosion)
-	DAMAGE_NO_ARMOR			armor does not protect from this damage
-	DAMAGE_NO_KNOCKBACK		do not affect velocity, just view angles
-	DAMAGE_NO_PROTECTION	kills godmode, armor, everything
+    DAMAGE_RADIUS			damage was indirect (from a nearby explosion)
+    DAMAGE_NO_ARMOR			armor does not protect from this damage
+    DAMAGE_NO_KNOCKBACK		do not affect velocity, just view angles
+    DAMAGE_NO_PROTECTION	kills godmode, armor, everything
 ============
 */
 
@@ -911,6 +913,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	int take;
 	int asave;
 	int knockback;
+	qboolean attackerpain = qfalse;
 
 	if ( !targ->takedamage ) {
 		return;
@@ -934,18 +937,18 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		return;
 	}
 
-        // fretn - touching a player with a knife unfreezes them
-        if (targ && targ->client && attacker) {
-                if ( g_gametype.integer <= GT_COOP && g_freeze.integer == 1 && targ->client->ps.eFlags & EF_FROZEN) {
-                        if (mod == MOD_KNIFE && !(attacker->r.svFlags & SVF_CASTAI)) {
-                                targ->client->ps.eFlags &= ~EF_FROZEN;
-                                targ->flags &= ~FL_NOTARGET;
-                                targ->client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
-                                return;
-                        }
-                        return;
-                }
-        }
+	// fretn - touching a player with a knife unfreezes them
+	if ( targ && targ->client && attacker ) {
+		if ( g_gametype.integer <= GT_COOP && g_freeze.integer == 1 && targ->client->ps.eFlags & EF_FROZEN ) {
+			if ( mod == MOD_KNIFE && !( attacker->r.svFlags & SVF_CASTAI ) ) {
+				targ->client->ps.eFlags &= ~EF_FROZEN;
+				targ->flags &= ~FL_NOTARGET;
+				targ->client->ps.powerups[PW_INVULNERABLE] = level.time + 5000;                 // some time to find cover
+				return;
+			}
+			return;
+		}
+	}
 
 	// RF, track pain for player
 	// This is used by AI to determine how long it has been since their enemy was injured
@@ -1004,7 +1007,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		default:
 			return; // no damage from other weapons
 		}
-	} else if ( targ->s.eType == ET_EXPLOSIVE )   {
+	} else if ( targ->s.eType == ET_EXPLOSIVE ) {
 		// 32 Explosive
 		// 64 Dynamite only
 		if ( ( targ->spawnflags & 32 ) || ( targ->spawnflags & 64 ) ) {
@@ -1040,11 +1043,11 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	// Ridah, not in single player (skill levels?)
 // JPW NERVE pulled this from multiplayer too
 /*
-	if (g_gametype.integer != GT_SINGLE_PLAYER)
-	// done.
-	if ( attacker->client && attacker != targ ) {
-		damage = damage * attacker->client->ps.stats[STAT_MAX_HEALTH] / 100;
-	}
+    if (g_gametype.integer != GT_SINGLE_PLAYER)
+    // done.
+    if ( attacker->client && attacker != targ ) {
+        damage = damage * attacker->client->ps.stats[STAT_MAX_HEALTH] / 100;
+    }
 */
 // jpw
 
@@ -1204,7 +1207,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 			take *= targ->headshotDamageScale;
 
 			// player only code
-			if ( !attacker->aiCharacter && g_gametype.integer > GT_COOP) {
+			if ( !attacker->aiCharacter && g_gametype.integer > GT_COOP ) {
 				// (SA) id reqests one-shot kills for head shots on common humanoids
 
 				// (SA) except pistols.
@@ -1301,68 +1304,74 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	// do the damage
 	if ( take ) {
 		// fretn - this makes it easier to make the mg42 work with this new friendlyfire code
-		if (mod == MOD_MACHINEGUN && inflictor && inflictor->r.ownerNum < MAX_CLIENTS) {
+		if ( mod == MOD_MACHINEGUN && inflictor && inflictor->r.ownerNum < MAX_CLIENTS ) {
 			attacker = &g_entities[inflictor->r.ownerNum];
 		}
 
 		if ( mod == MOD_TELEFRAG || mod == MOD_WATER || mod == MOD_FALLING || mod == MOD_SLIME || mod == MOD_LAVA || mod == MOD_TRIGGER_HURT ) { // no matter what g_friendlyfire is set to, telefrags should always work, else you get stuck in a player
 			targ->health = targ->health - take;
-		} else if ( !targ->client) {
+		} else if ( !targ->client ) {
 			targ->health = targ->health - take;
-		// from human to bot
+			// from human to bot
 		} else if ( !( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
 			if ( attacker->client && targ->client ) {
 				// (from axis team to a nazi or monster (=teamdamage)
-				// or 
+				// or
 				// from allies team to an allies or a neutral (=teamdamage))
 				// AND friendly fire is on
-				if ( ( ( attacker->client->sess.sessionTeam == TEAM_RED && 
-				     ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ||
-				     ( attacker->client->sess.sessionTeam == TEAM_BLUE &&
-				     ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ) &&
-				     g_friendlyFire.integer ) {	
+				if ( ( ( attacker->client->sess.sessionTeam == TEAM_RED &&
+						 ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ||
+					   ( attacker->client->sess.sessionTeam == TEAM_BLUE &&
+						 ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ) &&
+					 g_friendlyFire.integer ) {
 
 					if ( g_friendlyFire.integer == 1 ) {
 						targ->health = targ->health - take;
 					} else if ( g_friendlyFire.integer >= 2 ) { // hurt the attacker if he hits a teammate
-                                                attacker->health = attacker->health - take;
-                                                // show some pain !
-                                                if ( attacker->pain ) {
-                                                        attacker->pain( attacker, targ, take, point );
-                                                }            
+						attacker->health = attacker->health - take;
+						attackerpain = qtrue;
+						// show some pain !
+						if ( attacker->pain ) {
+							attacker->pain( attacker, targ, take, point );
+						}
 					}
 				}
 
 				// from axis team to a an allies or a neutral
 				// or
 				// from allies team to a nazi or monster
-				if ( ( attacker->client->sess.sessionTeam == TEAM_BLUE && 
-				     ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER ) ) ||
-				     ( attacker->client->sess.sessionTeam == TEAM_RED &&
-				     ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) ) {
+				if ( ( attacker->client->sess.sessionTeam == TEAM_BLUE &&
+					   ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER ) ) ||
+					 ( attacker->client->sess.sessionTeam == TEAM_RED &&
+					   ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) ) {
 
 					targ->health = targ->health - take;
 				}
 			}
-                } else {
-                        if ( g_friendlyFire.integer == 0 ) {
+		} else {
+			if ( g_friendlyFire.integer == 0 ) {
 				if ( attacker->client && targ->client &&
-				     attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
-                                	targ->health = targ->health - take;
+					 attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
+					targ->health = targ->health - take;
 				}
 			} else if ( g_friendlyFire.integer == 1 ) {
 				targ->health = targ->health - take;
 			} else if ( g_friendlyFire.integer >= 2 ) { // hurt the attacker if he hits a teammate
-				if ( attacker->client && targ->client ) { 
-					if ( attacker->client->sess.sessionTeam == targ->client->sess.sessionTeam ) {
+				if ( attacker->client && targ->client ) {
+					if ( !(attacker->r.svFlags & SVF_CASTAI ) ) { // human is the attacker
+						if ( attacker->client->sess.sessionTeam == targ->client->sess.sessionTeam ) {
 
-                                                attacker->health = attacker->health - take;	
-                                                // show some pain !
-                                                if ( attacker->pain ) {
-                                                        attacker->pain( attacker, targ, take, point );
-                                                }
-					} else if ( attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
-						targ->health = targ->health - take;
+							attacker->health = attacker->health - take;
+							// show some pain !
+							if ( attacker->pain ) {
+								attacker->pain( attacker, targ, take, point );
+							}
+							attackerpain = qtrue;
+						} else if ( attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
+							targ->health = targ->health - take;
+						}
+					} else {
+							targ->health = targ->health - take;
 					}
 				}
 			}
@@ -1417,6 +1426,31 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 			Coop_AddStats( targ, attacker, take, mod );
 		}
 
+		if ( attacker->health <= 0 && attackerpain ) {
+			Coop_AddStats( attacker, attacker, take, mod );
+			if ( client ) {
+				attacker->flags |= FL_NO_KNOCKBACK;
+			}
+
+			if ( attacker->health < -999 ) {
+				attacker->health = -999;
+			}
+
+			attacker->enemy = attacker;
+			if ( attacker->die ) { // Ridah, mg42 doesn't have die func (FIXME)
+				attacker->die( attacker, inflictor, attacker, take, mod );
+			}
+
+			// if we freed ourselves in death function
+			if ( !attacker->inuse ) {
+				return;
+			}
+
+			// RF, entity scripting
+			if ( attacker->s.number >= MAX_CLIENTS && attacker->health <= 0 ) { // might have revived itself in death function
+				G_Script_ScriptEvent( attacker, "death", "" );
+			}
+		}
 		G_ArmorDamage( targ );    //----(SA)	moved out to separate routine
 
 		// Ridah, this needs to be done last, incase the health is altered in one of the event calls
@@ -1545,16 +1579,16 @@ qboolean G_RadiusDamage( vec3_t origin, gentity_t *attacker, float damage, float
 		}
 
 /* JPW NERVE -- we can put this back if we need to, but it kinna sucks for human-sized bboxes
-		// find the distance from the edge of the bounding box
-		for ( i = 0 ; i < 3 ; i++ ) {
-			if ( origin[i] < ent->r.absmin[i] ) {
-				v[i] = ent->r.absmin[i] - origin[i];
-			} else if ( origin[i] > ent->r.absmax[i] ) {
-				v[i] = origin[i] - ent->r.absmax[i];
-			} else {
-				v[i] = 0;
-			}
-		}
+        // find the distance from the edge of the bounding box
+        for ( i = 0 ; i < 3 ; i++ ) {
+            if ( origin[i] < ent->r.absmin[i] ) {
+                v[i] = ent->r.absmin[i] - origin[i];
+            } else if ( origin[i] > ent->r.absmax[i] ) {
+                v[i] = origin[i] - ent->r.absmax[i];
+            } else {
+                v[i] = 0;
+            }
+        }
 */
 // JPW NERVE
 		if ( !ent->r.bmodel ) {
