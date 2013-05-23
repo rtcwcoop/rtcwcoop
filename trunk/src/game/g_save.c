@@ -1866,20 +1866,20 @@ qboolean G_SavePersistant( char *nextmap, int clientNum, int persid ) {
 G_LoadPersistant
 ===============
 */
-void G_LoadPersistant( clientNum ) {
+void G_LoadPersistant( int clientNum ) {
 	fileHandle_t f;
 	char *filename;
 	char mapstr[MAX_QPATH];
 	vmCvar_t cvar_mapname;
 	int persid;
 
-        // fretn: dont error out, the less we crash the server, the better
-        if (clientNum < 0 || clientNum >= MAX_COOP_CLIENTS)
-                clientNum = 0;
+	// fretn: dont error out, the less we crash the server, the better
+	if (clientNum < 0 || clientNum >= MAX_COOP_CLIENTS)
+		clientNum = 0;
 
 	filename = va("save\\current%d.psw", clientNum);
 
-        G_DPrintf("G_LoadPersistant: %d\n", clientNum);
+	G_DPrintf("G_LoadPersistant: %d\n", clientNum);
 
 	// open the file
 	if ( trap_FS_FOpenFile( filename, &f, FS_READ ) < 0 ) {
