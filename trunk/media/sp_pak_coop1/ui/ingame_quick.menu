@@ -214,6 +214,7 @@ menuDef {
 			text "Sensitivity:"
 			cvarfloat "sensitivity" 5 1 30
 			rect -30 180 220 12
+			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_RIGHT
 			textalignx 126
 			textaligny 11

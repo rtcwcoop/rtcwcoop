@@ -462,7 +462,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			295 265 70 26
+					rect			294 265 70 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -491,7 +491,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			368 265 70 26
+					rect			367 265 70 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -520,7 +520,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			441 265 70 26
+					rect			440 265 70 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -549,7 +549,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			514 265 71 26
+					rect			513 265 71 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -1216,7 +1216,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Easy enemies, no extra enemies, no enemy respawning"
+				text "Original enemies with Easy skill"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -1233,7 +1233,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Normal enemies, many enemies, no enemy respawning"
+				text "More enemies with Normal skill"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -1251,7 +1251,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Hard enemies, max enemies, 2 respawns per enemy"
+				text "Maximum enemies with Hard skill"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
@@ -1269,7 +1269,7 @@ itemDef {
 				textstyle 1
 				textaligny 25
 				textscale .25
-				text "Hard enemies, max respawning enemies, infinite enemy respawns"
+				text "Maximum enemies with Hard skill, enemy Respawns!"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0

@@ -4496,7 +4496,7 @@ static void UI_RunMenuScript( char **args ) {
 		} else if ( Q_stricmp( name, "skillhard" ) == 0 ) {
 			trap_Cvar_Set( "g_gameskill", "3" ); 
 			trap_Cvar_Set( "g_reinforce", "2" ); 
-			trap_Cvar_Set( "g_airespawn", "2" ); 
+			trap_Cvar_Set( "g_airespawn", "0" ); 
 		} else if ( Q_stricmp( name, "skillnightmare" ) == 0 ) {
 			trap_Cvar_Set( "g_gameskill", "3" ); 
 			trap_Cvar_Set( "g_reinforce", "2" ); 
@@ -5765,11 +5765,11 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                                 if ( skill == 0 )
                                        Com_sprintf(skilltext, sizeof(skilltext), "* Test *"); 
                                 else if ( skill == 1 )
-                                       Com_sprintf(skilltext, sizeof(skilltext), " Easy"); 
+                                       Com_sprintf(skilltext, sizeof(skilltext), "  Easy"); 
                                 else if ( skill == 2 )
                                        Com_sprintf(skilltext, sizeof(skilltext), "Normal"); 
                                 else if ( skill == 3 )
-                                       Com_sprintf(skilltext, sizeof(skilltext), " Hard"); 
+                                       Com_sprintf(skilltext, sizeof(skilltext), "  Hard"); 
 
                                 return skilltext;
 			 //       return Info_ValueForKey( info, "gameskill" );
@@ -5777,9 +5777,9 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                                 airespawn = atoi(Info_ValueForKey( info, "airespawn" ));
 
                                 if (airespawn == -1) {
-                                        Com_sprintf(airespawntext, sizeof(airespawntext), "Unlimited ");
+                                        Com_sprintf(airespawntext, sizeof(airespawntext), "      Yes! ");
                                 } else if (airespawn == 0) {
-                                        Com_sprintf(airespawntext, sizeof(airespawntext), "No ");
+                                        Com_sprintf(airespawntext, sizeof(airespawntext), "       No ");
                                 } else if (airespawn > 0) {
                                         Com_sprintf(airespawntext, sizeof(airespawntext), va("%i ", airespawn));
                                 }
@@ -5792,9 +5792,9 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
                                 if ( reinforce== 0 )
                                        Com_sprintf(reinforcetext, sizeof(reinforcetext), " Default"); 
                                 else if ( reinforce == 1 )
-                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "  More"); 
+                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "   More"); 
                                 else if ( reinforce == 2 )
-                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "  Many"); 
+                                       Com_sprintf(reinforcetext, sizeof(reinforcetext), "Maximum"); 
 
 			        return reinforcetext;
 			case SORT_HOST:
