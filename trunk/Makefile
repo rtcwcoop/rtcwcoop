@@ -110,6 +110,10 @@ ifndef USE_IRC
 USE_IRC=1
 endif
 
+ifndef USE_HTTP_SERVER
+USE_HTTP_SERVER=1
+endif
+
 ifndef FEATURE_ANTICHEAT
 FEATURE_ANTICHEAT=0
 endif
@@ -229,7 +233,6 @@ ifeq ($(PLATFORM),linux)
   BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit \
     -pipe -DUSE_ICON -DC_ONLY -fno-common -D_ADMINS -DMONEY -DLOCALISATION
   CLIENT_CFLAGS = $(SDL_CFLAGS) -Wno-write-strings
-  SERVER_CFLAGS =
 
   OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
@@ -266,7 +269,7 @@ ifeq ($(PLATFORM),linux)
   SHLIBLDFLAGS=-shared $(LDFLAGS)
 
   THREAD_LIBS=-lpthread
-  LIBS=-ldl -lm -lsupc++
+  LIBS=-ldl -lm -lsupc++ -Lsrc/libs/linux/ -Wl,-Bstatic -lmicrohttpd -Wl,-Bdynamic -lpthread
 
   CLIENT_LIBS=$(SDL_LIBS) -lGL
 
@@ -304,7 +307,6 @@ ifeq ($(PLATFORM),darwin)
   #BASE_CFLAGS = -Wall -Wimplicit -Wstrict-prototypes
   BASE_CFLAGS = -Wall -Wimplicit -DC_ONLY -m32 -D_ADMINS -DMONEY -DLOCALISATION
   CLIENT_CFLAGS = -Wno-write-strings
-  SERVER_CFLAGS =
 
   ifeq ($(ARCH),ppc)
     BASE_CFLAGS += -faltivec
@@ -378,7 +380,6 @@ ifeq ($(PLATFORM),mingw32)
   BASE_CFLAGS = -fno-strict-aliasing -Wimplicit \
     -DUSE_ICON -DC_ONLY
   CLIENT_CFLAGS =
-  SERVER_CFLAGS =
 
   # In the absence of wspiapi.h, require Windows XP or later
   ifeq ($(shell test -e $(CMDIR)/wspiapi.h; echo $$?),1)
@@ -496,6 +497,10 @@ endif
 
 ifeq ($(USE_IRC),1)
   CLIENT_CFLAGS += -DUSE_IRC
+endif
+
+ifeq ($(USE_HTTP_SERVER),1)
+  SERVER_CFLAGS += -DUSE_HTTP_SERVER -Isrc/microhttpd/
 endif
 
 ifeq ($(FEATURE_ANTICHEAT),1)
@@ -850,6 +855,11 @@ ifeq ($(FEATURE_ANTICHEAT),1)
     $(B)/client/sv_wallhack.o
 endif
 
+ifeq ($(USE_HTTP_SERVER),1)
+  WOLFOBJ += \
+    $(B)/client/sv_http.o
+endif
+
 ifeq ($(USE_BLOOM),1)
   WOLFOBJ += \
     $(B)/client/tr_bloom.o
@@ -975,6 +985,11 @@ WOLFDOBJ = \
 ifeq ($(FEATURE_ANTICHEAT),1)
   WOLFDOBJ += \
     $(B)/ded/sv_wallhack.o
+endif
+
+ifeq ($(USE_HTTP_SERVER),1)
+  WOLFDOBJ += \
+    $(B)/ded/sv_http.o
 endif
 
 ifeq ($(USE_INTERNAL_ZLIB),1)

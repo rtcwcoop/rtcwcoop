@@ -889,6 +889,10 @@ void SV_BotInitBotLib( void );
 void SV_Init( void ) {
 	SV_AddOperatorCommands();
 
+#ifdef USE_HTTP_SERVER
+	SV_HTTPSetup();
+#endif
+
 	// serverinfo vars
 	Cvar_Get( "dmflags", "0", /*CVAR_SERVERINFO*/ 0 );
 	Cvar_Get( "fraglimit", "0", /*CVAR_SERVERINFO*/ 0 );
@@ -1064,6 +1068,10 @@ void SV_Shutdown( char *finalmsg ) {
 		SV_FinalMessage( finalmsg );
 	}
 
+#ifdef USE_HTTP_SERVER
+	SV_HTTPInitiateShutdown();
+#endif
+
 	SV_RemoveOperatorCommands();
 	SV_MasterShutdown();
 	SV_ShutdownGameProgs();
@@ -1087,5 +1095,9 @@ void SV_Shutdown( char *finalmsg ) {
 
 	// disconnect any local clients
 	CL_Disconnect( qfalse );
+
+#ifdef USE_HTTP_SERVER
+	SV_HTTPWaitShutdown();
+#endif
 }
 

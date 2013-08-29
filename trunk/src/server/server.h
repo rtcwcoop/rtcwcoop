@@ -415,6 +415,16 @@ void        SV_RestartGameProgs( void );
 qboolean    SV_inPVS( const vec3_t p1, const vec3_t p2 );
 qboolean SV_GetTag( int clientNum, char *tagname, orientation_t * or );
 
+// sv_http.c
+
+#ifdef USE_HTTP_SERVER
+void SV_HTTPSetup(void);
+void SV_InitHTTP(void);
+void SV_HTTPInitiateShutdown(void);
+void SV_HTTPWaitShutdown(void);
+qboolean SV_HTTPIsRunning(void);
+#endif
+
 //
 // sv_bot.c
 //
