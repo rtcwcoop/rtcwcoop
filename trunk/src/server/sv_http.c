@@ -28,52 +28,71 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 /*
-This is a small webserver (libmicrohttpd) that autostarts when a server is started.
+This is a small webserver that autostarts when a server is started.
 This way clients can easily autodownload pk3 files (fast). And it requires no setup
 on the server end.
+its running on the tcp version of net_port
+27960 TCP by default
 */
 
-#include "server.h"
-#include "../microhttpd/microhttpd.h"
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#ifdef USE_LOCAL_HEADERS
+#   include "SDL_thread.h"
+#else
+#   include <SDL_thread.h>
+#endif
 
+#include "server.h"
+
+#ifdef USE_HTTP_SERVER
+
+#include <stdio.h>
+#include <errno.h>
+#include <stdarg.h>
+#include <string.h>
 
 #ifdef WIN32
-
+# include <winsock2.h>
+# include <windows.h>
 #else
-#include <pthread.h>
+# include <pwd.h>
+# include <unistd.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <netdb.h>
+# include <sys/socket.h>
 #endif
+
+#ifdef WIN32
+typedef int socklen_t;
+#endif
+
+#define BACKLOG 10
+
+# if !defined HAVE_CLOSESOCKET
+#  define closesocket close
+# endif
+
+typedef struct HTTPState_s {
+	unsigned short port;
+	int sock;
+
+	struct in_addr listen_addr;
+
+	struct sockaddr_in address;
+} HTTPState_t;
+
+HTTPState_t HTTPState;
+
 
 //Constants that indicate the state of the HTTP thread.
 #define HTTP_THREAD_DEAD        0   // Thread is dead or hasn't been started
 #define HTTP_THREAD_INITIALISED 1   // Thread is initialised
 #define HTTP_THREAD_QUITTING    2   // The thread is being killed
 
-// Function that sets the thread status when the thread dies. Since that is
-// system-dependent, it can't be done in the thread's main code.
-
-static void HTTP_SetThreadDead( void );
-
 // Status of the http thread
 static int HTTP_ThreadStatus = HTTP_THREAD_DEAD;
 // Quit requested?
 static qboolean HTTP_QuitRequested;
-
-#define PAGE "<html><head><title>File not found</title></head><body>File not found</body></html>"
-
-static ssize_t file_reader( void *cls, uint64_t pos, char *buf, size_t max ) {
-	int handle = (int)cls;
-
-	FS_Seek( handle, pos, FS_SEEK_SET );
-	return FS_Read( buf, max, handle );
-}
-
-static void free_callback( void *cls ) {
-	int handle = (int)cls;
-	FS_FCloseFile( handle );
-}
 
 /*
 ================
@@ -102,93 +121,125 @@ static qboolean SV_FS_idPak( char *pak, char *base ) {
 	return qfalse;
 }
 
-
-
-static int ahc_echo( void *cls, struct MHD_Connection *connection, const char *url, const char *method, const char *version, const char *upload_data, size_t *upload_data_size, void **ptr ) {
-	static int aptr;
-	struct MHD_Response *response;
-	int ret;
-	int handle;
-	int len;
-	int idPack;
-/*
-    char *downloadName;
-    char *fs_game;
-    char *token;
-    char *tofree;
-    char *string;
-    int cnt = 0;
-*/
-
-	if ( 0 != strcmp( method, MHD_HTTP_METHOD_GET ) ) {
-		return MHD_NO;              // unexpected method
-
-	}
-	if ( &aptr != *ptr ) {
-		// do never respond on first call
-		*ptr = &aptr;
-		return MHD_YES;
+int HTTP_SendMSG( int socket, char *buf ) {
+	int _send = send( socket, buf, strlen( buf ), 0 );
+	if ( _send == -1 ) {
+		Com_Printf( "HTTP ERROR: socket send failed (%s)\n", strerror( errno ) );
 	}
 
-	*ptr = NULL;
-/*
-    string = strdup(&url[1]);
-
-    if (string != NULL) {
-        tofree = string;
-
-        while ((token = strsep(&string, "/")) != NULL && cnt < 2)
-        {
-            if (cnt == 0) {
-                fs_game = strdup(token);
-            } else if (cnt == 1) {
-                downloadName = strdup(token);
-            }
-            cnt++;
-        }
-
-        free(tofree);
-    }
-*/
-
-	len = FS_SV_FOpenFileRead( &url[1], &handle );
-
-	if ( !FS_VerifyPak( &url[1] ) ) {
-		Com_DPrintf( "Not on the download paklist: %s\n", &url[1] );
-		len = 0;
-	}
-
-	idPack = SV_FS_idPak( (char *)&url[1], (char *)"main" );
-
-	if ( idPack ) {
-		Com_DPrintf( "Cannot download idPakfiles\n" );
-		len = 0;
-	}
-
-/*
-    free(fs_game);
-    free(downloadName);
-*/
-
-	if ( len ) {
-		response = MHD_create_response_from_callback( len, 32 * 1024, &file_reader, (FILE *)handle, &free_callback );
-		if ( response == NULL ) {
-			FS_FCloseFile( handle );
-			return MHD_NO;
-		}
-		ret = MHD_queue_response( connection, MHD_HTTP_OK, response );
-		MHD_destroy_response( response );
-	} else {
-		response = MHD_create_response_from_buffer( strlen( PAGE ), (void *) PAGE, MHD_RESPMEM_PERSISTENT );
-		ret = MHD_queue_response( connection, MHD_HTTP_NOT_FOUND, response );
-		MHD_destroy_response( response );
-	}
-
-	return ret;
+	return _send;
 }
 
+int HTTP_ClientConnection( void *sock ) {
+	char *token;
+	int idPack;
+	char *input;
+	int len;
+	int handle;
+	char *downloadName;
+	char *fs_game;
+	char *tofree;
+	char *string;
+	int cnt = 0;
+	int numbytes = 0;
+	char buf[512];
+	int socket = (int)sock;
+
+	if ( ( numbytes = recv( socket, buf, 512 - 1, 0 ) ) == -1 ) {
+		Com_Printf( "HTTP_ClientConnection: ERROR: socket recv failed (%s)\n", strerror( errno ) );
+		return 0;
+	}
+
+	buf[numbytes] = '\0';
+	input = va( "%s", buf );
+
+	token = COM_Parse( &input );
+
+	if ( strcmp( token, "GET" ) ) {
+		Com_Printf( "HTTP_ClientConnection: need GET, received: '%s'\n", token );
+		closesocket( socket );
+		return 0;
+	}
+
+	// get path
+	token = COM_Parse( &input );
+	string = strdup( token );
+
+	if ( string != NULL ) {
+		tofree = string;
+
+		while ( ( token = strsep( &string, "/" ) ) != NULL && cnt < 3 ) {
+			if ( cnt == 1 ) {
+				fs_game = strdup( token );
+			} else if ( cnt == 2 ) {
+				downloadName = strdup( token );
+			}
+			cnt++;
+		}
+
+		free( tofree );
+	}
+
+	len = FS_SV_FOpenFileRead( va( "%s/%s", fs_game, downloadName ), &handle );
+
+	if ( !FS_VerifyPak( va( "%s/%s", fs_game, downloadName ) ) ) {
+		Com_DPrintf( "HTTP_ClientConnection: Not on the download paklist: %s\n", downloadName );
+		len = 0;
+	}
+
+	idPack = SV_FS_idPak( va( "%s/%s", fs_game, downloadName ), (char *)"main" );
+
+	if ( idPack ) {
+		Com_DPrintf( "HTTP_ClientConnection: Cannot download idPakfiles\n" );
+		len = 0;
+	}
+
+	if ( len ) {
+		#define CHUNK_SIZE 512
+
+		char *file_data = malloc( CHUNK_SIZE );
+
+		size_t nbytes = 0;
+
+		HTTP_SendMSG( socket, "HTTP/1.1 200 OK\n" );
+		HTTP_SendMSG( socket, va( "Content-Length: %d\n", len ) );
+		HTTP_SendMSG( socket, "Content-Type: application/zip; charset=UTF-8\n" );
+		HTTP_SendMSG( socket, "\n" );
+
+		while ( ( nbytes = FS_Read( file_data, CHUNK_SIZE, handle ) ) > 0 ) {
+			int offset = 0;
+			int sent;
+
+			while ( ( sent = send( socket, file_data + offset, nbytes, 0 ) ) > 0 || ( sent == -1 && errno == EINTR ) ) {
+
+				if ( sent > 0 ) {
+					offset += sent;
+					nbytes -= sent;
+				}
+			}
+		}
+
+		free( file_data );
+
+	} else {
+		HTTP_SendMSG( socket, "HTTP/1.1 404 Not Found\n" );
+		HTTP_SendMSG( socket, "Server: rtcwcoop" );
+		HTTP_SendMSG( socket, "Content-Type: text/html; charset=UTF-8\n" );
+		HTTP_SendMSG( socket, "Connection: close\n" );
+		HTTP_SendMSG( socket, "\n" );
+	}
+
+	closesocket( socket );
+
+	return 1;
+
+}
 
 static void HTTP_MainLoop( void ) {
+
+	socklen_t sin_size;
+	int clientsock;
+	struct sockaddr_in their_addr;
 
 	do {
 		// If we must quit, send the command.
@@ -196,53 +247,90 @@ static void HTTP_MainLoop( void ) {
 			HTTP_ThreadStatus = HTTP_THREAD_QUITTING;
 		} else {
 			//
+			sin_size = sizeof( struct sockaddr_in );
+
+			if ( ( clientsock = accept( HTTPState.sock, (struct sockaddr *)&their_addr, &sin_size ) ) == -1 ) {
+				Com_Printf( "HTTP ERROR: socket accept failed (%s)\n", strerror( errno ) );
+				continue;
+			}
+
+			SDL_CreateThread( HTTP_ClientConnection, (void *)clientsock );
+
 		}
 	} while ( HTTP_ThreadStatus != HTTP_THREAD_QUITTING );
 }
 
 static void HTTP_Thread( void ) {
-	struct MHD_Daemon *d;
-	cvar_t *port = Cvar_Get( "net_port", va( "%i", PORT_SERVER ), CVAR_LATCH );
+	int yes = 1;
+	cvar_t *port;
 
-// use the same port as net_port, but on tcp
-	d = MHD_start_daemon( MHD_USE_THREAD_PER_CONNECTION | MHD_USE_DEBUG,
-						  port->integer,
-						  NULL, NULL, &ahc_echo, PAGE, MHD_OPTION_END );
-	if ( d == NULL ) {
-		Com_Printf( "Could not init http server\n" );
-		HTTP_SetThreadDead();
+	port = Cvar_Get( "net_port", va( "%i", PORT_SERVER ), CVAR_LATCH );
+
+	// set default values
+	HTTPState.port = port->integer;
+	HTTPState.sock = -1;
+
+#ifdef WIN32
+	WSADATA winsockdata;
+
+	if ( WSAStartup( MAKEWORD( 1, 1 ), &winsockdata ) ) {
+		Com_Printf( "HTTP ERROR: can't initialize winsock\n" );
+		return;
+	}
+#endif
+
+	// open the socket
+	HTTPState.sock = socket( PF_INET, SOCK_STREAM, IPPROTO_TCP );
+
+	if ( HTTPState.sock < 0 ) {
+		Com_Printf( "HTTP ERROR: socket creation failed (%s)\n", strerror( errno ) );
+		return;
+	}
+
+
+	if ( setsockopt( HTTPState.sock, SOL_SOCKET, SO_REUSEADDR, (void *)&yes, sizeof( int ) ) == -1 ) {
+		Com_Printf( "HTTP ERROR: setsockopt failed (%s)\n", strerror( errno ) );
+		return;
+	}
+
+	// bind it to the desired port
+	memset( &HTTPState.address, 0, sizeof( HTTPState.address ) );
+
+	HTTPState.address.sin_family = AF_INET;
+	HTTPState.address.sin_addr.s_addr = htonl( INADDR_ANY );
+	HTTPState.address.sin_port = htons( HTTPState.port );
+
+	if ( bind( HTTPState.sock, (struct sockaddr*)&HTTPState.address, sizeof( HTTPState.address ) ) == -1 ) {
+		Com_Printf( "HTTP ERROR: socket binding failed (%s)\n", strerror( errno ) );
+		return;
+	}
+
+// results in a crash: ERROR: FS_FileForHandle: NULL
+//    Com_Printf("HTTP Listening on TCP port %hu\n", ntohs (HTTPState.address.sin_port));
+
+	if ( listen( HTTPState.sock, BACKLOG ) == -1 ) {
+		Com_Printf( "HTTP ERROR: socket listen failed (%s)\n", strerror( errno ) );
 		return;
 	}
 
 	HTTP_MainLoop();
 
-	MHD_stop_daemon( d );
+	closesocket( HTTPState.sock );
+#ifdef WIN32
+	WSACleanup();
+#endif
 
-	Com_Printf( "Quitting http server\n" );
-	HTTP_SetThreadDead();
+	return;
 }
 
+SDL_Thread *HTTP_ThreadHandle = NULL;
 
-
-
-
-/*
- * Caution: HTTP_SystemThreadProc(), HTTP_StartThread() and HTTP_WaitThread()
- *  have separate "VARIANTS".
- *
- * Note different prototypes for HTTP_SystemThreadProc() and completely
- * different HTTP_StartThread()/HTTP_WaitThread() implementations.
- */
-
-#ifdef WIN32
-
-static HANDLE HTTP_ThreadHandle = NULL;
 /*
 ==================
 HTTP_SystemThreadProc
 ==================
 */
-static DWORD WINAPI HTTP_SystemThreadProc( LPVOID dummy ) {
+static int HTTP_SystemThreadProc( void *dummy ) {
 	HTTP_Thread();
 	return 0;
 }
@@ -254,67 +342,8 @@ HTTP_StartThread
 */
 static void HTTP_StartThread( void ) {
 	if ( HTTP_ThreadHandle == NULL ) {
-		HTTP_ThreadHandle = CreateThread( NULL, 0, HTTP_SystemThreadProc, NULL, 0, NULL );
+		HTTP_ThreadHandle = SDL_CreateThread( HTTP_SystemThreadProc, NULL );
 	}
-}
-
-/*
-==================
-HTTP_SetThreadDead
-==================
-*/
-static void HTTP_SetThreadDead( void ) {
-	HTTP_ThreadStatus = HTTP_THREAD_DEAD;
-	HTTP_ThreadHandle = NULL;
-}
-
-/*
-==================
-HTTP_StartThread
-==================
-*/
-static void HTTP_WaitThread( void ) {
-	if ( HTTP_ThreadHandle != NULL ) {
-		if ( HTTP_ThreadStatus != HTTP_THREAD_DEAD ) {
-			WaitForSingleObject( HTTP_ThreadHandle, 10000 );
-			CloseHandle( HTTP_ThreadHandle );
-		}
-		HTTP_ThreadHandle = NULL;
-	}
-}
-
-#elif defined __linux__ || defined MACOS_X || defined __FreeBSD__
-
-static pthread_t HTTP_ThreadHandle = (pthread_t) NULL;
-/*
-==================
-HTTP_SystemThreadProc
-==================
-*/
-static void *HTTP_SystemThreadProc( void *dummy ) {
-	HTTP_Thread();
-	return NULL;
-}
-
-/*
-==================
-HTTP_StartThread
-==================
-*/
-static void HTTP_StartThread( void ) {
-	if ( HTTP_ThreadHandle == (pthread_t) NULL ) {
-		pthread_create( &HTTP_ThreadHandle, NULL, HTTP_SystemThreadProc, NULL );
-	}
-}
-
-/*
-==================
-HTTP_SetThreadDead
-==================
-*/
-static void HTTP_SetThreadDead( void ) {
-	HTTP_ThreadStatus = HTTP_THREAD_DEAD;
-	HTTP_ThreadHandle = (pthread_t) NULL;
 }
 
 /*
@@ -323,15 +352,16 @@ HTTP_WaitThread
 ==================
 */
 static void HTTP_WaitThread( void ) {
-	if ( HTTP_ThreadHandle != (pthread_t) NULL ) {
+	if ( HTTP_ThreadHandle != NULL ) {
 		if ( HTTP_ThreadStatus != HTTP_THREAD_DEAD ) {
-			pthread_join( HTTP_ThreadHandle, NULL );
+			//SDL_WaitThread(HTTP_ThreadHandle, NULL);
+			// don't wait until its finished, just shut down
+			SDL_KillThread( HTTP_ThreadHandle );
 		}
-		HTTP_ThreadHandle = (pthread_t) NULL;
+		HTTP_ThreadStatus = HTTP_THREAD_DEAD;
+		HTTP_ThreadHandle = NULL;
 	}
 }
-
-#endif
 
 
 /*
@@ -356,16 +386,11 @@ SV_HTTPSetup
 */
 
 void SV_HTTPSetup( void ) {
-/*    cl_HTTP_connect_at_startup = Cvar_Get("cl_HTTP_connect_at_startup", "0", CVAR_ARCHIVE);
-    cl_HTTP_server             = Cvar_Get("cl_HTTP_server", "irc.freenode.net", CVAR_ARCHIVE);
-    cl_HTTP_channel            = Cvar_Get("cl_HTTP_channel", "rtcwcoop", CVAR_ARCHIVE); // maybe some day..
-    cl_HTTP_port               = Cvar_Get("cl_HTTP_port", "6667", CVAR_ARCHIVE);
-    cl_HTTP_override_nickname  = Cvar_Get("cl_HTTP_override_nickname", "0", CVAR_ARCHIVE);
-    cl_HTTP_nickname           = Cvar_Get("cl_HTTP_nickname", "", CVAR_ARCHIVE);
-    cl_HTTP_kick_rejoin        = Cvar_Get("cl_HTTP_kick_rejoin", "0", CVAR_ARCHIVE);
-    cl_HTTP_reconnect_delay    = Cvar_Get("cl_HTTP_reconnect_delay", "100", CVAR_ARCHIVE);
-*/
-	SV_InitHTTP();
+	cvar_t *_sv_allowDownload = Cvar_Get( "sv_allowDownload", "1", 0 );
+
+	if (_sv_allowDownload->integer) {
+		SV_InitHTTP();
+	}
 }
 
 
@@ -385,6 +410,13 @@ SV_HTTPWaitShutdown
 */
 void SV_HTTPWaitShutdown( void ) {
 	HTTP_WaitThread();
+
+	HTTP_QuitRequested = qtrue;
+	closesocket( HTTPState.sock );
+#ifdef WIN32
+	WSACleanup();
+#endif
+
 }
 
 /*
@@ -395,3 +427,5 @@ SV_HTTPIsRunning
 qboolean SV_HTTPIsRunning( void ) {
 	return ( HTTP_ThreadStatus != HTTP_THREAD_DEAD );
 }
+
+#endif

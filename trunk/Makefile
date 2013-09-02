@@ -233,6 +233,7 @@ ifeq ($(PLATFORM),linux)
   BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit \
     -pipe -DUSE_ICON -DC_ONLY -fno-common -D_ADMINS -DMONEY -DLOCALISATION
   CLIENT_CFLAGS = $(SDL_CFLAGS) -Wno-write-strings
+  SERVER_CFLAGS += $(SDL_CFLAGS)
 
   OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
@@ -269,9 +270,9 @@ ifeq ($(PLATFORM),linux)
   SHLIBLDFLAGS=-shared $(LDFLAGS)
 
   THREAD_LIBS=-lpthread
-  LIBS=-ldl -lm -lsupc++ -Lsrc/libs/linux/ -Wl,-Bstatic -lmicrohttpd -Wl,-Bdynamic -lpthread
+  LIBS=-ldl -lm -lsupc++ -lpthread $(SDL_LIBS)
 
-  CLIENT_LIBS=$(SDL_LIBS) -lGL
+  CLIENT_LIBS=-lGL
 
   ifeq ($(USE_SQL),1)
 	LIBS += -lmysqlclient
@@ -500,7 +501,7 @@ ifeq ($(USE_IRC),1)
 endif
 
 ifeq ($(USE_HTTP_SERVER),1)
-  SERVER_CFLAGS += -DUSE_HTTP_SERVER -Isrc/microhttpd/
+  SERVER_CFLAGS += -DUSE_HTTP_SERVER
 endif
 
 ifeq ($(FEATURE_ANTICHEAT),1)
