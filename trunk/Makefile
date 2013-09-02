@@ -344,8 +344,11 @@ ifeq ($(PLATFORM),darwin)
   #  the file has been modified by each build.
   LIBSDLMAIN=$(B)/libSDLmain.a
   LIBSDLMAINSRC=$(LIBSDIR)/macosx/libSDLmain.a
-  CLIENT_LIBS += -framework IOKit -framework OpenGL \
-    $(LIBSDIR)/macosx/libSDL-1.2.0.dylib
+  #CLIENT_LIBS += -framework IOKit -framework OpenGL \
+  #  $(LIBSDIR)/macosx/libSDL-1.2.0.dylib
+  CLIENT_LIBS += -framework IOKit -framework OpenGL
+
+  LIBS += $(LIBSDIR)/macosx/libSDL-1.2.0.dylib
 
   OPTIMIZEVM += -falign-loops=16
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
