@@ -68,9 +68,11 @@ typedef int socklen_t;
 
 #define BACKLOG 10
 
+#ifndef WIN32
 # if !defined HAVE_CLOSESOCKET
 #  define closesocket close
 # endif
+#endif
 
 typedef struct HTTPState_s {
 	unsigned short port;
@@ -93,6 +95,33 @@ HTTPState_t HTTPState;
 static int HTTP_ThreadStatus = HTTP_THREAD_DEAD;
 // Quit requested?
 static qboolean HTTP_QuitRequested;
+
+#ifdef WIN32
+/* Copyright (C) 2004 Free Software Foundation, Inc. */
+char* strsep(char **stringp, const char *delim)
+{
+	char *start = *stringp;
+	char *ptr;
+
+	if (!start)
+		return NULL;
+
+	if (!*delim)
+		ptr = start + strlen(start);
+	else {
+		ptr = strpbrk(start, delim);
+		if (!ptr) {
+			*stringp = NULL;
+			return start;
+		}
+	}
+
+	*ptr = '\0';
+	*stringp = ptr + 1;
+
+	return start;
+}
+#endif
 
 /*
 ================
@@ -263,6 +292,9 @@ static void HTTP_MainLoop( void ) {
 static void HTTP_Thread( void ) {
 	int yes = 1;
 	cvar_t *port;
+#ifdef WIN32
+	WSADATA winsockdata;
+#endif
 
 	port = Cvar_Get( "net_port", va( "%i", PORT_SERVER ), CVAR_LATCH );
 
@@ -271,8 +303,6 @@ static void HTTP_Thread( void ) {
 	HTTPState.sock = -1;
 
 #ifdef WIN32
-	WSADATA winsockdata;
-
 	if ( WSAStartup( MAKEWORD( 1, 1 ), &winsockdata ) ) {
 		Com_Printf( "HTTP ERROR: can't initialize winsock\n" );
 		return;
