@@ -987,6 +987,12 @@ void SV_Init( void ) {
 	sv_dl_maxRate = Cvar_Get( "sv_dl_maxRate", "60000", CVAR_ARCHIVE );
 #endif
 
+    sv_wwwDownload = Cvar_Get( "sv_wwwDownload", "1", CVAR_ARCHIVE );
+	
+    sv_wwwBaseURL = Cvar_Get( "sv_wwwBaseURL", "", CVAR_ARCHIVE );
+    sv_wwwDlDisconnected = Cvar_Get( "sv_wwwDlDisconnected", "0", CVAR_ARCHIVE );
+    sv_wwwFallbackURL = Cvar_Get( "sv_wwwFallbackURL", "", CVAR_ARCHIVE );
+
 	// initialize bot cvars so they are listed and can be set before loading the botlib
 	SV_BotInitCvars();
 
@@ -1069,7 +1075,7 @@ void SV_Shutdown( char *finalmsg ) {
 	}
 
 #ifdef USE_HTTP_SERVER
-	SV_HTTPInitiateShutdown();
+    SV_HTTPInitiateShutdown();
 #endif
 
 	SV_RemoveOperatorCommands();

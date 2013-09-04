@@ -530,7 +530,7 @@ FS_CopyFile
 Copy a fully specified file from one place to another
 =================
 */
-static void FS_CopyFile( char *fromOSPath, char *toOSPath ) {
+void FS_CopyFile( char *fromOSPath, char *toOSPath ) {
 	FILE    *f;
 	int len;
 	byte    *buf;

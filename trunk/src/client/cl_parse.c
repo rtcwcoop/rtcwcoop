@@ -652,7 +652,7 @@ void CL_ParseDownload( msg_t *msg ) {
 	unsigned char data[MAX_MSGLEN];
 	int block;
 
-	if ( !*clc.downloadTempName ) {
+	if ( !*cls.downloadTempName ) {
 		Com_Printf( "Server sending download, but no download was requested\n" );
 		CL_AddReliableCommand( "stopdl" );
 		return;
@@ -660,6 +660,62 @@ void CL_ParseDownload( msg_t *msg ) {
 
 	// read the data
 	block = MSG_ReadShort( msg );
+    // TTimo - www dl
+    // if we haven't acked the download redirect yet
+    if ( block == -1 ) { 
+        if ( !clc.bWWWDl ) { 
+            // server is sending us a www download
+            Q_strncpyz( cls.originalDownloadName, cls.downloadName, sizeof( cls.originalDownloadName ) );
+            Q_strncpyz( cls.downloadName, MSG_ReadString( msg ), sizeof( cls.downloadName ) );
+            clc.downloadSize = MSG_ReadLong( msg );
+            clc.downloadFlags = MSG_ReadLong( msg );
+            if ( clc.downloadFlags & ( 1 << DL_FLAG_URL ) ) { 
+                Sys_OpenURL( cls.downloadName, qtrue );
+                Cbuf_ExecuteText( EXEC_APPEND, "quit\n" );
+                CL_AddReliableCommand( "wwwdl bbl8r" ); // not sure if that's the right msg
+                clc.bWWWDlAborting = qtrue;
+                return;
+            }   
+            Cvar_SetValue( "cl_downloadSize", clc.downloadSize );
+            Com_DPrintf( "Server redirected download: %s\n", cls.downloadName );
+            clc.bWWWDl = qtrue; // activate wwwdl client loop
+            CL_AddReliableCommand( "wwwdl ack" );
+            // make sure the server is not trying to redirect us again on a bad checksum
+            if ( strstr( clc.badChecksumList, va( "@%s", cls.originalDownloadName ) ) ) { 
+                Com_Printf( "refusing redirect to %s by server (bad checksum)\n", cls.downloadName );
+                CL_AddReliableCommand( "wwwdl fail" );
+                clc.bWWWDlAborting = qtrue;
+                return;
+            }   
+            // make downloadTempName an OS path
+            Q_strncpyz( cls.downloadTempName, FS_BuildOSPath( Cvar_VariableString( "fs_homepath" ), cls.downloadTempName, "" ), sizeof( cls.downloadTempName ) );
+            cls.downloadTempName[strlen( cls.downloadTempName ) - 1] = '\0';
+            if ( !DL_BeginDownload( cls.downloadTempName, cls.downloadName, com_developer->integer ) ) { 
+                // setting bWWWDl to false after sending the wwwdl fail doesn't work
+                // not sure why, but I suspect we have to eat all remaining block -1 that the server has sent us
+                // still leave a flag so that CL_WWWDownload is inactive
+                // we count on server sending us a gamestate to start up clean again
+                CL_AddReliableCommand( "wwwdl fail" );
+                clc.bWWWDlAborting = qtrue;
+                Com_Printf( "Failed to initialize download for '%s'\n", cls.downloadName );
+            }  
+            // Check for a disconnected download
+            // we'll let the server disconnect us when it gets the bbl8r message
+            if ( clc.downloadFlags & ( 1 << DL_FLAG_DISCON ) ) {
+                CL_AddReliableCommand( "wwwdl bbl8r" );
+                cls.bWWWDlDisconnected = qtrue;
+            }
+            return;
+        } else
+        {
+            // server keeps sending that message till we ack it, eat and ignore
+            //MSG_ReadLong( msg );
+            MSG_ReadString( msg );
+            MSG_ReadLong( msg );
+            MSG_ReadLong( msg );
+            return;
+        }
+    }
 
 	if ( !block ) {
 		// block zero is special, contains file size
@@ -688,10 +744,10 @@ void CL_ParseDownload( msg_t *msg ) {
 
 	// open the file if not opened yet
 	if ( !clc.download ) {
-		clc.download = FS_SV_FOpenFileWrite( clc.downloadTempName );
+		clc.download = FS_SV_FOpenFileWrite( cls.downloadTempName );
 
 		if ( !clc.download ) {
-			Com_Printf( "Could not create %s\n", clc.downloadTempName );
+			Com_Printf( "Could not create %s\n", cls.downloadTempName );
 			CL_AddReliableCommand( "stopdl" );
 			CL_NextDownload();
 			return;
@@ -716,9 +772,9 @@ void CL_ParseDownload( msg_t *msg ) {
 			clc.download = 0;
 
 			// rename the file
-			FS_SV_Rename( clc.downloadTempName, clc.downloadName );
+			FS_SV_Rename( cls.downloadTempName, cls.downloadName );
 		}
-		*clc.downloadTempName = *clc.downloadName = 0;
+		*cls.downloadTempName = *cls.downloadName = 0;
 		Cvar_Set( "cl_downloadName", "" );
 
 		// send intentions now

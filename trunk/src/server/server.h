@@ -182,6 +182,14 @@ typedef struct client_s {
 	qboolean downloadEOF;               // We have sent the EOF block
 	int downloadSendTime;               // time we last got an ack from the client
 
+    // www downloading
+    qboolean bDlOK;    // passed from cl_wwwDownload CVAR_USERINFO, wether this client supports www dl
+    char downloadURL[MAX_OSPATH];            // the URL we redirected the client to
+    qboolean bWWWDl;    // we have a www download going
+    qboolean bWWWing;    // the client is doing an ftp/http download
+    qboolean bFallback;    // last www download attempt failed, fallback to regular download
+    // note: this is one-shot, multiple downloads would cause a www download to be attempted again
+
 	int deltaMessage;                   // frame last client usercmd message
 	int nextReliableTime;               // svs.time when another reliable command will be allowed
 	int lastPacketTime;                 // svs.time when packet was last received
@@ -206,6 +214,8 @@ typedef struct client_s {
 
 	// L0 - ioquake fix for relaibable command overflow
 	qboolean csUpdated[MAX_CONFIGSTRINGS+1];
+
+	int downloadnotify;
 } client_t;
 
 //=============================================================================
@@ -318,6 +328,14 @@ extern cvar_t  *sv_gameskill;
 
 // TTimo - autodl
 extern cvar_t *sv_dl_maxRate;
+
+// TTimo
+extern cvar_t *sv_wwwDownload; // general flag to enable/disable www download redirects
+extern cvar_t *sv_wwwBaseURL; // the base URL of all the files
+// tell clients to perform their downloads while disconnected from the server
+// this gets you a better throughput, but you loose the ability to control the download usage
+extern cvar_t *sv_wwwDlDisconnected;
+extern cvar_t *sv_wwwFallbackURL;
 
 extern cvar_t  *sv_reloading;   //----(SA)	added
 
@@ -515,3 +533,9 @@ void SV_Netchan_FreeQueue(client_t *client);
 extern cvar_t  *sv_maxlives;
 extern cvar_t  *sv_reinforce;
 extern cvar_t  *sv_airespawn;
+
+//bani - cl->downloadnotify
+#define DLNOTIFY_REDIRECT   0x00000001  // "Redirecting client ..."
+#define DLNOTIFY_BEGIN      0x00000002  // "clientDownload: 4 : beginning ..."
+#define DLNOTIFY_ALL        ( DLNOTIFY_REDIRECT | DLNOTIFY_BEGIN )
+

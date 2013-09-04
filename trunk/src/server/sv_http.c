@@ -418,7 +418,7 @@ SV_HTTPSetup
 void SV_HTTPSetup( void ) {
 	cvar_t *_sv_allowDownload = Cvar_Get( "sv_allowDownload", "1", 0 );
 
-	if (_sv_allowDownload->integer) {
+	if ( _sv_allowDownload->integer ) {
 		SV_InitHTTP();
 	}
 }

@@ -750,8 +750,20 @@ qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring );
 void FS_Rename( const char *from, const char *to );
 
 void    FS_CopyFileOS(  char *from, char *to ); //DAJ
+void FS_CopyFile( char *fromOSPath, char *toOSPath );
+
 
 qboolean FS_VerifyPak( const char *pak );
+
+/*
+==============================================================
+
+DOWNLOAD
+
+==============================================================
+*/
+
+#include "dl_public.h"
 
 
 /*

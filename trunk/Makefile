@@ -270,9 +270,9 @@ ifeq ($(PLATFORM),linux)
   SHLIBLDFLAGS=-shared $(LDFLAGS)
 
   THREAD_LIBS=-lpthread
-  LIBS=-ldl -lm -lsupc++ -lpthread $(SDL_LIBS)
+  LIBS=-ldl -lm -lsupc++ -lpthread -Wl,-Bstatic $(SDL_LIBS) -Wl,-Bdynamic
 
-  CLIENT_LIBS=-lGL
+  CLIENT_LIBS=$(SDL_LIBS) -Lsrc/libs/linux/ -Wl,-Bstatic -lcurl -Wl,-Bdynamic -lGL
 
   ifeq ($(USE_SQL),1)
 	LIBS += -lmysqlclient
@@ -346,7 +346,7 @@ ifeq ($(PLATFORM),darwin)
   LIBSDLMAINSRC=$(LIBSDIR)/macosx/libSDLmain.a
   #CLIENT_LIBS += -framework IOKit -framework OpenGL \
   #  $(LIBSDIR)/macosx/libSDL-1.2.0.dylib
-  CLIENT_LIBS += -framework IOKit -framework OpenGL
+  CLIENT_LIBS += -framework IOKit -framework OpenGL -Lsrc/libs/macosx/ -lcurl
 
   LIBS += $(LIBSDIR)/macosx/libSDL-1.2.0.dylib
 
@@ -708,6 +708,7 @@ WOLFOBJ = \
   $(B)/client/cmd.o \
   $(B)/client/common.o \
   $(B)/client/cvar.o \
+  $(B)/client/dl_main_curl.o \
   $(B)/client/files.o \
   $(B)/client/htable.o \
   $(B)/client/md4.o \

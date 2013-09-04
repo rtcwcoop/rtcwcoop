@@ -80,6 +80,13 @@ cvar_t  *sv_gameskill;
 
 cvar_t  *sv_showAverageBPS;     // NERVE - SMF - net debugging
 
+cvar_t  *sv_wwwDownload; // server does a www dl redirect
+cvar_t  *sv_wwwBaseURL; // base URL for redirect
+// tell clients to perform their downloads while disconnected from the server
+// this gets you a better throughput, but you loose the ability to control the download usage
+cvar_t *sv_wwwDlDisconnected;
+cvar_t *sv_wwwFallbackURL; // URL to send to if an http/ftp fails or is refused client side
+
 cvar_t  *sv_maxlives;
 cvar_t  *sv_reinforce;
 cvar_t  *sv_airespawn;
@@ -482,6 +489,9 @@ void SV_MasterHeartbeat( const char *hbname ) {
 		// this command should be changed if the server info / status format
 		// ever incompatably changes
 		NET_OutOfBandPrint( NS_SERVER, adr[i], "heartbeat %s\n", hbname );
+
+        // get the public ip of the server
+        NET_OutOfBandPrint( NS_SERVER, adr[i], "getip\n");
 	}
 }
 
@@ -737,6 +747,15 @@ void SVC_Status( netadr_t from ) {
 
 	NET_OutOfBandPrint( NS_SERVER, from, "statusResponse\n%s\n%s", infostring, status );
 }
+
+// is used so that auto http downloading of the built in http server is possible
+void SV_GetIPResponse( netadr_t from) {
+
+    //if (!strcmp(sv_wwwBaseURL->string, "") || strcmp(sv_wwwBaseURL->string, "^7")) {
+	Cvar_Set("sv_localhttpurl", Cmd_Argv( 1 ));
+	//}
+}
+
 
 /*
 ================
@@ -1038,6 +1057,8 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		SV_DirectConnect( from );
 	} else if ( !Q_stricmp( c,"ipAuthorize" ) ) {
 		SV_AuthorizeIpPacket( from );
+    } else if ( !Q_stricmp( c,"getipresponse" ) ) {
+        SV_GetIPResponse( from );
 	} else if ( !Q_stricmp( c, "rcon" ) ) {
 		SVC_RemoteCommand( from, msg );
 // DHM - Nerve

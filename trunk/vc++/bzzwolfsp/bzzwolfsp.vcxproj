@@ -60,7 +60,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\src\libs\win32;..\..\src\mysql\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>/NODEFAULTLIB:libcmtd.lib;/NODEFAULTLIB:msvcrt;msvcrtd.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;Winmm.lib;sdl.lib;sdlmain.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurl.lib;/NODEFAULTLIB:libcmtd.lib;/NODEFAULTLIB:msvcrt;msvcrtd.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;opengl32.lib;Winmm.lib;sdl.lib;sdlmain.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
@@ -180,6 +180,7 @@
     <ClCompile Include="..\..\src\qcommon\cm_trace.c" />
     <ClCompile Include="..\..\src\qcommon\common.c" />
     <ClCompile Include="..\..\src\qcommon\cvar.c" />
+    <ClCompile Include="..\..\src\qcommon\dl_main_curl.c" />
     <ClCompile Include="..\..\src\qcommon\files.c" />
     <ClCompile Include="..\..\src\qcommon\htable.c" />
     <ClCompile Include="..\..\src\qcommon\huffman.c" />
@@ -288,6 +289,8 @@
     <ClInclude Include="..\..\src\qcommon\cm_patch.h" />
     <ClInclude Include="..\..\src\qcommon\cm_polylib.h" />
     <ClInclude Include="..\..\src\qcommon\cm_public.h" />
+    <ClInclude Include="..\..\src\qcommon\dl_local.h" />
+    <ClInclude Include="..\..\src\qcommon\dl_public.h" />
     <ClInclude Include="..\..\src\qcommon\htable.h" />
     <ClInclude Include="..\..\src\qcommon\qcommon.h" />
     <ClInclude Include="..\..\src\qcommon\qfiles.h" />
