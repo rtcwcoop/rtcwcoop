@@ -21,13 +21,6 @@ BIN_OBJ="
 BIN_DEDOBJ="
 	build/$TARGET-darwin-i386/wolfspded.i386
 "
-# fretn: we don't need these here, they are in a pk3
-#BASE_OBJ="
-#	build/$TARGET-darwin-i386/$BASEDIR/cgamei386.dylib
-#	build/$TARGET-darwin-i386/$BASEDIR/uii386.dylib
-#	build/$TARGET-darwin-i386/$BASEDIR/qagamei386.dylib
-#"
-
 
 cd `dirname $0`
 if [ ! -f Makefile ]; then
@@ -141,12 +134,9 @@ echo "
 
 lipo -create -o $DESTDIR/$APPBUNDLE/Contents/MacOS/$BINARY $BIN_OBJ
 lipo -create -o $DESTDIR/$APPBUNDLE/Contents/MacOS/$DEDBIN $BIN_DEDOBJ
-# fretn: we don't need these here, they are in a pk3
-#cp $BASE_OBJ $DESTDIR/$APPBUNDLE/Contents/MacOS/$BASEDIR/
 cp src/libs/macosx/libSDL-1.2.0.dylib $DESTDIR/$APPBUNDLE/Contents/MacOS/
-cp src/libs/macosx/libcurl.3.dylib build/$TARGET-darwin-i386/
-# I've probably build libcurl in the wrong way on osx, but this fixes my problem
-install_name_tool -change /Users/fretn/Documents/curl/install/lib/libcurl.3.dylib @executable_path/libcurl.3.dylib build/debug-darwin-i386/wolfsp.i386
+cp src/libs/macosx/libSDL-1.2.0.dylib build/$TARGET-darwin-i386/
+cp src/libs/macosx/libcurl.dylib build/$TARGET-darwin-i386/
 
 
 if [ "$1" = "pk3" ] || [ "$2" = "pk3" ]; then
