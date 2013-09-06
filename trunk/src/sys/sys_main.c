@@ -515,6 +515,13 @@ void *Sys_LoadDll( const char *name,
 	if(!libHandle && basepath)
 		libHandle = Sys_TryLibraryLoad(basepath, gamedir, fname);
 
+	// If mod is not present, use dll from BASEGAME
+	if (!libHandle && strcmp(gamedir, BASEGAME))
+	{
+		Com_Printf("Sys_LoadGameDll: failed to load the mod library. Trying to revert to the default one.\n");
+		libHandle = Sys_TryLibraryLoad(basepath, BASEGAME, fname);
+	}
+
 	if(!libHandle) {
 		Com_Printf ( "Sys_LoadDll(%s) failed to load library\n", name );
 		return NULL;
