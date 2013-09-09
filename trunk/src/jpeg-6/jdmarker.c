@@ -242,8 +242,8 @@ get_sof( j_decompress_ptr cinfo, boolean is_prog, boolean is_arith ) {
 
 	if ( cinfo->comp_info == NULL ) { /* do only once, even if suspend */
 		cinfo->comp_info = ( jpeg_component_info * )( *cinfo->mem->alloc_small )
-						( (j_common_ptr) cinfo, JPOOL_IMAGE,
-						cinfo->num_components * SIZEOF( jpeg_component_info ) );
+							   ( (j_common_ptr) cinfo, JPOOL_IMAGE,
+							   cinfo->num_components * SIZEOF( jpeg_component_info ) );
 	}
 
 	for ( ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
@@ -790,7 +790,7 @@ read_markers( j_decompress_ptr cinfo ) {
 			}
 			break;
 
-			/* Currently unsupported SOFn types */
+		/* Currently unsupported SOFn types */
 		case M_SOF3:    /* Lossless, Huffman */
 		case M_SOF5:    /* Differential sequential, Huffman */
 		case M_SOF6:    /* Differential progressive, Huffman */
@@ -1003,7 +1003,7 @@ jpeg_resync_to_restart( j_decompress_ptr cinfo, int desired ) {
 	for (;; ) {
 		if ( marker < (int) M_SOF0 ) {
 			action = 2; /* invalid marker */
-		} else if ( marker < (int) M_RST0 || marker > (int) M_RST7 )                                             {
+		} else if ( marker < (int) M_RST0 || marker > (int) M_RST7 ) {
 			action = 3; /* valid non-restart marker */
 		} else {
 			if ( marker == ( (int) M_RST0 + ( ( desired + 1 ) & 7 ) ) ||
@@ -1064,8 +1064,8 @@ jinit_marker_reader( j_decompress_ptr cinfo ) {
 
 	/* Create subobject in permanent pool */
 	cinfo->marker = (struct jpeg_marker_reader *)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_PERMANENT,
-											   SIZEOF( struct jpeg_marker_reader ) );
+					( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_PERMANENT,
+												  SIZEOF( struct jpeg_marker_reader ) );
 	/* Initialize method pointers */
 	cinfo->marker->reset_marker_reader = reset_marker_reader;
 	cinfo->marker->read_markers = read_markers;

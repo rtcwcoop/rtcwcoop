@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -187,19 +187,19 @@ void UI_LoadArenas( void ) {
 
 		// if no type specified, it will be treated as "single player"
 		if ( *type ) {
-                         if ( strstr( type, "coop_normal" ) ) {
-                                 uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP );
-                         }
-                         if ( strstr( type, "coop_speedrun" ) ) {
-                                 uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_SPEEDRUN );
-                         }
-                         if ( strstr( type, "coop_battle" ) ) {
-                                 uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_BATTLE );
-                         }
-                         // -NERVE - SMF
-                 } else {
-                         uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
-                 }
+			if ( strstr( type, "coop_normal" ) ) {
+				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP );
+			}
+			if ( strstr( type, "coop_speedrun" ) ) {
+				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_SPEEDRUN );
+			}
+			if ( strstr( type, "coop_battle" ) ) {
+				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_BATTLE );
+			}
+			// -NERVE - SMF
+		} else {
+			uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
+		}
 
 
 		uiInfo.mapCount++;
@@ -321,5 +321,3 @@ char *UI_GetBotNameByNumber( int num ) {
 	}
 	return "Sarge";
 }
-
-

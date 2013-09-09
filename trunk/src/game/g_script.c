@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -142,8 +142,8 @@ g_script_stack_action_t gScriptActions[] =
 	{"mu_stop",                  G_ScriptAction_MusicStop},  // (int time)						// time to fadeout
 	{"mu_fade",                  G_ScriptAction_MusicFade},  // (float target_volume, int time)	// time to fade to target
 	{"mu_queue",             G_ScriptAction_MusicQueue}, // (char *new_music)				// music that will start when previous fades to 0
-	{"objectivesneeded",	G_ScriptAction_ObjectivesNeeded},
-	{"numsecrets",	G_ScriptAction_NumSecrets},
+	{"objectivesneeded",    G_ScriptAction_ObjectivesNeeded},
+	{"numsecrets",  G_ScriptAction_NumSecrets},
 
 	{NULL,                      NULL}
 };
@@ -234,8 +234,8 @@ g_script_stack_action_t *G_Script_ActionForString( char *string ) {
 		if ( !Q_strcasecmp( string, gScriptActions[i].actionString ) ) {
 			// every map now has to define the number of secrets in the .coop.ai file
 			/*if ( !Q_strcasecmp( string, "foundsecret" ) ) {
-				level.numSecrets++;
-				G_SendMissionStats();
+			    level.numSecrets++;
+			    G_SendMissionStats();
 			}*/
 			return &gScriptActions[i];
 		}
@@ -269,11 +269,11 @@ void G_Script_ScriptLoad( void ) {
 	}
 	Q_strncpyz( filename, "maps/", sizeof( filename ) );
 	Q_strcat( filename, sizeof( filename ), mapname.string );
-        if (g_gametype.integer <= GT_COOP) {
-	        Q_strcat( filename, sizeof( filename ), ".coop.script" );
-        } else {
-	        Q_strcat( filename, sizeof( filename ), ".script" );
-        }
+	if ( g_gametype.integer <= GT_COOP ) {
+		Q_strcat( filename, sizeof( filename ), ".coop.script" );
+	} else {
+		Q_strcat( filename, sizeof( filename ), ".script" );
+	}
 
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 
@@ -355,17 +355,17 @@ void G_Script_ScriptParse( gentity_t *ent ) {
 				G_Error( "G_Script_ScriptParse(), Error (line %d): '}' found, but not expected.\n", COM_GetCurrentParseLine() );
 			}
 			wantName = qtrue;
-		} else if ( token[0] == '{' )    {
+		} else if ( token[0] == '{' ) {
 			if ( wantName ) {
 				G_Error( "G_Script_ScriptParse(), Error (line %d): '{' found, NAME expected.\n", COM_GetCurrentParseLine() );
 			}
-		} else if ( wantName )   {
+		} else if ( wantName ) {
 			if ( !Q_strcasecmp( ent->scriptName, token ) ) {
 				inScript = qtrue;
 				numEventItems = 0;
 			}
 			wantName = qfalse;
-		} else if ( inScript )   {
+		} else if ( inScript ) {
 			//if ( !Q_strcasecmp( token, "attributes" ) ) {
 			//	// read in all the attributes
 			//	G_Script_CheckLevelAttributes( cs, ent, &pScript );

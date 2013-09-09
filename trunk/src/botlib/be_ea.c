@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -386,22 +386,22 @@ void EA_View( int client, vec3_t viewangles ) {
 //===========================================================================
 void EA_EndRegular( int client, float thinktime ) {
 /*
-	bot_input_t *bi;
-	int jumped = qfalse;
+    bot_input_t *bi;
+    int jumped = qfalse;
 
-	bi = &botinputs[client];
+    bi = &botinputs[client];
 
-	bi->actionflags &= ~ACTION_JUMPEDLASTFRAME;
+    bi->actionflags &= ~ACTION_JUMPEDLASTFRAME;
 
-	bi->thinktime = thinktime;
-	botimport.BotInput(client, bi);
+    bi->thinktime = thinktime;
+    botimport.BotInput(client, bi);
 
-	bi->thinktime = 0;
-	VectorClear(bi->dir);
-	bi->speed = 0;
-	jumped = bi->actionflags & ACTION_JUMP;
-	bi->actionflags = 0;
-	if (jumped) bi->actionflags |= ACTION_JUMPEDLASTFRAME;
+    bi->thinktime = 0;
+    VectorClear(bi->dir);
+    bi->speed = 0;
+    jumped = bi->actionflags & ACTION_JUMP;
+    bi->actionflags = 0;
+    if (jumped) bi->actionflags |= ACTION_JUMPEDLASTFRAME;
 */
 } //end of the function EA_EndRegular
 //===========================================================================

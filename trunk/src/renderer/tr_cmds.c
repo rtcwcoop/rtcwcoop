@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -300,33 +300,33 @@ RE_RotatedPic
 =============
 */
 void RE_RotatedPic( float x, float y, float w, float h,
-                                        float s1, float t1, float s2, float t2, qhandle_t hShader, float angle ) { 
-        stretchPicCommand_t *cmd;
+					float s1, float t1, float s2, float t2, qhandle_t hShader, float angle ) {
+	stretchPicCommand_t *cmd;
 
-        cmd = R_GetCommandBuffer( sizeof( *cmd ) );
-        if ( !cmd ) { 
-                return;
-        }   
-        cmd->commandId = RC_ROTATED_PIC;
-        cmd->shader = R_GetShaderByHandle( hShader );
-        cmd->x = x;
-        cmd->y = y;
-        cmd->w = w;
-        cmd->h = h;
+	cmd = R_GetCommandBuffer( sizeof( *cmd ) );
+	if ( !cmd ) {
+		return;
+	}
+	cmd->commandId = RC_ROTATED_PIC;
+	cmd->shader = R_GetShaderByHandle( hShader );
+	cmd->x = x;
+	cmd->y = y;
+	cmd->w = w;
+	cmd->h = h;
 
-        // fixup
-        cmd->w /= 2;
-        cmd->h /= 2;
-        cmd->x += cmd->w;
-        cmd->y += cmd->h;
-        cmd->w = sqrt( ( cmd->w * cmd->w ) + ( cmd->h * cmd->h ) );
-        cmd->h = cmd->w;
+	// fixup
+	cmd->w /= 2;
+	cmd->h /= 2;
+	cmd->x += cmd->w;
+	cmd->y += cmd->h;
+	cmd->w = sqrt( ( cmd->w * cmd->w ) + ( cmd->h * cmd->h ) );
+	cmd->h = cmd->w;
 
-        cmd->angle = angle;
-        cmd->s1 = s1; 
-        cmd->t1 = t1; 
-        cmd->s2 = s2; 
-        cmd->t2 = t2; 
+	cmd->angle = angle;
+	cmd->s1 = s1;
+	cmd->t1 = t1;
+	cmd->s2 = s2;
+	cmd->t2 = t2;
 }
 
 
@@ -397,7 +397,7 @@ void RE_BeginFrame( stereoFrame_t stereoFrame ) {
 			ri.Printf( PRINT_ALL, "Warning: not enough stencil bits to measure overdraw: %d\n", glConfig.stencilBits );
 			ri.Cvar_Set( "r_measureOverdraw", "0" );
 			r_measureOverdraw->modified = qfalse;
-		} else if ( r_shadows->integer == 2 )   {
+		} else if ( r_shadows->integer == 2 ) {
 			ri.Printf( PRINT_ALL, "Warning: stencil shadows and overdraw measurement are mutually exclusive\n" );
 			ri.Cvar_Set( "r_measureOverdraw", "0" );
 			r_measureOverdraw->modified = qfalse;
@@ -595,24 +595,24 @@ void RE_EndFrame( int *frontEndMsec, int *backEndMsec ) {
 RE_RenderToTexture
 ==================
 */
-void RE_RenderToTexture( int textureid, int x, int y, int w, int h ) { 
-        renderToTextureCommand_t    *cmd;
+void RE_RenderToTexture( int textureid, int x, int y, int w, int h ) {
+	renderToTextureCommand_t    *cmd;
 
 //      ri.Printf( PRINT_ALL, "RE_RenderToTexture\n" );
 
-        if ( textureid > tr.numImages || textureid < 0 ) { 
-                ri.Printf( PRINT_ALL, "Warning: trap_R_RenderToTexture textureid %d out of range.\n", textureid );
-                return;
-        }   
+	if ( textureid > tr.numImages || textureid < 0 ) {
+		ri.Printf( PRINT_ALL, "Warning: trap_R_RenderToTexture textureid %d out of range.\n", textureid );
+		return;
+	}
 
-        cmd = R_GetCommandBuffer( sizeof( *cmd ) );
-        if ( !cmd ) { 
-                return;
-        }   
-        cmd->commandId = RC_RENDERTOTEXTURE;
-        cmd->image = tr.images[textureid];
-        cmd->x = x;
-        cmd->y = y;
-        cmd->w = w;
-        cmd->h = h;
+	cmd = R_GetCommandBuffer( sizeof( *cmd ) );
+	if ( !cmd ) {
+		return;
+	}
+	cmd->commandId = RC_RENDERTOTEXTURE;
+	cmd->image = tr.images[textureid];
+	cmd->x = x;
+	cmd->y = y;
+	cmd->w = w;
+	cmd->h = h;
 }

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -182,28 +182,28 @@ void    CG_Trace( trace_t *result, const vec3_t start, const vec3_t mins, const 
 	*result = t;
 }
 
-void	CG_Trace_World( trace_t *result, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, 
-					 int skipNumber, int mask ) {
-	trace_t	t;
+void    CG_Trace_World( trace_t *result, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end,
+						int skipNumber, int mask ) {
+	trace_t t;
 
-	trap_CM_BoxTrace ( &t, start, end, mins, maxs, 0, mask );
+	trap_CM_BoxTrace( &t, start, end, mins, maxs, 0, mask );
 	t.entityNum = t.fraction != 1.0 ? ENTITYNUM_WORLD : ENTITYNUM_NONE;
 
 	*result = t;
 }
 
 qboolean PointVisible( vec3_t point ) {
-    trace_t trace;
-    //vec3_t tmp;
+	trace_t trace;
+	//vec3_t tmp;
 
-    CG_Trace_World( &trace, cg.refdef.vieworg, NULL, NULL, point, 0, MASK_SOLID );
+	CG_Trace_World( &trace, cg.refdef.vieworg, NULL, NULL, point, 0, MASK_SOLID );
 
-    if ( trace.fraction != 1.0 ) {
-	return qfalse;
-    }
+	if ( trace.fraction != 1.0 ) {
+		return qfalse;
+	}
 
-    return qtrue;
-} 
+	return qtrue;
+}
 
 /*
 ================
@@ -631,7 +631,7 @@ void CG_PredictPlayerState( void ) {
 
 	if ( pmove_msec.integer < 8 ) {
 		trap_Cvar_Set( "pmove_msec", "8" );
-	} else if ( pmove_msec.integer > 33 )     {
+	} else if ( pmove_msec.integer > 33 ) {
 		trap_Cvar_Set( "pmove_msec", "33" );
 	}
 
@@ -784,4 +784,3 @@ void CG_PredictPlayerState( void ) {
 	// fire events and other transition triggered things
 	CG_TransitionPlayerState( &cg.predictedPlayerState, &oldPlayerState );
 }
-

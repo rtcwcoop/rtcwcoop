@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -407,7 +407,7 @@ typedef struct cast_state_s
 
 	int lastGetHidePos;
 	int startAttackCount;       // incremented each time we start a standing attack
-								// used to make sure we only find a combat spot once per attack
+	                            // used to make sure we only find a combat spot once per attack
 	int combatSpotAttackCount;
 	int combatSpotDelayTime;
 	int startBattleChaseTime;
@@ -554,9 +554,9 @@ typedef struct cast_state_s
 	// if working on a post release patch, new variables should ONLY be inserted after this point
 	// -------------------------------------------------------------------------------------------
 
-        qboolean        died; // for g_airespawn
-        qboolean        norespawn;
-	int		respawnsleft;
+	qboolean died;            // for g_airespawn
+	qboolean norespawn;
+	int respawnsleft;
 
 } cast_state_t;
 //

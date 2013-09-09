@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,9 +29,9 @@ If you have questions concerning this license or the applicable additional terms
 // Copyright (C) 1999-2000 Id Software, Inc.
 //
 /**********************************************************************
-	UI_ATOMS.C
+    UI_ATOMS.C
 
-	User interface building blocks and support functions.
+    User interface building blocks and support functions.
 **********************************************************************/
 #include "ui_local.h"
 
@@ -92,15 +92,15 @@ void UI_StartDemoLoop( void ) {
 // TTimo: unused
 /*
 static void NeedCDAction( qboolean result ) {
-	if ( !result ) {
-		trap_Cmd_ExecuteText( EXEC_APPEND, "quit\n" );
-	}
+    if ( !result ) {
+        trap_Cmd_ExecuteText( EXEC_APPEND, "quit\n" );
+    }
 }
 
 static void NeedCDKeyAction( qboolean result ) {
-	if ( !result ) {
-		trap_Cmd_ExecuteText( EXEC_APPEND, "quit\n" );
-	}
+    if ( !result ) {
+        trap_Cmd_ExecuteText( EXEC_APPEND, "quit\n" );
+    }
 }
 */
 
@@ -348,5 +348,3 @@ qboolean UI_CursorInRect( int x, int y, int width, int height ) {
 
 	return qtrue;
 }
-
-

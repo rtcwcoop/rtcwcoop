@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -462,27 +462,24 @@ static void ProjectDlightTexture( void ) {
 		VectorCopy( dl->transformed, origin );
 		radius = dl->radius;
 		scale = 1.0f / radius;
-                if(r_greyscale->integer == 1)
-                {    
-                        float luminance;
-     
-                        //luminance = (dl->color[0] * 255.0f + dl->color[1] * 255.0f + dl->color[2] * 255.0f) / 3; 
-                        luminance = LUMA(dl->color[0], dl->color[1], dl->color[2]) * 255.0f;
-                        floatColor[0] = floatColor[1] = floatColor[2] = luminance;
-                }
-                else if(r_greyscale->value && r_greyscale->integer < 1)
-                {
-                        float luminance;
-                       
-                        luminance = LUMA(dl->color[0], dl->color[1], dl->color[2]) * 255.0f;
-                        floatColor[0] = LERP(dl->color[0] * 255.0f, luminance, r_greyscale->value);
-                        floatColor[1] = LERP(dl->color[1] * 255.0f, luminance, r_greyscale->value);
-                        floatColor[2] = LERP(dl->color[2] * 255.0f, luminance, r_greyscale->value);
-                } else { 
-                        floatColor[0] = dl->color[0] * 255.0f;
-                        floatColor[1] = dl->color[1] * 255.0f;
-                        floatColor[2] = dl->color[2] * 255.0f;
-                }
+		if ( r_greyscale->integer == 1 ) {
+			float luminance;
+
+			//luminance = (dl->color[0] * 255.0f + dl->color[1] * 255.0f + dl->color[2] * 255.0f) / 3;
+			luminance = LUMA( dl->color[0], dl->color[1], dl->color[2] ) * 255.0f;
+			floatColor[0] = floatColor[1] = floatColor[2] = luminance;
+		} else if ( r_greyscale->value && r_greyscale->integer < 1 )      {
+			float luminance;
+
+			luminance = LUMA( dl->color[0], dl->color[1], dl->color[2] ) * 255.0f;
+			floatColor[0] = LERP( dl->color[0] * 255.0f, luminance, r_greyscale->value );
+			floatColor[1] = LERP( dl->color[1] * 255.0f, luminance, r_greyscale->value );
+			floatColor[2] = LERP( dl->color[2] * 255.0f, luminance, r_greyscale->value );
+		} else {
+			floatColor[0] = dl->color[0] * 255.0f;
+			floatColor[1] = dl->color[1] * 255.0f;
+			floatColor[2] = dl->color[2] * 255.0f;
+		}
 
 		for ( i = 0 ; i < tess.numVertexes ; i++, texCoords += 2, colors += 4 ) {
 			vec3_t dist;
@@ -596,42 +593,42 @@ static void ProjectDlightTexture( void ) {
 					backEnd.pc.c_dlightIndexes += numIndexes;
 				}
 /*
-				} else {	// optimize for multitexture
+                } else {	// optimize for multitexture
 
-					for(i=0;i<dls->numUnfoggedPasses;)
-					{
-						shaderStage_t *stage = dls->stages[i];
+                    for(i=0;i<dls->numUnfoggedPasses;)
+                    {
+                        shaderStage_t *stage = dls->stages[i];
 
-						GL_State(stage->stateBits | GLS_DEPTHFUNC_EQUAL);
+                        GL_State(stage->stateBits | GLS_DEPTHFUNC_EQUAL);
 
-						// setup each TMU
-						for (tmu=0; tmu<glConfig.maxActiveTextures && i<dls->numUnfoggedPasses; tmu++, i++) {
+                        // setup each TMU
+                        for (tmu=0; tmu<glConfig.maxActiveTextures && i<dls->numUnfoggedPasses; tmu++, i++) {
 
-							GL_SelectTexture( tmu );
+                            GL_SelectTexture( tmu );
 
-							if (tmu) {
-								qglEnable( GL_TEXTURE_2D );
-							}
+                            if (tmu) {
+                                qglEnable( GL_TEXTURE_2D );
+                            }
 
-							R_BindAnimatedImage( &dls->stages[i]->bundle[0] );
-						}
+                            R_BindAnimatedImage( &dls->stages[i]->bundle[0] );
+                        }
 
-						// draw the elements
-						R_DrawElements( numIndexes, hitIndexes );
-						backEnd.pc.c_totalIndexes += numIndexes;
-						backEnd.pc.c_dlightIndexes += numIndexes;
-					}
+                        // draw the elements
+                        R_DrawElements( numIndexes, hitIndexes );
+                        backEnd.pc.c_totalIndexes += numIndexes;
+                        backEnd.pc.c_dlightIndexes += numIndexes;
+                    }
 
-					// turn off unused TMU's
-					for (tmu=1; tmu<glConfig.maxActiveTextures; tmu++) {
-						// set back to default state
-						GL_SelectTexture( tmu );
-						qglDisable( GL_TEXTURE_2D );
-					}
+                    // turn off unused TMU's
+                    for (tmu=1; tmu<glConfig.maxActiveTextures; tmu++) {
+                        // set back to default state
+                        GL_SelectTexture( tmu );
+                        qglDisable( GL_TEXTURE_2D );
+                    }
 
-					// return to TEXTURE0
-					GL_SelectTexture( 0 );
-				}
+                    // return to TEXTURE0
+                    GL_SelectTexture( 0 );
+                }
 */
 			} else
 			{
@@ -654,53 +651,53 @@ static void ProjectDlightTexture( void ) {
 					backEnd.pc.c_dlightIndexes += numIndexes;
 				}
 /*
-				} else {	// optimize for multitexture
+                } else {	// optimize for multitexture
 
-					GL_State( GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ONE | GLS_DEPTHFUNC_EQUAL );
+                    GL_State( GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ONE | GLS_DEPTHFUNC_EQUAL );
 
-					// setup each TMU (use all available TMU's)
-					for (tmu=0; tmu<glConfig.maxActiveTextures && tmu<(dl->overdraw+1); tmu++) {
-						GL_SelectTexture( tmu );
-						if (tmu) {
-							qglEnable( GL_TEXTURE_2D );
-							GL_TexEnv( GL_ADD );
-							GL_State( GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ONE | GLS_DEPTHFUNC_EQUAL );
-							qglEnableClientState( GL_TEXTURE_COORD_ARRAY );
-							qglTexCoordPointer( 2, GL_FLOAT, 0, texCoordsArray[0] );
-							qglEnableClientState( GL_COLOR_ARRAY );
-							qglColorPointer( 4, GL_UNSIGNED_BYTE, 0, colorArray );
-						}
-						GL_Bind( tr.dlightImage );
-					}
+                    // setup each TMU (use all available TMU's)
+                    for (tmu=0; tmu<glConfig.maxActiveTextures && tmu<(dl->overdraw+1); tmu++) {
+                        GL_SelectTexture( tmu );
+                        if (tmu) {
+                            qglEnable( GL_TEXTURE_2D );
+                            GL_TexEnv( GL_ADD );
+                            GL_State( GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ONE | GLS_DEPTHFUNC_EQUAL );
+                            qglEnableClientState( GL_TEXTURE_COORD_ARRAY );
+                            qglTexCoordPointer( 2, GL_FLOAT, 0, texCoordsArray[0] );
+                            qglEnableClientState( GL_COLOR_ARRAY );
+                            qglColorPointer( 4, GL_UNSIGNED_BYTE, 0, colorArray );
+                        }
+                        GL_Bind( tr.dlightImage );
+                    }
 
-					// draw each bundle
-					for(i=0; i<(dl->overdraw+1); i+=glConfig.maxActiveTextures)
-					{
-						// make sure we dont draw with too many TMU's
-						if (i+glConfig.maxActiveTextures>(dl->overdraw+1)) {
-							for (tmu=0; tmu<glConfig.maxActiveTextures; tmu++) {
-								if (tmu+i>=(dl->overdraw+1)) {
-									GL_SelectTexture( tmu );
-									qglDisable( GL_TEXTURE_2D );
-								}
-							}
-						}
-						// draw the elements
-						R_DrawElements( numIndexes, hitIndexes );
-						backEnd.pc.c_totalIndexes += numIndexes;
-						backEnd.pc.c_dlightIndexes += numIndexes;
-					}
+                    // draw each bundle
+                    for(i=0; i<(dl->overdraw+1); i+=glConfig.maxActiveTextures)
+                    {
+                        // make sure we dont draw with too many TMU's
+                        if (i+glConfig.maxActiveTextures>(dl->overdraw+1)) {
+                            for (tmu=0; tmu<glConfig.maxActiveTextures; tmu++) {
+                                if (tmu+i>=(dl->overdraw+1)) {
+                                    GL_SelectTexture( tmu );
+                                    qglDisable( GL_TEXTURE_2D );
+                                }
+                            }
+                        }
+                        // draw the elements
+                        R_DrawElements( numIndexes, hitIndexes );
+                        backEnd.pc.c_totalIndexes += numIndexes;
+                        backEnd.pc.c_dlightIndexes += numIndexes;
+                    }
 
-					// turn off unused TMU's
-					for (tmu=1; tmu<glConfig.maxActiveTextures; tmu++) {
-						// set back to default state
-						GL_SelectTexture( tmu );
-						qglDisable( GL_TEXTURE_2D );
-					}
+                    // turn off unused TMU's
+                    for (tmu=1; tmu<glConfig.maxActiveTextures; tmu++) {
+                        // set back to default state
+                        GL_SelectTexture( tmu );
+                        qglDisable( GL_TEXTURE_2D );
+                    }
 
-					// return to TEXTURE0
-					GL_SelectTexture( 0 );
-				}
+                    // return to TEXTURE0
+                    GL_SelectTexture( 0 );
+                }
 */
 				R_FogOn();
 			}
@@ -870,7 +867,7 @@ static void ComputeColors( shaderStage_t *pStage ) {
 	case AGEN_ONE_MINUS_ENTITY:
 		RB_CalcAlphaFromOneMinusEntity( ( unsigned char * ) tess.svars.colors );
 		break;
-		// Ridah
+	// Ridah
 	case AGEN_NORMALZFADE:
 	{
 		float alpha, range, lowest, highest, dot;
@@ -942,7 +939,7 @@ static void ComputeColors( shaderStage_t *pStage ) {
 		}
 	}
 	break;
-		// done.
+	// done.
 	case AGEN_VERTEX:
 		if ( pStage->rgbGen != CGEN_VERTEX ) {
 			for ( i = 0; i < tess.numVertexes; i++ ) {
@@ -972,7 +969,7 @@ static void ComputeColors( shaderStage_t *pStage ) {
 
 			if ( len < 0 ) {
 				alpha = 0;
-			} else if ( len > 1 )   {
+			} else if ( len > 1 ) {
 				alpha = 0xff;
 			} else
 			{
@@ -1005,28 +1002,25 @@ static void ComputeColors( shaderStage_t *pStage ) {
 		}
 	}
 
-        // if in greyscale rendering mode turn all color values into greyscale.
-        if(r_greyscale->integer == 1)
-        {
-                int scale;
-                for(i = 0; i < tess.numVertexes; i++)
-                {
-                       scale = LUMA(tess.svars.colors[i][0], tess.svars.colors[i][1], tess.svars.colors[i][2]);
-                       tess.svars.colors[i][0] = tess.svars.colors[i][1] = tess.svars.colors[i][2] = scale;
-                }
-        }
-        else if(r_greyscale->value && r_greyscale->integer < 1)
-        {
-                float scale; 
+	// if in greyscale rendering mode turn all color values into greyscale.
+	if ( r_greyscale->integer == 1 ) {
+		int scale;
+		for ( i = 0; i < tess.numVertexes; i++ )
+		{
+			scale = LUMA( tess.svars.colors[i][0], tess.svars.colors[i][1], tess.svars.colors[i][2] );
+			tess.svars.colors[i][0] = tess.svars.colors[i][1] = tess.svars.colors[i][2] = scale;
+		}
+	} else if ( r_greyscale->value && r_greyscale->integer < 1 )      {
+		float scale;
 
-                for(i = 0; i < tess.numVertexes; i++)
-                {
-                       scale = LUMA(tess.svars.colors[i][0], tess.svars.colors[i][1], tess.svars.colors[i][2]);
-                       tess.svars.colors[i][0] = LERP(tess.svars.colors[i][0], scale, r_greyscale->value);
-                       tess.svars.colors[i][1] = LERP(tess.svars.colors[i][1], scale, r_greyscale->value);
-                       tess.svars.colors[i][2] = LERP(tess.svars.colors[i][2], scale, r_greyscale->value);
-                }
-        }
+		for ( i = 0; i < tess.numVertexes; i++ )
+		{
+			scale = LUMA( tess.svars.colors[i][0], tess.svars.colors[i][1], tess.svars.colors[i][2] );
+			tess.svars.colors[i][0] = LERP( tess.svars.colors[i][0], scale, r_greyscale->value );
+			tess.svars.colors[i][1] = LERP( tess.svars.colors[i][1], scale, r_greyscale->value );
+			tess.svars.colors[i][2] = LERP( tess.svars.colors[i][2], scale, r_greyscale->value );
+		}
+	}
 }
 
 /*
@@ -1144,7 +1138,7 @@ extern void R_Fog( glfog_t *curfog );
 /*
 ==============
 SetIteratorFog
-	set the fog parameters for this pass
+    set the fog parameters for this pass
 ==============
 */
 void SetIteratorFog( void ) {
@@ -1514,9 +1508,10 @@ void RB_StageIteratorVertexLitTexture( void ) {
 	}
 
 	if ( qglPNTrianglesiATI && tess.ATI_tess )
-#ifdef __MACOS__ //DAJ ATI{
+#ifdef __MACOS__ //DAJ ATI{{
 		qglPNTrianglesiATI( GL_PN_TRIANGLES_ATI, 0 );
 	}
+}
 #else
 	{ qglDisable( GL_PN_TRIANGLES_ATI );    // ATI PN-Triangles extension
 	}
@@ -1646,9 +1641,10 @@ void RB_StageIteratorLightmappedMultitexture( void ) {
 	}
 
 	if ( qglPNTrianglesiATI && tess.ATI_tess )
-#ifdef __MACOS__ //DAJ ATI{
+#ifdef __MACOS__ //DAJ ATI{{
 		qglPNTrianglesiATI( GL_PN_TRIANGLES_ATI, 0 );
 	}
+}
 #else
 	{ qglDisable( GL_PN_TRIANGLES_ATI );    // ATI PN-Triangles extension
 	}
@@ -1730,4 +1726,3 @@ void RB_EndSurface( void ) {
 
 	GLimp_LogComment( "----------\n" );
 }
-

@@ -128,7 +128,7 @@ jcopy_sample_rows( JSAMPARRAY input_array, int source_row,
 		FMEMCOPY( outptr, inptr, count );
 #else
 		for ( count = num_cols; count > 0; count-- )
-			*outptr++ = *inptr++; /* needn't bother with GETJSAMPLE() here */
+			*outptr++ = *inptr++;  /* needn't bother with GETJSAMPLE() here */
 #endif
 	}
 }

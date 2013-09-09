@@ -56,7 +56,7 @@ struct jpeg_comp_master {
 struct jpeg_c_main_controller {
 	JMETHOD( void, start_pass, ( j_compress_ptr cinfo, J_BUF_MODE pass_mode ) );
 	JMETHOD( void, process_data, ( j_compress_ptr cinfo,
-								   JSAMPARRAY input_buf, JDIMENSION *in_row_ctr,
+								   JSAMPARRAY input_buf, JDIMENSION * in_row_ctr,
 								   JDIMENSION in_rows_avail ) );
 };
 
@@ -65,10 +65,10 @@ struct jpeg_c_prep_controller {
 	JMETHOD( void, start_pass, ( j_compress_ptr cinfo, J_BUF_MODE pass_mode ) );
 	JMETHOD( void, pre_process_data, ( j_compress_ptr cinfo,
 									   JSAMPARRAY input_buf,
-													  JDIMENSION *in_row_ctr,
+									   JDIMENSION * in_row_ctr,
 									   JDIMENSION in_rows_avail,
 									   JSAMPIMAGE output_buf,
-													  JDIMENSION *out_row_group_ctr,
+									   JDIMENSION * out_row_group_ctr,
 									   JDIMENSION out_row_groups_avail ) );
 };
 
@@ -103,7 +103,7 @@ struct jpeg_forward_dct {
 	JMETHOD( void, start_pass, (j_compress_ptr cinfo) );
 	/* perhaps this should be an array??? */
 	JMETHOD( void, forward_DCT, ( j_compress_ptr cinfo,
-												 jpeg_component_info * compptr,
+								  jpeg_component_info * compptr,
 								  JSAMPARRAY sample_data, JBLOCKROW coef_blocks,
 								  JDIMENSION start_row, JDIMENSION start_col,
 								  JDIMENSION num_blocks ) );
@@ -112,7 +112,7 @@ struct jpeg_forward_dct {
 /* Entropy encoding */
 struct jpeg_entropy_encoder {
 	JMETHOD( void, start_pass, ( j_compress_ptr cinfo, boolean gather_statistics ) );
-	JMETHOD( boolean, encode_mcu, ( j_compress_ptr cinfo, JBLOCKROW *MCU_data ) );
+	JMETHOD( boolean, encode_mcu, ( j_compress_ptr cinfo, JBLOCKROW * MCU_data ) );
 	JMETHOD( void, finish_pass, (j_compress_ptr cinfo) );
 };
 
@@ -121,7 +121,7 @@ struct jpeg_marker_writer {
 	/* write_any_marker is exported for use by applications */
 	/* Probably only COM and APPn markers should be written */
 	JMETHOD( void, write_any_marker, ( j_compress_ptr cinfo, int marker,
-									   const JOCTET *dataptr, unsigned int datalen ) );
+									   const JOCTET * dataptr, unsigned int datalen ) );
 	JMETHOD( void, write_file_header, (j_compress_ptr cinfo) );
 	JMETHOD( void, write_frame_header, (j_compress_ptr cinfo) );
 	JMETHOD( void, write_scan_header, (j_compress_ptr cinfo) );
@@ -157,7 +157,7 @@ struct jpeg_input_controller {
 struct jpeg_d_main_controller {
 	JMETHOD( void, start_pass, ( j_decompress_ptr cinfo, J_BUF_MODE pass_mode ) );
 	JMETHOD( void, process_data, ( j_decompress_ptr cinfo,
-								   JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
+								   JSAMPARRAY output_buf, JDIMENSION * out_row_ctr,
 								   JDIMENSION out_rows_avail ) );
 };
 
@@ -177,10 +177,10 @@ struct jpeg_d_post_controller {
 	JMETHOD( void, start_pass, ( j_decompress_ptr cinfo, J_BUF_MODE pass_mode ) );
 	JMETHOD( void, post_process_data, ( j_decompress_ptr cinfo,
 										JSAMPIMAGE input_buf,
-														 JDIMENSION *in_row_group_ctr,
+										JDIMENSION * in_row_group_ctr,
 										JDIMENSION in_row_groups_avail,
 										JSAMPARRAY output_buf,
-														 JDIMENSION *out_row_ctr,
+										JDIMENSION * out_row_ctr,
 										JDIMENSION out_rows_avail ) );
 };
 
@@ -211,7 +211,7 @@ struct jpeg_marker_reader {
 struct jpeg_entropy_decoder {
 	JMETHOD( void, start_pass, (j_decompress_ptr cinfo) );
 	JMETHOD( boolean, decode_mcu, ( j_decompress_ptr cinfo,
-													 JBLOCKROW *MCU_data ) );
+									JBLOCKROW * MCU_data ) );
 };
 
 /* Inverse DCT (also performs dequantization) */
@@ -231,10 +231,10 @@ struct jpeg_upsampler {
 	JMETHOD( void, start_pass, (j_decompress_ptr cinfo) );
 	JMETHOD( void, upsample, ( j_decompress_ptr cinfo,
 							   JSAMPIMAGE input_buf,
-												JDIMENSION *in_row_group_ctr,
+							   JDIMENSION * in_row_group_ctr,
 							   JDIMENSION in_row_groups_avail,
 							   JSAMPARRAY output_buf,
-												JDIMENSION *out_row_ctr,
+							   JDIMENSION * out_row_ctr,
 							   JDIMENSION out_rows_avail ) );
 
 	boolean need_context_rows;  /* TRUE if need rows above & below */
@@ -281,8 +281,8 @@ struct jpeg_color_quantizer {
 #define SHIFT_TEMPS INT32 shift_temp;
 #define RIGHT_SHIFT( x,shft )  \
 	( ( shift_temp = ( x ) ) < 0 ? \
-					 ( shift_temp >> ( shft ) ) | ( ( ~( (INT32) 0 ) ) << ( 32 - ( shft ) ) ) :	\
-					 ( shift_temp >> ( shft ) ) )
+	  ( shift_temp >> ( shft ) ) | ( ( ~( (INT32) 0 ) ) << ( 32 - ( shft ) ) ) : \
+	  ( shift_temp >> ( shft ) ) )
 #else
 #define SHIFT_TEMPS
 #define RIGHT_SHIFT( x,shft ) ( ( x ) >> ( shft ) )

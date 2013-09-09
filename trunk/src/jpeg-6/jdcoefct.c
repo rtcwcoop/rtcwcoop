@@ -250,9 +250,9 @@ consume_data( j_decompress_ptr cinfo ) {
 	for ( ci = 0; ci < cinfo->comps_in_scan; ci++ ) {
 		compptr = cinfo->cur_comp_info[ci];
 		buffer[ci] = ( *cinfo->mem->access_virt_barray )
-				  ( (j_common_ptr) cinfo, coef->whole_image[compptr->component_index],
-				  cinfo->input_iMCU_row * compptr->v_samp_factor,
-				  (JDIMENSION) compptr->v_samp_factor, TRUE );
+						 ( (j_common_ptr) cinfo, coef->whole_image[compptr->component_index],
+						 cinfo->input_iMCU_row * compptr->v_samp_factor,
+						 (JDIMENSION) compptr->v_samp_factor, TRUE );
 		/* Note: entropy decoder expects buffer to be zeroed,
 		 * but this is handled automatically by the memory manager
 		 * because we requested a pre-zeroed array.
@@ -337,9 +337,9 @@ decompress_data( j_decompress_ptr cinfo, JSAMPIMAGE output_buf ) {
 		}
 		/* Align the virtual buffer for this component. */
 		buffer = ( *cinfo->mem->access_virt_barray )
-				  ( (j_common_ptr) cinfo, coef->whole_image[ci],
-				  cinfo->output_iMCU_row * compptr->v_samp_factor,
-				  (JDIMENSION) compptr->v_samp_factor, FALSE );
+					 ( (j_common_ptr) cinfo, coef->whole_image[ci],
+					 cinfo->output_iMCU_row * compptr->v_samp_factor,
+					 (JDIMENSION) compptr->v_samp_factor, FALSE );
 		/* Count non-dummy DCT block rows in this iMCU row. */
 		if ( cinfo->output_iMCU_row < last_iMCU_row ) {
 			block_rows = compptr->v_samp_factor;
@@ -515,15 +515,15 @@ decompress_smooth_data( j_decompress_ptr cinfo, JSAMPIMAGE output_buf ) {
 		if ( cinfo->output_iMCU_row > 0 ) {
 			access_rows += compptr->v_samp_factor; /* prior iMCU row too */
 			buffer = ( *cinfo->mem->access_virt_barray )
-				( (j_common_ptr) cinfo, coef->whole_image[ci],
-				( cinfo->output_iMCU_row - 1 ) * compptr->v_samp_factor,
-				(JDIMENSION) access_rows, FALSE );
+						 ( (j_common_ptr) cinfo, coef->whole_image[ci],
+						 ( cinfo->output_iMCU_row - 1 ) * compptr->v_samp_factor,
+						 (JDIMENSION) access_rows, FALSE );
 			buffer += compptr->v_samp_factor; /* point to current iMCU row */
 			first_row = FALSE;
 		} else {
 			buffer = ( *cinfo->mem->access_virt_barray )
-				( (j_common_ptr) cinfo, coef->whole_image[ci],
-				(JDIMENSION) 0, (JDIMENSION) access_rows, FALSE );
+						 ( (j_common_ptr) cinfo, coef->whole_image[ci],
+						 (JDIMENSION) 0, (JDIMENSION) access_rows, FALSE );
 			first_row = TRUE;
 		}
 		/* Fetch component-dependent info */
@@ -688,8 +688,8 @@ jinit_d_coef_controller( j_decompress_ptr cinfo, boolean need_full_buffer ) {
 	my_coef_ptr coef;
 
 	coef = (my_coef_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_coef_controller ) );
+		   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										 SIZEOF( my_coef_controller ) );
 	cinfo->coef = (struct jpeg_d_coef_controller *) coef;
 	coef->pub.start_input_pass = start_input_pass;
 	coef->pub.start_output_pass = start_output_pass;
@@ -716,12 +716,12 @@ jinit_d_coef_controller( j_decompress_ptr cinfo, boolean need_full_buffer ) {
 			}
 #endif
 			coef->whole_image[ci] = ( *cinfo->mem->request_virt_barray )
-				( (j_common_ptr) cinfo, JPOOL_IMAGE, TRUE,
-				(JDIMENSION) jround_up( (long) compptr->width_in_blocks,
-										(long) compptr->h_samp_factor ),
-				(JDIMENSION) jround_up( (long) compptr->height_in_blocks,
-										(long) compptr->v_samp_factor ),
-				(JDIMENSION) access_rows );
+										( (j_common_ptr) cinfo, JPOOL_IMAGE, TRUE,
+										(JDIMENSION) jround_up( (long) compptr->width_in_blocks,
+																(long) compptr->h_samp_factor ),
+										(JDIMENSION) jround_up( (long) compptr->height_in_blocks,
+																(long) compptr->v_samp_factor ),
+										(JDIMENSION) access_rows );
 		}
 		coef->pub.consume_data = consume_data;
 		coef->pub.decompress_data = decompress_data;
@@ -735,8 +735,8 @@ jinit_d_coef_controller( j_decompress_ptr cinfo, boolean need_full_buffer ) {
 		int i;
 
 		buffer = (JBLOCKROW)
-				  ( *cinfo->mem->alloc_large ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-												 D_MAX_BLOCKS_IN_MCU * SIZEOF( JBLOCK ) );
+				 ( *cinfo->mem->alloc_large )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+											   D_MAX_BLOCKS_IN_MCU * SIZEOF( JBLOCK ) );
 		for ( i = 0; i < D_MAX_BLOCKS_IN_MCU; i++ ) {
 			coef->MCU_buffer[i] = buffer + i;
 		}

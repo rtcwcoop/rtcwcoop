@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -144,7 +144,7 @@ typedef enum {
 	UI_LAN_COMPARESERVERS,
 	UI_CL_GETLIMBOSTRING,           // NERVE - SMF
 #ifdef LOCALISATION
-        UI_CL_TRANSLATE_STRING,
+	UI_CL_TRANSLATE_STRING,
 #endif
 	UI_MEMSET = 100,
 	UI_MEMCPY,
@@ -187,15 +187,15 @@ typedef enum {
 #define SORT_HOST           0
 #define SORT_MAP            1
 // fretn
-#define SORT_AIRESPAWN      2 
-#define SORT_REINFORCE      3 
-#define SORT_SKILL          4 
-#define SORT_PING           5 
-#define SORT_CLIENTS        6 
-#define SORT_GAME           7 
-/*#define SORT_SKILL          3 
+#define SORT_AIRESPAWN      2
+#define SORT_REINFORCE      3
+#define SORT_SKILL          4
+#define SORT_PING           5
+#define SORT_CLIENTS        6
+#define SORT_GAME           7
+/*#define SORT_SKILL          3
 #define SORT_AIRESPAWN      4
-#define SORT_CLIENTS        5 
+#define SORT_CLIENTS        5
 #define SORT_GAME           6 */
 
 #define SORT_SAVENAME       0

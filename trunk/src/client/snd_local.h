@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -179,10 +179,10 @@ typedef struct {
 	int attenuation;
 	qboolean kill;
 
-        int fadeStart;              //----(SA)  added
-        int fadeEnd;                //----(SA)  added
-        float fadeStartVol;         //----(SA)  added
-        float fadeTargetVol;        //----(SA)  added
+	int fadeStart;                  //----(SA)  added
+	int fadeEnd;                    //----(SA)  added
+	float fadeStartVol;             //----(SA)  added
+	float fadeTargetVol;            //----(SA)  added
 } streamingSound_t;
 
 #ifdef __MACOS__
@@ -245,4 +245,3 @@ extern short mulawToShort[256];
 extern short *sfxScratchBuffer;
 extern const sfx_t *sfxScratchPointer;
 extern int sfxScratchIndex;
-

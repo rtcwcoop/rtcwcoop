@@ -273,8 +273,8 @@ jinit_color_deconverter( j_decompress_ptr cinfo ) {
 	int ci;
 
 	cconvert = (my_cconvert_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_color_deconverter ) );
+			   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+											 SIZEOF( my_color_deconverter ) );
 	cinfo->cconvert = (struct jpeg_color_deconverter *) cconvert;
 	cconvert->pub.start_pass = start_pass_dcolor;
 

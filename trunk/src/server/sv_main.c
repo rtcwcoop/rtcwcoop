@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -103,19 +103,19 @@ cvar_t *wh_check_fov;
 void SVC_GameCompleteStatus( netadr_t from );       // NERVE - SMF
 typedef struct leakyBucket_s leakyBucket_t;
 struct leakyBucket_s {
-        netadrtype_t    type;
+	netadrtype_t type;
 
-        union {
-                byte    _4[4];
-                byte    _6[16];
-        } ipv;
+	union {
+		byte _4[4];
+		byte _6[16];
+	} ipv;
 
-        int                                             lastTime;
-        signed char             burst;
+	int lastTime;
+	signed char burst;
 
-        long                                    hash;
+	long hash;
 
-        leakyBucket_t *prev, *next;
+	leakyBucket_t *prev, *next;
 };
 
 // This is deliberately quite large to make it more of an effort to DoS
@@ -131,25 +131,25 @@ SVC_HashForAddress
 ================
 */
 static long SVC_HashForAddress( netadr_t address ) {
-        byte            *ip = NULL;
-        size_t  size = 0;
-        int                     i;
-        long            hash = 0;
+	byte            *ip = NULL;
+	size_t size = 0;
+	int i;
+	long hash = 0;
 
-        switch ( address.type ) {
-                case NA_IP:  ip = address.ip;  size = 4; break;
-                case NA_IP6: ip = address.ip6; size = 16; break;
-                default: break;
-        }
+	switch ( address.type ) {
+	case NA_IP:  ip = address.ip;  size = 4; break;
+	case NA_IP6: ip = address.ip6; size = 16; break;
+	default: break;
+	}
 
-        for ( i = 0; i < size; i++ ) {
-                hash += (long)( ip[ i ] ) * ( i + 119 );
-        }
+	for ( i = 0; i < size; i++ ) {
+		hash += (long)( ip[ i ] ) * ( i + 119 );
+	}
 
-        hash = ( hash ^ ( hash >> 10 ) ^ ( hash >> 20 ) );
-        hash &= ( MAX_HASHES - 1 );
+	hash = ( hash ^ ( hash >> 10 ) ^ ( hash >> 20 ) );
+	hash &= ( MAX_HASHES - 1 );
 
-        return hash;
+	return hash;
 }
 
 /*
@@ -160,78 +160,78 @@ Find or allocate a bucket for an address
 ================
 */
 static leakyBucket_t *SVC_BucketForAddress( netadr_t address, int burst, int period ) {
-        leakyBucket_t   *bucket = NULL;
-        int                                             i;
-        long                                    hash = SVC_HashForAddress( address );
-        int                                             now = Sys_Milliseconds();
+	leakyBucket_t   *bucket = NULL;
+	int i;
+	long hash = SVC_HashForAddress( address );
+	int now = Sys_Milliseconds();
 
-        for ( bucket = bucketHashes[ hash ]; bucket; bucket = bucket->next ) {
-                switch ( bucket->type ) {
-                        case NA_IP:
-                                if ( memcmp( bucket->ipv._4, address.ip, 4 ) == 0 ) {
-                                        return bucket;
-                                }
-                                break;
+	for ( bucket = bucketHashes[ hash ]; bucket; bucket = bucket->next ) {
+		switch ( bucket->type ) {
+		case NA_IP:
+			if ( memcmp( bucket->ipv._4, address.ip, 4 ) == 0 ) {
+				return bucket;
+			}
+			break;
 
-                        case NA_IP6:
-                                if ( memcmp( bucket->ipv._6, address.ip6, 16 ) == 0 ) {
-                                        return bucket;
-                                }
-                                break;
+		case NA_IP6:
+			if ( memcmp( bucket->ipv._6, address.ip6, 16 ) == 0 ) {
+				return bucket;
+			}
+			break;
 
-                        default:
-                                break;
-                }
-        }
+		default:
+			break;
+		}
+	}
 
-        for ( i = 0; i < MAX_BUCKETS; i++ ) {
-                int interval;
+	for ( i = 0; i < MAX_BUCKETS; i++ ) {
+		int interval;
 
-                bucket = &buckets[ i ];
-                interval = now - bucket->lastTime;
+		bucket = &buckets[ i ];
+		interval = now - bucket->lastTime;
 
-                // Reclaim expired buckets
-                if ( bucket->lastTime > 0 && interval > ( burst * period ) ) {
-                        if ( bucket->prev != NULL ) {
-                                bucket->prev->next = bucket->next;
-                        } else {
-                                bucketHashes[ bucket->hash ] = bucket->next;
-                        }
-                        
-                        if ( bucket->next != NULL ) {
-                                bucket->next->prev = bucket->prev;
-                        }
+		// Reclaim expired buckets
+		if ( bucket->lastTime > 0 && interval > ( burst * period ) ) {
+			if ( bucket->prev != NULL ) {
+				bucket->prev->next = bucket->next;
+			} else {
+				bucketHashes[ bucket->hash ] = bucket->next;
+			}
 
-                        Com_Memset( bucket, 0, sizeof( leakyBucket_t ) );
-                }
+			if ( bucket->next != NULL ) {
+				bucket->next->prev = bucket->prev;
+			}
 
-                if ( bucket->type == NA_BAD ) {
-                        bucket->type = address.type;
-                        switch ( address.type ) {
-                                case NA_IP:  Com_Memcpy( bucket->ipv._4, address.ip, 4 );   break;
-                                case NA_IP6: Com_Memcpy( bucket->ipv._6, address.ip6, 16 ); break;
-                                default: break;
-                        }
+			Com_Memset( bucket, 0, sizeof( leakyBucket_t ) );
+		}
 
-                        bucket->lastTime = now;
-                        bucket->burst = 0;
-                        bucket->hash = hash;
+		if ( bucket->type == NA_BAD ) {
+			bucket->type = address.type;
+			switch ( address.type ) {
+			case NA_IP:  Com_Memcpy( bucket->ipv._4, address.ip, 4 );   break;
+			case NA_IP6: Com_Memcpy( bucket->ipv._6, address.ip6, 16 ); break;
+			default: break;
+			}
 
-                        // Add to the head of the relevant hash chain
-                        bucket->next = bucketHashes[ hash ];
-                        if ( bucketHashes[ hash ] != NULL ) {
-                                bucketHashes[ hash ]->prev = bucket;
-                        }
+			bucket->lastTime = now;
+			bucket->burst = 0;
+			bucket->hash = hash;
 
-                        bucket->prev = NULL;
-                        bucketHashes[ hash ] = bucket;
+			// Add to the head of the relevant hash chain
+			bucket->next = bucketHashes[ hash ];
+			if ( bucketHashes[ hash ] != NULL ) {
+				bucketHashes[ hash ]->prev = bucket;
+			}
 
-                        return bucket;
-                }
-        }
+			bucket->prev = NULL;
+			bucketHashes[ hash ] = bucket;
 
-        // Couldn't allocate a bucket for this address
-        return NULL;
+			return bucket;
+		}
+	}
+
+	// Couldn't allocate a bucket for this address
+	return NULL;
 }
 
 /*
@@ -240,28 +240,28 @@ SVC_RateLimit
 ================
 */
 static qboolean SVC_RateLimit( leakyBucket_t *bucket, int burst, int period ) {
-        if ( bucket != NULL ) {
-                int now = Sys_Milliseconds();
-                int interval = now - bucket->lastTime;
-                int expired = interval / period;
-                int expiredRemainder = interval % period;
+	if ( bucket != NULL ) {
+		int now = Sys_Milliseconds();
+		int interval = now - bucket->lastTime;
+		int expired = interval / period;
+		int expiredRemainder = interval % period;
 
-                if ( expired > bucket->burst ) {
-                        bucket->burst = 0;
-                        bucket->lastTime = now;
-                } else {
-                        bucket->burst -= expired;
-                        bucket->lastTime = now - expiredRemainder;
-                }
+		if ( expired > bucket->burst ) {
+			bucket->burst = 0;
+			bucket->lastTime = now;
+		} else {
+			bucket->burst -= expired;
+			bucket->lastTime = now - expiredRemainder;
+		}
 
-                if ( bucket->burst < burst ) {
-                        bucket->burst++;
+		if ( bucket->burst < burst ) {
+			bucket->burst++;
 
-                        return qfalse;
-                }
-        }
+			return qfalse;
+		}
+	}
 
-        return qtrue;
+	return qtrue;
 }
 
 /*
@@ -272,9 +272,9 @@ Rate limit for a particular address
 ================
 */
 static qboolean SVC_RateLimitAddress( netadr_t from, int burst, int period ) {
-        leakyBucket_t *bucket = SVC_BucketForAddress( from, burst, period );
+	leakyBucket_t *bucket = SVC_BucketForAddress( from, burst, period );
 
-        return SVC_RateLimit( bucket, burst, period );
+	return SVC_RateLimit( bucket, burst, period );
 }
 
 
@@ -332,8 +332,9 @@ void SV_AddServerCommand( client_t *client, const char *cmd ) {
 
 	// L0 - ioquake fix for relaiable command overflow
 	// do not send commands until the gamestate has been sent
-	if( client->state < CS_PRIMED )
+	if ( client->state < CS_PRIMED ) {
 		return;
+	}
 	// End
 
 	client->reliableSequence++;
@@ -391,7 +392,7 @@ void QDECL SV_SendServerCommand( client_t *cl, const char *fmt, ... ) {
 	}
 
 	// send the data to all relevent clients
-	for ( j = 0, client = svs.clients; j < sv_maxcoopclients->integer ; j++, client++ ) {		
+	for ( j = 0, client = svs.clients; j < sv_maxcoopclients->integer ; j++, client++ ) {
 		// Ridah, don't need to send messages to AI
 		if ( client->gentity && client->gentity->r.svFlags & SVF_CASTAI ) {
 			continue;
@@ -434,17 +435,19 @@ void SV_MasterHeartbeat( const char *hbname ) {
 	return;
 #endif
 
-        // fretn: we want to boost our initial popularity, so all coop games report to the masterserver
-        if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER )
-                return;
-
-        if ( com_dedicated && com_dedicated->integer == 1 )
-                return; // dedicated lan servers dont talk to master, only internet and local servers
-/*
-	// "dedicated 1" is for lan play, "dedicated 2" is for inet public play
-	if ( !com_dedicated || com_dedicated->integer != 2 ) {
-		return;     // only dedicated servers send heartbeats
+	// fretn: we want to boost our initial popularity, so all coop games report to the masterserver
+	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
+		return;
 	}
+
+	if ( com_dedicated && com_dedicated->integer == 1 ) {
+		return;         // dedicated lan servers dont talk to master, only internet and local servers
+	}
+/*
+    // "dedicated 1" is for lan play, "dedicated 2" is for inet public play
+    if ( !com_dedicated || com_dedicated->integer != 2 ) {
+        return;     // only dedicated servers send heartbeats
+    }
 
 */
 	// if not time yet, don't send anything
@@ -483,15 +486,16 @@ void SV_MasterHeartbeat( const char *hbname ) {
 						BigShort( adr[i].port ) );
 		}
 
-                if ( com_dedicated && com_dedicated->integer == 2 )
-                        Com_DPrintf( "Sending heartbeat to %s\n", sv_master[i]->string );
+		if ( com_dedicated && com_dedicated->integer == 2 ) {
+			Com_DPrintf( "Sending heartbeat to %s\n", sv_master[i]->string );
+		}
 
 		// this command should be changed if the server info / status format
 		// ever incompatably changes
 		NET_OutOfBandPrint( NS_SERVER, adr[i], "heartbeat %s\n", hbname );
 
-        // get the public ip of the server
-        NET_OutOfBandPrint( NS_SERVER, adr[i], "getip\n");
+		// get the public ip of the server
+		NET_OutOfBandPrint( NS_SERVER, adr[i], "getip\n" );
 	}
 }
 
@@ -509,9 +513,10 @@ void SV_MasterGameCompleteStatus( void ) {
 	//fretn, we're not ready for this yet
 	return;
 
-        if ( com_dedicated && com_dedicated->integer == 1 )
-                return; // dedicated lan servers dont talk to master, only internet and local servers
+	if ( com_dedicated && com_dedicated->integer == 1 ) {
+		return;         // dedicated lan servers dont talk to master, only internet and local servers
 
+	}
 	// send to group masters
 	for ( i = 0 ; i < MAX_MASTER_SERVERS ; i++ ) {
 		if ( !sv_master[i]->string[0] ) {
@@ -557,55 +562,55 @@ game complete. Useful for tracking global player stats.
 =================
 */
 void SVC_GameCompleteStatus( netadr_t from ) {
-        char player[1024];
-        char status[MAX_MSGLEN];
-        int i;
-        client_t    *cl; 
-        playerState_t   *ps; 
-        int statusLength;
-        int playerLength;
-        char infostring[MAX_INFO_STRING];
+	char player[1024];
+	char status[MAX_MSGLEN];
+	int i;
+	client_t    *cl;
+	playerState_t   *ps;
+	int statusLength;
+	int playerLength;
+	char infostring[MAX_INFO_STRING];
 
-        // ignore if we are in single player
-        if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
-                return;
-        }    
+	// ignore if we are in single player
+	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER ) {
+		return;
+	}
 
-        strcpy( infostring, Cvar_InfoString( CVAR_SERVERINFO ) ); 
+	strcpy( infostring, Cvar_InfoString( CVAR_SERVERINFO ) );
 
-        // echo back the parameter to status. so master servers can use it as a challenge
-        // to prevent timed spoofed reply packets that add ghost servers
-        Info_SetValueForKey( infostring, "challenge", Cmd_Argv( 1 ) ); 
+	// echo back the parameter to status. so master servers can use it as a challenge
+	// to prevent timed spoofed reply packets that add ghost servers
+	Info_SetValueForKey( infostring, "challenge", Cmd_Argv( 1 ) );
 
-        // add "demo" to the sv_keywords if restricted
-        if ( Cvar_VariableValue( "fs_restrict" ) ) {
-                char keywords[MAX_INFO_STRING];
+	// add "demo" to the sv_keywords if restricted
+	if ( Cvar_VariableValue( "fs_restrict" ) ) {
+		char keywords[MAX_INFO_STRING];
 
-                Com_sprintf( keywords, sizeof( keywords ), "demo %s",
-                                         Info_ValueForKey( infostring, "sv_keywords" ) ); 
-                Info_SetValueForKey( infostring, "sv_keywords", keywords );
-        }    
+		Com_sprintf( keywords, sizeof( keywords ), "demo %s",
+					 Info_ValueForKey( infostring, "sv_keywords" ) );
+		Info_SetValueForKey( infostring, "sv_keywords", keywords );
+	}
 
-        status[0] = 0; 
-        statusLength = 0; 
+	status[0] = 0;
+	statusLength = 0;
 
-        for ( i = 0 ; i < sv_maxcoopclients->integer ; i++ ) {
-                cl = &svs.clients[i];
-                if ( cl->state >= CS_CONNECTED ) {
-                        ps = SV_GameClientNum( i );
-                        Com_sprintf( player, sizeof( player ), "%i %i \"%s\"\n",
-                                                 ps->persistant[PERS_SCORE], cl->ping, cl->name );
-                        playerLength = strlen( player );
-                        if ( statusLength + playerLength >= sizeof( status ) ) {
-                                break;      // can't hold any more
-                        }
-                        strcpy( status + statusLength, player );
-                        statusLength += playerLength;
-                }
-        }
+	for ( i = 0 ; i < sv_maxcoopclients->integer ; i++ ) {
+		cl = &svs.clients[i];
+		if ( cl->state >= CS_CONNECTED ) {
+			ps = SV_GameClientNum( i );
+			Com_sprintf( player, sizeof( player ), "%i %i \"%s\"\n",
+						 ps->persistant[PERS_SCORE], cl->ping, cl->name );
+			playerLength = strlen( player );
+			if ( statusLength + playerLength >= sizeof( status ) ) {
+				break;                      // can't hold any more
+			}
+			strcpy( status + statusLength, player );
+			statusLength += playerLength;
+		}
+	}
 
-        NET_OutOfBandPrint( NS_SERVER, from, "gameCompleteStatus\n%s\n%s", infostring, status );
-        //Com_Printf( "gameCompleteStatus\n%s\n%s", infostring, status );
+	NET_OutOfBandPrint( NS_SERVER, from, "gameCompleteStatus\n%s\n%s", infostring, status );
+	//Com_Printf( "gameCompleteStatus\n%s\n%s", infostring, status );
 }
 
 /*
@@ -644,19 +649,19 @@ L0 - SV_VerifyChallenge
 Ported from ET / Author: Bani
 ===============
 */
-qboolean SV_VerifyChallenge(char *challenge) {
+qboolean SV_VerifyChallenge( char *challenge ) {
 	int i, j;
 
-	if(!challenge) {
+	if ( !challenge ) {
 		return qfalse;
 	}
 
-	j = strlen(challenge);
-	if(j > 64) {
+	j = strlen( challenge );
+	if ( j > 64 ) {
 		return qfalse;
 	}
-	for(i = 0; i < j; i++) {
-		if(challenge[i] == '\\' || challenge[i] == '/' || challenge[i] == '%' || challenge[i] == ';' || challenge[i] == '"' || challenge[i] < 32 || /*// non-ascii */ challenge[i] > 126 ) { // non-ascii
+	for ( i = 0; i < j; i++ ) {
+		if ( challenge[i] == '\\' || challenge[i] == '/' || challenge[i] == '%' || challenge[i] == ';' || challenge[i] == '"' || challenge[i] < 32 || /*/ / non - ascii */ challenge[i] > 126 ) { // non-ascii
 			return qfalse;
 		}
 	}
@@ -694,21 +699,21 @@ void SVC_Status( netadr_t from ) {
 #endif
 
 	// L0 - Bani's fix
-	if(!SV_VerifyChallenge(Cmd_Argv(1))) {
+	if ( !SV_VerifyChallenge( Cmd_Argv( 1 ) ) ) {
 		return;
 	}
 
-        // Prevent using getstatus as an amplifier
-        if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-                Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-                        NET_AdrToString( from ) );
-                return;
-        }
+	// Prevent using getstatus as an amplifier
+	if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
+		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
+					 NET_AdrToString( from ) );
+		return;
+	}
 
-        // Allow getstatus to be DoSed relatively easily, but prevent
-        // excess outbound bandwidth usage when being flooded inbound
-        if ( SVC_RateLimit( &bucket, 10, 100 ) ) {
-                Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
+	// Allow getstatus to be DoSed relatively easily, but prevent
+	// excess outbound bandwidth usage when being flooded inbound
+	if ( SVC_RateLimit( &bucket, 10, 100 ) ) {
+		Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
 		return;
 	}
 
@@ -749,10 +754,10 @@ void SVC_Status( netadr_t from ) {
 }
 
 // is used so that auto http downloading of the built in http server is possible
-void SV_GetIPResponse( netadr_t from) {
+void SV_GetIPResponse( netadr_t from ) {
 
-    //if (!strcmp(sv_wwwBaseURL->string, "") || strcmp(sv_wwwBaseURL->string, "^7")) {
-	Cvar_Set("sv_localhttpurl", Cmd_Argv( 1 ));
+	//if (!strcmp(sv_wwwBaseURL->string, "") || strcmp(sv_wwwBaseURL->string, "^7")) {
+	Cvar_Set( "sv_localhttpurl", Cmd_Argv( 1 ) );
 	//}
 }
 
@@ -783,7 +788,7 @@ void SVC_Info( netadr_t from ) {
 	}
 
 	// L0 - bani's fix
-	if(!SV_VerifyChallenge(Cmd_Argv(1))) {
+	if ( !SV_VerifyChallenge( Cmd_Argv( 1 ) ) ) {
 		return;
 	}
 
@@ -793,40 +798,41 @@ void SVC_Info( netadr_t from ) {
 	 * to the Infostring bug discovered by Luigi Auriemma. See http://aluigi.altervista.org/ for the advisory.
 	 */
 	// A maximum challenge length of 128 should be more than plenty.
-	if(strlen(Cmd_Argv(1)) > 128) {
+	if ( strlen( Cmd_Argv( 1 ) ) > 128 ) {
 		return;
 	}
 
-        // Prevent using getinfo as an amplifier
-        if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-                Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-                        NET_AdrToString( from ) ); 
-                return;
-        }
+	// Prevent using getinfo as an amplifier
+	if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
+		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
+					 NET_AdrToString( from ) );
+		return;
+	}
 	// don't count privateclients
 	count = 0;
 	// fretn
 	countai = 0;
 	for ( i = sv_privateClients->integer ; i < sv_maxclients->integer ; i++ ) {
-                if (  svs.clients[i].gentity && svs.clients[i].gentity->r.svFlags & SVF_CASTAI ) { // ignore AI
-                        countai++;
-                        continue;
-                }
+		if (  svs.clients[i].gentity && svs.clients[i].gentity->r.svFlags & SVF_CASTAI ) {         // ignore AI
+			countai++;
+			continue;
+		}
 		if ( svs.clients[i].state >= CS_CONNECTED ) {
 			count++;
 		}
 	}
 
-        // fretn: if there are 62 bots on a 64 player server
-        // and sv_maxcoopclients is set to 4, then the num available
-        // spots is wrong.
-        // Actually sv_maxcoopclients is an ugly hack :) But AI's are
-        // "normal" clients, so we have to work around this.
+	// fretn: if there are 62 bots on a 64 player server
+	// and sv_maxcoopclients is set to 4, then the num available
+	// spots is wrong.
+	// Actually sv_maxcoopclients is an ugly hack :) But AI's are
+	// "normal" clients, so we have to work around this.
 
-        maxclients = sv_maxclients->integer - countai ;
-        if (maxclients >= sv_maxcoopclients->integer)
-                maxclients = sv_maxcoopclients->integer;
-        
+	maxclients = sv_maxclients->integer - countai ;
+	if ( maxclients >= sv_maxcoopclients->integer ) {
+		maxclients = sv_maxcoopclients->integer;
+	}
+
 
 	infostring[0] = 0;
 
@@ -839,8 +845,8 @@ void SVC_Info( netadr_t from ) {
 	Info_SetValueForKey( infostring, "mapname", sv_mapname->string );
 	Info_SetValueForKey( infostring, "clients", va( "%i", count ) );
 	Info_SetValueForKey( infostring, "sv_maxclients",
-						 va( "%i", maxclients - sv_privateClients->integer) );
-						// va( "%i", sv_maxclients->integer - sv_privateClients->integer - aicount) );
+						 va( "%i", maxclients - sv_privateClients->integer ) );
+	// va( "%i", sv_maxclients->integer - sv_privateClients->integer - aicount) );
 	Info_SetValueForKey( infostring, "gametype", va( "%i", sv_gametype->integer ) );
 	Info_SetValueForKey( infostring, "pure", va( "%i", sv_pure->integer ) );
 	Info_SetValueForKey( infostring, "gamename", GAMENAME_STRING );
@@ -861,9 +867,9 @@ void SVC_Info( netadr_t from ) {
 	Info_SetValueForKey( infostring, "gameskill", va( "%i", sv_gameskill->integer ) );
 	// done
 
-        Info_SetValueForKey( infostring, "maxlives", va( "%i", sv_maxlives->integer ? 1 : 0 ) );
-        Info_SetValueForKey( infostring, "reinforce", va( "%i", sv_reinforce->integer ) );
-        Info_SetValueForKey( infostring, "airespawn", va( "%i", sv_airespawn->integer ) );
+	Info_SetValueForKey( infostring, "maxlives", va( "%i", sv_maxlives->integer ? 1 : 0 ) );
+	Info_SetValueForKey( infostring, "reinforce", va( "%i", sv_reinforce->integer ) );
+	Info_SetValueForKey( infostring, "airespawn", va( "%i", sv_airespawn->integer ) );
 
 	// TTimo
 	antilag = Cvar_VariableString( "g_antilag" );
@@ -952,12 +958,12 @@ void SVC_RemoteCommand( netadr_t from, msg_t *msg ) {
 	static unsigned int lasttime = 0;
 	char *cmd_aux;
 
-       // Prevent using rcon as an amplifier and make dictionary attacks impractical
-       if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-               Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-                     NET_AdrToString( from ) );
-                return;
-        }
+	// Prevent using rcon as an amplifier and make dictionary attacks impractical
+	if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
+		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
+					 NET_AdrToString( from ) );
+		return;
+	}
 
 	// TTimo - show_bug.cgi?id=534
 	time = Com_Milliseconds();
@@ -1057,8 +1063,8 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		SV_DirectConnect( from );
 	} else if ( !Q_stricmp( c,"ipAuthorize" ) ) {
 		SV_AuthorizeIpPacket( from );
-    } else if ( !Q_stricmp( c,"getipresponse" ) ) {
-        SV_GetIPResponse( from );
+	} else if ( !Q_stricmp( c,"getipresponse" ) ) {
+		SV_GetIPResponse( from );
 	} else if ( !Q_stricmp( c, "rcon" ) ) {
 		SVC_RemoteCommand( from, msg );
 // DHM - Nerve
@@ -1073,12 +1079,12 @@ void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		// sequenced messages to the old client
 	} else {
 #ifndef DEDICATED
-                // if a local game is running and we want to use the ingame
-                // server browser, the responses from the master server need to
-                // be forwarded to the client
-                if ( com_cl_running->integer )
-                        CL_ConnectionlessPacket( from, msg);
-                else
+		// if a local game is running and we want to use the ingame
+		// server browser, the responses from the master server need to
+		// be forwarded to the client
+		if ( com_cl_running->integer ) {
+			CL_ConnectionlessPacket( from, msg );
+		} else
 #endif
 		Com_DPrintf( "bad connectionless packet from %s:\n%s\n"
 					 , NET_AdrToString( from ), s );
@@ -1147,7 +1153,7 @@ void SV_PacketEvent( netadr_t from, msg_t *msg ) {
 	// if we received a sequenced packet from an address we don't recognize,
 	// send an out of band disconnect packet to it
 	NET_OutOfBandPrint( NS_SERVER, from, "disconnect" );
-	Com_Printf("Sending disconnect packet to %i.%i.%i.%i\n" , from.ip[0], from.ip[1], from.ip[2], from.ip[3]);
+	Com_Printf( "Sending disconnect packet to %i.%i.%i.%i\n", from.ip[0], from.ip[1], from.ip[2], from.ip[3] );
 }
 
 
@@ -1279,9 +1285,10 @@ qboolean SV_CheckPaused( void ) {
 		return qfalse;
 	}
 
-        // no pausing in coop games
-        if ( sv_gametype->integer <= GT_COOP)
-                return qfalse;
+	// no pausing in coop games
+	if ( sv_gametype->integer <= GT_COOP ) {
+		return qfalse;
+	}
 	// only pause if there is just a single client connected
 	count = 0;
 	for ( i = 0,cl = svs.clients ; i < sv_maxclients->integer ; i++,cl++ ) {
@@ -1359,28 +1366,30 @@ void SV_Frame( int msec ) {
 	if ( svs.time > 0x70000000 ) {
 		Q_strncpyz( mapname, sv_mapname->string, MAX_QPATH );
 		SV_Shutdown( "Restarting server due to time wrapping" );
-                sv_reloading->integer = RELOAD_NEXTMAP;
+		sv_reloading->integer = RELOAD_NEXTMAP;
 		// TTimo
 		// show_bug.cgi?id=388
 		// there won't be a map_restart if you have shut down the server
 		// since it doesn't restart a non-running server
 		// instead, re-run the current map
-		if ( sv_gametype->integer <= GT_COOP)
+		if ( sv_gametype->integer <= GT_COOP ) {
 			Cbuf_AddText( va( "coopmap %s\n", mapname ) );
-		else
+		} else {
 			Cbuf_AddText( va( "spmap %s\n", mapname ) );
+		}
 		return;
 	}
 	// this can happen considerably earlier when lots of clients play and the map doesn't change
 	if ( svs.nextSnapshotEntities >= 0x7FFFFFFE - svs.numSnapshotEntities ) {
 		Q_strncpyz( mapname, sv_mapname->string, MAX_QPATH );
 		SV_Shutdown( "Restarting server due to numSnapshotEntities wrapping" );
-                sv_reloading->integer = RELOAD_NEXTMAP;
+		sv_reloading->integer = RELOAD_NEXTMAP;
 		// TTimo see above
-		if ( sv_gametype->integer <= GT_COOP)
+		if ( sv_gametype->integer <= GT_COOP ) {
 			Cbuf_AddText( va( "coopmap %s\n", mapname ) );
-		else
+		} else {
 			Cbuf_AddText( va( "spmap %s\n", mapname ) );
+		}
 		return;
 	}
 
@@ -1401,10 +1410,10 @@ void SV_Frame( int msec ) {
 	}
 	// NERVE - SMF
 /*
-	if ( cvar_modifiedFlags & CVAR_WOLFINFO ) {
-		SV_SetConfigstring( CS_WOLFINFO, Cvar_InfoString( CVAR_WOLFINFO ) );
-		cvar_modifiedFlags &= ~CVAR_WOLFINFO;
-	}
+    if ( cvar_modifiedFlags & CVAR_WOLFINFO ) {
+        SV_SetConfigstring( CS_WOLFINFO, Cvar_InfoString( CVAR_WOLFINFO ) );
+        cvar_modifiedFlags &= ~CVAR_WOLFINFO;
+    }
 */
 
 	if ( com_speeds->integer ) {

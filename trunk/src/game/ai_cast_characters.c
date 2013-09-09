@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -952,7 +952,7 @@ void AIChar_SetBBox( gentity_t *ent, cast_state_t *cs, qboolean useHeadTag ) {
 	if ( !useHeadTag ) {
 		VectorCopy( bbmins[cs->aasWorldIndex], ent->client->ps.mins );
 		VectorCopy( bbmaxs[cs->aasWorldIndex], ent->client->ps.maxs );
-		if (ent->client->ps.pm_type == PM_DEAD) {
+		if ( ent->client->ps.pm_type == PM_DEAD ) {
 			ent->client->ps.maxs[2] = -8;
 		} else {
 			ent->client->ps.maxs[2] = aiDefaults[cs->aiCharacter].crouchstandZ[1];
@@ -1053,7 +1053,7 @@ int AIChar_GetPainLocation( gentity_t *ent, vec3_t point ) {
 
 	// first make sure the client is able to retrieve tag information
 	if ( !trap_GetTag( ent->s.number, painTagNames[0], &or ) ) {
-                // fretn - dedicated servers always return tag_chest ?
+		// fretn - dedicated servers always return tag_chest ?
 		return 1;
 		//return 0;
 	}
@@ -1319,7 +1319,7 @@ void AIChar_spawn( gentity_t *ent ) {
 	int i;
 	static int lastCall;
 	static int numCalls;
-        char *name;
+	char *name;
 
 	// if there are other cast's waiting to spawn before us, wait for them
 	for ( i = MAX_CLIENTS, newent = &g_entities[MAX_CLIENTS]; i < MAX_GENTITIES; i++, newent++ ) {
@@ -1382,40 +1382,55 @@ void AIChar_spawn( gentity_t *ent ) {
 
 	// (there will always be an ent->aiSkin (SA))
 	//newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, aiCharDefaults->name, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
-        //newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, ent->aiName, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
-        name = "dummy";
-        if (!strcmp(ent->classname, "ai_soldier"))
-                name = "soldier";
-        if (!strcmp(ent->classname, "ai_american"))
-                name = "american";
-        if (!strcmp(ent->classname, "ai_zombie"))
-                name = "zombie";
-        if (!strcmp(ent->classname, "ai_warzombie"))
-                name = "warzombie";
-        if (!strcmp(ent->classname, "ai_boss_helga"))
-                name = "helga";
-        if (!strcmp(ent->classname, "ai_boss_heinrich"))
-                name = "heinrich";
-        if (!strcmp(ent->classname, "ai_eliteguard"))
-                name = "eliteguard";
-        if (!strcmp(ent->classname, "ai_stimsoldier dual"))
-                name = "dual stimsoldier";
-        if (!strcmp(ent->classname, "ai_stimsoldier_rocket"))
-                name = "rocket stimsoldier";
-        if (!strcmp(ent->classname, "ai_stimsoldier_tesla"))
-                name = "tesla stimsoldier";
-        if (!strcmp(ent->classname, "ai_supersoldier"))
-                name = "super soldier";
-        if (!strcmp(ent->classname, "ai_frogman"))
-                name = "frogman";
-        if (!strcmp(ent->classname, "ai_blackguard"))
-                name = "blackguard";
-        if (!strcmp(ent->classname, "ai_partisan"))
-                name = "partisan";
-        if (!strcmp(ent->classname, "ai_civilian"))
-                name = "civilian";
+	//newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, ent->aiName, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
+	name = "dummy";
+	if ( !strcmp( ent->classname, "ai_soldier" ) ) {
+		name = "soldier";
+	}
+	if ( !strcmp( ent->classname, "ai_american" ) ) {
+		name = "american";
+	}
+	if ( !strcmp( ent->classname, "ai_zombie" ) ) {
+		name = "zombie";
+	}
+	if ( !strcmp( ent->classname, "ai_warzombie" ) ) {
+		name = "warzombie";
+	}
+	if ( !strcmp( ent->classname, "ai_boss_helga" ) ) {
+		name = "helga";
+	}
+	if ( !strcmp( ent->classname, "ai_boss_heinrich" ) ) {
+		name = "heinrich";
+	}
+	if ( !strcmp( ent->classname, "ai_eliteguard" ) ) {
+		name = "eliteguard";
+	}
+	if ( !strcmp( ent->classname, "ai_stimsoldier dual" ) ) {
+		name = "dual stimsoldier";
+	}
+	if ( !strcmp( ent->classname, "ai_stimsoldier_rocket" ) ) {
+		name = "rocket stimsoldier";
+	}
+	if ( !strcmp( ent->classname, "ai_stimsoldier_tesla" ) ) {
+		name = "tesla stimsoldier";
+	}
+	if ( !strcmp( ent->classname, "ai_supersoldier" ) ) {
+		name = "super soldier";
+	}
+	if ( !strcmp( ent->classname, "ai_frogman" ) ) {
+		name = "frogman";
+	}
+	if ( !strcmp( ent->classname, "ai_blackguard" ) ) {
+		name = "blackguard";
+	}
+	if ( !strcmp( ent->classname, "ai_partisan" ) ) {
+		name = "partisan";
+	}
+	if ( !strcmp( ent->classname, "ai_civilian" ) ) {
+		name = "civilian";
+	}
 
-        newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, name, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
+	newent = AICast_CreateCharacter( ent, aiCharDefaults->attributes, &weaponInfo, name, ent->aiSkin, ent->aihSkin, "m", "7", "100" );
 
 	if ( !newent ) {
 		G_FreeEntity( ent );

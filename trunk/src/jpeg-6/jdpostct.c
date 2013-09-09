@@ -45,22 +45,22 @@ typedef my_post_controller * my_post_ptr;
 /* Forward declarations */
 METHODDEF void post_process_1pass
 JPP( ( j_decompress_ptr cinfo,
-	   JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
+	   JSAMPIMAGE input_buf, JDIMENSION * in_row_group_ctr,
 	   JDIMENSION in_row_groups_avail,
-	   JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
+	   JSAMPARRAY output_buf, JDIMENSION * out_row_ctr,
 	   JDIMENSION out_rows_avail ) );
 #ifdef QUANT_2PASS_SUPPORTED
 METHODDEF void post_process_prepass
 JPP( ( j_decompress_ptr cinfo,
-	   JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
+	   JSAMPIMAGE input_buf, JDIMENSION * in_row_group_ctr,
 	   JDIMENSION in_row_groups_avail,
-	   JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
+	   JSAMPARRAY output_buf, JDIMENSION * out_row_ctr,
 	   JDIMENSION out_rows_avail ) );
 METHODDEF void post_process_2pass
 JPP( ( j_decompress_ptr cinfo,
-	   JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
+	   JSAMPIMAGE input_buf, JDIMENSION * in_row_group_ctr,
 	   JDIMENSION in_row_groups_avail,
-	   JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
+	   JSAMPARRAY output_buf, JDIMENSION * out_row_ctr,
 	   JDIMENSION out_rows_avail ) );
 #endif
 
@@ -84,8 +84,8 @@ start_pass_dpost( j_decompress_ptr cinfo, J_BUF_MODE pass_mode ) {
 			 */
 			if ( post->buffer == NULL ) {
 				post->buffer = ( *cinfo->mem->access_virt_sarray )
-				  ( (j_common_ptr) cinfo, post->whole_image,
-				  (JDIMENSION) 0, post->strip_height, TRUE );
+								   ( (j_common_ptr) cinfo, post->whole_image,
+								   (JDIMENSION) 0, post->strip_height, TRUE );
 			}
 		} else {
 			/* For single-pass processing without color quantization,
@@ -167,8 +167,8 @@ post_process_prepass( j_decompress_ptr cinfo,
 	/* Reposition virtual buffer if at start of strip. */
 	if ( post->next_row == 0 ) {
 		post->buffer = ( *cinfo->mem->access_virt_sarray )
-				( (j_common_ptr) cinfo, post->whole_image,
-				post->starting_row, post->strip_height, TRUE );
+						   ( (j_common_ptr) cinfo, post->whole_image,
+						   post->starting_row, post->strip_height, TRUE );
 	}
 
 	/* Upsample some data (up to a strip height's worth). */
@@ -210,8 +210,8 @@ post_process_2pass( j_decompress_ptr cinfo,
 	/* Reposition virtual buffer if at start of strip. */
 	if ( post->next_row == 0 ) {
 		post->buffer = ( *cinfo->mem->access_virt_sarray )
-				( (j_common_ptr) cinfo, post->whole_image,
-				post->starting_row, post->strip_height, FALSE );
+						   ( (j_common_ptr) cinfo, post->whole_image,
+						   post->starting_row, post->strip_height, FALSE );
 	}
 
 	/* Determine number of rows to emit. */
@@ -252,8 +252,8 @@ jinit_d_post_controller( j_decompress_ptr cinfo, boolean need_full_buffer ) {
 	my_post_ptr post;
 
 	post = (my_post_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_post_controller ) );
+		   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										 SIZEOF( my_post_controller ) );
 	cinfo->post = (struct jpeg_d_post_controller *) post;
 	post->pub.start_pass = start_pass_dpost;
 	post->whole_image = NULL; /* flag for no virtual arrays */
@@ -271,20 +271,20 @@ jinit_d_post_controller( j_decompress_ptr cinfo, boolean need_full_buffer ) {
 			/* We round up the number of rows to a multiple of the strip height. */
 #ifdef QUANT_2PASS_SUPPORTED
 			post->whole_image = ( *cinfo->mem->request_virt_sarray )
-				( (j_common_ptr) cinfo, JPOOL_IMAGE, FALSE,
-				cinfo->output_width * cinfo->out_color_components,
-				(JDIMENSION) jround_up( (long) cinfo->output_height,
-										(long) post->strip_height ),
-				post->strip_height );
+									( (j_common_ptr) cinfo, JPOOL_IMAGE, FALSE,
+									cinfo->output_width * cinfo->out_color_components,
+									(JDIMENSION) jround_up( (long) cinfo->output_height,
+															(long) post->strip_height ),
+									post->strip_height );
 #else
 			ERREXIT( cinfo, JERR_BAD_BUFFER_MODE );
 #endif /* QUANT_2PASS_SUPPORTED */
 		} else {
 			/* One-pass color quantization: just make a strip buffer. */
 			post->buffer = ( *cinfo->mem->alloc_sarray )
-				( (j_common_ptr) cinfo, JPOOL_IMAGE,
-				cinfo->output_width * cinfo->out_color_components,
-				post->strip_height );
+							   ( (j_common_ptr) cinfo, JPOOL_IMAGE,
+							   cinfo->output_width * cinfo->out_color_components,
+							   post->strip_height );
 		}
 	}
 }

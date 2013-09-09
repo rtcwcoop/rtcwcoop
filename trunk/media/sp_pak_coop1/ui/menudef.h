@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -241,9 +241,9 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_CURSORHINT_STATUS        80  // like 'health' bar when pointing at a func_explosive
 #define CG_PLAYER_WEAPON_STABILITY  81  // shows aimSpreadScale value
 #define CG_NEWMESSAGE               82  // 'you got mail!'	//----(SA)	added
-#define CG_PLAYER_LIVES		    83
+#define CG_PLAYER_LIVES         83
 #define CG_PLAYER_COMPASS           84
-#define CG_PLAYER_SPAWNPOINTS       85 
+#define CG_PLAYER_SPAWNPOINTS       85
 
 #define UI_OWNERDRAW_BASE           200
 #define UI_HANDICAP                 200

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -102,9 +102,9 @@ CG_SmokePuff
 Adds a smoke puff or blood trail localEntity.
 
 (SA) boy, it would be nice to have an acceleration vector for this as well.
-		big velocity vector with a negative acceleration for deceleration, etc.
-		(breath could then come out of a guys mouth at the rate he's walking/running and it
-		would slow down once it's created)
+        big velocity vector with a negative acceleration for deceleration, etc.
+        (breath could then come out of a guys mouth at the rate he's walking/running and it
+        would slow down once it's created)
 =====================
 */
 
@@ -344,23 +344,23 @@ void CG_Bleed( vec3_t origin, int entityNum ) {
 	}
 
 /*
-	ex = CG_AllocLocalEntity();
-	ex->leType = LE_EXPLOSION;
+    ex = CG_AllocLocalEntity();
+    ex->leType = LE_EXPLOSION;
 
-	ex->startTime = cg.time;
-	ex->endTime = ex->startTime + 500;
+    ex->startTime = cg.time;
+    ex->endTime = ex->startTime + 500;
 
-	VectorCopy ( origin, ex->refEntity.origin);
-	ex->refEntity.reType = RT_SPRITE;
-	ex->refEntity.rotation = rand() % 360;
-	ex->refEntity.radius = 3;
+    VectorCopy ( origin, ex->refEntity.origin);
+    ex->refEntity.reType = RT_SPRITE;
+    ex->refEntity.rotation = rand() % 360;
+    ex->refEntity.radius = 3;
 
-	ex->refEntity.customShader = cgs.media.bloodExplosionShader;
+    ex->refEntity.customShader = cgs.media.bloodExplosionShader;
 
-	// don't show player's own blood in view
-	if ( entityNum == cg.snap->ps.clientNum ) {
-		ex->refEntity.renderfx |= RF_THIRD_PERSON;
-	}
+    // don't show player's own blood in view
+    if ( entityNum == cg.snap->ps.clientNum ) {
+        ex->refEntity.renderfx |= RF_THIRD_PERSON;
+    }
 */
 	// Ridah, blood spurts
 	if ( entityNum != cg.snap->ps.clientNum ) {
@@ -534,7 +534,7 @@ void CG_LoseHat( centity_t *cent, vec3_t dir ) {
 	}
 
 	CG_GetOriginForTag( cent, &cent->pe.headRefEnt, "tag_mouth", 0, origin, NULL );
-	
+
 	velocity[0] = dir[0] * ( 0.75 + random() ) * GIB_VELOCITY;
 	velocity[1] = dir[1] * ( 0.75 + random() ) * GIB_VELOCITY;
 	velocity[2] = GIB_JUMP - 50 + dir[2] * ( 0.5 + random() ) * GIB_VELOCITY;
@@ -570,9 +570,9 @@ void CG_LoseHat( centity_t *cent, vec3_t dir ) {
 		le->angles.trDelta[1]   = ( 100 + ( rand() & 500 ) ) - 300;
 //		le->angles.trDelta[2]	= 0;
 		le->angles.trDelta[2]   = 400;  // (SA) this is set with a very particular value to try to get it
-										// to flip exactly once before landing (based on player alive
-										// (standing) and on level ground) and will be unnecessary when
-										// I have things landing properly on their own
+		                                // to flip exactly once before landing (based on player alive
+		                                // (standing) and on level ground) and will be unnecessary when
+		                                // I have things landing properly on their own
 
 		le->angles.trTime       = cg.time;
 
@@ -1163,7 +1163,7 @@ void CG_DynamicLightningBolt( qhandle_t shader, vec3_t start, vec3_t pend, int n
 					if ( fabs( viewDist ) < 0.5 ) {
 						if ( viewDist > 0 ) {
 							viewDist = 0.5;
-						} else { viewDist = -0.5;}
+						} else { viewDist = -0.5; }
 					}
 					pos[j] += viewDist * thisSeg;
 				}
@@ -1181,7 +1181,7 @@ void CG_DynamicLightningBolt( qhandle_t shader, vec3_t start, vec3_t pend, int n
 					if ( fabs( viewDist ) < 0.5 ) {
 						if ( viewDist > 0 ) {
 							viewDist = 0.5;
-						} else { viewDist = -0.5;}
+						} else { viewDist = -0.5; }
 					}
 					pos[j] += viewDist * thisSeg;
 				}
@@ -1285,20 +1285,20 @@ void CG_ProjectedSpotLight( vec3_t start, vec3_t dir ) {
 /*
 ==============
 CG_Spotlight
-	segs:	number of sides on tube. - 999 is a valid value and just means, 'cap to max' (MAX_SPOT_SEGS) or use lod scheme
-	range:	effective range of beam
-	startWidth: will be optimized for '0' as a value (true cone) to not use quads and not cap the start circle
+    segs:	number of sides on tube. - 999 is a valid value and just means, 'cap to max' (MAX_SPOT_SEGS) or use lod scheme
+    range:	effective range of beam
+    startWidth: will be optimized for '0' as a value (true cone) to not use quads and not cap the start circle
 
-	-- flags --
-	SL_NOTRACE			- don't do a trace check for shortening the beam, always draw at full 'range' length
-	SL_TRACEWORLDONLY	- go through everything but the world
-	SL_NODLIGHT			- don't put a dlight at the end
-	SL_NOSTARTCAP		- dont' cap the start circle
-	SL_LOCKTRACETORANGE	- only trace out as far as the specified range (rather than to max spot range)
-	SL_NOFLARE			- don't draw a flare when the light is pointing at the camera
-	SL_NOIMPACT			- don't draw the impact mark on hit surfaces
-	SL_LOCKUV			- lock the texture coordinates at the 'true' length of the requested beam.
-	SL_NOCORE			- don't draw the center 'core' beam
+    -- flags --
+    SL_NOTRACE			- don't do a trace check for shortening the beam, always draw at full 'range' length
+    SL_TRACEWORLDONLY	- go through everything but the world
+    SL_NODLIGHT			- don't put a dlight at the end
+    SL_NOSTARTCAP		- dont' cap the start circle
+    SL_LOCKTRACETORANGE	- only trace out as far as the specified range (rather than to max spot range)
+    SL_NOFLARE			- don't draw a flare when the light is pointing at the camera
+    SL_NOIMPACT			- don't draw the impact mark on hit surfaces
+    SL_LOCKUV			- lock the texture coordinates at the 'true' length of the requested beam.
+    SL_NOCORE			- don't draw the center 'core' beam
 
 
 
@@ -1701,6 +1701,3 @@ void CG_RumbleEfx( float pitch, float yaw ) {
 	// set the recoil
 	cg.recoilPitch -= pitchRecoilAdd;
 }
-
-
-

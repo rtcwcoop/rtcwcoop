@@ -87,11 +87,11 @@ typedef struct {
 
 /* Forward declarations */
 METHODDEF boolean encode_mcu_huff JPP( ( j_compress_ptr cinfo,
-										 JBLOCKROW *MCU_data ) );
+										 JBLOCKROW * MCU_data ) );
 METHODDEF void finish_pass_huff JPP( (j_compress_ptr cinfo) );
 #ifdef ENTROPY_OPT_SUPPORTED
 METHODDEF boolean encode_mcu_gather JPP( ( j_compress_ptr cinfo,
-										   JBLOCKROW *MCU_data ) );
+										   JBLOCKROW * MCU_data ) );
 METHODDEF void finish_pass_gather JPP( (j_compress_ptr cinfo) );
 #endif
 
@@ -666,7 +666,7 @@ jpeg_gen_optimal_table( j_compress_ptr cinfo, JHUFF_TBL * htbl, long freq[] ) {
 	MEMZERO( bits, SIZEOF( bits ) );
 	MEMZERO( codesize, SIZEOF( codesize ) );
 	for ( i = 0; i < 257; i++ )
-		others[i] = -1; /* init links to empty */
+		others[i] = -1;  /* init links to empty */
 
 	freq[256] = 1;      /* make sure there is a nonzero count */
 	/* Including the pseudo-symbol 256 in the Huffman procedure guarantees
@@ -845,8 +845,8 @@ jinit_huff_encoder( j_compress_ptr cinfo ) {
 	int i;
 
 	entropy = (huff_entropy_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( huff_entropy_encoder ) );
+			  ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+											SIZEOF( huff_entropy_encoder ) );
 	cinfo->entropy = (struct jpeg_entropy_encoder *) entropy;
 	entropy->pub.start_pass = start_pass_huff;
 

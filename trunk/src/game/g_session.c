@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,10 +51,11 @@ void G_WriteClientSessionData( gclient_t *client ) {
 	const char  *s;
 	const char  *var;
 
-        if (level.fResetStats)
-                Coop_DeleteStats( client - level.clients );
+	if ( level.fResetStats ) {
+		Coop_DeleteStats( client - level.clients );
+	}
 
-    // L0 - Added Admin sessions and stuff related to it
+	// L0 - Added Admin sessions and stuff related to it
 	s = va( "%i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			client->sess.sessionTeam,
 			client->sess.spectatorTime,
@@ -67,13 +68,13 @@ void G_WriteClientSessionData( gclient_t *client ) {
 			client->sess.playerPistol,  // DHM - Nerve
 			client->sess.playerItem,    // DHM - Nerve
 			client->sess.playerSkin,    // DHM - Nerve
-			client->sess.admin,			// L0 - Admins
-			client->sess.ip[0],			// L0 - IP
-			client->sess.ip[1],			// L0 - IP
-			client->sess.ip[2],			// L0 - IP
-			client->sess.ip[3],			// L0 - IP
-			client->sess.incognito,		// L0 - Toggle admin presence
-			client->sess.ignored		// L0 - Ignored players
+			client->sess.admin,         // L0 - Admins
+			client->sess.ip[0],         // L0 - IP
+			client->sess.ip[1],         // L0 - IP
+			client->sess.ip[2],         // L0 - IP
+			client->sess.ip[3],         // L0 - IP
+			client->sess.incognito,     // L0 - Toggle admin presence
+			client->sess.ignored        // L0 - Ignored players
 			);
 
 	var = va( "session%i", client - level.clients );
@@ -108,13 +109,13 @@ void G_ReadSessionData( gclient_t *client ) {
 			&client->sess.playerPistol,     // DHM - Nerve
 			&client->sess.playerItem,       // DHM - Nerve
 			&client->sess.playerSkin,       // DHM - Nerve
-			(int *)&client->sess.admin,			// L0 - Admins
-			(int *)&client->sess.ip[0],			// L0 - IP 				
-			(int *)&client->sess.ip[1],			// L0 - IP				
-			(int *)&client->sess.ip[2],			// L0 - IP				
-			(int *)&client->sess.ip[3],			// L0 - IP
-			&client->sess.incognito,		// L0 - Toggle admin presence
-			&client->sess.ignored			// L0 - Ignored players
+			(int *)&client->sess.admin,         // L0 - Admins
+			(int *)&client->sess.ip[0],         // L0 - IP
+			(int *)&client->sess.ip[1],         // L0 - IP
+			(int *)&client->sess.ip[2],         // L0 - IP
+			(int *)&client->sess.ip[3],         // L0 - IP
+			&client->sess.incognito,        // L0 - Toggle admin presence
+			&client->sess.ignored           // L0 - Ignored players
 			);
 }
 
@@ -133,18 +134,18 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 	sess = &client->sess;
 
 	// initial team determination
-        value = Info_ValueForKey( userinfo, "team" );
-        if ( value[0] == 's' ) {
-                // a willing spectator, not a waiting-in-line
-                sess->sessionTeam = TEAM_SPECTATOR;
-        } else {
-                if ( g_maxGameClients.integer > 0 &&
-                            level.numNonSpectatorClients >= g_maxGameClients.integer ) {
-                        sess->sessionTeam = TEAM_SPECTATOR;
-                } else {
-                        sess->sessionTeam = TEAM_FREE;
-                }
-        }
+	value = Info_ValueForKey( userinfo, "team" );
+	if ( value[0] == 's' ) {
+		// a willing spectator, not a waiting-in-line
+		sess->sessionTeam = TEAM_SPECTATOR;
+	} else {
+		if ( g_maxGameClients.integer > 0 &&
+			 level.numNonSpectatorClients >= g_maxGameClients.integer ) {
+			sess->sessionTeam = TEAM_SPECTATOR;
+		} else {
+			sess->sessionTeam = TEAM_FREE;
+		}
+	}
 
 	sess->spectatorState = SPECTATOR_FREE;
 	sess->spectatorTime = level.time;
@@ -156,17 +157,17 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 	sess->playerItem = 0;
 	sess->playerSkin = 0;
 	// dhm - end
-	// L0 
+	// L0
 	sess->admin = ADM_NONE; // admin
-	sess->ip[0] = 0;		// ip
-	sess->ip[1] = 0;		// ip
-	sess->ip[2] = 0;		// ip
-	sess->ip[3] = 0;		// ip
-	sess->incognito = 0;	// admin presence
-	sess->ignored = 0;		// Ignored players
+	sess->ip[0] = 0;        // ip
+	sess->ip[1] = 0;        // ip
+	sess->ip[2] = 0;        // ip
+	sess->ip[3] = 0;        // ip
+	sess->incognito = 0;    // admin presence
+	sess->ignored = 0;      // Ignored players
 	// End
 
-        Coop_DeleteStats( client - level.clients );
+	Coop_DeleteStats( client - level.clients );
 
 	G_WriteClientSessionData( client );
 }
@@ -185,9 +186,9 @@ void G_InitWorldSession( void ) {
 	trap_Cvar_VariableStringBuffer( "session", s, sizeof( s ) );
 	gt = atoi( s );
 
-        if ( g_gametype.integer != gt ) {
-                level.fResetStats = qtrue;
-        }
+	if ( g_gametype.integer != gt ) {
+		level.fResetStats = qtrue;
+	}
 
 	// if the gametype changed since the last session, don't use any
 	// client sessions
@@ -212,7 +213,7 @@ void G_WriteSessionData( void ) {
 		if ( level.clients[i].pers.connected == CON_CONNECTED ) {
 			G_WriteClientSessionData( &level.clients[i] );
 		} else if ( level.fResetStats ) {
-                         Coop_DeleteStats( level.sortedClients[i] );
-                }
+			Coop_DeleteStats( level.sortedClients[i] );
+		}
 	}
 }

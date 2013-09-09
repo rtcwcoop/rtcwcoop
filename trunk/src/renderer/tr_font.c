@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -213,12 +213,12 @@ static glyphInfo_t *RE_ConstructGlyphInfo( unsigned char *imageOut, int *xOut, i
 		}
 
 /*
-	// need to convert to power of 2 sizes so we do not get
-	// any scaling from the gl upload
-	for (scaled_width = 1 ; scaled_width < glyph.pitch ; scaled_width<<=1)
-		;
-	for (scaled_height = 1 ; scaled_height < glyph.height ; scaled_height<<=1)
-		;
+    // need to convert to power of 2 sizes so we do not get
+    // any scaling from the gl upload
+    for (scaled_width = 1 ; scaled_width < glyph.pitch ; scaled_width<<=1)
+        ;
+    for (scaled_height = 1 ; scaled_height < glyph.height ; scaled_height<<=1)
+        ;
 */
 
 		scaled_width = glyph.pitch;
@@ -305,7 +305,7 @@ static glyphInfo_t *RE_ConstructGlyphInfo( unsigned char *imageOut, int *xOut, i
 static int fdOffset;
 static byte *fdFile;
 
-int readInt(void) {
+int readInt( void ) {
 	int i = fdFile[fdOffset] + ( fdFile[fdOffset + 1] << 8 ) + ( fdFile[fdOffset + 2] << 16 ) + ( fdFile[fdOffset + 3] << 24 );
 	fdOffset += 4;
 	return i;
@@ -316,7 +316,7 @@ typedef union {
 	float ffred;
 } poor;
 
-float readFloat(void) {
+float readFloat( void ) {
 	poor me;
 #ifdef idppc
 	me.fred[0] = fdFile[fdOffset + 3];
@@ -528,7 +528,7 @@ void RE_RegisterFont( const char *fontName, int pointSize, fontInfo_t *font ) {
 
 
 
-void R_InitFreeType(void) {
+void R_InitFreeType( void ) {
 #ifdef BUILD_FREETYPE
 	if ( FT_Init_FreeType( &ftLibrary ) ) {
 		ri.Printf( PRINT_ALL, "R_InitFreeType: Unable to initialize FreeType.\n" );
@@ -538,7 +538,7 @@ void R_InitFreeType(void) {
 }
 
 
-void R_DoneFreeType(void) {
+void R_DoneFreeType( void ) {
 #ifdef BUILD_FREETYPE
 	if ( ftLibrary ) {
 		FT_Done_FreeType( ftLibrary );
@@ -547,4 +547,3 @@ void R_DoneFreeType(void) {
 #endif
 	registeredFontCount = 0;
 }
-

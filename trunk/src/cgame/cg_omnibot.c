@@ -82,13 +82,13 @@ LineList g_DebugLines = { 0,0,0 };
 
 //////////////////////////////////////////////////////////////////////////
 
-void OmnibotDisableDrawing(void) {
+void OmnibotDisableDrawing( void ) {
 	ClearLineList( &g_DebugLines, qtrue );
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void OmnibotRenderDebugLines(void) {
+void OmnibotRenderDebugLines( void ) {
 	int i;
 
 	for ( i = 0; i < g_DebugLines.m_NumDebugLines; ++i )
@@ -396,8 +396,8 @@ void CG_DrawDebugPolygon( UdpDebugPolygonMessage *_polyinfo ) {
 
 //////////////////////////////////////////////////////////////////////////
 
-void SetupLineList(void) {
-	InitLineList(&g_DebugLines, 1000);
+void SetupLineList( void ) {
+	InitLineList( &g_DebugLines, 1000 );
 }
 
 void InitLineList( LineList *_list, int _initialsize ) {
@@ -413,7 +413,7 @@ void InitLineList( LineList *_list, int _initialsize ) {
 
 void AddToLineList( LineList *_list, const UdpDebugLines_t *_line ) {
 	if ( !_list || !_list->m_pDebugLines ) {
-		InitLineList(&g_DebugLines, 1000);
+		InitLineList( &g_DebugLines, 1000 );
 		//return;
 	}
 
@@ -514,7 +514,7 @@ void DrawDebugAABB( vec3_t origin, float *mins, float *_maxs, int _duration, vec
 	lne.info.aabb.a = _color[3] * 255;
 	lne.info.aabb.side = _side;
 
-	VectorCopy(origin, lne.info.aabb.origin);
+	VectorCopy( origin, lne.info.aabb.origin );
 
 	AddToLineList( &g_DebugLines, &lne );
 }
@@ -542,25 +542,21 @@ void DrawDebugPolygon( vec3_t *verts, int _numverts, int _duration, vec4_t _colo
 	AddToLineList( &g_DebugLines, &lne );
 }
 
-int             cg_LastScreenMessageTime = 0; // ensiform's fix for fpinfo render
+int cg_LastScreenMessageTime = 0;             // ensiform's fix for fpinfo render
 
 // ensiform's updated func to fix fpinfo
-void DrawDebugText(float *_start, const char *_msg, int _duration, vec4_t _color)
-{
-	if(_start && !VectorCompare(_start, vec3_origin))
-	{
+void DrawDebugText( float *_start, const char *_msg, int _duration, vec4_t _color ) {
+	if ( _start && !VectorCompare( _start, vec3_origin ) ) {
 		vec3_t v3;
-		VectorCopy(_start,v3);
-		CG_AddOnScreenText(_msg,v3,_color,(float)_duration/1000.f);
-	}
-	else
+		VectorCopy( _start,v3 );
+		CG_AddOnScreenText( _msg,v3,_color,(float)_duration / 1000.f );
+	} else
 	{
-		if(cg_LastScreenMessageTime != cg.time)
-		{
-			trap_R_SetColor(_color);
-			CPri(_msg);
+		if ( cg_LastScreenMessageTime != cg.time ) {
+			trap_R_SetColor( _color );
+			CPri( _msg );
 			cg_LastScreenMessageTime = cg.time;
-			trap_R_SetColor(NULL);
+			trap_R_SetColor( NULL );
 		}
 	}
 }

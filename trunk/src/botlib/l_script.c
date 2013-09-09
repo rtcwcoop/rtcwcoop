@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -201,7 +201,7 @@ void PS_CreatePunctuationTable( script_t *script, punctuation_t *punctuations ) 
 				newp->next = p;
 				if ( lastp ) {
 					lastp->next = newp;
-				} else { script->punctuationtable[(unsigned int) newp->p[0]] = newp;}
+				} else { script->punctuationtable[(unsigned int) newp->p[0]] = newp; }
 				break;
 			} //end if
 			lastp = p;
@@ -210,7 +210,7 @@ void PS_CreatePunctuationTable( script_t *script, punctuation_t *punctuations ) 
 			newp->next = NULL;
 			if ( lastp ) {
 				lastp->next = newp;
-			} else { script->punctuationtable[(unsigned int) newp->p[0]] = newp;}
+			} else { script->punctuationtable[(unsigned int) newp->p[0]] = newp; }
 		} //end if
 	} //end for
 } //end of the function PS_CreatePunctuationTable
@@ -295,11 +295,11 @@ void SetScriptPunctuations( script_t *script, punctuation_t *p ) {
 #ifdef PUNCTABLE
 	if ( p ) {
 		PS_CreatePunctuationTable( script, p );
-	} else { PS_CreatePunctuationTable( script, default_punctuations );}
+	} else { PS_CreatePunctuationTable( script, default_punctuations ); }
 #endif //PUNCTABLE
 	if ( p ) {
 		script->punctuations = p;
-	} else { script->punctuations = default_punctuations;}
+	} else { script->punctuations = default_punctuations; }
 } //end of the function SetScriptPunctuations
 //============================================================================
 // Reads spaces, tabs, C-like comments etc.
@@ -409,9 +409,9 @@ int PS_ReadEscapeCharacter( script_t *script, char *ch ) {
 				c = c - '0';
 			} else if ( c >= 'A' && c <= 'Z' ) {
 				c = c - 'A' + 10;
-			} else if ( c >= 'a' && c <= 'z' )                                            {
+			} else if ( c >= 'a' && c <= 'z' ) {
 				c = c - 'a' + 10;
-			} else { break;}
+			} else { break; }
 			val = ( val << 4 ) + c;
 		}     //end for
 		script->script_p--;
@@ -432,7 +432,7 @@ int PS_ReadEscapeCharacter( script_t *script, char *ch ) {
 			c = *script->script_p;
 			if ( c >= '0' && c <= '9' ) {
 				c = c - '0';
-			} else { break;}
+			} else { break; }
 			val = val * 10 + c;
 		}     //end for
 		script->script_p--;
@@ -467,7 +467,7 @@ int PS_ReadString( script_t *script, token_t *token, int quote ) {
 
 	if ( quote == '\"' ) {
 		token->type = TT_STRING;
-	} else { token->type = TT_LITERAL;}
+	} else { token->type = TT_LITERAL; }
 
 	len = 0;
 	//leading quote
@@ -616,7 +616,7 @@ void NumberValue( char *string, int subtype, unsigned long int *intvalue,
 				*intvalue += *string - 'a' + 10;
 			} else if ( *string >= 'A' && *string <= 'F' ) {
 				*intvalue += *string - 'A' + 10;
-			} else { *intvalue += *string - '0';}
+			} else { *intvalue += *string - '0'; }
 			string++;
 		} //end while
 		*floatvalue = *intvalue;
@@ -704,7 +704,7 @@ int PS_ReadNumber( script_t *script, token_t *token ) {
 				dot = qtrue;
 			} else if ( c == '8' || c == '9' ) {
 				octal = qfalse;
-			} else if ( c < '0' || c > '9' )                                              {
+			} else if ( c < '0' || c > '9' ) {
 				break;
 			}
 			token->string[len++] = *script->script_p++;
@@ -715,7 +715,7 @@ int PS_ReadNumber( script_t *script, token_t *token ) {
 		} //end while
 		if ( octal ) {
 			token->subtype |= TT_OCTAL;
-		} else { token->subtype |= TT_DECIMAL;}
+		} else { token->subtype |= TT_DECIMAL; }
 		if ( dot ) {
 			token->subtype |= TT_FLOAT;
 		}
@@ -734,10 +734,10 @@ int PS_ReadNumber( script_t *script, token_t *token ) {
 			token->subtype |= TT_LONG;
 		} //end if
 		  //check for an UNSIGNED number
-		// TTimo: gcc: suggest parentheses around && within ||
-		// initial line:
-		// else if (c == 'u' || c == 'U' && !(token->subtype & (TT_UNSIGNED | TT_FLOAT)))
-		// changed behaviour
+		  // TTimo: gcc: suggest parentheses around && within ||
+		  // initial line:
+		  // else if (c == 'u' || c == 'U' && !(token->subtype & (TT_UNSIGNED | TT_FLOAT)))
+		  // changed behaviour
 		else if ( ( c == 'u' || c == 'U' ) &&
 				  !( token->subtype & ( TT_UNSIGNED | TT_FLOAT ) ) ) {
 			script->script_p++;
@@ -1153,7 +1153,7 @@ char PS_NextWhiteSpaceChar( script_t *script ) {
 void StripDoubleQuotes( char *string ) {
 	if ( *string == '\"' ) {
 		//strcpy( string, string + 1 );
-                memmove( string, string + 1, strlen (string) );
+		memmove( string, string + 1, strlen( string ) );
 	} //end if
 	if ( string[strlen( string ) - 1] == '\"' ) {
 		string[strlen( string ) - 1] = '\0';
@@ -1168,7 +1168,7 @@ void StripDoubleQuotes( char *string ) {
 void StripSingleQuotes( char *string ) {
 	if ( *string == '\'' ) {
 		//strcpy( string, string + 1 );
-                memmove( string, string + 1, strlen (string) );
+		memmove( string, string + 1, strlen( string ) );
 	} //end if
 	if ( string[strlen( string ) - 1] == '\'' ) {
 		string[strlen( string ) - 1] = '\0';

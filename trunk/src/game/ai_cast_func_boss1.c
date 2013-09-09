@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -282,23 +282,25 @@ AIFunc_FlameZombie_Portal
 ==============
 */
 char *AIFunc_FlameZombie_Portal( cast_state_t *cs ) {
-        int i;
-        gentity_t       *player;
+	int i;
+	gentity_t       *player;
 	gentity_t *ent = &g_entities[cs->entityNum];
 	//
 	if ( cs->thinkFuncChangeTime < level.time - PORTAL_ZOMBIE_SPAWNTIME ) {
 		// HACK, make them aware of the player
-                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                        player = &g_entities[i];
+		for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+			player = &g_entities[i];
 
-                        if ( !player || !player->inuse )
-                                continue;
+			if ( !player || !player->inuse ) {
+				continue;
+			}
 
-                        if (player->r.svFlags & SVF_CASTAI)
-                                continue;
+			if ( player->r.svFlags & SVF_CASTAI ) {
+				continue;
+			}
 
-                        AICast_UpdateVisibility( &g_entities[cs->entityNum], player, qfalse, qtrue );
-                }
+			AICast_UpdateVisibility( &g_entities[cs->entityNum], player, qfalse, qtrue );
+		}
 		ent->s.time2 = 0;   // turn spawning effect off
 		return AIFunc_DefaultStart( cs );
 	}
@@ -439,11 +441,11 @@ char *AIFunc_Heinrich_SwordLunge( cast_state_t *cs ) {
 		// keep checking for impact status
 		tr = CheckMeleeAttack( ent, HEINRICH_LUNGE_RANGE, qfalse );
 /*		// do we need to move?
-		if (!(tr && (tr->entityNum == cs->enemyNum))) {
-			ent->client->ps.legsTimer = 0;
-			cs->castScriptStatus.scriptNoMoveTime = 0;
-			trap_EA_MoveForward( cs->entityNum );
-		}
+        if (!(tr && (tr->entityNum == cs->enemyNum))) {
+            ent->client->ps.legsTimer = 0;
+            cs->castScriptStatus.scriptNoMoveTime = 0;
+            trap_EA_MoveForward( cs->entityNum );
+        }
 */                                                                                                                                                                                                           // ready for damage?
 		if ( cs->thinkFuncChangeTime < level.time - HEINRICH_LUNGE_DELAY ) {
 			cs->aiFlags |= AIFL_MISCFLAG1;
@@ -535,11 +537,11 @@ char *AIFunc_Heinrich_SwordKnockback( cast_state_t *cs ) {
 		// keep checking for impact status
 		tr = CheckMeleeAttack( ent, HEINRICH_KNOCKBACK_RANGE, qfalse );
 /*		// do we need to move?
-		if (!(tr && (tr->entityNum == cs->enemyNum))) {
-			ent->client->ps.legsTimer = 0;
-			cs->castScriptStatus.scriptNoMoveTime = 0;
-			trap_EA_MoveForward( cs->entityNum );
-		}
+        if (!(tr && (tr->entityNum == cs->enemyNum))) {
+            ent->client->ps.legsTimer = 0;
+            cs->castScriptStatus.scriptNoMoveTime = 0;
+            trap_EA_MoveForward( cs->entityNum );
+        }
 */                                                                                                                                                                                                           // ready for damage?
 		if ( cs->thinkFuncChangeTime < level.time - HEINRICH_KNOCKBACK_DELAY ) {
 			cs->aiFlags |= AIFL_MISCFLAG1;
@@ -564,22 +566,22 @@ char *AIFunc_Heinrich_SwordKnockback( cast_state_t *cs ) {
 		}
 	}
 /*	DISABLED FOR SWORDKNOCKBACK..looks bad
-	// if they are outside range, move forward
-	AICast_PredictMovement( ecs, 2, 0.3, &move, &g_entities[cs->enemyNum].client->pers.cmd, -1 );
-	VectorSubtract( move.endpos, cs->bs->origin, vec );
-	vec[2] = 0;
-	enemyDist = VectorLength( vec );
-	enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
-	enemyDist -= ent->r.maxs[0];
-	if (enemyDist > 30) {	// we can get closer
-		if (ent->client->ps.legsTimer) {
-			cs->castScriptStatus.scriptNoMoveTime = level.time + 100;
-			ent->client->ps.legsTimer = 0;		// allow legs to move us
-		}
-		if (cs->castScriptStatus.scriptNoMoveTime < level.time) {
-			trap_EA_MoveForward(cs->entityNum);
-		}
-	}
+    // if they are outside range, move forward
+    AICast_PredictMovement( ecs, 2, 0.3, &move, &g_entities[cs->enemyNum].client->pers.cmd, -1 );
+    VectorSubtract( move.endpos, cs->bs->origin, vec );
+    vec[2] = 0;
+    enemyDist = VectorLength( vec );
+    enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
+    enemyDist -= ent->r.maxs[0];
+    if (enemyDist > 30) {	// we can get closer
+        if (ent->client->ps.legsTimer) {
+            cs->castScriptStatus.scriptNoMoveTime = level.time + 100;
+            ent->client->ps.legsTimer = 0;		// allow legs to move us
+        }
+        if (cs->castScriptStatus.scriptNoMoveTime < level.time) {
+            trap_EA_MoveForward(cs->entityNum);
+        }
+    }
 */
 	return NULL;
 }
@@ -975,7 +977,7 @@ char *AIFunc_Heinrich_RaiseDeadStart( cast_state_t *cs ) {
 	trav = NULL;
 	// TTimo: gcc: suggest () around assignment used as truth value
 	while ( ( trav = G_Find( trav, FOFS( classname ), "func_bats" ) ) ) {
-		if ( trav->spawnflags & 4 ) {			
+		if ( trav->spawnflags & 4 ) {
 			circleDist = trav->radius;
 			trav = G_Find( NULL, FOFS( targetname ), trav->target );
 			if ( trav ) {
@@ -1016,7 +1018,7 @@ char *AIFunc_Heinrich_SpawnSpiritsStart( cast_state_t *cs ) {
 	trav = NULL;
 	// TTimo: gcc: suggest () around assignment used as truth value
 	while ( ( trav = G_Find( trav, FOFS( classname ), "func_bats" ) ) ) {
-		if ( trav->spawnflags & 4 ) {			
+		if ( trav->spawnflags & 4 ) {
 			circleDist = trav->radius;
 			trav = G_Find( NULL, FOFS( targetname ), trav->target );
 			if ( trav ) {

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -191,7 +191,7 @@ struct gentity_s {
 	int spawnflags;                 // set in QuakeEd
 
 	qboolean neverFree;             // if true, FreeEntity will only unlink
-									// bodyque uses this
+	                                // bodyque uses this
 
 	int flags;                      // FL_* variables
 
@@ -204,11 +204,11 @@ struct gentity_s {
 	qboolean unlinkAfterEvent;
 
 	qboolean physicsObject;         // if true, it can be pushed by movers and fall off edges
-									// all game items are physicsObjects,
+	                                // all game items are physicsObjects,
 	float physicsBounce;            // 1.0 = continuous bounce, 0.0 = no bounce
 	int clipmask;                   // brushes with this content value will be collided against
-									// when moving.  items and corpses do not collide against
-									// players, for instance
+	                                // when moving.  items and corpses do not collide against
+	                                // players, for instance
 
 	// movers
 	moverState_t moverState;
@@ -349,7 +349,7 @@ struct gentity_s {
 	// Ridah
 	int missionLevel;                   // highest mission level completed (for previous level de-briefings)
 	int missionObjectives;              // which objectives for the current level have been met
-										// gets reset each new level
+	                                    // gets reset each new level
 
 	int numSecretsFound;                //----(SA)	added to get into savegame
 	int numTreasureFound;               //----(SA)	added to get into savegame
@@ -418,9 +418,9 @@ struct gentity_s {
 	int voiceChatPreviousTime;              // DHM - Nerve
 	int lastBurnedFrameNumber;              // JPW - Nerve   : to fix FT instant-kill exploit
 
-	// L0 
-	int lastPushTime;		// Shove
-	int thrownKnifeTime;	// Throwing Knives 
+	// L0
+	int lastPushTime;       // Shove
+	int thrownKnifeTime;    // Throwing Knives
 	// End
 };
 
@@ -471,7 +471,7 @@ typedef struct {
 
 // L0 - Admins
 //
-// 3 Levels may be an overkill for max 4-8 players game but sometimes 
+// 3 Levels may be an overkill for max 4-8 players game but sometimes
 // it's best to give lower level to new admins so they don't go screwing around with to much power..
 typedef enum {
 	ADM_NONE, // Normal players
@@ -497,23 +497,23 @@ typedef struct {
 	int playerItem;                 // DHM - Nerve :: for GT_WOLF
 	int playerSkin;                 // DHM - Nerve :: for GT_WOLF
 
-        // fretn
-        // stats for the scoreboard
-        int prop_damage;
-        int airtime;
-        int pickups;
-        int damage_given;
-        int damage_received;
-        int kills;
-        int deaths;
-        int suicides;
-        int lastBonusLifeScore;
+	// fretn
+	// stats for the scoreboard
+	int prop_damage;
+	int airtime;
+	int pickups;
+	int damage_given;
+	int damage_received;
+	int kills;
+	int deaths;
+	int suicides;
+	int lastBonusLifeScore;
 
-	// L0 
-	admLvls_t admin;		// Admins
-	unsigned char ip[4];	// IPs
-	int	incognito;			// Toggle admin presence visibility on server
-	int ignored;			// Ignored player
+	// L0
+	admLvls_t admin;        // Admins
+	unsigned char ip[4];    // IPs
+	int incognito;          // Toggle admin presence visibility on server
+	int ignored;            // Ignored player
 	// End
 
 } clientSession_t;
@@ -547,10 +547,10 @@ typedef struct {
 	int teamVoteCount;              // to prevent people from constantly calling votes
 	qboolean teamInfo;              // send team overlay updates?
 
-	// L0 
-	char cmd1[128];	// !command
+	// L0
+	char cmd1[128]; // !command
 	char cmd2[128]; // !command attribute
-	char cmd3[128];	// !commant attribute extra	
+	char cmd3[128]; // !commant attribute extra
 	// End
 
 	int lastReinforceTime;              // DHM - Nerve :: last reinforcement
@@ -569,7 +569,7 @@ typedef struct {
 } clientMarker_t;
 
 #define MAX_CLIENT_MARKERS 10
-// end 
+// end
 
 
 // this structure is cleared on each ClientSpawn(),
@@ -587,8 +587,8 @@ struct gclient_s {
 	qboolean noclip;
 
 	int lastCmdTime;                // level.time of last usercmd_t, for EF_CONNECTION
-									// we can't just use pers.lastCommand.time, because
-									// of the g_sycronousclients case
+	                                // we can't just use pers.lastCommand.time, because
+	                                // of the g_sycronousclients case
 	int buttons;
 	int oldbuttons;
 	int latched_buttons;
@@ -714,7 +714,7 @@ typedef struct {
 	int lastTeamLocationTime;               // last time of client team location update
 
 	qboolean newSession;                // don't use any old session data, because
-										// we changed gametype
+	                                    // we changed gametype
 
 	qboolean restarted;                 // waiting for a map_restart to fire
 
@@ -752,14 +752,14 @@ typedef struct {
 	int numSpawnVarChars;
 	char spawnVarChars[MAX_SPAWN_VARS_CHARS];
 
-        qboolean fResetStats;
+	qboolean fResetStats;
 
 	// intermission state
 	int intermissionQueued;             // intermission was qualified, but
-										// wait INTERMISSION_DELAY_TIME before
-										// actually going there so the last
-										// frag can be watched.  Disable future
-										// kills during this delay
+	                                    // wait INTERMISSION_DELAY_TIME before
+	                                    // actually going there so the last
+	                                    // frag can be watched.  Disable future
+	                                    // kills during this delay
 	int intermissiontime;               // time the intermission was started
 	char        *changemap;
 	qboolean readyToExit;               // at least one client wants to exit
@@ -792,10 +792,10 @@ typedef struct {
 	int numTreasure;
 	int numArtifacts;
 	int numObjectives;
-        int missionObjectives; // fretn
+	int missionObjectives;     // fretn
 
-        int numSecretsFound;
-        int numTreasureFound;
+	int numSecretsFound;
+	int numTreasureFound;
 //----(SA)	end
 
 	int knifeSound[4];
@@ -810,7 +810,7 @@ typedef struct {
 	// RF, entity scripting
 	char        *scriptEntity;
 
-        // fretn - ents file
+	// fretn - ents file
 	char        *extraEntsScript;
 
 	// player/AI model scripting (server repository)
@@ -822,17 +822,17 @@ typedef struct {
 	// RF, record last time we loaded, so we can hack around sighting issues on reload
 	int lastLoadTime;
 
-        // fretn: every x seconds save the current location of the players to use as a future spawnpoint
-        int lastSpawnSave;
+	// fretn: every x seconds save the current location of the players to use as a future spawnpoint
+	int lastSpawnSave;
 
-        int lastBattleScorecheck;
+	int lastBattleScorecheck;
 
-        int numFinalDead;
-	// L0 
+	int numFinalDead;
+	// L0
 	int motdTime;
 	// End
 
-        int lastRestartTime;
+	int lastRestartTime;
 
 	// fretn - used in ai files
 	int globalAccumBuffer[G_MAX_SCRIPT_ACCUM_BUFFERS];
@@ -1211,10 +1211,10 @@ void Props_Chair_Skyboxtouch( gentity_t *ent );
 //
 // L0 - g_files.c
 //
-void TEMPBAN_CLIENT(gentity_t *ent, const int minsbanned);
-void clean_tempbans(void);
+void TEMPBAN_CLIENT( gentity_t *ent, const int minsbanned );
+void clean_tempbans( void );
 extern char *TempBannedMessage;
-int checkBanned(char *data, char * password);
+int checkBanned( char *data, char * password );
 // End
 
 extern level_locals_t level;
@@ -1316,19 +1316,19 @@ extern vmCvar_t g_antilag;
 // end
 
 // L0
-extern vmCvar_t	a1_pass;	
-extern vmCvar_t	a2_pass;	
-extern vmCvar_t	a3_pass;	
-extern vmCvar_t	a1_tag;		
-extern vmCvar_t	a2_tag;		
-extern vmCvar_t	a3_tag;		
-extern vmCvar_t	a1_cmds;	
-extern vmCvar_t	a2_cmds;	
-extern vmCvar_t	a3_cmds;	
-extern vmCvar_t	a3_allowAll;
-extern vmCvar_t	adm_help;
+extern vmCvar_t a1_pass;
+extern vmCvar_t a2_pass;
+extern vmCvar_t a3_pass;
+extern vmCvar_t a1_tag;
+extern vmCvar_t a2_tag;
+extern vmCvar_t a3_tag;
+extern vmCvar_t a1_cmds;
+extern vmCvar_t a2_cmds;
+extern vmCvar_t a3_cmds;
+extern vmCvar_t a3_allowAll;
+extern vmCvar_t adm_help;
 extern vmCvar_t g_gamelocked;
-extern vmCvar_t	sv_hostname;
+extern vmCvar_t sv_hostname;
 extern vmCvar_t g_extendedLog;
 extern vmCvar_t g_votesPerUser;
 extern vmCvar_t g_bannedMSG;
@@ -1336,7 +1336,7 @@ extern vmCvar_t g_usePassword;
 extern vmCvar_t g_shove;
 extern vmCvar_t g_shoveAmount;
 extern vmCvar_t g_throwKnives;
-extern vmCvar_t	g_showMOTD;
+extern vmCvar_t g_showMOTD;
 extern vmCvar_t g_motd1;
 extern vmCvar_t g_motd2;
 extern vmCvar_t g_motd3;
@@ -1581,39 +1581,24 @@ void G_Trace( gentity_t* ent, trace_t *results, const vec3_t start, const vec3_t
 void LerpPosition( vec3_t start, vec3_t end, float frac, vec3_t out );
 // end
 
-// L0 - SQL
-#ifdef SQL
-int				trap_SQL_RunQuery( const char *query );
-void			trap_SQL_FinishQuery( int queryid );
-qboolean		trap_SQL_NextRow( int queryid );
-int				trap_SQL_RowCount( int queryid );
-void			trap_SQL_GetFieldbyID( int queryid, int fieldid, char *buffer, int len );
-void			trap_SQL_GetFieldbyName( int queryid, const char *name, char *buffer, int len );
-int				trap_SQL_GetFieldbyID_int( int queryid, int fieldid );
-int				trap_SQL_GetFieldbyName_int( int queryid, const char *name );
-int				trap_SQL_FieldCount( int queryid );
-void			trap_SQL_CleanString( const char *in, char *out, int len );
-#endif
-
-// L0 
-void Cmd_Push_f(gentity_t* ent);		// Shove
-void Cmd_ThrowKnives( gentity_t *ent );	// Knife throw
+// L0
+void Cmd_Push_f( gentity_t* ent );        // Shove
+void Cmd_ThrowKnives( gentity_t *ent ); // Knife throw
 // End
 
 typedef enum
 {
-        AITEAM_NAZI,
-        AITEAM_ALLIES,
-        AITEAM_MONSTER,
-        AITEAM_SPARE1,
-        AITEAM_ENDMAPBOSS, // end.bsp sets "aiteam" "4" for the zombies and bosses (heinrich and friends) at the end of the map
-        AITEAM_SPARE3,
-        AITEAM_SPARE4,
-        AITEAM_NEUTRAL
+	AITEAM_NAZI,
+	AITEAM_ALLIES,
+	AITEAM_MONSTER,
+	AITEAM_SPARE1,
+	AITEAM_ENDMAPBOSS,     // end.bsp sets "aiteam" "4" for the zombies and bosses (heinrich and friends) at the end of the map
+	AITEAM_SPARE3,
+	AITEAM_SPARE4,
+	AITEAM_NEUTRAL
 } AITeam_t;
 
 #include "g_coop.h"
 
 // L0 - Admin's stuff
 #include "g_admin.h"
-

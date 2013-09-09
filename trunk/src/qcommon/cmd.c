@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ void Cmd_Wait_f( void ) {
 /*
 =============================================================================
 
-						COMMAND BUFFER
+                        COMMAND BUFFER
 
 =============================================================================
 */
@@ -231,7 +231,7 @@ void Cbuf_Execute( void ) {
 /*
 ==============================================================================
 
-						SCRIPT COMMANDS
+                        SCRIPT COMMANDS
 
 ==============================================================================
 */
@@ -245,28 +245,29 @@ Cmd_Exec_f
 void Cmd_Exec_f( void ) {
 	qboolean quiet;
 	union {
-		char	*c;
-		void	*v;
+		char    *c;
+		void    *v;
 	} f;
 	char filename[MAX_QPATH];
 
-	quiet = !Q_stricmp(Cmd_Argv(0), "exec@");
+	quiet = !Q_stricmp( Cmd_Argv( 0 ), "exec@" );
 
 	if ( Cmd_Argc() != 2 ) {
-		Com_Printf ("exec%s <filename> : execute a script file%s\n",
-		            quiet ? "@" : "", quiet ? " without notification" : "");
+		Com_Printf( "exec%s <filename> : execute a script file%s\n",
+					quiet ? "@" : "", quiet ? " without notification" : "" );
 		return;
 	}
 
 	Q_strncpyz( filename, Cmd_Argv( 1 ), sizeof( filename ) );
 	COM_DefaultExtension( filename, sizeof( filename ), ".cfg" );
-	FS_ReadFile( filename, &f.v);
-	if (!f.c) {
-		Com_Printf ("couldn't exec %s\n", filename);
+	FS_ReadFile( filename, &f.v );
+	if ( !f.c ) {
+		Com_Printf( "couldn't exec %s\n", filename );
 		return;
 	}
-	if (!quiet)
-		Com_Printf ("execing %s\n", filename);
+	if ( !quiet ) {
+		Com_Printf( "execing %s\n", filename );
+	}
 
 	Cbuf_InsertText( f.c );
 
@@ -313,7 +314,7 @@ void Cmd_Echo_f( void ) {
 /*
 =============================================================================
 
-					COMMAND EXECUTION
+                    COMMAND EXECUTION
 
 =============================================================================
 */
@@ -435,8 +436,8 @@ For rcon use when you want to transmit without altering quoting
 ATVI Wolfenstein Misc #284
 ============
 */
-char *Cmd_Cmd(void) {
-        return cmd_cmd;
+char *Cmd_Cmd( void ) {
+	return cmd_cmd;
 }
 
 /*
@@ -606,7 +607,7 @@ void    Cmd_RemoveCommand( const char *cmd_name ) {
 Cmd_CommandCompletion
 ============
 */
-void    Cmd_CommandCompletion( void ( *callback )(const char *s) ) {
+void    Cmd_CommandCompletion( void ( *callback )( const char *s ) ) {
 	cmd_function_t  *cmd;
 
 	for ( cmd = cmd_functions ; cmd ; cmd = cmd->next ) {
@@ -713,9 +714,8 @@ Cmd_Init
 void Cmd_Init( void ) {
 	Cmd_AddCommand( "cmdlist",Cmd_List_f );
 	Cmd_AddCommand( "exec",Cmd_Exec_f );
-	Cmd_AddCommand ("exec@",Cmd_Exec_f);
+	Cmd_AddCommand( "exec@",Cmd_Exec_f );
 	Cmd_AddCommand( "vstr",Cmd_Vstr_f );
 	Cmd_AddCommand( "echo",Cmd_Echo_f );
 	Cmd_AddCommand( "wait", Cmd_Wait_f );
 }
-

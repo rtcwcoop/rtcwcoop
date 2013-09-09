@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -202,11 +202,11 @@ typedef enum {
 
 typedef enum {
 
-        GT_COOP_BATTLE, // 1vs1
-        GT_COOP_SPEEDRUN,
-        // other coop variations should come before this one, because we will
-        // use g_gametype.integer <= GT_COOP
-        GT_COOP, 
+	GT_COOP_BATTLE,     // 1vs1
+	GT_COOP_SPEEDRUN,
+	// other coop variations should come before this one, because we will
+	// use g_gametype.integer <= GT_COOP
+	GT_COOP,
 	//-- coop games come before this --
 	GT_SINGLE_PLAYER,
 	//-- team games go after this --
@@ -356,8 +356,8 @@ typedef enum {
 	PERS_REWARD,                    // a reward_t
 	PERS_ATTACKER,                  // clientnum of last damage inflicter
 	PERS_KILLED,                    // count of the number of times you died
-        PERS_RESPAWNS_LEFT,             // number of remaining respawns
-        PERS_SPAWNPOINTS_LEFT,           // number of droppable spawnpoints left
+	PERS_RESPAWNS_LEFT,                 // number of remaining respawns
+	PERS_SPAWNPOINTS_LEFT,               // number of droppable spawnpoints left
 	// these were added for single player awards tracking
 	PERS_ACCURACY_SHOTS,
 	PERS_ACCURACY_HITS,
@@ -649,18 +649,18 @@ typedef enum {
 /*
 // Original Q3A weaps/order
 typedef enum {
-	WP_NONE,				// 0
-	WP_GAUNTLET,			// 1
-	WP_MACHINEGUN = 20,		// 2
-	WP_SHOTGUN,				// 3
-	WP_GRENADE_LAUNCHER,	// 4
-	WP_ROCKET_LAUNCHER,		// 5
-	WP_LIGHTNING,			// 6
-	WP_RAILGUN,				// 7
-	WP_PLASMAGUN,			// 8
-	WP_BFG,					// 9
-	WP_GRAPPLING_HOOK		// 10
-	WP_NUM_WEAPONS			// 11
+    WP_NONE,				// 0
+    WP_GAUNTLET,			// 1
+    WP_MACHINEGUN = 20,		// 2
+    WP_SHOTGUN,				// 3
+    WP_GRENADE_LAUNCHER,	// 4
+    WP_ROCKET_LAUNCHER,		// 5
+    WP_LIGHTNING,			// 6
+    WP_RAILGUN,				// 7
+    WP_PLASMAGUN,			// 8
+    WP_BFG,					// 9
+    WP_GRAPPLING_HOOK		// 10
+    WP_NUM_WEAPONS			// 11
 } weapon_t;
 
 */
@@ -759,7 +759,7 @@ typedef enum {
 	EV_GRENADE_BOUNCE,      // eventParm will be the soundindex
 	EV_GENERAL_SOUND,
 	EV_GLOBAL_SOUND,        // no attenuation
-	// L0 
+	// L0
 	EV_CLIENT_SOUND,
 	// End
 	EV_BULLET_HIT_FLESH,
@@ -845,42 +845,42 @@ typedef enum {
 // animations
 /*	// straight Q3A for reference (SA)
 typedef enum {
-	BOTH_DEATH1,
-	BOTH_DEAD1,
-	BOTH_DEATH2,
-	BOTH_DEAD2,
-	BOTH_DEATH3,
-	BOTH_DEAD3,
+    BOTH_DEATH1,
+    BOTH_DEAD1,
+    BOTH_DEATH2,
+    BOTH_DEAD2,
+    BOTH_DEATH3,
+    BOTH_DEAD3,
 
-	TORSO_GESTURE,
+    TORSO_GESTURE,
 
-	TORSO_ATTACK,
-	TORSO_ATTACK2,
+    TORSO_ATTACK,
+    TORSO_ATTACK2,
 
-	TORSO_DROP,
-	TORSO_RAISE,
+    TORSO_DROP,
+    TORSO_RAISE,
 
-	TORSO_STAND,
-	TORSO_STAND2,
+    TORSO_STAND,
+    TORSO_STAND2,
 
-	LEGS_WALKCR,
-	LEGS_WALK,
-	LEGS_RUN,
-	LEGS_BACK,
-	LEGS_SWIM,
+    LEGS_WALKCR,
+    LEGS_WALK,
+    LEGS_RUN,
+    LEGS_BACK,
+    LEGS_SWIM,
 
-	LEGS_JUMP,
-	LEGS_LAND,
+    LEGS_JUMP,
+    LEGS_LAND,
 
-	LEGS_JUMPB,
-	LEGS_LANDB,
+    LEGS_JUMPB,
+    LEGS_LANDB,
 
-	LEGS_IDLE,
-	LEGS_IDLECR,
+    LEGS_IDLE,
+    LEGS_IDLECR,
 
-	LEGS_TURN,
+    LEGS_TURN,
 
-	MAX_ANIMATIONS
+    MAX_ANIMATIONS
 } animNumber_t;
 */
 
@@ -1209,7 +1209,7 @@ typedef enum {
 // L0 - new MODs
 #ifdef _ADMINS // I'll remove this soon..
 	MOD_SLAP,
-	MOD_ADMKILL,	
+	MOD_ADMKILL,
 #endif
 	MOD_THROWKNIFE,
 // end
@@ -1220,7 +1220,7 @@ typedef enum {
 	MOD_ENGINEER,   // not sure if we'll use
 	MOD_MEDIC,      // these like this or not
 //
-	
+
 	MOD_BAT
 
 } meansOfDeath_t;
@@ -1237,9 +1237,9 @@ typedef enum {
 	IT_ARMOR,               // EFX: rotate + minlight
 	IT_HEALTH,              // EFX: static external sphere + rotating internal
 	IT_POWERUP,             // instant on, timer based
-							// EFX: rotate + external ring that rotates
+	                        // EFX: rotate + external ring that rotates
 	IT_HOLDABLE,            // single use, holdable item
-							// EFX: rotate + bob
+	                        // EFX: rotate + bob
 	IT_KEY,
 	IT_TREASURE,            // gold bars, etc.  things that can be picked up and counted for a tally at end-level
 	IT_CLIPBOARD,           // 'clipboard' used as a general term for 'popup' items where you pick up the item and it pauses and opens a menu
@@ -1391,8 +1391,8 @@ typedef enum {
 	ET_FLAMETHROWER_CHUNK,      // DHM - NERVE :: Used in server side collision detection for flamethrower
 
 	ET_EVENTS               // any of the EV_* events can be added freestanding
-							// by setting eType to ET_EVENTS + eventNum
-							// this avoids having to set eFlags and eventNum
+	                        // by setting eType to ET_EVENTS + eventNum
+	                        // this avoids having to set eFlags and eventNum
 } entityType_t;
 
 
@@ -1765,8 +1765,8 @@ typedef enum
 // cs: to send the class name with event. maps are defined in classNameMap[] (cg_event.c)
 typedef enum
 {
-    COOP_SPAWNPOINT,
-    AI_TRIGGER
+	COOP_SPAWNPOINT,
+	AI_TRIGGER
 } debugText_t;
 
 //------------------------------------------------------------------

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ int openMenuCount = 0;
 // a stack for modal menus only, stores the menus to come back to
 // (an item can be NULL, goes back to main menu / no action required)
 menuDef_t *modalMenuStack[MAX_MODAL_MENUS];
-int modalMenuCount = 0; 
+int modalMenuCount = 0;
 
 static qboolean debugMode = qfalse;
 
@@ -92,7 +92,7 @@ static qboolean Menu_OverActiveItem( menuDef_t *menu, float x, float y );
 #else
 //#define MEM_POOL_SIZE  1024 * 1024
 //fretn
-#define MEM_POOL_SIZE  2048 * 2048 
+#define MEM_POOL_SIZE  2048 * 2048
 #endif
 
 static char memoryPool[MEM_POOL_SIZE];
@@ -383,7 +383,7 @@ void PC_SourceError( int handle, char *format, ... ) {
 /*
 =================
 LerpColor
-	lerp and clamp each component of <a> and <b> into <c> by the fraction <t>
+    lerp and clamp each component of <a> and <b> into <c> by the fraction <t>
 =================
 */
 void LerpColor( vec4_t a, vec4_t b, vec4_t c, float t ) {
@@ -603,14 +603,14 @@ NERVE - SMF - translates string
 =================
 */
 qboolean PC_String_Parse_Trans( int handle, const char **out ) {
-        pc_token_t token;
+	pc_token_t token;
 
-        if ( !trap_PC_ReadToken( handle, &token ) ) {
-                return qfalse;
-        }    
+	if ( !trap_PC_ReadToken( handle, &token ) ) {
+		return qfalse;
+	}
 
-        *( out ) = String_Alloc( DC->translateString( token.string ) ); 
-        return qtrue;
+	*( out ) = String_Alloc( DC->translateString( token.string ) );
+	return qtrue;
 }
 #endif
 // NERVE - SMF
@@ -1193,29 +1193,29 @@ static void Menu_RunCloseScript( menuDef_t *menu ) {
 
 void Menus_CloseByName( const char *p ) {
 /*
+    menuDef_t *menu = Menus_FindByName( p );
+    if ( menu != NULL ) {
+        Menu_RunCloseScript( menu );
+        menu->window.flags &= ~( WINDOW_VISIBLE | WINDOW_HASFOCUS );
+    }
+*/
 	menuDef_t *menu = Menus_FindByName( p );
 	if ( menu != NULL ) {
 		Menu_RunCloseScript( menu );
 		menu->window.flags &= ~( WINDOW_VISIBLE | WINDOW_HASFOCUS );
+		if ( menu->window.flags & WINDOW_MODAL ) {
+			if ( modalMenuCount <= 0 ) {
+				Com_Printf( S_COLOR_YELLOW "WARNING: tried closing a modal window with an empty modal stack!\n" );
+			} else
+			{
+				modalMenuCount--;
+				// if modal doesn't have a parent, the stack item may be NULL .. just go back to the main menu then
+				if ( modalMenuStack[modalMenuCount] ) {
+					Menus_ActivateByName( modalMenuStack[modalMenuCount]->window.name, qfalse );                     // don't try to push the one we are opening to the stack
+				}
+			}
+		}
 	}
-*/
-        menuDef_t *menu = Menus_FindByName( p ); 
-        if ( menu != NULL ) {
-                Menu_RunCloseScript( menu );
-                menu->window.flags &= ~( WINDOW_VISIBLE | WINDOW_HASFOCUS );
-                if ( menu->window.flags & WINDOW_MODAL ) {
-                        if ( modalMenuCount <= 0 ) {
-                                Com_Printf( S_COLOR_YELLOW "WARNING: tried closing a modal window with an empty modal stack!\n" );
-                        } else 
-                        {    
-                                modalMenuCount--;
-                                // if modal doesn't have a parent, the stack item may be NULL .. just go back to the main menu then
-                                if ( modalMenuStack[modalMenuCount] ) {
-                                        Menus_ActivateByName( modalMenuStack[modalMenuCount]->window.name, qfalse ); // don't try to push the one we are opening to the stack
-                                }
-                        }            
-                }            
-        } 
 }
 
 void Menus_CloseAll( void ) {
@@ -1294,11 +1294,11 @@ void Script_Clipboard( itemDef_t *item, char **args ) {
 /*
 ==============
 Script_NotebookShowpage
-	hide all notebook pages and show just the active one
+    hide all notebook pages and show just the active one
 
-	inc == 0	- show current page
-	inc == val	- turn inc pages in the notebook (negative numbers are backwards)
-	inc == 999	- key number.  +999 is jump to last page, -999 is jump to cover page
+    inc == 0	- show current page
+    inc == val	- turn inc pages in the notebook (negative numbers are backwards)
+    inc == 999	- key number.  +999 is jump to last page, -999 is jump to cover page
 ==============
 */
 void Script_NotebookShowpage( itemDef_t *item, char **args ) {
@@ -1831,8 +1831,8 @@ int Item_Slider_OverSlider( itemDef_t *item, float x, float y ) {
 }
 
 int Item_ListBox_OverLB( itemDef_t *item, float x, float y ) {
-	rectDef_t r;	
-	int thumbstart;	
+	rectDef_t r;
+	int thumbstart;
 
 	if ( item->window.flags & WINDOW_HORIZONTAL ) {
 		// check if on left arrow
@@ -2515,12 +2515,12 @@ static void Scroll_ListBox_ThumbFunc( void *p ) {
 		pos = ( DC->cursorx - r.x - SCROLLBAR_SIZE / 2 ) * max / ( r.w - SCROLLBAR_SIZE );
 		if ( pos < 0 ) {
 			pos = 0;
-		} else if ( pos > max )     {
+		} else if ( pos > max ) {
 			pos = max;
 		}
 		listPtr->startPos = pos;
 		si->xStart = DC->cursorx;
-	} else if ( DC->cursory != si->yStart )     {
+	} else if ( DC->cursory != si->yStart ) {
 
 		r.x = si->item->window.rect.x + si->item->window.rect.w - SCROLLBAR_SIZE - 1;
 		r.y = si->item->window.rect.y + SCROLLBAR_SIZE + 1;
@@ -2531,7 +2531,7 @@ static void Scroll_ListBox_ThumbFunc( void *p ) {
 		pos = ( DC->cursory - r.y - SCROLLBAR_SIZE / 2 ) * max / ( r.h - SCROLLBAR_SIZE );
 		if ( pos < 0 ) {
 			pos = 0;
-		} else if ( pos > max )     {
+		} else if ( pos > max ) {
 			pos = max;
 		}
 		listPtr->startPos = pos;
@@ -2730,9 +2730,9 @@ qboolean Item_HandleKey( itemDef_t *item, int key, qboolean down ) {
 	case ITEM_TYPE_SLIDER:
 		return Item_Slider_HandleKey( item, key, down );
 		break;
-		//case ITEM_TYPE_IMAGE:
-		//  Item_Image_Paint(item);
-		//  break;
+	//case ITEM_TYPE_IMAGE:
+	//  Item_Image_Paint(item);
+	//  break;
 	default:
 		return qfalse;
 		break;
@@ -2991,7 +2991,7 @@ void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 	// default handling
 	switch ( key ) {
 
-        case K_CTRL:
+	case K_CTRL:
 	case K_F11:
 		if ( DC->getCVarValue( "developer" ) ) {
 			debugMode ^= 1;
@@ -3044,7 +3044,7 @@ void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 					DC->setOverstrikeMode( qtrue );
 				}
 			} else {
-				if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) || Rect_ContainsPoint( Item_CorrectedTextRect(item) , DC->cursorx, DC->cursory )) {
+				if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) || Rect_ContainsPoint( Item_CorrectedTextRect( item ), DC->cursorx, DC->cursory ) ) {
 					Item_Action( item );
 				}
 			}
@@ -3288,7 +3288,7 @@ void Item_Text_Wrapped_Paint( itemDef_t *item ) {
 		p = strchr( p + 1, '\r' );
 	}
 #ifdef LOCALISATION
-	DC->drawText( x, y, item->font, item->textscale, color, DC->translateString(start), 0, 0, item->textStyle );
+	DC->drawText( x, y, item->font, item->textscale, color, DC->translateString( start ), 0, 0, item->textStyle );
 #else
 	DC->drawText( x, y, item->font, item->textscale, color, start, 0, 0, item->textStyle );
 #endif
@@ -3344,15 +3344,15 @@ void Item_Text_Paint( itemDef_t *item ) {
 
 	//FIXME: this is a fucking mess
 /*
-	adjust = 0;
-	if (item->textStyle == ITEM_TEXTSTYLE_OUTLINED || item->textStyle == ITEM_TEXTSTYLE_OUTLINESHADOWED) {
-		adjust = 0.5;
-	}
+    adjust = 0;
+    if (item->textStyle == ITEM_TEXTSTYLE_OUTLINED || item->textStyle == ITEM_TEXTSTYLE_OUTLINESHADOWED) {
+        adjust = 0.5;
+    }
 
-	if (item->textStyle == ITEM_TEXTSTYLE_SHADOWED || item->textStyle == ITEM_TEXTSTYLE_OUTLINESHADOWED) {
-		Fade(&item->window.flags, &DC->Assets.shadowColor[3], DC->Assets.fadeClamp, &item->window.nextTime, DC->Assets.fadeCycle, qfalse);
-		DC->drawText(item->textRect.x + DC->Assets.shadowX, item->textRect.y + DC->Assets.shadowY, item->textscale, DC->Assets.shadowColor, textPtr, adjust);
-	}
+    if (item->textStyle == ITEM_TEXTSTYLE_SHADOWED || item->textStyle == ITEM_TEXTSTYLE_OUTLINESHADOWED) {
+        Fade(&item->window.flags, &DC->Assets.shadowColor[3], DC->Assets.fadeClamp, &item->window.nextTime, DC->Assets.fadeCycle, qfalse);
+        DC->drawText(item->textRect.x + DC->Assets.shadowX, item->textRect.y + DC->Assets.shadowY, item->textscale, DC->Assets.shadowColor, textPtr, adjust);
+    }
 */
 
 
@@ -3371,7 +3371,7 @@ void Item_Text_Paint( itemDef_t *item ) {
 //		DC->drawText(item->textRect.x - 1, item->textRect.y + 1, item->textscale * 1.02, item->window.outlineColor, textPtr, adjust);
 //	}
 #ifdef LOCALISATION
-	DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, DC->translateString(textPtr), 0, 0, item->textStyle );
+	DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, DC->translateString( textPtr ), 0, 0, item->textStyle );
 #else
 	DC->drawText( item->textRect.x, item->textRect.y, item->font, item->textscale, color, textPtr, 0, 0, item->textStyle );
 #endif
@@ -3471,7 +3471,7 @@ void Item_Multi_Paint( itemDef_t *item ) {
 	if ( item->text ) {
 		Item_Text_Paint( item );
 #ifdef LOCALISATION
-		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, DC->translateString(text), 0, 0, item->textStyle );
+		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, DC->translateString( text ), 0, 0, item->textStyle );
 #else
 		DC->drawText( item->textRect.x + item->textRect.w + 8, item->textRect.y, item->font, item->textscale, newColor, text, 0, 0, item->textStyle );
 #endif
@@ -3888,12 +3888,12 @@ qboolean Item_Bind_HandleKey( itemDef_t *item, int key, qboolean down ) {
 			id = BindingIDFromName( item->cvar );
 			if ( id != -1 ) {
 				key = -1;       // null out the key, but let it pass down so it can get 'unbound'
-								// if it just returns here, the old bindings don't get cleared out.
-								// so if user has both 'r' and 'g' bound to '+attack' and they only want the 'r',
-								// they click to bind the key, <backsp> to kill the bindings (which appears to the user to work)
-								// then they click to bind and hit 'r'.  now the menu looks right to them, but if you drop the menu
-								// and come back, the 'g' is magically re-bound since it didn't get bound to "" on the <backsp>.  <phew>
-								// does this seem reasonable to anybody reading this? (SA)
+				                // if it just returns here, the old bindings don't get cleared out.
+				                // so if user has both 'r' and 'g' bound to '+attack' and they only want the 'r',
+				                // they click to bind the key, <backsp> to kill the bindings (which appears to the user to work)
+				                // then they click to bind and hit 'r'.  now the menu looks right to them, but if you drop the menu
+				                // and come back, the 'g' is magically re-bound since it didn't get bound to "" on the <backsp>.  <phew>
+				                // does this seem reasonable to anybody reading this? (SA)
 //					g_bindings[id].bind1 = -1;
 //					g_bindings[id].bind2 = -1;
 			}
@@ -3937,9 +3937,9 @@ qboolean Item_Bind_HandleKey( itemDef_t *item, int key, qboolean down ) {
 				DC->setBinding( g_bindings[id].bind2, "" );
 				g_bindings[id].bind2 = -1;
 			}
-		} else if ( g_bindings[id].bind1 == -1 )     {
+		} else if ( g_bindings[id].bind1 == -1 ) {
 			g_bindings[id].bind1 = key;
-		} else if ( g_bindings[id].bind1 != key && g_bindings[id].bind2 == -1 )     {
+		} else if ( g_bindings[id].bind1 != key && g_bindings[id].bind2 == -1 ) {
 			g_bindings[id].bind2 = key;
 		} else {
 			DC->setBinding( g_bindings[id].bind1, "" );
@@ -4106,9 +4106,10 @@ void Item_ListBox_Paint( itemDef_t *item ) {
 	// there is no clipping available so only the last completely visible item is painted
 	count = DC->feederCount( item->special );
 
-        // make sure the UI knows that the first element is selected after the initialisation
-        if ((item->special == FEEDER_SERVERS || item->special == FEEDER_ALLMAPS)&& !item->cursorPos && count > 0)
-                DC->feederSelection( item->special, 0 );
+	// make sure the UI knows that the first element is selected after the initialisation
+	if ( ( item->special == FEEDER_SERVERS || item->special == FEEDER_ALLMAPS ) && !item->cursorPos && count > 0 ) {
+		DC->feederSelection( item->special, 0 );
+	}
 
 	// default is vertical if horizontal flag is not here
 	if ( item->window.flags & WINDOW_HORIZONTAL ) {
@@ -4222,7 +4223,7 @@ void Item_ListBox_Paint( itemDef_t *item ) {
 						if ( optionalImage >= 0 ) {
 							DC->drawHandlePic( x + 4 + listPtr->columnInfo[j].pos, y - 1 + listPtr->elementHeight / 2, listPtr->columnInfo[j].width, listPtr->columnInfo[j].width, optionalImage );
 						} else if ( text ) {
-							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y + listPtr->elementHeight-3, item->font, item->textscale, item->window.foreColor, text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
+							DC->drawText( x + 4 + listPtr->columnInfo[j].pos, y + listPtr->elementHeight - 3, item->font, item->textscale, item->window.foreColor, text, 0, listPtr->columnInfo[j].maxChars, item->textStyle );
 						}
 					}
 				} else {
@@ -4595,6 +4596,23 @@ qboolean Menus_AnyFullScreenVisible( void ) {
 menuDef_t *Menus_ActivateByName( const char *p, qboolean modalStack ) {
 /*
 menuDef_t *Menus_ActivateByName( const char *p ) {
+    int i;
+    menuDef_t *m = NULL;
+    menuDef_t *focus = Menu_GetFocused();
+    for ( i = 0; i < menuCount; i++ ) {
+        if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
+            m = &Menus[i];
+            Menus_Activate( m );
+            if ( openMenuCount < MAX_OPEN_MENUS && focus != NULL ) {
+                menuStack[openMenuCount++] = focus;
+            }
+        } else {
+            Menus[i].window.flags &= ~WINDOW_HASFOCUS;
+        }
+    }
+    Display_CloseCinematics();
+    return m;
+*/
 	int i;
 	menuDef_t *m = NULL;
 	menuDef_t *focus = Menu_GetFocused();
@@ -4602,8 +4620,11 @@ menuDef_t *Menus_ActivateByName( const char *p ) {
 		if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
 			m = &Menus[i];
 			Menus_Activate( m );
-			if ( openMenuCount < MAX_OPEN_MENUS && focus != NULL ) {
-				menuStack[openMenuCount++] = focus;
+			if ( modalStack && m->window.flags & WINDOW_MODAL ) {
+				if ( modalMenuCount >= MAX_MODAL_MENUS ) {
+					Com_Error( ERR_DROP, "MAX_MODAL_MENUS exceeded\n" );
+				}
+				modalMenuStack[modalMenuCount++] = focus;
 			}
 		} else {
 			Menus[i].window.flags &= ~WINDOW_HASFOCUS;
@@ -4611,26 +4632,6 @@ menuDef_t *Menus_ActivateByName( const char *p ) {
 	}
 	Display_CloseCinematics();
 	return m;
-*/
-        int i;
-        menuDef_t *m = NULL;
-        menuDef_t *focus = Menu_GetFocused();
-        for ( i = 0; i < menuCount; i++ ) {
-                if ( Q_stricmp( Menus[i].window.name, p ) == 0 ) {
-                        m = &Menus[i];
-                        Menus_Activate( m );
-                        if ( modalStack && m->window.flags & WINDOW_MODAL ) {
-                                if ( modalMenuCount >= MAX_MODAL_MENUS ) {
-                                        Com_Error( ERR_DROP, "MAX_MODAL_MENUS exceeded\n" );
-                                }
-                                modalMenuStack[modalMenuCount++] = focus;
-                        }
-                } else {
-                        Menus[i].window.flags &= ~WINDOW_HASFOCUS;
-                }
-        }
-        Display_CloseCinematics();
-        return m;
 }
 
 
@@ -4683,7 +4684,7 @@ void Menu_HandleMouseMove( menuDef_t *menu, float x, float y ) {
 			}
 
 
-			if ( Rect_ContainsPoint( &menu->items[i]->window.rect, x, y ) || Rect_ContainsPoint( Item_CorrectedTextRect( menu->items[i] ), x, y )) {
+			if ( Rect_ContainsPoint( &menu->items[i]->window.rect, x, y ) || Rect_ContainsPoint( Item_CorrectedTextRect( menu->items[i] ), x, y ) ) {
 				if ( pass == 1 ) {
 					overItem = menu->items[i];
 					if ( overItem->type == ITEM_TYPE_TEXT && overItem->text ) {
@@ -4759,13 +4760,13 @@ void Menu_Paint( menuDef_t *menu, qboolean forcePaint ) {
 	// fretn: client asks masterserver for latest version of rtcwcoop
 	// if version is newer than current draw an informational string on the main menu
 	// draw version
-	newversionavailable = (qboolean)DC->getCVarValue("ui_newversionavailable");
-	if ( !Q_stricmp(menu->window.name, "main") && newversionavailable) {
+	newversionavailable = (qboolean)DC->getCVarValue( "ui_newversionavailable" );
+	if ( !Q_stricmp( menu->window.name, "main" ) && newversionavailable ) {
 		vec4_t v = {1, 1, 1, 1};
 		vec4_t color = {0, 0, 0, 0.85};
 		char latest_version[64];
 
-		DC->getCVarString( "ui_latestversion", latest_version, sizeof( latest_version) ); // grab the string the client set
+		DC->getCVarString( "ui_latestversion", latest_version, sizeof( latest_version ) ); // grab the string the client set
 
 		// MAYBE: if they click on the fillrect, sys_openurl ?
 		DC->fillRect( 5, 415, 640, 65, color );
@@ -4773,8 +4774,8 @@ void Menu_Paint( menuDef_t *menu, qboolean forcePaint ) {
 		DC->drawText( 10, 441, 0, .25, v, va( "You are running an old version (^3%s) ^7 and there is a new version (^2%s) ^7 available!", RTCWCOOP_VERSION_NUMBER, latest_version ), 0, 0, 0 );
 		DC->drawText( 10, 463, 0, .25, v, va( "Please search the internet for an update. http://www.rtcwcoop.com" ), 0, 0, 0 );
 #else
-		DC->drawText( 10, 441, 0, .25, v, DC->translateString(va( "You are running an old version (^3%s) ^7 and there is a new version (^2%s) ^7 available!", RTCWCOOP_VERSION_NUMBER, latest_version )), 0, 0, 0 );
-		DC->drawText( 10, 463, 0, .25, v, DC->translateString(va( "Please search the internet for an update. http://www.rtcwcoop.com" )), 0, 0, 0 );
+		DC->drawText( 10, 441, 0, .25, v, DC->translateString( va( "You are running an old version (^3%s) ^7 and there is a new version (^2%s) ^7 available!", RTCWCOOP_VERSION_NUMBER, latest_version ) ), 0, 0, 0 );
+		DC->drawText( 10, 463, 0, .25, v, DC->translateString( va( "Please search the internet for an update. http://www.rtcwcoop.com" ) ), 0, 0, 0 );
 #endif
 
 	}
@@ -4845,9 +4846,9 @@ void KeywordHash_Add( keywordHash_t *table[], keywordHash_t *key ) {
 
 	hash = KeywordHash_Key( key->keyword );
 /*
-	if (table[hash]) {
-		int collision = qtrue;
-	}
+    if (table[hash]) {
+        int collision = qtrue;
+    }
 */
 	key->next = table[hash];
 	table[hash] = key;
@@ -5068,19 +5069,19 @@ qboolean ItemParse_rect( itemDef_t *item, int handle ) {
 
 // origin <integer, integer>
 qboolean ItemParse_origin( itemDef_t *item, int handle ) {
-        int x, y;
+	int x, y;
 
-        if ( !PC_Int_Parse( handle, &x ) ) {
-                return qfalse;
-        }    
-        if ( !PC_Int_Parse( handle, &y ) ) {
-                return qfalse;
-        }    
+	if ( !PC_Int_Parse( handle, &x ) ) {
+		return qfalse;
+	}
+	if ( !PC_Int_Parse( handle, &y ) ) {
+		return qfalse;
+	}
 
-        item->window.rectClient.x += x;
-        item->window.rectClient.y += y;
+	item->window.rectClient.x += x;
+	item->window.rectClient.y += y;
 
-        return qtrue;
+	return qtrue;
 }
 
 
@@ -5716,7 +5717,7 @@ keywordHash_t itemParseKeywords[] = {
 	{"model_animplay", ItemParse_model_animplay, NULL},
 	{"rect", ItemParse_rect, NULL},
 	{"style", ItemParse_style, NULL},
-        {"origin", ItemParse_origin, NULL},
+	{"origin", ItemParse_origin, NULL},
 	{"decoration", ItemParse_decoration, NULL},
 	{"notselectable", ItemParse_notselectable, NULL},
 	{"wrapped", ItemParse_wrapped, NULL},
@@ -6185,9 +6186,9 @@ qboolean MenuParse_execKeyInt( itemDef_t *item, int handle ) {
 }
 
 qboolean MenuParse_modal( itemDef_t *item, int handle ) {
-        menuDef_t *menu = (menuDef_t*)item;
-        menu->window.flags |= WINDOW_MODAL;
-        return qtrue;
+	menuDef_t *menu = (menuDef_t*)item;
+	menu->window.flags |= WINDOW_MODAL;
+	return qtrue;
 }
 
 // -NERVE - SMF
@@ -6224,7 +6225,7 @@ keywordHash_t menuParseKeywords[] = {
 	{"fadeAmount", MenuParse_fadeAmount, NULL},
 	{"execKey", MenuParse_execKey, NULL},                // NERVE - SMF
 	{"execKeyInt", MenuParse_execKeyInt, NULL},          // NERVE - SMF
-        {"modal", MenuParse_modal, NULL },
+	{"modal", MenuParse_modal, NULL },
 	{NULL, NULL, NULL}
 };
 
@@ -6477,4 +6478,3 @@ static qboolean Menu_OverActiveItem( menuDef_t *menu, float x, float y ) {
 	}
 	return qfalse;
 }
-

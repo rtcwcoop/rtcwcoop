@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -144,11 +144,11 @@ SquareRootFloat
 L0 - applied render fix from ioquake fix
 ================
 */
-float SquareRootFloat( float number ) {	
+float SquareRootFloat( float number ) {
 	union {
 		float f;
 		int i;
-	} t;	
+	} t;
 	float x, y;
 	const float f = 1.5F;
 
@@ -774,7 +774,7 @@ void CM_TraceThroughSphere( traceWork_t *tw, vec3_t origin, float radius, vec3_t
 	//	c = (start[0] - origin[0])^2 + (start[1] - origin[1])^2 + (start[2] - origin[2])^2 - radius^2;
 	//
 	VectorSubtract( start, origin, v1 );
-	// dir is normalized so a = 1	
+	// dir is normalized so a = 1
 	b = 2.0f * ( dir[0] * v1[0] + dir[1] * v1[1] + dir[2] * v1[2] );
 	c = v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2] - ( radius + RADIUS_EPSILON ) * ( radius + RADIUS_EPSILON );
 
@@ -807,7 +807,7 @@ void CM_TraceThroughSphere( traceWork_t *tw, vec3_t origin, float radius, vec3_t
 			tw->trace.plane.dist = DotProduct( tw->trace.plane.normal, intersection );
 			tw->trace.contents = CONTENTS_BODY;
 		}
-	} else if ( d == 0 )     {
+	} else if ( d == 0 ) {
 		//t1 = (- b ) / 2;
 		// slide along the sphere
 	}
@@ -869,7 +869,7 @@ void CM_TraceThroughVerticalCylinder( traceWork_t *tw, vec3_t origin, float radi
 	//						v1[0] ^ 2 + v1[1] ^ 2 - radius ^ 2 = 0
 	//
 	VectorSubtract( start, origin, v1 );
-	// dir is normalized so we can use a = 1	
+	// dir is normalized so we can use a = 1
 	b = 2.0f * ( v1[0] * dir[0] + v1[1] * dir[1] );
 	c = v1[0] * v1[0] + v1[1] * v1[1] - ( radius + RADIUS_EPSILON ) * ( radius + RADIUS_EPSILON );
 
@@ -908,7 +908,7 @@ void CM_TraceThroughVerticalCylinder( traceWork_t *tw, vec3_t origin, float radi
 				tw->trace.contents = CONTENTS_BODY;
 			}
 		}
-	} else if ( d == 0 )     {
+	} else if ( d == 0 ) {
 		//t[0] = (- b ) / 2 * a;
 		// slide along the cylinder
 	}
@@ -1070,8 +1070,8 @@ void CM_TraceThroughTree( traceWork_t *tw, int num, float p1f, float p2f, vec3_t
 			// will poke through when expanded, so adjust
 			// by sqrt(3)
 			offset = fabs(tw->extents[0]*plane->normal[0]) +
-				fabs(tw->extents[1]*plane->normal[1]) +
-				fabs(tw->extents[2]*plane->normal[2]);
+			    fabs(tw->extents[1]*plane->normal[1]) +
+			    fabs(tw->extents[2]*plane->normal[2]);
 
 			offset *= 2;
 			offset = tw->maxOffset;

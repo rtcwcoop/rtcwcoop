@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -394,7 +394,7 @@ void SpectatorThink( gentity_t *ent, usercmd_t *ucmd ) {
 		// Rafael - Activate
 		// Ridah, made it a latched event (occurs on keydown only)
 		if ( client->latched_buttons & BUTTON_ACTIVATE ) {
-			Cmd_Activate_f( ent );			
+			Cmd_Activate_f( ent );
 		}
 
 		// save results of pmove
@@ -709,26 +709,26 @@ void SendPendingPredictableEvents( playerState_t *ps ) {
 
 	// if there are still events pending
 	if ( ps->entityEventSequence < ps->eventSequence ) {
-		// create a temporary entity for this event which is sent to everyone
-		// except the client generated the event
-		seq = ps->entityEventSequence & (MAX_EVENTS-1);
-		event = ps->events[ seq ] | ( ( ps->entityEventSequence & 3 ) << 8 );
-		// set external event to zero before calling BG_PlayerStateToEntityState
-		extEvent = ps->externalEvent;
-		ps->externalEvent = 0;
-		// create temporary entity for event
-		t = G_TempEntity( ps->origin, event );
-		number = t->s.number;
-		BG_PlayerStateToEntityState( ps, &t->s, qtrue );
-		t->s.number = number;
-		t->s.eType = ET_EVENTS + event;
-		t->s.eFlags |= EF_PLAYER_EVENT;
-		t->s.otherEntityNum = ps->clientNum;
-		// send to everyone except the client who generated the event
-		t->r.svFlags |= SVF_NOTSINGLECLIENT;
-		t->r.singleClient = ps->clientNum;
-		// set back external event
-		ps->externalEvent = extEvent;
+	    // create a temporary entity for this event which is sent to everyone
+	    // except the client generated the event
+	    seq = ps->entityEventSequence & (MAX_EVENTS-1);
+	    event = ps->events[ seq ] | ( ( ps->entityEventSequence & 3 ) << 8 );
+	    // set external event to zero before calling BG_PlayerStateToEntityState
+	    extEvent = ps->externalEvent;
+	    ps->externalEvent = 0;
+	    // create temporary entity for event
+	    t = G_TempEntity( ps->origin, event );
+	    number = t->s.number;
+	    BG_PlayerStateToEntityState( ps, &t->s, qtrue );
+	    t->s.number = number;
+	    t->s.eType = ET_EVENTS + event;
+	    t->s.eFlags |= EF_PLAYER_EVENT;
+	    t->s.otherEntityNum = ps->clientNum;
+	    // send to everyone except the client who generated the event
+	    t->r.svFlags |= SVF_NOTSINGLECLIENT;
+	    t->r.singleClient = ps->clientNum;
+	    // set back external event
+	    ps->externalEvent = extEvent;
 	}
 	*/
 }
@@ -831,7 +831,7 @@ void ClientThink_real( gentity_t *ent ) {
 
 	if ( pmove_msec.integer < 8 ) {
 		trap_Cvar_Set( "pmove_msec", "8" );
-	} else if ( pmove_msec.integer > 33 )     {
+	} else if ( pmove_msec.integer > 33 ) {
 		trap_Cvar_Set( "pmove_msec", "33" );
 	}
 
@@ -872,19 +872,19 @@ void ClientThink_real( gentity_t *ent ) {
 
 // JPW old damped behavior -- feels more like a real rifle (modeled on Remington 700 7.62x51mm w/ 14x scope)
 /*
-			muzzlebounce[PITCH] -= 2*cos(1.0-(level.time - client->sniperRifleFiredTime)*3/RIFLE_SHAKE_TIME);
-			muzzlebounce[YAW] += client->sniperRifleMuzzleYaw*cos(1.0-(level.time - client->sniperRifleFiredTime)*3/RIFLE_SHAKE_TIME);
-			muzzlebounce[PITCH] -= random()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
-			muzzlebounce[YAW] += crandom()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
+            muzzlebounce[PITCH] -= 2*cos(1.0-(level.time - client->sniperRifleFiredTime)*3/RIFLE_SHAKE_TIME);
+            muzzlebounce[YAW] += client->sniperRifleMuzzleYaw*cos(1.0-(level.time - client->sniperRifleFiredTime)*3/RIFLE_SHAKE_TIME);
+            muzzlebounce[PITCH] -= random()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
+            muzzlebounce[YAW] += crandom()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
 */
 
 // JPW per Id request, longer recoil time
 
 			// MP method \/
 /*			muzzlebounce[PITCH] -= 2*cos(2.5*(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
-			muzzlebounce[YAW] += 0.5*client->sniperRifleMuzzleYaw*cos(1.0-(level.time - client->sniperRifleFiredTime)*3/RIFLE_SHAKE_TIME);
-			muzzlebounce[PITCH] -= 0.25*random()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
-			muzzlebounce[YAW] += 0.5*crandom()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
+            muzzlebounce[YAW] += 0.5*client->sniperRifleMuzzleYaw*cos(1.0-(level.time - client->sniperRifleFiredTime)*3/RIFLE_SHAKE_TIME);
+            muzzlebounce[PITCH] -= 0.25*random()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
+            muzzlebounce[YAW] += 0.5*crandom()*(1.0f-(level.time - client->sniperRifleFiredTime)/RIFLE_SHAKE_TIME);
 */
 
 			// NOTE: ----------------- SP uses this method
@@ -909,16 +909,16 @@ void ClientThink_real( gentity_t *ent ) {
 				client->dropWeaponTime = 1; // just latch it for now
 				// L0 - Throw knives
 				if ( client->ps.weapon == WP_KNIFE ) {
-					if ( client->ps.stats[STAT_HEALTH] > 0 ) {						
+					if ( client->ps.stats[STAT_HEALTH] > 0 ) {
 						if ( g_throwKnives.integer ) {
-							Cmd_ThrowKnives( ent );						
-						}					
+							Cmd_ThrowKnives( ent );
+						}
 						return;
 					}
 				} // End
 				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) ) {
 					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
-                                                // drop the current weapon
+						// drop the current weapon
 						weapon = client->ps.weapon;
 
 						if ( COM_BitCheck( client->ps.weapons,weapon ) && weapon != WP_KNIFE && weapon != WP_NONE ) {
@@ -946,7 +946,7 @@ void ClientThink_real( gentity_t *ent ) {
 
 							trap_Trace( &tr, client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
 							VectorCopy( tr.endpos, org );
-		
+
 							// fretn: axis players can only pickup dropped items
 							item->spawnflags |= FL_DROPPED;
 							ent2 = LaunchItem( item, org, velocity, client->ps.clientNum );
@@ -1140,7 +1140,7 @@ void ClientThink_real( gentity_t *ent ) {
 			if ( !bogus ) {
 				// when an actor dies test if tag_head is in a contents_solid and stop slide
 				{
-					orientation_t   or;
+					orientation_t or;
 					trace_t tr;
 					vec3_t start, end;
 					qboolean slide = qtrue;
@@ -1220,9 +1220,9 @@ void ClientThink_real( gentity_t *ent ) {
 						// stop obeying monsterslick pushes
 						ent->flags |= FL_NO_MONSTERSLICK;
 					} // else {
-					 // disable headcheck, otherwise we risk a constant jitter
-					//	ent->flags |= FL_NO_HEADCHECK;
-					//}
+					  // disable headcheck, otherwise we risk a constant jitter
+					  //	ent->flags |= FL_NO_HEADCHECK;
+					  //}
 				}
 			}
 		}
@@ -1285,7 +1285,7 @@ void ClientThink_real( gentity_t *ent ) {
 				ent->client->ps.persistant[PERS_WOLFKICK] = 0;
 			}
 		}
-	} else if ( ent->melee )     {
+	} else if ( ent->melee ) {
 		if ( wolfkicktimer > level.time ) {
 			ent->client->ps.persistant[PERS_WOLFKICK] = 0;
 			if ( ent->health <= 0 ) {
@@ -1381,7 +1381,7 @@ void ClientThink_real( gentity_t *ent ) {
 	if ( client->latched_buttons & BUTTON_ACTIVATE ) {
 		Cmd_Activate_f( ent );
 		// L0 - Shove
-		Cmd_Push_f(ent);
+		Cmd_Push_f( ent );
 	}
 
 	if ( ent->flags & FL_NOFATIGUE ) {
@@ -1399,15 +1399,15 @@ void ClientThink_real( gentity_t *ent ) {
 
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
-                                if ( (g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2) && g_limbotime.integer > 0 ) {
-                                        limbo( ent, qtrue );
+				if ( ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0 ) {
+					limbo( ent, qtrue );
 				} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 					respawn( ent );
 				}
 				// pressing attack or use is the normal respawn method
 				else if ( ( ucmd->buttons & ( BUTTON_ATTACK | BUTTON_USE_HOLDABLE ) ) &&
 						  ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE
-                                            respawn( ent );
+					respawn( ent );
 				}
 				// dhm - Nerve :: end
 			}
@@ -1418,14 +1418,14 @@ void ClientThink_real( gentity_t *ent ) {
 	// done.
 
 	// fretn : funstats, calculate the time in the air
-	if ( ent->s.groundEntityNum == ENTITYNUM_NONE) {
+	if ( ent->s.groundEntityNum == ENTITYNUM_NONE ) {
 
 		ent->client->wasOnGround = qfalse;
 		ent->client->currentAirtime = level.time - ent->client->lastGroundTime;
 	} else {
-		if (!ent->client->wasOnGround) {
+		if ( !ent->client->wasOnGround ) {
 			//if (ent->client->sess.sessionTeam != TEAM_SPECTATOR)
-				ent->client->sess.airtime += ent->client->currentAirtime;
+			ent->client->sess.airtime += ent->client->currentAirtime;
 		}
 		ent->client->lastGroundTime = level.time;
 		ent->client->wasOnGround = qtrue;
@@ -1484,7 +1484,7 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 	gclient_t   *cl;
 	int do_respawn = 0; // JPW NERVE
 	int savedScore;     // DHM
-        int savedRespawns;
+	int savedRespawns;
 	//static int lastRedReinforceTime = 0, lastBlueReinforceTime = 0;
 	int testtime;
 
@@ -1496,36 +1496,37 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 //		G_Printf("rlt=%d blt=%d diff=%d\n",g_redlimbotime.integer,g_bluelimbotime.integer, level.time - level.redReinforceTime);
 // new way, based on constant spawnrates
 
-                /*
+		/*
 		if ( ent->client->sess.sessionTeam == TEAM_RED ) {
-			testtime = level.time % g_redlimbotime.integer;
-			if ( testtime < lastRedReinforceTime ) {
-				do_respawn = 1;
-			}
-			lastRedReinforceTime = testtime;
+		testtime = level.time % g_redlimbotime.integer;
+		if ( testtime < lastRedReinforceTime ) {
+		do_respawn = 1;
+		}
+		lastRedReinforceTime = testtime;
 		} else if ( ent->client->sess.sessionTeam == TEAM_BLUE )     {
-			testtime = level.time % g_bluelimbotime.integer;
-			if ( testtime < lastBlueReinforceTime ) {
-				do_respawn = 1;
-			}
-			lastBlueReinforceTime = testtime;
+		testtime = level.time % g_bluelimbotime.integer;
+		if ( testtime < lastBlueReinforceTime ) {
+		do_respawn = 1;
+		}
+		lastBlueReinforceTime = testtime;
 		}*/
 
 
-                if ( (g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0) {
-                        testtime = level.time % g_limbotime.integer;
-                        if ( testtime < ent->client->pers.lastReinforceTime ) 
-                                do_respawn = 1;
+		if ( ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0 ) {
+			testtime = level.time % g_limbotime.integer;
+			if ( testtime < ent->client->pers.lastReinforceTime ) {
+				do_respawn = 1;
+			}
 
-                        ent->client->pers.lastReinforceTime= testtime;
-                }
+			ent->client->pers.lastReinforceTime = testtime;
+		}
 
-                if ( ( g_maxlives.integer > 0 ) && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
-                        do_respawn = 0; 
-                        // fretn - if no lives left, should go to limbo ?
-                        limbo( ent, qtrue );
-                        return;
-                }
+		if ( ( g_maxlives.integer > 0 ) && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
+			do_respawn = 0;
+			// fretn - if no lives left, should go to limbo ?
+			limbo( ent, qtrue );
+			return;
+		}
 
 		if ( do_respawn ) {
 			reinforce( ent );
@@ -1533,26 +1534,26 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 		}
 
 /* old way, based on first guy to die
-		if (ent->client->ps.pm_flags & PMF_LIMBO) {
-			if (ent->client->sess.sessionTeam == TEAM_RED) {
-				ent->client->ps.pm_time = g_redlimbotime.integer - (level.time - level.redReinforceTime);
-				if (ent->client->ps.pm_time < 0) {
-					do_respawn = 1;
-					level.redReinforceTime = level.time+6000; // JPW NERVE 5 sec min delay
-				}
-			}
-			if (ent->client->sess.sessionTeam == TEAM_BLUE) {
-				ent->client->ps.pm_time =  g_bluelimbotime.integer - (level.time - level.blueReinforceTime);
-				if (ent->client->ps.pm_time < 0) {
-					do_respawn = 1;
-					level.blueReinforceTime = level.time+6000; // JPW NERVE 5 sec min delay
-				}
-			}
-		}
-		if (do_respawn) {
-			reinforce(ent);
-			return;
-		}
+        if (ent->client->ps.pm_flags & PMF_LIMBO) {
+            if (ent->client->sess.sessionTeam == TEAM_RED) {
+                ent->client->ps.pm_time = g_redlimbotime.integer - (level.time - level.redReinforceTime);
+                if (ent->client->ps.pm_time < 0) {
+                    do_respawn = 1;
+                    level.redReinforceTime = level.time+6000; // JPW NERVE 5 sec min delay
+                }
+            }
+            if (ent->client->sess.sessionTeam == TEAM_BLUE) {
+                ent->client->ps.pm_time =  g_bluelimbotime.integer - (level.time - level.blueReinforceTime);
+                if (ent->client->ps.pm_time < 0) {
+                    do_respawn = 1;
+                    level.blueReinforceTime = level.time+6000; // JPW NERVE 5 sec min delay
+                }
+            }
+        }
+        if (do_respawn) {
+            reinforce(ent);
+            return;
+        }
 */
 // jpw
 
@@ -1573,13 +1574,13 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 					// abuse do_respawn var
 					savedScore = ent->client->ps.persistant[PERS_SCORE];
 					do_respawn = ent->client->ps.pm_time;
-                                        savedRespawns = ent->client->ps.persistant[PERS_RESPAWNS_LEFT];
+					savedRespawns = ent->client->ps.persistant[PERS_RESPAWNS_LEFT];
 
 					ent->client->ps = cl->ps;
 					ent->client->ps.pm_flags |= PMF_FOLLOW;
 					ent->client->ps.pm_flags |= PMF_LIMBO;
 					ent->client->ps.pm_time = do_respawn; // put pm_time back
-                                        ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = savedRespawns;
+					ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = savedRespawns;
 					ent->client->ps.persistant[PERS_SCORE] = savedScore;    // put score back
 				} else {
 					ent->client->ps = cl->ps;

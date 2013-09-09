@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -297,7 +297,7 @@ int AICast_ScanForEnemies( cast_state_t *cs, int *enemies ) {
 		return 0;
 	}
 	if ( friendlyAlertCount ) {
-		// call a script event		
+		// call a script event
 		if ( g_entities[enemies[0]].health <= 0 ) {
 			AICast_ForceScriptEvent( cs, "inspectbodystart", g_entities[enemies[0]].aiName );
 			if ( cs->aiFlags & AIFL_DENYACTION ) {
@@ -535,7 +535,7 @@ float AICast_WeaponRange( cast_state_t *cs, int weaponnum ) {
 		}
 		break;
 
-		// Rafael added these changes as per Mikes request
+	// Rafael added these changes as per Mikes request
 	case WP_MAUSER:
 	case WP_GARAND:
 	case WP_SNIPERRIFLE:
@@ -701,7 +701,7 @@ qboolean AICast_CheckAttack_real( cast_state_t *cs, int enemy, qboolean allowHit
 			return qfalse;
 		}
 		/*} else {
-			fuzzyCount = 0;
+		    fuzzyCount = 0;
 		}*/
 	}
 
@@ -924,8 +924,8 @@ qboolean AICast_WeaponUsable( cast_state_t *cs, int weaponNum ) {
 
 	// just return qfalse if this weapon isn't ready for use
 	switch ( weaponNum ) {
-		// don't attempt to lob a grenade more than this often, since we will abort a grenade
-		// throw if it's not safe, we shouldn't keep switching back too quickly
+	// don't attempt to lob a grenade more than this often, since we will abort a grenade
+	// throw if it's not safe, we shouldn't keep switching back too quickly
 	case WP_DYNAMITE:
 	case WP_GRENADE_LAUNCHER:
 	case WP_GRENADE_PINEAPPLE:
@@ -975,7 +975,7 @@ qboolean AICast_WeaponUsable( cast_state_t *cs, int weaponNum ) {
 			//}
 			break;
 
-			// melee attacks are always available
+		// melee attacks are always available
 		case AICHAR_LOPER:
 		case AICHAR_WARZOMBIE:
 			return qtrue;   // always usable
@@ -1318,7 +1318,7 @@ int AICast_WantsToTakeCover( cast_state_t *cs, qboolean attacking ) {
 	// if currently attacking, we should stick around if not getting hurt
 	if ( attacking ) {
 		aggrScale = 1.2;
-	} else { aggrScale = 0.8 /*+ 0.4 * random()*/;}
+	} else { aggrScale = 0.8 /*+ 0.4 * random()*/; }
 	//
 	// if currently following someone, we should be more aggressive
 	if ( cs->leaderNum >= 0 ) {
@@ -1366,7 +1366,7 @@ bot_moveresult_t AICast_CombatMove( cast_state_t *cs, int tfl ) {
 
 	//get the enemy entity info
 	memset( &moveresult, 0, sizeof( bot_moveresult_t ) );
-	
+
 	//initialize the movement state
 	BotSetupForMovement( bs );
 	//direction towards the enemy
@@ -1577,7 +1577,7 @@ qboolean AICast_CanMoveWhileFiringWeapon( int weaponnum ) {
 	case WP_GARAND:
 	case WP_SNIPERRIFLE:    //----(SA)	added
 	case WP_SNOOPERSCOPE:   //----(SA)	added
-		//case WP_FG42SCOPE:		//----(SA)	added
+	//case WP_FG42SCOPE:		//----(SA)	added
 	case WP_PANZERFAUST:
 		return qfalse;
 	default:
@@ -1895,7 +1895,7 @@ qboolean AICast_StopAndAttack( cast_state_t *cs ) {
 
 	switch ( cs->weaponNum ) {
 
-		// if they are using Venom, and are too far away to be effective, then keep chasing
+	// if they are using Venom, and are too far away to be effective, then keep chasing
 	case WP_VENOM:
 		if ( dist > 300 ) {
 			return qfalse;
@@ -1908,7 +1908,7 @@ qboolean AICast_StopAndAttack( cast_state_t *cs ) {
 			}
 		}
 		break;
-		// if they are using tesla (SUPERSOLDIER / BOSS2) try and get close
+	// if they are using tesla (SUPERSOLDIER / BOSS2) try and get close
 	case WP_TESLA:
 		if ( dist > 128 /*&& (level.time%10000 < 8000)*/ ) {
 			return qfalse;
@@ -1963,19 +1963,19 @@ float AICast_GetAccuracy( int entnum ) {
 	cs = AICast_GetCastState( entnum );
 	// the more they stay in our sights, the more accurate we get
 	acc = cs->attributes[AIM_ACCURACY];
-        // fretn
-        if ( g_gametype.integer <= GT_COOP )
-        {
-                if ( g_gameskill.integer == GSKILL_EASY )
-                        acc = 0.5;
-                else if ( g_gameskill.integer == GSKILL_MEDIUM )
-                        acc = 0.75;
-                else if ( g_gameskill.integer == GSKILL_HARD )
-                        acc = 0.9;
-                else if ( g_gameskill.integer == GSKILL_MAX )
-                        acc = 1.0;
+	// fretn
+	if ( g_gametype.integer <= GT_COOP ) {
+		if ( g_gameskill.integer == GSKILL_EASY ) {
+			acc = 0.5;
+		} else if ( g_gameskill.integer == GSKILL_MEDIUM ) {
+			acc = 0.75;
+		} else if ( g_gameskill.integer == GSKILL_HARD ) {
+			acc = 0.9;
+		} else if ( g_gameskill.integer == GSKILL_MAX ) {
+			acc = 1.0;
+		}
 
-        }
+	}
 
 	if ( AICAST_VARIABLE_ACC_ENABLED ) {
 		if ( cs->enemyNum >= 0 ) {
@@ -2024,7 +2024,7 @@ qboolean AICast_WantToRetreat( cast_state_t *cs ) {
 		if  (   ( cs->attributes[TACTICAL] > 0.11 + random() * 0.5 ) &&
 				(   ( cs->bs->cur_ps.weaponTime > 500 ) ||
 					(   ( cs->takeCoverTime < level.time - 100 ) &&
-					( AICast_WantsToTakeCover( cs, qtrue ) ) ) ) ) {
+						( AICast_WantsToTakeCover( cs, qtrue ) ) ) ) ) {
 			return qtrue;
 		}
 	}
@@ -2121,7 +2121,7 @@ void AICast_CheckDangerousEntity( gentity_t *ent, int dangerFlags, float dangerD
 	//
 	if ( ent->client ) {
 		AICast_GetCastState( ent->s.number );
-	} 
+	}
 	//
 	// see if this will hurt anyone
 	for ( trav = g_entities, cs = AICast_GetCastState( 0 ), i = 0; i < level.numPlayingClients; cs++, trav++ ) {

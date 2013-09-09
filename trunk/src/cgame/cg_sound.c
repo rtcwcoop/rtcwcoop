@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -384,8 +384,8 @@ static void CG_SoundLoadSoundFiles( void ) {
 	int numSounds;
 	int i, len;
 	char *token;
-        char buf[64];
-        int dev;
+	char buf[64];
+	int dev;
 
 	// scan for sound files
 	Com_sprintf( filename, MAX_QPATH, "sound/scripts/filelist.txt" );
@@ -422,11 +422,12 @@ static void CG_SoundLoadSoundFiles( void ) {
 	for ( i = 0; i < numSounds; i++ )
 	{
 		Com_sprintf( filename, sizeof( filename ), "sound/scripts/%s", soundFiles[i] );
-                trap_Cvar_VariableStringBuffer( "developer", buf, sizeof( buf ) );
-                dev = atoi(buf);
+		trap_Cvar_VariableStringBuffer( "developer", buf, sizeof( buf ) );
+		dev = atoi( buf );
 
-                if (dev == 1)
-		        CG_Printf( "...loading '%s'\n", filename );
+		if ( dev == 1 ) {
+			CG_Printf( "...loading '%s'\n", filename );
+		}
 		len = trap_FS_FOpenFile( filename, &f, FS_READ );
 		if ( len <= 0 ) {
 			CG_Error( "Couldn't load %s", filename );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -409,7 +409,7 @@ qboolean S_LoadSound( sfx_t *sfx ) {
 		sfx->soundLength = info.samples;
 		sfx->soundData = NULL;
 		ResampleSfx( sfx, info.rate, info.width, data + info.dataofs, qfalse );
-	} else if ( sfx->soundCompressed == qtrue )     {
+	} else if ( sfx->soundCompressed == qtrue ) {
 		sfx->soundCompressionMethod = 1;
 		sfx->soundData = NULL;
 		sfx->soundLength = ResampleSfxRaw( samples, info.rate, info.width, info.samples, ( data + info.dataofs ) );

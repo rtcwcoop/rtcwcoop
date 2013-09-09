@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -159,7 +159,7 @@ cast_script_stack_action_t scriptActions[] =
 	{"setammo",          AICast_ScriptAction_SetAmmo},
 	{"setclip",          AICast_ScriptAction_SetClip},           //----(SA)	added
 	{"selectweapon", AICast_ScriptAction_SelectWeapon},
-        {"playername", AICast_ScriptAction_PlayerName},
+	{"playername", AICast_ScriptAction_PlayerName},
 	{"noattack",     AICast_ScriptAction_NoAttack},
 	{"suggestweapon",    AICast_ScriptAction_SuggestWeapon},     //----(SA)	added
 	{"attack",           AICast_ScriptAction_Attack},
@@ -344,8 +344,8 @@ cast_script_stack_action_t *AICast_ActionForString( cast_state_t *cs, char *stri
 		if ( !Q_strcasecmp( string, scriptActions[i].actionString ) ) {
 			// fretn this is now ignored - use the numsecrets function
 			/*if ( !Q_strcasecmp( string, "foundsecret" ) ) {
-				level.numSecrets++;
-				G_SendMissionStats();
+			    level.numSecrets++;
+			    G_SendMissionStats();
 			}*/
 			return &scriptActions[i];
 		}
@@ -377,15 +377,15 @@ void AICast_ScriptLoad( void ) {
 	}
 	Q_strncpyz( filename, "maps/", sizeof( filename ) );
 	Q_strcat( filename, sizeof( filename ), mapname.string );
-        if (g_gametype.integer <= GT_COOP) {
-	        Q_strcat( filename, sizeof( filename ), ".coop.ai" );
-        } else {
-	        Q_strcat( filename, sizeof( filename ), ".ai" );
-        }
+	if ( g_gametype.integer <= GT_COOP ) {
+		Q_strcat( filename, sizeof( filename ), ".coop.ai" );
+	} else {
+		Q_strcat( filename, sizeof( filename ), ".ai" );
+	}
 
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 
-        G_Printf("Loading: %s\n", filename);
+	G_Printf( "Loading: %s\n", filename );
 	// make sure we clear out the temporary scriptname
 
 	if ( len < 0 ) {
@@ -396,7 +396,7 @@ void AICast_ScriptLoad( void ) {
 	trap_FS_Read( level.scriptAI, len, f );
 
 	trap_FS_FCloseFile( f );
-        
+
 	return;
 }
 
@@ -466,17 +466,17 @@ void AICast_ScriptParse( cast_state_t *cs ) {
 				G_Error( "AICast_ScriptParse(), Error (line %d): '}' found, but not expected.\n", COM_GetCurrentParseLine() );
 			}
 			wantName = qtrue;
-		} else if ( token[0] == '{' )    {
+		} else if ( token[0] == '{' ) {
 			if ( wantName ) {
 				G_Error( "AICast_ScriptParse(), Error (line %d): '{' found, NAME expected.\n", COM_GetCurrentParseLine() );
 			}
-		} else if ( wantName )   {
+		} else if ( wantName ) {
 			if ( !Q_strcasecmp( ent->aiName, token ) ) {
 				inScript = qtrue;
 				numEventItems = 0;
 			}
 			wantName = qfalse;
-		} else if ( inScript )   {
+		} else if ( inScript ) {
 			if ( !Q_strcasecmp( token, "attributes" ) ) {
 				// read in all the attributes
 				AICast_CheckLevelAttributes( cs, ent, &pScript );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -192,7 +192,7 @@ void CG_DamageFeedback( int yawByte, int pitchByte, int damage ) {
 		if ( front <= 0.1 ) {
 			front = 0.1;
 		}
-		vd->damageX = crandom() * 0.3 + - left / front;
+		vd->damageX = crandom() * 0.3 + -left / front;
 		vd->damageY = crandom() * 0.3 + up / dist;
 	}
 
@@ -286,12 +286,12 @@ void CG_CheckPlayerstateEvents_wolf( playerState_t *ps, playerState_t *ops ) {
 	int event;
 	centity_t   *cent;
 /*
-	if ( ps->externalEvent && ps->externalEvent != ops->externalEvent ) {
-		cent = &cg_entities[ ps->clientNum ];
-		cent->currentState.event = ps->externalEvent;
-		cent->currentState.eventParm = ps->externalEventParm;
-		CG_EntityEvent( cent, cent->lerpOrigin );
-	}
+    if ( ps->externalEvent && ps->externalEvent != ops->externalEvent ) {
+        cent = &cg_entities[ ps->clientNum ];
+        cent->currentState.event = ps->externalEvent;
+        cent->currentState.eventParm = ps->externalEventParm;
+        CG_EntityEvent( cent, cent->lerpOrigin );
+    }
 */
 	cent = &cg.predictedPlayerEntity; // cg_entities[ ps->clientNum ];
 	// go through the predictable events buffer
@@ -324,8 +324,8 @@ void CG_CheckPlayerstateEvents( playerState_t *ps, playerState_t *ops ) {
 	for ( i = ps->eventSequence - MAX_EVENTS ; i < ps->eventSequence ; i++ ) {
 		// if we have a new predictable event
 		if ( i >= ops->eventSequence
-			 // or the server told us to play another event instead of a predicted event we already issued
-			 // or something the server told us changed our prediction causing a different event
+		     // or the server told us to play another event instead of a predicted event we already issued
+		     // or something the server told us changed our prediction causing a different event
 			 || ( i > ops->eventSequence - MAX_EVENTS && ps->events[i & ( MAX_EVENTS - 1 )] != ops->events[i & ( MAX_EVENTS - 1 )] ) ) {
 
 			event = ps->events[ i & ( MAX_EVENTS - 1 ) ];
@@ -408,49 +408,49 @@ void CG_CheckLocalSounds( playerState_t *ps, playerState_t *ops ) {
 
 	// reward sounds
 	if ( ps->persistant[PERS_REWARD_COUNT] > ops->persistant[PERS_REWARD_COUNT] ) {
-        /*
+		/*
 		switch ( ps->persistant[PERS_REWARD] ) {
 		case REWARD_IMPRESSIVE:
-			trap_S_StartLocalSound( cgs.media.impressiveSound, CHAN_ANNOUNCER );
-			cg.rewardTime = cg.time;
-			cg.rewardShader = cgs.media.medalImpressive;
-			cg.rewardCount = ps->persistant[PERS_IMPRESSIVE_COUNT];
-			break;
+		    trap_S_StartLocalSound( cgs.media.impressiveSound, CHAN_ANNOUNCER );
+		    cg.rewardTime = cg.time;
+		    cg.rewardShader = cgs.media.medalImpressive;
+		    cg.rewardCount = ps->persistant[PERS_IMPRESSIVE_COUNT];
+		    break;
 		case REWARD_EXCELLENT:
-			trap_S_StartLocalSound( cgs.media.excellentSound, CHAN_ANNOUNCER );
-			cg.rewardTime = cg.time;
-			cg.rewardShader = cgs.media.medalExcellent;
-			cg.rewardCount = ps->persistant[PERS_EXCELLENT_COUNT];
-			break;
+		    trap_S_StartLocalSound( cgs.media.excellentSound, CHAN_ANNOUNCER );
+		    cg.rewardTime = cg.time;
+		    cg.rewardShader = cgs.media.medalExcellent;
+		    cg.rewardCount = ps->persistant[PERS_EXCELLENT_COUNT];
+		    break;
 		case REWARD_DENIED:
-			trap_S_StartLocalSound( cgs.media.deniedSound, CHAN_ANNOUNCER );
-			break;
+		    trap_S_StartLocalSound( cgs.media.deniedSound, CHAN_ANNOUNCER );
+		    break;
 		case REWARD_GAUNTLET:
-			trap_S_StartLocalSound( cgs.media.humiliationSound, CHAN_ANNOUNCER );
-			// if we are the killer and not the killee, show the award
-			if ( ps->stats[STAT_HEALTH] ) {
-				cg.rewardTime = cg.time;
-				cg.rewardShader = cgs.media.medalGauntlet;
-				cg.rewardCount = ps->persistant[PERS_GAUNTLET_FRAG_COUNT];
-			}
-			break;
+		    trap_S_StartLocalSound( cgs.media.humiliationSound, CHAN_ANNOUNCER );
+		    // if we are the killer and not the killee, show the award
+		    if ( ps->stats[STAT_HEALTH] ) {
+		        cg.rewardTime = cg.time;
+		        cg.rewardShader = cgs.media.medalGauntlet;
+		        cg.rewardCount = ps->persistant[PERS_GAUNTLET_FRAG_COUNT];
+		    }
+		    break;
 		default:
-			CG_Error( "Bad reward_t" );
+		    CG_Error( "Bad reward_t" );
 		}
-        */
+		*/
 	} else {
 		// lead changes (only if no reward)
 		s = CG_ConfigString( CS_WARMUP );
 		if ( !s[0] ) {
 			// never play lead changes during warmup
 			if ( ps->persistant[PERS_RANK] != ops->persistant[PERS_RANK] ) {
-                                    if (  ps->persistant[PERS_RANK] == 0 ) {
-                                            trap_S_StartLocalSound( cgs.media.takenLeadSound, CHAN_ANNOUNCER );
-                                    } else if ( ps->persistant[PERS_RANK] == RANK_TIED_FLAG ) {
-                                            trap_S_StartLocalSound( cgs.media.tiedLeadSound, CHAN_ANNOUNCER );
-                                    } else if ( ( ops->persistant[PERS_RANK] & ~RANK_TIED_FLAG ) == 0 ) {
-                                            trap_S_StartLocalSound( cgs.media.lostLeadSound, CHAN_ANNOUNCER );
-                                    }
+				if (  ps->persistant[PERS_RANK] == 0 ) {
+					trap_S_StartLocalSound( cgs.media.takenLeadSound, CHAN_ANNOUNCER );
+				} else if ( ps->persistant[PERS_RANK] == RANK_TIED_FLAG ) {
+					trap_S_StartLocalSound( cgs.media.tiedLeadSound, CHAN_ANNOUNCER );
+				} else if ( ( ops->persistant[PERS_RANK] & ~RANK_TIED_FLAG ) == 0 ) {
+					trap_S_StartLocalSound( cgs.media.lostLeadSound, CHAN_ANNOUNCER );
+				}
 			}
 		}
 	}
@@ -544,4 +544,3 @@ void CG_TransitionPlayerState( playerState_t *ps, playerState_t *ops ) {
 		cg.duckTime = cg.time;
 	}
 }
-

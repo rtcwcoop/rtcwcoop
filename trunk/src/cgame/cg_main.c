@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ Q_EXPORT int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int ar
 #endif
 	switch ( command ) {
 	case CG_IRC_CHAT:
-		CG_AddToTeamChat((char *)arg0);
+		CG_AddToTeamChat( (char *)arg0 );
 		return qtrue;
 	case CG_GET_TAG:
 		return CG_GetTag( arg0, (char *)arg1, (orientation_t *)arg2 );
@@ -283,8 +283,8 @@ vmCvar_t mp_itemDesc;
 // -NERVE - SMF
 
 // L0
-vmCvar_t cg_solidCrosshair;	// No pulsing when shoting
-vmCvar_t cg_bloodBlend;		// Blood covering the screen..
+vmCvar_t cg_solidCrosshair; // No pulsing when shoting
+vmCvar_t cg_bloodBlend;     // Blood covering the screen..
 vmCvar_t cg_announcer;
 // end
 
@@ -360,12 +360,12 @@ cvarTable_t cvarTable[] = {
 	{ &cg_bobup, "cg_bobup", "0.005", CVAR_ARCHIVE },
 	{ &cg_bobpitch, "cg_bobpitch", "0.002", CVAR_ARCHIVE },
 	{ &cg_bobroll, "cg_bobroll", "0.002", CVAR_ARCHIVE },
-        
-        { &cg_quickMessageAlt, "cg_quickMessageAlt", "1", CVAR_ARCHIVE },
-        { &cg_noTaunt, "cg_noTaunt", "0", CVAR_ARCHIVE},                      // NERVE - SMF
-        { &cg_voiceSpriteTime, "cg_voiceSpriteTime", "6000", CVAR_ARCHIVE},       // DHM - Nerve
-        { &cg_noVoiceChats, "cg_noVoiceChats", "0", CVAR_ARCHIVE },               // NERVE - SMF
-        { &cg_noVoiceText, "cg_noVoiceText", "0", CVAR_ARCHIVE },
+
+	{ &cg_quickMessageAlt, "cg_quickMessageAlt", "1", CVAR_ARCHIVE },
+	{ &cg_noTaunt, "cg_noTaunt", "0", CVAR_ARCHIVE},                          // NERVE - SMF
+	{ &cg_voiceSpriteTime, "cg_voiceSpriteTime", "6000", CVAR_ARCHIVE},           // DHM - Nerve
+	{ &cg_noVoiceChats, "cg_noVoiceChats", "0", CVAR_ARCHIVE },                   // NERVE - SMF
+	{ &cg_noVoiceText, "cg_noVoiceText", "0", CVAR_ARCHIVE },
 
 	// JOSEPH 10-27-99
 	{ &cg_autoactivate, "cg_autoactivate", "1", CVAR_ARCHIVE },
@@ -445,12 +445,12 @@ cvarTable_t cvarTable[] = {
 
 	// Ridah
 	{ &cg_gameType, "g_gametype", "0", 0 }, // communicated by systeminfo
-        //fretn
+	//fretn
 	{ &cg_obituaries, "cg_obituaries", "2", CVAR_ARCHIVE },
 	{ &cg_drawcompass, "cg_drawcompass", "1", CVAR_ARCHIVE },
 	{ &cg_fancyfx, "cg_fancyfx", "0", CVAR_ARCHIVE },
-        { &cg_entityEditCounter, "cg_entityEditCounter", "0", CVAR_ARCHIVE | CVAR_ROM },
-        { &cg_limbotime,        "", "30000", 0 },
+	{ &cg_entityEditCounter, "cg_entityEditCounter", "0", CVAR_ARCHIVE | CVAR_ROM },
+	{ &cg_limbotime,        "", "30000", 0 },
 
 	{ &cg_norender, "cg_norender", "1", 0 },  // only used during single player, to suppress rendering until the server is ready
 
@@ -466,7 +466,7 @@ cvarTable_t cvarTable[] = {
 	{ &cg_animState, "cg_animState", "0", CVAR_CHEAT},
 	{ &cg_missionStats, "g_missionStats", "0", CVAR_ROM},
 	{ &cg_waitForFire, "cl_waitForFire", "0", CVAR_ROM},
-    { &cg_drawNotifyText, "cg_drawNotifyText", "1", CVAR_ARCHIVE },
+	{ &cg_drawNotifyText, "cg_drawNotifyText", "1", CVAR_ARCHIVE },
 
 	{ &cg_loadWeaponSelect, "cg_loadWeaponSelect", "0", CVAR_ROM},
 
@@ -532,17 +532,17 @@ CG_ForceModelChange
 // TTimo: unused
 /*
 static void CG_ForceModelChange( void ) {
-	int		i;
+    int		i;
 
-	for (i=0 ; i<MAX_CLIENTS ; i++) {
-		const char		*clientInfo;
+    for (i=0 ; i<MAX_CLIENTS ; i++) {
+        const char		*clientInfo;
 
-		clientInfo = CG_ConfigString( CS_PLAYERS+i );
-		if ( !clientInfo[0] ) {
-			continue;
-		}
-		CG_NewClientInfo( i );
-	}
+        clientInfo = CG_ConfigString( CS_PLAYERS+i );
+        if ( !clientInfo[0] ) {
+            continue;
+        }
+        CG_NewClientInfo( i );
+    }
 }
 */
 
@@ -559,11 +559,11 @@ void CG_UpdateCvars( void ) {
 		trap_Cvar_Update( cv->vmCvar );
 	}
 /* RF, disabled this, not needed anymore
-	// if force model changed
-	if ( forceModelModificationCount != cg_forceModel.modificationCount ) {
-		forceModelModificationCount = cg_forceModel.modificationCount;
-		CG_ForceModelChange();
-	}
+    // if force model changed
+    if ( forceModelModificationCount != cg_forceModel.modificationCount ) {
+        forceModelModificationCount = cg_forceModel.modificationCount;
+        CG_ForceModelChange();
+    }
 */
 }
 
@@ -583,28 +583,28 @@ int CG_LastAttacker( void ) {
 }
 
 void QDECL CG_Printf( const char *msg, ... ) {
-        va_list argptr;
-        char text[1024];
+	va_list argptr;
+	char text[1024];
 
-        va_start( argptr, msg );
-        Q_vsnprintf( text, sizeof( text ), msg, argptr );
-        va_end( argptr );
-        if ( !Q_strncmp( text, "[cgnotify]", 10 ) ) {
-                char buf[1024];
+	va_start( argptr, msg );
+	Q_vsnprintf( text, sizeof( text ), msg, argptr );
+	va_end( argptr );
+	if ( !Q_strncmp( text, "[cgnotify]", 10 ) ) {
+		char buf[1024];
 
-                if ( !cg_drawNotifyText.integer ) {
-                        Q_strncpyz( buf, &text[10], 1013 );
-                        trap_Print( buf );
-                        return;
-                }    
+		if ( !cg_drawNotifyText.integer ) {
+			Q_strncpyz( buf, &text[10], 1013 );
+			trap_Print( buf );
+			return;
+		}
 
-                CG_AddToNotify( &text[10] );
-                Q_strncpyz( buf, &text[10], 1013 );
-                Q_strncpyz( text, "[skipnotify]", 13 );
-                Q_strcat( text, 1011, buf );
-        }    
+		CG_AddToNotify( &text[10] );
+		Q_strncpyz( buf, &text[10], 1013 );
+		Q_strncpyz( text, "[skipnotify]", 13 );
+		Q_strcat( text, 1011, buf );
+	}
 
-        trap_Print( text );
+	trap_Print( text );
 }
 
 void QDECL CG_Error( const char *msg, ... ) {
@@ -619,7 +619,7 @@ void QDECL CG_Error( const char *msg, ... ) {
 }
 
 // TTimo: was commented out for Mac, guarding
-#if !defined(CGAME_HARD_LINKED) || defined( MACOS_X )
+#if !defined( CGAME_HARD_LINKED ) || defined( MACOS_X )
 // this is only here so the functions in q_shared.c and bg_*.c can link (FIXME)
 
 void QDECL Com_Error( int level, const char *error, ... ) {
@@ -885,7 +885,7 @@ static void CG_RegisterSounds( void ) {
 	CG_SoundInit();
 	// done.
 
-        CG_LoadVoiceChats();
+	CG_LoadVoiceChats();
 
 	cgs.media.n_health = trap_S_RegisterSound( "sound/items/n_health.wav" );
 	cgs.media.noFireUnderwater = trap_S_RegisterSound( "sound/weapons/underwaterfire.wav" ); //----(SA)	added
@@ -900,11 +900,11 @@ static void CG_RegisterSounds( void ) {
 	cgs.media.gibBounce2Sound = trap_S_RegisterSound( "sound/player/gibimp2.wav" );
 	cgs.media.gibBounce3Sound = trap_S_RegisterSound( "sound/player/gibimp3.wav" );
 
-        cgs.media.bonuslife[0] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah1.WAV" ); 
-        cgs.media.bonuslife[1] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah2.WAV" ); 
-        cgs.media.bonuslife[2] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah3.WAV" ); 
-        cgs.media.bonuslife[3] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah4.WAV" ); 
-        cgs.media.bonuslife[4] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah5.WAV" ); 
+	cgs.media.bonuslife[0] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah1.WAV" );
+	cgs.media.bonuslife[1] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah2.WAV" );
+	cgs.media.bonuslife[2] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah3.WAV" );
+	cgs.media.bonuslife[3] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah4.WAV" );
+	cgs.media.bonuslife[4] = trap_S_RegisterSound( "sound/multiplayer/allies/a-yeah5.WAV" );
 
 //	cgs.media.teleInSound = trap_S_RegisterSound( "sound/world/telein.wav" );
 //	cgs.media.teleOutSound = trap_S_RegisterSound( "sound/world/teleout.wav" );
@@ -1236,7 +1236,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.tracerShader = trap_R_RegisterShader( "gfx/misc/tracer" );
 	cgs.media.selectShader = trap_R_RegisterShader( "gfx/2d/select" );
 
-        cgs.media.spawnInvincibleShader = trap_R_RegisterShader( "sprites/shield" );
+	cgs.media.spawnInvincibleShader = trap_R_RegisterShader( "sprites/shield" );
 
 
 	cgs.media.hintShaders[HINT_ACTIVATE]            = trap_R_RegisterShader( "gfx/2d/usableHint" );
@@ -1309,7 +1309,7 @@ static void CG_RegisterGraphics( void ) {
 		cgs.media.blueFlagModel = trap_R_RegisterModel( "models/flags/b_flag.md3" );
 	}
 
-        cgs.media.teamStatusBar = trap_R_RegisterShader( "gfx/2d/colorbar.tga" );
+	cgs.media.teamStatusBar = trap_R_RegisterShader( "gfx/2d/colorbar.tga" );
 
 	CG_LoadingString( " - models" );
 
@@ -1347,7 +1347,7 @@ static void CG_RegisterGraphics( void ) {
 
 	cgs.media.frozenShader = trap_R_RegisterShader( "sprites/voiceMedic" );
 	cgs.media.balloonShader = trap_R_RegisterShader( "sprites/balloon3" );
-        cgs.media.voiceChatShader = trap_R_RegisterShader( "sprites/voiceChat" );
+	cgs.media.voiceChatShader = trap_R_RegisterShader( "sprites/voiceChat" );
 
 	for ( i = 0; i < MAX_AISTATES; i++ ) {
 		cgs.media.aiStateShaders[i] = trap_R_RegisterShader( va( "sprites/aistate%i", i + 1 ) );
@@ -1572,7 +1572,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.sizeCursor = trap_R_RegisterShaderNoMip( "ui/assets/sizecursor.tga" );
 	cgs.media.selectCursor = trap_R_RegisterShaderNoMip( "ui/assets/selectcursor.tga" );
 
-        cgs.media.rtt = trap_R_RegisterShader( "textures/rtt.tga" );
+	cgs.media.rtt = trap_R_RegisterShader( "textures/rtt.tga" );
 	CG_LoadingString( " - game media done" );
 
 }
@@ -2109,7 +2109,7 @@ static void CG_RunCinematicFrame( int handle ) {
 /*
 ==============
 CG_translateString
-	presumably if this gets used more extensively, it'll be modified to a hash table
+    presumably if this gets used more extensively, it'll be modified to a hash table
 ==============
 */
 const char *CG_translateString( const char *str ) {
@@ -2139,7 +2139,7 @@ CG_LoadHudMenu();
 
 =================
 */
-void CG_LoadHudMenu(void) {
+void CG_LoadHudMenu( void ) {
 	char buff[1024];
 	const char *hudSet;
 
@@ -2196,7 +2196,7 @@ void CG_LoadHudMenu(void) {
 	cgDC.drawCinematic = &CG_DrawCinematic;
 	cgDC.runCinematicFrame = &CG_RunCinematicFrame;
 #ifdef LOCALISATION
-        cgDC.translateString = &CG_TranslateString;
+	cgDC.translateString = &CG_TranslateString;
 #endif
 	Init_Display( &cgDC );
 
@@ -2211,7 +2211,7 @@ void CG_LoadHudMenu(void) {
 	CG_LoadMenus( hudSet );
 }
 
-void CG_AssetCache(void) {
+void CG_AssetCache( void ) {
 	cgDC.Assets.gradientBar = trap_R_RegisterShaderNoMip( ASSET_GRADIENTBAR );
 	cgDC.Assets.fxBasePic = trap_R_RegisterShaderNoMip( ART_FX_BASE );
 	cgDC.Assets.fxPic[0] = trap_R_RegisterShaderNoMip( ART_FX_RED );
@@ -2242,9 +2242,9 @@ Will perform callbacks to make the loading info screen update.
 */
 void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 	const char  *s;
-        int handle;
-        char levelname[64];
-        qboolean uireload = qfalse;
+	int handle;
+	char levelname[64];
+	qboolean uireload = qfalse;
 
 	// clear everything
 	memset( &cgs, 0, sizeof( cgs ) );
@@ -2296,28 +2296,29 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 
 	CG_ParseServerinfo();
 
-        // if we are connected to a custom map (which dont use ui/clipboard.menu and ui/notebook.menu)
-        // reload, the mapname is only send late to the UI and else these menu files dont get loaded (see ui_main.c)
+	// if we are connected to a custom map (which dont use ui/clipboard.menu and ui/notebook.menu)
+	// reload, the mapname is only send late to the UI and else these menu files dont get loaded (see ui_main.c)
 
-        // another solution to this problem is to include these _clipboard and _notebook menu files into hud.txt
-        // but currently this crashes the game, so I went for this nasty solution
-        trap_Cvar_VariableStringBuffer( "mapname", levelname, sizeof( levelname ) );
+	// another solution to this problem is to include these _clipboard and _notebook menu files into hud.txt
+	// but currently this crashes the game, so I went for this nasty solution
+	trap_Cvar_VariableStringBuffer( "mapname", levelname, sizeof( levelname ) );
 
-        handle = trap_PC_LoadSource( va("ui/%s_clipboard.menu", levelname) );
-        if (handle) {
-                uireload = qtrue;
-                trap_PC_FreeSource(handle);
-        }    
+	handle = trap_PC_LoadSource( va( "ui/%s_clipboard.menu", levelname ) );
+	if ( handle ) {
+		uireload = qtrue;
+		trap_PC_FreeSource( handle );
+	}
 
-        handle = trap_PC_LoadSource( va("ui/%s_notebook.menu", levelname) );
-        if (handle) {
-                uireload = qtrue;
-                trap_PC_FreeSource(handle);
-        }
+	handle = trap_PC_LoadSource( va( "ui/%s_notebook.menu", levelname ) );
+	if ( handle ) {
+		uireload = qtrue;
+		trap_PC_FreeSource( handle );
+	}
 
-        if (uireload)
-                trap_SendConsoleCommand( "ui_restart\n" ); // major hack to make the custom maps _clipboard and _notebook menu files loading
+	if ( uireload ) {
+		trap_SendConsoleCommand( "ui_restart\n" );         // major hack to make the custom maps _clipboard and _notebook menu files loading
 
+	}
 	// load the new map
 	CG_LoadingString( "collision map" );
 
@@ -2377,24 +2378,25 @@ void CG_Init( int serverMessageNum, int serverCommandSequence ) {
 //	trap_S_StartBackgroundTrack( "sound/music/fla_mp03.wav", "sound/music/fla_mp03.wav", 1 );
 
 
-        // when you are not a local client, fog is gone after a vid_restart, this initializes the fog always
-        /*if ( cgs.gametype != GT_SINGLE_PLAYER ) {
-                char buf[64];
-                trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) ); 
-                coop_ParseFog(buf);
-        }    */
+	// when you are not a local client, fog is gone after a vid_restart, this initializes the fog always
+	/*if ( cgs.gametype != GT_SINGLE_PLAYER ) {
+	        char buf[64];
+	        trap_Cvar_VariableStringBuffer( "r_mapFogColor", buf, sizeof( buf ) );
+	        coop_ParseFog(buf);
+	}    */
 
 	if ( cgs.localServer ) {
-	    CG_InitWorldText();
+		CG_InitWorldText();
 	}
 
-        // fretn: this is an ugly workaround
-        if (cgs.gametype == GT_SINGLE_PLAYER)
-                trap_Cvar_Set("model", "bj2");
-        else if (cgs.gametype <= GT_COOP)
-                trap_Cvar_Set("model", "multi");
+	// fretn: this is an ugly workaround
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+		trap_Cvar_Set( "model", "bj2" );
+	} else if ( cgs.gametype <= GT_COOP ) {
+		trap_Cvar_Set( "model", "multi" );
+	}
 
-        trap_Cvar_Set("__flagpolenumber", "0");
+	trap_Cvar_Set( "__flagpolenumber", "0" );
 }
 
 /*
@@ -2409,5 +2411,3 @@ void CG_Shutdown( void ) {
 	// some mods may need to do cleanup work here,
 	// like closing files or archiving session data
 }
-
-

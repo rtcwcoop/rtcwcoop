@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -342,9 +342,9 @@ static void LAN_GetServerInfo( int source, int n, char *buf, int buflen ) {
 		Info_SetValueForKey( info, "sv_allowAnonymous", va( "%i", server->allowAnonymous ) );
 		Info_SetValueForKey( info, "coop", va( "%i", server->coop ) );
 		Info_SetValueForKey( info, "gameskill", va( "%i", server->gameskill ) );
-                Info_SetValueForKey( info, "maxlives", va( "%i", server->maxlives ) );
-                Info_SetValueForKey( info, "reinforce", va( "%i", server->reinforce) );
-                Info_SetValueForKey( info, "airespawn", va( "%i", server->airespawn ) );
+		Info_SetValueForKey( info, "maxlives", va( "%i", server->maxlives ) );
+		Info_SetValueForKey( info, "reinforce", va( "%i", server->reinforce ) );
+		Info_SetValueForKey( info, "airespawn", va( "%i", server->airespawn ) );
 		Q_strncpyz( buf, info, buflen );
 	} else {
 		if ( buf ) {
@@ -446,7 +446,7 @@ static int LAN_CompareServers( int source, int sortKey, int sortDir, int s1, int
 	case SORT_CLIENTS:
 		if ( server1->clients < server2->clients ) {
 			res = -1;
-		} else if ( server1->clients > server2->clients )     {
+		} else if ( server1->clients > server2->clients ) {
 			res = 1;
 		} else {
 			res = 0;
@@ -455,7 +455,7 @@ static int LAN_CompareServers( int source, int sortKey, int sortDir, int s1, int
 	case SORT_GAME:
 		if ( server1->gameType < server2->gameType ) {
 			res = -1;
-		} else if ( server1->gameType > server2->gameType )     {
+		} else if ( server1->gameType > server2->gameType ) {
 			res = 1;
 		} else {
 			res = 0;
@@ -464,7 +464,7 @@ static int LAN_CompareServers( int source, int sortKey, int sortDir, int s1, int
 	case SORT_PING:
 		if ( server1->ping < server2->ping ) {
 			res = -1;
-		} else if ( server1->ping > server2->ping )     {
+		} else if ( server1->ping > server2->ping ) {
 			res = 1;
 		} else {
 			res = 0;
@@ -875,11 +875,11 @@ int CL_UISystemCalls( int *args ) {
 		re.AddPolyToScene( args[1], args[2], VMA( 3 ) );
 		return 0;
 
-		// Ridah
+	// Ridah
 	case UI_R_ADDPOLYSTOSCENE:
 		re.AddPolysToScene( args[1], args[2], VMA( 3 ), args[4] );
 		return 0;
-		// done.
+	// done.
 
 	case UI_R_ADDLIGHTTOSCENE:
 		re.AddLightToScene( VMA( 1 ), VMF( 2 ), VMF( 3 ), VMF( 4 ), VMF( 5 ), args[6] );
@@ -1130,34 +1130,34 @@ int CL_UISystemCalls( int *args ) {
 		re.RemapShader( VMA( 1 ), VMA( 2 ), VMA( 3 ) );
 		return 0;
 #ifdef LOCALISATION
-        case UI_CL_TRANSLATE_STRING:
-                CL_TranslateString( VMA( 1 ), VMA( 2 ) ); 
-                return 0;
-                // -NERVE - SMF
+	case UI_CL_TRANSLATE_STRING:
+		CL_TranslateString( VMA( 1 ), VMA( 2 ) );
+		return 0;
+		// -NERVE - SMF
 #endif
 	case UI_VERIFY_CDKEY:
 		return CL_CDKeyValidate( VMA( 1 ), VMA( 2 ) );
 
-		// NERVE - SMF
+	// NERVE - SMF
 	case UI_CL_GETLIMBOSTRING:
 		return CL_GetLimboString( args[1], VMA( 2 ) );
 
-/*
-		// DHM - Nerve
-	case UI_CHECKAUTOUPDATE:
-		CL_CheckAutoUpdate();
-		return 0;
+    /*
+            // DHM - Nerve
+        case UI_CHECKAUTOUPDATE:
+            CL_CheckAutoUpdate();
+            return 0;
 
-	case UI_GET_AUTOUPDATE:
-		CL_GetAutoUpdate();
-		return 0;
-		// DHM - Nerve
+        case UI_GET_AUTOUPDATE:
+            CL_GetAutoUpdate();
+            return 0;
+            // DHM - Nerve
 
-	case UI_OPENURL:
-		CL_OpenURL( (const char *)VMA( 1 ) );
-		return 0;
+        case UI_OPENURL:
+            CL_OpenURL( (const char *)VMA( 1 ) );
+            return 0;
 
-*/
+    */
 	default:
 		Com_Error( ERR_DROP, "Bad UI system trap: %i", args[0] );
 

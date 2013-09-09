@@ -399,8 +399,8 @@ jinit_upsampler( j_decompress_ptr cinfo ) {
 	int h_in_group, v_in_group, h_out_group, v_out_group;
 
 	upsample = (my_upsample_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_upsampler ) );
+			   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+											 SIZEOF( my_upsampler ) );
 	cinfo->upsample = (struct jpeg_upsampler *) upsample;
 	upsample->pub.start_pass = start_pass_upsample;
 	upsample->pub.upsample = sep_upsample;
@@ -467,10 +467,10 @@ jinit_upsampler( j_decompress_ptr cinfo ) {
 		}
 		if ( need_buffer ) {
 			upsample->color_buf[ci] = ( *cinfo->mem->alloc_sarray )
-				( (j_common_ptr) cinfo, JPOOL_IMAGE,
-				(JDIMENSION) jround_up( (long) cinfo->output_width,
-										(long) cinfo->max_h_samp_factor ),
-				(JDIMENSION) cinfo->max_v_samp_factor );
+										  ( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										  (JDIMENSION) jround_up( (long) cinfo->output_width,
+																  (long) cinfo->max_h_samp_factor ),
+										  (JDIMENSION) cinfo->max_v_samp_factor );
 		}
 	}
 }

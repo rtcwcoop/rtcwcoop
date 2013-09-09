@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -206,7 +206,7 @@ qboolean AICast_VisibleFromPos( vec3_t srcpos, int srcnum,
 			middle[2] -= ( destmaxs[2] - destmins[2] ) * 0.5;
 		} else if ( i == 1 ) {
 			middle[2] += destmaxs[2] - destmins[2];
-		} else if ( i == 2 )                                                          { // right side
+		} else if ( i == 2 ) {                                                          // right side
 			middle[2] -= ( destmaxs[2] - destmins[2] ) / 2.0;
 			VectorMA( eye, destmaxs[0] - 0.5, right, eye );
 		} else if ( i == 3 ) {    // left side
@@ -228,7 +228,7 @@ qboolean AICast_CheckVisibility( gentity_t *srcent, gentity_t *destent ) {
 	float fov, dist;
 	int viewer, ent;
 	cast_visibility_t   *vis;
-	orientation_t       or;
+	orientation_t or;
 
 	if ( destent->flags & FL_NOTARGET ) {
 		return qfalse;
@@ -249,10 +249,10 @@ qboolean AICast_CheckVisibility( gentity_t *srcent, gentity_t *destent ) {
 	// if we heard them
 	/*
 	if (	(vis->lastcheck_timestamp) &&
-			(ocs->lastWeaponFired) &&
-			(ocs->lastWeaponFired >= vis->lastcheck_timestamp) &&
-			(AICast_GetWeaponSoundRange( ocs->lastWeaponFiredWeaponNum ) > Distance( srcent->r.currentOrigin, ocs->lastWeaponFiredPos ))) {
-		return qtrue;
+	        (ocs->lastWeaponFired) &&
+	        (ocs->lastWeaponFired >= vis->lastcheck_timestamp) &&
+	        (AICast_GetWeaponSoundRange( ocs->lastWeaponFiredWeaponNum ) > Distance( srcent->r.currentOrigin, ocs->lastWeaponFiredPos ))) {
+	    return qtrue;
 	}
 	*/
 	//
@@ -620,9 +620,9 @@ void AICast_SightUpdate( int numchecks ) {
 		trap_AAS_SetCurrentWorld( cs->aasWorldIndex );
 
 		for (   destcount = 0, dest = 0, destent = g_entities;
-                                // fretn - check all players
+		        // fretn - check all players
 				dest < aicast_maxclients && destcount < level.numPlayingClients;
-				//destent == g_entities;  // only check the player
+		        //destent == g_entities;  // only check the player
 				dest++, destent++ )
 		{
 			if ( !destent->inuse ) {

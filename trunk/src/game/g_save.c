@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -367,9 +367,9 @@ void WriteField1( saveField_t *field, byte *base ) {
 		*(int *)p = index;
 		break;
 
-		//	match this with a function address in the function list, which is built using the
-		//	"extractfuncs.bat" in the utils folder. We then save the string equivalent
-		//	of the function. This effectively gives us cross-version save games.
+	//	match this with a function address in the function list, which is built using the
+	//	"extractfuncs.bat" in the utils folder. We then save the string equivalent
+	//	of the function. This effectively gives us cross-version save games.
 	case F_FUNCTION:
 		if ( *(byte **)p == NULL ) {
 			len = 0;
@@ -472,7 +472,7 @@ void ReadField( fileHandle_t f, saveField_t *field, byte *base ) {
 		}
 		break;
 
-		//relative to code segment
+	//relative to code segment
 	case F_FUNCTION:
 		len = *(int *)p;
 		if ( !len ) {
@@ -680,25 +680,25 @@ void ReadClient( fileHandle_t f, gclient_t *client, int size ) {
 
 // (SA) I think this should never be hit at all, but as a precaution I'm commenting it out anyway
 /*
-	if (!(ent->r.svFlags & SVF_CASTAI) && ent->missionObjectives > 0) {
-		gentity_t *trav;
+    if (!(ent->r.svFlags & SVF_CASTAI) && ent->missionObjectives > 0) {
+        gentity_t *trav;
 
-		for (trav=NULL; trav = G_Find(trav, FOFS(classname), "info_player_checkpoint"); ) {
-			if (trav->missionObjectives == ent->missionObjectives && Distance(trav->s.origin, ent->r.currentOrigin) < 800) {
-				G_SetOrigin( ent, trav->s.origin );
-				VectorCopy( trav->s.origin, ent->client->ps.origin );
+        for (trav=NULL; trav = G_Find(trav, FOFS(classname), "info_player_checkpoint"); ) {
+            if (trav->missionObjectives == ent->missionObjectives && Distance(trav->s.origin, ent->r.currentOrigin) < 800) {
+                G_SetOrigin( ent, trav->s.origin );
+                VectorCopy( trav->s.origin, ent->client->ps.origin );
 
-				trap_GetUsercmd( ent->client - level.clients, &ent->client->pers.cmd );
-				SetClientViewAngle( ent, trav->s.angles );
-				break;
-			}
-		}
+                trap_GetUsercmd( ent->client - level.clients, &ent->client->pers.cmd );
+                SetClientViewAngle( ent, trav->s.angles );
+                break;
+            }
+        }
 
-		if (!trav) {
-			trap_GetUsercmd( ent->client - level.clients, &ent->client->pers.cmd );
-			SetClientViewAngle( ent, ent->client->ps.viewangles );
-		}
-	} else {
+        if (!trav) {
+            trap_GetUsercmd( ent->client - level.clients, &ent->client->pers.cmd );
+            SetClientViewAngle( ent, ent->client->ps.viewangles );
+        }
+    } else {
 */
 	trap_GetUsercmd( ent->client - level.clients, &ent->client->pers.cmd );
 	SetClientViewAngle( ent, ent->client->ps.viewangles );
@@ -1667,24 +1667,24 @@ void G_LoadGame( char *filename ) {
 	level.lastLoadTime = leveltime;
 
 /*
-	// always save to the "current" savegame
-	last = level.time;
-	level.time = leveltime;	// use the value we just for the save time
-	G_SaveGame(NULL);
-	// additionally update the last game that was loaded
-	trap_Cvar_VariableStringBuffer( "savegame_filename", mapname, sizeof(mapname) );
-	if (strlen( mapname ) > 0 && !strstr( mapname, "autosave" )) {
-		// clear it out so we dont lose it after a map_restart
-		trap_Cvar_Set( "savegame_filename", "" );
-		if (strstr(mapname, ".svg")) mapname[strstr(mapname, ".svg") - mapname] = '\0';
-		if (strstr(mapname, "/")) {
-			G_SaveGame( strstr(mapname, "/") + 1 );
-		} else {
-			G_SaveGame( mapname );
-		}
-	}
-	// restore the correct level.time
-	level.time = last;
+    // always save to the "current" savegame
+    last = level.time;
+    level.time = leveltime;	// use the value we just for the save time
+    G_SaveGame(NULL);
+    // additionally update the last game that was loaded
+    trap_Cvar_VariableStringBuffer( "savegame_filename", mapname, sizeof(mapname) );
+    if (strlen( mapname ) > 0 && !strstr( mapname, "autosave" )) {
+        // clear it out so we dont lose it after a map_restart
+        trap_Cvar_Set( "savegame_filename", "" );
+        if (strstr(mapname, ".svg")) mapname[strstr(mapname, ".svg") - mapname] = '\0';
+        if (strstr(mapname, "/")) {
+            G_SaveGame( strstr(mapname, "/") + 1 );
+        } else {
+            G_SaveGame( mapname );
+        }
+    }
+    // restore the correct level.time
+    level.time = last;
 */
 }
 
@@ -1808,11 +1808,12 @@ qboolean G_SavePersistant( char *nextmap, int clientNum, int persid ) {
 
 	saveByteCount = 0;
 
-        // fretn: dont error out, the less we crash the server, the better
-        if (clientNum < 0 || clientNum >= MAX_COOP_CLIENTS)
-                clientNum = 0;
+	// fretn: dont error out, the less we crash the server, the better
+	if ( clientNum < 0 || clientNum >= MAX_COOP_CLIENTS ) {
+		clientNum = 0;
+	}
 
-        G_DPrintf("G_SavePersistant: %d\n", clientNum);
+	G_DPrintf( "G_SavePersistant: %d\n", clientNum );
 
 	// open the file
 	Com_sprintf( filename, MAX_QPATH, "save\\temp.psw" );
@@ -1847,10 +1848,10 @@ qboolean G_SavePersistant( char *nextmap, int clientNum, int persid ) {
 	trap_FS_FCloseFile( f );
 
 	// rename it to the real file
-	trap_FS_Rename( "save\\temp.psw", va("save\\current%d.psw", clientNum) );
+	trap_FS_Rename( "save\\temp.psw", va( "save\\current%d.psw", clientNum ) );
 
 	// now check that it is the correct size
-	Com_sprintf( filename, MAX_QPATH, va("save\\current%d.psw", clientNum) );
+	Com_sprintf( filename, MAX_QPATH, va( "save\\current%d.psw", clientNum ) );
 	if ( trap_FS_FOpenFile( filename, &f, FS_READ ) < saveByteCount ) {
 		trap_FS_FCloseFile( f );
 		G_SaveWriteError();
@@ -1874,12 +1875,13 @@ void G_LoadPersistant( int clientNum ) {
 	int persid;
 
 	// fretn: dont error out, the less we crash the server, the better
-	if (clientNum < 0 || clientNum >= MAX_COOP_CLIENTS)
+	if ( clientNum < 0 || clientNum >= MAX_COOP_CLIENTS ) {
 		clientNum = 0;
+	}
 
-	filename = va("save\\current%d.psw", clientNum);
+	filename = va( "save\\current%d.psw", clientNum );
 
-	G_DPrintf("G_LoadPersistant: %d\n", clientNum);
+	G_DPrintf( "G_LoadPersistant: %d\n", clientNum );
 
 	// open the file
 	if ( trap_FS_FOpenFile( filename, &f, FS_READ ) < 0 ) {

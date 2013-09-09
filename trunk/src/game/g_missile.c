@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,15 +51,15 @@ qboolean G_BounceMissile( gentity_t *ent, trace_t *trace ) {
 	int hitTime;
 	int contents;       //----(SA)	added
 /*
-		// Ridah, if we are a grenade, and we have hit an AI that is waiting to catch us, give them a grenade, and delete ourselves
-	if ((ent->splashMethodOfDeath == MOD_GRENADE_SPLASH) && (g_entities[trace->entityNum].flags & FL_AI_GRENADE_KICK) &&
-		(trace->endpos[2] > g_entities[trace->entityNum].r.currentOrigin[2])) {
-		g_entities[trace->entityNum].grenadeExplodeTime = ent->nextthink;
-		g_entities[trace->entityNum].flags &= ~FL_AI_GRENADE_KICK;
-		Add_Ammo( &g_entities[trace->entityNum], WP_GRENADE_LAUNCHER, 1, qfalse );	//----(SA)	modified
-		G_FreeEntity( ent );
-		return qfalse;
-	}
+        // Ridah, if we are a grenade, and we have hit an AI that is waiting to catch us, give them a grenade, and delete ourselves
+    if ((ent->splashMethodOfDeath == MOD_GRENADE_SPLASH) && (g_entities[trace->entityNum].flags & FL_AI_GRENADE_KICK) &&
+        (trace->endpos[2] > g_entities[trace->entityNum].r.currentOrigin[2])) {
+        g_entities[trace->entityNum].grenadeExplodeTime = ent->nextthink;
+        g_entities[trace->entityNum].flags &= ~FL_AI_GRENADE_KICK;
+        Add_Ammo( &g_entities[trace->entityNum], WP_GRENADE_LAUNCHER, 1, qfalse );	//----(SA)	modified
+        G_FreeEntity( ent );
+        return qfalse;
+    }
 */
 	contents = trap_PointContents( ent->s.origin, -1 );
 
@@ -125,7 +125,7 @@ qboolean G_BounceMissile( gentity_t *ent, trace_t *trace ) {
 /*
 ================
 G_MissileImpact
-	impactDamage is how much damage the impact will do to func_explosives
+    impactDamage is how much damage the impact will do to func_explosives
 ================
 */
 void G_MissileImpact( gentity_t *ent, trace_t *trace, int impactDamage, vec3_t dir ) {  //----(SA)	added 'dir'
@@ -285,7 +285,7 @@ void Concussive_think( gentity_t *ent ) {
 	float grav = 24;
 	vec3_t vec;
 	float len;
-        int i;
+	int i;
 
 	if ( level.time > ent->delay ) {
 		ent->think = G_FreeEntity;
@@ -293,50 +293,52 @@ void Concussive_think( gentity_t *ent ) {
 
 	ent->nextthink = level.time + FRAMETIME;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+		player = &g_entities[i];
 
-                if ( !player || !player->inuse )
-                        continue;
+		if ( !player || !player->inuse ) {
+			continue;
+		}
 
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
+		if ( player->r.svFlags & SVF_CASTAI ) {
+			continue;
+		}
 
-                VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );
-                len = VectorLength( vec );
+		VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );
+		len = VectorLength( vec );
 
-        //	G_Printf ("len = %5.3f\n", len);
+		//	G_Printf ("len = %5.3f\n", len);
 
-                if ( len > 512 ) {
-                        return;
-                }
+		if ( len > 512 ) {
+			return;
+		}
 
-                VectorSet( dir, 0, 0, 1 );
-                VectorScale( dir, grav, kvel );
-                VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
+		VectorSet( dir, 0, 0, 1 );
+		VectorScale( dir, grav, kvel );
+		VectorAdd( player->client->ps.velocity, kvel, player->client->ps.velocity );
 
-                if ( !player->client->ps.pm_time ) {
-                        int t;
+		if ( !player->client->ps.pm_time ) {
+			int t;
 
-                        t = grav * 2;
-                        if ( t < 50 ) {
-                                t = 50;
-                        }
-                        if ( t > 200 ) {
-                                t = 200;
-                        }
-                        player->client->ps.pm_time = t;
-                        player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
-                }
-        }
+			t = grav * 2;
+			if ( t < 50 ) {
+				t = 50;
+			}
+			if ( t > 200 ) {
+				t = 200;
+			}
+			player->client->ps.pm_time = t;
+			player->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
+		}
+	}
 
 }
 
 /*
 ==============
 Concussive_fx
-	shake the player
-	caused by explosives (grenades/dynamite/etc.)
+    shake the player
+    caused by explosives (grenades/dynamite/etc.)
 ==============
 */
 //void Concussive_fx (gentity_t *ent)
@@ -407,42 +409,42 @@ void M_think( gentity_t *ent ) {
 // JPW NERVE
 // think func for below
 void Shaker_think( gentity_t *ent ) {
-        vec3_t vec;      // muzzlebounce, JPW NERVE no longer used
-        gentity_t   *player;
-        float len, radius = ent->splashDamage, bounceamt;
-        int i;
-        char cmd[64];       //DAJ
-        ent->think = G_FreeEntity;
-        ent->nextthink = level.time + FRAMETIME;
+	vec3_t vec;          // muzzlebounce, JPW NERVE no longer used
+	gentity_t   *player;
+	float len, radius = ent->splashDamage, bounceamt;
+	int i;
+	char cmd[64];           //DAJ
+	ent->think = G_FreeEntity;
+	ent->nextthink = level.time + FRAMETIME;
 
-        for ( i = 0; i < level.maxclients; i++ ) {
-                // skip if not connected
-                if ( level.clients[i].pers.connected != CON_CONNECTED ) {
-                        continue;
-                }
-                // skip if in limbo
-                if ( level.clients[i].ps.pm_flags & PMF_LIMBO ) {
-                        continue;
-                }
-                // skip if not on same team
-                if ( level.clients[i].sess.sessionTeam == TEAM_SPECTATOR ) {
-                        continue;
-                }
+	for ( i = 0; i < level.maxclients; i++ ) {
+		// skip if not connected
+		if ( level.clients[i].pers.connected != CON_CONNECTED ) {
+			continue;
+		}
+		// skip if in limbo
+		if ( level.clients[i].ps.pm_flags & PMF_LIMBO ) {
+			continue;
+		}
+		// skip if not on same team
+		if ( level.clients[i].sess.sessionTeam == TEAM_SPECTATOR ) {
+			continue;
+		}
 
-                // found a live one
-                player = &g_entities[i];
-                VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );
-                len = VectorLength( vec );
+		// found a live one
+		player = &g_entities[i];
+		VectorSubtract( player->r.currentOrigin, ent->s.origin, vec );
+		len = VectorLength( vec );
 
-                if ( len > radius ) { // largest bomb blast = 600
-                        continue;
-                }
+		if ( len > radius ) {         // largest bomb blast = 600
+			continue;
+		}
 
-                // NERVE - SMF - client side camera shake
-                bounceamt = min( 1.0f, 1.0f - ( len / radius ) );
-                sprintf( cmd, "shake %.4f", bounceamt );   //DAJ
-                trap_SendServerCommand( player->s.clientNum, cmd );
-        }
+		// NERVE - SMF - client side camera shake
+		bounceamt = min( 1.0f, 1.0f - ( len / radius ) );
+		sprintf( cmd, "shake %.4f", bounceamt );           //DAJ
+		trap_SendServerCommand( player->s.clientNum, cmd );
+	}
 }
 // jpw
 /*
@@ -452,15 +454,15 @@ Ground_Shaker
 =============
 */
 void Ground_Shaker( vec3_t origin, float range ) {
-        gentity_t *concussive;
+	gentity_t *concussive;
 
-        concussive = G_Spawn();
-        VectorCopy( origin, concussive->s.origin );
-        concussive->think = Shaker_think;
-        concussive->nextthink = level.time + FRAMETIME;
-        concussive->splashDamage = range;
-        concussive->delay = level.time + 200;       // NERVE - SMF - changed from 1000 to 200
-        return;
+	concussive = G_Spawn();
+	VectorCopy( origin, concussive->s.origin );
+	concussive->think = Shaker_think;
+	concussive->nextthink = level.time + FRAMETIME;
+	concussive->splashDamage = range;
+	concussive->delay = level.time + 200;           // NERVE - SMF - changed from 1000 to 200
+	return;
 }
 
 
@@ -503,10 +505,10 @@ void G_ExplodeMissile( gentity_t *ent ) {
 	else if ( !Q_stricmp( ent->classname, "props_explosion_large" ) ) {
 		G_AddEvent( ent, EV_MISSILE_MISS_LARGE, DirToByte( dir ) );
 		small = qfalse;
-	} else if ( !Q_stricmp( ent->classname, "zombiespit" ) )      {
+	} else if ( !Q_stricmp( ent->classname, "zombiespit" ) ) {
 		G_AddEvent( ent, EV_SPIT_MISS, DirToByte( dir ) );
 		zombiespit = qtrue;
-	} else if ( !Q_stricmp( ent->classname, "flamebarrel" ) )      {
+	} else if ( !Q_stricmp( ent->classname, "flamebarrel" ) ) {
 		ent->freeAfterEvent = qtrue;
 		trap_LinkEntity( ent );
 		return;
@@ -528,61 +530,61 @@ void G_ExplodeMissile( gentity_t *ent ) {
 	trap_LinkEntity( ent );
 
 
-        if ( etype == ET_MISSILE ) {
-                if ( g_gametype.integer <= GT_COOP ) {
-                                if ( ent->s.weapon == WP_DYNAMITE ) { // do some scoring
+	if ( etype == ET_MISSILE ) {
+		if ( g_gametype.integer <= GT_COOP ) {
+			if ( ent->s.weapon == WP_DYNAMITE ) {                     // do some scoring
 // check if dynamite is in trigger_objective_info field
-                                        vec3_t mins, maxs;
-                                        //static vec3_t range = { 18, 18, 18 }; // NOTE can use this to massage throw distance outside trigger field // TTimo unused
-                                        int i,num,touch[MAX_GENTITIES];
-                                        gentity_t   *hit;
+				vec3_t mins, maxs;
+				//static vec3_t range = { 18, 18, 18 }; // NOTE can use this to massage throw distance outside trigger field // TTimo unused
+				int i,num,touch[MAX_GENTITIES];
+				gentity_t   *hit;
 
-                                        // NERVE - SMF - made this the actual bounding box of dynamite instead of range
-                                        VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
-                                        VectorAdd( ent->r.currentOrigin, ent->r.maxs, maxs );
-                                        num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
-                                        VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
-                                        VectorAdd( ent->r.currentOrigin, ent->r.maxs, maxs );
+				// NERVE - SMF - made this the actual bounding box of dynamite instead of range
+				VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
+				VectorAdd( ent->r.currentOrigin, ent->r.maxs, maxs );
+				num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+				VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
+				VectorAdd( ent->r.currentOrigin, ent->r.maxs, maxs );
 
-                                        for ( i = 0 ; i < num ; i++ ) {
-                                                hit = &g_entities[touch[i]];
-                                                if ( !hit->target ) {
-                                                        continue;
-                                                }    
+				for ( i = 0 ; i < num ; i++ ) {
+					hit = &g_entities[touch[i]];
+					if ( !hit->target ) {
+						continue;
+					}
 
-                                                if ( !( hit->r.contents & CONTENTS_TRIGGER ) ) {
-                                                        continue;
-                                                }    
-                                                if ( !strcmp( hit->classname,"trigger_objective_info" ) ) {
-                                                       if ( !( hit->spawnflags & ( AXIS_OBJECTIVE | ALLIED_OBJECTIVE ) ) ) {
-                                                                continue;
-                                                        }
+					if ( !( hit->r.contents & CONTENTS_TRIGGER ) ) {
+						continue;
+					}
+					if ( !strcmp( hit->classname,"trigger_objective_info" ) ) {
+						if ( !( hit->spawnflags & ( AXIS_OBJECTIVE | ALLIED_OBJECTIVE ) ) ) {
+							continue;
+						}
 
-                                                        if ( hit->spawnflags & AXIS_OBJECTIVE || hit->spawnflags & ALLIED_OBJECTIVE) {
-                                                        //if ( ( ( hit->spawnflags & AXIS_OBJECTIVE ) && ( ent->s.teamNum == TEAM_BLUE ) ) ||
-                                                         //        ( ( hit->spawnflags & ALLIED_OBJECTIVE ) && ( ent->s.teamNum == TEAM_RED ) ) ) {
-                                                                G_UseTargets( hit,ent );
-                                                                hit->think = G_FreeEntity;
-                                                                hit->nextthink = level.time + FRAMETIME;
+						if ( hit->spawnflags & AXIS_OBJECTIVE || hit->spawnflags & ALLIED_OBJECTIVE ) {
+							//if ( ( ( hit->spawnflags & AXIS_OBJECTIVE ) && ( ent->s.teamNum == TEAM_BLUE ) ) ||
+							//        ( ( hit->spawnflags & ALLIED_OBJECTIVE ) && ( ent->s.teamNum == TEAM_RED ) ) ) {
+							G_UseTargets( hit,ent );
+							hit->think = G_FreeEntity;
+							hit->nextthink = level.time + FRAMETIME;
 
-                                                                if ( ent->parent->client ) {
-                                                                        if ( ent->s.teamNum == ent->parent->client->sess.sessionTeam ) { // make sure player hasn't changed teams -- per atvi req
-                                                                                AddScore( ent->parent, hit->accuracy ); // set from map, see g_trigger
-                                                                        }
-                                                                }
-                                                        }
-                                                }
-                                        }
-                                }
-                        }
-                        // give big weapons the shakey shakey
-                        if ( ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_PANZERFAUST || ent->s.weapon == WP_GRENADE_LAUNCHER ||
-                                 ent->s.weapon == WP_GRENADE_PINEAPPLE || ent->s.weapon == WP_MORTAR ) {
-                                Ground_Shaker( ent->r.currentOrigin, ent->splashDamage * 4 );
-                        }
-                        return;
+							if ( ent->parent->client ) {
+								if ( ent->s.teamNum == ent->parent->client->sess.sessionTeam ) {                                         // make sure player hasn't changed teams -- per atvi req
+									AddScore( ent->parent, hit->accuracy );                                             // set from map, see g_trigger
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// give big weapons the shakey shakey
+		if ( ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_PANZERFAUST || ent->s.weapon == WP_GRENADE_LAUNCHER ||
+			 ent->s.weapon == WP_GRENADE_PINEAPPLE || ent->s.weapon == WP_MORTAR ) {
+			Ground_Shaker( ent->r.currentOrigin, ent->splashDamage * 4 );
+		}
+		return;
 // jpw
-        }
+	}
 
 	if ( !zombiespit ) {
 		gentity_t *Msmoke;
@@ -820,13 +822,13 @@ int G_PredictMissile( gentity_t *ent, int duration, vec3_t endPos, qboolean allo
 		}
 	}
 /*
-	if (!allowBounce && tr.fraction < 1 && tr.entityNum > level.maxclients) {
-		// go back a bit in time, so we can catch it in the air
-		time -= 200;
-		if (time < level.time + FRAMETIME)
-			time = level.time + FRAMETIME;
-		BG_EvaluateTrajectory( &pos, time, org );
-	}
+    if (!allowBounce && tr.fraction < 1 && tr.entityNum > level.maxclients) {
+        // go back a bit in time, so we can catch it in the air
+        time -= 200;
+        if (time < level.time + FRAMETIME)
+            time = level.time + FRAMETIME;
+        BG_EvaluateTrajectory( &pos, time, org );
+    }
 */
 
 	// get current position
@@ -1238,10 +1240,10 @@ int G_GetWeaponDamage( int weapon ); // JPW NERVE
 =================
 fire_grenade
 
-	NOTE!!!! NOTE!!!!!
+    NOTE!!!! NOTE!!!!!
 
-	This accepts a /non-normalized/ direction vector to allow specification
-	of how hard it's thrown.  Please scale the vector before calling.
+    This accepts a /non-normalized/ direction vector to allow specification
+    of how hard it's thrown.  Please scale the vector before calling.
 
 =================
 */
@@ -1316,10 +1318,11 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 		}
 		bolt->methodOfDeath         = MOD_GRENADE;
 		bolt->splashMethodOfDeath   = MOD_GRENADE_SPLASH;
-                if ( g_gametype.integer >= GT_COOP )
-                        bolt->s.eFlags              = EF_BOUNCE_HALF;
-                else
-                        bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
+		if ( g_gametype.integer >= GT_COOP ) {
+			bolt->s.eFlags              = EF_BOUNCE_HALF;
+		} else {
+			bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
+		}
 		break;
 	case WP_GRENADE_PINEAPPLE:
 		bolt->classname             = "grenade";
@@ -1328,10 +1331,11 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 		bolt->splashRadius          = 450;
 		bolt->methodOfDeath         = MOD_GRENADE;
 		bolt->splashMethodOfDeath   = MOD_GRENADE_SPLASH;
-                if ( g_gametype.integer >= GT_COOP )
-                        bolt->s.eFlags              = EF_BOUNCE_HALF;
-                else
-                        bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
+		if ( g_gametype.integer >= GT_COOP ) {
+			bolt->s.eFlags              = EF_BOUNCE_HALF;
+		} else {
+			bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
+		}
 		break;
 // JPW NERVE
 	case WP_GRENADE_SMOKE:
@@ -1788,7 +1792,7 @@ qboolean visible( gentity_t *self, gentity_t *other ) {
 /*
 ==============
 fire_mortar
-	dir is a non-normalized direction/power vector
+    dir is a non-normalized direction/power vector
 ==============
 */
 gentity_t *fire_mortar( gentity_t *self, vec3_t start, vec3_t dir ) {
@@ -1833,5 +1837,3 @@ gentity_t *fire_mortar( gentity_t *self, vec3_t start, vec3_t dir ) {
 
 	return bolt;
 }
-
-

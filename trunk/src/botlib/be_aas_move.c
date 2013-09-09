@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -488,7 +488,7 @@ int AAS_PredictClientMovement( struct aas_clientmove_s *move,
 		} //end if
 		crouch = qfalse;
 		//apply command movement
-		if ( n < cmdframes ) {			
+		if ( n < cmdframes ) {
 			maxvel = sv_maxwalkvelocity;
 			accelerate = sv_airaccelerate;
 			VectorCopy( cmdmove, wishdir );
@@ -508,11 +508,11 @@ int AAS_PredictClientMovement( struct aas_clientmove_s *move,
 				else
 				{
 					accelerate = sv_walkaccelerate;
-				} //end else				
+				} //end else
 			} //end if
 			if ( swimming ) {
 				maxvel = sv_maxswimvelocity;
-				accelerate = sv_swimaccelerate;				
+				accelerate = sv_swimaccelerate;
 			} //end if
 			else
 			{

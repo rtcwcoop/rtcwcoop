@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -65,11 +65,11 @@ weapIconDrawSize
 static int weapIconDrawSize( int weap ) {
 	switch ( weap ) {
 
-		// weapons to not draw
+	// weapons to not draw
 	case WP_KNIFE:
 		return 0;
 
-		// weapons with 'wide' icons
+	// weapons with 'wide' icons
 	case WP_THOMPSON:
 	case WP_MP40:
 	case WP_STEN:
@@ -233,11 +233,11 @@ static void CG_DrawPlayerAmmoIcon( rectDef_t *rect, qboolean draw2D ) {
 CG_DrawCursorHints
 
   cg_cursorHints.integer ==
-	0:	no hints
-	1:	sin size pulse
-	2:	one way size pulse
-	3:	alpha pulse
-	4+:	static image
+    0:	no hints
+    1:	sin size pulse
+    2:	one way size pulse
+    3:	alpha pulse
+    4+:	static image
 
 ==============
 */
@@ -261,9 +261,9 @@ static void CG_DrawCursorhint( rectDef_t *rect ) {
 	case HINT_FORCENONE:
 		icon = 0;
 		break;
-        //case HINT_KNIFE:
-        //        icon = cgs.media.hintShaders[HINT_KNIFE];
-        //        break;
+	//case HINT_KNIFE:
+	//        icon = cgs.media.hintShaders[HINT_KNIFE];
+	//        break;
 	case HINT_BREAKABLE_DYNAMITE:
 		icon = cgs.media.hintShaders[HINT_BREAKABLE];
 		break;
@@ -380,8 +380,8 @@ static void CG_DrawMessageIcon( rectDef_t *rect ) {
 /*
 ==============
 CG_DrawPlayerAmmoValue
-	0 - ammo
-	1 - clip
+    0 - ammo
+    1 - clip
 ==============
 */
 static void CG_DrawPlayerAmmoValue( rectDef_t *rect, int font, float scale, vec4_t color, qhandle_t shader, int textStyle, int type ) {
@@ -601,7 +601,7 @@ static void CG_DrawPlayerSpawnpoints( rectDef_t *rect, int font, float scale, ve
 
 	ps = &cg.snap->ps;
 
-	value = ps->persistant[PERS_SPAWNPOINTS_LEFT] +1;
+	value = ps->persistant[PERS_SPAWNPOINTS_LEFT] + 1;
 
 	if ( shader ) {
 		trap_R_SetColor( color );
@@ -622,7 +622,7 @@ static void CG_DrawPlayerLives( rectDef_t *rect, int font, float scale, vec4_t c
 
 	ps = &cg.snap->ps;
 
-	value = ps->persistant[PERS_RESPAWNS_LEFT] +1;
+	value = ps->persistant[PERS_RESPAWNS_LEFT] + 1;
 
 	if ( shader ) {
 		trap_R_SetColor( color );
@@ -844,7 +844,7 @@ static void CG_DrawAreaChat( rectDef_t *rect, int font, float scale, vec4_t colo
 	CG_Text_Paint( rect->x, rect->y + rect->h, font, scale, color, teamChat2, 0, 0, 0 );
 }
 
-static const char *CG_GetKillerText(void) {
+static const char *CG_GetKillerText( void ) {
 	const unsigned char *s = (unsigned char *)"";
 	if ( cg.killerName[0] ) {
 		s = (unsigned char *)va( "Fragged by %s", cg.killerName );
@@ -880,7 +880,7 @@ static void CG_Draw2ndPlace( rectDef_t *rect, int font, float scale, vec4_t colo
 	}
 }
 
-static const char *CG_GetGameStatusText(void) {
+static const char *CG_GetGameStatusText( void ) {
 	const unsigned char *s = (unsigned char*)"";
 	if ( cg.snap->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR ) {
 		s = (unsigned char *)va( "%s place with %i",CG_PlaceString( cg.snap->ps.persistant[PERS_RANK] + 1 ),cg.snap->ps.persistant[PERS_SCORE] );
@@ -892,7 +892,7 @@ static void CG_DrawGameStatus( rectDef_t *rect, int font, float scale, vec4_t co
 	CG_Text_Paint( rect->x, rect->y + rect->h, font, scale, color, CG_GetGameStatusText(), 0, 0, textStyle );
 }
 
-static const char *CG_GameTypeString(void) {
+static const char *CG_GameTypeString( void ) {
 
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return "Single Player";
@@ -903,24 +903,24 @@ static const char *CG_GameTypeString(void) {
 	} else if ( cgs.gametype == GT_COOP_BATTLE ) {
 		return "Battle";
 	} else {
-	        return "";
+		return "";
 	}
 
 	return "";
 }
 
 int CG_OwnerDrawWidth( int ownerDraw, int font, float scale ) {
-    switch ( ownerDraw ) {
-    case CG_GAME_TYPE:
-        return CG_Text_Width( CG_GameTypeString(), font, scale, 0 ); 
-    case CG_GAME_STATUS:
-        return CG_Text_Width( CG_GetGameStatusText(), font, scale, 0 ); 
-        break;
-    case CG_KILLER:
-        return CG_Text_Width( CG_GetKillerText(), font, scale, 0 ); 
-        break;
-    }    
-    return 0;
+	switch ( ownerDraw ) {
+	case CG_GAME_TYPE:
+		return CG_Text_Width( CG_GameTypeString(), font, scale, 0 );
+	case CG_GAME_STATUS:
+		return CG_Text_Width( CG_GetGameStatusText(), font, scale, 0 );
+		break;
+	case CG_KILLER:
+		return CG_Text_Width( CG_GetKillerText(), font, scale, 0 );
+		break;
+	}
+	return 0;
 }
 
 static void CG_DrawGameType( rectDef_t *rect, int font, float scale, vec4_t color, qhandle_t shader, int textStyle ) {
@@ -1123,9 +1123,9 @@ static void CG_DrawMedal( int ownerDraw, rectDef_t *rect, int font, float scale,
 /*
 ==============
 CG_DrawWeapStability
-	draw a bar showing current stability level (0-255), max at current weapon/ability, and 'perfect' reference mark
+    draw a bar showing current stability level (0-255), max at current weapon/ability, and 'perfect' reference mark
 
-	probably only drawn for scoped weapons
+    probably only drawn for scoped weapons
 ==============
 */
 static void CG_DrawWeapStability( rectDef_t *rect, vec4_t color, int align ) {
@@ -1206,38 +1206,38 @@ NERVE - SMF
 =================
 */
 static void CG_DrawCompassIcon( int x, int y, int w, int h, vec3_t origin, vec3_t dest, qhandle_t shader ) {
-        float angle, pi2 = M_PI * 2;
-        vec3_t v1, angles;
-        float len;
+	float angle, pi2 = M_PI * 2;
+	vec3_t v1, angles;
+	float len;
 
-        VectorCopy( dest, v1 );
-        VectorSubtract( origin, v1, v1 );
-        len = VectorLength( v1 );
-        VectorNormalize( v1 );
-        vectoangles( v1, angles );
+	VectorCopy( dest, v1 );
+	VectorSubtract( origin, v1, v1 );
+	len = VectorLength( v1 );
+	VectorNormalize( v1 );
+	vectoangles( v1, angles );
 
-        if ( v1[0] == 0 && v1[1] == 0 && v1[2] == 0 ) {
-                return;
-        }
+	if ( v1[0] == 0 && v1[1] == 0 && v1[2] == 0 ) {
+		return;
+	}
 
-        angles[YAW] = AngleSubtract( cg.snap->ps.viewangles[YAW], angles[YAW] );
+	angles[YAW] = AngleSubtract( cg.snap->ps.viewangles[YAW], angles[YAW] );
 
-        angle = ( ( angles[YAW] + 180.f ) / 360.f - ( 0.50 / 2.f ) ) * pi2;
+	angle = ( ( angles[YAW] + 180.f ) / 360.f - ( 0.50 / 2.f ) ) * pi2;
 
-        w /= 2;
-        h /= 2;
+	w /= 2;
+	h /= 2;
 
-        x += w;
-        y += h;
+	x += w;
+	y += h;
 
-        w = sqrt( ( w * w ) + ( h * h ) ) / 3.f * 2.f * 0.9f;
+	w = sqrt( ( w * w ) + ( h * h ) ) / 3.f * 2.f * 0.9f;
 
-        x = x + ( cos( angle ) * w );
-        y = y + ( sin( angle ) * w );
+	x = x + ( cos( angle ) * w );
+	y = y + ( sin( angle ) * w );
 
-        len = 1 - min( 1.f, len / 2000.f );
+	len = 1 - min( 1.f, len / 2000.f );
 
-        CG_DrawPic( x - ( 14 * len + 4 ) / 2, y - ( 14 * len + 4 ) / 2, 14 * len + 4, 14 * len + 4, shader );
+	CG_DrawPic( x - ( 14 * len + 4 ) / 2, y - ( 14 * len + 4 ) / 2, 14 * len + 4, 14 * len + 4, shader );
 }
 
 
@@ -1249,43 +1249,44 @@ NERVE - SMF
 =================
 */
 static void CG_DrawCompass( void ) {
-        float basex = 290, basey = 420; 
-        float basew = 60, baseh = 60;
-        vec4_t hcolor;
-        float angle;
-        int i;
+	float basex = 290, basey = 420;
+	float basew = 60, baseh = 60;
+	vec4_t hcolor;
+	float angle;
+	int i;
 
-        if ( cgs.gametype == GT_SINGLE_PLAYER ) {
-                return;
-        }    
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+		return;
+	}
 
-        if ( !cg_drawcompass.integer )
-                return;
+	if ( !cg_drawcompass.integer ) {
+		return;
+	}
 
-        if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
-                return;
-        }    
+	if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
+		return;
+	}
 
-        angle = ( cg.snap->ps.viewangles[YAW] + 180.f ) / 360.f - ( 0.25 / 2.f );
+	angle = ( cg.snap->ps.viewangles[YAW] + 180.f ) / 360.f - ( 0.25 / 2.f );
 
-        VectorSet( hcolor, 1.f,1.f,1.f );
-        hcolor[3] = cg_hudAlpha.value;
-        trap_R_SetColor( hcolor );
+	VectorSet( hcolor, 1.f,1.f,1.f );
+	hcolor[3] = cg_hudAlpha.value;
+	trap_R_SetColor( hcolor );
 
-        CG_DrawRotatedPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass2.tga" ), angle );
-        CG_DrawPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass.tga" ) ); 
+	CG_DrawRotatedPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass2.tga" ), angle );
+	CG_DrawPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass.tga" ) );
 
-        // draw voice chats
-        for ( i = 0; i < MAX_CLIENTS; i++ ) {
-                centity_t *cent = &cg_entities[i];
+	// draw voice chats
+	for ( i = 0; i < MAX_CLIENTS; i++ ) {
+		centity_t *cent = &cg_entities[i];
 
-                if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.teamNum != cg.snap->ps.teamNum) {
-                        continue;
-                }    
+		if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.teamNum != cg.snap->ps.teamNum ) {
+			continue;
+		}
 
 
-                CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
-        }
+		CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+	}
 }
 // -NERVE - SMF
 
@@ -1309,155 +1310,155 @@ void CG_OwnerDraw( float x, float y, float w, float h, float text_x, float text_
 	rect.h = h;
 
 	switch ( ownerDraw ) {
-		case CG_PLAYER_COMPASS:
-			CG_DrawCompass();
-			break;
-		case CG_PLAYER_WEAPON_ICON2D:
-			CG_DrawPlayerWeaponIcon( &rect, ownerDrawFlags & CG_SHOW_HIGHLIGHTED, align );
-			break;
-		case CG_PLAYER_ARMOR_ICON:
-			break;
-		case CG_PLAYER_ARMOR_ICON2D:
-			break;
-		case CG_PLAYER_ARMOR_VALUE:
-			CG_DrawPlayerArmorValue( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_PLAYER_AMMO_ICON:
-			CG_DrawPlayerAmmoIcon( &rect, ownerDrawFlags & CG_SHOW_2DONLY );
-			break;
-		case CG_PLAYER_AMMO_ICON2D:
-			CG_DrawPlayerAmmoIcon( &rect, qtrue );
-			break;
-		case CG_PLAYER_AMMO_VALUE:
-			CG_DrawPlayerAmmoValue( &rect, font, scale, color, shader, textStyle, 0 );
-			break;
-		case CG_CURSORHINT:
-			CG_DrawCursorhint( &rect );
-			break;
+	case CG_PLAYER_COMPASS:
+		CG_DrawCompass();
+		break;
+	case CG_PLAYER_WEAPON_ICON2D:
+		CG_DrawPlayerWeaponIcon( &rect, ownerDrawFlags & CG_SHOW_HIGHLIGHTED, align );
+		break;
+	case CG_PLAYER_ARMOR_ICON:
+		break;
+	case CG_PLAYER_ARMOR_ICON2D:
+		break;
+	case CG_PLAYER_ARMOR_VALUE:
+		CG_DrawPlayerArmorValue( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_PLAYER_AMMO_ICON:
+		CG_DrawPlayerAmmoIcon( &rect, ownerDrawFlags & CG_SHOW_2DONLY );
+		break;
+	case CG_PLAYER_AMMO_ICON2D:
+		CG_DrawPlayerAmmoIcon( &rect, qtrue );
+		break;
+	case CG_PLAYER_AMMO_VALUE:
+		CG_DrawPlayerAmmoValue( &rect, font, scale, color, shader, textStyle, 0 );
+		break;
+	case CG_CURSORHINT:
+		CG_DrawCursorhint( &rect );
+		break;
 	//----(SA)	added
-		case CG_NEWMESSAGE:
-			CG_DrawMessageIcon( &rect );
-			break;
+	case CG_NEWMESSAGE:
+		CG_DrawMessageIcon( &rect );
+		break;
 	//----(SA)	end
-		case CG_PLAYER_AMMOCLIP_VALUE:
-			CG_DrawPlayerAmmoValue( &rect, font, scale, color, shader, textStyle, 1 );
-			break;
-		case CG_PLAYER_WEAPON_HEAT:
-			CG_DrawWeapHeat( &rect, align );
-			break;
-		case CG_PLAYER_WEAPON_STABILITY:
-			CG_DrawWeapStability( &rect, color, align );
-			break;
-		case CG_STAMINA:
-			CG_DrawFatigue( &rect, color, align );
-			break;
-		case CG_PLAYER_HEAD:
-			CG_DrawPlayerHead( &rect, ownerDrawFlags & CG_SHOW_2DONLY );
-			break;
-		case CG_PLAYER_HOLDABLE:
-			CG_DrawHoldableItem( &rect, font, scale, ownerDrawFlags & CG_SHOW_2DONLY );
-			break;
-		case CG_PLAYER_ITEM:
-			CG_DrawPlayerItem( &rect, font, scale, ownerDrawFlags & CG_SHOW_2DONLY );
-			break;
-		case CG_PLAYER_SCORE:
-			CG_DrawPlayerScore( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_PLAYER_LIVES:
-			CG_DrawPlayerLives( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_PLAYER_SPAWNPOINTS:
-			CG_DrawPlayerSpawnpoints( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_PLAYER_HEALTH:
-			CG_DrawPlayerHealth( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_RED_SCORE:
-			CG_DrawRedScore( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_BLUE_SCORE:
-			CG_DrawBlueScore( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_RED_NAME:
-			break;
-		case CG_BLUE_NAME:
-			break;
-		case CG_BLUE_FLAGHEAD:
-			break;
-		case CG_BLUE_FLAGSTATUS:
-			break;
-		case CG_BLUE_FLAGNAME:
-			break;
-		case CG_RED_FLAGHEAD:
-			break;
-		case CG_RED_FLAGSTATUS:
-			break;
-		case CG_RED_FLAGNAME:
-			break;
-		case CG_HARVESTER_SKULLS:
-			break;
-		case CG_HARVESTER_SKULLS2D:
-			break;
-		case CG_ONEFLAG_STATUS:
-			break;
-		case CG_PLAYER_LOCATION:
-			CG_DrawPlayerLocation( &rect, font, scale, color, textStyle );
-			break;
-		case CG_TEAM_COLOR:
-			CG_DrawTeamColor( &rect, color );
-			break;
-		case CG_CTF_POWERUP:
-			break;
-		case CG_PLAYER_STATUS:
-			break;
-		case CG_PLAYER_HASFLAG:
-			break;
-		case CG_PLAYER_HASFLAG2D:
-			break;
-		case CG_AREA_SYSTEMCHAT:
-			CG_DrawAreaSystemChat( &rect, font, scale, color, shader );
-			break;
-		case CG_AREA_TEAMCHAT:
-			CG_DrawAreaTeamChat( &rect, font, scale, color, shader );
-			break;
-		case CG_AREA_CHAT:
-			CG_DrawAreaChat( &rect, font, scale, color, shader );
-			break;
-		case CG_GAME_TYPE:
-			CG_DrawGameType( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_GAME_STATUS:
-			CG_DrawGameStatus( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_KILLER:
-			CG_DrawKiller( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_ACCURACY:
-		case CG_ASSISTS:
-		case CG_DEFEND:
-		case CG_EXCELLENT:
-		case CG_IMPRESSIVE:
-		case CG_PERFECT:
-		case CG_GAUNTLET:
-		case CG_CAPTURES:
-			CG_DrawMedal( ownerDraw, &rect, font, scale, color, shader );
-			break;
-		case CG_SPECTATORS:
-			CG_DrawTeamSpectators( &rect, font, scale, color, shader );
-			break;
-		case CG_TEAMINFO:
-			break;
-		case CG_CAPFRAGLIMIT:
-			CG_DrawCapFragLimit( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_1STPLACE:
-			CG_Draw1stPlace( &rect, font, scale, color, shader, textStyle );
-			break;
-		case CG_2NDPLACE:
-			CG_Draw2ndPlace( &rect, font, scale, color, shader, textStyle );
-			break;
-		default:
-			break;
+	case CG_PLAYER_AMMOCLIP_VALUE:
+		CG_DrawPlayerAmmoValue( &rect, font, scale, color, shader, textStyle, 1 );
+		break;
+	case CG_PLAYER_WEAPON_HEAT:
+		CG_DrawWeapHeat( &rect, align );
+		break;
+	case CG_PLAYER_WEAPON_STABILITY:
+		CG_DrawWeapStability( &rect, color, align );
+		break;
+	case CG_STAMINA:
+		CG_DrawFatigue( &rect, color, align );
+		break;
+	case CG_PLAYER_HEAD:
+		CG_DrawPlayerHead( &rect, ownerDrawFlags & CG_SHOW_2DONLY );
+		break;
+	case CG_PLAYER_HOLDABLE:
+		CG_DrawHoldableItem( &rect, font, scale, ownerDrawFlags & CG_SHOW_2DONLY );
+		break;
+	case CG_PLAYER_ITEM:
+		CG_DrawPlayerItem( &rect, font, scale, ownerDrawFlags & CG_SHOW_2DONLY );
+		break;
+	case CG_PLAYER_SCORE:
+		CG_DrawPlayerScore( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_PLAYER_LIVES:
+		CG_DrawPlayerLives( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_PLAYER_SPAWNPOINTS:
+		CG_DrawPlayerSpawnpoints( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_PLAYER_HEALTH:
+		CG_DrawPlayerHealth( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_RED_SCORE:
+		CG_DrawRedScore( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_BLUE_SCORE:
+		CG_DrawBlueScore( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_RED_NAME:
+		break;
+	case CG_BLUE_NAME:
+		break;
+	case CG_BLUE_FLAGHEAD:
+		break;
+	case CG_BLUE_FLAGSTATUS:
+		break;
+	case CG_BLUE_FLAGNAME:
+		break;
+	case CG_RED_FLAGHEAD:
+		break;
+	case CG_RED_FLAGSTATUS:
+		break;
+	case CG_RED_FLAGNAME:
+		break;
+	case CG_HARVESTER_SKULLS:
+		break;
+	case CG_HARVESTER_SKULLS2D:
+		break;
+	case CG_ONEFLAG_STATUS:
+		break;
+	case CG_PLAYER_LOCATION:
+		CG_DrawPlayerLocation( &rect, font, scale, color, textStyle );
+		break;
+	case CG_TEAM_COLOR:
+		CG_DrawTeamColor( &rect, color );
+		break;
+	case CG_CTF_POWERUP:
+		break;
+	case CG_PLAYER_STATUS:
+		break;
+	case CG_PLAYER_HASFLAG:
+		break;
+	case CG_PLAYER_HASFLAG2D:
+		break;
+	case CG_AREA_SYSTEMCHAT:
+		CG_DrawAreaSystemChat( &rect, font, scale, color, shader );
+		break;
+	case CG_AREA_TEAMCHAT:
+		CG_DrawAreaTeamChat( &rect, font, scale, color, shader );
+		break;
+	case CG_AREA_CHAT:
+		CG_DrawAreaChat( &rect, font, scale, color, shader );
+		break;
+	case CG_GAME_TYPE:
+		CG_DrawGameType( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_GAME_STATUS:
+		CG_DrawGameStatus( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_KILLER:
+		CG_DrawKiller( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_ACCURACY:
+	case CG_ASSISTS:
+	case CG_DEFEND:
+	case CG_EXCELLENT:
+	case CG_IMPRESSIVE:
+	case CG_PERFECT:
+	case CG_GAUNTLET:
+	case CG_CAPTURES:
+		CG_DrawMedal( ownerDraw, &rect, font, scale, color, shader );
+		break;
+	case CG_SPECTATORS:
+		CG_DrawTeamSpectators( &rect, font, scale, color, shader );
+		break;
+	case CG_TEAMINFO:
+		break;
+	case CG_CAPFRAGLIMIT:
+		CG_DrawCapFragLimit( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_1STPLACE:
+		CG_Draw1stPlace( &rect, font, scale, color, shader, textStyle );
+		break;
+	case CG_2NDPLACE:
+		CG_Draw2ndPlace( &rect, font, scale, color, shader, textStyle );
+		break;
+	default:
+		break;
 	}
 }
 
@@ -1504,8 +1505,8 @@ void CG_MouseEvent( int x, int y ) {
 CG_EventHandling
 ==================
  type 0 - no event handling
-	  1 - team menu
-	  2 - hud editor
+      1 - team menu
+      2 - hud editor
 
 */
 void CG_EventHandling( int type ) {

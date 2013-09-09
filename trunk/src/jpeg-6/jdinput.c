@@ -375,8 +375,8 @@ jinit_input_controller( j_decompress_ptr cinfo ) {
 
 	/* Create subobject in permanent pool */
 	inputctl = (my_inputctl_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_PERMANENT,
-											   SIZEOF( my_input_controller ) );
+			   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_PERMANENT,
+											 SIZEOF( my_input_controller ) );
 	cinfo->inputctl = (struct jpeg_input_controller *) inputctl;
 	/* Initialize method pointers */
 	inputctl->pub.consume_input = consume_markers;

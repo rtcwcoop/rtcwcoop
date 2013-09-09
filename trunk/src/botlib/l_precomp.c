@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -253,8 +253,8 @@ void PC_InitTokenHeap( void ) {
 	freetokens = NULL;
 	for (i = 0; i < TOKEN_HEAP_SIZE; i++)
 	{
-		token_heap[i].next = freetokens;
-		freetokens = &token_heap[i];
+	    token_heap[i].next = freetokens;
+	    freetokens = &token_heap[i];
 	} //end for
 	tokenheapinitialized = qtrue;
 	*/
@@ -437,7 +437,7 @@ int PC_ReadDefineParms( source_t *source, define_t *define, token_t **parms, int
 				t->next = NULL;
 				if ( last ) {
 					last->next = t;
-				} else { parms[numparms] = t;}
+				} else { parms[numparms] = t; }
 				last = t;
 			} //end if
 		} //end while
@@ -498,10 +498,10 @@ int PC_MergeTokens( token_t *t1, token_t *t2 ) {
 /*
 void PC_PrintDefine(define_t *define)
 {
-	printf("define->name = %s\n", define->name);
-	printf("define->flags = %d\n", define->flags);
-	printf("define->builtin = %d\n", define->builtin);
-	printf("define->numparms = %d\n", define->numparms);
+    printf("define->name = %s\n", define->name);
+    printf("define->flags = %d\n", define->flags);
+    printf("define->builtin = %d\n", define->builtin);
+    printf("define->numparms = %d\n", define->numparms);
 //	token_t *parms;					//define parameters
 //	token_t *tokens;					//macro tokens (possibly containing parm tokens)
 //	struct define_s *next;			//next defined macro in a list
@@ -810,7 +810,7 @@ int PC_ExpandDefine( source_t *source, token_t *deftoken, define_t *define,
 				t->next = NULL;
 				if ( last ) {
 					last->next = t;
-				} else { first = t;}
+				} else { first = t; }
 				last = t;
 			} //end for
 		} //end if
@@ -821,7 +821,7 @@ int PC_ExpandDefine( source_t *source, token_t *deftoken, define_t *define,
 				//the stringizing operator must be followed by a define parameter
 				if ( dt->next ) {
 					parmnum = PC_FindDefineParm( define, dt->next->string );
-				} else { parmnum = -1;}
+				} else { parmnum = -1; }
 				//
 				if ( parmnum >= 0 ) {
 					//step over the stringizing operator
@@ -847,7 +847,7 @@ int PC_ExpandDefine( source_t *source, token_t *deftoken, define_t *define,
 			t->next = NULL;
 			if ( last ) {
 				last->next = t;
-			} else { first = t;}
+			} else { first = t; }
 			last = t;
 		} //end else
 	} //end for
@@ -926,7 +926,7 @@ void PC_ConvertPath( char *path ) {
 		if ( ( *ptr == '\\' || *ptr == '/' ) &&
 			 ( *( ptr + 1 ) == '\\' || *( ptr + 1 ) == '/' ) ) {
 			//strcpy( ptr, ptr + 1 );
-                        memmove( ptr, ptr + 1, strlen(ptr) );
+			memmove( ptr, ptr + 1, strlen( ptr ) );
 		} //end if
 		else
 		{
@@ -1110,7 +1110,7 @@ int PC_Directive_undef( source_t *source ) {
 			{
 				if ( lastdefine ) {
 					lastdefine->hashnext = define->hashnext;
-				} else { source->definehash[hash] = define->hashnext;}
+				} else { source->definehash[hash] = define->hashnext; }
 				PC_FreeDefine( define );
 			} //end else
 			break;
@@ -1128,7 +1128,7 @@ int PC_Directive_undef( source_t *source ) {
 			{
 				if ( lastdefine ) {
 					lastdefine->next = define->next;
-				} else { source->defines = define->next;}
+				} else { source->defines = define->next; }
 				PC_FreeDefine( define );
 			} //end else
 			break;
@@ -1228,7 +1228,7 @@ int PC_Directive_define( source_t *source ) {
 				t->next = NULL;
 				if ( last ) {
 					last->next = t;
-				} else { define->parms = t;}
+				} else { define->parms = t; }
 				last = t;
 				define->numparms++;
 				//read next token
@@ -1264,7 +1264,7 @@ int PC_Directive_define( source_t *source ) {
 		t->next = NULL;
 		if ( last ) {
 			last->next = t;
-		} else { define->tokens = t;}
+		} else { define->tokens = t; }
 		last = t;
 	} while ( PC_ReadLine( source, &token ) );
 	//
@@ -1438,7 +1438,7 @@ define_t *PC_CopyDefine( source_t *source, define_t *define ) {
 		newtoken->next = NULL;
 		if ( lasttoken ) {
 			lasttoken->next = newtoken;
-		} else { newdefine->tokens = newtoken;}
+		} else { newdefine->tokens = newtoken; }
 		lasttoken = newtoken;
 	} //end for
 	  //copy the define parameters
@@ -1449,7 +1449,7 @@ define_t *PC_CopyDefine( source_t *source, define_t *define ) {
 		newtoken->next = NULL;
 		if ( lasttoken ) {
 			lasttoken->next = newtoken;
-		} else { newdefine->parms = newtoken;}
+		} else { newdefine->parms = newtoken; }
 		lasttoken = newtoken;
 	} //end for
 	return newdefine;
@@ -1628,7 +1628,7 @@ int PC_OperatorPriority( int op ) {
 		break;											\
 	}													\
 	else { \
-		val = &value_heap[numvalues++];}
+		val = &value_heap[numvalues++]; }
 #define FreeValue( val )
 //
 #define AllocOperator( op )								  \
@@ -1638,7 +1638,7 @@ int PC_OperatorPriority( int op ) {
 		break;											\
 	}													\
 	else { \
-		op = &operator_heap[numoperators++];}
+		op = &operator_heap[numoperators++]; }
 #define FreeOperator( op )
 
 int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intvalue,
@@ -1694,7 +1694,7 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 				error = 1;
 				break;
 			}     //end if
-				  //v = (value_t *) GetClearedMemory(sizeof(value_t));
+			      //v = (value_t *) GetClearedMemory(sizeof(value_t));
 			AllocValue( v );
 #if DEFINEHASHING
 			if ( PC_FindHashedDefine( source->definehash, t->string ) )
@@ -1715,7 +1715,7 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 			v->prev = lastvalue;
 			if ( lastvalue ) {
 				lastvalue->next = v;
-			} else { firstvalue = v;}
+			} else { firstvalue = v; }
 			lastvalue = v;
 			if ( brace ) {
 				t = t->next;
@@ -1737,7 +1737,7 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 				error = 1;
 				break;
 			}     //end if
-				  //v = (value_t *) GetClearedMemory(sizeof(value_t));
+			      //v = (value_t *) GetClearedMemory(sizeof(value_t));
 			AllocValue( v );
 			if ( negativevalue ) {
 				v->intvalue = -(signed int) t->intvalue;
@@ -1753,7 +1753,7 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 			v->prev = lastvalue;
 			if ( lastvalue ) {
 				lastvalue->next = v;
-			} else { firstvalue = v;}
+			} else { firstvalue = v; }
 			lastvalue = v;
 			//last token was a value
 			lastwasvalue = 1;
@@ -1780,7 +1780,7 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 				}     //end if
 				break;
 			}     //end else if
-				  //check for invalid operators on floating point values
+			      //check for invalid operators on floating point values
 			if ( !integer ) {
 				if ( t->subtype == P_BIN_NOT || t->subtype == P_MOD ||
 					 t->subtype == P_RSHIFT || t->subtype == P_LSHIFT ||
@@ -1866,7 +1866,7 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 				o->prev = lastoperator;
 				if ( lastoperator ) {
 					lastoperator->next = o;
-				} else { firstoperator = o;}
+				} else { firstoperator = o; }
 				lastoperator = o;
 				lastwasvalue = 0;
 			}     //end if
@@ -2036,11 +2036,11 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 #ifdef DEBUG_EVAL
 		if ( integer ) {
 			Log_Write( "result value = %d", v1->intvalue );
-		} else { Log_Write( "result value = %f", v1->floatvalue );}
+		} else { Log_Write( "result value = %f", v1->floatvalue ); }
 #endif //DEBUG_EVAL
 		if ( error ) {
 			break;
-		}		
+		}
 		//if not an operator with arity 1
 		if ( o->operator != P_LOGIC_NOT
 			 && o->operator != P_BIN_NOT ) {
@@ -2051,20 +2051,20 @@ int PC_EvaluateTokens( source_t *source, token_t *tokens, signed long int *intva
 			//
 			if ( v->prev ) {
 				v->prev->next = v->next;
-			} else { firstvalue = v->next;}
+			} else { firstvalue = v->next; }
 			if ( v->next ) {
 				v->next->prev = v->prev;
-			} else { lastvalue = v->prev;}
+			} else { lastvalue = v->prev; }
 			//FreeMemory(v);
 			FreeValue( v );
 		} //end if
 		  //remove the operator
 		if ( o->prev ) {
 			o->prev->next = o->next;
-		} else { firstoperator = o->next;}
+		} else { firstoperator = o->next; }
 		if ( o->next ) {
 			o->next->prev = o->prev;
-		} else { lastoperator = o->prev;}
+		} else { lastoperator = o->prev; }
 		//FreeMemory(o);
 		FreeOperator( o );
 	} //end while
@@ -2135,7 +2135,7 @@ int PC_Evaluate( source_t *source, signed long int *intvalue,
 				t->next = NULL;
 				if ( lasttoken ) {
 					lasttoken->next = t;
-				} else { firsttoken = t;}
+				} else { firsttoken = t; }
 				lasttoken = t;
 			} //end if
 			else if ( !strcmp( token.string, "defined" ) ) {
@@ -2144,7 +2144,7 @@ int PC_Evaluate( source_t *source, signed long int *intvalue,
 				t->next = NULL;
 				if ( lasttoken ) {
 					lasttoken->next = t;
-				} else { firsttoken = t;}
+				} else { firsttoken = t; }
 				lasttoken = t;
 			} //end if
 			else
@@ -2170,7 +2170,7 @@ int PC_Evaluate( source_t *source, signed long int *intvalue,
 			t->next = NULL;
 			if ( lasttoken ) {
 				lasttoken->next = t;
-			} else { firsttoken = t;}
+			} else { firsttoken = t; }
 			lasttoken = t;
 		} //end else
 		else //can't evaluate the token
@@ -2198,7 +2198,7 @@ int PC_Evaluate( source_t *source, signed long int *intvalue,
 #ifdef DEBUG_EVAL
 	if ( integer ) {
 		Log_Write( "eval result: %d", *intvalue );
-	} else { Log_Write( "eval result: %f", *floatvalue );}
+	} else { Log_Write( "eval result: %f", *floatvalue ); }
 #endif //DEBUG_EVAL
 	   //
 	return qtrue;
@@ -2244,7 +2244,7 @@ int PC_DollarEvaluate( source_t *source, signed long int *intvalue,
 				t->next = NULL;
 				if ( lasttoken ) {
 					lasttoken->next = t;
-				} else { firsttoken = t;}
+				} else { firsttoken = t; }
 				lasttoken = t;
 			} //end if
 			else if ( !strcmp( token.string, "defined" ) ) {
@@ -2253,7 +2253,7 @@ int PC_DollarEvaluate( source_t *source, signed long int *intvalue,
 				t->next = NULL;
 				if ( lasttoken ) {
 					lasttoken->next = t;
-				} else { firsttoken = t;}
+				} else { firsttoken = t; }
 				lasttoken = t;
 			} //end if
 			else
@@ -2287,7 +2287,7 @@ int PC_DollarEvaluate( source_t *source, signed long int *intvalue,
 			t->next = NULL;
 			if ( lasttoken ) {
 				lasttoken->next = t;
-			} else { firsttoken = t;}
+			} else { firsttoken = t; }
 			lasttoken = t;
 		} //end else
 		else //can't evaluate the token
@@ -2315,7 +2315,7 @@ int PC_DollarEvaluate( source_t *source, signed long int *intvalue,
 #ifdef DEBUG_EVAL
 	if ( integer ) {
 		Log_Write( "$eval result: %d", *intvalue );
-	} else { Log_Write( "$eval result: %f", *floatvalue );}
+	} else { Log_Write( "$eval result: %f", *floatvalue ); }
 #endif //DEBUG_EVAL
 	   //
 	return qtrue;

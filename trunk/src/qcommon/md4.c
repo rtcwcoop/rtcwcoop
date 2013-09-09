@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (Â“RTCW SP Source CodeÂ”).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,9 +49,9 @@ typedef unsigned long int UINT4;
 
 All rights reserved.
 
-License to copy and use this software is granted provided that it is identified as the “RSA Data Security, Inc. MD4 Message-Digest Algorithm” in all material mentioning or referencing this software or this function.
-License is also granted to make and use derivative works provided that such works are identified as “derived from the RSA Data Security, Inc. MD4 Message-Digest Algorithm” in all material mentioning or referencing the derived work.
-RSA Data Security, Inc. makes no representations concerning either the merchantability of this software or the suitability of this software for any particular purpose. It is provided “as is” without express or implied warranty of any kind.
+License to copy and use this software is granted provided that it is identified as the RSA Data Security, Inc. MD4 Message-Digest Algorithm in all material mentioning or referencing this software or this function.
+License is also granted to make and use derivative works provided that such works are identified as derived from the RSA Data Security, Inc. MD4 Message-Digest Algorithm in all material mentioning or referencing the derived work.
+RSA Data Security, Inc. makes no representations concerning either the merchantability of this software or the suitability of this software for any particular purpose. It is provided as is without express or implied warranty of any kind.
 
 These notices must be retained in any copies of any part of this documentation and/or software. */
 
@@ -119,11 +119,11 @@ static unsigned char PADDING[64] = {
 
 /* FF, GG and HH are transformations for rounds 1, 2 and 3 */
 /* Rotation is separate from addition to prevent recomputation */
-#define FF( a, b, c, d, x, s ) {( a ) += F( ( b ), ( c ), ( d ) ) + ( x ); ( a ) = ROTATE_LEFT( ( a ), ( s ) );}
+#define FF( a, b, c, d, x, s ) {( a ) += F( ( b ), ( c ), ( d ) ) + ( x ); ( a ) = ROTATE_LEFT( ( a ), ( s ) ); }
 
-#define GG( a, b, c, d, x, s ) {( a ) += G( ( b ), ( c ), ( d ) ) + ( x ) + (UINT4)0x5a827999; ( a ) = ROTATE_LEFT( ( a ), ( s ) );}
+#define GG( a, b, c, d, x, s ) {( a ) += G( ( b ), ( c ), ( d ) ) + ( x ) + (UINT4)0x5a827999; ( a ) = ROTATE_LEFT( ( a ), ( s ) ); }
 
-#define HH( a, b, c, d, x, s ) {( a ) += H( ( b ), ( c ), ( d ) ) + ( x ) + (UINT4)0x6ed9eba1; ( a ) = ROTATE_LEFT( ( a ), ( s ) );}
+#define HH( a, b, c, d, x, s ) {( a ) += H( ( b ), ( c ), ( d ) ) + ( x ) + (UINT4)0x6ed9eba1; ( a ) = ROTATE_LEFT( ( a ), ( s ) ); }
 
 
 /* MD4 initialization. Begins an MD4 operation, writing a new context. */

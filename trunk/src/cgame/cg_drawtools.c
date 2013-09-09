@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -97,18 +97,18 @@ void CG_FillRectGradient( float x, float y, float width, float height, const flo
 /*
 ==============
 CG_HorizontalPercentBar
-	Generic routine for pretty much all status indicators that show a fractional
-	value to the palyer by virtue of how full a drawn box is.
+    Generic routine for pretty much all status indicators that show a fractional
+    value to the palyer by virtue of how full a drawn box is.
 
 flags:
-	left		- 1
-	center		- 2		// direction is 'right' by default and orientation is 'horizontal'
-	vert		- 4
-	nohudalpha	- 8		// don't adjust bar's alpha value by the cg_hudalpha value
-	bg			- 16	// background contrast box (bg set with bgColor of 'NULL' means use default bg color (1,1,1,0.25)
-	spacing		- 32	// some bars use different sorts of spacing when drawing both an inner and outer box
+    left		- 1
+    center		- 2		// direction is 'right' by default and orientation is 'horizontal'
+    vert		- 4
+    nohudalpha	- 8		// don't adjust bar's alpha value by the cg_hudalpha value
+    bg			- 16	// background contrast box (bg set with bgColor of 'NULL' means use default bg color (1,1,1,0.25)
+    spacing		- 32	// some bars use different sorts of spacing when drawing both an inner and outer box
 
-	lerp color	- 256	// use an average of the start and end colors to set the fill color
+    lerp color	- 256	// use an average of the start and end colors to set the fill color
 ==============
 */
 
@@ -290,8 +290,8 @@ Coordinates are 640*480 virtual values
 =================
 */
 void CG_DrawRotatedPic( float x, float y, float width, float height, qhandle_t hShader, float angle ) {
-        CG_AdjustFrom640( &x, &y, &width, &height );
-        trap_R_DrawRotatedPic( x, y, width, height, 0, 0, 1, 1, hShader, angle );
+	CG_AdjustFrom640( &x, &y, &width, &height );
+	trap_R_DrawRotatedPic( x, y, width, height, 0, 0, 1, 1, hShader, angle );
 }
 
 
@@ -588,56 +588,56 @@ Coordinates are at 640 by 480 virtual resolution
 ==================
 */
 /*void CG_DrawStringExt2( int x, int y, const char *string, const float *setColor,
-		qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars ) {
-	vec4_t		color;
-	const char	*s;
-	int			xx;
-	int			cnt;
+        qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars ) {
+    vec4_t		color;
+    const char	*s;
+    int			xx;
+    int			cnt;
 
-	if (maxChars <= 0)
-		maxChars = 32767; // do them all!
+    if (maxChars <= 0)
+        maxChars = 32767; // do them all!
 
-	// draw the drop shadow
-	if (shadow) {
-		color[0] = color[1] = color[2] = 0;
-		color[3] = setColor[3];
-		trap_R_SetColor( color );
-		s = string;
-		xx = x;
-		cnt = 0;
-		while ( *s && cnt < maxChars) {
-			if ( Q_IsColorString( s ) ) {
-				s += 2;
-				continue;
-			}
-			CG_DrawChar2( xx + 2, y + 2, charWidth, charHeight, *s );
-			cnt++;
-			xx += charWidth;
-			s++;
-		}
-	}
+    // draw the drop shadow
+    if (shadow) {
+        color[0] = color[1] = color[2] = 0;
+        color[3] = setColor[3];
+        trap_R_SetColor( color );
+        s = string;
+        xx = x;
+        cnt = 0;
+        while ( *s && cnt < maxChars) {
+            if ( Q_IsColorString( s ) ) {
+                s += 2;
+                continue;
+            }
+            CG_DrawChar2( xx + 2, y + 2, charWidth, charHeight, *s );
+            cnt++;
+            xx += charWidth;
+            s++;
+        }
+    }
 
-	// draw the colored text
-	s = string;
-	xx = x;
-	cnt = 0;
-	trap_R_SetColor( setColor );
-	while ( *s && cnt < maxChars) {
-		if ( Q_IsColorString( s ) ) {
-			if ( !forceColor ) {
-				memcpy( color, g_color_table[ColorIndex(*(s+1))], sizeof( color ) );
-				color[3] = setColor[3];
-				trap_R_SetColor( color );
-			}
-			s += 2;
-			continue;
-		}
-		CG_DrawChar2( xx, y, charWidth, charHeight, *s );
-		xx += charWidth;
-		cnt++;
-		s++;
-	}
-	trap_R_SetColor( NULL );
+    // draw the colored text
+    s = string;
+    xx = x;
+    cnt = 0;
+    trap_R_SetColor( setColor );
+    while ( *s && cnt < maxChars) {
+        if ( Q_IsColorString( s ) ) {
+            if ( !forceColor ) {
+                memcpy( color, g_color_table[ColorIndex(*(s+1))], sizeof( color ) );
+                color[3] = setColor[3];
+                trap_R_SetColor( color );
+            }
+            s += 2;
+            continue;
+        }
+        CG_DrawChar2( xx, y, charWidth, charHeight, *s );
+        xx += charWidth;
+        cnt++;
+        s++;
+    }
+    trap_R_SetColor( NULL );
 }*/
 
 void CG_DrawBigString( int x, int y, const char *s, float alpha ) {
@@ -1089,7 +1089,7 @@ static void UI_DrawBannerString2( int x, int y, const char* str, vec4_t color ) 
 		ch = *s & 127;
 		if ( ch == ' ' ) {
 			ax += ( (float)PROPB_SPACE_WIDTH + (float)PROPB_GAP_WIDTH ) * cgs.screenXScale;
-		} else if ( Q_isupper( ch ) )     {
+		} else if ( Q_isupper( ch ) ) {
 			ch -= 'A';
 			fcol = (float)propMapB[ch][0] / 256.0f;
 			frow = (float)propMapB[ch][1] / 256.0f;
@@ -1119,7 +1119,7 @@ void UI_DrawBannerString( int x, int y, const char* str, int style, vec4_t color
 		ch = *s;
 		if ( ch == ' ' ) {
 			width += PROPB_SPACE_WIDTH;
-		} else if ( ch >= 'A' && ch <= 'Z' )     {
+		} else if ( ch >= 'A' && ch <= 'Z' ) {
 			width += propMapB[ch - 'A'][2] + PROPB_GAP_WIDTH;
 		}
 		s++;
@@ -1297,8 +1297,7 @@ void UI_DrawProportionalString( int x, int y, const char* str, int style, vec4_t
 
 #ifdef LOCALISATION
 char* CG_TranslateString( const char *string ) {
-        // dont even make the call if we're in english
-        return trap_TranslateString( string );
+	// dont even make the call if we're in english
+	return trap_TranslateString( string );
 }
 #endif
-

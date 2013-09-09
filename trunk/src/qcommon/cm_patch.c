@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,35 +51,35 @@ properly.
 #define	MAX_PATCH_PLANES	2048
 
 typedef struct {
-	float	plane[4];
-	int		signbits;		// signx + (signy<<1) + (signz<<2), used as lookup during collision
+    float	plane[4];
+    int		signbits;		// signx + (signy<<1) + (signz<<2), used as lookup during collision
 } patchPlane_t;
 
 typedef struct {
-	int			surfacePlane;
-	int			numBorders;		// 3 or four + 6 axial bevels + 4 or 3 * 4 edge bevels
-	int			borderPlanes[4+6+16];
-	int			borderInward[4+6+16];
-	qboolean	borderNoAdjust[4+6+16];
+    int			surfacePlane;
+    int			numBorders;		// 3 or four + 6 axial bevels + 4 or 3 * 4 edge bevels
+    int			borderPlanes[4+6+16];
+    int			borderInward[4+6+16];
+    qboolean	borderNoAdjust[4+6+16];
 } facet_t;
 
 typedef struct patchCollide_s {
-	vec3_t	bounds[2];
-	int		numPlanes;			// surface planes plus edge planes
-	patchPlane_t	*planes;
-	int		numFacets;
-	facet_t	*facets;
+    vec3_t	bounds[2];
+    int		numPlanes;			// surface planes plus edge planes
+    patchPlane_t	*planes;
+    int		numFacets;
+    facet_t	*facets;
 } patchCollide_t;
 
 
 #define	MAX_GRID_SIZE	129
 
 typedef struct {
-	int			width;
-	int			height;
-	qboolean	wrapWidth;
-	qboolean	wrapHeight;
-	vec3_t	points[MAX_GRID_SIZE][MAX_GRID_SIZE];	// [width][height]
+    int			width;
+    int			height;
+    qboolean	wrapWidth;
+    qboolean	wrapHeight;
+    vec3_t	points[MAX_GRID_SIZE][MAX_GRID_SIZE];	// [width][height]
 } cGrid_t;
 
 #define	SUBDIVIDE_DISTANCE	16	//4	// never more than this units away from curve
@@ -296,7 +296,7 @@ from the true curve
 static void CM_SubdivideGridColumns( cGrid_t *grid ) {
 	int i, j, k;
 
-	for ( i = 0 ; i < grid->width - 2 ;  ) {
+	for ( i = 0 ; i < grid->width - 2 ; ) {
 		// grid->points[i][x] is an interpolating control point
 		// grid->points[i+1][x] is an aproximating control point
 		// grid->points[i+2][x] is an interpolating control point
@@ -687,7 +687,7 @@ static void CM_SetBorderInward( facet_t *facet, cGrid_t *grid, int gridPlanes[MA
 	int numPoints;
 
 	switch ( which ) {
-	case - 1:
+	case -1:
 		points[0] = grid->points[i][j];
 		points[1] = grid->points[i + 1][j];
 		points[2] = grid->points[i + 1][j + 1];
@@ -1689,7 +1689,7 @@ void CM_DrawDebugSurface( void ( *drawPoly )( int color, int numPoints, float *p
 			{
 				if ( plane[n] > 0 ) {
 					v1[n] = maxs[n];
-				} else { v1[n] = mins[n];}
+				} else { v1[n] = mins[n]; }
 			} //end for
 			VectorNegate( plane, v2 );
 			plane[3] += fabs( DotProduct( v1, v2 ) );
@@ -1723,7 +1723,7 @@ void CM_DrawDebugSurface( void ( *drawPoly )( int color, int numPoints, float *p
 				{
 					if ( plane[n] > 0 ) {
 						v1[n] = maxs[n];
-					} else { v1[n] = mins[n];}
+					} else { v1[n] = mins[n]; }
 				} //end for
 				VectorNegate( plane, v2 );
 				plane[3] -= fabs( DotProduct( v1, v2 ) );

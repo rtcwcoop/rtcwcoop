@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -547,8 +547,9 @@ static void CL_InGamePopUp( const char *type ) {
 	uiMenuCommand_t menu = CL_GetUIMenuCommand( type );
 
 	// TIHan - This isn't a menu.
-	if ( menu == UIMENU_NONE )
+	if ( menu == UIMENU_NONE ) {
 		return;
+	}
 
 	if ( menu == UIMENU_BRIEFING ) {
 		VM_Call( uivm, UI_SET_ACTIVE_MENU, menu );
@@ -570,8 +571,9 @@ static void CL_InGameClosePopUp( const char *type ) {
 	uiMenuCommand_t menu = CL_GetUIMenuCommand( type );
 
 	// TIHan - This isn't a menu.
-	if ( menu == UIMENU_NONE )
+	if ( menu == UIMENU_NONE ) {
 		return;
+	}
 
 	// TIHan - Close active menu.
 	if ( VM_Call( uivm, UI_GET_ACTIVE_MENU ) == menu ) {
@@ -705,9 +707,9 @@ int CL_CgameSystemCalls( int *args ) {
 		S_AddLoopingSound( args[1], VMA( 2 ), VMA( 3 ), args[4], args[5], args[6] );
 		return 0;
 	/*case CG_S_ADDREALLOOPINGSOUND:
-		S_AddLoopingSound( args[1], VMA( 2 ), VMA( 3 ), args[4], args[5], args[6] );
-		//S_AddRealLoopingSound( args[1], VMA(2), VMA(3), args[4], args[5] );
-		return 0;*/
+	    S_AddLoopingSound( args[1], VMA( 2 ), VMA( 3 ), args[4], args[5], args[6] );
+	    //S_AddRealLoopingSound( args[1], VMA(2), VMA(3), args[4], args[5] );
+	    return 0;*/
 
 //----(SA)	added
 	case CG_S_STOPSTREAMINGSOUND:
@@ -755,12 +757,12 @@ int CL_CgameSystemCalls( int *args ) {
 	case CG_R_REGISTERSKIN:
 		return re.RegisterSkin( VMA( 1 ) );
 
-		//----(SA)	added
+	//----(SA)	added
 	case CG_R_GETSKINMODEL:
 		return re.GetSkinModel( args[1], VMA( 2 ), VMA( 3 ) );
 	case CG_R_GETMODELSHADER:
 		return re.GetShaderFromModel( args[1], args[2], args[3] );
-		//----(SA)	end
+	//----(SA)	end
 
 	case CG_R_REGISTERSHADER:
 		return re.RegisterShader( VMA( 1 ) );
@@ -777,14 +779,14 @@ int CL_CgameSystemCalls( int *args ) {
 	case CG_R_ADDPOLYTOSCENE:
 		re.AddPolyToScene( args[1], args[2], VMA( 3 ) );
 		return 0;
-		// Ridah
+	// Ridah
 	case CG_R_ADDPOLYSTOSCENE:
 		re.AddPolysToScene( args[1], args[2], VMA( 3 ), args[4] );
 		return 0;
 	case CG_RB_ZOMBIEFXADDNEWHIT:
 		re.ZombieFXAddNewHit( args[1], VMA( 2 ), VMA( 3 ) );
 		return 0;
-		// done.
+	// done.
 //	case CG_R_LIGHTFORPOINT:
 //		return re.LightForPoint( VMA(1), VMA(2), VMA(3), VMA(4) );
 	case CG_R_ADDLIGHTTOSCENE:
@@ -837,11 +839,11 @@ int CL_CgameSystemCalls( int *args ) {
 	case CG_GETUSERCMD:
 		return CL_GetUserCmd( args[1], VMA( 2 ) );
 	case CG_SETUSERCMDVALUE:
-		CL_SetUserCmdValue( args[1], args[2], VMF( 3 ), args[4]);
+		CL_SetUserCmdValue( args[1], args[2], VMF( 3 ), args[4] );
 		return 0;
 	/*case CG_SETCLIENTLERPORIGIN:
-		CL_SetClientLerpOrigin( VMF( 1 ), VMF( 2 ), VMF( 3 ) );
-		return 0;*/
+	    CL_SetClientLerpOrigin( VMF( 1 ), VMF( 2 ), VMF( 3 ) );
+	    return 0;*/
 	case CG_MEMORY_REMAINING:
 		return Hunk_MemoryRemaining();
 	case CG_KEY_ISDOWN:
@@ -899,8 +901,8 @@ int CL_CgameSystemCalls( int *args ) {
 		return 0;
 
 	case CG_SENDMOVESPEEDSTOGAME:
-                // fretn: FIXME
-                // doesn't work for COOP mode
+		// fretn: FIXME
+		// doesn't work for COOP mode
 		SV_SendMoveSpeedsToGame( args[1], VMA( 2 ) );
 		return 0;
 
@@ -933,14 +935,14 @@ int CL_CgameSystemCalls( int *args ) {
 		return 0;
 
 	case CG_LOADCAMERA:
-                //fretn
+		//fretn
 		return loadCamera( args[1], VMA( 2 ) );
 
 	case CG_STARTCAMERA:
 		if ( args[1] == 0 ) {  // CAM_PRIMARY
 			cl.cameraMode = qtrue;  //----(SA)	added
 		}
-                // fretn
+		// fretn
 		startCamera( args[1], args[2] );
 		return 0;
 
@@ -973,40 +975,40 @@ int CL_CgameSystemCalls( int *args ) {
 		return 0;
 
 	/*case CG_KEY_GETBINDINGBUF:
-		Key_GetBindingBuf( args[1], VMA( 2 ), args[3] );
-		return 0;
+	    Key_GetBindingBuf( args[1], VMA( 2 ), args[3] );
+	    return 0;
 
 	case CG_KEY_SETBINDING:
-		Key_SetBinding( args[1], VMA( 2 ) );
-		return 0;
+	    Key_SetBinding( args[1], VMA( 2 ) );
+	    return 0;
 
 	case CG_KEY_KEYNUMTOSTRINGBUF:
-		Key_KeynumToStringBuf( args[1], VMA( 2 ), args[3] );
-		return 0;
+	    Key_KeynumToStringBuf( args[1], VMA( 2 ), args[3] );
+	    return 0;
 
 	case CG_TRANSLATE_STRING:
-		CL_TranslateString( VMA( 1 ), VMA( 2 ) );
-		return 0;*/
-		// - NERVE - SMF
+	    CL_TranslateString( VMA( 1 ), VMA( 2 ) );
+	    return 0;*/
+	// - NERVE - SMF
 
 	case CG_GETMODELINFO:
 		// fretn: FIXME
 		// doesn't work for COOP mode
 		return SV_GetModelInfo( args[1], VMA( 2 ), VMA( 3 ) );
 
-        // fretn - render to texture
-        case CG_R_RENDERTOTEXTURE:
-                re.RenderToTexture( args[1], args[2], args[3], args[4], args[5] );
-                return 0;
-        //bani
-        case CG_R_GETTEXTUREID:
-                return re.GetTextureId( VMA( 1 ) ); 
-        //bani - flush gl rendering buffers
+	// fretn - render to texture
+	case CG_R_RENDERTOTEXTURE:
+		re.RenderToTexture( args[1], args[2], args[3], args[4], args[5] );
+		return 0;
+	//bani
+	case CG_R_GETTEXTUREID:
+		return re.GetTextureId( VMA( 1 ) );
+		//bani - flush gl rendering buffers
 #ifdef LOCALISATION
-        // - NERVE - SMF
-        case CG_TRANSLATE_STRING:
-                CL_TranslateString( VMA( 1 ), VMA( 2 ) ); 
-                return 0;
+	// - NERVE - SMF
+	case CG_TRANSLATE_STRING:
+		CL_TranslateString( VMA( 1 ), VMA( 2 ) );
+		return 0;
 #endif
 	default:
 		Com_Error( ERR_DROP, "Bad cgame system trap: %i", args[0] );
@@ -1135,7 +1137,7 @@ void CL_InitCGame( void ) {
 	info = cl.gameState.stringData + cl.gameState.stringOffsets[ CS_SERVERINFO ];
 	mapname = Info_ValueForKey( info, "mapname" );
 	Com_sprintf( cl.mapname, sizeof( cl.mapname ), "maps/%s.bsp", mapname );
-	
+
 	cgvm = VM_Create( "cgame", CL_CgameSystemCalls, VMI_NATIVE );
 	if ( !cgvm ) {
 		Com_Error( ERR_DROP, "VM_Create on cgame failed" );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -401,7 +401,7 @@ void trap_S_StopBackgroundTrack( void ) {
 
 void trap_S_StartBackgroundTrack( const char *intro, const char *loop, int fadeupTime ) {
 	//syscall( UI_S_STARTBACKGROUNDTRACK, intro, loop, fadeupTime );
-        //fretn
+	//fretn
 	syscall( UI_S_STARTBACKGROUNDTRACK, intro, loop );
 }
 
@@ -446,16 +446,16 @@ void    trap_R_RemapShader( const char *oldShader, const char *newShader, const 
 #ifdef LOCALISATION
 #define MAX_VA_STRING       32000
 
-char* trap_TranslateString( const char *string ) { 
-        static char staticbuf[2][MAX_VA_STRING];
-        static int bufcount = 0;
-        char *buf;
+char* trap_TranslateString( const char *string ) {
+	static char staticbuf[2][MAX_VA_STRING];
+	static int bufcount = 0;
+	char *buf;
 
-        buf = staticbuf[bufcount++ % 2]; 
+	buf = staticbuf[bufcount++ % 2];
 
-        syscall( UI_CL_TRANSLATE_STRING, string, buf );
+	syscall( UI_CL_TRANSLATE_STRING, string, buf );
 
-        return buf;
+	return buf;
 }
 // -NERVE - SMF
 #endif
@@ -469,4 +469,3 @@ qboolean trap_GetLimboString( int index, char *buf ) {
 	return syscall( UI_CL_GETLIMBOSTRING, index, buf );
 }
 // -NERVE - SMF
-

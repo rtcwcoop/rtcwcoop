@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -962,26 +962,26 @@ model="models/weapons2/knife/knife.md3"
 model="models/weapons2/knife2/knife2.md3"
 */
 /*
-	{
-		"weapon_knife2",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/knife2/knife2.md3",
-			"models/weapons2/knife2/v_knife2.md3",
-			"models/weapons2/knife2/pu_knife2.md3",
-			0, 0 },
+    {
+        "weapon_knife2",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/knife2/knife2.md3",
+            "models/weapons2/knife2/v_knife2.md3",
+            "models/weapons2/knife2/pu_knife2.md3",
+            0, 0 },
 
-		"icons/iconw_knife2_1",	// icon
-		"icons/ammo2",			// ammo icon
-		"Other Knife",			// pickup
-		50,
-		IT_WEAPON,
-		WP_KNIFE2,
-		WP_KNIFE2,
-		WP_KNIFE2,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_knife2_1",	// icon
+        "icons/ammo2",			// ammo icon
+        "Other Knife",			// pickup
+        50,
+        IT_WEAPON,
+        WP_KNIFE2,
+        WP_KNIFE2,
+        WP_KNIFE2,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 */
 
 
@@ -1165,8 +1165,8 @@ model="models/weapons2/garand/garand.md3"
 
 /*QUAKED weapon_mp40 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
 "stand" values:
-	no value:	laying in a default position on it's side (default)
-	2:			upright, barrel pointing up, slightly angled (rack mount)
+    no value:	laying in a default position on it's side (default)
+    2:			upright, barrel pointing up, slightly angled (rack mount)
 -------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
 model="models\weapons2\mp40\mp40.md3"
 */
@@ -1225,51 +1225,51 @@ model="models/weapons2/fg42/fg42.md3"
 model="models/weapons2/bar/bar.md3"
 */
 /*
-	{
-		"weapon_bar",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/bar/bar.md3",
-			"models/weapons2/bar/v_bar.md3",
-			"models/weapons2/bar/pu_bar.md3",
-			0, 0 },
+    {
+        "weapon_bar",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/bar/bar.md3",
+            "models/weapons2/bar/v_bar.md3",
+            "models/weapons2/bar/pu_bar.md3",
+            0, 0 },
 
-		"icons/iconw_bar_1",	// icon
-			"icons/ammo5",		// ammo icon
-		"BAR",		// pickup
-		10,
-		IT_WEAPON,
-		WP_BAR,
-		WP_BAR,
-		WP_BAR,
-		"",					// precache
-		"",					// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_bar_1",	// icon
+            "icons/ammo5",		// ammo icon
+        "BAR",		// pickup
+        10,
+        IT_WEAPON,
+        WP_BAR,
+        WP_BAR,
+        WP_BAR,
+        "",					// precache
+        "",					// sounds
+        {0,0,0,0}
+    },
 
 */
 /* weapon_bar2
 */
 /*
-	{
-		"weapon_bar2",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/bar/bar.md3",
-			"models/weapons2/bar/v_bar.md3",
-			"models/weapons2/bar/pu_bar.md3",
-			0, 0 },
+    {
+        "weapon_bar2",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/bar/bar.md3",
+            "models/weapons2/bar/v_bar.md3",
+            "models/weapons2/bar/pu_bar.md3",
+            0, 0 },
 
-		"icons/iconw_bar_1",	// icon
-			"icons/ammo5",		// ammo icon
-		"BAR",		// pickup
-		10,
-		IT_WEAPON,
-		WP_BAR2,
-		WP_BAR,
-		WP_BAR,
-		"",					// precache
-		"",					// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_bar_1",	// icon
+            "icons/ammo5",		// ammo icon
+        "BAR",		// pickup
+        10,
+        IT_WEAPON,
+        WP_BAR2,
+        WP_BAR,
+        WP_BAR,
+        "",					// precache
+        "",					// sounds
+        {0,0,0,0}
+    },
 */
 
 //----(SA)	end
@@ -1332,26 +1332,26 @@ model="models/weapons2/panzerfaust/pf.md3"
 model="models/weapons2/rocketl/rocketl.md3"
 */
 /*
-	{
-		"weapon_rocketlauncher",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/rocketl/rocketl.md3",
-			"models/weapons2/rocketl/v_rocketl.md3",
-			"models/weapons2/rocketl/pu_rocketl.md3",
-			0, 0 },
+    {
+        "weapon_rocketlauncher",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/rocketl/rocketl.md3",
+            "models/weapons2/rocketl/v_rocketl.md3",
+            "models/weapons2/rocketl/pu_rocketl.md3",
+            0, 0 },
 
-		"icons/iconw_rocket_1",	// icon
-		"icons/ammo6",		// ammo icon
-		"Bazooka",				// pickup
-		5,
-		IT_WEAPON,
-		WP_ROCKET_LAUNCHER,
-		WP_ROCKET_LAUNCHER,
-		WP_ROCKET_LAUNCHER,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_rocket_1",	// icon
+        "icons/ammo6",		// ammo icon
+        "Bazooka",				// pickup
+        5,
+        IT_WEAPON,
+        WP_ROCKET_LAUNCHER,
+        WP_ROCKET_LAUNCHER,
+        WP_ROCKET_LAUNCHER,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 */
 
 /* weapon_proxlauncher (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
@@ -1360,26 +1360,26 @@ model="models/weapons2/prox/prox.md3"
 */
 
 /*
-	{
-		"weapon_proxlauncher",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/rocketl/rocketl.md3",
-			"models/weapons2/rocketl/v_rocketl.md3",
-			"models/weapons2/rocketl/pu_rocketl.md3",
-			0, 0 },
+    {
+        "weapon_proxlauncher",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/rocketl/rocketl.md3",
+            "models/weapons2/rocketl/v_rocketl.md3",
+            "models/weapons2/rocketl/pu_rocketl.md3",
+            0, 0 },
 
-		"icons/iconw_rocket_1",	// icon
-		"icons/ammo6",		// ammo icon
-		"Bazooka",				// pickup
-		5,
-		IT_WEAPON,
-		WP_PROX,
-		WP_PROX,
-		WP_PROX,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_rocket_1",	// icon
+        "icons/ammo6",		// ammo icon
+        "Bazooka",				// pickup
+        5,
+        IT_WEAPON,
+        WP_PROX,
+        WP_PROX,
+        WP_PROX,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 */
 
 //----(SA)	removed the quaked for this.  we don't actually have a grenade launcher as such.  It's given implicitly
@@ -1436,26 +1436,26 @@ weapon_grenadePineapple
 weapon_grenadesmoke
 */
 /*	// just commented out to remove the registration errors in SP (we register every weapon in every map in SP)
-	{
-		"weapon_grenadesmoke",
-		"sound/misc/w_pkup.wav",
-		{	"models/multiplayer/smokegrenade/smokegrenade.md3",
-			"models/multiplayer/smokegrenade/v_smokegrenade.md3",
-			"models/multiplayer/smokegrenade/pu_smokegrenade.md3",
-			0, 0},
+    {
+        "weapon_grenadesmoke",
+        "sound/misc/w_pkup.wav",
+        {	"models/multiplayer/smokegrenade/smokegrenade.md3",
+            "models/multiplayer/smokegrenade/v_smokegrenade.md3",
+            "models/multiplayer/smokegrenade/pu_smokegrenade.md3",
+            0, 0},
 
-		"icons/iconw_smokegrenade_1",	// icon
-		"icons/ammo2",	// ammo icon
-		"smokeGrenade",				// pickup
-		50,
-		IT_WEAPON,
-		WP_GRENADE_SMOKE,
-		WP_GRENADE_SMOKE,
-		WP_GRENADE_SMOKE,
-		"",						// precache
-		"sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav",				// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_smokegrenade_1",	// icon
+        "icons/ammo2",	// ammo icon
+        "smokeGrenade",				// pickup
+        50,
+        IT_WEAPON,
+        WP_GRENADE_SMOKE,
+        WP_GRENADE_SMOKE,
+        WP_GRENADE_SMOKE,
+        "",						// precache
+        "sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav",				// sounds
+        {0,0,0,0}
+    },
 // jpw
 */
 // DHM - Nerve
@@ -1463,25 +1463,25 @@ weapon_grenadesmoke
 weapon_medic_heal
 */
 /*	{
-		"weapon_medic_heal",
-		"sound/misc/w_pkup.wav",
-		{	"models/multiplayer/medpack/medpack.md3",
-			"models/multiplayer/medpack/v_medpack.md3",
-			"models/multiplayer/medpack/pu_medpack.md3",
-			0, 0 },
+        "weapon_medic_heal",
+        "sound/misc/w_pkup.wav",
+        {	"models/multiplayer/medpack/medpack.md3",
+            "models/multiplayer/medpack/v_medpack.md3",
+            "models/multiplayer/medpack/pu_medpack.md3",
+            0, 0 },
 
-		"icons/iconw_medheal_1",	// icon
-		"icons/ammo2",			// ammo icon
-		"Medic Heal",			// pickup
-		50,
-		IT_WEAPON,
-		WP_MEDIC_HEAL,
-		WP_MEDIC_HEAL,
-		WP_MEDIC_HEAL,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_medheal_1",	// icon
+        "icons/ammo2",			// ammo icon
+        "Medic Heal",			// pickup
+        50,
+        IT_WEAPON,
+        WP_MEDIC_HEAL,
+        WP_MEDIC_HEAL,
+        WP_MEDIC_HEAL,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 // dhm
 */
 /*
@@ -1513,26 +1513,26 @@ weapon_dynamite
 weapon_dynamite2
 */
 /*
-	{
-		"weapon_dynamite2",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/dynamite/dynamite.md3",
-			"models/weapons2/dynamite/v_dynamite.md3",
-			"models/weapons2/dynamite/pu_dynamite.md3",
-			0, 0 },
+    {
+        "weapon_dynamite2",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/dynamite/dynamite.md3",
+            "models/weapons2/dynamite/v_dynamite.md3",
+            "models/weapons2/dynamite/pu_dynamite.md3",
+            0, 0 },
 
-		"icons/iconw_dynamite_1",	// icon
-		"icons/ammo9",			// ammo icon
-		"Dynamite Weapon",		// pickup
-		7,
-		IT_WEAPON,
-		WP_DYNAMITE2,
-		WP_DYNAMITE,
-		WP_DYNAMITE,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_dynamite_1",	// icon
+        "icons/ammo9",			// ammo icon
+        "Dynamite Weapon",		// pickup
+        7,
+        IT_WEAPON,
+        WP_DYNAMITE2,
+        WP_DYNAMITE,
+        WP_DYNAMITE,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 */
 
 
@@ -1567,26 +1567,26 @@ model="models/weapons2/venom/pu_venom.md3"
 model="models/weapons2/venom/pu_venom.md3"
 */
 /*
-	{
-		"weapon_venom_shotgun",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/venom/venom.md3",
-			"models/weapons2/venom/v_venom.md3",
-			"models/weapons2/venom/pu_venom.md3",
-			0, 0 },
+    {
+        "weapon_venom_shotgun",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/venom/venom.md3",
+            "models/weapons2/venom/v_venom.md3",
+            "models/weapons2/venom/pu_venom.md3",
+            0, 0 },
 
-		"icons/iconw_venom_1",	// icon
-		"icons/ammo8",			// ammo icon
-		"Venom Shotgun",		// pickup
-		700,
-		IT_WEAPON,
-		WP_VENOM_FULL,
-		WP_VENOM,
-		WP_VENOM_FULL,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_venom_1",	// icon
+        "icons/ammo8",			// ammo icon
+        "Venom Shotgun",		// pickup
+        700,
+        IT_WEAPON,
+        WP_VENOM_FULL,
+        WP_VENOM,
+        WP_VENOM_FULL,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 */
 
 /* weapon_cross(.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
@@ -1594,26 +1594,26 @@ model="models/weapons2/venom/pu_venom.md3"
 model="models/weapons2/cross/cross.md3"
 */
 /*
-	{
-		"weapon_cross",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/cross/cross.md3",
-			"models/weapons2/cross/v_cross.md3",
-			"models/weapons2/cross/pu_cross.md3",
-			0, 0 },
+    {
+        "weapon_cross",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/cross/cross.md3",
+            "models/weapons2/cross/v_cross.md3",
+            "models/weapons2/cross/pu_cross.md3",
+            0, 0 },
 
-		"icons/iconw_cross_1",	// icon
-		"icons/ammo9",			// ammo icon
-		"This dont exist",	// pickup
-		7,
-		IT_WEAPON,
-		WP_CROSS,
-		WP_CROSS,
-		WP_CROSS,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_cross_1",	// icon
+        "icons/ammo9",			// ammo icon
+        "This dont exist",	// pickup
+        7,
+        IT_WEAPON,
+        WP_CROSS,
+        WP_CROSS,
+        WP_CROSS,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 */
 
 
@@ -1677,52 +1677,52 @@ model="models/weapons2/tesla/pu_tesla.md3"
 model="models/weapons2/speargun/pu_speargun.md3"
 */
 /*
-	{
-		"weapon_speargun",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/speargun/speargun.md3",
-			"models/weapons2/speargun/v_speargun.md3",
-			"models/weapons2/speargun/pu_speargun.md3",
-			0, 0 },
-		"icons/iconw_speargun_1",	// icon
-		"icons/ammo10",				// ammo icon
-		"Speargun",					// pickup
-		50,
-		IT_WEAPON,
-		WP_SPEARGUN,
-		WP_SPEARGUN,
-		WP_SPEARGUN,
-		"",							// precache
-		"",							// sounds
-		{0,0,0,0}
-	},
-	*/
+    {
+        "weapon_speargun",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/speargun/speargun.md3",
+            "models/weapons2/speargun/v_speargun.md3",
+            "models/weapons2/speargun/pu_speargun.md3",
+            0, 0 },
+        "icons/iconw_speargun_1",	// icon
+        "icons/ammo10",				// ammo icon
+        "Speargun",					// pickup
+        50,
+        IT_WEAPON,
+        WP_SPEARGUN,
+        WP_SPEARGUN,
+        WP_SPEARGUN,
+        "",							// precache
+        "",							// sounds
+        {0,0,0,0}
+    },
+    */
 
 /* weapon_speargun_c02 (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
 -------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
 model="models/weapons2/speargun/pu_speargun.md3"
 */
 /*
-	{
-		"weapon_speargun_co2",
-		"sound/misc/w_pkup.wav",
-		{	"models/weapons2/speargun/speargun.md3",
-			"models/weapons2/speargun/v_speargun.md3",
-			"models/weapons2/speargun/pu_speargun.md3",
-			0, 0 },
+    {
+        "weapon_speargun_co2",
+        "sound/misc/w_pkup.wav",
+        {	"models/weapons2/speargun/speargun.md3",
+            "models/weapons2/speargun/v_speargun.md3",
+            "models/weapons2/speargun/pu_speargun.md3",
+            0, 0 },
 
-		"icons/iconw_speargun_1",	// icon
-		"icons/ammo10",				// ammo icon
-		"CO2 Spears",					// pickup
-		50,
-		IT_WEAPON,
-		WP_SPEARGUN_CO2,
-		WP_SPEARGUN_CO2,
-		WP_SPEARGUN_CO2,
-		"",							// precache
-		"",							// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_speargun_1",	// icon
+        "icons/ammo10",				// ammo icon
+        "CO2 Spears",					// pickup
+        50,
+        IT_WEAPON,
+        WP_SPEARGUN_CO2,
+        WP_SPEARGUN_CO2,
+        WP_SPEARGUN_CO2,
+        "",							// precache
+        "",							// sounds
+        {0,0,0,0}
+    },
 */
 
 /*QUAKED weapon_sniperScope (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
@@ -1895,26 +1895,26 @@ weapon_mortar (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 weapon_class_special (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */
 /*
-	{
-		"weapon_class_special",
-		"sound/misc/w_pkup.wav",
-		{	"models/multiplayer/hammer/hammer.md3",
-			"models/multiplayer/hammer/v_hammer.md3",
-			"models/multiplayer/hammer/pu_hammer.md3",
-			0, 0, },
+    {
+        "weapon_class_special",
+        "sound/misc/w_pkup.wav",
+        {	"models/multiplayer/hammer/hammer.md3",
+            "models/multiplayer/hammer/v_hammer.md3",
+            "models/multiplayer/hammer/pu_hammer.md3",
+            0, 0, },
 
-		"icons/iconw_hammer_1",	// icon
-		"icons/ammo2",			// ammo icon
-		"Special",				// pickup
-		50, // this should never be picked up
-		IT_WEAPON,
-		WP_CLASS_SPECIAL,
-		WP_CLASS_SPECIAL,
-		WP_CLASS_SPECIAL,
-		"",						// precache
-		"",						// sounds
-		{0,0,0,0}
-	},
+        "icons/iconw_hammer_1",	// icon
+        "icons/ammo2",			// ammo icon
+        "Special",				// pickup
+        50, // this should never be picked up
+        IT_WEAPON,
+        WP_CLASS_SPECIAL,
+        WP_CLASS_SPECIAL,
+        WP_CLASS_SPECIAL,
+        "",						// precache
+        "",						// sounds
+        {0,0,0,0}
+    },
 // jpw
 */
 
@@ -2370,23 +2370,23 @@ used by: Speargun
 model="models/powerups/ammo/amspear.md3"
 */
 /*
-	{
-		"ammo_speargun",
-		"sound/misc/am_pkup.wav",
-		{ "models/powerups/ammo/amspear.md3",
-		0, 0, 0,	0 },
-		"icons/icona_spear",	// icon
-		NULL,					// ammo icon
-		"Speargun Bolts",			// pickup
-		10,
-		IT_AMMO,
-		WP_SPEARGUN,
-		WP_SPEARGUN,
-		WP_SPEARGUN,
-		"",					// precache
-		"",					// sounds
-		{100,75,50,50}
-	},
+    {
+        "ammo_speargun",
+        "sound/misc/am_pkup.wav",
+        { "models/powerups/ammo/amspear.md3",
+        0, 0, 0,	0 },
+        "icons/icona_spear",	// icon
+        NULL,					// ammo icon
+        "Speargun Bolts",			// pickup
+        10,
+        IT_AMMO,
+        WP_SPEARGUN,
+        WP_SPEARGUN,
+        WP_SPEARGUN,
+        "",					// precache
+        "",					// sounds
+        {100,75,50,50}
+    },
 */
 
 
@@ -2399,23 +2399,23 @@ used by: Speargun
 model="models/powerups/ammo/amspear.md3"
 */
 /*
-	{
-		"ammo_speargun_co2",
-		"sound/misc/am_pkup.wav",
-		{ "models/powerups/ammo/amspear.md3",
-		0, 0, 0,	0 },
-		"icons/icona_spear",	// icon
-		NULL,					// ammo icon
-		"C02 Speargun Bolts",	// pickup
-		10,
-		IT_AMMO,
-		WP_SPEARGUN_CO2,
-		WP_SPEARGUN_CO2,
-		WP_SPEARGUN_CO2,
-		"",					// precache
-		"",					// sounds
-		{100,75,50,50}
-	},
+    {
+        "ammo_speargun_co2",
+        "sound/misc/am_pkup.wav",
+        { "models/powerups/ammo/amspear.md3",
+        0, 0, 0,	0 },
+        "icons/icona_spear",	// icon
+        NULL,					// ammo icon
+        "C02 Speargun Bolts",	// pickup
+        10,
+        IT_AMMO,
+        WP_SPEARGUN_CO2,
+        WP_SPEARGUN_CO2,
+        WP_SPEARGUN_CO2,
+        "",					// precache
+        "",					// sounds
+        {100,75,50,50}
+    },
 */
 
 
@@ -2456,23 +2456,23 @@ used by: Allied Rocket Launcher (bazooka)
 model="models/powerups/ammo/amrocket.md3"
 */
 /*
-	{
-		"ammo_rockets",
-		"sound/misc/am_pkup.wav",
-		{ "models/powerups/ammo/amrocket.md3",
-		0, 0, 0,	0 },
-		"icons/icona_rocket",	// icon
-		NULL,					// ammo icon
-		"Rockets",				// pickup
-		5,
-		IT_AMMO,
-		WP_ROCKET_LAUNCHER,
-		WP_ROCKET_LAUNCHER,
-		WP_ROCKET_LAUNCHER,
-		"",						// precache
-		"",						// sounds
-		{4,3,2,2}
-	},
+    {
+        "ammo_rockets",
+        "sound/misc/am_pkup.wav",
+        { "models/powerups/ammo/amrocket.md3",
+        0, 0, 0,	0 },
+        "icons/icona_rocket",	// icon
+        NULL,					// ammo icon
+        "Rockets",				// pickup
+        5,
+        IT_AMMO,
+        WP_ROCKET_LAUNCHER,
+        WP_ROCKET_LAUNCHER,
+        WP_ROCKET_LAUNCHER,
+        "",						// precache
+        "",						// sounds
+        {4,3,2,2}
+    },
 */
 
 /* ammo_charges (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
@@ -2482,23 +2482,23 @@ used by: Cross of Coronado
 model="models/powerups/ammo/amcharges.md3"
 */
 /*
-	{
-		"ammo_charges",
-		"sound/misc/am_pkup.wav",
-		{ "models/powerups/ammo/amcharges.md3",
-		0, 0, 0,	0 },
-		"icons/icona_charges",	// icon
-		NULL,					// ammo icon
-		"Charges",				// pickup
-		2,
-		IT_AMMO,
-		WP_CROSS,
-		WP_CROSS,
-		WP_CROSS,
-		"",						// precache
-		"",						// sounds
-		{4,2,2,1}
-	},
+    {
+        "ammo_charges",
+        "sound/misc/am_pkup.wav",
+        { "models/powerups/ammo/amcharges.md3",
+        0, 0, 0,	0 },
+        "icons/icona_charges",	// icon
+        NULL,					// ammo icon
+        "Charges",				// pickup
+        2,
+        IT_AMMO,
+        WP_CROSS,
+        WP_CROSS,
+        WP_CROSS,
+        "",						// precache
+        "",						// sounds
+        {4,2,2,1}
+    },
 */
 
 //----(SA)	hopefully it doesn't need to be a quaked thing.
@@ -2540,25 +2540,25 @@ use sound : "sound/pickup/holdable/get_medkit.wav"
 model="models/powerups/holdable/medkit.md3"
 */
 /*
-	{
-		"holdable_medkit",
-		"sound/pickup/holdable/get_medkit.wav",
-		{
-		"models/powerups/holdable/medkit.md3",
-		"models/powerups/holdable/medkit_sphere.md3",
-		0, 0,	0 },
-		"icons/medkit",	// icon
-		NULL,			// ammo icon
-		"Medkit",		// pickup
-		1,
-		IT_HOLDABLE,
-		HI_MEDKIT,
-		0,
-		0,
-		"",				// precache
-		"sound/pickup/holdable/use_medkit.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_medkit",
+        "sound/pickup/holdable/get_medkit.wav",
+        {
+        "models/powerups/holdable/medkit.md3",
+        "models/powerups/holdable/medkit_sphere.md3",
+        0, 0,	0 },
+        "icons/medkit",	// icon
+        NULL,			// ammo icon
+        "Medkit",		// pickup
+        1,
+        IT_HOLDABLE,
+        HI_MEDKIT,
+        0,
+        0,
+        "",				// precache
+        "sound/pickup/holdable/use_medkit.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /*QUAKED holdable_wine (.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -2599,25 +2599,25 @@ use sound : "sound/pickup/holdable/use_skull.wav"
 model="models/powerups/holdable/skull.md3"
 */
 /*
-	{
-		"holdable_skull",
-		"sound/pickup/holdable/get_skull.wav",
-		{
-			"models/powerups/holdable/skull.md3",
-			0, 0, 0
-		,	0 },
-		"icons/skull",					// icon
-		NULL,							// ammo icon
-		"Skull of Invulnerability",		// pickup
-		1,
-		IT_HOLDABLE,
-		HI_SKULL,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_skull.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_skull",
+        "sound/pickup/holdable/get_skull.wav",
+        {
+            "models/powerups/holdable/skull.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/skull",					// icon
+        NULL,							// ammo icon
+        "Skull of Invulnerability",		// pickup
+        1,
+        IT_HOLDABLE,
+        HI_SKULL,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_skull.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 
@@ -2631,25 +2631,25 @@ use sound : "sound/pickup/holdable/use_water.wav"
 model="models/powerups/holdable/water.md3"
 */
 /*
-	{
-		"holdable_p_water",
-		"sound/pickup/holdable/get_water.wav",
-		{
-			"models/powerups/holdable/water.md3",
-			0, 0, 0
-		,	0 },
-		"icons/water",					// icon
-		NULL,							// ammo icon
-		"Breather",					// pickup
-		1,
-		IT_HOLDABLE,
-		HI_WATER,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_water.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_p_water",
+        "sound/pickup/holdable/get_water.wav",
+        {
+            "models/powerups/holdable/water.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/water",					// icon
+        NULL,							// ammo icon
+        "Breather",					// pickup
+        1,
+        IT_HOLDABLE,
+        HI_WATER,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_water.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* holdable_p_elec (.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -2662,25 +2662,25 @@ use sound : "sound/pickup/holdable/use_elec.wav"
 model="models/powerups/holdable/elec.md3"
 */
 /*
-	{
-		"holdable_p_elec",
-		"sound/pickup/holdable/get_elec.wav",
-		{
-			"models/powerups/holdable/elec.md3",
-			0, 0, 0
-		,	0 },
-		"icons/elec",					// icon
-		NULL,							// ammo icon
-		"Electric Protection",			// pickup
-		1,
-		IT_HOLDABLE,
-		HI_ELECTRIC,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_elec.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_p_elec",
+        "sound/pickup/holdable/get_elec.wav",
+        {
+            "models/powerups/holdable/elec.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/elec",					// icon
+        NULL,							// ammo icon
+        "Electric Protection",			// pickup
+        1,
+        IT_HOLDABLE,
+        HI_ELECTRIC,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_elec.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* holdable_p_fire (.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -2693,25 +2693,25 @@ use sound : "sound/pickup/holdable/use_fire.wav"
 model="models/powerups/holdable/fire.md3"
 */
 /*
-	{
-		"holdable_p_fire",
-		"sound/pickup/holdable/get_fire.wav",
-		{
-			"models/powerups/holdable/fire.md3",
-			0, 0, 0
-		,	0 },
-		"icons/fire",					// icon
-		NULL,							// ammo icon
-		"Fire Protection",				// pickup
-		1,
-		IT_HOLDABLE,
-		HI_FIRE,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_fire.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_p_fire",
+        "sound/pickup/holdable/get_fire.wav",
+        {
+            "models/powerups/holdable/fire.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/fire",					// icon
+        NULL,							// ammo icon
+        "Fire Protection",				// pickup
+        1,
+        IT_HOLDABLE,
+        HI_FIRE,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_fire.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /*QUAKED holdable_stamina(.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -2831,25 +2831,25 @@ model="models/powerups/holdable/zemphr_book.md3"
 model="models/powerups/holdable/11.md3"
 */
 /*
-	{
-		"holdable_11",
-		"sound/pickup/holdable/get_11.wav",
-		{
-			"models/powerups/holdable/11.md3",
-			0, 0, 0
-		,	0 },
-		"icons/11",				// icon
-		NULL,							// ammo icon
-		"11",					// pickup
-		1,
-		IT_HOLDABLE,
-		HI_11,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_11.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_11",
+        "sound/pickup/holdable/get_11.wav",
+        {
+            "models/powerups/holdable/11.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/11",				// icon
+        NULL,							// ammo icon
+        "11",					// pickup
+        1,
+        IT_HOLDABLE,
+        HI_11,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_11.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* holdable_12(.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -2857,25 +2857,25 @@ model="models/powerups/holdable/11.md3"
 model="models/powerups/holdable/12.md3"
 */
 /*
-	{
-		"holdable_12",
-		"sound/pickup/holdable/get_12.wav",
-		{
-			"models/powerups/holdable/12.md3",
-			0, 0, 0
-		,	0 },
-		"icons/12",				// icon
-		NULL,							// ammo icon
-		"12",					// pickup
-		1,
-		IT_HOLDABLE,
-		HI_12,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_12.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_12",
+        "sound/pickup/holdable/get_12.wav",
+        {
+            "models/powerups/holdable/12.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/12",				// icon
+        NULL,							// ammo icon
+        "12",					// pickup
+        1,
+        IT_HOLDABLE,
+        HI_12,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_12.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* holdable_13(.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -2883,25 +2883,25 @@ model="models/powerups/holdable/12.md3"
 model="models/powerups/holdable/13.md3"
 */
 /*
-	{
-		"holdable_13",
-		"sound/pickup/holdable/get_13.wav",
-		{
-			"models/powerups/holdable/13.md3",
-			0, 0, 0
-		,	0 },
-		"icons/13",				// icon
-		NULL,							// ammo icon
-		"13",					// pickup
-		1,
-		IT_HOLDABLE,
-		HI_13,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_13.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_13",
+        "sound/pickup/holdable/get_13.wav",
+        {
+            "models/powerups/holdable/13.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/13",				// icon
+        NULL,							// ammo icon
+        "13",					// pickup
+        1,
+        IT_HOLDABLE,
+        HI_13,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_13.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* holdable_14(.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -2909,47 +2909,47 @@ model="models/powerups/holdable/13.md3"
 model="models/powerups/holdable/14.md3"
 */
 /*
-	{
-		"holdable_14",
-		"sound/pickup/holdable/get_14.wav",
-		{
-			"models/powerups/holdable/14.md3",
-			0, 0, 0
-		,	0 },
-		"icons/14",				// icon
-		NULL,							// ammo icon
-		"14",					// pickup
-		1,
-		IT_HOLDABLE,
-		HI_14,
-		0,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_14.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_14",
+        "sound/pickup/holdable/get_14.wav",
+        {
+            "models/powerups/holdable/14.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/14",				// icon
+        NULL,							// ammo icon
+        "14",					// pickup
+        1,
+        IT_HOLDABLE,
+        HI_14,
+        0,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_14.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* holdable_15(.3 .3 1) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
 /
-	{
-		"holdable_15",
-		"sound/pickup/holdable/get_15.wav",
-		{
-			"models/powerups/holdable/15.md3",
-			0, 0, 0
-		,	0 },
-		"icons/15",				// icon
-		NULL,							// ammo icon
-		"15",					// pickup
-		1,
-		IT_HOLDABLE,
-		HI_15,
-		0,
-		"",								// precache
-		"sound/pickup/holdable/use_15.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "holdable_15",
+        "sound/pickup/holdable/get_15.wav",
+        {
+            "models/powerups/holdable/15.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/15",				// icon
+        NULL,							// ammo icon
+        "15",					// pickup
+        1,
+        IT_HOLDABLE,
+        HI_15,
+        0,
+        "",								// precache
+        "sound/pickup/holdable/use_15.wav",	// sounds
+        {0,0,0,0}
+    },
 
 */
 
@@ -3016,25 +3016,25 @@ pickup sound : "sound/pickup/keys/skull.wav"
 model="models/powerups/keys/skull.md3"
 */
 /*
-	{
-		"key_skull1",
-		"sound/pickup/keys/skull.wav",
-		{
-			"models/powerups/keys/skull.md3",
-			0, 0, 0
-		,	0 },
-		"icons/iconk_skull",	// icon
-		NULL,					// ammo icon
-		"Crystal Skull",		// pickup
-		0,
-		IT_KEY,
-		KEY_1,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_skull1",
+        "sound/pickup/keys/skull.wav",
+        {
+            "models/powerups/keys/skull.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/iconk_skull",	// icon
+        NULL,					// ammo icon
+        "Crystal Skull",		// pickup
+        0,
+        IT_KEY,
+        KEY_1,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_chalice2 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3045,25 +3045,25 @@ pickup sound : "sound/pickup/keys/chalice.wav"
 model="models/powerups/keys/chalice.md3"
 */
 /*
-	{
-		"key_chalice2",
-		"sound/pickup/keys/chalice.wav",
-		{
-			"models/powerups/keys/chalice.md3",
-			0, 0, 0
-		,	0 },
-		"icons/iconk_chalice",	// icon
-		NULL,					// ammo icon
-		"Chalice",				// pickup
-		0,
-		IT_KEY,
-		KEY_2,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_chalice2",
+        "sound/pickup/keys/chalice.wav",
+        {
+            "models/powerups/keys/chalice.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/iconk_chalice",	// icon
+        NULL,					// ammo icon
+        "Chalice",				// pickup
+        0,
+        IT_KEY,
+        KEY_2,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_eye3 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3074,25 +3074,25 @@ pickup sound : "sound/pickup/keys/eye.wav"
 model="models/powerups/keys/eye.md3"
 */
 /*
-	{
-		"key_eye3",
-		"sound/pickup/keys/eye.wav",
-		{
-			"models/powerups/keys/eye.md3",
-			0, 0, 0
-		,	0 },
-		"icons/iconk_eye",		// icon
-		NULL,					// ammo icon
-		"Eye of Isis",			// pickup
-		0,
-		IT_KEY,
-		KEY_3,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_eye3",
+        "sound/pickup/keys/eye.wav",
+        {
+            "models/powerups/keys/eye.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/iconk_eye",		// icon
+        NULL,					// ammo icon
+        "Eye of Isis",			// pickup
+        0,
+        IT_KEY,
+        KEY_3,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_radio4 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3103,25 +3103,25 @@ pickup sound : "sound/pickup/keys/radio.wav"
 model="models/powerups/keys/radio_port.md3"
 */
 /*
-	{
-		"key_radio4",
-		"sound/pickup/keys/radio.wav",
-		{
-			"models/powerups/keys/radio_port.md3",
-			0, 0, 0
-		,	0 },
-		"icons/iconk_radio",	// icon
-		NULL,					// ammo icon
-		"Field Radio",			// pickup
-		0,
-		IT_KEY,
-		KEY_4,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_radio4",
+        "sound/pickup/keys/radio.wav",
+        {
+            "models/powerups/keys/radio_port.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/iconk_radio",	// icon
+        NULL,					// ammo icon
+        "Field Radio",			// pickup
+        0,
+        IT_KEY,
+        KEY_4,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_satchelcharge5 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3132,25 +3132,25 @@ pickup sound : "sound/pickup/keys/satchelcharge.wav"
 model="models/powerups/keys/satchel_charge.md3"
 */
 /*
-	{
-		"key_satchelcharge5",
-		"sound/pickup/keys/satchelcharge.wav",
-		{
-			"models/powerups/keys/satchel_charge.md3",
-			0, 0, 0
-		,	0 },
-		"icons/iconk_satchel",	// icon
-		NULL,					// ammo icon
-		"Satchel Charge",		// pickup
-		0,
-		IT_KEY,
-		KEY_5,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_satchelcharge5",
+        "sound/pickup/keys/satchelcharge.wav",
+        {
+            "models/powerups/keys/satchel_charge.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/iconk_satchel",	// icon
+        NULL,					// ammo icon
+        "Satchel Charge",		// pickup
+        0,
+        IT_KEY,
+        KEY_5,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /*QUAKED key_binocs (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3189,25 +3189,25 @@ pickup sound : "sound/pickup/keys/key7.wav"
 model="models/powerups/keys/key7.md3"
 */
 /*
-	{
-		"key_key7",
-		"sound/pickup/keys/key7.wav",
-		{
-			"models/powerups/keys/key7.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key7",			// icon
-		NULL,					// ammo icon
-		"Key 7",				// pickup
-		0,
-		IT_KEY,
-		KEY_7,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key7",
+        "sound/pickup/keys/key7.wav",
+        {
+            "models/powerups/keys/key7.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key7",			// icon
+        NULL,					// ammo icon
+        "Key 7",				// pickup
+        0,
+        IT_KEY,
+        KEY_7,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key8 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3218,25 +3218,25 @@ pickup sound : "sound/pickup/keys/key8.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key8",
-		"sound/pickup/keys/key8.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key8",			// icon
-		NULL,					// ammo icon
-		"Key 8",				// pickup
-		0,
-		IT_KEY,
-		KEY_8,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key8",
+        "sound/pickup/keys/key8.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key8",			// icon
+        NULL,					// ammo icon
+        "Key 8",				// pickup
+        0,
+        IT_KEY,
+        KEY_8,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key9 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3247,25 +3247,25 @@ pickup sound : "sound/pickup/keys/key9.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key9",
-		"sound/pickup/keys/key9.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key9",			// icon
-		NULL,					// ammo icon
-		"Key 9",				// pickup
-		0,
-		IT_KEY,
-		KEY_9,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key9",
+        "sound/pickup/keys/key9.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key9",			// icon
+        NULL,					// ammo icon
+        "Key 9",				// pickup
+        0,
+        IT_KEY,
+        KEY_9,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key10 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3276,25 +3276,25 @@ pickup sound : "sound/pickup/keys/key10.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key10",
-		"sound/pickup/keys/key10.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key10",			// icon
-		NULL,					// ammo icon
-		"Key 10",				// pickup
-		0,
-		IT_KEY,
-		KEY_10,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key10",
+        "sound/pickup/keys/key10.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key10",			// icon
+        NULL,					// ammo icon
+        "Key 10",				// pickup
+        0,
+        IT_KEY,
+        KEY_10,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key11 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3305,25 +3305,25 @@ pickup sound : "sound/pickup/keys/key11.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key11",
-		"sound/pickup/keys/key11.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key11",			// icon
-		NULL,					// ammo icon
-		"Key 11",				// pickup
-		0,
-		IT_KEY,
-		KEY_11,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key11",
+        "sound/pickup/keys/key11.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key11",			// icon
+        NULL,					// ammo icon
+        "Key 11",				// pickup
+        0,
+        IT_KEY,
+        KEY_11,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key12 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3334,25 +3334,25 @@ pickup sound : "sound/pickup/keys/key12.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key12",
-		"sound/pickup/keys/key12.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key12",			// icon
-		NULL,					// ammo icon
-		"Key 12",				// pickup
-		0,
-		IT_KEY,
-		KEY_12,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key12",
+        "sound/pickup/keys/key12.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key12",			// icon
+        NULL,					// ammo icon
+        "Key 12",				// pickup
+        0,
+        IT_KEY,
+        KEY_12,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key13 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3363,25 +3363,25 @@ pickup sound : "sound/pickup/keys/key13.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key13",
-		"sound/pickup/keys/key13.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key13",			// icon
-		NULL,					// ammo icon
-		"Key 13",				// pickup
-		0,
-		IT_KEY,
-		KEY_13,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key13",
+        "sound/pickup/keys/key13.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key13",			// icon
+        NULL,					// ammo icon
+        "Key 13",				// pickup
+        0,
+        IT_KEY,
+        KEY_13,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key14 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3392,25 +3392,25 @@ pickup sound : "sound/pickup/keys/key14.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key14",
-		"sound/pickup/keys/key14.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key14",			// icon
-		NULL,					// ammo icon
-		"Key 14",				// pickup
-		0,
-		IT_KEY,
-		KEY_14,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key14",
+        "sound/pickup/keys/key14.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key14",			// icon
+        NULL,					// ammo icon
+        "Key 14",				// pickup
+        0,
+        IT_KEY,
+        KEY_14,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key15 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3421,25 +3421,25 @@ pickup sound : "sound/pickup/keys/key15.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key15",
-		"sound/pickup/keys/key15.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key15",			// icon
-		NULL,					// ammo icon
-		"Key 15",				// pickup
-		0,
-		IT_KEY,
-		KEY_15,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key15",
+        "sound/pickup/keys/key15.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key15",			// icon
+        NULL,					// ammo icon
+        "Key 15",				// pickup
+        0,
+        IT_KEY,
+        KEY_15,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 /* key_key16 (1 1 0) (-8 -8 -8) (8 8 8) SUSPENDED SPIN - RESPAWN
@@ -3450,25 +3450,25 @@ pickup sound : "sound/pickup/keys/key16.wav"
 model="models/powerups/keys/key.md3"
 */
 /*
-	{
-		"key_key16",
-		"sound/pickup/keys/key16.wav",
-		{
-			"models/powerups/keys/key.md3",
-			0, 0, 0
-		,	0 },
-		"icons/key16",			// icon
-		NULL,					// ammo icon
-		"Key 16",				// pickup
-		0,
-		IT_KEY,
-		KEY_16,
-		0,
-		0,
-		"",						// precache
-		"models/keys/key.wav",	// sounds
-		{0,0,0,0}
-	},
+    {
+        "key_key16",
+        "sound/pickup/keys/key16.wav",
+        {
+            "models/powerups/keys/key.md3",
+            0, 0, 0
+        ,	0 },
+        "icons/key16",			// icon
+        NULL,					// ammo icon
+        "Key 16",				// pickup
+        0,
+        IT_KEY,
+        KEY_16,
+        0,
+        0,
+        "",						// precache
+        "models/keys/key.wav",	// sounds
+        {0,0,0,0}
+    },
 */
 
 
@@ -3635,7 +3635,7 @@ weapon_t BG_FindAmmoForWeapon( weapon_t weapon ) {
 /*
 ==============
 BG_AkimboFireSequence
-	returns 'true' if it's the left hand's turn to fire, 'false' if it's the right hand's turn
+    returns 'true' if it's the left hand's turn to fire, 'false' if it's the right hand's turn
 ==============
 */
 //qboolean BG_AkimboFireSequence( playerState_t *ps ) {
@@ -3735,7 +3735,7 @@ gitem_t *BG_FindItem( const char *pickupName ) {
 /*
 ==============
 BG_FindItem2
-	also check classname
+    also check classname
 ==============
 */
 gitem_t *BG_FindItem2( const char *name ) {
@@ -3763,8 +3763,8 @@ gitem_t *BG_FindItem2( const char *name ) {
 /*
 ==============
 BG_PlayerSeesItem
-	Try to quickly determine if an item should be highlighted as per the current cg_drawCrosshairPickups.integer value.
-	pvs check should have already been done by the time we get in here, so we shouldn't have to check
+    Try to quickly determine if an item should be highlighted as per the current cg_drawCrosshairPickups.integer value.
+    pvs check should have already been done by the time we get in here, so we shouldn't have to check
 ==============
 */
 
@@ -3785,7 +3785,7 @@ qboolean BG_PlayerSeesItem(playerState_t *ps, entityState_t *item, int atTime)
    dist = VectorNormalize(dir);			// dir is now the direction from the item to the player
 
    if(dist > 255)
-	   return qfalse;						// only run the remaining stuff on items that are close enough
+       return qfalse;						// only run the remaining stuff on items that are close enough
 
    // (SA) FIXME: do this without AngleVectors.
    //		It'd be nice if the angle vectors for the player
@@ -3802,7 +3802,7 @@ qboolean BG_PlayerSeesItem(playerState_t *ps, entityState_t *item, int atTime)
 
 //	Com_Printf("test: if(%f > %f) return qfalse (dot > foo)\n", dot, foo);
    if(dot > foo)
-	   return qfalse;
+       return qfalse;
 
    return qtrue;
 }
@@ -3878,7 +3878,7 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 	case IT_WEAPON:
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		if ( COM_BitCheck( ps->weapons, item->giTag ) ) {               // you have the weap
@@ -3897,7 +3897,7 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 	case IT_AMMO:
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		ammoweap = BG_FindAmmoForWeapon( item->giTag );
@@ -3916,7 +3916,7 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 	case IT_ARMOR:
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		// we also clamp armor to the maxhealth for handicapping
@@ -3928,7 +3928,7 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 	case IT_HEALTH:
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		if ( ent->density == ( 1 << 9 ) ) { // density tracks how many uses left
@@ -3942,7 +3942,7 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 	case IT_POWERUP:
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		if ( ent->density == ( 1 << 9 ) ) { // density tracks how many uses left
@@ -3979,29 +3979,29 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 	case IT_HOLDABLE:
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		return qtrue;
 
 	case IT_TREASURE:       // treasure always picked up
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		return qtrue;
 
 	case IT_CLIPBOARD:      // clipboards always picked up
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		return qtrue;
 
-		//---- (SA) Wolf keys
+	//---- (SA) Wolf keys
 	case IT_KEY:
 		// axis players can only pickup dropped items
-		if (ps->persistant[PERS_TEAM] == TEAM_RED && !(item->spawnflags & FL_DROPPED)) { 
+		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
 		}
 		return qtrue;       // keys are always picked up
@@ -4058,13 +4058,13 @@ void BG_EvaluateTrajectory( const trajectory_t *tr, int atTime, vec3_t result ) 
 		VectorMA( tr->trBase, deltaTime, tr->trDelta, result );
 		result[2] -= 0.5 * DEFAULT_GRAVITY * deltaTime * deltaTime;     // FIXME: local gravity...
 		break;
-		// Ridah
+	// Ridah
 	case TR_GRAVITY_LOW:
 		deltaTime = ( atTime - tr->trTime ) * 0.001;    // milliseconds to seconds
 		VectorMA( tr->trBase, deltaTime, tr->trDelta, result );
 		result[2] -= 0.5 * ( DEFAULT_GRAVITY * 0.3 ) * deltaTime * deltaTime;     // FIXME: local gravity...
 		break;
-		// done.
+	// done.
 //----(SA)
 	case TR_GRAVITY_FLOAT:
 		deltaTime = ( atTime - tr->trTime ) * 0.001;    // milliseconds to seconds
@@ -4072,7 +4072,7 @@ void BG_EvaluateTrajectory( const trajectory_t *tr, int atTime, vec3_t result ) 
 		result[2] -= 0.5 * ( DEFAULT_GRAVITY * 0.2 ) * deltaTime;
 		break;
 //----(SA)	end
-		// RF, acceleration
+	// RF, acceleration
 	case TR_ACCELERATE:     // trDelta is the ultimate speed
 		if ( atTime > tr->trTime + tr->trDuration ) {
 			atTime = tr->trTime + tr->trDuration;
@@ -4143,13 +4143,13 @@ void BG_EvaluateTrajectoryDelta( const trajectory_t *tr, int atTime, vec3_t resu
 		VectorCopy( tr->trDelta, result );
 		result[2] -= DEFAULT_GRAVITY * deltaTime;       // FIXME: local gravity...
 		break;
-		// Ridah
+	// Ridah
 	case TR_GRAVITY_LOW:
 		deltaTime = ( atTime - tr->trTime ) * 0.001;    // milliseconds to seconds
 		VectorCopy( tr->trDelta, result );
 		result[2] -= ( DEFAULT_GRAVITY * 0.3 ) * deltaTime;       // FIXME: local gravity...
 		break;
-		// done.
+	// done.
 //----(SA)
 	case TR_GRAVITY_FLOAT:
 		deltaTime = ( atTime - tr->trTime ) * 0.001;    // milliseconds to seconds
@@ -4157,7 +4157,7 @@ void BG_EvaluateTrajectoryDelta( const trajectory_t *tr, int atTime, vec3_t resu
 		result[2] -= ( DEFAULT_GRAVITY * 0.2 ) * deltaTime;
 		break;
 //----(SA)	end
-		// RF, acceleration
+	// RF, acceleration
 	case TR_ACCELERATE: // trDelta is eventual speed
 		if ( atTime > tr->trTime + tr->trDuration ) {
 			VectorClear( result );
@@ -4434,7 +4434,7 @@ void BG_PlayerStateToEntityState( playerState_t *ps, entityState_t *s, qboolean 
 	s->legsAnim     = ps->legsAnim;
 	s->torsoAnim    = ps->torsoAnim;
 	s->clientNum    = ps->clientNum;    // ET_PLAYER looks here instead of at number
-										// so corpses can also reference the proper config
+	                                    // so corpses can also reference the proper config
 	// Ridah, let clients know if this person is using a mounted weapon
 	// so they don't show any client muzzle flashes
 
@@ -4542,7 +4542,7 @@ void BG_PlayerStateToEntityStateExtraPolate( playerState_t *ps, entityState_t *s
 	s->legsAnim = ps->legsAnim;
 	s->torsoAnim = ps->torsoAnim;
 	s->clientNum = ps->clientNum;       // ET_PLAYER looks here instead of at number
-										// so corpses can also reference the proper config
+	                                    // so corpses can also reference the proper config
 	s->eFlags = ps->eFlags;
 	if ( ps->stats[STAT_HEALTH] <= 0 ) {
 		s->eFlags |= EF_DEAD;

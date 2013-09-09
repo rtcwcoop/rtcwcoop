@@ -512,7 +512,7 @@ write_frame_header( j_compress_ptr cinfo ) {
 	} else {
 		if ( cinfo->progressive_mode ) {
 			emit_sof( cinfo, M_SOF2 ); /* SOF code for progressive Huffman */
-		} else if ( is_baseline )                                                                       {
+		} else if ( is_baseline ) {
 			emit_sof( cinfo, M_SOF0 ); /* SOF code for baseline implementation */
 		} else {
 			emit_sof( cinfo, M_SOF1 ); /* SOF code for non-baseline Huffman file */
@@ -625,8 +625,8 @@ GLOBAL void
 jinit_marker_writer( j_compress_ptr cinfo ) {
 	/* Create the subobject */
 	cinfo->marker = (struct jpeg_marker_writer *)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( struct jpeg_marker_writer ) );
+					( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+												  SIZEOF( struct jpeg_marker_writer ) );
 	/* Initialize method pointers */
 	cinfo->marker->write_any_marker = write_any_marker;
 	cinfo->marker->write_file_header = write_file_header;

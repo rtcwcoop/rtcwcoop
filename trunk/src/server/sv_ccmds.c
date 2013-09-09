@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -150,7 +150,7 @@ static void SV_Map_f( void ) {
 	qboolean killBots, cheat = qfalse, buildScript;
 	char expanded[MAX_QPATH];
 	// TTimo: unused
-	int			savegameTime = -1;
+	int savegameTime = -1;
 
 	map = Cmd_Argv( 1 );
 	if ( !map ) {
@@ -263,19 +263,20 @@ static void SV_Map_f( void ) {
 	} else if ( Q_stricmpn( cmd, "coop", 4 ) == 0 ) {
 		//Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
 		//Cvar_SetValue( "g_coop", GV_COOP );
-                if (sv_gametype->integer > GT_COOP)
-                        Cvar_SetValue( "g_gametype", GT_COOP);
+		if ( sv_gametype->integer > GT_COOP ) {
+			Cvar_SetValue( "g_gametype", GT_COOP );
+		}
 		//Cvar_SetValue( "g_doWarmup", 0 );
 		// may not set sv_maxclients directly, always set latched
-		Cvar_SetLatched( "sv_maxclients", va("%d", MAX_CLIENTS) ); // Ridah, modified this
+		Cvar_SetLatched( "sv_maxclients", va( "%d", MAX_CLIENTS ) ); // Ridah, modified this
 		cmd += 4;
 		killBots = qtrue;
 		if ( !Q_stricmp( cmd, "devmap" ) ) {
 			cheat = qtrue;
 		} else {
 			cheat = qfalse;
-                }
-	} 
+		}
+	}
 
 	// save the map name here cause on a map restart we reload the q3config.cfg
 	// and thus nuke the arguments of the map command
@@ -354,7 +355,7 @@ static qboolean SV_TransitionGameState( gamestate_t new_gs, gamestate_t old_gs, 
 		//if ( atoi( Cvar_VariableString( "g_noTeamSwitching" ) ) ) {
 		//	new_gs = GS_WAITING_FOR_PLAYERS;
 		//} else {
-			new_gs = GS_WARMUP;
+		new_gs = GS_WARMUP;
 		//}
 	}
 
@@ -404,7 +405,7 @@ static void SV_MapRestart_f( void ) {
 		}
 	}
 	if ( delay && !Cvar_VariableValue( "g_doWarmup" ) ) {
-                // fretn
+		// fretn
 		sv.restartTime = sv.time + delay * 1000;
 		SV_SetConfigstring( CS_WARMUP, va( "%i", sv.restartTime ) );
 		return;
@@ -471,15 +472,15 @@ static void SV_MapRestart_f( void ) {
 	sv.serverId = com_frameTime;
 	Cvar_Set( "sv_serverid", va( "%i", sv.serverId ) );
 
-        // fretn - from ioq3
-        // if a map_restart occurs while a client is changing maps, we need
-        // to give them the correct time so that when they finish loading
-        // they don't violate the backwards time check in cl_cgame.c
-        for (i=0 ; i<sv_maxclients->integer ; i++) {
-                if (svs.clients[i].state == CS_PRIMED) {
-                        svs.clients[i].oldServerTime = sv.restartTime;
-                }            
-        }            
+	// fretn - from ioq3
+	// if a map_restart occurs while a client is changing maps, we need
+	// to give them the correct time so that when they finish loading
+	// they don't violate the backwards time check in cl_cgame.c
+	for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
+		if ( svs.clients[i].state == CS_PRIMED ) {
+			svs.clients[i].oldServerTime = sv.restartTime;
+		}
+	}
 
 
 	// reset all the vm data in place without changing memory allocation
@@ -529,15 +530,15 @@ static void SV_MapRestart_f( void ) {
 			continue;
 		}
 
-		// L0 - ioquake fix for hanging clients on map change		
-		if(client->state == CS_ACTIVE)
-			SV_ClientEnterWorld(client, &client->lastUsercmd);
-		else
+		// L0 - ioquake fix for hanging clients on map change
+		if ( client->state == CS_ACTIVE ) {
+			SV_ClientEnterWorld( client, &client->lastUsercmd );
+		} else
 		{
 			// If we don't reset client->lastUsercmd and are restarting during map load,
 			// the client will hang because we'll use the last Usercmd from the previous map,
 			// which is wrong obviously.
-			SV_ClientEnterWorld(client, NULL);
+			SV_ClientEnterWorld( client, NULL );
 		} // End
 	}
 
@@ -594,7 +595,7 @@ void    SV_LoadGame_f( void ) {
 	FS_ReadFile( filename, (void **)&buffer );
 
 	// read the mapname, if it is the same as the current map, then do a fast load
-	Com_sprintf( mapname, sizeof( mapname ), (const char*)(buffer + sizeof( int ) ) );
+	Com_sprintf( mapname, sizeof( mapname ), (const char*)( buffer + sizeof( int ) ) );
 
 	if ( com_sv_running->integer && ( com_frameTime != sv.serverId ) ) {
 		// check mapname
@@ -665,7 +666,7 @@ static void SV_Kick_f( void ) {
 				SV_DropClient( cl, "player kicked" ); // JPW NERVE to match front menu message
 				cl->lastPacketTime = svs.time;  // in case there is a funny zombie
 			}
-		} else if ( !Q_stricmp( Cmd_Argv( 1 ), "allbots" ) )        {
+		} else if ( !Q_stricmp( Cmd_Argv( 1 ), "allbots" ) ) {
 			for ( i = 0, cl = svs.clients ; i < sv_maxclients->integer ; i++,cl++ ) {
 				if ( !cl->state ) {
 					continue;
@@ -861,7 +862,7 @@ static void SV_Status_f( void ) {
 		}
 
 		// L0 - Don't show bots
-		if (cl->gentity->r.svFlags & SVF_CASTAI) {
+		if ( cl->gentity->r.svFlags & SVF_CASTAI ) {
 			continue;
 		}
 		// End
@@ -1085,4 +1086,3 @@ void SV_RemoveOperatorCommands( void ) {
 	Cmd_RemoveCommand( "say" );
 #endif
 }
-

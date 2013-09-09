@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -469,7 +469,7 @@ void CL_SystemInfoChanged( void ) {
 	const char      *s, *t;
 	char key[BIG_INFO_KEY];
 	char value[BIG_INFO_VALUE];
-        qboolean                gameSet;
+	qboolean gameSet;
 
 	systemInfo = cl.gameState.stringData + cl.gameState.stringOffsets[ CS_SYSTEMINFO ];
 	// NOTE TTimo:
@@ -500,53 +500,49 @@ void CL_SystemInfoChanged( void ) {
 	FS_PureServerSetReferencedPaks( s, t );
 
 
-        gameSet = qfalse;
+	gameSet = qfalse;
 	// scan through all the variables in the systeminfo and locally set cvars to match
 	s = systemInfo;
 	while ( s ) {
-                int cvar_flags;
+		int cvar_flags;
 
 		Info_NextPair( &s, key, value );
 		if ( !key[0] ) {
 			break;
 		}
 
-                // fretn: thx ioquake3 :)
-                // ehw!
-                if (!Q_stricmp(key, "fs_game"))
-                {   
-                        if(FS_CheckDirTraversal(value))
-                        {   
-                                Com_Printf(S_COLOR_YELLOW "WARNING: Server sent invalid fs_game value %s\n", value);
-                                continue;
-                        }   
-    
-                        gameSet = qtrue;
-                }   
+		// fretn: thx ioquake3 :)
+		// ehw!
+		if ( !Q_stricmp( key, "fs_game" ) ) {
+			if ( FS_CheckDirTraversal( value ) ) {
+				Com_Printf( S_COLOR_YELLOW "WARNING: Server sent invalid fs_game value %s\n", value );
+				continue;
+			}
 
-                if((cvar_flags = Cvar_Flags(key)) == CVAR_NONEXISTENT)
-                        Cvar_Get(key, value, CVAR_SERVER_CREATED | CVAR_ROM);
-                else
-                {   
-                        // If this cvar may not be modified by a server discard the value.
-                        if(!(cvar_flags & (CVAR_SYSTEMINFO | CVAR_SERVER_CREATED | CVAR_USER_CREATED)))
-                        {   
-                                if(Q_stricmp(key, "g_synchronousClients") && Q_stricmp(key, "pmove_fixed") &&
-                                   Q_stricmp(key, "pmove_msec"))
-                                {   
-                                        Com_Printf(S_COLOR_YELLOW "WARNING: server is not allowed to set %s=%s\n", key, value);
-                                        continue;
-                                }   
-                        }   
+			gameSet = qtrue;
+		}
 
-                        Cvar_SetSafe(key, value);
-                } 
+		if ( ( cvar_flags = Cvar_Flags( key ) ) == CVAR_NONEXISTENT ) {
+			Cvar_Get( key, value, CVAR_SERVER_CREATED | CVAR_ROM );
+		} else
+		{
+			// If this cvar may not be modified by a server discard the value.
+			if ( !( cvar_flags & ( CVAR_SYSTEMINFO | CVAR_SERVER_CREATED | CVAR_USER_CREATED ) ) ) {
+				if ( Q_stricmp( key, "g_synchronousClients" ) && Q_stricmp( key, "pmove_fixed" ) &&
+					 Q_stricmp( key, "pmove_msec" ) ) {
+					Com_Printf( S_COLOR_YELLOW "WARNING: server is not allowed to set %s=%s\n", key, value );
+					continue;
+				}
+			}
+
+			Cvar_SetSafe( key, value );
+		}
 	}
 
-        // if game folder should not be set and it is set at the client side
-        if ( !gameSet && *Cvar_VariableString("fs_game") ) {
-                Cvar_Set( "fs_game", "" );
-        }
+	// if game folder should not be set and it is set at the client side
+	if ( !gameSet && *Cvar_VariableString( "fs_game" ) ) {
+		Cvar_Set( "fs_game", "" );
+	}
 
 	cl_connectedToPureServer = Cvar_VariableValue( "sv_pure" );
 }
@@ -660,62 +656,62 @@ void CL_ParseDownload( msg_t *msg ) {
 
 	// read the data
 	block = MSG_ReadShort( msg );
-    // TTimo - www dl
-    // if we haven't acked the download redirect yet
-    if ( block == -1 ) { 
-        if ( !clc.bWWWDl ) { 
-            // server is sending us a www download
-            Q_strncpyz( cls.originalDownloadName, cls.downloadName, sizeof( cls.originalDownloadName ) );
-            Q_strncpyz( cls.downloadName, MSG_ReadString( msg ), sizeof( cls.downloadName ) );
-            clc.downloadSize = MSG_ReadLong( msg );
-            clc.downloadFlags = MSG_ReadLong( msg );
-            if ( clc.downloadFlags & ( 1 << DL_FLAG_URL ) ) { 
-                Sys_OpenURL( cls.downloadName, qtrue );
-                Cbuf_ExecuteText( EXEC_APPEND, "quit\n" );
-                CL_AddReliableCommand( "wwwdl bbl8r" ); // not sure if that's the right msg
-                clc.bWWWDlAborting = qtrue;
-                return;
-            }   
-            Cvar_SetValue( "cl_downloadSize", clc.downloadSize );
-            Com_DPrintf( "Server redirected download: %s\n", cls.downloadName );
-            clc.bWWWDl = qtrue; // activate wwwdl client loop
-            CL_AddReliableCommand( "wwwdl ack" );
-            // make sure the server is not trying to redirect us again on a bad checksum
-            if ( strstr( clc.badChecksumList, va( "@%s", cls.originalDownloadName ) ) ) { 
-                Com_Printf( "refusing redirect to %s by server (bad checksum)\n", cls.downloadName );
-                CL_AddReliableCommand( "wwwdl fail" );
-                clc.bWWWDlAborting = qtrue;
-                return;
-            }   
-            // make downloadTempName an OS path
-            Q_strncpyz( cls.downloadTempName, FS_BuildOSPath( Cvar_VariableString( "fs_homepath" ), cls.downloadTempName, "" ), sizeof( cls.downloadTempName ) );
-            cls.downloadTempName[strlen( cls.downloadTempName ) - 1] = '\0';
-            if ( !DL_BeginDownload( cls.downloadTempName, cls.downloadName, com_developer->integer ) ) { 
-                // setting bWWWDl to false after sending the wwwdl fail doesn't work
-                // not sure why, but I suspect we have to eat all remaining block -1 that the server has sent us
-                // still leave a flag so that CL_WWWDownload is inactive
-                // we count on server sending us a gamestate to start up clean again
-                CL_AddReliableCommand( "wwwdl fail" );
-                clc.bWWWDlAborting = qtrue;
-                Com_Printf( "Failed to initialize download for '%s'\n", cls.downloadName );
-            }  
-            // Check for a disconnected download
-            // we'll let the server disconnect us when it gets the bbl8r message
-            if ( clc.downloadFlags & ( 1 << DL_FLAG_DISCON ) ) {
-                CL_AddReliableCommand( "wwwdl bbl8r" );
-                cls.bWWWDlDisconnected = qtrue;
-            }
-            return;
-        } else
-        {
-            // server keeps sending that message till we ack it, eat and ignore
-            //MSG_ReadLong( msg );
-            MSG_ReadString( msg );
-            MSG_ReadLong( msg );
-            MSG_ReadLong( msg );
-            return;
-        }
-    }
+	// TTimo - www dl
+	// if we haven't acked the download redirect yet
+	if ( block == -1 ) {
+		if ( !clc.bWWWDl ) {
+			// server is sending us a www download
+			Q_strncpyz( cls.originalDownloadName, cls.downloadName, sizeof( cls.originalDownloadName ) );
+			Q_strncpyz( cls.downloadName, MSG_ReadString( msg ), sizeof( cls.downloadName ) );
+			clc.downloadSize = MSG_ReadLong( msg );
+			clc.downloadFlags = MSG_ReadLong( msg );
+			if ( clc.downloadFlags & ( 1 << DL_FLAG_URL ) ) {
+				Sys_OpenURL( cls.downloadName, qtrue );
+				Cbuf_ExecuteText( EXEC_APPEND, "quit\n" );
+				CL_AddReliableCommand( "wwwdl bbl8r" ); // not sure if that's the right msg
+				clc.bWWWDlAborting = qtrue;
+				return;
+			}
+			Cvar_SetValue( "cl_downloadSize", clc.downloadSize );
+			Com_DPrintf( "Server redirected download: %s\n", cls.downloadName );
+			clc.bWWWDl = qtrue; // activate wwwdl client loop
+			CL_AddReliableCommand( "wwwdl ack" );
+			// make sure the server is not trying to redirect us again on a bad checksum
+			if ( strstr( clc.badChecksumList, va( "@%s", cls.originalDownloadName ) ) ) {
+				Com_Printf( "refusing redirect to %s by server (bad checksum)\n", cls.downloadName );
+				CL_AddReliableCommand( "wwwdl fail" );
+				clc.bWWWDlAborting = qtrue;
+				return;
+			}
+			// make downloadTempName an OS path
+			Q_strncpyz( cls.downloadTempName, FS_BuildOSPath( Cvar_VariableString( "fs_homepath" ), cls.downloadTempName, "" ), sizeof( cls.downloadTempName ) );
+			cls.downloadTempName[strlen( cls.downloadTempName ) - 1] = '\0';
+			if ( !DL_BeginDownload( cls.downloadTempName, cls.downloadName, com_developer->integer ) ) {
+				// setting bWWWDl to false after sending the wwwdl fail doesn't work
+				// not sure why, but I suspect we have to eat all remaining block -1 that the server has sent us
+				// still leave a flag so that CL_WWWDownload is inactive
+				// we count on server sending us a gamestate to start up clean again
+				CL_AddReliableCommand( "wwwdl fail" );
+				clc.bWWWDlAborting = qtrue;
+				Com_Printf( "Failed to initialize download for '%s'\n", cls.downloadName );
+			}
+			// Check for a disconnected download
+			// we'll let the server disconnect us when it gets the bbl8r message
+			if ( clc.downloadFlags & ( 1 << DL_FLAG_DISCON ) ) {
+				CL_AddReliableCommand( "wwwdl bbl8r" );
+				cls.bWWWDlDisconnected = qtrue;
+			}
+			return;
+		} else
+		{
+			// server keeps sending that message till we ack it, eat and ignore
+			//MSG_ReadLong( msg );
+			MSG_ReadString( msg );
+			MSG_ReadLong( msg );
+			MSG_ReadLong( msg );
+			return;
+		}
+	}
 
 	if ( !block ) {
 		// block zero is special, contains file size

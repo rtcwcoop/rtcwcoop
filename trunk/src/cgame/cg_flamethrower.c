@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -193,18 +193,18 @@ void CG_FlameAdjustSpeed( flameChunk_t *f, float change ) {
 		f->velSpeed = FLAME_MIN_SPEED;
 	}
 /*
-	f->sizeMax = FLAME_START_MAX_SIZE + ((1.0 - (f->velSpeed / FLAME_START_SPEED)) * (FLAME_MAX_SIZE - FLAME_START_MAX_SIZE));
+    f->sizeMax = FLAME_START_MAX_SIZE + ((1.0 - (f->velSpeed / FLAME_START_SPEED)) * (FLAME_MAX_SIZE - FLAME_START_MAX_SIZE));
 
-	if (!f->ignitionOnly) {
-		if ((cg.time - f->timeStart) < f->blueLife) {
-			f->sizeRate = GET_FLAME_BLUE_SIZE_SPEED(f->sizeMax);
-		} else {
-			f->sizeMax += f->sizeRand;
-			if (f->sizeMax < FLAME_MIN_MAXSIZE)
-				f->sizeMax = FLAME_MIN_MAXSIZE;
-			f->sizeRate = GET_FLAME_SIZE_SPEED(f->sizeMax);
-		}
-	}
+    if (!f->ignitionOnly) {
+        if ((cg.time - f->timeStart) < f->blueLife) {
+            f->sizeRate = GET_FLAME_BLUE_SIZE_SPEED(f->sizeMax);
+        } else {
+            f->sizeMax += f->sizeRand;
+            if (f->sizeMax < FLAME_MIN_MAXSIZE)
+                f->sizeMax = FLAME_MIN_MAXSIZE;
+            f->sizeRate = GET_FLAME_SIZE_SPEED(f->sizeMax);
+        }
+    }
 */
 }
 
@@ -215,8 +215,8 @@ CG_FireFlameChunks
   The given entity is firing a flamethrower
 
   flags:
-	1 - use 'angles'
-	2 - silent
+    1 - use 'angles'
+    2 - silent
 ===============
 */
 void CG_FireFlameChunks( centity_t *cent, vec3_t origin, vec3_t angles, float speedScale, qboolean firing, int flags ) {
@@ -342,9 +342,9 @@ void CG_FireFlameChunks( centity_t *cent, vec3_t origin, vec3_t angles, float sp
 			// randomize the direction slightly
 			/*
 			if (!firing) {
-				f->velDir[0] += 0.03*sin((float)cg.time/134);
-				f->velDir[1] += 0.03*sin((float)cg.time/567);
-				f->velDir[2] += 0.03*cos((float)cg.time/3435);
+			    f->velDir[0] += 0.03*sin((float)cg.time/134);
+			    f->velDir[1] += 0.03*sin((float)cg.time/567);
+			    f->velDir[2] += 0.03*cos((float)cg.time/3435);
 			}
 			*/
 			VectorNormalize( f->velDir );
@@ -748,13 +748,13 @@ void CG_MoveFlameChunk( flameChunk_t *f, int t ) {
 		if ( f->velSpeed > 20 ) {
 			f->velSpeed = 20;
 		}
-	
+
 		VectorCopy( f->velDir, f->parentFwd );
 
 		VectorCopy( f->baseOrg, sOrg );
 	}
 
-	CG_FlameCalcOrg( f, t, f->org );	
+	CG_FlameCalcOrg( f, t, f->org );
 }
 
 /*
@@ -1040,7 +1040,7 @@ void CG_AddFlameSpriteToScene( flameChunk_t *f, float lifeFrac, float alpha ) {
 	frameNum = (int)floor( lifeFrac * NUM_FLAME_SPRITES );
 	if ( frameNum < 0 ) {
 		frameNum = 0;
-	} else if ( frameNum > NUM_FLAME_SPRITES - 1 )  {
+	} else if ( frameNum > NUM_FLAME_SPRITES - 1 ) {
 		frameNum = NUM_FLAME_SPRITES - 1;
 	}
 
@@ -1093,7 +1093,7 @@ void CG_AddFlameToScene( flameChunk_t *fHead ) {
 
 	if ( ( cg_entities[fHead->ownerCent].currentState.eFlags & EF_FIRING ) /*(centFlameInfo[fHead->ownerCent].lastClientFrame == cg_entities[fHead->ownerCent].lastWeaponClientFrame)*/ && ( centFlameInfo[fHead->ownerCent].lastFlameChunk == fHead ) ) {
 		headTimeStart = fHead->timeStart;
-	} else {	
+	} else {
 		headTimeStart = cg.time;
 	}
 
@@ -1147,44 +1147,44 @@ void CG_AddFlameToScene( flameChunk_t *fHead ) {
 
 			CG_AddFlameSpriteToScene( f, f->lifeFrac, 1.0 );
 /*
-		} else if (cg_entities[f->ownerCent].currentState.aiChar == AICHAR_ZOMBIE) {
+        } else if (cg_entities[f->ownerCent].currentState.aiChar == AICHAR_ZOMBIE) {
 
-			if (isClientFlame && !fHead->ignitionOnly) {
+            if (isClientFlame && !fHead->ignitionOnly) {
 
-				if (f->lifeFrac < 0.3) {
-					skip = qfalse;
+                if (f->lifeFrac < 0.3) {
+                    skip = qfalse;
 
-					// if this is backwards from the last chunk, then skip it
-					if (!f->ignitionOnly && fNext && f != fHead && lastBlueChunk) {
-						VectorSubtract( f->org, lastBlueChunk->org, v );
-						if (VectorNormalize( v ) < f->size/4 )
-							skip = qtrue;
-						else if (DotProduct( v, f->velDir ) < 0.7)
-							skip = qtrue;
-					}
+                    // if this is backwards from the last chunk, then skip it
+                    if (!f->ignitionOnly && fNext && f != fHead && lastBlueChunk) {
+                        VectorSubtract( f->org, lastBlueChunk->org, v );
+                        if (VectorNormalize( v ) < f->size/4 )
+                            skip = qtrue;
+                        else if (DotProduct( v, f->velDir ) < 0.7)
+                            skip = qtrue;
+                    }
 
-					if (!skip) {
-						lastBlueChunk = f;
-						alpha = 1.0;	// new nozzle sprite
-						VectorScale( whiteColor, alpha, c );
-						shader = cgs.media.funnelFireShader[(cg.time/10)%NUM_FUNNEL_SPRITES];
-						blueTrailHead = CG_AddTrailJunc(	blueTrailHead,
-															shader,
-															cg.time,
-															STYPE_STRETCH,
-															f->org,
-															1,
-															alpha, alpha,
-															f->size*4.0*f->speedScale,
-															FLAME_MAX_SIZE,
-															TJFL_NOCULL|TJFL_FIXDISTORT,
-															c, c, 1.0, 5.0 );
-					}
-				}
+                    if (!skip) {
+                        lastBlueChunk = f;
+                        alpha = 1.0;	// new nozzle sprite
+                        VectorScale( whiteColor, alpha, c );
+                        shader = cgs.media.funnelFireShader[(cg.time/10)%NUM_FUNNEL_SPRITES];
+                        blueTrailHead = CG_AddTrailJunc(	blueTrailHead,
+                                                            shader,
+                                                            cg.time,
+                                                            STYPE_STRETCH,
+                                                            f->org,
+                                                            1,
+                                                            alpha, alpha,
+                                                            f->size*4.0*f->speedScale,
+                                                            FLAME_MAX_SIZE,
+                                                            TJFL_NOCULL|TJFL_FIXDISTORT,
+                                                            c, c, 1.0, 5.0 );
+                    }
+                }
 
-			} else {
-				lightSize = 0;
-			}
+            } else {
+                lightSize = 0;
+            }
 */
 			// is it in the blue ignition section of the flame?
 		} else if ( isClientFlame && f->blueLife > ( lived / 2.0 ) ) {
@@ -1294,7 +1294,7 @@ void CG_AddFlameToScene( flameChunk_t *fHead ) {
 #define FLAME_SPRITE_START_BLUE_SCALE   0.2
 
 		if ( !f->ignitionOnly &&
-			 //!(cg_entities[f->ownerCent].currentState.aiChar == AICHAR_ZOMBIE) &&
+		     //!(cg_entities[f->ownerCent].currentState.aiChar == AICHAR_ZOMBIE) &&
 			 ( (float)( FLAME_SPRITE_START_BLUE_SCALE * f->blueLife ) < (float)lived ) ) {
 
 			float alpha, lifeFrac;

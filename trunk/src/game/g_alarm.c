@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 /*
 ==============
 alarmExplosion
-	copied from propExplosion
+    copied from propExplosion
 ==============
 */
 void alarmExplosion( gentity_t *ent ) {
@@ -46,30 +46,30 @@ void alarmExplosion( gentity_t *ent ) {
 
 	// old way.  (using grenade)
 /*
-	gentity_t *bolt;
+    gentity_t *bolt;
 
-	extern void G_ExplodeMissile( gentity_t *ent );
-	bolt = G_Spawn();
-	bolt->classname = "props_explosion";
-	bolt->nextthink = level.time + FRAMETIME;
-	bolt->think = G_ExplodeMissile;
-	bolt->s.eType = ET_MISSILE;
-	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
+    extern void G_ExplodeMissile( gentity_t *ent );
+    bolt = G_Spawn();
+    bolt->classname = "props_explosion";
+    bolt->nextthink = level.time + FRAMETIME;
+    bolt->think = G_ExplodeMissile;
+    bolt->s.eType = ET_MISSILE;
+    bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
 
-	bolt->s.weapon = WP_NONE;
+    bolt->s.weapon = WP_NONE;
 
-	bolt->s.eFlags = EF_BOUNCE_HALF;
-	bolt->r.ownerNum = ent->s.number;
-	bolt->parent = ent;
-	bolt->damage = ent->health;
-	bolt->splashDamage = ent->health;
-	bolt->splashRadius = ent->health * 1.5;
-	bolt->methodOfDeath = MOD_GRENADE;
-	bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
-	bolt->clipmask = MASK_SHOT;
+    bolt->s.eFlags = EF_BOUNCE_HALF;
+    bolt->r.ownerNum = ent->s.number;
+    bolt->parent = ent;
+    bolt->damage = ent->health;
+    bolt->splashDamage = ent->health;
+    bolt->splashRadius = ent->health * 1.5;
+    bolt->methodOfDeath = MOD_GRENADE;
+    bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
+    bolt->clipmask = MASK_SHOT;
 
-	VectorCopy (ent->r.currentOrigin, bolt->s.pos.trBase );
-	VectorCopy (ent->r.currentOrigin, bolt->r.currentOrigin);
+    VectorCopy (ent->r.currentOrigin, bolt->s.pos.trBase );
+    VectorCopy (ent->r.currentOrigin, bolt->r.currentOrigin);
 */
 }
 
@@ -282,5 +282,3 @@ void SP_alarm_box( gentity_t *ent ) {
 
 	trap_LinkEntity( ent );
 }
-
-

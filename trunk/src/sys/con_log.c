@@ -26,21 +26,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #define MAX_LOG 32768
 
-static char          consoleLog[ MAX_LOG ];
-static unsigned int  writePos = 0;
-static unsigned int  readPos = 0;
+static char consoleLog[ MAX_LOG ];
+static unsigned int writePos = 0;
+static unsigned int readPos = 0;
 
 /*
 ==================
 CON_LogSize
 ==================
 */
-unsigned int CON_LogSize( void )
-{
-	if( readPos <= writePos )
+unsigned int CON_LogSize( void ) {
+	if ( readPos <= writePos ) {
 		return writePos - readPos;
-	else
+	} else {
 		return writePos + MAX_LOG - readPos;
+	}
 }
 
 /*
@@ -48,9 +48,8 @@ unsigned int CON_LogSize( void )
 CON_LogFree
 ==================
 */
-static unsigned int CON_LogFree( void )
-{
-	return MAX_LOG - CON_LogSize( ) - 1;
+static unsigned int CON_LogFree( void ) {
+	return MAX_LOG - CON_LogSize() - 1;
 }
 
 /*
@@ -58,31 +57,29 @@ static unsigned int CON_LogFree( void )
 CON_LogWrite
 ==================
 */
-unsigned int CON_LogWrite( const char *in )
-{
+unsigned int CON_LogWrite( const char *in ) {
 	unsigned int length = strlen( in );
 	unsigned int firstChunk;
 	unsigned int secondChunk;
 
-	while( CON_LogFree( ) < length && CON_LogSize( ) > 0 )
+	while ( CON_LogFree() < length && CON_LogSize() > 0 )
 	{
 		// Free enough space
-		while( consoleLog[ readPos ] != '\n' && CON_LogSize( ) > 1 )
+		while ( consoleLog[ readPos ] != '\n' && CON_LogSize() > 1 )
 			readPos = ( readPos + 1 ) % MAX_LOG;
 
 		// Skip past the '\n'
 		readPos = ( readPos + 1 ) % MAX_LOG;
 	}
 
-	if( CON_LogFree( ) < length )
+	if ( CON_LogFree() < length ) {
 		return 0;
+	}
 
-	if( writePos + length > MAX_LOG )
-	{
+	if ( writePos + length > MAX_LOG ) {
 		firstChunk  = MAX_LOG - writePos;
 		secondChunk = length - firstChunk;
-	}
-	else
+	} else
 	{
 		firstChunk  = length;
 		secondChunk = 0;
@@ -101,20 +98,18 @@ unsigned int CON_LogWrite( const char *in )
 CON_LogRead
 ==================
 */
-unsigned int CON_LogRead( char *out, unsigned int outSize )
-{
+unsigned int CON_LogRead( char *out, unsigned int outSize ) {
 	unsigned int firstChunk;
 	unsigned int secondChunk;
 
-	if( CON_LogSize( ) < outSize )
-		outSize = CON_LogSize( );
+	if ( CON_LogSize() < outSize ) {
+		outSize = CON_LogSize();
+	}
 
-	if( readPos + outSize > MAX_LOG )
-	{
+	if ( readPos + outSize > MAX_LOG ) {
 		firstChunk  = MAX_LOG - readPos;
 		secondChunk = outSize - firstChunk;
-	}
-	else
+	} else
 	{
 		firstChunk  = outSize;
 		secondChunk = 0;

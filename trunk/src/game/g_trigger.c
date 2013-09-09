@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,11 +34,11 @@ void InitTrigger( gentity_t *self ) {
 		G_SetMovedir( self->s.angles, self->movedir );
 	}
 
-        if ( self->model[0] != '*' ) {
-                self->s.modelindex   = G_ModelIndex( self->model );
-        } else {
+	if ( self->model[0] != '*' ) {
+		self->s.modelindex   = G_ModelIndex( self->model );
+	} else {
 		trap_SetBrushModel( self, self->model );
-        } 
+	}
 
 	self->r.contents = CONTENTS_TRIGGER;        // replaces the -1 from trap_SetBrushModel
 	self->r.svFlags = SVF_NOCLIENT;
@@ -648,17 +648,18 @@ Once triggered, this entity is destroyed
 (you can actually do the same thing with trigger_multiple with a wait of -1)
 */
 void SP_trigger_once( gentity_t *ent ) {
-        char mapname[1024];
+	char mapname[1024];
 
 	ent->wait   = -1;           // this will remove itself after one use
 	ent->touch  = Touch_Multi;
 	ent->use    = Use_Multi;
 
-        trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
-        // castle contains some brush scripting which closes a gate after one player is past it
-        // this is very annoying in a coop context, so disable this trigger
-        if (!strcmp(ent->target, "t590") && !strcmp(mapname, "castle") && g_gametype.integer <= GT_COOP) 
-                return;
+	trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+	// castle contains some brush scripting which closes a gate after one player is past it
+	// this is very annoying in a coop context, so disable this trigger
+	if ( !strcmp( ent->target, "t590" ) && !strcmp( mapname, "castle" ) && g_gametype.integer <= GT_COOP ) {
+		return;
+	}
 
 	InitTrigger( ent );
 	trap_LinkEntity( ent );
@@ -893,7 +894,7 @@ void Touch_flagonly( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 		ent->touch = NULL;
 		ent->nextthink = level.time + FRAMETIME;
 		ent->think = G_FreeEntity;
-	} else if ( ent->spawnflags & BLUE_FLAG && other->client->ps.powerups[ PW_BLUEFLAG ] )   {
+	} else if ( ent->spawnflags & BLUE_FLAG && other->client->ps.powerups[ PW_BLUEFLAG ] ) {
 
 		G_Script_ScriptEvent( ent, "death", "" );
 

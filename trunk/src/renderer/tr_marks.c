@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -191,11 +191,11 @@ void R_BoxSurfaces_r( mnode_t *node, vec3_t mins, vec3_t maxs, surfaceType_t **l
 			s = BoxOnPlaneSide( mins, maxs, &( ( srfSurfaceFace_t * ) surf->data )->plane );
 			if ( s == 1 || s == 2 ) {
 				surf->viewCount = tr.viewCount;
-			} else if ( DotProduct( ( ( srfSurfaceFace_t * ) surf->data )->plane.normal, dir ) < -0.5 )         {
+			} else if ( DotProduct( ( ( srfSurfaceFace_t * ) surf->data )->plane.normal, dir ) < -0.5 ) {
 				// don't add faces that make sharp angles with the projection direction
 				surf->viewCount = tr.viewCount;
 			}
-		} else if ( *( surfaceType_t * )( surf->data ) != SF_GRID )        {
+		} else if ( *( surfaceType_t * )( surf->data ) != SF_GRID ) {
 			surf->viewCount = tr.viewCount;
 		}
 		// check the viewCount because the surface may have
@@ -249,12 +249,12 @@ void R_AddMarkFragments( int numClipPoints, vec3_t clipPoints[2][MAX_VERTS_ON_PO
 	/*
 	// all the clip points should be within the bounding box
 	for ( i = 0 ; i < numClipPoints ; i++ ) {
-		int j;
-		for ( j = 0 ; j < 3 ; j++ ) {
-			if (clipPoints[pingPong][i][j] < mins[j] - 0.5) break;
-			if (clipPoints[pingPong][i][j] > maxs[j] + 0.5) break;
-		}
-		if (j < 3) break;
+	    int j;
+	    for ( j = 0 ; j < 3 ; j++ ) {
+	        if (clipPoints[pingPong][i][j] < mins[j] - 0.5) break;
+	        if (clipPoints[pingPong][i][j] > maxs[j] + 0.5) break;
+	    }
+	    if (j < 3) break;
 	}
 	if (i < numClipPoints) return;
 	*/
@@ -425,7 +425,7 @@ int R_OldMarkFragments( int numPoints, const vec3_t *points, const vec3_t projec
 					}
 				}
 			}
-		} else if ( *surfaces[i] == SF_FACE )     {
+		} else if ( *surfaces[i] == SF_FACE ) {
 
 			surf = ( srfSurfaceFace_t * ) surfaces[i];
 			// check the normal of this face
@@ -562,28 +562,28 @@ int R_MarkFragments( int orientation, const vec3_t *points, const vec3_t project
 	// find the closest surface to center the decal there, and wrap around other surfaces
 	if ( !oldMapping ) {
 /*
-		for ( i = 0 ; i < numsurfaces ; i++ ) {
-			if (*surfaces[i] == SF_FACE) {
-				surf = ( srfSurfaceFace_t * ) surfaces[i];
-				// Ridah, check if this is the closest surface
-				dot = DotProduct( center, surf->plane.normal );
-				dot -= surf->plane.dist;
-				if (!bestdist) {
-					if (dot < 0)
-						bestdist = fabs(dot) + 1000;	// avoid this surface, since the point is behind it
-					else
-						bestdist = dot;
-					VectorCopy( surf->plane.normal, bestnormal );
-					VectorMA( center, -dot, surf->plane.normal, bestCenter );
-				} else if (dot >= 0 && dot < bestdist) {
-					bestdist = dot;
-					VectorCopy( surf->plane.normal, bestnormal );
-					VectorMA( center, -dot, surf->plane.normal, bestCenter );
-				}
-			}
-		}
-		// bestCenter is now the real center
-		VectorCopy( bestCenter, center );
+        for ( i = 0 ; i < numsurfaces ; i++ ) {
+            if (*surfaces[i] == SF_FACE) {
+                surf = ( srfSurfaceFace_t * ) surfaces[i];
+                // Ridah, check if this is the closest surface
+                dot = DotProduct( center, surf->plane.normal );
+                dot -= surf->plane.dist;
+                if (!bestdist) {
+                    if (dot < 0)
+                        bestdist = fabs(dot) + 1000;	// avoid this surface, since the point is behind it
+                    else
+                        bestdist = dot;
+                    VectorCopy( surf->plane.normal, bestnormal );
+                    VectorMA( center, -dot, surf->plane.normal, bestCenter );
+                } else if (dot >= 0 && dot < bestdist) {
+                    bestdist = dot;
+                    VectorCopy( surf->plane.normal, bestnormal );
+                    VectorMA( center, -dot, surf->plane.normal, bestCenter );
+                }
+            }
+        }
+        // bestCenter is now the real center
+        VectorCopy( bestCenter, center );
 Com_Printf("bestnormal: %1.1f %1.1f %1.1f \n", bestnormal[0], bestnormal[1], bestnormal[2] );
 */
 		VectorNegate( bestnormal, bestnormal );
@@ -670,7 +670,7 @@ Com_Printf("bestnormal: %1.1f %1.1f %1.1f \n", bestnormal[0], bestnormal[1], bes
 					}
 				}
 			}
-		} else if ( *surfaces[i] == SF_FACE )     {
+		} else if ( *surfaces[i] == SF_FACE ) {
 			extern float VectorDistance( vec3_t v1, vec3_t v2 );
 			vec3_t axis[3];
 			float texCoordScale, dot;
@@ -814,4 +814,3 @@ Com_Printf("bestnormal: %1.1f %1.1f %1.1f \n", bestnormal[0], bestnormal[1], bes
 	}
 	return returnedFragments;
 }
-

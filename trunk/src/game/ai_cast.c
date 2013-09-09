@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -306,7 +306,7 @@ void AICast_CheckLevelAttributes( cast_state_t *cs, gentity_t *ent, char **ppStr
 					break;
 				}
 				// set the attribute
-                                // fretn
+				// fretn
 				cs->attributes[i] = atof( s );
 				break;
 			}
@@ -380,9 +380,9 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
 	cs = AICast_GetCastState( newent->s.number );
 	//
 	cs->aiCharacter = ent->aiCharacter;
-        // used with g_airespawn
-        cs->died = qfalse;
-        cs->norespawn = qfalse;
+	// used with g_airespawn
+	cs->died = qfalse;
+	cs->norespawn = qfalse;
 
 	client->ps.aiChar = ent->aiCharacter;
 	// setup the attributes
@@ -435,51 +435,50 @@ gentity_t *AICast_CreateCharacter( gentity_t *ent, float *attributes, cast_weapo
 		newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = cs->attributes[STARTING_HEALTH];
 	}
 
-        // fretn
-        if ( g_gametype.integer <= GT_COOP )
-        {    
+	// fretn
+	if ( g_gametype.integer <= GT_COOP ) {
 // fretn - makes the game a bit harder, but its boring that way
 // what we really need are ai respawns
 #if 0
-                if ( newent->health < 125 )
-                {
-                    if ( g_gameskill.integer == GSKILL_EASY )
-                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 75; 
-                    else if ( g_gameskill.integer == GSKILL_MEDIUM )
-                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 100;
-                    else if ( g_gameskill.integer == GSKILL_HARD )
-                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 125; 
-                    else if ( g_gameskill.integer == GSKILL_MAX )
-                            newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 225; 
-                }
-                else
-                {
-                    if ( g_gameskill.integer == GSKILL_MEDIUM )
-                            newent->health *= 1.25;
-                    else if ( g_gameskill.integer == GSKILL_HARD )
-                            newent->health *= 1.5; 
-                    else if ( g_gameskill.integer == GSKILL_MAX )
-                            newent->health *= 2; 
-                }
+		if ( newent->health < 125 ) {
+			if ( g_gameskill.integer == GSKILL_EASY ) {
+				newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 75;
+			} else if ( g_gameskill.integer == GSKILL_MEDIUM ) {
+				newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 100;
+			} else if ( g_gameskill.integer == GSKILL_HARD ) {
+				newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 125;
+			} else if ( g_gameskill.integer == GSKILL_MAX ) {
+				newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 225;
+			}
+		} else
+		{
+			if ( g_gameskill.integer == GSKILL_MEDIUM ) {
+				newent->health *= 1.25;
+			} else if ( g_gameskill.integer == GSKILL_HARD ) {
+				newent->health *= 1.5;
+			} else if ( g_gameskill.integer == GSKILL_MAX ) {
+				newent->health *= 2;
+			}
+		}
 #endif
 
-                if ( g_gameskill.integer == GSKILL_EASY ) {
-                        newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 1;
-                        cs->attributes[AIM_SKILL] = 0.6;
-                        cs->attributes[ATTACK_SKILL] = 0.6;
-                } else if ( g_gameskill.integer == GSKILL_MEDIUM ) {
-                        cs->attributes[AIM_SKILL] = 0.75;
-                        cs->attributes[ATTACK_SKILL] = 0.75;
-                } else if ( g_gameskill.integer == GSKILL_HARD ) {
-                        cs->attributes[AIM_SKILL] = 0.9;
-                        cs->attributes[ATTACK_SKILL] = 0.9;
-                } else if ( g_gameskill.integer == GSKILL_MAX ) {
-                        cs->attributes[AIM_SKILL] = 1.0;
-                        cs->attributes[ATTACK_SKILL] = 1.0;
-                }
+		if ( g_gameskill.integer == GSKILL_EASY ) {
+			newent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] = 1;
+			cs->attributes[AIM_SKILL] = 0.6;
+			cs->attributes[ATTACK_SKILL] = 0.6;
+		} else if ( g_gameskill.integer == GSKILL_MEDIUM ) {
+			cs->attributes[AIM_SKILL] = 0.75;
+			cs->attributes[ATTACK_SKILL] = 0.75;
+		} else if ( g_gameskill.integer == GSKILL_HARD ) {
+			cs->attributes[AIM_SKILL] = 0.9;
+			cs->attributes[ATTACK_SKILL] = 0.9;
+		} else if ( g_gameskill.integer == GSKILL_MAX ) {
+			cs->attributes[AIM_SKILL] = 1.0;
+			cs->attributes[ATTACK_SKILL] = 1.0;
+		}
 
-                cs->respawnsleft = g_airespawn.integer;
-        } 
+		cs->respawnsleft = g_airespawn.integer;
+	}
 	//
 	cs->weaponInfo = weaponInfo;
 	//
@@ -555,12 +554,12 @@ void AICast_Init( void ) {
 	}
 
 /* RF, this is useless, since the AAS hasnt been loaded yet
-	// try and load in the AAS now, so we can interact with it during spawning of entities
-	i = 0;
-	trap_AAS_SetCurrentWorld(0);
-	while (!trap_AAS_Initialized() && (i++ < 10)) {
-		trap_BotLibStartFrame((float) level.time / 1000);
-	}
+    // try and load in the AAS now, so we can interact with it during spawning of entities
+    i = 0;
+    trap_AAS_SetCurrentWorld(0);
+    while (!trap_AAS_Initialized() && (i++ < 10)) {
+        trap_BotLibStartFrame((float) level.time / 1000);
+    }
 */
 }
 
@@ -641,8 +640,9 @@ void AIChar_AIScript_AlertEntity( gentity_t *ent ) {
 
 	cs = AICast_GetCastState( ent->s.number );
 
-        if ( !cs )
-                return;
+	if ( !cs ) {
+		return;
+	}
 
 	// if the current bounding box is invalid, then wait
 	VectorAdd( ent->r.currentOrigin, ent->r.mins, mins );
@@ -721,8 +721,8 @@ void AICast_DelayedSpawnCast( gentity_t *ent, int castType ) {
 	// now, if the game gets saved after the character spawns in, when it gets re-loaded, the client
 	// won't get spawned properly.
 	if ( ent->spawnflags & 1 ) { // TriggerSpawn
-                ent->AIScript_AlertEntity = AIChar_AIScript_AlertEntity;
-                ent->aiInactive = qtrue;
+		ent->AIScript_AlertEntity = AIChar_AIScript_AlertEntity;
+		ent->aiInactive = qtrue;
 	}
 
 	// RF, had to move this down since some dev maps don't properly spawn the guys in, so we
@@ -853,38 +853,39 @@ void AICast_CheckLoadGame( void ) {
 		if ( ready ) {
 			int i = 0;
 
-                if ( g_gametype.integer <= GT_COOP) {
-                        for (i=0; i < MAX_COOP_CLIENTS; i++) {
-                                gentity_t *tmp;
+			if ( g_gametype.integer <= GT_COOP ) {
+				for ( i = 0; i < MAX_COOP_CLIENTS; i++ ) {
+					gentity_t *tmp;
 
-                                G_LoadPersistant(i);     // make sure we save the game after we have brought across the items
+					G_LoadPersistant( i );               // make sure we save the game after we have brought across the items
 
-                                // fretn: warning, ugly hacks coming up
-                                // maxlives and maxspawnpoints are not persistant data across level changes
-                                tmp = &g_entities[i];
-                                if (tmp && tmp->client) {
-                                        // reset maxlives
-                                        if ( g_maxlives.integer > 0 ) {
-                                                if ( g_gametype.integer != GT_COOP )
-                                                        tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
-                                        } else {
-                                                tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
-                                        }
+					// fretn: warning, ugly hacks coming up
+					// maxlives and maxspawnpoints are not persistant data across level changes
+					tmp = &g_entities[i];
+					if ( tmp && tmp->client ) {
+						// reset maxlives
+						if ( g_maxlives.integer > 0 ) {
+							if ( g_gametype.integer != GT_COOP ) {
+								tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = ( g_maxlives.integer - 1 );
+							}
+						} else {
+							tmp->client->ps.persistant[PERS_RESPAWNS_LEFT] = -1;
+						}
 
-                                        // reset spawnpoints
-                                        if ( g_maxspawnpoints.integer > 0 ) {
-                                                tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 ); 
-                                        } else {
-                                                tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
-                                        }
-                                }
-                        }
-                } else {
-				G_LoadPersistant(0);     // make sure we save the game after we have brought across the items
-            }
+						// reset spawnpoints
+						if ( g_maxspawnpoints.integer > 0 ) {
+							tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = ( g_maxspawnpoints.integer - 1 );
+						} else {
+							tmp->client->ps.persistant[PERS_SPAWNPOINTS_LEFT] = -1;
+						}
+					}
+				}
+			} else {
+				G_LoadPersistant( 0 );     // make sure we save the game after we have brought across the items
+			}
 
-            // clear out the persid, since the persistent data has been read
-            trap_Cvar_Set( "persid", "0" );
+			// clear out the persid, since the persistent data has been read
+			trap_Cvar_Set( "persid", "0" );
 
 			trap_Cvar_Set( "g_totalPlayTime", "0" );  // reset play time
 			trap_Cvar_Set( "g_attempts", "0" );
@@ -909,7 +910,7 @@ void AICast_CheckLoadGame( void ) {
 			// (SA) send a command that will be interpreted for both the screenfade and any other effects (music cues, pregame menu, etc)
 
 			// briefing menu will handle transition, just set a cvar for it to check for drawing the 'continue' button
-            // fretn - also copied to g_client.c in clientbegin
+			// fretn - also copied to g_client.c in clientbegin
 			trap_SendServerCommand( 0, "rockandroll\n" );
 
 			level.reloadPauseTime = level.time + 1100;

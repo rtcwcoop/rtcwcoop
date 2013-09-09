@@ -138,8 +138,8 @@ jpeg_stdio_dest( j_compress_ptr cinfo, FILE * outfile ) {
 	 */
 	if ( cinfo->dest == NULL ) { /* first time for this JPEG object? */
 		cinfo->dest = (struct jpeg_destination_mgr *)
-				  ( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_PERMANENT,
-												 SIZEOF( my_destination_mgr ) );
+					  ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_PERMANENT,
+													SIZEOF( my_destination_mgr ) );
 	}
 
 	dest = (my_dest_ptr) cinfo->dest;

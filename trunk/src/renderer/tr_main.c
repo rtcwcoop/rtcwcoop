@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -173,7 +173,7 @@ void R_FogOn( void ) {
 		if ( !( glfogsettings[FOG_PORTALVIEW].registered ) ) {
 			return;
 		}
-	} else if ( !glfogNum )     {
+	} else if ( !glfogNum ) {
 		return;
 	}
 
@@ -190,16 +190,16 @@ void R_FogOn( void ) {
 R_SetFog
 
   if fogvar == FOG_CMD_SWITCHFOG {
-	fogvar is the command
-	var1 is the fog to switch to
-	var2 is the time to transition
+    fogvar is the command
+    var1 is the fog to switch to
+    var2 is the time to transition
   }
   else {
-	fogvar is the fog that's being set
-	var1 is the near fog z value
-	var2 is the far fog z value
-	rgb = color
-	density is density, and is used to derive the values of 'mode', 'drawsky', and 'clearscreen'
+    fogvar is the fog that's being set
+    var1 is the near fog z value
+    var2 is the far fog z value
+    rgb = color
+    density is density, and is used to derive the values of 'mode', 'drawsky', and 'clearscreen'
   }
 ==============
 */
@@ -356,7 +356,7 @@ int R_CullPointAndRadius( vec3_t pt, float radius ) {
 		dist = DotProduct( pt, frust->normal ) - frust->dist;
 		if ( dist < -radius ) {
 			return CULL_OUT;
-		} else if ( dist <= radius )   {
+		} else if ( dist <= radius ) {
 			mightBeClipped = qtrue;
 		}
 	}
@@ -564,17 +564,17 @@ void R_RotateForViewer( void ) {
 	viewerMatrix[0] = tr.viewParms.or.axis[0][0];
 	viewerMatrix[4] = tr.viewParms.or.axis[0][1];
 	viewerMatrix[8] = tr.viewParms.or.axis[0][2];
-	viewerMatrix[12] = -origin[0] * viewerMatrix[0] + - origin[1] * viewerMatrix[4] + - origin[2] * viewerMatrix[8];
+	viewerMatrix[12] = -origin[0] * viewerMatrix[0] + -origin[1] * viewerMatrix[4] + -origin[2] * viewerMatrix[8];
 
 	viewerMatrix[1] = tr.viewParms.or.axis[1][0];
 	viewerMatrix[5] = tr.viewParms.or.axis[1][1];
 	viewerMatrix[9] = tr.viewParms.or.axis[1][2];
-	viewerMatrix[13] = -origin[0] * viewerMatrix[1] + - origin[1] * viewerMatrix[5] + - origin[2] * viewerMatrix[9];
+	viewerMatrix[13] = -origin[0] * viewerMatrix[1] + -origin[1] * viewerMatrix[5] + -origin[2] * viewerMatrix[9];
 
 	viewerMatrix[2] = tr.viewParms.or.axis[2][0];
 	viewerMatrix[6] = tr.viewParms.or.axis[2][1];
 	viewerMatrix[10] = tr.viewParms.or.axis[2][2];
-	viewerMatrix[14] = -origin[0] * viewerMatrix[2] + - origin[1] * viewerMatrix[6] + - origin[2] * viewerMatrix[10];
+	viewerMatrix[14] = -origin[0] * viewerMatrix[2] + -origin[1] * viewerMatrix[6] + -origin[2] * viewerMatrix[10];
 
 	viewerMatrix[3] = 0;
 	viewerMatrix[7] = 0;
@@ -1037,7 +1037,7 @@ qboolean R_GetPortalOrientations( drawSurf_t *drawSurf, int entityNum,
 				RotatePointAroundVector( camera->axis[1], camera->axis[0], transformed, d );
 				CrossProduct( camera->axis[0], camera->axis[1], camera->axis[2] );
 			}
-		} else if ( e->e.skinNum )   {
+		} else if ( e->e.skinNum ) {
 			d = e->e.skinNum;
 			VectorCopy( camera->axis[1], transformed );
 			RotatePointAroundVector( camera->axis[1], camera->axis[0], transformed, d );
@@ -1157,7 +1157,7 @@ static qboolean SurfIsOffscreen( const drawSurf_t *drawSurf, vec4_t clipDest[128
 		{
 			if ( clip[j] >= clip[3] ) {
 				pointFlags |= ( 1 << ( j * 2 ) );
-			} else if ( clip[j] <= -clip[3] )   {
+			} else if ( clip[j] <= -clip[3] ) {
 				pointFlags |= ( 1 << ( j * 2 + 1 ) );
 			}
 		}
@@ -1444,19 +1444,19 @@ recurse:
 		}
 
 		/*     A[i] >= A[lo] for higuy < i <= hi,
-			   A[i] <= A[lo] for lo <= i < loguy,
-			   higuy < loguy, lo <= higuy <= hi
+		       A[i] <= A[lo] for lo <= i < loguy,
+		       higuy < loguy, lo <= higuy <= hi
 		   implying:
-			   A[i] >= A[lo] for loguy <= i <= hi,
-			   A[i] <= A[lo] for lo <= i <= higuy,
-			   A[i] = A[lo] for higuy < i < loguy */
+		       A[i] >= A[lo] for loguy <= i <= hi,
+		       A[i] <= A[lo] for lo <= i <= higuy,
+		       A[i] = A[lo] for higuy < i < loguy */
 
 		SWAP_DRAW_SURF( lo, higuy );     /* put partition element in place */
 
 		/* OK, now we have the following:
-			  A[i] >= A[higuy] for loguy <= i <= hi,
-			  A[i] <= A[higuy] for lo <= i < higuy
-			  A[i] = A[lo] for higuy <= i < loguy    */
+		      A[i] >= A[higuy] for loguy <= i <= hi,
+		      A[i] <= A[higuy] for lo <= i < higuy
+		      A[i] = A[lo] for higuy <= i < loguy    */
 
 		/* We've finished the partition, now we want to sort the subarrays
 		   [lo, higuy-1] and [loguy, hi].
@@ -1659,11 +1659,11 @@ void R_AddEntitySurfaces( void ) {
 				case MOD_MESH:
 					R_AddMD3Surfaces( ent );
 					break;
-					// Ridah
+				// Ridah
 				case MOD_MDC:
 					R_AddMDCSurfaces( ent );
 					break;
-					// done.
+				// done.
 				case MOD_MDS:
 					R_AddAnimSurfaces( ent );
 					break;

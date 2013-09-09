@@ -225,8 +225,8 @@ start_pass( j_decompress_ptr cinfo ) {
 			for ( row = 0; row < DCTSIZE; row++ ) {
 				for ( col = 0; col < DCTSIZE; col++ ) {
 					fmtbl[i] = (FLOAT_MULT_TYPE)
-					  ( (double) qtbl->quantval[jpeg_zigzag_order[i]] *
-					  aanscalefactor[row] * aanscalefactor[col] );
+							   ( (double) qtbl->quantval[jpeg_zigzag_order[i]] *
+								 aanscalefactor[row] * aanscalefactor[col] );
 					i++;
 				}
 			}
@@ -252,8 +252,8 @@ jinit_inverse_dct( j_decompress_ptr cinfo ) {
 	jpeg_component_info *compptr;
 
 	idct = (my_idct_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_idct_controller ) );
+		   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										 SIZEOF( my_idct_controller ) );
 	cinfo->idct = (struct jpeg_inverse_dct *) idct;
 	idct->pub.start_pass = start_pass;
 

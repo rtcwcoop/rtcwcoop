@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ void GL_SelectTexture( int unit ) {
 		GLimp_LogComment( "glActiveTextureARB( GL_TEXTURE0_ARB )\n" );
 		qglClientActiveTextureARB( GL_TEXTURE0_ARB );
 		GLimp_LogComment( "glClientActiveTextureARB( GL_TEXTURE0_ARB )\n" );
-	} else if ( unit == 1 )   {
+	} else if ( unit == 1 ) {
 		qglActiveTextureARB( GL_TEXTURE1_ARB );
 		GLimp_LogComment( "glActiveTextureARB( GL_TEXTURE1_ARB )\n" );
 		qglClientActiveTextureARB( GL_TEXTURE1_ARB );
@@ -456,7 +456,7 @@ void RB_BeginDrawingView( void ) {
 				clearBits |= GL_COLOR_BUFFER_BIT;
 				if ( glfogsettings[FOG_PORTALVIEW].registered ) {
 					qglClearColor( glfogsettings[FOG_PORTALVIEW].color[0], glfogsettings[FOG_PORTALVIEW].color[1], glfogsettings[FOG_PORTALVIEW].color[2], glfogsettings[FOG_PORTALVIEW].color[3] );
-				} else if ( glfogNum > FOG_NONE && glfogsettings[FOG_CURRENT].registered )      {
+				} else if ( glfogNum > FOG_NONE && glfogsettings[FOG_CURRENT].registered ) {
 					qglClearColor( glfogsettings[FOG_CURRENT].color[0], glfogsettings[FOG_CURRENT].color[1], glfogsettings[FOG_CURRENT].color[2], glfogsettings[FOG_CURRENT].color[3] );
 				} else {
 //					qglClearColor ( 1.0, 0.0, 0.0, 1.0 );	// red clear for testing portal sky clear
@@ -928,13 +928,13 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 
 			rb_surfaceTable[ *drawSurf->surface ]( drawSurf->surface );
 /*
-			// RF, convert the newly created vertexes into dust particles, and overwrite
-			if (backEnd.currentEntity->e.reFlags & REFLAG_ZOMBIEFX) {
-				RB_ZombieFX( 0, drawSurf, oldNumVerts, oldNumIndex );
-			}
-			else if (backEnd.currentEntity->e.reFlags & REFLAG_ZOMBIEFX2) {
-				RB_ZombieFX( 1, drawSurf, oldNumVerts, oldNumIndex );
-			}
+            // RF, convert the newly created vertexes into dust particles, and overwrite
+            if (backEnd.currentEntity->e.reFlags & REFLAG_ZOMBIEFX) {
+                RB_ZombieFX( 0, drawSurf, oldNumVerts, oldNumIndex );
+            }
+            else if (backEnd.currentEntity->e.reFlags & REFLAG_ZOMBIEFX2) {
+                RB_ZombieFX( 1, drawSurf, oldNumVerts, oldNumIndex );
+            }
 */
 			continue;
 		}
@@ -1032,7 +1032,7 @@ void RB_RenderDrawSurfList( drawSurf_t *drawSurfs, int numDrawSurfs ) {
 		// RF, convert the newly created vertexes into dust particles, and overwrite
 		if ( backEnd.currentEntity->e.reFlags & REFLAG_ZOMBIEFX ) {
 			RB_ZombieFX( 0, drawSurf, oldNumVerts, oldNumIndex );
-		} else if ( backEnd.currentEntity->e.reFlags & REFLAG_ZOMBIEFX2 )     {
+		} else if ( backEnd.currentEntity->e.reFlags & REFLAG_ZOMBIEFX2 ) {
 			RB_ZombieFX( 1, drawSurf, oldNumVerts, oldNumIndex );
 		}
 	}
@@ -1309,79 +1309,79 @@ RB_RotatedPic
 =============
 */
 const void *RB_RotatedPic( const void *data ) {
-        const stretchPicCommand_t   *cmd;
-        shader_t *shader;
-        int numVerts, numIndexes;
-        float angle;
-        float pi2 = M_PI * 2; 
+	const stretchPicCommand_t   *cmd;
+	shader_t *shader;
+	int numVerts, numIndexes;
+	float angle;
+	float pi2 = M_PI * 2;
 
-        cmd = (const stretchPicCommand_t *)data;
+	cmd = (const stretchPicCommand_t *)data;
 
-        if ( !backEnd.projection2D ) {
-                RB_SetGL2D();
-        }    
+	if ( !backEnd.projection2D ) {
+		RB_SetGL2D();
+	}
 
-        shader = cmd->shader;
-        if ( shader != tess.shader ) {
-                if ( tess.numIndexes ) {
-                        RB_EndSurface();
-                }    
-                backEnd.currentEntity = &backEnd.entity2D;
-                RB_BeginSurface( shader, 0 ); 
-        }    
+	shader = cmd->shader;
+	if ( shader != tess.shader ) {
+		if ( tess.numIndexes ) {
+			RB_EndSurface();
+		}
+		backEnd.currentEntity = &backEnd.entity2D;
+		RB_BeginSurface( shader, 0 );
+	}
 
-        RB_CHECKOVERFLOW( 4, 6 ); 
-        numVerts = tess.numVertexes;
-        numIndexes = tess.numIndexes;
+	RB_CHECKOVERFLOW( 4, 6 );
+	numVerts = tess.numVertexes;
+	numIndexes = tess.numIndexes;
 
-        tess.numVertexes += 4;
-        tess.numIndexes += 6;
+	tess.numVertexes += 4;
+	tess.numIndexes += 6;
 
-        tess.indexes[ numIndexes ] = numVerts + 3; 
-        tess.indexes[ numIndexes + 1 ] = numVerts + 0; 
-        tess.indexes[ numIndexes + 2 ] = numVerts + 2; 
-        tess.indexes[ numIndexes + 3 ] = numVerts + 2; 
-        tess.indexes[ numIndexes + 4 ] = numVerts + 0; 
-        tess.indexes[ numIndexes + 5 ] = numVerts + 1; 
+	tess.indexes[ numIndexes ] = numVerts + 3;
+	tess.indexes[ numIndexes + 1 ] = numVerts + 0;
+	tess.indexes[ numIndexes + 2 ] = numVerts + 2;
+	tess.indexes[ numIndexes + 3 ] = numVerts + 2;
+	tess.indexes[ numIndexes + 4 ] = numVerts + 0;
+	tess.indexes[ numIndexes + 5 ] = numVerts + 1;
 
-        *(int *)tess.vertexColors[ numVerts ] =
-                *(int *)tess.vertexColors[ numVerts + 1 ] =
-                        *(int *)tess.vertexColors[ numVerts + 2 ] =
-                                *(int *)tess.vertexColors[ numVerts + 3 ] = *(int *)backEnd.color2D;
+	*(int *)tess.vertexColors[ numVerts ] =
+		*(int *)tess.vertexColors[ numVerts + 1 ] =
+			*(int *)tess.vertexColors[ numVerts + 2 ] =
+				*(int *)tess.vertexColors[ numVerts + 3 ] = *(int *)backEnd.color2D;
 
-        angle = cmd->angle * pi2; 
-        tess.xyz[ numVerts ][0] = cmd->x + ( cos( angle ) * cmd->w );
-        tess.xyz[ numVerts ][1] = cmd->y + ( sin( angle ) * cmd->h );
-        tess.xyz[ numVerts ][2] = 0; 
+	angle = cmd->angle * pi2;
+	tess.xyz[ numVerts ][0] = cmd->x + ( cos( angle ) * cmd->w );
+	tess.xyz[ numVerts ][1] = cmd->y + ( sin( angle ) * cmd->h );
+	tess.xyz[ numVerts ][2] = 0;
 
-        tess.texCoords[ numVerts ][0][0] = cmd->s1;
-        tess.texCoords[ numVerts ][0][1] = cmd->t1;
+	tess.texCoords[ numVerts ][0][0] = cmd->s1;
+	tess.texCoords[ numVerts ][0][1] = cmd->t1;
 
-        angle = cmd->angle * pi2 + 0.25 * pi2; 
-        tess.xyz[ numVerts + 1 ][0] = cmd->x + ( cos( angle ) * cmd->w );
-        tess.xyz[ numVerts + 1 ][1] = cmd->y + ( sin( angle ) * cmd->h );
-        tess.xyz[ numVerts + 1 ][2] = 0; 
+	angle = cmd->angle * pi2 + 0.25 * pi2;
+	tess.xyz[ numVerts + 1 ][0] = cmd->x + ( cos( angle ) * cmd->w );
+	tess.xyz[ numVerts + 1 ][1] = cmd->y + ( sin( angle ) * cmd->h );
+	tess.xyz[ numVerts + 1 ][2] = 0;
 
-        tess.texCoords[ numVerts + 1 ][0][0] = cmd->s2;
-        tess.texCoords[ numVerts + 1 ][0][1] = cmd->t1;
+	tess.texCoords[ numVerts + 1 ][0][0] = cmd->s2;
+	tess.texCoords[ numVerts + 1 ][0][1] = cmd->t1;
 
-        angle = cmd->angle * pi2 + 0.50 * pi2; 
-        tess.xyz[ numVerts + 2 ][0] = cmd->x + ( cos( angle ) * cmd->w );
-        tess.xyz[ numVerts + 2 ][1] = cmd->y + ( sin( angle ) * cmd->h );
-        tess.xyz[ numVerts + 2 ][2] = 0; 
+	angle = cmd->angle * pi2 + 0.50 * pi2;
+	tess.xyz[ numVerts + 2 ][0] = cmd->x + ( cos( angle ) * cmd->w );
+	tess.xyz[ numVerts + 2 ][1] = cmd->y + ( sin( angle ) * cmd->h );
+	tess.xyz[ numVerts + 2 ][2] = 0;
 
-        tess.texCoords[ numVerts + 2 ][0][0] = cmd->s2;
-        tess.texCoords[ numVerts + 2 ][0][1] = cmd->t2;
+	tess.texCoords[ numVerts + 2 ][0][0] = cmd->s2;
+	tess.texCoords[ numVerts + 2 ][0][1] = cmd->t2;
 
-        angle = cmd->angle * pi2 + 0.75 * pi2; 
-        tess.xyz[ numVerts + 3 ][0] = cmd->x + ( cos( angle ) * cmd->w );
-        tess.xyz[ numVerts + 3 ][1] = cmd->y + ( sin( angle ) * cmd->h );
-        tess.xyz[ numVerts + 3 ][2] = 0; 
+	angle = cmd->angle * pi2 + 0.75 * pi2;
+	tess.xyz[ numVerts + 3 ][0] = cmd->x + ( cos( angle ) * cmd->w );
+	tess.xyz[ numVerts + 3 ][1] = cmd->y + ( sin( angle ) * cmd->h );
+	tess.xyz[ numVerts + 3 ][2] = 0;
 
-        tess.texCoords[ numVerts + 3 ][0][0] = cmd->s1;
-        tess.texCoords[ numVerts + 3 ][0][1] = cmd->t2;
+	tess.texCoords[ numVerts + 3 ][0][0] = cmd->s1;
+	tess.texCoords[ numVerts + 3 ][0][1] = cmd->t2;
 
-        return (const void *)( cmd + 1 ); 
+	return (const void *)( cmd + 1 );
 }
 
 
@@ -1646,24 +1646,25 @@ RB_RenderToTexture
 =============
 */
 const void  *RB_RenderToTexture( const void *data ) {
-        const renderToTextureCommand_t  *cmd;
+	const renderToTextureCommand_t  *cmd;
 
 //      ri.Printf( PRINT_ALL, "RB_RenderToTexture\n" );
 
-        cmd = (const renderToTextureCommand_t *)data;
+	cmd = (const renderToTextureCommand_t *)data;
 
-        GL_Bind( cmd->image );
-        qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR );
-        qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR );
-        qglTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE );
+	GL_Bind( cmd->image );
+	qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR );
+	qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR );
+	qglTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE );
 
-        if (r_greyscale->integer == 2)
-                qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_LUMINANCE, cmd->x, cmd->y, cmd->w, cmd->h, 0 ); 
-        else
-                qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, cmd->x, cmd->y, cmd->w, cmd->h, 0 ); 
+	if ( r_greyscale->integer == 2 ) {
+		qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_LUMINANCE, cmd->x, cmd->y, cmd->w, cmd->h, 0 );
+	} else {
+		qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, cmd->x, cmd->y, cmd->w, cmd->h, 0 );
+	}
 //      qglCopyTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, cmd->x, cmd->y, cmd->w, cmd->h );
 
-        return (const void *)( cmd + 1 ); 
+	return (const void *)( cmd + 1 );
 }
 
 /*
@@ -1727,7 +1728,7 @@ void RB_ExecuteRenderCommands( const void *data ) {
 		//bani
 		case RC_RENDERTOTEXTURE:
 			data = RB_RenderToTexture( data );
-		break;
+			break;
 
 		case RC_END_OF_LIST:
 		default:
@@ -1765,4 +1766,3 @@ void RB_RenderThread( void ) {
 		renderThreadActive = qfalse;
 	}
 }
-

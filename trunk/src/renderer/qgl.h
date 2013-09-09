@@ -27,22 +27,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define __QGL_H__
 
 #ifdef USE_LOCAL_HEADERS
-#	include "SDL_opengl.h"
+#   include "SDL_opengl.h"
 #else
-#	include <SDL_opengl.h>
+#   include <SDL_opengl.h>
 #endif
 
-extern void (APIENTRYP qglActiveTextureARB) (GLenum texture);
-extern void (APIENTRYP qglClientActiveTextureARB) (GLenum texture);
-extern void (APIENTRYP qglMultiTexCoord2fARB) (GLenum target, GLfloat s, GLfloat t);
+extern void ( APIENTRYP qglActiveTextureARB )(GLenum texture);
+extern void ( APIENTRYP qglClientActiveTextureARB )(GLenum texture);
+extern void ( APIENTRYP qglMultiTexCoord2fARB )( GLenum target, GLfloat s, GLfloat t );
 
-extern void (APIENTRYP qglLockArraysEXT) (GLint first, GLsizei count);
-extern void (APIENTRYP qglUnlockArraysEXT) (void);
+extern void ( APIENTRYP qglLockArraysEXT )( GLint first, GLsizei count );
+extern void ( APIENTRYP qglUnlockArraysEXT )(void);
 
 //----(SA)      added
 extern void ( APIENTRY * qglPNTrianglesiATI )( GLenum pname, GLint param );
 extern void ( APIENTRY * qglPNTrianglesfATI )( GLenum pname, GLfloat param );
-//----(SA)      end 
+//----(SA)      end
 
 
 

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -161,7 +161,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	cast_state_t    *cs;
 	qboolean nogib = qtrue;
 	char mapname[MAX_QPATH];
-        qboolean respawn = qfalse;
+	qboolean respawn = qfalse;
 
 	// print debugging message
 	if ( aicast_debug.integer == 2 && attacker->s.number == 0 ) {
@@ -177,7 +177,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	}
 
 	// cs: only if !EF_DEAD. fixes multiple obits for zombies
-	if (g_gametype.integer <= GT_COOP && (self->client && !(self->client->ps.eFlags & EF_DEAD))) {
+	if ( g_gametype.integer <= GT_COOP && ( self->client && !( self->client->ps.eFlags & EF_DEAD ) ) ) {
 		Coop_AddStats( self, attacker, damage, meansOfDeath );
 	}
 
@@ -200,14 +200,14 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 			return;
 		}
 /*
-		if (!cs->rebirthTime)
-		{
-			self->health = -999;
-			damage = 999;
-		} else if ( self->health >= GIB_HEALTH ) {
-			// while waiting for rebirth, we only "die" if we drop below gib health
-			return;
-		}
+        if (!cs->rebirthTime)
+        {
+            self->health = -999;
+            damage = 999;
+        } else if ( self->health >= GIB_HEALTH ) {
+            // while waiting for rebirth, we only "die" if we drop below gib health
+            return;
+        }
 */
 		// always gib
 		self->health = -999;
@@ -229,17 +229,17 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 				GibEntity( self, killer );
 				nogib = qfalse;
 /*
-				// Zombie has special exploding cloud effect
-				if (attacker != inflictor || attacker->s.weapon == WP_VENOM)
-				{
-					GibEntity( self, killer );
-					nogib = qfalse;
-				} else {
-					// Zombie will decompose upon dying
-					self->client->ps.eFlags |= EF_MONSTER_EFFECT2;
-					self->s.effect2Time = level.time+200;
-					self->health = -1;
-				}
+                // Zombie has special exploding cloud effect
+                if (attacker != inflictor || attacker->s.weapon == WP_VENOM)
+                {
+                    GibEntity( self, killer );
+                    nogib = qfalse;
+                } else {
+                    // Zombie will decompose upon dying
+                    self->client->ps.eFlags |= EF_MONSTER_EFFECT2;
+                    self->s.effect2Time = level.time+200;
+                    self->health = -1;
+                }
 */
 				self->takedamage = qfalse;
 				self->r.contents = 0;
@@ -385,34 +385,34 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 	}
 
-        if (g_airespawn.integer == -1) { // unlimited lives
-                respawn = qtrue;
-        } else if (g_airespawn.integer == 0) { // no ai respawning
-                respawn = qfalse;
-        } else if (g_airespawn.integer > 0) {
-                respawn = qtrue;
-        }
+	if ( g_airespawn.integer == -1 ) {   // unlimited lives
+		respawn = qtrue;
+	} else if ( g_airespawn.integer == 0 ) {   // no ai respawning
+		respawn = qfalse;
+	} else if ( g_airespawn.integer > 0 ) {
+		respawn = qtrue;
+	}
 
-        if ( respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-                && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
+	if ( respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
+		 && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn ) {
 
-                if (cs->respawnsleft != 0) {
+		if ( cs->respawnsleft != 0 ) {
 
-                        if (cs->respawnsleft > 0) {
-                                cs->respawnsleft--;
-                        }   
+			if ( cs->respawnsleft > 0 ) {
+				cs->respawnsleft--;
+			}
 
-                        if ( g_gameskill.integer == GSKILL_EASY ) { 
-                                cs->rebirthTime = level.time + 25000 + rand() % 2000;
-                        } else if ( g_gameskill.integer == GSKILL_MEDIUM ) { 
-                                cs->rebirthTime = level.time + 20000 + rand() % 2000;
-                        } else if ( g_gameskill.integer == GSKILL_HARD ) { 
-                                cs->rebirthTime = level.time + 15000 + rand() % 2000;
-                        } else if ( g_gameskill.integer == GSKILL_MAX ) { 
-                                cs->rebirthTime = level.time + 10000 + rand() % 2000;
-                        }   
-                }
-        }
+			if ( g_gameskill.integer == GSKILL_EASY ) {
+				cs->rebirthTime = level.time + 25000 + rand() % 2000;
+			} else if ( g_gameskill.integer == GSKILL_MEDIUM ) {
+				cs->rebirthTime = level.time + 20000 + rand() % 2000;
+			} else if ( g_gameskill.integer == GSKILL_HARD ) {
+				cs->rebirthTime = level.time + 15000 + rand() % 2000;
+			} else if ( g_gameskill.integer == GSKILL_MAX ) {
+				cs->rebirthTime = level.time + 10000 + rand() % 2000;
+			}
+		}
+	}
 
 	trap_LinkEntity( self );
 
@@ -426,7 +426,7 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	if ( !cs->rebirthTime ) {
 		G_UseTargets( self, self );
 		// really dead now, so call the script
-		if (attacker) {
+		if ( attacker ) {
 			AICast_ScriptEvent( cs, "death", attacker->aiName ? attacker->aiName : "" );
 		} else {
 			AICast_ScriptEvent( cs, "death", "" );
@@ -438,17 +438,17 @@ void AICast_Die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	} else {
 
 		// really dead now, so call the script
-                if ( respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-                                && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
+		if ( respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
+			 && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn ) {
 
-                        if (!cs->died) {
-                                G_UseTargets( self, self ); // fretn - testing
-                                AICast_ScriptEvent( cs, "death", "" );
-                                cs->died = qtrue;
-                        }
-                } else {
-		        AICast_ScriptEvent( cs, "fakedeath", "" );
-                }
+			if ( !cs->died ) {
+				G_UseTargets( self, self );                 // fretn - testing
+				AICast_ScriptEvent( cs, "death", "" );
+				cs->died = qtrue;
+			}
+		} else {
+			AICast_ScriptEvent( cs, "fakedeath", "" );
+		}
 		// call the deathfunc for this cast, so we can play associated sounds, or do any character-specific things
 		if ( !( cs->aiFlags & AIFL_DENYACTION ) && cs->deathfunc ) {
 			cs->deathfunc( self, attacker, damage, meansOfDeath );   //----(SA)	added mod

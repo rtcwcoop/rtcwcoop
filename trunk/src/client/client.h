@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ typedef struct {
 	int parseEntitiesNum;                   // at the time of this snapshot
 
 	int serverCommandNum;                   // execute all commands up to this before
-											// making the snapshot current
+	                                        // making the snapshot current
 } clSnapshot_t;
 
 
@@ -90,15 +90,15 @@ extern int g_console_field_width;
 
 typedef struct {
 	int timeoutcount;               // it requres several frames in a timeout condition
-									// to disconnect, preventing debugging breaks from
-									// causing immediate disconnects on continue
+	                                // to disconnect, preventing debugging breaks from
+	                                // causing immediate disconnects on continue
 	clSnapshot_t snap;              // latest received from server
 
 	int serverTime;                 // may be paused during play
 	int oldServerTime;              // to prevent time from flowing bakcwards
 	int oldFrameServerTime;         // to check tournament restarts
 	int serverTimeDelta;            // cl.serverTime = cls.realtime + cl.serverTimeDelta
-									// this value changes as net lag varies
+	                                // this value changes as net lag varies
 	qboolean extrapolatedSnapshot;      // set if any cgame frame has been forced to extrapolate
 	// cleared when CL_AdjustTimeDelta looks at it
 	qboolean newSnapshots;          // set on parse of any valid packet
@@ -116,14 +116,14 @@ typedef struct {
 	int cgameUserCmdValue;              // current weapon to add to usercmd_t
 	int cgameUserHoldableValue;         // current holdable item to add to usercmd_t	//----(SA)	added
 	float cgameSensitivity;
-	int	cgameCld;						// NERVE - SMF
+	int cgameCld;                       // NERVE - SMF
 	vec3_t cgameClientLerpOrigin;       // DHM - Nerve
 
 	// cmds[cmdNumber] is the predicted command, [cmdNumber-1] is the last
 	// properly generated command
 	usercmd_t cmds[CMD_BACKUP];     // each mesage will send several old cmds
 	int cmdNumber;                  // incremented each frame, because multiple
-									// frames may need to be packed into a single packet
+	                                // frames may need to be packed into a single packet
 
 	outPacket_t outPackets[PACKET_BACKUP];  // information about each packet we have sent out
 
@@ -135,7 +135,7 @@ typedef struct {
 	vec3_t viewangles;
 
 	int serverId;                   // included in each client message so the server
-									// can tell if it is for a prior map_restart
+	                                // can tell if it is for a prior map_restart
 	// big stuff at end of structure so most offsets are 15 bits or less
 	clSnapshot_t snapshots[PACKET_BACKUP];
 
@@ -152,8 +152,8 @@ typedef struct {
 	qboolean cameraMode;
 
 #ifdef LOCALISATION
-        qboolean corruptedTranslationFile;
-        char translationVersion[MAX_STRING_TOKENS];
+	qboolean corruptedTranslationFile;
+	char translationVersion[MAX_STRING_TOKENS];
 #endif
 } clientActive_t;
 
@@ -218,11 +218,11 @@ typedef struct {
 	int downloadFlags;         // misc download behaviour flags sent by the server
 	char downloadList[MAX_INFO_STRING];        // list of paks we need to download
 
-    // www downloading
-    qboolean bWWWDl;    // we have a www download going
-    qboolean bWWWDlAborting;    // disable the CL_WWWDownload until server gets us a gamestate (used for aborts)
-    char redirectedList[MAX_INFO_STRING];        // list of files that we downloaded through a redirect since last FS_ComparePaks
-    char badChecksumList[MAX_INFO_STRING];        // list of files for which wwwdl redirect is broken (wrong checksum)
+	// www downloading
+	qboolean bWWWDl;    // we have a www download going
+	qboolean bWWWDlAborting;    // disable the CL_WWWDownload until server gets us a gamestate (used for aborts)
+	char redirectedList[MAX_INFO_STRING];        // list of files that we downloaded through a redirect since last FS_ComparePaks
+	char badChecksumList[MAX_INFO_STRING];        // list of files for which wwwdl redirect is broken (wrong checksum)
 
 	// demo information
 	char demoName[MAX_QPATH];
@@ -263,29 +263,29 @@ typedef struct {
 } ping_t;
 
 typedef struct {
-        netadr_t adr;
-        char hostName[MAX_NAME_LENGTH];
-        char mapName[MAX_NAME_LENGTH];
-        char game[MAX_NAME_LENGTH];
-        int netType;
-        int gameType;
-        int clients;
-        int maxClients;
-        int minPing;
-        int maxPing;
-        int ping;
-        qboolean visible;
-        int allowAnonymous;
-        int friendlyFire;               // NERVE - SMF
-        int maxlives;                   // NERVE - SMF
-        int tourney;                    // NERVE - SMF
-        int punkbuster;                 // DHM - Nerve
-        int antilag;         // TTimo
-        char gameName[MAX_NAME_LENGTH];         // Arnout
-        int coop;
-        int gameskill;
-        int airespawn;
-        int reinforce;
+	netadr_t adr;
+	char hostName[MAX_NAME_LENGTH];
+	char mapName[MAX_NAME_LENGTH];
+	char game[MAX_NAME_LENGTH];
+	int netType;
+	int gameType;
+	int clients;
+	int maxClients;
+	int minPing;
+	int maxPing;
+	int ping;
+	qboolean visible;
+	int allowAnonymous;
+	int friendlyFire;                   // NERVE - SMF
+	int maxlives;                       // NERVE - SMF
+	int tourney;                        // NERVE - SMF
+	int punkbuster;                     // DHM - Nerve
+	int antilag;             // TTimo
+	char gameName[MAX_NAME_LENGTH];             // Arnout
+	int coop;
+	int gameskill;
+	int airespawn;
+	int reinforce;
 } serverInfo_t;
 
 typedef struct {
@@ -353,14 +353,14 @@ typedef struct {
 	qhandle_t consoleShader;
 	qhandle_t consoleShader2;       // NERVE - SMF - merged from WolfSP
 
-    // www downloading
-    // in the static stuff since this may have to survive server disconnects
-    // if new stuff gets added, CL_ClearStaticDownload code needs to be updated for clear up
-    qboolean bWWWDlDisconnected; // keep going with the download after server disconnect
-    char downloadName[MAX_OSPATH];
-    char downloadTempName[MAX_OSPATH];    // in wwwdl mode, this is OS path (it's a qpath otherwise)
-    char originalDownloadName[MAX_QPATH];    // if we get a redirect, keep a copy of the original file path
-    qboolean downloadRestart; // if true, we need to do another FS_Restart because we downloaded a pak
+	// www downloading
+	// in the static stuff since this may have to survive server disconnects
+	// if new stuff gets added, CL_ClearStaticDownload code needs to be updated for clear up
+	qboolean bWWWDlDisconnected; // keep going with the download after server disconnect
+	char downloadName[MAX_OSPATH];
+	char downloadTempName[MAX_OSPATH];    // in wwwdl mode, this is OS path (it's a qpath otherwise)
+	char originalDownloadName[MAX_QPATH];    // if we get a redirect, keep a copy of the original file path
+	qboolean downloadRestart; // if true, we need to do another FS_Restart because we downloaded a pak
 
 } clientStatic_t;
 
@@ -555,13 +555,13 @@ int Key_StringToKeynum( char *str );
 //cl_irc.c
 //
 #ifdef USE_IRC
-void CL_OW_IRCSetup(void);
-void CL_OW_InitIRC(void);
-void CL_OW_IRCInitiateShutdown(void);
-void CL_OW_IRCWaitShutdown(void);
-void CL_OW_IRCSay(void);
-qboolean CL_OW_IRCIsConnected(void);
-qboolean CL_OW_IRCIsRunning(void);
+void CL_OW_IRCSetup( void );
+void CL_OW_InitIRC( void );
+void CL_OW_IRCInitiateShutdown( void );
+void CL_OW_IRCWaitShutdown( void );
+void CL_OW_IRCSay( void );
+qboolean CL_OW_IRCIsConnected( void );
+qboolean CL_OW_IRCIsRunning( void );
 #endif
 
 //
@@ -673,7 +673,7 @@ void CL_Netchan_Transmit( netchan_t *chan, msg_t* msg ); //int length, const byt
 void CL_Netchan_TransmitNextFragment( netchan_t *chan );
 qboolean CL_Netchan_Process( netchan_t *chan, msg_t *msg );
 
-// 
+//
 // snd_dma.c
 //
 void S_StopEntStreamingSound( int entNum );

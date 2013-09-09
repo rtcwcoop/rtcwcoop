@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -605,10 +605,9 @@ void Con_DrawNotify( void ) {
 				continue;
 			}
 			// L0 - Colors / Show in console as well..
-			if(((text[x] >> 8) & COLOR_BITS) != currentColor)
-			{
-				currentColor = (text[x] >> 8) & COLOR_BITS;
-				re.SetColor(g_color_table[currentColor]);
+			if ( ( ( text[x] >> 8 ) & COLOR_BITS ) != currentColor ) {
+				currentColor = ( text[x] >> 8 ) & COLOR_BITS;
+				re.SetColor( g_color_table[currentColor] );
 			} // End
 			SCR_DrawSmallChar( cl_conXOffset->integer + con.xadjust + ( x + 1 ) * SMALLCHAR_WIDTH, v, text[x] & 0xff );
 		}
@@ -632,7 +631,7 @@ void Con_DrawNotify( void ) {
 			skip = strlen( buf ) + 2;
 #else
 			SCR_DrawBigString( 8, v, "say_team:", 1.0f );
-                        skip = 11;
+			skip = 11;
 #endif
 		} else if ( chat_irc ) {
 #ifdef LOCALISATION
@@ -642,7 +641,7 @@ void Con_DrawNotify( void ) {
 			skip = strlen( buf ) + 2;
 #else
 			SCR_DrawBigString( 8, v, "say_irc:", 1.0f );
-                        skip = 11;
+			skip = 11;
 #endif
 		} else
 		{
@@ -653,7 +652,7 @@ void Con_DrawNotify( void ) {
 			skip = strlen( buf ) + 1;
 #else
 			SCR_DrawBigString( 8, v, "say:", 1.0f );
-                        skip = 5;
+			skip = 5;
 #endif
 		}
 
@@ -849,7 +848,7 @@ void Con_RunConsole( void ) {
 			con.displayFrac = con.finalFrac;
 		}
 
-	} else if ( con.finalFrac > con.displayFrac )     {
+	} else if ( con.finalFrac > con.displayFrac ) {
 		con.displayFrac += con_conspeed->value * cls.realFrametime * 0.001;
 		if ( con.finalFrac < con.displayFrac ) {
 			con.displayFrac = con.finalFrac;

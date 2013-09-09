@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1157,8 +1157,8 @@ static void initRoQ( void ) {
 		return;
 	}
 
-	cinTable[currentHandle].VQNormal = ( void( * ) ( byte *, void * ) )blitVQQuad32fs;
-	cinTable[currentHandle].VQBuffer = ( void( * ) ( byte *, void * ) )blitVQQuad32fs;
+	cinTable[currentHandle].VQNormal = ( void ( * )( byte *, void * ) )blitVQQuad32fs;
+	cinTable[currentHandle].VQBuffer = ( void ( * )( byte *, void * ) )blitVQQuad32fs;
 	cinTable[currentHandle].samplesPerPixel = 4;
 	ROQ_GenYUVTables();
 	RllSetupTable();
@@ -1173,18 +1173,18 @@ static void initRoQ( void ) {
 ******************************************************************************/
 /*
 static byte* RoQFetchInterlaced( byte *source ) {
-	int x, *src, *dst;
+    int x, *src, *dst;
 
-	if (currentHandle < 0) return NULL;
+    if (currentHandle < 0) return NULL;
 
-	src = (int *)source;
-	dst = (int *)cinTable[currentHandle].buf2;
+    src = (int *)source;
+    dst = (int *)cinTable[currentHandle].buf2;
 
-	for(x=0;x<256*256;x++) {
-		*dst = *src;
-		dst++; src += 2;
-	}
-	return cinTable[currentHandle].buf2;
+    for(x=0;x<256*256;x++) {
+        *dst = *src;
+        dst++; src += 2;
+    }
+    return cinTable[currentHandle].buf2;
 }
 */
 static void RoQReset( void ) {
@@ -1796,4 +1796,3 @@ void CIN_UploadCinematic( int handle ) {
 		}
 	}
 }
-

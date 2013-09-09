@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -151,7 +151,7 @@ typedef enum {
 	CG_R_RENDERSCENE,
 	CG_R_SETCOLOR,
 	CG_R_DRAWSTRETCHPIC,
-        CG_R_DRAWROTATEDPIC,
+	CG_R_DRAWROTATEDPIC,
 	CG_R_DRAWSTRETCHPIC_GRADIENT,   //----(SA)	added
 	CG_R_MODELBOUNDS,
 	CG_R_LERPTAG,
@@ -217,14 +217,14 @@ typedef enum {
 	CG_INGAME_CLOSEPOPUP,   // NERVE - SMF
 	CG_LIMBOCHAT,           // NERVE - SMF
 
-        // fretn
-        CG_R_RENDERTOTEXTURE,
-        // -fretn
-        // bani
-        CG_R_GETTEXTUREID,
-        // -bani
+	// fretn
+	CG_R_RENDERTOTEXTURE,
+	// -fretn
+	// bani
+	CG_R_GETTEXTUREID,
+	// -bani
 #ifdef LOCALISATION
-        CG_TRANSLATE_STRING,
+	CG_TRANSLATE_STRING,
 #endif
 	CG_GETMODELINFO
 } cgameImport_t;

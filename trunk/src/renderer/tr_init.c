@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,9 +36,9 @@ If you have questions concerning this license or the applicable additional terms
 //void RE_A3D_RenderGeometry (void *pVoidA3D, void *pVoidGeom, void *pVoidMat, void *pVoidGeomStatus);
 //#endif
 
-float       displayAspect = 0.0f;
-qboolean    textureFilterAnisotropic = qfalse;
-int         maxAnisotropy = 0; 
+float displayAspect = 0.0f;
+qboolean textureFilterAnisotropic = qfalse;
+int maxAnisotropy = 0;
 
 
 glconfig_t glConfig;
@@ -228,24 +228,24 @@ void ( APIENTRY * qglPNTrianglesfATI )( GLenum pname, GLfloat param );
 /*
 The tessellation level and normal generation mode are specified with:
 
-	void qglPNTriangles{if}ATI(enum pname, T param)
+    void qglPNTriangles{if}ATI(enum pname, T param)
 
-	If <pname> is:
-		GL_PN_TRIANGLES_NORMAL_MODE_ATI -
-			<param> must be one of the symbolic constants:
-				- GL_PN_TRIANGLES_NORMAL_MODE_LINEAR_ATI or
-				- GL_PN_TRIANGLES_NORMAL_MODE_QUADRATIC_ATI
-			which will select linear or quadratic normal interpolation respectively.
-		GL_PN_TRIANGLES_POINT_MODE_ATI -
-			<param> must be one of the symbolic  constants:
-				- GL_PN_TRIANGLES_POINT_MODE_LINEAR_ATI or
-				- GL_PN_TRIANGLES_POINT_MODE_CUBIC_ATI
-			which will select linear or cubic interpolation respectively.
-		GL_PN_TRIANGLES_TESSELATION_LEVEL_ATI -
-			<param> should be a value specifying the number of evaluation points on each edge.  This value must be
-			greater than 0 and less than or equal to the value given by GL_MAX_PN_TRIANGLES_TESSELATION_LEVEL_ATI.
+    If <pname> is:
+        GL_PN_TRIANGLES_NORMAL_MODE_ATI -
+            <param> must be one of the symbolic constants:
+                - GL_PN_TRIANGLES_NORMAL_MODE_LINEAR_ATI or
+                - GL_PN_TRIANGLES_NORMAL_MODE_QUADRATIC_ATI
+            which will select linear or quadratic normal interpolation respectively.
+        GL_PN_TRIANGLES_POINT_MODE_ATI -
+            <param> must be one of the symbolic  constants:
+                - GL_PN_TRIANGLES_POINT_MODE_LINEAR_ATI or
+                - GL_PN_TRIANGLES_POINT_MODE_CUBIC_ATI
+            which will select linear or cubic interpolation respectively.
+        GL_PN_TRIANGLES_TESSELATION_LEVEL_ATI -
+            <param> should be a value specifying the number of evaluation points on each edge.  This value must be
+            greater than 0 and less than or equal to the value given by GL_MAX_PN_TRIANGLES_TESSELATION_LEVEL_ATI.
 
-	An INVALID_VALUE error will be generated if the value for <param> is less than zero or greater than the max value.
+    An INVALID_VALUE error will be generated if the value for <param> is less than zero or greater than the max value.
 
 Associated 'gets':
 Get Value                               Get Command Type     Minimum Value								Attribute
@@ -274,7 +274,7 @@ static void AssertCvarRange( cvar_t *cv, float minVal, float maxVal, qboolean sh
 	if ( cv->value < minVal ) {
 		ri.Printf( PRINT_WARNING, "WARNING: cvar '%s' out of range (%f < %f)\n", cv->name, cv->value, minVal );
 		ri.Cvar_Set( cv->name, va( "%f", minVal ) );
-	} else if ( cv->value > maxVal )   {
+	} else if ( cv->value > maxVal ) {
 		ri.Printf( PRINT_WARNING, "WARNING: cvar '%s' out of range (%f > %f)\n", cv->name, cv->value, maxVal );
 		ri.Cvar_Set( cv->name, va( "%f", maxVal ) );
 	}
@@ -390,19 +390,19 @@ vidmode_t r_vidModes[] =
 {
 // GISKARD: I MODIFIED THE RESOLUTION-TYPES
 
-	{ "Mode  0: 640x480 (4:3)",				640,	480,	1 },
-	{ "Mode  1: 800x600 (4:3)",				800,	600,	1 },
-	{ "Mode  2: 1024x768 (4:3)",			1024,	768,	1 },
-	{ "Mode  3: 1280x720 (16:9)",			1280,	720,	1 },
-	{ "Mode  4: 1280x800 (16:10)",			1280,	800,	1 },
-	{ "Mode  5: 1280x1024 (5:4)",			1280,	1024,	1 },
-	{ "Mode  6: 1440x900 (16:10)",			1440,	900,	1 },
-	{ "Mode  7: 1600x1200 (4:3)",			1600,	1200,	1 },
-	{ "Mode  8: 1680x1050 (16:10)",			1680,	1050,	1 },
-	{ "Mode  9: 1920x1080 (16:9)",			1920,	1080,	1 },
-	{ "Mode 10: 1920x1200 (16:10)",			1920,	1200,	1 },
-	{ "Mode 11: 2048x1536 (4:3)",			2048,	1536,	1 },
-	{ "Mode 12: 2560x2048 (5:4)",			2560,	2048,	1 }     //----(SA)	added
+	{ "Mode  0: 640x480 (4:3)",             640,    480,    1 },
+	{ "Mode  1: 800x600 (4:3)",             800,    600,    1 },
+	{ "Mode  2: 1024x768 (4:3)",            1024,   768,    1 },
+	{ "Mode  3: 1280x720 (16:9)",           1280,   720,    1 },
+	{ "Mode  4: 1280x800 (16:10)",          1280,   800,    1 },
+	{ "Mode  5: 1280x1024 (5:4)",           1280,   1024,   1 },
+	{ "Mode  6: 1440x900 (16:10)",          1440,   900,    1 },
+	{ "Mode  7: 1600x1200 (4:3)",           1600,   1200,   1 },
+	{ "Mode  8: 1680x1050 (16:10)",         1680,   1050,   1 },
+	{ "Mode  9: 1920x1080 (16:9)",          1920,   1080,   1 },
+	{ "Mode 10: 1920x1200 (16:10)",         1920,   1200,   1 },
+	{ "Mode 11: 2048x1536 (4:3)",           2048,   1536,   1 },
+	{ "Mode 12: 2560x2048 (5:4)",           2560,   2048,   1 }     //----(SA)	added
 };
 static int s_numVidModes = ( sizeof( r_vidModes ) / sizeof( r_vidModes[0] ) );
 
@@ -450,7 +450,7 @@ static void R_ModeList_f( void ) {
 /*
 ==============================================================================
 
-						SCREEN SHOTS
+                        SCREEN SHOTS
 
 ==============================================================================
 */
@@ -991,7 +991,7 @@ void R_Register( void ) {
 	r_texturebits = ri.Cvar_Get( "r_texturebits", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_colorbits = ri.Cvar_Get( "r_colorbits", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_stereo = ri.Cvar_Get( "r_stereo", "0", CVAR_ARCHIVE | CVAR_LATCH );
-        r_greyscale = ri.Cvar_Get("r_greyscale", "0", CVAR_ARCHIVE | CVAR_LATCH);
+	r_greyscale = ri.Cvar_Get( "r_greyscale", "0", CVAR_ARCHIVE | CVAR_LATCH );
 #if defined  ( __linux__ )
 	r_stencilbits = ri.Cvar_Get( "r_stencilbits", "0", CVAR_ARCHIVE | CVAR_LATCH );
 #elif defined ( __MACOS__ )
@@ -1006,8 +1006,8 @@ void R_Register( void ) {
 	r_stencilbits = ri.Cvar_Get( "r_stencilbits", "8", CVAR_ARCHIVE | CVAR_LATCH );
 #endif
 	r_depthbits = ri.Cvar_Get( "r_depthbits", "0", CVAR_ARCHIVE | CVAR_LATCH );
-        r_stereoEnabled = ri.Cvar_Get( "r_stereoEnabled", "0", CVAR_ARCHIVE | CVAR_LATCH);
-        r_ext_multisample = ri.Cvar_Get( "r_ext_multisample", "0", CVAR_ARCHIVE | CVAR_LATCH );
+	r_stereoEnabled = ri.Cvar_Get( "r_stereoEnabled", "0", CVAR_ARCHIVE | CVAR_LATCH );
+	r_ext_multisample = ri.Cvar_Get( "r_ext_multisample", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_overBrightBits = ri.Cvar_Get( "r_overBrightBits", "1", CVAR_ARCHIVE | CVAR_LATCH );
 	r_ignorehwgamma = ri.Cvar_Get( "r_ignorehwgamma", "0", CVAR_ARCHIVE | CVAR_LATCH );    //----(SA) changed this to default to '1' for Drew
 	r_mode = ri.Cvar_Get( "r_mode", "3", CVAR_ARCHIVE | CVAR_LATCH );
@@ -1414,7 +1414,7 @@ refexport_t *GetRefAPI( int apiVersion, refimport_t *rimp ) {
 
 	re.SetColor         = RE_SetColor;
 	re.DrawStretchPic   = RE_StretchPic;
-        re.DrawRotatedPic   = RE_RotatedPic;
+	re.DrawRotatedPic   = RE_RotatedPic;
 	re.DrawStretchPicGradient   = RE_StretchPicGradient;
 	re.DrawStretchRaw   = RE_StretchRaw;
 	re.UploadCinematic  = RE_UploadCinematic;
@@ -1429,10 +1429,9 @@ refexport_t *GetRefAPI( int apiVersion, refimport_t *rimp ) {
 	// RF
 	re.ZombieFXAddNewHit = RB_ZombieFXAddNewHit;
 
-        re.GetTextureId = R_GetTextureId;
-        // fretn
-        re.RenderToTexture = RE_RenderToTexture;
+	re.GetTextureId = R_GetTextureId;
+	// fretn
+	re.RenderToTexture = RE_RenderToTexture;
 
 	return &re;
 }
-

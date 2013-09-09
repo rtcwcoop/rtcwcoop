@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,10 +35,10 @@ If you have questions concerning this license or the applicable additional terms
 ==============
 CL_Netchan_Encode
 
-	// first 12 bytes of the data are always:
-	long serverId;
-	long messageAcknowledge;
-	long reliableAcknowledge;
+    // first 12 bytes of the data are always:
+    long serverId;
+    long messageAcknowledge;
+    long reliableAcknowledge;
 
 ==============
 */
@@ -91,8 +91,8 @@ static void CL_Netchan_Encode( msg_t *msg ) {
 ==============
 CL_Netchan_Decode
 
-	// first four bytes of the data are always:
-	long reliableAcknowledge;
+    // first four bytes of the data are always:
+    long reliableAcknowledge;
 
 ==============
 */

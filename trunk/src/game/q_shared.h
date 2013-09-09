@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ If you have questions concerning this license or the applicable additional terms
 #define RTCWCOOP_VERSION_NUMBER "0.9.5"
 #define RTCWCOOP_VERSION_DIGIT_1 0
 #define RTCWCOOP_VERSION_DIGIT_2 9
-#define RTCWCOOP_VERSION_DIGIT_3 5 
+#define RTCWCOOP_VERSION_DIGIT_3 5
 
 #define MAX_COOP_CLIENTS 8
 
@@ -98,23 +98,23 @@ If you have questions concerning this license or the applicable additional terms
 // L0 (iortcw port) Ignore __attribute__ on non-gcc platforms
 #ifndef __GNUC__
 	#ifndef __attribute__
-		#define __attribute__(x)
+		#define __attribute__( x )
 	#endif
 #endif
 
 // L0
 #ifdef __GNUC__
-	#define UNUSED_VAR __attribute__((unused))
+	#define UNUSED_VAR __attribute__( ( unused ) )
 #else
 	#define UNUSED_VAR
 #endif
 
-#if (defined _MSC_VER)
-#define Q_EXPORT __declspec(dllexport)
-#elif (defined __SUNPRO_C)
+#if ( defined _MSC_VER )
+#define Q_EXPORT __declspec( dllexport )
+#elif ( defined __SUNPRO_C )
 #define Q_EXPORT __global
-#elif ((__GNUC__ >= 3) && (!__EMX__) && (!sun))
-#define Q_EXPORT __attribute__((visibility("default")))
+#elif ( ( __GNUC__ >= 3 ) && ( !__EMX__ ) && ( !sun ) )
+#define Q_EXPORT __attribute__( ( visibility( "default" ) ) )
 #else
 #define Q_EXPORT
 #endif
@@ -154,9 +154,9 @@ If you have questions concerning this license or the applicable additional terms
 
 #endif
 
-#define STRING(s)                       #s
+#define STRING( s )                       # s
 // expand constants before stringifying them
-#define XSTRING(s)                      STRING(s)
+#define XSTRING( s )                      STRING( s )
 
 
 #ifdef _WIN32
@@ -346,7 +346,7 @@ typedef int clipHandle_t;
 // paramters for command buffer stuffing
 typedef enum {
 	EXEC_NOW,           // don't return until completed, a VM should NEVER use this,
-						// because some commands might cause the VM to be unloaded...
+	                    // because some commands might cause the VM to be unloaded...
 	EXEC_INSERT,        // insert at current position, but don't run yet
 	EXEC_APPEND         // add to end of the command buffer (normal case)
 } cbufExec_t;
@@ -528,19 +528,19 @@ extern vec4_t clrBrownLineFull;
 #define COLOR_MAGENTA   '6'
 #define COLOR_WHITE     '7'
 // L0 - colors
-#define COLOR_ORANGE	'8'
-#define COLOR_MDGREY	'9'
-#define COLOR_LTGREY	':'
-#define COLOR_MDGREEN	'<'
-#define COLOR_MDYELLOW	'='
-#define COLOR_MDBLUE	'>'
-#define COLOR_MDRED		'?'
-#define COLOR_LTORANGE	'A'
-#define COLOR_MDCYAN	'B'
-#define COLOR_MDPURPLE	'C'
-#define COLOR_NULL		'*'
-#define COLOR_BITS	31
-#define ColorIndex(c)	( ( (c) - '0' ) & COLOR_BITS )
+#define COLOR_ORANGE    '8'
+#define COLOR_MDGREY    '9'
+#define COLOR_LTGREY    ':'
+#define COLOR_MDGREEN   '<'
+#define COLOR_MDYELLOW  '='
+#define COLOR_MDBLUE    '>'
+#define COLOR_MDRED     '?'
+#define COLOR_LTORANGE  'A'
+#define COLOR_MDCYAN    'B'
+#define COLOR_MDPURPLE  'C'
+#define COLOR_NULL      '*'
+#define COLOR_BITS  31
+#define ColorIndex( c )   ( ( ( c ) - '0' ) & COLOR_BITS )
 // End
 
 #define S_COLOR_BLACK   "^0"
@@ -552,19 +552,19 @@ extern vec4_t clrBrownLineFull;
 #define S_COLOR_MAGENTA "^6"
 #define S_COLOR_WHITE   "^7"
 // L0 - Colors
-#define S_COLOR_ORANGE		"^8"
-#define S_COLOR_MDGREY		"^9"
-#define S_COLOR_LTGREY		"^:"
-#define S_COLOR_MDGREEN		"^<"
-#define S_COLOR_MDYELLOW	"^="
-#define S_COLOR_MDBLUE		"^>"
-#define S_COLOR_MDRED		"^?"
-#define S_COLOR_LTORANGE	"^A"
-#define S_COLOR_MDCYAN		"^B"
-#define S_COLOR_MDPURPLE	"^C"
-#define S_COLOR_NULL		"^*"
+#define S_COLOR_ORANGE      "^8"
+#define S_COLOR_MDGREY      "^9"
+#define S_COLOR_LTGREY      "^:"
+#define S_COLOR_MDGREEN     "^<"
+#define S_COLOR_MDYELLOW    "^="
+#define S_COLOR_MDBLUE      "^>"
+#define S_COLOR_MDRED       "^?"
+#define S_COLOR_LTORANGE    "^A"
+#define S_COLOR_MDCYAN      "^B"
+#define S_COLOR_MDPURPLE    "^C"
+#define S_COLOR_NULL        "^*"
 
-extern vec4_t	g_color_table[32];
+extern vec4_t g_color_table[32];
 // End
 
 #define MAKERGB( v, r, g, b ) v[0] = r; v[1] = g; v[2] = b
@@ -631,7 +631,7 @@ void ByteToDir( int b, vec3_t dir );
 typedef struct {
 	float v[3];
 } vec3struct_t;
-#define VectorCopy( a,b ) * (vec3struct_t *)b = *(vec3struct_t *)a;
+#define VectorCopy( a,b ) *(vec3struct_t *)b = *(vec3struct_t *)a;
 #endif
 #endif
 
@@ -644,7 +644,7 @@ typedef struct {
 #define Vector4MA( v, s, b, o )       ( ( o )[0] = ( v )[0] + ( b )[0] * ( s ),( o )[1] = ( v )[1] + ( b )[1] * ( s ),( o )[2] = ( v )[2] + ( b )[2] * ( s ),( o )[3] = ( v )[3] + ( b )[3] * ( s ) )
 #define Vector4Average( v, b, s, o )  ( ( o )[0] = ( ( v )[0] * ( 1 - ( s ) ) ) + ( ( b )[0] * ( s ) ),( o )[1] = ( ( v )[1] * ( 1 - ( s ) ) ) + ( ( b )[1] * ( s ) ),( o )[2] = ( ( v )[2] * ( 1 - ( s ) ) ) + ( ( b )[2] * ( s ) ),( o )[3] = ( ( v )[3] * ( 1 - ( s ) ) ) + ( ( b )[3] * ( s ) ) )
 
-#define SnapVector( v ) {v[0] = ( (int)( v[0] ) ); v[1] = ( (int)( v[1] ) ); v[2] = ( (int)( v[2] ) );}
+#define SnapVector( v ) {v[0] = ( (int)( v[0] ) ); v[1] = ( (int)( v[1] ) ); v[2] = ( (int)( v[2] ) ); }
 
 // just in case you do't want to use the macros
 vec_t _DotProduct( const vec3_t v1, const vec3_t v2 );
@@ -826,7 +826,7 @@ char    *Q_strrchr( const char* string, int c );
 // buffer size safe library replacements
 void    Q_strncpyz( char *dest, const char *src, int destsize );
 void    Q_strcat( char *dest, int size, const char *src );
-int		Q_strnicmp(const char *string1, const char *string2, int n); // IRC
+int     Q_strnicmp( const char *string1, const char *string2, int n ); // IRC
 
 // strlen that discounts Quake color sequences
 int Q_PrintStrlen( const char *string );
@@ -890,14 +890,14 @@ void QDECL Com_Printf( const char *msg, ... );
 
 SAVE
 
-	12 -
-	13 - (SA) added 'episode' tracking to savegame
-	14 - RF added 'skill'
-	15 - (SA) moved time info above the main game reading
-	16 - (SA) added fog
-	17 - (SA) rats, changed fog.
+    12 -
+    13 - (SA) added 'episode' tracking to savegame
+    14 - RF added 'skill'
+    15 - (SA) moved time info above the main game reading
+    16 - (SA) added fog
+    17 - (SA) rats, changed fog.
   18 - TTimo targetdeath fix
-	   show_bug.cgi?id=434
+       show_bug.cgi?id=434
 
 ==============================================================
 */
@@ -934,18 +934,18 @@ default values.
 */
 
 #define CVAR_ARCHIVE        1   // set to cause it to be saved to vars.rc
-								// used for system variables, not for player
-								// specific configurations
+                                // used for system variables, not for player
+                                // specific configurations
 #define CVAR_USERINFO       2   // sent to server on connect or change
 #define CVAR_SERVERINFO     4   // sent in response to front end requests
 #define CVAR_SYSTEMINFO     8   // these cvars will be duplicated on all clients
 #define CVAR_INIT           16  // don't allow change from console at all,
-								// but can be set from the command line
+                                // but can be set from the command line
 #define CVAR_LATCH          32  // will only change when C code next does
-								// a Cvar_Get(), so it can't be changed
-								// without proper initialization.  modified
-								// will be set, even though the value hasn't
-								// changed yet
+                                // a Cvar_Get(), so it can't be changed
+                                // without proper initialization.  modified
+                                // will be set, even though the value hasn't
+                                // changed yet
 #define CVAR_ROM            64  // display only, cannot be set by user at all
 #define CVAR_USER_CREATED   128 // created by a set command
 #define CVAR_TEMP           256 // can be set even when cheats are disabled, but is not archived
@@ -1103,7 +1103,7 @@ typedef enum {
 #define MAX_LOCATIONS       64
 
 //#define GENTITYNUM_BITS     10      // don't need to send any more
-#define	GENTITYNUM_BITS		11		// don't need to send any more		(SA) upped 4/21/2001 adjusted: tr_local.h (802-822), tr_main.c (1501), sv_snapshot (206)
+#define GENTITYNUM_BITS     11      // don't need to send any more		(SA) upped 4/21/2001 adjusted: tr_local.h (802-822), tr_main.c (1501), sv_snapshot (206)
 #define MAX_GENTITIES       ( 1 << GENTITYNUM_BITS )
 
 // entitynums are communicated with GENTITY_BITS, so any reserved
@@ -1222,9 +1222,9 @@ typedef struct playerState_s {
 	int weaponTime;
 	int weaponDelay;            // for weapons that don't fire immediately when 'fire' is hit (grenades, venom, ...)
 	int grenadeTimeLeft;            // for delayed grenade throwing.  this is set to a #define for grenade
-									// lifetime when the attack button goes down, then when attack is released
-									// this is the amount of time left before the grenade goes off (or if it
-									// gets to 0 while in players hand, it explodes)
+	                                // lifetime when the attack button goes down, then when attack is released
+	                                // this is the amount of time left before the grenade goes off (or if it
+	                                // gets to 0 while in players hand, it explodes)
 
 
 	int gravity;
@@ -1232,7 +1232,7 @@ typedef struct playerState_s {
 
 	int speed;
 	int delta_angles[3];            // add to command angles to get view direction
-									// changed by spawns, rotating objects, and teleporters
+	                                // changed by spawns, rotating objects, and teleporters
 
 	int groundEntityNum;        // ENTITYNUM_NONE = in air
 
@@ -1243,9 +1243,9 @@ typedef struct playerState_s {
 	int torsoAnim;              // mask off ANIM_TOGGLEBIT
 
 	int movementDir;            // a number 0 to 7 that represents the reletive angle
-								// of movement to the view angle (axial and diagonals)
-								// when at rest, the value will remain unchanged
-								// used to twist the legs during strafing
+	                            // of movement to the view angle (axial and diagonals)
+	                            // when at rest, the value will remain unchanged
+	                            // used to twist the legs during strafing
 
 
 
@@ -1346,16 +1346,16 @@ typedef struct playerState_s {
 	qboolean releasedFire;
 
 	float aimSpreadScaleFloat;          // (SA) the server-side aimspreadscale that lets it track finer changes but still only
-										// transmit the 8bit int to the client
+	                                    // transmit the 8bit int to the client
 	int aimSpreadScale;         // 0 - 255 increases with angular movement
 	int lastFireTime;           // used by server to hold last firing frame briefly when randomly releasing trigger (AI)
 
-        // fretn
-        int lastcoopSpawnSaveTime;      // last time we saved a spawnpoint with a command
+	// fretn
+	int lastcoopSpawnSaveTime;          // last time we saved a spawnpoint with a command
 
-        // fretn: only once every x (2 minutes) seconds a possible stuck player can use teleport
-        // to teleport to another player his spawnpoint
-        int lastTeleportTime;
+	// fretn: only once every x (2 minutes) seconds a possible stuck player can use teleport
+	// to teleport to another player his spawnpoint
+	int lastTeleportTime;
 
 	int quickGrenTime;
 
@@ -1390,10 +1390,10 @@ typedef struct playerState_s {
 #define BUTTON_USE_HOLDABLE 4
 #define BUTTON_GESTURE      8
 #define BUTTON_WALKING      16          // walking can't just be infered from MOVE_RUN
-										// because a key pressed late in the frame will
-										// only generate a small move value for that frame
-										// walking will use different animations and
-										// won't generate footsteps
+                                        // because a key pressed late in the frame will
+                                        // only generate a small move value for that frame
+                                        // walking will use different animations and
+                                        // won't generate footsteps
 //----(SA)	added
 #define BUTTON_SPRINT       32
 #define BUTTON_ACTIVATE     64
@@ -1419,7 +1419,7 @@ typedef struct playerState_s {
 //----(SA) end
 
 #define MOVE_RUN            120         // if forwardmove or rightmove are >= MOVE_RUN,
-										// then BUTTON_WALKING should be set
+                                        // then BUTTON_WALKING should be set
 
 
 // usercmd_t is sent to the server each client frame
@@ -1662,18 +1662,18 @@ typedef enum {
 
 // NERVE - SMF - wolf server/game states
 typedef enum {
-        GS_INITIALIZE = -1,
-        GS_PLAYING,
-        GS_WARMUP_COUNTDOWN,
-        GS_WARMUP,
-        GS_INTERMISSION,
-        GS_WAITING_FOR_PLAYERS,
-        GS_RESET
+	GS_INITIALIZE = -1,
+	GS_PLAYING,
+	GS_WARMUP_COUNTDOWN,
+	GS_WARMUP,
+	GS_INTERMISSION,
+	GS_WAITING_FOR_PLAYERS,
+	GS_RESET
 } gamestate_t;
 
-int Q_CountChar(const char *string, char tocount);
+int Q_CountChar( const char *string, char tocount );
 int Com_HexStrToInt( const char *str );
-const char      *Q_stristr( const char *s, const char *find);
+const char      *Q_stristr( const char *s, const char *find );
 
 #define LERP( a, b, w ) ( ( a ) * ( 1.0f - ( w ) ) + ( b ) * ( w ) )
 #define LUMA( red, green, blue ) ( 0.2126f * ( red ) + 0.7152f * ( green ) + 0.0722f * ( blue ) )

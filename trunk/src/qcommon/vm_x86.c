@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -81,7 +81,7 @@ __declspec( naked ) void AsmCall( void ) {
 	__asm {
 		mov eax, dword ptr [edi]
 		sub edi, 4
-		or      eax,eax
+		or eax,eax
 		jl systemCall
 		// calling another vm function
 		shl eax,2
@@ -136,31 +136,31 @@ void callAsmCall( void ) {
 }
 
 void AsmCall( void ) {
-	__asm__( "doAsmCall:                \n\t"\
-			 "	movl (%%edi),%%eax			\n\t"\
-			 "	subl $4,%%edi				\n\t"\
-			 "   orl %%eax,%%eax				\n\t"\
-			 "	jl systemCall				\n\t"\
-			 "	shll $2,%%eax				\n\t"\
-			 "	addl %3,%%eax				\n\t"\
-			 "	call *(%%eax)				\n\t"\
-			 "	jmp doret					\n\t"\
-			 "systemCall:					\n\t"\
-			 "	negl %%eax					\n\t"\
-			 "	decl %%eax					\n\t"\
-			 "	movl %%eax,%0				\n\t"\
-			 "	movl %%esi,%1				\n\t"\
-			 "	movl %%edi,%2				\n\t"\
-			 "	pushl %%ecx					\n\t"\
-			 "	pushl %%esi					\n\t"\
-			 "	pushl %%edi					\n\t"\
-			 "	call callAsmCall			\n\t"\
-			 "	popl %%edi					\n\t"\
-			 "	popl %%esi					\n\t"\
-			 "	popl %%ecx					\n\t"\
-			 "	addl $4,%%edi				\n\t"\
-			 "doret:							\n\t"\
-			 "	ret							\n\t"\
+	__asm__( "doAsmCall:                \n\t" \
+			 "	movl (%%edi),%%eax			\n\t" \
+			 "	subl $4,%%edi				\n\t" \
+			 "   orl %%eax,%%eax				\n\t" \
+			 "	jl systemCall				\n\t" \
+			 "	shll $2,%%eax				\n\t" \
+			 "	addl %3,%%eax				\n\t" \
+			 "	call *(%%eax)				\n\t" \
+			 "	jmp doret					\n\t" \
+			 "systemCall:					\n\t" \
+			 "	negl %%eax					\n\t" \
+			 "	decl %%eax					\n\t" \
+			 "	movl %%eax,%0				\n\t" \
+			 "	movl %%esi,%1				\n\t" \
+			 "	movl %%edi,%2				\n\t" \
+			 "	pushl %%ecx					\n\t" \
+			 "	pushl %%esi					\n\t" \
+			 "	pushl %%edi					\n\t" \
+			 "	call callAsmCall			\n\t" \
+			 "	popl %%edi					\n\t" \
+			 "	popl %%esi					\n\t" \
+			 "	popl %%ecx					\n\t" \
+			 "	addl $4,%%edi				\n\t" \
+			 "doret:							\n\t" \
+			 "	ret							\n\t" \
 			 : "=rm" ( callSyscallNum ), "=rm" ( callProgramStack ), "=rm" ( callOpStack ) \
 			 : "rm" ( instructionPointers )	\
 			 : "ax", "di", "si", "cx" \
@@ -780,7 +780,7 @@ int VM_CallCompiled( vm_t *vm, int *args ) {
 		call entryPoint
 		mov programStack, esi
 		mov opStack, edi
-		popad
+			popad
 	}
 #else
 	{
@@ -792,13 +792,13 @@ int VM_CallCompiled( vm_t *vm, int *args ) {
 		memOpStack      = opStack;
 		memEntryPoint   = entryPoint;
 
-		__asm__( "	pushal				\r\n"\
-				 "	movl %0,%%esi		\r\n"\
-				 "	movl %1,%%edi		\r\n"\
-				 "	call *%2			\r\n"\
-				 "	movl %%esi,%0		\r\n"\
-				 "	movl %%edi,%1		\r\n"\
-				 "	popal				\r\n"\
+		__asm__( "	pushal				\r\n" \
+				 "	movl %0,%%esi		\r\n" \
+				 "	movl %1,%%edi		\r\n" \
+				 "	call *%2			\r\n" \
+				 "	movl %%esi,%0		\r\n" \
+				 "	movl %%edi,%1		\r\n" \
+				 "	popal				\r\n" \
 				 : "=m" ( memProgramStack ), "=m" ( memOpStack ) \
 				 : "m" ( memEntryPoint ), "0" ( memProgramStack ), "1" ( memOpStack ) \
 				 : "si", "di" \
@@ -823,4 +823,3 @@ int VM_CallCompiled( vm_t *vm, int *args ) {
 
 	return *(int *)opStack;
 }
-

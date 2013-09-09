@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -652,11 +652,11 @@ if pos is NULL, the sound will be dynamically sourced from the entity
 Entchannel 0 will never override a playing sound
 
   flags:  (currently apply only to non-looping sounds)
-	SND_NORMAL			    0	- (default) allow sound to be cut off only by the same sound on this channel
-	SND_OKTOCUT			0x001	- allow sound to be cut off by any following sounds on this channel
-	SND_REQUESTCUT		0x002	- allow sound to be cut off by following sounds on this channel only for sounds who request cutoff
-	SND_CUTOFF			0x004	- cut off sounds on this channel that are marked 'SND_REQUESTCUT'
-	SND_CUTOFF_ALL		0x008	- cut off all sounds on this channel
+    SND_NORMAL			    0	- (default) allow sound to be cut off only by the same sound on this channel
+    SND_OKTOCUT			0x001	- allow sound to be cut off by any following sounds on this channel
+    SND_REQUESTCUT		0x002	- allow sound to be cut off by following sounds on this channel only for sounds who request cutoff
+    SND_CUTOFF			0x004	- cut off sounds on this channel that are marked 'SND_REQUESTCUT'
+    SND_CUTOFF_ALL		0x008	- cut off all sounds on this channel
 ====================
 */
 
@@ -1196,7 +1196,7 @@ void S_RawSamples( int samples, int rate, int width, int s_channels, const byte 
 				s_rawsamples[streamingIndex][dst].right = ( (short *)data )[src * 2 + 1] * intVolumeR;
 			}
 		}
-	} else if ( s_channels == 1 && width == 2 )     {
+	} else if ( s_channels == 1 && width == 2 ) {
 		for ( i = 0; ; i++ )
 		{
 			src = i * scale;
@@ -1208,7 +1208,7 @@ void S_RawSamples( int samples, int rate, int width, int s_channels, const byte 
 			s_rawsamples[streamingIndex][dst].left = ( (short *)data )[src] * intVolumeL;
 			s_rawsamples[streamingIndex][dst].right = ( (short *)data )[src] * intVolumeR;
 		}
-	} else if ( s_channels == 2 && width == 1 )     {
+	} else if ( s_channels == 2 && width == 1 ) {
 		intVolumeL *= 256;
 		intVolumeR *= 256;
 
@@ -1223,7 +1223,7 @@ void S_RawSamples( int samples, int rate, int width, int s_channels, const byte 
 			s_rawsamples[streamingIndex][dst].left = ( (char *)data )[src * 2] * intVolumeL;
 			s_rawsamples[streamingIndex][dst].right = ( (char *)data )[src * 2 + 1] * intVolumeR;
 		}
-	} else if ( s_channels == 1 && width == 1 )     {
+	} else if ( s_channels == 1 && width == 1 ) {
 		intVolumeL *= 256;
 		intVolumeR *= 256;
 
@@ -1652,46 +1652,46 @@ S_FadeStreamingSound
 ==============
 */
 void S_FadeStreamingSound( float targetVol, int time, int ssNum ) {
-        streamingSound_t *ss; 
+	streamingSound_t *ss;
 
-        if ( ssNum >= numStreamingSounds ) { // invalid sound
-                return;
-        }    
+	if ( ssNum >= numStreamingSounds ) {     // invalid sound
+		return;
+	}
 
-        ss = &streamingSounds[ssNum];
+	ss = &streamingSounds[ssNum];
 
-        if ( !ss ) {
-                return;
-        }    
+	if ( !ss ) {
+		return;
+	}
 
-        if ( ss->kill ) {
-                return;
-        }    
+	if ( ss->kill ) {
+		return;
+	}
 
-        ss->fadeStartVol    = 1.0f;
+	ss->fadeStartVol    = 1.0f;
 
-        if ( ssNum == 0 ) {
-                //if ( s_debugMusic->integer ) {
-                 //       Com_Printf( "MUSIC: Fade: %0.2f %d\n", targetVol, time );
-                //}    
-        }    
+	if ( ssNum == 0 ) {
+		//if ( s_debugMusic->integer ) {
+		//       Com_Printf( "MUSIC: Fade: %0.2f %d\n", targetVol, time );
+		//}
+	}
 
-        // get current fraction if already fading/faded
-        if ( ss->fadeStart ) {
-                if ( ss->fadeEnd <= s_soundtime ) {
+	// get current fraction if already fading/faded
+	if ( ss->fadeStart ) {
+		if ( ss->fadeEnd <= s_soundtime ) {
 //              if(ss->fadeEnd <= s_paintedtime)
-                        ss->fadeStartVol = ss->fadeTargetVol;
-                } else {
-                        ss->fadeStartVol = ( (float)( s_soundtime - ss->fadeStart ) / (float)( ss->fadeEnd - ss->fadeStart ) );
-                }
+			ss->fadeStartVol = ss->fadeTargetVol;
+		} else {
+			ss->fadeStartVol = ( (float)( s_soundtime - ss->fadeStart ) / (float)( ss->fadeEnd - ss->fadeStart ) );
+		}
 //                      ss->fadeStartVol = ( (float)(s_paintedtime - ss->fadeStart)/(float)(ss->fadeEnd - ss->fadeStart) );
-        }
+	}
 
-        ss->fadeStart       = s_soundtime;
-        ss->fadeEnd         = s_soundtime + ( ( (float)( ss->info.rate ) / 1000.0f ) * time );
+	ss->fadeStart       = s_soundtime;
+	ss->fadeEnd         = s_soundtime + ( ( (float)( ss->info.rate ) / 1000.0f ) * time );
 //      ss->fadeStart           = s_paintedtime;
 //      ss->fadeEnd                     = s_paintedtime + (((float)(ss->info.rate)/1000.0f ) * time);
-        ss->fadeTargetVol   = targetVol;
+	ss->fadeTargetVol   = targetVol;
 }
 
 
@@ -1875,7 +1875,7 @@ void S_FadeAllSounds( float targetVol, int time ) {
         if ( !time ) {
                 snd.volTarget = snd.volStart = snd.volCurrent = targetVol;  // set it
                 snd.volTime1 = snd.volTime2 = 0;    // no fading
-        }    
+        }
 */
 }
 
@@ -2050,24 +2050,24 @@ S_StopEntStreamingSound
 ==============
 */
 void S_StopEntStreamingSound( int entNum ) {
-        int i;
+	int i;
 
-        if ( entNum < 0 ) {
-                return;
-        }    
+	if ( entNum < 0 ) {
+		return;
+	}
 
-        for ( i = 1; i < MAX_STREAMING_SOUNDS; i++ ) {    // track 0 is music/cinematics
-                if ( !streamingSounds[i].file ) {
-                        continue;
-                }    
+	for ( i = 1; i < MAX_STREAMING_SOUNDS; i++ ) {        // track 0 is music/cinematics
+		if ( !streamingSounds[i].file ) {
+			continue;
+		}
 
-                if ( streamingSounds[i].entnum != entNum ) {
-                        continue;
-                }    
+		if ( streamingSounds[i].entnum != entNum ) {
+			continue;
+		}
 
-                S_StopStreamingSound( i ); 
-                s_rawend[i] = 0;    // stop it /now/
-        }    
+		S_StopStreamingSound( i );
+		s_rawend[i] = 0;            // stop it /now/
+	}
 }
 
 

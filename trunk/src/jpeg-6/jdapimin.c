@@ -98,7 +98,7 @@ jpeg_set_marker_processor( j_decompress_ptr cinfo, int marker_code,
 						   jpeg_marker_parser_method routine ) {
 	if ( marker_code == JPEG_COM ) {
 		cinfo->marker->process_COM = routine;
-	} else if ( marker_code >= JPEG_APP0 && marker_code <= JPEG_APP0 + 15 )    {
+	} else if ( marker_code >= JPEG_APP0 && marker_code <= JPEG_APP0 + 15 ) {
 		cinfo->marker->process_APPn[marker_code - JPEG_APP0] = routine;
 	} else {
 		ERREXIT1( cinfo, JERR_UNKNOWN_MARKER, marker_code );
@@ -145,7 +145,7 @@ default_decompress_parms( j_decompress_ptr cinfo ) {
 
 			if ( cid0 == 1 && cid1 == 2 && cid2 == 3 ) {
 				cinfo->jpeg_color_space = JCS_YCbCr; /* assume JFIF w/out marker */
-			} else if ( cid0 == 82 && cid1 == 71 && cid2 == 66 )                                                                      {
+			} else if ( cid0 == 82 && cid1 == 71 && cid2 == 66 ) {
 				cinfo->jpeg_color_space = JCS_RGB; /* ASCII 'R', 'G', 'B' */
 			} else {
 				TRACEMS3( cinfo, 1, JTRC_UNKNOWN_IDS, cid0, cid1, cid2 );
@@ -295,7 +295,7 @@ jpeg_consume_input( j_decompress_ptr cinfo ) {
 		/* Initialize application's data source module */
 		( *cinfo->src->init_source )( cinfo );
 		cinfo->global_state = DSTATE_INHEADER;
-		/*FALLTHROUGH*/
+	/*FALLTHROUGH*/
 	case DSTATE_INHEADER:
 		retcode = ( *cinfo->inputctl->consume_input )( cinfo );
 		if ( retcode == JPEG_REACHED_SOS ) { /* Found SOS, prepare to decompress */

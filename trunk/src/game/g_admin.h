@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (?RTCW SP Source Code?).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (?RTCW SP Source Code?).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,10 +28,10 @@ If you have questions concerning this license or the applicable additional terms
 
 /*
 ****************************************************************************
-* g_admins.h 
-* 
+* g_admins.h
+*
 * Functionality for server Administration in CO-OP mode.
-* 
+*
 * Author: Nate L0
 * Date: 11.09/12
 * Last edit: 07.11/12
@@ -45,36 +45,30 @@ If you have questions concerning this license or the applicable additional terms
 #define BYPASSLOG "./COOP/banBypass.log"
 
 // Linked in g_cmds.c
-void cmd_incognito(gentity_t *ent);
-void cmd_do_logout(gentity_t *ent);
-void cmd_do_login (gentity_t *ent, qboolean silent);
-void cmd_getstatus(gentity_t *ent);
+void cmd_incognito( gentity_t *ent );
+void cmd_do_logout( gentity_t *ent );
+void cmd_do_login( gentity_t *ent, qboolean silent );
+void cmd_getstatus( gentity_t *ent );
 
 /* -> g_admin.c <- */
-qboolean cmds_admin(char cmd[MAX_TOKEN_CHARS], gentity_t *ent);
-void ParseAdmStr(const char *strInput, char *strCmd, char *strArgs);
+qboolean cmds_admin( char cmd[MAX_TOKEN_CHARS], gentity_t * ent );
+void ParseAdmStr( const char *strInput, char *strCmd, char *strArgs );
 
 /* -> g_cmds.c <- */
-void SanitizeString( char *in, char *out ); 
+void SanitizeString( char *in, char *out );
 char *ConcatArgs( int start );
 
 /* -> g_main.c <- */
 void CheckVote( void );
 
 /* -> Linked all accross <- */
-void logEntry (char *filename, char *info);
-void CPSound(gentity_t *ent, char *sound);
-void APSound(char *sound);
+void logEntry( char *filename, char *info );
+void CPSound( gentity_t *ent, char *sound );
+void APSound( char *sound );
 
 /* -> Macros <- */
-#define APS(x) APSound(x);			// Global sound 
-#define CPS(x, y) CPSound(x, y);	// Client sound only
-#define AP(x) trap_SendServerCommand(-1, x)					// Print to all
-#define CP(x) trap_SendServerCommand(ent-g_entities, x)		// Print to an ent
-#define CPx(x, y) trap_SendServerCommand(x, y)				// Print to id = x
-
-
-
-
-
-
+#define APS( x ) APSound( x );          // Global sound
+#define CPS( x, y ) CPSound( x, y );    // Client sound only
+#define AP( x ) trap_SendServerCommand( -1, x )                 // Print to all
+#define CP( x ) trap_SendServerCommand( ent - g_entities, x )     // Print to an ent
+#define CPx( x, y ) trap_SendServerCommand( x, y )              // Print to id = x

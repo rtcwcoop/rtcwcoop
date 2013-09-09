@@ -53,11 +53,11 @@ typedef my_main_controller * my_main_ptr;
 /* Forward declarations */
 METHODDEF void process_data_simple_main
 JPP( ( j_compress_ptr cinfo, JSAMPARRAY input_buf,
-	   JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail ) );
+	   JDIMENSION * in_row_ctr, JDIMENSION in_rows_avail ) );
 #ifdef FULL_MAIN_BUFFER_SUPPORTED
 METHODDEF void process_data_buffer_main
 JPP( ( j_compress_ptr cinfo, JSAMPARRAY input_buf,
-	   JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail ) );
+	   JDIMENSION * in_row_ctr, JDIMENSION in_rows_avail ) );
 #endif
 
 
@@ -185,9 +185,9 @@ process_data_buffer_main( j_compress_ptr cinfo,
 			for ( ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
 				  ci++, compptr++ ) {
 				main->buffer[ci] = ( *cinfo->mem->access_virt_sarray )
-				  ( (j_common_ptr) cinfo, main->whole_image[ci],
-				  main->cur_iMCU_row * ( compptr->v_samp_factor * DCTSIZE ),
-				  (JDIMENSION) ( compptr->v_samp_factor * DCTSIZE ), writing );
+									   ( (j_common_ptr) cinfo, main->whole_image[ci],
+									   main->cur_iMCU_row * ( compptr->v_samp_factor * DCTSIZE ),
+									   (JDIMENSION) ( compptr->v_samp_factor * DCTSIZE ), writing );
 			}
 			/* In a read pass, pretend we just read some source data. */
 			if ( !writing ) {
@@ -254,8 +254,8 @@ jinit_c_main_controller( j_compress_ptr cinfo, boolean need_full_buffer ) {
 	jpeg_component_info *compptr;
 
 	jmain = (my_main_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_main_controller ) );
+			( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										  SIZEOF( my_main_controller ) );
 	cinfo->main = (struct jpeg_c_main_controller *) jmain;
 	jmain->pub.start_pass = start_pass_main;
 
@@ -274,11 +274,11 @@ jinit_c_main_controller( j_compress_ptr cinfo, boolean need_full_buffer ) {
 		for ( ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
 			  ci++, compptr++ ) {
 			main->whole_image[ci] = ( *cinfo->mem->request_virt_sarray )
-				( (j_common_ptr) cinfo, JPOOL_IMAGE, FALSE,
-				compptr->width_in_blocks * DCTSIZE,
-				(JDIMENSION) jround_up( (long) compptr->height_in_blocks,
-										(long) compptr->v_samp_factor ) * DCTSIZE,
-				(JDIMENSION) ( compptr->v_samp_factor * DCTSIZE ) );
+										( (j_common_ptr) cinfo, JPOOL_IMAGE, FALSE,
+										compptr->width_in_blocks * DCTSIZE,
+										(JDIMENSION) jround_up( (long) compptr->height_in_blocks,
+																(long) compptr->v_samp_factor ) * DCTSIZE,
+										(JDIMENSION) ( compptr->v_samp_factor * DCTSIZE ) );
 		}
 #else
 		ERREXIT( cinfo, JERR_BAD_BUFFER_MODE );
@@ -291,9 +291,9 @@ jinit_c_main_controller( j_compress_ptr cinfo, boolean need_full_buffer ) {
 		for ( ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
 			  ci++, compptr++ ) {
 			jmain->buffer[ci] = ( *cinfo->mem->alloc_sarray )
-				( (j_common_ptr) cinfo, JPOOL_IMAGE,
-				compptr->width_in_blocks * DCTSIZE,
-				(JDIMENSION) ( compptr->v_samp_factor * DCTSIZE ) );
+									( (j_common_ptr) cinfo, JPOOL_IMAGE,
+									compptr->width_in_blocks * DCTSIZE,
+									(JDIMENSION) ( compptr->v_samp_factor * DCTSIZE ) );
 		}
 	}
 }

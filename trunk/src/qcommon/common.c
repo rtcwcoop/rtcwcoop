@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,10 +32,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "../sys/sys_local.h"
 #include "qcommon.h"
 #include <setjmp.h>
-
-#ifdef SQL
-#include "../database/database.h"
-#endif
 
 #define MAXPRINTMSG 4096
 
@@ -117,7 +113,7 @@ static char *rd_buffer;
 static int rd_buffersize;
 static void ( *rd_flush )( char *buffer );
 
-void Com_BeginRedirect( char *buffer, int buffersize, void ( *flush )( char *) ) {
+void Com_BeginRedirect( char *buffer, int buffersize, void ( *flush )( char * ) ) {
 	if ( !buffer || !buffersize || !flush ) {
 		return;
 	}
@@ -458,10 +454,11 @@ void Com_StartupVariable( const char *match ) {
 
 		s = Cmd_Argv( 1 );
 		if ( !match || !strcmp( s, match ) ) {
-                        if(Cvar_Flags(s) == CVAR_NONEXISTENT)
-                                Cvar_Get(s, Cmd_Argv(2), CVAR_USER_CREATED);
-                        else 
-                                Cvar_Set2(s, Cmd_Argv(2), qfalse);
+			if ( Cvar_Flags( s ) == CVAR_NONEXISTENT ) {
+				Cvar_Get( s, Cmd_Argv( 2 ), CVAR_USER_CREATED );
+			} else {
+				Cvar_Set2( s, Cmd_Argv( 2 ), qfalse );
+			}
 		}
 	}
 }
@@ -601,12 +598,12 @@ int Com_Filter( char *filter, char *name, int casesensitive ) {
 				}
 				name = ptr + strlen( buf );
 			}
-		} else if ( *filter == '?' )      {
+		} else if ( *filter == '?' ) {
 			filter++;
 			name++;
-		} else if ( *filter == '[' && *( filter + 1 ) == '[' )           {
+		} else if ( *filter == '[' && *( filter + 1 ) == '[' ) {
 			filter++;
-		} else if ( *filter == '[' )      {
+		} else if ( *filter == '[' ) {
 			filter++;
 			found = qfalse;
 			while ( *filter && !found ) {
@@ -743,7 +740,7 @@ int Com_RealTime( qtime_t *qtime ) {
 /*
 ==============================================================================
 
-						ZONE MEMORY ALLOCATION
+                        ZONE MEMORY ALLOCATION
 
 ==============================================================================
 
@@ -821,7 +818,7 @@ void Z_FreeTags( int tag ) {
 CopyString
 
  NOTE:	never write over the memory CopyString returns because
-		memory from a memstatic_t might be returned
+        memory from a memstatic_t might be returned
 ========================
 */
 char *CopyString( const char *in ) {
@@ -836,10 +833,10 @@ char *CopyString( const char *in ) {
 ==============================================================================
 
 Goals:
-	reproducable without history effects -- no out of memory errors on weird map to map changes
-	allow restarting of the client without fragmentation
-	minimize total pages in use at run time
-	minimize total pages needed during load time
+    reproducable without history effects -- no out of memory errors on weird map to map changes
+    allow restarting of the client without fragmentation
+    minimize total pages in use at run time
+    minimize total pages needed during load time
 
   Single block of memory with stack allocators coming from both ends towards the middle.
 
@@ -1071,7 +1068,7 @@ static void Com_AllocHunkMemory( const int nAlloc, const int nMinAlloc ) {
 #define HUNKMEGS_CHUNK 32
 
 	const size_t startTotal = ( 1024 * 1024 * nAlloc );
-#if defined( _WIN32 ) 
+#if defined( _WIN32 )
 	const size_t minTotal = ( 1024 * 1024 * nMinAlloc );
 	const size_t chunk = ( 1024 * 1024 * HUNKMEGS_CHUNK );
 #endif
@@ -1096,7 +1093,7 @@ static void Com_AllocHunkMemory( const int nAlloc, const int nMinAlloc ) {
 //               we have and determine how much we can allocate, preferrably only 2/3 of the memory
 //               with a max of 1024mb (should also do this for Windows).
 //               We could also look into GLib's g_try_malloc/0.
-#if !defined( _WIN32 ) 
+#if !defined( _WIN32 )
 	data = malloc( total + 31 );
 	if ( !data ) {
 		Com_Error( ERR_FATAL, "Hunk data failed to allocate %i megs", total / ( 1024 * 1024 ) );
@@ -1522,16 +1519,16 @@ journaled file
 #define MASK_QUEUED_EVENTS ( MAX_QUEUED_EVENTS - 1 )
 
 // bk001129 - init, also static
-static int com_pushedEventsHead = 0; 
-static int com_pushedEventsTail = 0; 
+static int com_pushedEventsHead = 0;
+static int com_pushedEventsTail = 0;
 // bk001129 - static
 static sysEvent_t com_pushedEvents[MAX_PUSHED_EVENTS];
 
 
-static sysEvent_t  eventQueue[ MAX_QUEUED_EVENTS ];
-static int         eventHead = 0; 
-static int         eventTail = 0; 
-static byte        sys_packetReceived[ MAX_MSGLEN ];
+static sysEvent_t eventQueue[ MAX_QUEUED_EVENTS ];
+static int eventHead = 0;
+static int eventTail = 0;
+static byte sys_packetReceived[ MAX_MSGLEN ];
 
 /*
 ================
@@ -1542,36 +1539,32 @@ Ptr should either be null, or point to a block of data that can
 be freed by the game later.
 ================
 */
-void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr )
-{
-        sysEvent_t  *ev; 
+void Com_QueueEvent( int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr ) {
+	sysEvent_t  *ev;
 
-        ev = &eventQueue[ eventHead & MASK_QUEUED_EVENTS ];
+	ev = &eventQueue[ eventHead & MASK_QUEUED_EVENTS ];
 
-        if ( eventHead - eventTail >= MAX_QUEUED_EVENTS )
-        {    
-                Com_Printf("Com_QueueEvent: overflow (%s)\n", (int)type);
-                // we are discarding an event, but don't leak memory
-                if ( ev->evPtr )
-                {    
-                        Z_Free( ev->evPtr );
-                }    
-                eventTail++;
-        }    
+	if ( eventHead - eventTail >= MAX_QUEUED_EVENTS ) {
+		Com_Printf( "Com_QueueEvent: overflow (%s)\n", (int)type );
+		// we are discarding an event, but don't leak memory
+		if ( ev->evPtr ) {
+			Z_Free( ev->evPtr );
+		}
+		eventTail++;
+	}
 
-        eventHead++;
+	eventHead++;
 
-        if ( time == 0 )
-        {    
-                time = Sys_Milliseconds();
-        }    
+	if ( time == 0 ) {
+		time = Sys_Milliseconds();
+	}
 
-        ev->evTime = time;
-        ev->evType = type;
-        ev->evValue = value;
-        ev->evValue2 = value2;
-        ev->evPtrLength = ptrLength;
-        ev->evPtr = ptr; 
+	ev->evTime = time;
+	ev->evType = type;
+	ev->evValue = value;
+	ev->evValue2 = value2;
+	ev->evPtrLength = ptrLength;
+	ev->evPtr = ptr;
 }
 
 
@@ -1612,60 +1605,55 @@ void Com_InitJournaling( void ) {
 	}
 }
 
-sysEvent_t Com_GetSystemEvent( void )
-{
-        sysEvent_t  ev;  
-        char        *s;  
-        msg_t       netmsg;
-        netadr_t    adr; 
+sysEvent_t Com_GetSystemEvent( void ) {
+	sysEvent_t ev;
+	char        *s;
+	msg_t netmsg;
+	netadr_t adr;
 
-        // return if we have data
-        if ( eventHead > eventTail )
-        {    
-                eventTail++;
-                return eventQueue[ ( eventTail - 1 ) & MASK_QUEUED_EVENTS ];
-        }    
+	// return if we have data
+	if ( eventHead > eventTail ) {
+		eventTail++;
+		return eventQueue[ ( eventTail - 1 ) & MASK_QUEUED_EVENTS ];
+	}
 
-        // check for console commands
-        s = Sys_ConsoleInput();
-        if ( s )
-        {    
-                char  *b;  
-                int   len; 
+	// check for console commands
+	s = Sys_ConsoleInput();
+	if ( s ) {
+		char  *b;
+		int len;
 
-                len = strlen( s ) + 1; 
-                b = Z_Malloc( len );
-                strcpy( b, s ); 
-                Com_QueueEvent( 0, SE_CONSOLE, 0, 0, len, b ); 
-        }    
+		len = strlen( s ) + 1;
+		b = Z_Malloc( len );
+		strcpy( b, s );
+		Com_QueueEvent( 0, SE_CONSOLE, 0, 0, len, b );
+	}
 
-        // check for network packets
-        MSG_Init( &netmsg, sys_packetReceived, sizeof( sys_packetReceived ) ); 
-        if ( Sys_GetPacket ( &adr, &netmsg ) )
-        {    
-                netadr_t  *buf;
-                int       len; 
+	// check for network packets
+	MSG_Init( &netmsg, sys_packetReceived, sizeof( sys_packetReceived ) );
+	if ( Sys_GetPacket( &adr, &netmsg ) ) {
+		netadr_t  *buf;
+		int len;
 
-                // copy out to a seperate buffer for qeueing
-                len = sizeof( netadr_t ) + netmsg.cursize;
-                buf = Z_Malloc( len );
-                *buf = adr; 
-                memcpy( buf+1, netmsg.data, netmsg.cursize );
-                Com_QueueEvent( 0, SE_PACKET, 0, 0, len, buf );
-        }    
+		// copy out to a seperate buffer for qeueing
+		len = sizeof( netadr_t ) + netmsg.cursize;
+		buf = Z_Malloc( len );
+		*buf = adr;
+		memcpy( buf + 1, netmsg.data, netmsg.cursize );
+		Com_QueueEvent( 0, SE_PACKET, 0, 0, len, buf );
+	}
 
-        // return if we have data
-        if ( eventHead > eventTail )
-        {    
-                eventTail++;
-                return eventQueue[ ( eventTail - 1 ) & MASK_QUEUED_EVENTS ];
-        }    
+	// return if we have data
+	if ( eventHead > eventTail ) {
+		eventTail++;
+		return eventQueue[ ( eventTail - 1 ) & MASK_QUEUED_EVENTS ];
+	}
 
-        // create an empty event to return
-        memset( &ev, 0, sizeof( ev ) ); 
-        ev.evTime = Sys_Milliseconds();
+	// create an empty event to return
+	memset( &ev, 0, sizeof( ev ) );
+	ev.evTime = Sys_Milliseconds();
 
-        return ev;
+	return ev;
 }
 
 
@@ -1692,9 +1680,9 @@ sysEvent_t  Com_GetRealEvent( void ) {
 			}
 		}
 	} else {
-                // fretn
+		// fretn
 		//ev = Sys_GetEvent();
-                ev = Com_GetSystemEvent();
+		ev = Com_GetSystemEvent();
 
 		// write the journal value out if needed
 		if ( com_journal->integer == 1 ) {
@@ -2233,7 +2221,7 @@ void Com_Init( char *commandLine ) {
 
 	com_introPlayed = Cvar_Get( "com_introplayed", "0", CVAR_ARCHIVE );
 	com_recommendedSet = Cvar_Get( "com_recommendedSet", "0", CVAR_ARCHIVE );
-        com_ansiColor = Cvar_Get( "com_ansiColor", "0", CVAR_ARCHIVE ); // fretn
+	com_ansiColor = Cvar_Get( "com_ansiColor", "0", CVAR_ARCHIVE );     // fretn
 
 	Cvar_Get( "savegame_loading", "0", CVAR_ROM );
 
@@ -2274,7 +2262,7 @@ void Com_Init( char *commandLine ) {
 		CL_Init();
 	}
 
-        Sys_ShowConsole( com_viewlog->integer, qfalse );
+	Sys_ShowConsole( com_viewlog->integer, qfalse );
 
 	// set com_frameTime so that if a map is started on the
 	// command line it will still be able to count on com_frameTime
@@ -2300,10 +2288,6 @@ void Com_Init( char *commandLine ) {
 		Com_SetRecommended( qtrue );
 		Cvar_Set( "com_recommendedSet", "1" );
 	}
-
-#ifdef SQL
-	OW_Init();
-#endif
 
 	if ( !com_dedicated->integer ) {
 		//Cbuf_AddText ("cinematic gmlogo.RoQ\n");
@@ -2632,10 +2616,6 @@ void Com_Shutdown( void ) {
 		com_journalFile = 0;
 	}
 
-#ifdef SQL
-	OW_Shutdown();
-#endif
-
 }
 
 #if defined ( MACOS_X )
@@ -2644,11 +2624,11 @@ void Com_Shutdown( void ) {
 #if ( ( !id386 ) && ( !defined __i386__ ) ) // rcg010212 - for PPC
 /*
 void Com_Memcpy( void* dest, const void* src, const size_t count ) {
-	memcpy( dest, src, count );
+    memcpy( dest, src, count );
 }
 
 void Com_Memset( void* dest, const int val, const size_t count ) {
-	memset( dest, val, count );
+    memset( dest, val, count );
 }
 */
 #endif
@@ -2671,47 +2651,47 @@ void _copyDWord( unsigned int* dest, const unsigned int constant, const unsigned
 		mov edx,dest
 		mov eax,constant
 		mov ecx,count
-		and     ecx,~7
+		and ecx,~7
 		jz padding
 		sub ecx,8
 		jmp loopu
-		align   16
+			align   16
 loopu:
 		test    [edx + ecx * 4 + 28],ebx        // fetch next block destination to L1 cache
-		mov     [edx + ecx * 4 + 0],eax
-		mov     [edx + ecx * 4 + 4],eax
-		mov     [edx + ecx * 4 + 8],eax
-		mov     [edx + ecx * 4 + 12],eax
-		mov     [edx + ecx * 4 + 16],eax
-		mov     [edx + ecx * 4 + 20],eax
-		mov     [edx + ecx * 4 + 24],eax
-		mov     [edx + ecx * 4 + 28],eax
+			mov     [edx + ecx * 4 + 0],eax
+			mov     [edx + ecx * 4 + 4],eax
+			mov     [edx + ecx * 4 + 8],eax
+			mov     [edx + ecx * 4 + 12],eax
+			mov     [edx + ecx * 4 + 16],eax
+			mov     [edx + ecx * 4 + 20],eax
+			mov     [edx + ecx * 4 + 24],eax
+			mov     [edx + ecx * 4 + 28],eax
 		sub ecx,8
 		jge loopu
 padding:    mov ecx,count
 		mov ebx,ecx
-		and     ecx,7
+		and ecx,7
 		jz outta
-		and     ebx,~7
+		and ebx,~7
 		lea edx,[edx + ebx * 4]                 // advance dest pointer
 		test    [edx + 0],eax                   // fetch destination to L1 cache
 		cmp ecx,4
 		jl skip4
-		mov     [edx + 0],eax
-		mov     [edx + 4],eax
-		mov     [edx + 8],eax
-		mov     [edx + 12],eax
+			mov     [edx + 0],eax
+			mov     [edx + 4],eax
+			mov     [edx + 8],eax
+			mov     [edx + 12],eax
 		add edx,16
 		sub ecx,4
 skip4:      cmp ecx,2
 		jl skip2
-		mov     [edx + 0],eax
-		mov     [edx + 4],eax
+			mov     [edx + 0],eax
+			mov     [edx + 4],eax
 		add edx,8
 		sub ecx,2
 skip2:      cmp ecx,1
 		jl outta
-		mov     [edx + 0],eax
+			mov     [edx + 0],eax
 outta:
 	}
 }
@@ -2733,7 +2713,7 @@ void Com_Memcpy( void* dest, const void* src, const size_t count ) {
 		jl padding
 
 		mov edi,ecx
-		and     edi,~31                 // edi = count&~31
+		and edi,~31                     // edi = count&~31
 		sub edi,32
 
 		align 16
@@ -2741,27 +2721,27 @@ loopMisAligned:
 		mov eax,[ebx + edi + 0 + 0 * 8]
 		mov esi,[ebx + edi + 4 + 0 * 8]
 		mov     [edx + edi + 0 + 0 * 8],eax
-		mov     [edx + edi + 4 + 0 * 8],esi
+			mov     [edx + edi + 4 + 0 * 8],esi
 		mov eax,[ebx + edi + 0 + 1 * 8]
 		mov esi,[ebx + edi + 4 + 1 * 8]
 		mov     [edx + edi + 0 + 1 * 8],eax
-		mov     [edx + edi + 4 + 1 * 8],esi
+			mov     [edx + edi + 4 + 1 * 8],esi
 		mov eax,[ebx + edi + 0 + 2 * 8]
 		mov esi,[ebx + edi + 4 + 2 * 8]
 		mov     [edx + edi + 0 + 2 * 8],eax
-		mov     [edx + edi + 4 + 2 * 8],esi
+			mov     [edx + edi + 4 + 2 * 8],esi
 		mov eax,[ebx + edi + 0 + 3 * 8]
 		mov esi,[ebx + edi + 4 + 3 * 8]
 		mov     [edx + edi + 0 + 3 * 8],eax
-		mov     [edx + edi + 4 + 3 * 8],esi
+			mov     [edx + edi + 4 + 3 * 8],esi
 		sub edi,32
 		jge loopMisAligned
 
 		mov edi,ecx
-		and     edi,~31
+		and edi,~31
 		add ebx,edi                     // increase src pointer
 		add edx,edi                     // increase dst pointer
-		and     ecx,31                  // new count
+		and ecx,31                      // new count
 		jz outta                        // if count = 0, get outta here
 
 padding:
@@ -2827,13 +2807,13 @@ void Com_Memset( void* dest, const int val, const size_t count ) {
 			mov eax, val
 			mov ah,al
 			mov ebx,eax
-			and     ebx, 0xffff
+			and ebx, 0xffff
 			shl eax,16
 			add eax,ebx                 // eax now contains pattern
 			mov ecx,count
 			cmp ecx,4
 			jl skip4
-			mov     [edx],eax           // copy first dword
+				mov     [edx],eax       // copy first dword
 			add edx,4
 			sub ecx,4
 skip4:  cmp ecx,2
@@ -2860,9 +2840,9 @@ skip1:
 	{
 		mov ecx,count
 		mov eax,ecx
-		and     ecx,3
+		and ecx,3
 		jz skipA
-		and     eax,~3
+		and eax,~3
 		mov ebx,dest
 		add ebx,eax
 		mov eax,fillval
@@ -2935,7 +2915,7 @@ skipClamp:
 			jz skip
 			jmp loopie
 
-			align 16
+				align 16
 loopie: test byte ptr [ebx],al
 			add ebx,32
 			dec ecx
@@ -2963,8 +2943,8 @@ int i;
 i = 1065353246;
 acos(*(float*) &i) == -1.#IND0
 
-	This should go in q_math but it is too late to add new traps
-	to game and ui
+    This should go in q_math but it is too late to add new traps
+    to game and ui
 =====================
 */
 float Q_acos( float c ) {
@@ -3083,12 +3063,11 @@ Field_AutoComplete
 Perform Tab expansion
 ===============
 */
-void Field_AutoComplete( field_t *field )
-{
-        completionField = field;
+void Field_AutoComplete( field_t *field ) {
+	completionField = field;
 
-        //Field_CompleteCommand( completionField->buffer, qtrue, qtrue );
-        Field_CompleteCommand( field );
+	//Field_CompleteCommand( completionField->buffer, qtrue, qtrue );
+	Field_CompleteCommand( field );
 }
 
 /*
@@ -3149,4 +3128,3 @@ void Field_CompleteCommand( field_t *field ) {
 	Cmd_CommandCompletion( PrintMatches );
 	Cvar_CommandCompletion( PrintMatches );
 }
-

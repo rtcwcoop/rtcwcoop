@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ void Weapon_Knife( gentity_t *ent ) {
 
 	// cs: et sdk antilag
 	//trap_Trace( &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT );
-	G_HistoricalTrace(ent, &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT_NOCORPSE);
+	G_HistoricalTrace( ent, &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT_NOCORPSE );
 	// end
 
 	if ( tr.surfaceFlags & SURF_NOIMPACT ) {
@@ -155,7 +155,7 @@ void Weapon_Knife( gentity_t *ent ) {
 /*
 ======================
   Weapon_Class_Special
-	class-specific in multiplayer
+    class-specific in multiplayer
 ======================
 */
 // JPW NERVE
@@ -163,7 +163,7 @@ void Weapon_Medic( gentity_t *ent ) {
 	//gitem_t *item;
 	//gentity_t *ent2;
 	//vec3_t velocity, org, offset;
-        vec3_t org;
+	vec3_t org;
 	//vec3_t angles;
 
 	trace_t tr;
@@ -182,23 +182,23 @@ void Weapon_Medic( gentity_t *ent ) {
 		traceEnt = &g_entities[ tr.entityNum ];
 		if ( traceEnt->client != NULL ) {
 			if ( ( traceEnt->client->ps.pm_type == PM_DEAD ) && ( traceEnt->client->sess.sessionTeam == ent->client->sess.sessionTeam ) ) {
-                                /*
+				/*
 				if ( level.time - ent->client->ps.classWeaponTime > g_medicChargeTime.integer ) {
-					ent->client->ps.classWeaponTime = level.time - g_medicChargeTime.integer;
+				ent->client->ps.classWeaponTime = level.time - g_medicChargeTime.integer;
 				}
-                                */
+				*/
 				ent->client->ps.classWeaponTime += 125;
 				traceEnt->client->medicHealAmt++;
 				if ( ent->client->ps.classWeaponTime > level.time ) { // heal the dude
 /*
-					traceEnt->health = 80;
-					traceEnt->s.weapon = WP_KNIFE;
-					traceEnt->r.maxs[2] = 0;
-					traceEnt->client->ps.pm_type = PM_NORMAL;
-					traceEnt->client->ps.torsoAnim = traceEnt->client->oldAnimTorso;
-					traceEnt->client->ps.legsAnim = traceEnt->client->oldAnimLegs;
-					traceEnt->die = player_die;
-					traceEnt->client->respawnTime = level.time + 1700;
+                    traceEnt->health = 80;
+                    traceEnt->s.weapon = WP_KNIFE;
+                    traceEnt->r.maxs[2] = 0;
+                    traceEnt->client->ps.pm_type = PM_NORMAL;
+                    traceEnt->client->ps.torsoAnim = traceEnt->client->oldAnimTorso;
+                    traceEnt->client->ps.legsAnim = traceEnt->client->oldAnimLegs;
+                    traceEnt->die = player_die;
+                    traceEnt->client->respawnTime = level.time + 1700;
 */
 // copy some stuff out that we'll wanna restore
 					VectorCopy( traceEnt->client->ps.origin, org );
@@ -224,28 +224,28 @@ void Weapon_Medic( gentity_t *ent ) {
 		}
 	} else { // throw out health pack
 //		if (level.time - ent->client->ps.classWeaponTime >= g_medicChargeTime.integer) {
-                /*
+		/*
 		if ( level.time - ent->client->ps.classWeaponTime >= g_medicChargeTime.integer * 0.25f ) {
-			if ( level.time - ent->client->ps.classWeaponTime > g_medicChargeTime.integer ) {
-				ent->client->ps.classWeaponTime = level.time - g_medicChargeTime.integer;
-			}
-			ent->client->ps.classWeaponTime += g_medicChargeTime.integer * 0.25;
-
-//			ent->client->ps.classWeaponTime = level.time;
-//			if (ent->client->ps.classWeaponTime > level.time)
-//				ent->client->ps.classWeaponTime = level.time;
-			item = BG_FindItem( "Med Health" );
-			VectorCopy( ent->client->ps.viewangles, angles );
-			angles[PITCH] = 0;  // always forward
-			AngleVectors( angles, velocity, NULL, NULL );
-			VectorScale( velocity, 75, offset );
-			VectorScale( velocity, 50, velocity );
-			velocity[2] += 50 + crandom() * 50;
-
-			VectorAdd( ent->client->ps.origin,offset,org );
-			ent2 = LaunchItem( item, org, velocity );
+		if ( level.time - ent->client->ps.classWeaponTime > g_medicChargeTime.integer ) {
+		ent->client->ps.classWeaponTime = level.time - g_medicChargeTime.integer;
 		}
-                */
+		ent->client->ps.classWeaponTime += g_medicChargeTime.integer * 0.25;
+
+		//			ent->client->ps.classWeaponTime = level.time;
+		//			if (ent->client->ps.classWeaponTime > level.time)
+		//				ent->client->ps.classWeaponTime = level.time;
+		item = BG_FindItem( "Med Health" );
+		VectorCopy( ent->client->ps.viewangles, angles );
+		angles[PITCH] = 0;  // always forward
+		AngleVectors( angles, velocity, NULL, NULL );
+		VectorScale( velocity, 75, offset );
+		VectorScale( velocity, 50, velocity );
+		velocity[2] += 50 + crandom() * 50;
+
+		VectorAdd( ent->client->ps.origin,offset,org );
+		ent2 = LaunchItem( item, org, velocity );
+		}
+		*/
 	}
 }
 // jpw
@@ -296,13 +296,13 @@ void Weapon_Engineer( gentity_t *ent ) {
 			}
 // jpw
 		}
-	} else if ( !traceEnt->takedamage && !Q_stricmp( traceEnt->classname, "misc_mg42" ) )       {
+	} else if ( !traceEnt->takedamage && !Q_stricmp( traceEnt->classname, "misc_mg42" ) ) {
 		// "Ammo" for this weapon is time based
-                /*
+		/*
 		if ( ent->client->ps.classWeaponTime + g_engineerChargeTime.integer < level.time ) {
-			ent->client->ps.classWeaponTime = level.time - g_engineerChargeTime.integer;
+		ent->client->ps.classWeaponTime = level.time - g_engineerChargeTime.integer;
 		}
-                */
+		*/
 		ent->client->ps.classWeaponTime += 150;
 
 		if ( ent->client->ps.classWeaponTime > level.time ) {
@@ -378,26 +378,26 @@ void weapon_callAirStrike( gentity_t *ent ) {
 
 // add an aircraft (looks suspiciously like a rocket right now) (but doesn't work)
 /*
-	bomb = G_Spawn();
-	bomb->nextthink = level.time + 26000;
-	bomb->think = G_ExplodeMissile;
-	bomb->s.eType		= ET_MISSILE;
-	bomb->r.svFlags		= SVF_USE_CURRENT_ORIGIN | SVF_BROADCAST;
-	bomb->s.weapon		= WP_GRENADE_LAUNCHER; // might wanna change this
-	bomb->r.ownerNum	= ent->s.number;
-	bomb->parent		= ent->parent;
-	bomb->damage		= 400; // maybe should un-hard-code these?
-	bomb->splashDamage  = 400;
-	bomb->classname		= "fighterbomber";
-	bomb->splashRadius			= 400;
-	bomb->methodOfDeath			= MOD_DYNAMITE; // FIXME add MOD for air strike
-	bomb->splashMethodOfDeath	= MOD_DYNAMITE_SPLASH;
-	bomb->clipmask = MASK_MISSILESHOT;
-	bomb->s.pos.trType = TR_STATIONARY; // TR_LINEAR;
-	bomb->s.pos.trTime = level.time;
-	VectorCopy(ent->s.pos.trBase, bomb->s.pos.trBase);
-	bomb->s.pos.trBase[2] += 200;
-	bomb->s.modelindex = G_ModelIndex( "models/mapobjects/vehicles/m109.md3" );
+    bomb = G_Spawn();
+    bomb->nextthink = level.time + 26000;
+    bomb->think = G_ExplodeMissile;
+    bomb->s.eType		= ET_MISSILE;
+    bomb->r.svFlags		= SVF_USE_CURRENT_ORIGIN | SVF_BROADCAST;
+    bomb->s.weapon		= WP_GRENADE_LAUNCHER; // might wanna change this
+    bomb->r.ownerNum	= ent->s.number;
+    bomb->parent		= ent->parent;
+    bomb->damage		= 400; // maybe should un-hard-code these?
+    bomb->splashDamage  = 400;
+    bomb->classname		= "fighterbomber";
+    bomb->splashRadius			= 400;
+    bomb->methodOfDeath			= MOD_DYNAMITE; // FIXME add MOD for air strike
+    bomb->splashMethodOfDeath	= MOD_DYNAMITE_SPLASH;
+    bomb->clipmask = MASK_MISSILESHOT;
+    bomb->s.pos.trType = TR_STATIONARY; // TR_LINEAR;
+    bomb->s.pos.trTime = level.time;
+    VectorCopy(ent->s.pos.trBase, bomb->s.pos.trBase);
+    bomb->s.pos.trBase[2] += 200;
+    bomb->s.modelindex = G_ModelIndex( "models/mapobjects/vehicles/m109.md3" );
 */
 	for ( i = 0; i < NUMBOMBS; i++ ) {
 		bomb = G_Spawn();
@@ -459,12 +459,12 @@ void Weapon_Class_Special( gentity_t *ent ) {
 		Weapon_Engineer( ent );
 		break;
 	case PC_LT:
-                /*
+		/*
 		if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
-			weapon_grenadelauncher_fire( ent,WP_GRENADE_SMOKE );
-			ent->client->ps.classWeaponTime = level.time;
+		weapon_grenadelauncher_fire( ent,WP_GRENADE_SMOKE );
+		ent->client->ps.classWeaponTime = level.time;
 		}
-                */
+		*/
 		break;
 	}
 }
@@ -487,7 +487,7 @@ void Weapon_Gauntlet( gentity_t *ent ) {
 /*
 ===============
 CheckMeleeAttack
-	using 'isTest' to return hits to world surfaces
+    using 'isTest' to return hits to world surfaces
 ===============
 */
 trace_t *CheckMeleeAttack( gentity_t *ent, float dist, qboolean isTest ) {
@@ -590,74 +590,74 @@ void SnapVectorTowards( vec3_t v, vec3_t to ) {
 // KLUDGE/FIXME: also modded #defines below to become macros that call this fn for minimal impact elsewhere
 //
 int G_GetWeaponDamage( int weapon ) {
-		switch ( weapon ) {
-		case WP_LUGER:
-		case WP_SILENCER: return 6;
-		case WP_COLT: return 8;
-		case WP_AKIMBO: return 8;       //----(SA)	added
-		case WP_VENOM: return 12;       // 15  ----(SA)	slight modify for DM
-		case WP_MP40: return 6;
-		case WP_THOMPSON: return 8;
-		case WP_STEN: return 10;
-		case WP_FG42SCOPE:
-		case WP_FG42: return 15;
-		case WP_MAUSER: return 20;
-		case WP_GARAND: return 25;
-		case WP_SNIPERRIFLE: return 55;
-		case WP_SNOOPERSCOPE: return 25;
-		case WP_NONE: return 0;
-		case WP_KNIFE: return 5;
-		case WP_GRENADE_LAUNCHER: return 100;
-		case WP_GRENADE_PINEAPPLE: return 80;
-		case WP_DYNAMITE: return 400;
-		case WP_PANZERFAUST: return 200;        // (SA) was 100
-		case WP_MORTAR: return 100;
-		case WP_FLAMETHROWER:     // FIXME -- not used in single player yet
-		case WP_TESLA:
-		case WP_GAUNTLET:
-		case WP_SNIPER:
-		default:    return 1;
-		}
+	switch ( weapon ) {
+	case WP_LUGER:
+	case WP_SILENCER: return 6;
+	case WP_COLT: return 8;
+	case WP_AKIMBO: return 8;           //----(SA)	added
+	case WP_VENOM: return 12;           // 15  ----(SA)	slight modify for DM
+	case WP_MP40: return 6;
+	case WP_THOMPSON: return 8;
+	case WP_STEN: return 10;
+	case WP_FG42SCOPE:
+	case WP_FG42: return 15;
+	case WP_MAUSER: return 20;
+	case WP_GARAND: return 25;
+	case WP_SNIPERRIFLE: return 55;
+	case WP_SNOOPERSCOPE: return 25;
+	case WP_NONE: return 0;
+	case WP_KNIFE: return 5;
+	case WP_GRENADE_LAUNCHER: return 100;
+	case WP_GRENADE_PINEAPPLE: return 80;
+	case WP_DYNAMITE: return 400;
+	case WP_PANZERFAUST: return 200;            // (SA) was 100
+	case WP_MORTAR: return 100;
+	case WP_FLAMETHROWER:         // FIXME -- not used in single player yet
+	case WP_TESLA:
+	case WP_GAUNTLET:
+	case WP_SNIPER:
+	default:    return 1;
+	}
 }
 
 // RF, wrote this so we can dynamically switch between old and new values while testing g_userAim
 float G_GetWeaponSpread( int weapon ) {
-		if ( g_userAim.integer ) {
-			// these should be higher since they become erratic if aiming is out
-			switch ( weapon ) {
-			case WP_LUGER:      return 600;
-			case WP_SILENCER:   return 900;
-			case WP_COLT:       return 700;
-			case WP_AKIMBO:     return 700; //----(SA)	added
-			case WP_VENOM:      return 1000;
-			case WP_MP40:       return 1000;
-			case WP_FG42SCOPE:  return 300;
-			case WP_FG42:       return 800;
-			case WP_THOMPSON:   return 1200;
-			case WP_STEN:       return 1200;
-			case WP_MAUSER:     return 400;
-			case WP_GARAND:     return 500;
-			case WP_SNIPERRIFLE:    return 300;
-			case WP_SNOOPERSCOPE:   return 300;
-			}
-		} else {    // old values
-			switch ( weapon ) {
-			case WP_LUGER:      return 25;
-			case WP_SILENCER:   return 150;
-			case WP_COLT:       return 30;
-			case WP_AKIMBO:     return 30;      //----(SA)	added
-			case WP_VENOM:      return 200;
-			case WP_MP40:       return 200;
-			case WP_FG42SCOPE:  return 10;
-			case WP_FG42:       return 150;
-			case WP_THOMPSON:   return 250;
-			case WP_STEN:       return 300;
-			case WP_MAUSER:     return 15;
-			case WP_GARAND:     return 25;
-			case WP_SNIPERRIFLE:    return 10;
-			case WP_SNOOPERSCOPE:   return 10;
-			}
+	if ( g_userAim.integer ) {
+		// these should be higher since they become erratic if aiming is out
+		switch ( weapon ) {
+		case WP_LUGER:      return 600;
+		case WP_SILENCER:   return 900;
+		case WP_COLT:       return 700;
+		case WP_AKIMBO:     return 700;     //----(SA)	added
+		case WP_VENOM:      return 1000;
+		case WP_MP40:       return 1000;
+		case WP_FG42SCOPE:  return 300;
+		case WP_FG42:       return 800;
+		case WP_THOMPSON:   return 1200;
+		case WP_STEN:       return 1200;
+		case WP_MAUSER:     return 400;
+		case WP_GARAND:     return 500;
+		case WP_SNIPERRIFLE:    return 300;
+		case WP_SNOOPERSCOPE:   return 300;
 		}
+	} else {        // old values
+		switch ( weapon ) {
+		case WP_LUGER:      return 25;
+		case WP_SILENCER:   return 150;
+		case WP_COLT:       return 30;
+		case WP_AKIMBO:     return 30;          //----(SA)	added
+		case WP_VENOM:      return 200;
+		case WP_MP40:       return 200;
+		case WP_FG42SCOPE:  return 10;
+		case WP_FG42:       return 150;
+		case WP_THOMPSON:   return 250;
+		case WP_STEN:       return 300;
+		case WP_MAUSER:     return 15;
+		case WP_GARAND:     return 25;
+		case WP_SNIPERRIFLE:    return 10;
+		case WP_SNOOPERSCOPE:   return 10;
+		}
+	}
 	G_Printf( "shouldn't ever get here (weapon %d)\n",weapon );
 	// jpw
 	return 0;   // shouldn't get here
@@ -741,11 +741,11 @@ void RubbleFlagCheck( gentity_t *ent, trace_t tr ) {
 	if ( tr.surfaceFlags & SURF_RUBBLE || tr.surfaceFlags & SURF_GRAVEL ) {
 		is_valid = qtrue;
 		type = 4;
-	} else if ( tr.surfaceFlags & SURF_METAL )     {
+	} else if ( tr.surfaceFlags & SURF_METAL ) {
 //----(SA)	removed
 //		is_valid = qtrue;
 //		type = 2;
-	} else if ( tr.surfaceFlags & SURF_WOOD )     {
+	} else if ( tr.surfaceFlags & SURF_WOOD ) {
 		is_valid = qtrue;
 		type = 1;
 	}
@@ -786,7 +786,7 @@ void RubbleFlagCheck( gentity_t *ent, trace_t tr ) {
 /*
 ==============
 EmitterCheck
-	see if a new particle emitter should be created at the bullet impact point
+    see if a new particle emitter should be created at the bullet impact point
 ==============
 */
 void EmitterCheck( gentity_t *ent, gentity_t *attacker, trace_t *tr ) {
@@ -825,7 +825,7 @@ void SniperSoundEFX( vec3_t pos ) {
 /*
 ==============
 Bullet_Endpos
-	find target end position for bullet trace based on entities weapon and accuracy
+    find target end position for bullet trace based on entities weapon and accuracy
 ==============
 */
 void Bullet_Endpos( gentity_t *ent, float spread, vec3_t *end ) {
@@ -878,7 +878,7 @@ void Bullet_Fire( gentity_t *ent, float spread, int damage ) {
 	Bullet_Fire_Extended( ent, ent, muzzleTrace, end, spread, damage, 0 );
 
 	// cs: et sdk antilag
-	if ( g_antilag.integer && g_gametype.integer != GT_SINGLE_PLAYER ) { 
+	if ( g_antilag.integer && g_gametype.integer != GT_SINGLE_PLAYER ) {
 		G_HistoricalTraceEnd( ent );
 	}
 	// end
@@ -888,10 +888,10 @@ void Bullet_Fire( gentity_t *ent, float spread, int damage ) {
 /*
 ==============
 Bullet_Fire_Extended
-	A modified Bullet_Fire with more parameters.
-	The original Bullet_Fire still passes through here and functions as it always has.
+    A modified Bullet_Fire with more parameters.
+    The original Bullet_Fire still passes through here and functions as it always has.
 
-	uses for this include shooting through entities (windows, doors, other players, etc.) and reflecting bullets
+    uses for this include shooting through entities (windows, doors, other players, etc.) and reflecting bullets
 ==============
 */
 void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start, vec3_t end, float spread, int damage, int recursion ) {
@@ -918,12 +918,12 @@ void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start,
 //	trap_Trace( &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT ); // cs: this was the original used line
 //	trap_Trace (&tr, start, NULL, NULL, end, ENTITYNUM_NONE, MASK_SHOT);
 
-	// cs: et sdk antilag 
+	// cs: et sdk antilag
 	// TIHan - Using MASK_SHOT so we can gib corpses.
-	G_Trace(source, &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT);
+	G_Trace( source, &tr, start, NULL, NULL, end, source->s.number, MASK_SHOT );
 	// end
 
-    AICast_ProcessBullet( attacker, start, tr.endpos );
+	AICast_ProcessBullet( attacker, start, tr.endpos );
 
 	// bullet debugging using Q3A's railtrail
 	if ( g_debugBullets.integer & 1 ) {
@@ -1094,111 +1094,111 @@ gentity_t *weapon_crowbar_throw( gentity_t *ent ) {
 }
 
 gentity_t *weapon_grenadelauncher_fire_coop( gentity_t *ent, int grenType ) {
-        gentity_t   *m, *te; // JPW NERVE
-        trace_t tr;
-        vec3_t viewpos;
-        float upangle = 0, pitch;               //      start with level throwing and adjust based on angle
-        vec3_t tosspos;
-        qboolean underhand = qtrue;
+	gentity_t   *m, *te;     // JPW NERVE
+	trace_t tr;
+	vec3_t viewpos;
+	float upangle = 0, pitch;                   //      start with level throwing and adjust based on angle
+	vec3_t tosspos;
+	qboolean underhand = qtrue;
 
-        pitch = ent->s.apos.trBase[0];
+	pitch = ent->s.apos.trBase[0];
 
-        // JPW NERVE -- smoke grenades always overhand
-        if ( pitch >= 0 ) {
-                forward[2] += 0.5f;
-                // Used later in underhand boost
-                pitch = 1.3f;
-        } else {
-                pitch = -pitch;
-                pitch = min( pitch, 30 );
-                pitch /= 30.f;
-                pitch = 1 - pitch;
-                forward[2] += ( pitch * 0.5f );
+	// JPW NERVE -- smoke grenades always overhand
+	if ( pitch >= 0 ) {
+		forward[2] += 0.5f;
+		// Used later in underhand boost
+		pitch = 1.3f;
+	} else {
+		pitch = -pitch;
+		pitch = min( pitch, 30 );
+		pitch /= 30.f;
+		pitch = 1 - pitch;
+		forward[2] += ( pitch * 0.5f );
 
-                // Used later in underhand boost
-                pitch *= 0.3f;
-                pitch += 1.f;
-        }
+		// Used later in underhand boost
+		pitch *= 0.3f;
+		pitch += 1.f;
+	}
 
-        VectorNormalizeFast( forward );         //      make sure forward is normalized
+	VectorNormalizeFast( forward );             //      make sure forward is normalized
 
-        upangle = -( ent->s.apos.trBase[0] ); //        this will give between  -90 / 90
-        upangle = min( upangle, 50 );
-        upangle = max( upangle, -50 );        //        now clamped to  -50 / 50        (don't allow firing straight up/down)
-        upangle = upangle / 100.0f;           //                                   -0.5 / 0.5
-        upangle += 0.5f;                    //                              0.0 / 1.0
+	upangle = -( ent->s.apos.trBase[0] );     //        this will give between  -90 / 90
+	upangle = min( upangle, 50 );
+	upangle = max( upangle, -50 );            //        now clamped to  -50 / 50        (don't allow firing straight up/down)
+	upangle = upangle / 100.0f;               //                                   -0.5 / 0.5
+	upangle += 0.5f;                        //                              0.0 / 1.0
 
-        if ( upangle < .1 ) {
-                upangle = .1;
-        }
+	if ( upangle < .1 ) {
+		upangle = .1;
+	}
 
-        // pineapples are not thrown as far as mashers
-        if ( grenType == WP_GRENADE_LAUNCHER ) {
-                upangle *= 900;
-        } else if ( grenType == WP_GRENADE_PINEAPPLE ) {
-                upangle *= 900;
-        } else if ( grenType == WP_GRENADE_SMOKE ) {
-                upangle *= 900;
-        } else { // WP_DYNAMITE
-                upangle *= 400;
-        }
+	// pineapples are not thrown as far as mashers
+	if ( grenType == WP_GRENADE_LAUNCHER ) {
+		upangle *= 900;
+	} else if ( grenType == WP_GRENADE_PINEAPPLE ) {
+		upangle *= 900;
+	} else if ( grenType == WP_GRENADE_SMOKE ) {
+		upangle *= 900;
+	} else {     // WP_DYNAMITE
+		upangle *= 400;
+	}
 
-        VectorCopy( muzzleEffect, tosspos );
+	VectorCopy( muzzleEffect, tosspos );
 
-        if ( underhand ) {
-                // move a little bit more away from the player (so underhand tosses don't get caught on nearby lips)
-                VectorMA( muzzleEffect, 8, forward, tosspos );
-                tosspos[2] -= 8;    // lower origin for the underhand throw
-                upangle *= pitch;
-                SnapVector( tosspos );
-        }
+	if ( underhand ) {
+		// move a little bit more away from the player (so underhand tosses don't get caught on nearby lips)
+		VectorMA( muzzleEffect, 8, forward, tosspos );
+		tosspos[2] -= 8;            // lower origin for the underhand throw
+		upangle *= pitch;
+		SnapVector( tosspos );
+	}
 
-        VectorScale( forward, upangle, forward );
-        // check for valid start spot (so you don't throw through or get stuck in a wall)
-        VectorCopy( ent->s.pos.trBase, viewpos );
-        viewpos[2] += ent->client->ps.viewheight;
+	VectorScale( forward, upangle, forward );
+	// check for valid start spot (so you don't throw through or get stuck in a wall)
+	VectorCopy( ent->s.pos.trBase, viewpos );
+	viewpos[2] += ent->client->ps.viewheight;
 
-        if ( grenType == WP_DYNAMITE ) {
-                trap_Trace( &tr, viewpos, tv( -12.f, -12.f, 0.f ), tv( 12.f, 12.f, 20.f ), tosspos, ent->s.number, MASK_MISSILESHOT );
-        } else {
-                trap_Trace( &tr, viewpos, tv( -4.f, -4.f, 0.f ), tv( 4.f, 4.f, 6.f ), tosspos, ent->s.number, MASK_MISSILESHOT );
-        }
+	if ( grenType == WP_DYNAMITE ) {
+		trap_Trace( &tr, viewpos, tv( -12.f, -12.f, 0.f ), tv( 12.f, 12.f, 20.f ), tosspos, ent->s.number, MASK_MISSILESHOT );
+	} else {
+		trap_Trace( &tr, viewpos, tv( -4.f, -4.f, 0.f ), tv( 4.f, 4.f, 6.f ), tosspos, ent->s.number, MASK_MISSILESHOT );
+	}
 
-        if ( tr.fraction < 1 ) {   // oops, bad launch spot
-                VectorCopy( tr.endpos, tosspos );
-                SnapVectorTowards( tosspos, viewpos );
-        }
+	if ( tr.fraction < 1 ) {       // oops, bad launch spot
+		VectorCopy( tr.endpos, tosspos );
+		SnapVectorTowards( tosspos, viewpos );
+	}
 
-        m = fire_grenade( ent, tosspos, forward, grenType );
+	m = fire_grenade( ent, tosspos, forward, grenType );
 
-        m->damage = 0;  // Ridah, grenade's don't explode on contact
-        m->splashDamage *= s_quadFactor;
+	m->damage = 0;      // Ridah, grenade's don't explode on contact
+	m->splashDamage *= s_quadFactor;
 
-        // JPW NERVE
-        if ( grenType == WP_GRENADE_SMOKE ) {
+	// JPW NERVE
+	if ( grenType == WP_GRENADE_SMOKE ) {
 
-                if ( ent->client->sess.sessionTeam == TEAM_RED ) { // store team so we can generate red or blue smoke
-                        m->s.otherEntityNum2 = 1;
-                } else {
-                        m->s.otherEntityNum2 = 0;
-                }
-                m->nextthink = level.time + 4000;
-                m->think = weapon_callAirStrike;
+		if ( ent->client->sess.sessionTeam == TEAM_RED ) {         // store team so we can generate red or blue smoke
+			m->s.otherEntityNum2 = 1;
+		} else {
+			m->s.otherEntityNum2 = 0;
+		}
+		m->nextthink = level.time + 4000;
+		m->think = weapon_callAirStrike;
 
-                te = G_TempEntity( m->s.pos.trBase, EV_GLOBAL_SOUND );
-                te->s.eventParm = G_SoundIndex( "sound/multiplayer/airstrike_01.wav" );
-                te->r.svFlags |= SVF_BROADCAST | SVF_USE_CURRENT_ORIGIN;
-        }
-        // jpw
+		te = G_TempEntity( m->s.pos.trBase, EV_GLOBAL_SOUND );
+		te->s.eventParm = G_SoundIndex( "sound/multiplayer/airstrike_01.wav" );
+		te->r.svFlags |= SVF_BROADCAST | SVF_USE_CURRENT_ORIGIN;
+	}
+	// jpw
 
-        //----(SA)      adjust for movement of character.  TODO: Probably comment in later, but only for forward/back not strafing
-        //VectorAdd( m->s.pos.trDelta, ent->client->ps.velocity, m->s.pos.trDelta );    // "real" physics
+	//----(SA)      adjust for movement of character.  TODO: Probably comment in later, but only for forward/back not strafing
+	//VectorAdd( m->s.pos.trDelta, ent->client->ps.velocity, m->s.pos.trDelta );    // "real" physics
 
-        // let the AI know which grenade it has fired
-        ent->grenadeFired = m->s.number;
+	// let the AI know which grenade it has fired
+	ent->grenadeFired = m->s.number;
 
-        // Ridah, return the grenade so we can do some prediction before deciding if we really want to throw it or not
-        return m;
+	// Ridah, return the grenade so we can do some prediction before deciding if we really want to throw it or not
+	return m;
 }
 
 
@@ -1233,26 +1233,24 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 	// pineapples are not thrown as far as mashers
 	if ( grenType == WP_GRENADE_LAUNCHER ) {
 		upangle *= 800;     //									    0.0 / 800.0
-	} else if ( grenType == WP_GRENADE_PINEAPPLE )                                {
+	} else if ( grenType == WP_GRENADE_PINEAPPLE ) {
 		if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
 			upangle *= 800;
 		} else {
-                        // coop ?
+			// coop ?
 			upangle *= 600;     //									    0.0 / 600.0
 		}
-	}
-	else if ( grenType == WP_GRENADE_SMOKE ) { // smoke grenades *really* get chucked
+	} else if ( grenType == WP_GRENADE_SMOKE )   { // smoke grenades *really* get chucked
 		upangle *= 800;
-	}
-	else {      // WP_DYNAMITE
+	} else {      // WP_DYNAMITE
 		upangle *= 400;     //										0.0 / 100.0
 
 	}
 	/*
 	if(ent->aiCharacter)
 	{
-		VectorScale(forward, 700, forward);				//----(SA)	700 is the default grenade throw they are already used to
-		m = fire_grenade (ent, muzzleTrace, forward);	//----(SA)	temp to make AI's throw grenades at their actual target
+	    VectorScale(forward, 700, forward);				//----(SA)	700 is the default grenade throw they are already used to
+	    m = fire_grenade (ent, muzzleTrace, forward);	//----(SA)	temp to make AI's throw grenades at their actual target
 	}
 	else
 	*/
@@ -1549,18 +1547,18 @@ void Weapon_LightningFire( gentity_t *ent ) {
 
 	traceEnt = &g_entities[ tr.entityNum ];
 /*
-	if ( traceEnt->takedamage && traceEnt->client ) {
-		tent = G_TempEntity( tr.endpos, EV_MISSILE_HIT );
-		tent->s.otherEntityNum = traceEnt->s.number;
-		tent->s.eventParm = DirToByte( tr.plane.normal );
-		tent->s.weapon = ent->s.weapon;
-		if( LogAccuracyHit( traceEnt, ent ) ) {
-			ent->client->ps.persistant[PERS_ACCURACY_HITS]++;
-		}
-	} else if ( !( tr.surfaceFlags & SURF_NOIMPACT ) ) {
-		tent = G_TempEntity( tr.endpos, EV_MISSILE_MISS );
-		tent->s.eventParm = DirToByte( tr.plane.normal );
-	}
+    if ( traceEnt->takedamage && traceEnt->client ) {
+        tent = G_TempEntity( tr.endpos, EV_MISSILE_HIT );
+        tent->s.otherEntityNum = traceEnt->s.number;
+        tent->s.eventParm = DirToByte( tr.plane.normal );
+        tent->s.weapon = ent->s.weapon;
+        if( LogAccuracyHit( traceEnt, ent ) ) {
+            ent->client->ps.persistant[PERS_ACCURACY_HITS]++;
+        }
+    } else if ( !( tr.surfaceFlags & SURF_NOIMPACT ) ) {
+        tent = G_TempEntity( tr.endpos, EV_MISSILE_MISS );
+        tent->s.eventParm = DirToByte( tr.plane.normal );
+    }
 */
 	if ( traceEnt->takedamage && !AICast_NoFlameDamage( traceEnt->s.number ) ) {
 		#define FLAME_THRESHOLD 50
@@ -1681,7 +1679,7 @@ void Weapon_FlamethrowerFire( gentity_t *ent ) {
 /*
 ==============
 AddLean
-	add leaning offset
+    add leaning offset
 ==============
 */
 void AddLean( gentity_t *ent, vec3_t point ) {
@@ -1991,16 +1989,17 @@ void FireWeapon( gentity_t *ent ) {
 		if ( ent->s.weapon == WP_DYNAMITE ) {
 			ent->client->ps.classWeaponTime = level.time; // JPW NERVE
 		}
-                if ( g_gametype.integer <= GT_COOP )
-		        weapon_grenadelauncher_fire_coop( ent, ent->s.weapon );
-                else
-		        weapon_grenadelauncher_fire( ent, ent->s.weapon );
+		if ( g_gametype.integer <= GT_COOP ) {
+			weapon_grenadelauncher_fire_coop( ent, ent->s.weapon );
+		} else {
+			weapon_grenadelauncher_fire( ent, ent->s.weapon );
+		}
 		break;
 	case WP_FLAMETHROWER:
 		Weapon_FlamethrowerFire( ent );
 		break;
 	case WP_TESLA:
-			Tesla_Fire( ent );
+		Tesla_Fire( ent );
 
 		// push the player back a bit
 		if ( !ent->aiCharacter ) {

@@ -49,8 +49,8 @@ typedef struct SDL_SysWMinfo SDL_SysWMinfo;
 #else
 
 /* This is the structure for custom window manager events */
-#if defined(SDL_VIDEO_DRIVER_X11)
-#if defined(__APPLE__) && defined(__MACH__)
+#if defined( SDL_VIDEO_DRIVER_X11 )
+#if defined( __APPLE__ ) && defined( __MACH__ )
 /* conflicts with Quickdraw.h */
 #define Cursor X11Cursor
 #endif
@@ -58,7 +58,7 @@ typedef struct SDL_SysWMinfo SDL_SysWMinfo;
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
-#if defined(__APPLE__) && defined(__MACH__)
+#if defined( __APPLE__ ) && defined( __MACH__ )
 /* matches the re-define above */
 #undef Cursor
 #endif
@@ -73,7 +73,7 @@ struct SDL_SysWMmsg {
 	SDL_version version;
 	SDL_SYSWM_TYPE subsystem;
 	union {
-	    XEvent xevent;
+		XEvent xevent;
 	} event;
 };
 
@@ -85,35 +85,35 @@ typedef struct SDL_SysWMinfo {
 	SDL_version version;
 	SDL_SYSWM_TYPE subsystem;
 	union {
-	    struct {
-	    	Display *display;	/**< The X11 display */
-	    	Window window;		/**< The X11 display window */
-		/** These locking functions should be called around
-                 *  any X11 functions using the display variable, 
-                 *  but not the gfxdisplay variable.
-                 *  They lock the event thread, so should not be
-		 *  called around event functions or from event filters.
-		 */
-                /*@{*/
-		void (*lock_func)(void);
-		void (*unlock_func)(void);
-                /*@}*/
+		struct {
+			Display *display;   /**< The X11 display */
+			Window window;      /**< The X11 display window */
+			/** These locking functions should be called around
+			         *  any X11 functions using the display variable,
+			         *  but not the gfxdisplay variable.
+			         *  They lock the event thread, so should not be
+			 *  called around event functions or from event filters.
+			 */
+			/*@{*/
+			void ( *lock_func )( void );
+			void ( *unlock_func )( void );
+			/*@}*/
 
-		/** @name Introduced in SDL 1.0.2 */
-                /*@{*/
-	    	Window fswindow;	/**< The X11 fullscreen window */
-	    	Window wmwindow;	/**< The X11 managed input window */
-                /*@}*/
+			/** @name Introduced in SDL 1.0.2 */
+			/*@{*/
+			Window fswindow;    /**< The X11 fullscreen window */
+			Window wmwindow;    /**< The X11 managed input window */
+			/*@}*/
 
-		/** @name Introduced in SDL 1.2.12 */
-                /*@{*/
-		Display *gfxdisplay;	/**< The X11 display to which rendering is done */
-                /*@}*/
-	    } x11;
+			/** @name Introduced in SDL 1.2.12 */
+			/*@{*/
+			Display *gfxdisplay; /**< The X11 display to which rendering is done */
+			/*@}*/
+		} x11;
 	} info;
 } SDL_SysWMinfo;
 
-#elif defined(SDL_VIDEO_DRIVER_NANOX)
+#elif defined( SDL_VIDEO_DRIVER_NANOX )
 #include <microwin/nano-X.h>
 
 /** The generic custom event structure */
@@ -125,35 +125,35 @@ struct SDL_SysWMmsg {
 /** The windows custom window manager information structure */
 typedef struct SDL_SysWMinfo {
 	SDL_version version ;
-	GR_WINDOW_ID window ;	/* The display window */
+	GR_WINDOW_ID window ;   /* The display window */
 } SDL_SysWMinfo;
 
-#elif defined(SDL_VIDEO_DRIVER_WINDIB) || defined(SDL_VIDEO_DRIVER_DDRAW) || defined(SDL_VIDEO_DRIVER_GAPI)
+#elif defined( SDL_VIDEO_DRIVER_WINDIB ) || defined( SDL_VIDEO_DRIVER_DDRAW ) || defined( SDL_VIDEO_DRIVER_GAPI )
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 /** The windows custom event structure */
 struct SDL_SysWMmsg {
 	SDL_version version;
-	HWND hwnd;			/**< The window for the message */
-	UINT msg;			/**< The type of message */
-	WPARAM wParam;			/**< WORD message parameter */
-	LPARAM lParam;			/**< LONG message parameter */
+	HWND hwnd;          /**< The window for the message */
+	UINT msg;           /**< The type of message */
+	WPARAM wParam;          /**< WORD message parameter */
+	LPARAM lParam;          /**< LONG message parameter */
 };
 
 /** The windows custom window manager information structure */
 typedef struct SDL_SysWMinfo {
 	SDL_version version;
-	HWND window;			/**< The Win32 display window */
-	HGLRC hglrc;			/**< The OpenGL context, if any */
+	HWND window;            /**< The Win32 display window */
+	HGLRC hglrc;            /**< The OpenGL context, if any */
 } SDL_SysWMinfo;
 
-#elif defined(SDL_VIDEO_DRIVER_RISCOS)
+#elif defined( SDL_VIDEO_DRIVER_RISCOS )
 
 /** RISC OS custom event structure */
 struct SDL_SysWMmsg {
 	SDL_version version;
-	int eventCode;		/**< The window for the message */
+	int eventCode;      /**< The window for the message */
 	int pollBlock[64];
 };
 
@@ -162,10 +162,10 @@ typedef struct SDL_SysWMinfo {
 	SDL_version version;
 	int wimpVersion;    /**< Wimp version running under */
 	int taskHandle;     /**< The RISC OS task handle */
-	int window;		/**< The RISC OS display window */
+	int window;     /**< The RISC OS display window */
 } SDL_SysWMinfo;
 
-#elif defined(SDL_VIDEO_DRIVER_PHOTON)
+#elif defined( SDL_VIDEO_DRIVER_PHOTON )
 #include <sys/neutrino.h>
 #include <Ph.h>
 
@@ -204,7 +204,7 @@ typedef struct SDL_SysWMinfo {
  * This function gives you custom hooks into the window manager information.
  * It fills the structure pointed to by 'info' with custom information and
  * returns 1 if the function is implemented.  If it's not implemented, or
- * the version member of the 'info' structure is invalid, it returns 0. 
+ * the version member of the 'info' structure is invalid, it returns 0.
  *
  * You typically use this function like this:
  * @code
@@ -213,7 +213,7 @@ typedef struct SDL_SysWMinfo {
  * if ( SDL_GetWMInfo(&info) ) { ... }
  * @endcode
  */
-extern DECLSPEC int SDLCALL SDL_GetWMInfo(SDL_SysWMinfo *info);
+extern DECLSPEC int SDLCALL SDL_GetWMInfo( SDL_SysWMinfo *info );
 
 
 /* Ends C function definitions when using C++ */

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ If you have questions concerning this license or the applicable additional terms
 //=============================================================================
 
 #define PERS_SCORE              0       // !!! MUST NOT CHANGE, SERVER AND
-										// GAME BOTH REFERENCE !!!
+                                        // GAME BOTH REFERENCE !!!
 
 #define MAX_ENT_CLUSTERS    16
 
@@ -114,8 +114,8 @@ typedef struct {
 	playerState_t ps;
 	int num_entities;
 	int first_entity;                   // into the circular sv_packet_entities[]
-										// the entities MUST be in increasing state number
-										// order, otherwise the delta compression will fail
+	                                    // the entities MUST be in increasing state number
+	                                    // order, otherwise the delta compression will fail
 	int messageSent;                    // time the message was transmitted
 	int messageAcked;                   // time the message was acked
 	int messageSize;                    // used to rate drop packets
@@ -182,13 +182,13 @@ typedef struct client_s {
 	qboolean downloadEOF;               // We have sent the EOF block
 	int downloadSendTime;               // time we last got an ack from the client
 
-    // www downloading
-    qboolean bDlOK;    // passed from cl_wwwDownload CVAR_USERINFO, wether this client supports www dl
-    char downloadURL[MAX_OSPATH];            // the URL we redirected the client to
-    qboolean bWWWDl;    // we have a www download going
-    qboolean bWWWing;    // the client is doing an ftp/http download
-    qboolean bFallback;    // last www download attempt failed, fallback to regular download
-    // note: this is one-shot, multiple downloads would cause a www download to be attempted again
+	// www downloading
+	qboolean bDlOK;    // passed from cl_wwwDownload CVAR_USERINFO, wether this client supports www dl
+	char downloadURL[MAX_OSPATH];            // the URL we redirected the client to
+	qboolean bWWWDl;    // we have a www download going
+	qboolean bWWWing;    // the client is doing an ftp/http download
+	qboolean bFallback;    // last www download attempt failed, fallback to regular download
+	// note: this is one-shot, multiple downloads would cause a www download to be attempted again
 
 	int deltaMessage;                   // frame last client usercmd message
 	int nextReliableTime;               // svs.time when another reliable command will be allowed
@@ -213,7 +213,7 @@ typedef struct client_s {
 	netchan_buffer_t **netchan_end_queue;
 
 	// L0 - ioquake fix for relaibable command overflow
-	qboolean csUpdated[MAX_CONFIGSTRINGS+1];
+	qboolean csUpdated[MAX_CONFIGSTRINGS + 1];
 
 	int downloadnotify;
 } client_t;
@@ -402,7 +402,7 @@ void SV_ExecuteClientCommand( client_t *cl, const char *s, qboolean clientOK );
 void SV_ClientThink( client_t *cl, usercmd_t *cmd );
 
 void SV_WriteDownloadToClient( client_t *cl, msg_t *msg );
-void SV_FreeClient(client_t *client);
+void SV_FreeClient( client_t *client );
 
 //
 // sv_ccmds.c
@@ -436,11 +436,11 @@ qboolean SV_GetTag( int clientNum, char *tagname, orientation_t * or );
 // sv_http.c
 
 #ifdef USE_HTTP_SERVER
-void SV_HTTPSetup(void);
-void SV_InitHTTP(void);
-void SV_HTTPInitiateShutdown(void);
-void SV_HTTPWaitShutdown(void);
-qboolean SV_HTTPIsRunning(void);
+void SV_HTTPSetup( void );
+void SV_InitHTTP( void );
+void SV_HTTPInitiateShutdown( void );
+void SV_HTTPWaitShutdown( void );
+qboolean SV_HTTPIsRunning( void );
 #endif
 
 //
@@ -461,11 +461,11 @@ void BotImport_DebugPolygonDelete( int id );
 
 // sv_wallhack.c
 #ifdef FEATURE_ANTICHEAT
-void SV_RandomizePos(int player, int other);
-void SV_InitWallhack(void);
-void SV_RestorePos(int cli);
-int SV_CanSee(int player, int other);
-int SV_PositionChanged(int cli);
+void SV_RandomizePos( int player, int other );
+void SV_InitWallhack( void );
+void SV_RestorePos( int cli );
+int SV_CanSee( int player, int other );
+int SV_PositionChanged( int cli );
 #endif
 
 //============================================================
@@ -528,7 +528,7 @@ void SV_ClipToEntity( trace_t *trace, const vec3_t start, const vec3_t mins, con
 void SV_Netchan_Transmit( client_t *client, msg_t *msg );
 void SV_Netchan_TransmitNextFragment( client_t *client );
 qboolean SV_Netchan_Process( client_t *client, msg_t *msg );
-void SV_Netchan_FreeQueue(client_t *client);
+void SV_Netchan_FreeQueue( client_t *client );
 
 extern cvar_t  *sv_maxlives;
 extern cvar_t  *sv_reinforce;
@@ -538,4 +538,3 @@ extern cvar_t  *sv_airespawn;
 #define DLNOTIFY_REDIRECT   0x00000001  // "Redirecting client ..."
 #define DLNOTIFY_BEGIN      0x00000002  // "clientDownload: 4 : beginning ..."
 #define DLNOTIFY_ALL        ( DLNOTIFY_REDIRECT | DLNOTIFY_BEGIN )
-

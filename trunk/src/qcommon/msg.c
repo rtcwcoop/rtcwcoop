@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ static qboolean msgInit = qfalse;
 /*
 ==============================================================================
 
-			MESSAGE IO FUNCTIONS
+            MESSAGE IO FUNCTIONS
 
 Handles byte ordering and avoids alignment errors
 ==============================================================================
@@ -88,12 +88,12 @@ void MSG_BeginReadingOOB( msg_t *msg ) {
 }
 
 void MSG_Copy( msg_t *buf, byte *data, int length, msg_t *src ) {
-        if ( length < src->cursize ) {
-                Com_Error( ERR_DROP, "MSG_Copy: can't copy into a smaller msg_t buffer" );
-        }    
-        Com_Memcpy( buf, src, sizeof( msg_t ) ); 
-        buf->data = data;
-        Com_Memcpy( buf->data, src->data, src->cursize );
+	if ( length < src->cursize ) {
+		Com_Error( ERR_DROP, "MSG_Copy: can't copy into a smaller msg_t buffer" );
+	}
+	Com_Memcpy( buf, src, sizeof( msg_t ) );
+	buf->data = data;
+	Com_Memcpy( buf->data, src->data, src->cursize );
 }
 
 
@@ -2243,7 +2243,7 @@ int msg_hData[256] = {
 	13504,      // 255
 };
 
-void MSG_initHuffman(void) {
+void MSG_initHuffman( void ) {
 	int i,j;
 
 	msgInit = qtrue;
@@ -2258,36 +2258,36 @@ void MSG_initHuffman(void) {
 
 /*
 void MSG_NUinitHuffman(void) {
-	byte	*data;
-	int		size, i, ch;
-	int		array[256];
+    byte	*data;
+    int		size, i, ch;
+    int		array[256];
 
-	msgInit = qtrue;
+    msgInit = qtrue;
 
-	Huff_Init(&msgHuff);
-	// load it in
-	size = FS_ReadFile( "netchan/netchan.bin", (void **)&data );
+    Huff_Init(&msgHuff);
+    // load it in
+    size = FS_ReadFile( "netchan/netchan.bin", (void **)&data );
 
-	for(i=0;i<256;i++) {
-		array[i] = 0;
-	}
-	for(i=0;i<size;i++) {
-		ch = data[i];
-		Huff_addRef(&msgHuff.compressor,	ch);			// Do update
-		Huff_addRef(&msgHuff.decompressor,	ch);			// Do update
-		array[ch]++;
-	}
-	Com_Printf("msg_hData {\n");
-	for(i=0;i<256;i++) {
-		if (array[i] == 0) {
-			Huff_addRef(&msgHuff.compressor,	i);			// Do update
-			Huff_addRef(&msgHuff.decompressor,	i);			// Do update
-		}
-		Com_Printf("%d,			// %d\n", array[i], i);
-	}
-	Com_Printf("};\n");
-	FS_FreeFile( data );
-	Cbuf_AddText( "condump dump.txt\n" );
+    for(i=0;i<256;i++) {
+        array[i] = 0;
+    }
+    for(i=0;i<size;i++) {
+        ch = data[i];
+        Huff_addRef(&msgHuff.compressor,	ch);			// Do update
+        Huff_addRef(&msgHuff.decompressor,	ch);			// Do update
+        array[ch]++;
+    }
+    Com_Printf("msg_hData {\n");
+    for(i=0;i<256;i++) {
+        if (array[i] == 0) {
+            Huff_addRef(&msgHuff.compressor,	i);			// Do update
+            Huff_addRef(&msgHuff.decompressor,	i);			// Do update
+        }
+        Com_Printf("%d,			// %d\n", array[i], i);
+    }
+    Com_Printf("};\n");
+    FS_FreeFile( data );
+    Cbuf_AddText( "condump dump.txt\n" );
 }
 */
 

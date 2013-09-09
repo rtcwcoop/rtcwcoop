@@ -1358,7 +1358,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 				targ->health = targ->health - take;
 			} else if ( g_friendlyFire.integer >= 2 ) { // hurt the attacker if he hits a teammate
 				if ( attacker->client && targ->client ) {
-					if ( !(attacker->r.svFlags & SVF_CASTAI ) ) { // human is the attacker
+					if ( !( attacker->r.svFlags & SVF_CASTAI ) ) { // human is the attacker
 						if ( attacker->client->sess.sessionTeam == targ->client->sess.sessionTeam ) {
 
 							attacker->health = attacker->health - take;
@@ -1371,7 +1371,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 							targ->health = targ->health - take;
 						}
 					} else {
-							targ->health = targ->health - take;
+						targ->health = targ->health - take;
 					}
 				}
 			}

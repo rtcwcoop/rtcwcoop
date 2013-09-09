@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -354,7 +354,7 @@ BotImport_FreeZoneMemory
 */
 /*
 void BotImport_FreeZoneMemory( void ) {
-	Z_FreeTags( TAG_BOTLIB );
+    Z_FreeTags( TAG_BOTLIB );
 }
 */
 
@@ -461,7 +461,7 @@ void BotImport_DebugLineShow( int line, vec3_t start, vec3_t end, int color ) {
 	dot = DotProduct( dir, up );
 	if ( dot > 0.99 || dot < -0.99 ) {
 		VectorSet( cross, 1, 0, 0 );
-	} else { CrossProduct( dir, up, cross );}
+	} else { CrossProduct( dir, up, cross ); }
 
 	VectorNormalize( cross );
 
@@ -702,4 +702,3 @@ int SV_BotGetSnapshotEntity( int client, int sequence ) {
 	}
 	return svs.snapshotEntities[( frame->first_entity + sequence ) % svs.numSnapshotEntities].number;
 }
-

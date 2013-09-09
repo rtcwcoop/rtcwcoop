@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein multiplayer GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein multiplayer GPL Source Code (RTCW MP Source Code).  
+This file is part of the Return to Castle Wolfenstein multiplayer GPL Source Code (RTCW MP Source Code).
 
 RTCW MP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -161,7 +161,7 @@ it will attempt to load as a system dll
 
 #define STACK_SIZE  0x20000
 
-vm_t *VM_Create( const char *module, int ( *systemCalls )(int *),
+vm_t *VM_Create( const char *module, int ( *systemCalls )( int * ),
 				 vmInterpret_t interpret ) {
 	vm_t        *vm;
 	int i;
@@ -197,19 +197,18 @@ vm_t *VM_Create( const char *module, int ( *systemCalls )(int *),
 	if ( interpret == VMI_NATIVE ) {
 		// try to load as a system dll
 		//vm->dllHandle = Sys_LoadDll( module, vm->fqpath, &vm->entryPoint, VM_DllSyscall );
-                vm->dllHandle = Sys_LoadDll( module, &vm->entryPoint, VM_DllSyscall );
+		vm->dllHandle = Sys_LoadDll( module, &vm->entryPoint, VM_DllSyscall );
 		if ( vm->dllHandle ) {
 			return vm;
 		}
 
 		Com_Printf( "Failed to load dll.\n" );
-                return NULL;
+		return NULL;
 
+	}   else
+	{
+		return NULL;
 	}
-        else
-        {
-                return NULL;
-        }
 
 	return NULL;
 }
@@ -317,7 +316,7 @@ locals from sp
 
 int QDECL VM_Call( vm_t *vm, int callnum, ... ) {
 	vm_t    *oldVM;
-        int     r = 0;
+	int r = 0;
 	//rcg010207 see dissertation at top of VM_DllSyscall() in this file.
 #if ( ( defined __linux__ ) && ( defined __powerpc__ ) ) || ( defined MACOS_X )
 	int i;

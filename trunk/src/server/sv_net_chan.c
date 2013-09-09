@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,8 +35,8 @@ If you have questions concerning this license or the applicable additional terms
 ==============
 SV_Netchan_Encode
 
-	// first four bytes of the data are always:
-	long reliableAcknowledge;
+    // first four bytes of the data are always:
+    long reliableAcknowledge;
 
 ==============
 */
@@ -86,10 +86,10 @@ static void SV_Netchan_Encode( client_t *client, msg_t *msg ) {
 ==============
 SV_Netchan_Decode
 
-	// first 12 bytes of the data are always:
-	long serverId;
-	long messageAcknowledge;
-	long reliableAcknowledge;
+    // first 12 bytes of the data are always:
+    long serverId;
+    long messageAcknowledge;
+    long reliableAcknowledge;
 
 ==============
 */
@@ -137,18 +137,17 @@ static void SV_Netchan_Decode( client_t *client, msg_t *msg ) {
 SV_Netchan_FreeQueue
 =================
 */
-void SV_Netchan_FreeQueue(client_t *client)
-{
-        netchan_buffer_t *netbuf, *next;
-    
-        for(netbuf = client->netchan_start_queue; netbuf; netbuf = next)
-        {   
-                next = netbuf->next;
-                Z_Free(netbuf);
-        }   
-    
-        client->netchan_start_queue = NULL;
-        client->netchan_end_queue = &client->netchan_start_queue;
+void SV_Netchan_FreeQueue( client_t *client ) {
+	netchan_buffer_t *netbuf, *next;
+
+	for ( netbuf = client->netchan_start_queue; netbuf; netbuf = next )
+	{
+		next = netbuf->next;
+		Z_Free( netbuf );
+	}
+
+	client->netchan_start_queue = NULL;
+	client->netchan_end_queue = &client->netchan_start_queue;
 }
 
 /*
@@ -180,8 +179,8 @@ void SV_Netchan_TransmitNextFragment( client_t *client ) {
 			}
 			/*
 			else
-				Com_DPrintf("Netchan_TransmitNextFragment: remaining queued message\n");
-				*/
+			    Com_DPrintf("Netchan_TransmitNextFragment: remaining queued message\n");
+			    */
 			Z_Free( netbuf );
 		}
 	}
@@ -233,4 +232,3 @@ qboolean SV_Netchan_Process( client_t *client, msg_t *msg ) {
 	SV_Netchan_Decode( client, msg );
 	return qtrue;
 }
-

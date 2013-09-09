@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -510,8 +510,8 @@ void CG_Concussive( centity_t *cent ) {
 /*
 ==============
 CG_ZoomSway
-	sway for scoped weapons.
-	this takes aimspread into account so the view settles after a bit
+    sway for scoped weapons.
+    this takes aimspread into account so the view settles after a bit
 ==============
 */
 static void CG_ZoomSway( void ) {
@@ -735,11 +735,11 @@ void CG_AdjustZoomVal( float val, int type ) {
 void CG_ZoomIn_f( void ) {
 	if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_SNIPERRIFLE ) {
 		CG_AdjustZoomVal( -( cg_zoomStepSniper.value ), ZOOM_SNIPER );
-	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_SNOOPERSCOPE )      {
+	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_SNOOPERSCOPE ) {
 		CG_AdjustZoomVal( -( cg_zoomStepSnooper.value ), ZOOM_SNOOPER );
-	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_FG42SCOPE )      {
+	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_FG42SCOPE ) {
 		CG_AdjustZoomVal( -( cg_zoomStepSnooper.value ), ZOOM_FG42SCOPE );
-	} else if ( cg.zoomedBinoc )      {
+	} else if ( cg.zoomedBinoc ) {
 		CG_AdjustZoomVal( -( cg_zoomStepBinoc.value ), ZOOM_BINOC );
 	}
 }
@@ -747,11 +747,11 @@ void CG_ZoomIn_f( void ) {
 void CG_ZoomOut_f( void ) {
 	if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_SNIPERRIFLE ) {
 		CG_AdjustZoomVal( cg_zoomStepSniper.value, ZOOM_SNIPER );
-	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_SNOOPERSCOPE )      {
+	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_SNOOPERSCOPE ) {
 		CG_AdjustZoomVal( cg_zoomStepSnooper.value, ZOOM_SNOOPER );
-	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_FG42SCOPE )      {
+	} else if ( cg_entities[cg.snap->ps.clientNum].currentState.weapon == WP_FG42SCOPE ) {
 		CG_AdjustZoomVal( cg_zoomStepSnooper.value, ZOOM_FG42SCOPE );
-	} else if ( cg.zoomedBinoc )      {
+	} else if ( cg.zoomedBinoc ) {
 		CG_AdjustZoomVal( cg_zoomStepBinoc.value, ZOOM_BINOC );
 	}
 }
@@ -970,8 +970,9 @@ static void CG_DamageBlendBlob( void ) {
 	}
 
 	// L0 - we don't need this if bloodblend is enabled..
-	if (cg_bloodBlend.integer)
+	if ( cg_bloodBlend.integer ) {
 		return;
+	}
 	// end
 
 	redFlash = 0;
@@ -1021,22 +1022,22 @@ static void CG_DamageBlendBlob( void ) {
 
 	/* moved over to cg_draw.c
 	if (cg.v_dmg_time > cg.time) {
-		redFlash = fabs(cg.v_dmg_pitch * ((cg.v_dmg_time - cg.time) / DAMAGE_TIME));
+	    redFlash = fabs(cg.v_dmg_pitch * ((cg.v_dmg_time - cg.time) / DAMAGE_TIME));
 
-		// blend the entire screen red
-		if (redFlash > 5)
-			redFlash = 5;
+	    // blend the entire screen red
+	    if (redFlash > 5)
+	        redFlash = 5;
 
-		memset( &ent, 0, sizeof( ent ) );
-		ent.reType = RT_SPRITE;
-		ent.renderfx = RF_FIRST_PERSON;
+	    memset( &ent, 0, sizeof( ent ) );
+	    ent.reType = RT_SPRITE;
+	    ent.renderfx = RF_FIRST_PERSON;
 
-		VectorMA( cg.refdef.vieworg, 8, cg.refdef.viewaxis[0], ent.origin );
-		ent.radius = 80;	// occupy entire screen
-		ent.customShader = cgs.media.viewFlashBlood;
-		ent.shaderRGBA[3] = (int)(180.0 * redFlash/5.0);
+	    VectorMA( cg.refdef.vieworg, 8, cg.refdef.viewaxis[0], ent.origin );
+	    ent.radius = 80;	// occupy entire screen
+	    ent.customShader = cgs.media.viewFlashBlood;
+	    ent.shaderRGBA[3] = (int)(180.0 * redFlash/5.0);
 
-		trap_R_AddRefEntityToScene( &ent );
+	    trap_R_AddRefEntityToScene( &ent );
 	}
 	*/
 }
@@ -1049,7 +1050,7 @@ Sets cg.refdef view values
 ===============
 */
 static int CG_CalcViewValues( void ) {
-	playerState_t   *ps;	
+	playerState_t   *ps;
 
 	memset( &cg.refdef, 0, sizeof( cg.refdef ) );
 
@@ -1126,9 +1127,9 @@ static int CG_CalcViewValues( void ) {
 		/*
 		if (ps->viewlocked == 4)
 		{
-			centity_t *tent;
-			tent = &cg_entities[ps->viewlocked_entNum];
-			VectorCopy (tent->currentState.apos.trBase, cg.refdefViewAngles);
+		    centity_t *tent;
+		    tent = &cg_entities[ps->viewlocked_entNum];
+		    VectorCopy (tent->currentState.apos.trBase, cg.refdefViewAngles);
 		}
 		else
 		*/
@@ -1153,7 +1154,7 @@ static int CG_CalcViewValues( void ) {
 			vec3_t fwd;
 			AngleVectors( cg.refdefViewAngles, fwd, NULL, NULL );
 			VectorMA( cg_entities[ps->viewlocked_entNum].currentState.pos.trBase, 16, fwd, cg.refdef.vieworg );
-		} else if ( ps->viewlocked )     {
+		} else if ( ps->viewlocked ) {
 			vec3_t fwd;
 			float oldZ;
 			// set our position to be behind it
@@ -1450,14 +1451,14 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView, qboolean demo
 	// update cvars
 	CG_UpdateCvars();
 /*
-	// RF, if we should force a weapon, then do so
-	if( !cg.weaponSelect ) {
-		if (cg_loadWeaponSelect.integer > 0) {
-			cg.weaponSelect = cg_loadWeaponSelect.integer;
-			cg.weaponSelectTime = cg.time;
-			trap_Cvar_Set( "cg_loadWeaponSelect", "0" );	// turn it off
-		}
-	}
+    // RF, if we should force a weapon, then do so
+    if( !cg.weaponSelect ) {
+        if (cg_loadWeaponSelect.integer > 0) {
+            cg.weaponSelect = cg_loadWeaponSelect.integer;
+            cg.weaponSelectTime = cg.time;
+            trap_Cvar_Set( "cg_loadWeaponSelect", "0" );	// turn it off
+        }
+    }
 */
 #ifdef DEBUGTIME_ENABLED
 	CG_Printf( "\n" );
@@ -1522,8 +1523,9 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView, qboolean demo
 
 	// if we have been told not to render, don't
 	if ( cg_norender.integer ) {
-                if (!demoPlayback) 
-		        return;
+		if ( !demoPlayback ) {
+			return;
+		}
 	}
 
 	// this counter will be bumped for every valid scene we generate
@@ -1561,7 +1563,7 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView, qboolean demo
 		CG_DamageBlendBlob();
 	}
 
-        CG_PlayBufferedVoiceChats();
+	CG_PlayBufferedVoiceChats();
 	DEBUGTIME
 
 	// build the render lists
@@ -1642,4 +1644,3 @@ void CG_DrawActiveFrame( int serverTime, stereoFrame_t stereoView, qboolean demo
 
 	DEBUGTIME
 }
-

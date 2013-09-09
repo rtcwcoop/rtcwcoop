@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -87,8 +87,8 @@ typedef struct {
 	void ( *SetColor )( const float *rgba );    // NULL = 1,1,1,1
 	void ( *DrawStretchPic )( float x, float y, float w, float h,
 							  float s1, float t1, float s2, float t2, qhandle_t hShader ); // 0 = white
-        void ( *DrawRotatedPic )( float x, float y, float w, float h,
-                                                          float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );
+	void ( *DrawRotatedPic )( float x, float y, float w, float h,
+							  float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );
 	void ( *DrawStretchPicGradient )( float x, float y, float w, float h,
 									  float s1, float t1, float s2, float t2, qhandle_t hShader, const float *gradientColor, int gradientType );
 
@@ -118,10 +118,10 @@ typedef struct {
 	void ( *ZombieFXAddNewHit )( int entityNum, const vec3_t hitPos, const vec3_t hitDir );
 
 	qboolean ( *GetEntityToken )( char *buffer, int size );
-        // fretn
-        void ( *RenderToTexture )( int textureid, int x, int y, int w, int h );
-        //bani
-        int ( *GetTextureId )( const char *imagename );
+	// fretn
+	void ( *RenderToTexture )( int textureid, int x, int y, int w, int h );
+	//bani
+	int ( *GetTextureId )( const char *imagename );
 } refexport_t;
 
 //
@@ -152,7 +152,7 @@ typedef struct {
 	cvar_t  *( *Cvar_Get )( const char *name, const char *value, int flags );
 	void ( *Cvar_Set )( const char *name, const char *value );
 
-	void ( *Cmd_AddCommand )( const char *name, void( *cmd ) ( void ) );
+	void ( *Cmd_AddCommand )( const char *name, void ( *cmd )( void ) );
 	void ( *Cmd_RemoveCommand )( const char *name );
 
 	int ( *Cmd_Argc )( void );
@@ -161,7 +161,7 @@ typedef struct {
 	void ( *Cmd_ExecuteText )( int exec_when, const char *text );
 
 	// visualization for debugging collision detection
-	void ( *CM_DrawDebugSurface )( void( *drawPoly ) ( int color, int numPoints, float *points ) );
+	void ( *CM_DrawDebugSurface )( void ( *drawPoly )( int color, int numPoints, float *points ) );
 
 	// a -1 return means the file does not exist
 	// NULL can be passed for buf to just determine existance

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -150,7 +150,7 @@ Called by Com_Error when a game has ended and is dropping out to main menu in th
 ==============
 */
 void CL_EndgameMenu( void ) {
-        cls.endgamemenu = qtrue;    // start it next frame
+	cls.endgamemenu = qtrue;        // start it next frame
 }
 
 /*
@@ -186,8 +186,9 @@ void CL_AddReliableCommand( const char *cmd ) {
 
 	// if we would be losing an old command that hasn't been acknowledged,
 	// we must drop the connection
-        if (cl.cameraMode) // need this, or the cutscenes crash when you open the menu/console
-                return;
+	if ( cl.cameraMode ) { // need this, or the cutscenes crash when you open the menu/console
+		return;
+	}
 	if ( clc.reliableSequence - clc.reliableAcknowledge > MAX_RELIABLE_COMMANDS ) {
 		Com_Error( ERR_DROP, "Client command overflow" );
 	}
@@ -796,11 +797,11 @@ Clear download information that we keep in cls (disconnected download support)
 =====================
 */
 void CL_ClearStaticDownload( void ) {
-    assert( !cls.bWWWDlDisconnected ); // reset before calling
-    cls.downloadRestart = qfalse;
-    cls.downloadTempName[0] = '\0';
-    cls.downloadName[0] = '\0';
-    cls.originalDownloadName[0] = '\0';
+	assert( !cls.bWWWDlDisconnected ); // reset before calling
+	cls.downloadRestart = qfalse;
+	cls.downloadTempName[0] = '\0';
+	cls.downloadName[0] = '\0';
+	cls.originalDownloadName[0] = '\0';
 }
 
 
@@ -826,17 +827,17 @@ void CL_Disconnect( qboolean showMainMenu ) {
 		CL_StopRecord_f();
 	}
 
-    if ( !cls.bWWWDlDisconnected ) {
-        if ( clc.download ) {
-            FS_FCloseFile( clc.download );
-            clc.download = 0;
-        }
-        *cls.downloadTempName = *cls.downloadName = 0;
-        Cvar_Set( "cl_downloadName", "" );
+	if ( !cls.bWWWDlDisconnected ) {
+		if ( clc.download ) {
+			FS_FCloseFile( clc.download );
+			clc.download = 0;
+		}
+		*cls.downloadTempName = *cls.downloadName = 0;
+		Cvar_Set( "cl_downloadName", "" );
 
-        autoupdateStarted = qfalse;
-        autoupdateFilename[0] = '\0';
-    }
+		autoupdateStarted = qfalse;
+		autoupdateFilename[0] = '\0';
+	}
 
 	if ( clc.demofile ) {
 		FS_FCloseFile( clc.demofile );
@@ -865,9 +866,9 @@ void CL_Disconnect( qboolean showMainMenu ) {
 	// wipe the client connection
 	memset( &clc, 0, sizeof( clc ) );
 
-    if ( !cls.bWWWDlDisconnected ) {
-        CL_ClearStaticDownload();
-    }
+	if ( !cls.bWWWDlDisconnected ) {
+		CL_ClearStaticDownload();
+	}
 
 	cls.state = CA_DISCONNECTED;
 
@@ -1223,12 +1224,12 @@ void CL_Rcon_f( void ) {
 	}
 
 
-        if ( com_sv_running->integer ) {
-                // fretn: /rcon status on a local server can crash everything
-                // this is is a simple workaround untill I figure this out
-                Com_Printf("No rcon when running a local server\n");
-                return;
-        }
+	if ( com_sv_running->integer ) {
+		// fretn: /rcon status on a local server can crash everything
+		// this is is a simple workaround untill I figure this out
+		Com_Printf( "No rcon when running a local server\n" );
+		return;
+	}
 	message[0] = -1;
 	message[1] = -1;
 	message[2] = -1;
@@ -1490,26 +1491,26 @@ void CL_DownloadsComplete( void ) {
 			Sys_Chmod( fn, S_IXUSR );
 #endif
 #endif
-            // will either exit with a successful process spawn, or will Com_Error ERR_DROP
-            // so we need to clear the disconnected download data if needed
-            if ( cls.bWWWDlDisconnected ) {
-                cls.bWWWDlDisconnected = qfalse;
-                CL_ClearStaticDownload();
-            }
+			// will either exit with a successful process spawn, or will Com_Error ERR_DROP
+			// so we need to clear the disconnected download data if needed
+			if ( cls.bWWWDlDisconnected ) {
+				cls.bWWWDlDisconnected = qfalse;
+				CL_ClearStaticDownload();
+			}
 
 			Sys_StartProcess( fn, qtrue );
 		}
 
-        // NOTE - TTimo: that code is never supposed to be reached?
+		// NOTE - TTimo: that code is never supposed to be reached?
 
-        autoupdateStarted = qfalse;
+		autoupdateStarted = qfalse;
 
-        if ( !cls.bWWWDlDisconnected ) {
-            CL_Disconnect( qtrue );
-        }
-        // we can reset that now
-        cls.bWWWDlDisconnected = qfalse;
-        CL_ClearStaticDownload();
+		if ( !cls.bWWWDlDisconnected ) {
+			CL_Disconnect( qtrue );
+		}
+		// we can reset that now
+		cls.bWWWDlDisconnected = qfalse;
+		CL_ClearStaticDownload();
 
 		return;
 	}
@@ -1520,21 +1521,21 @@ void CL_DownloadsComplete( void ) {
 
 		FS_Restart( clc.checksumFeed ); // We possibly downloaded a pak, restart the file system to load it
 
-        if ( !cls.bWWWDlDisconnected ) {
-            // inform the server so we get new gamestate info
-            CL_AddReliableCommand( "donedl" );
-        }
-        // we can reset that now
-        cls.bWWWDlDisconnected = qfalse;
-        CL_ClearStaticDownload();
+		if ( !cls.bWWWDlDisconnected ) {
+			// inform the server so we get new gamestate info
+			CL_AddReliableCommand( "donedl" );
+		}
+		// we can reset that now
+		cls.bWWWDlDisconnected = qfalse;
+		CL_ClearStaticDownload();
 
 		// by sending the donedl command we request a new gamestate
 		// so we don't want to load stuff yet
 		return;
 	}
 
-    // TTimo: I wonder if that happens - it should not but I suspect it could happen if a download fails in the middle or is aborted
-    assert( !cls.bWWWDlDisconnected );
+	// TTimo: I wonder if that happens - it should not but I suspect it could happen if a download fails in the middle or is aborted
+	assert( !cls.bWWWDlDisconnected );
 
 	// let the client game init and load data
 	cls.state = CA_LOADING;
@@ -1583,8 +1584,8 @@ void CL_BeginDownload( const char *localName, const char *remoteName ) {
 				 "Remotename: %s\n"
 				 "****************************\n", localName, remoteName );
 
-    Q_strncpyz( cls.downloadName, localName, sizeof( cls.downloadName ) ); 
-    Com_sprintf( cls.downloadTempName, sizeof( cls.downloadTempName ), "%s.tmp", localName );
+	Q_strncpyz( cls.downloadName, localName, sizeof( cls.downloadName ) );
+	Com_sprintf( cls.downloadTempName, sizeof( cls.downloadTempName ), "%s.tmp", localName );
 
 
 	// Set so UI gets access to it
@@ -1660,12 +1661,12 @@ void CL_InitDownloads( void ) {
 	char missingfiles[1024];
 	char *dir = FS_ShiftStr( AUTOUPDATE_DIR, AUTOUPDATE_DIR_SHIFT );
 
-    // TTimo
-    // init some of the www dl data
-    clc.bWWWDl = qfalse;
-    clc.bWWWDlAborting = qfalse;
-    cls.bWWWDlDisconnected = qfalse;
-    CL_ClearStaticDownload();
+	// TTimo
+	// init some of the www dl data
+	clc.bWWWDl = qfalse;
+	clc.bWWWDlAborting = qfalse;
+	cls.bWWWDlDisconnected = qfalse;
+	CL_ClearStaticDownload();
 
 	if ( autoupdateStarted && NET_CompareAdr( cls.autoupdateServer, clc.serverAddress ) ) {
 		if ( strlen( cl_updatefiles->string ) > 4 ) {
@@ -1689,7 +1690,7 @@ void CL_InitDownloads( void ) {
 #ifdef LOCALISATION
 			Com_Printf( CL_TranslateStringBuf( "Need paks: %s\n" ), clc.downloadList );
 #else
-			Com_Printf( "Need paks: %s\n" , clc.downloadList );
+			Com_Printf( "Need paks: %s\n", clc.downloadList );
 #endif
 
 			if ( *clc.downloadList ) {
@@ -1739,9 +1740,9 @@ void CL_CheckForResend( void ) {
 	switch ( cls.state ) {
 	case CA_CONNECTING:
 		// requesting a challenge
-                // fretn: currently for coop games disable the authorization, I have no idea
-                // if the id auth server is still up, and currently I don't feel like testing
-                // this code if it works or not
+		// fretn: currently for coop games disable the authorization, I have no idea
+		// if the id auth server is still up, and currently I don't feel like testing
+		// this code if it works or not
 		//if ( !Sys_IsLANAddress( clc.serverAddress ) ) {
 		//	CL_RequestAuthorization();
 		//}
@@ -1790,7 +1791,7 @@ to the client so it doesn't have to wait for the full timeout period.
 */
 void CL_DisconnectPacket( netadr_t from ) {
 #ifdef LOCALISATION
-        const char *message;
+	const char *message;
 #endif
 	if ( cls.state < CA_AUTHORIZING ) {
 		return;
@@ -1811,36 +1812,36 @@ void CL_DisconnectPacket( netadr_t from ) {
 		return;
 	}
 
-    // if we are doing a disconnected download, leave the 'connecting' screen on with the progress information
-    if ( !cls.bWWWDlDisconnected ) {
-        // drop the connection
+	// if we are doing a disconnected download, leave the 'connecting' screen on with the progress information
+	if ( !cls.bWWWDlDisconnected ) {
+		// drop the connection
 
-	// L0 - FIXME : This needs to be done better as if player is kicked it never prints what was the reason nor that he was kicked for that matter...
-	// drop the connection (FIXME: connection dropped dialog)
+		// L0 - FIXME : This needs to be done better as if player is kicked it never prints what was the reason nor that he was kicked for that matter...
+		// drop the connection (FIXME: connection dropped dialog)
 #ifdef LOCALISATION
-        message = CL_TranslateStringBuf( "Server disconnected for unknown reason\n" );
+		message = CL_TranslateStringBuf( "Server disconnected for unknown reason\n" );
 		Com_Printf( message );
-        Cvar_Set( "com_errorMessage", message );
+		Cvar_Set( "com_errorMessage", message );
 #else
 		Com_Printf( "Server disconnected for unknown reason\n" );
-        Cvar_Set( "com_errorMessage", "Server disconnected for unknown reason\n" );
+		Cvar_Set( "com_errorMessage", "Server disconnected for unknown reason\n" );
 #endif
-	CL_Disconnect( qtrue );
-    } else {
-	// L0 - FIXME : This needs to be done better as if player is kicked it never prints what was the reason nor that he was kicked for that matter...
-	// drop the connection (FIXME: connection dropped dialog)
+		CL_Disconnect( qtrue );
+	} else {
+		// L0 - FIXME : This needs to be done better as if player is kicked it never prints what was the reason nor that he was kicked for that matter...
+		// drop the connection (FIXME: connection dropped dialog)
 #ifdef LOCALISATION
-        message = CL_TranslateStringBuf( "Server disconnected for unknown reason\n" );
+		message = CL_TranslateStringBuf( "Server disconnected for unknown reason\n" );
 		Com_Printf( message );
-        Cvar_Set( "com_errorMessage", message );
+		Cvar_Set( "com_errorMessage", message );
 #else
 		Com_Printf( "Server disconnected for unknown reason\n" );
-        Cvar_Set( "com_errorMessage", "Server disconnected for unknown reason\n" );
+		Cvar_Set( "com_errorMessage", "Server disconnected for unknown reason\n" );
 #endif
 		CL_Disconnect( qfalse );
-        Cvar_Set( "ui_connecting", "1" );
-        Cvar_Set( "ui_dl_running", "1" );
-    }
+		Cvar_Set( "ui_connecting", "1" );
+		Cvar_Set( "ui_dl_running", "1" );
+	}
 
 
 }
@@ -1894,7 +1895,7 @@ void CL_PrintPacket( netadr_t from, msg_t *msg ) {
 	if ( !Q_stricmpn( s, "[err_dialog]", 12 ) ) {
 		Q_strncpyz( clc.serverMessage, s + 12, sizeof( clc.serverMessage ) );
 		Cvar_Set( "com_errorMessage", clc.serverMessage );
-	} else if ( !Q_stricmpn( s, "[err_prot]", 10 ) )    {
+	} else if ( !Q_stricmpn( s, "[err_prot]", 10 ) ) {
 		Q_strncpyz( clc.serverMessage, s + 10, sizeof( clc.serverMessage ) );
 #ifdef LOCALISATION
 		Cvar_Set( "com_errorMessage", CL_TranslateStringBuf( PROTOCOL_MISMATCH_ERROR_LONG ) );
@@ -2190,25 +2191,25 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 		return;
 	}
 
-        if ( !Q_stricmp( c, "getlatestversionResponse") ) {
+	if ( !Q_stricmp( c, "getlatestversionResponse" ) ) {
 		int a, b, c;
-		Cvar_Set("ui_latestversion", Cmd_Argv( 1 ));
+		Cvar_Set( "ui_latestversion", Cmd_Argv( 1 ) );
 
-		a = atoi(Cmd_Argv( 2 ));
-		b = atoi(Cmd_Argv( 3 ));
-		c = atoi(Cmd_Argv( 4 ));
+		a = atoi( Cmd_Argv( 2 ) );
+		b = atoi( Cmd_Argv( 3 ) );
+		c = atoi( Cmd_Argv( 4 ) );
 
-		if (RTCWCOOP_VERSION_DIGIT_1<a) {
-			Cvar_Set("ui_newversionavailable", "1");
+		if ( RTCWCOOP_VERSION_DIGIT_1 < a ) {
+			Cvar_Set( "ui_newversionavailable", "1" );
 			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
-		} else if (RTCWCOOP_VERSION_DIGIT_2<b) {
-			Cvar_Set("ui_newversionavailable", "1");
+		} else if ( RTCWCOOP_VERSION_DIGIT_2 < b ) {
+			Cvar_Set( "ui_newversionavailable", "1" );
 			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
-		} else if (RTCWCOOP_VERSION_DIGIT_3<c) {
-			Cvar_Set("ui_newversionavailable", "1");
+		} else if ( RTCWCOOP_VERSION_DIGIT_3 < c ) {
+			Cvar_Set( "ui_newversionavailable", "1" );
 			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
 		} else {
-			Com_Printf( "Your RTCWCOOP version is up to date\n");
+			Com_Printf( "Your RTCWCOOP version is up to date\n" );
 		}
 
 		return;
@@ -2288,19 +2289,19 @@ void CL_CheckTimeout( void ) {
 	// check timeout
 	//
 #ifdef LOCALISATION
-        const char *message;
+	const char *message;
 #endif
 	if ( ( !cl_paused->integer || !sv_paused->integer )
 		 && cls.state >= CA_CONNECTED && cls.state != CA_CINEMATIC
 		 && cls.realtime - clc.lastPacketTime > cl_timeout->value * 1000 ) {
 		if ( ++cl.timeoutcount > 5 ) {    // timeoutcount saves debugger
 #ifdef LOCALISATION
-                        message = CL_TranslateStringBuf( "Server connection timed out.\n" );
+			message = CL_TranslateStringBuf( "Server connection timed out.\n" );
 			Com_Printf( message );
-                        Cvar_Set( "com_errorMessage", message);
+			Cvar_Set( "com_errorMessage", message );
 #else
 			Com_Printf( "\nServer connection timed out.\n" );
-                        Cvar_Set( "com_errorMessage", "Server connection timed out.\n");
+			Cvar_Set( "com_errorMessage", "Server connection timed out.\n" );
 #endif
 			CL_Disconnect( qtrue );
 			return;
@@ -2341,79 +2342,79 @@ CL_WWWDownload
 ==================
 */
 void CL_WWWDownload( void ) {
-    char *to_ospath;
-    dlStatus_t ret;
-    static qboolean bAbort = qfalse;
+	char *to_ospath;
+	dlStatus_t ret;
+	static qboolean bAbort = qfalse;
 
-    if ( clc.bWWWDlAborting ) {
-        if ( !bAbort ) {
-            Com_DPrintf( "CL_WWWDownload: WWWDlAborting\n" );
-            bAbort = qtrue;
-        }
-        return;
-    }
-    if ( bAbort ) {
-        Com_DPrintf( "CL_WWWDownload: WWWDlAborting done\n" );
-        bAbort = qfalse;
-    }
+	if ( clc.bWWWDlAborting ) {
+		if ( !bAbort ) {
+			Com_DPrintf( "CL_WWWDownload: WWWDlAborting\n" );
+			bAbort = qtrue;
+		}
+		return;
+	}
+	if ( bAbort ) {
+		Com_DPrintf( "CL_WWWDownload: WWWDlAborting done\n" );
+		bAbort = qfalse;
+	}
 
-    ret = DL_DownloadLoop();
+	ret = DL_DownloadLoop();
 
-    if ( ret == DL_CONTINUE ) {
-        return;
-    }
+	if ( ret == DL_CONTINUE ) {
+		return;
+	}
 
-    if ( ret == DL_DONE ) {
-        // taken from CL_ParseDownload
-        // we work with OS paths
-        clc.download = 0;
-        to_ospath = FS_BuildOSPath( Cvar_VariableString( "fs_homepath" ), cls.originalDownloadName, "" );
-        to_ospath[strlen( to_ospath ) - 1] = '\0';
-        if ( rename( cls.downloadTempName, to_ospath ) ) {
-            FS_CopyFile( cls.downloadTempName, to_ospath );
-            remove( cls.downloadTempName );
-        }
-        *cls.downloadTempName = *cls.downloadName = 0;
-        Cvar_Set( "cl_downloadName", "" );
-        if ( cls.bWWWDlDisconnected ) {
-            // for an auto-update in disconnected mode, we'll be spawning the setup in CL_DownloadsComplete
-            if ( !autoupdateStarted ) {
-                // reconnect to the server, which might send us to a new disconnected download
-                Cbuf_ExecuteText( EXEC_APPEND, "reconnect\n" );
-            }
-        } else {
-            CL_AddReliableCommand( "wwwdl done" );
-            // tracking potential web redirects leading us to wrong checksum - only works in connected mode
-            if ( strlen( clc.redirectedList ) + strlen( cls.originalDownloadName ) + 1 >= sizeof( clc.redirectedList ) ) {
-                // just to be safe
-                Com_Printf( "ERROR: redirectedList overflow (%s)\n", clc.redirectedList );
-            } else {
-                strcat( clc.redirectedList, "@" );
-                strcat( clc.redirectedList, cls.originalDownloadName );
-            }
-        }
-    } else
-    {
-        if ( cls.bWWWDlDisconnected ) {
-            // in a connected download, we'd tell the server about failure and wait for a reply
-            // but in this case we can't get anything from server
-            // if we just reconnect it's likely we'll get the same disconnected download message, and error out again
-            // this may happen for a regular dl or an auto update
-            const char *error = va( "Download failure while getting '%s'\n", cls.downloadName ); // get the msg before clearing structs
-            cls.bWWWDlDisconnected = qfalse; // need clearing structs before ERR_DROP, or it goes into endless reload
-            CL_ClearStaticDownload();
-            Com_Error( ERR_DROP, error );
-        } else {
-            // see CL_ParseDownload, same abort strategy
-            Com_Printf( "Download failure while getting '%s'\n", cls.downloadName );
-            CL_AddReliableCommand( "wwwdl fail" );
-            clc.bWWWDlAborting = qtrue;
-        }
-        return;
-    }
+	if ( ret == DL_DONE ) {
+		// taken from CL_ParseDownload
+		// we work with OS paths
+		clc.download = 0;
+		to_ospath = FS_BuildOSPath( Cvar_VariableString( "fs_homepath" ), cls.originalDownloadName, "" );
+		to_ospath[strlen( to_ospath ) - 1] = '\0';
+		if ( rename( cls.downloadTempName, to_ospath ) ) {
+			FS_CopyFile( cls.downloadTempName, to_ospath );
+			remove( cls.downloadTempName );
+		}
+		*cls.downloadTempName = *cls.downloadName = 0;
+		Cvar_Set( "cl_downloadName", "" );
+		if ( cls.bWWWDlDisconnected ) {
+			// for an auto-update in disconnected mode, we'll be spawning the setup in CL_DownloadsComplete
+			if ( !autoupdateStarted ) {
+				// reconnect to the server, which might send us to a new disconnected download
+				Cbuf_ExecuteText( EXEC_APPEND, "reconnect\n" );
+			}
+		} else {
+			CL_AddReliableCommand( "wwwdl done" );
+			// tracking potential web redirects leading us to wrong checksum - only works in connected mode
+			if ( strlen( clc.redirectedList ) + strlen( cls.originalDownloadName ) + 1 >= sizeof( clc.redirectedList ) ) {
+				// just to be safe
+				Com_Printf( "ERROR: redirectedList overflow (%s)\n", clc.redirectedList );
+			} else {
+				strcat( clc.redirectedList, "@" );
+				strcat( clc.redirectedList, cls.originalDownloadName );
+			}
+		}
+	} else
+	{
+		if ( cls.bWWWDlDisconnected ) {
+			// in a connected download, we'd tell the server about failure and wait for a reply
+			// but in this case we can't get anything from server
+			// if we just reconnect it's likely we'll get the same disconnected download message, and error out again
+			// this may happen for a regular dl or an auto update
+			const char *error = va( "Download failure while getting '%s'\n", cls.downloadName ); // get the msg before clearing structs
+			cls.bWWWDlDisconnected = qfalse; // need clearing structs before ERR_DROP, or it goes into endless reload
+			CL_ClearStaticDownload();
+			Com_Error( ERR_DROP, error );
+		} else {
+			// see CL_ParseDownload, same abort strategy
+			Com_Printf( "Download failure while getting '%s'\n", cls.downloadName );
+			CL_AddReliableCommand( "wwwdl fail" );
+			clc.bWWWDlAborting = qtrue;
+		}
+		return;
+	}
 
-    clc.bWWWDl = qfalse;
-    CL_NextDownload();
+	clc.bWWWDl = qfalse;
+	CL_NextDownload();
 }
 
 /*
@@ -2426,19 +2427,19 @@ this indicates that the redirect setup is broken, and next dl attempt should NOT
 ==================
 */
 qboolean CL_WWWBadChecksum( const char *pakname ) {
-    if ( strstr( clc.redirectedList, va( "@%s", pakname ) ) ) {
-        Com_Printf( "WARNING: file %s obtained through download redirect has wrong checksum\n", pakname );
-        Com_Printf( "         this likely means the server configuration is broken\n" );
-        if ( strlen( clc.badChecksumList ) + strlen( pakname ) + 1 >= sizeof( clc.badChecksumList ) ) {
-            Com_Printf( "ERROR: badChecksumList overflowed (%s)\n", clc.badChecksumList );
-            return qfalse;
-        }
-        strcat( clc.badChecksumList, "@" );
-        strcat( clc.badChecksumList, pakname );
-        Com_DPrintf( "bad checksums: %s\n", clc.badChecksumList );
-        return qtrue;
-    }
-    return qfalse;
+	if ( strstr( clc.redirectedList, va( "@%s", pakname ) ) ) {
+		Com_Printf( "WARNING: file %s obtained through download redirect has wrong checksum\n", pakname );
+		Com_Printf( "         this likely means the server configuration is broken\n" );
+		if ( strlen( clc.badChecksumList ) + strlen( pakname ) + 1 >= sizeof( clc.badChecksumList ) ) {
+			Com_Printf( "ERROR: badChecksumList overflowed (%s)\n", clc.badChecksumList );
+			return qfalse;
+		}
+		strcat( clc.badChecksumList, "@" );
+		strcat( clc.badChecksumList, pakname );
+		Com_DPrintf( "bad checksums: %s\n", clc.badChecksumList );
+		return qtrue;
+	}
+	return qfalse;
 }
 
 
@@ -2458,9 +2459,9 @@ void CL_Frame( int msec ) {
 		// bring up the cd error dialog if needed
 		cls.cddialog = qfalse;
 		VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_NEED_CD );
-        } else if ( cls.endgamemenu ) {
-                cls.endgamemenu = qfalse;
-                VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_ENDGAME );
+	} else if ( cls.endgamemenu ) {
+		cls.endgamemenu = qfalse;
+		VM_Call( uivm, UI_SET_ACTIVE_MENU, UIMENU_ENDGAME );
 	} else if ( cls.state == CA_DISCONNECTED && !( cls.keyCatchers & KEYCATCH_UI )
 				&& !com_sv_running->integer ) {
 		// if disconnected, bring up the menu
@@ -2485,8 +2486,9 @@ void CL_Frame( int msec ) {
 	// fretn: explanation from L0: when multiple clients set their timescale to
 	// a high value and then simultaneous connect to a server they will crash him
 #ifndef _DEBUG
-	if (!clc.demoplaying)
+	if ( !clc.demoplaying ) {
 		com_timescale->value = 1;
+	}
 #endif
 	// end
 
@@ -2509,10 +2511,10 @@ void CL_Frame( int msec ) {
 	// drop the connection
 	CL_CheckTimeout();
 
-    // wwwdl download may survive a server disconnect
-    if ( ( cls.state == CA_CONNECTED && clc.bWWWDl ) || cls.bWWWDlDisconnected ) {
-        CL_WWWDownload();
-    }
+	// wwwdl download may survive a server disconnect
+	if ( ( cls.state == CA_CONNECTED && clc.bWWWDl ) || cls.bWWWDlDisconnected ) {
+		CL_WWWDownload();
+	}
 
 	// send intentions now
 	CL_SendCmd();
@@ -2681,11 +2683,11 @@ CL_SetRecommended_f
 ================
 */
 void CL_SetRecommended_f( void ) {
-        if ( Cmd_Argc() > 1 ) {
-                Com_SetRecommended( qtrue );
-        } else {
-                Com_SetRecommended( qfalse );
-        }  
+	if ( Cmd_Argc() > 1 ) {
+		Com_SetRecommended( qtrue );
+	} else {
+		Com_SetRecommended( qfalse );
+	}
 }
 
 
@@ -2864,9 +2866,9 @@ void CL_GetAutoUpdate( void ) {
 
 	// starting to load a map so we get out of full screen ui mode
 	Cvar_Set( "r_uiFullScreen", "0" );
-    // toggle on all the download related cvars
-    Cvar_Set( "cl_allowDownload", "1" ); // general flag
-    Cvar_Set( "cl_wwwDownload", "1" ); // ftp/http support
+	// toggle on all the download related cvars
+	Cvar_Set( "cl_allowDownload", "1" ); // general flag
+	Cvar_Set( "cl_wwwDownload", "1" ); // ftp/http support
 
 	// clear any previous "server full" type messages
 	clc.serverMessage[0] = 0;
@@ -2918,12 +2920,12 @@ CL_RefMalloc
 #ifdef ZONE_DEBUG
 /*
 void *CL_RefMallocDebug( int size, char *label, char *file, int line ) {
-	return Z_TagMallocDebug( size, TAG_RENDERER, label, file, line );
+    return Z_TagMallocDebug( size, TAG_RENDERER, label, file, line );
 }*/
 #else
 /*
 void *CL_RefMalloc( int size ) {
-	return Z_TagMalloc( size, TAG_RENDERER );
+    return Z_TagMalloc( size, TAG_RENDERER );
 }*/
 #endif
 
@@ -2934,8 +2936,8 @@ CL_RefTagFree
 */
 /*
 void CL_RefTagFree( void ) {
-	Z_FreeTags( TAG_RENDERER );
-	return;
+    Z_FreeTags( TAG_RENDERER );
+    return;
 }
 */
 
@@ -3119,7 +3121,7 @@ void CL_Init( void ) {
 	cl_showSend = Cvar_Get( "cl_showSend", "0", CVAR_TEMP );
 	cl_showTimeDelta = Cvar_Get( "cl_showTimeDelta", "0", CVAR_TEMP );
 	cl_freezeDemo = Cvar_Get( "cl_freezeDemo", "0", CVAR_TEMP );
-        cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);  // fretn
+	cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE );     // fretn
 	rcon_client_password = Cvar_Get( "rconPassword", "", CVAR_TEMP );
 	cl_activeAction = Cvar_Get( "activeAction", "", CVAR_TEMP );
 
@@ -3142,15 +3144,15 @@ void CL_Init( void ) {
 	cl_freelook = Cvar_Get( "cl_freelook", "1", CVAR_ARCHIVE );
 	cl_master = Cvar_Get( "cl_master", "master.rtcwcoop.com", CVAR_ARCHIVE );
 
-        // fretn: people got the ip of the masterserver in their saved configs, lets change that to master.rtcwcoop.com
-        // so in case we ever change the ip of master.rtcwcoop.com they still can see the master
-        // we can remove this in a few releases
-        if (!Q_stricmp(cl_master->string, "78.47.152.4") || !Q_stricmp(cl_master->string, "88.159.160.153")) {
-                Cvar_Set("cl_master", "master.rtcwcoop.com");
-        }
+	// fretn: people got the ip of the masterserver in their saved configs, lets change that to master.rtcwcoop.com
+	// so in case we ever change the ip of master.rtcwcoop.com they still can see the master
+	// we can remove this in a few releases
+	if ( !Q_stricmp( cl_master->string, "78.47.152.4" ) || !Q_stricmp( cl_master->string, "88.159.160.153" ) ) {
+		Cvar_Set( "cl_master", "master.rtcwcoop.com" );
+	}
 
 	cl_showMouseRate = Cvar_Get( "cl_showmouserate", "0", 0 );
-        cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);  // fretn
+	cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE );     // fretn
 
 
 	cl_allowDownload = Cvar_Get( "cl_allowDownload", "1", CVAR_ARCHIVE );
@@ -3273,7 +3275,7 @@ void CL_Init( void ) {
 	Cmd_AddCommand( "reconnect", CL_Reconnect_f );
 	Cmd_AddCommand( "localservers", CL_LocalServers_f );
 	Cmd_AddCommand( "globalservers", CL_GlobalServers_f );
-	Cmd_AddCommand( "getlatestversion", CL_GetLatestVersion_f);
+	Cmd_AddCommand( "getlatestversion", CL_GetLatestVersion_f );
 	Cmd_AddCommand( "rcon", CL_Rcon_f );
 	Cmd_AddCommand( "setenv", CL_Setenv_f );
 	Cmd_AddCommand( "ping", CL_Ping_f );
@@ -3283,9 +3285,9 @@ void CL_Init( void ) {
 	Cmd_AddCommand( "fs_referencedList", CL_ReferencedPK3List_f );
 
 #ifdef USE_IRC
-	Cmd_AddCommand ("irc_connect", CL_OW_InitIRC);
-	Cmd_AddCommand ("irc_quit", CL_OW_IRCInitiateShutdown);
-	Cmd_AddCommand ("irc_say", CL_OW_IRCSay);	
+	Cmd_AddCommand( "irc_connect", CL_OW_InitIRC );
+	Cmd_AddCommand( "irc_quit", CL_OW_IRCInitiateShutdown );
+	Cmd_AddCommand( "irc_say", CL_OW_IRCSay );
 #endif
 
 	// Ridah, startup-caching system
@@ -3305,7 +3307,7 @@ void CL_Init( void ) {
 #endif
 	// NERVE - SMF - don't do this in multiplayer
 	// RF, add this command so clients can't bind a key to send client damage commands to the server
-	Cmd_AddCommand ("cld", CL_ClientDamageCommand );
+	Cmd_AddCommand( "cld", CL_ClientDamageCommand );
 
 	Cmd_AddCommand( "shellExecute", CL_ShellExecute_URL_f );
 
@@ -3416,12 +3418,12 @@ static void CL_SetServerInfo( serverInfo_t *server, const char *info, int ping )
 			server->minPing = atoi( Info_ValueForKey( info, "minping" ) );
 			server->maxPing = atoi( Info_ValueForKey( info, "maxping" ) );
 			server->allowAnonymous = atoi( Info_ValueForKey( info, "sv_allowAnonymous" ) );
-                        // fretn
+			// fretn
 			server->coop = atoi( Info_ValueForKey( info, "coop" ) );
-			server->gameskill= atoi( Info_ValueForKey( info, "gameskill" ) );
-                        server->maxlives = atoi( Info_ValueForKey( info, "maxlives" ) );
-                        server->reinforce= atoi( Info_ValueForKey( info, "reinforce" ) );
-                        server->airespawn = atoi( Info_ValueForKey( info, "airespawn" ) );
+			server->gameskill = atoi( Info_ValueForKey( info, "gameskill" ) );
+			server->maxlives = atoi( Info_ValueForKey( info, "maxlives" ) );
+			server->reinforce = atoi( Info_ValueForKey( info, "reinforce" ) );
+			server->airespawn = atoi( Info_ValueForKey( info, "airespawn" ) );
 		}
 		server->ping = ping;
 	}
@@ -3462,76 +3464,75 @@ static void CL_SetServerInfoByAddress( netadr_t from, const char *info, int ping
  ===================
  */
 void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
-	int             i, type;
-	char    info[MAX_INFO_STRING];
+	int i, type;
+	char info[MAX_INFO_STRING];
 	char    *infoString;
-	int             prot;
-	
+	int prot;
+
 	infoString = MSG_ReadString( msg );
-	
+
 	// if this isn't the correct protocol version, ignore it
-	prot = atoi( Info_ValueForKey( infoString, "protocol" ) ); 
+	prot = atoi( Info_ValueForKey( infoString, "protocol" ) );
 	if ( prot != PROTOCOL_VERSION ) {
 		Com_DPrintf( "Different protocol info packet: %s\n", infoString );
 		return;
-	}    
-	
+	}
+
 	// iterate servers waiting for ping response
-	for (i=0; i<MAX_PINGREQUESTS; i++) 
-	{    
-		if ( cl_pinglist[i].adr.port && !cl_pinglist[i].time && NET_CompareAdr( from, cl_pinglist[i].adr ) )
-		{    
+	for ( i = 0; i < MAX_PINGREQUESTS; i++ )
+	{
+		if ( cl_pinglist[i].adr.port && !cl_pinglist[i].time && NET_CompareAdr( from, cl_pinglist[i].adr ) ) {
 			// calc ping time
 			cl_pinglist[i].time = Sys_Milliseconds() - cl_pinglist[i].start;
-			Com_DPrintf( "ping time %dms from %s\n", cl_pinglist[i].time, NET_AdrToString( from ) ); 
-			
+			Com_DPrintf( "ping time %dms from %s\n", cl_pinglist[i].time, NET_AdrToString( from ) );
+
 			// save of info
-			Q_strncpyz( cl_pinglist[i].info, infoString, sizeof( cl_pinglist[i].info ) ); 
-			
+			Q_strncpyz( cl_pinglist[i].info, infoString, sizeof( cl_pinglist[i].info ) );
+
 			// tack on the net type
 			// NOTE: make sure these types are in sync with the netnames strings in the UI
-			switch (from.type)
-			{    
-				case NA_BROADCAST:
-				case NA_IP:
-					type = 1; 
-					break;
-				case NA_IP6:
-					type = 2;
-					break;
-				default:
-					type = 0;
-					break;
+			switch ( from.type )
+			{
+			case NA_BROADCAST:
+			case NA_IP:
+				type = 1;
+				break;
+			case NA_IP6:
+				type = 2;
+				break;
+			default:
+				type = 0;
+				break;
 			}
-			Info_SetValueForKey( cl_pinglist[i].info, "nettype", va("%d", type) );
-			CL_SetServerInfoByAddress(from, infoString, cl_pinglist[i].time);
-			
+			Info_SetValueForKey( cl_pinglist[i].info, "nettype", va( "%d", type ) );
+			CL_SetServerInfoByAddress( from, infoString, cl_pinglist[i].time );
+
 			return;
 		}
 	}
-	
+
 	// if not just sent a local broadcast or pinging local servers
-	if (cls.pingUpdateSource != AS_LOCAL) {
+	if ( cls.pingUpdateSource != AS_LOCAL ) {
 		return;
 	}
-	
+
 	for ( i = 0 ; i < MAX_OTHER_SERVERS ; i++ ) {
 		// empty slot
 		if ( cls.localServers[i].adr.port == 0 ) {
 			break;
 		}
-		
+
 		// avoid duplicate
 		if ( NET_CompareAdr( from, cls.localServers[i].adr ) ) {
 			return;
 		}
 	}
-	
+
 	if ( i == MAX_OTHER_SERVERS ) {
 		Com_DPrintf( "MAX_OTHER_SERVERS hit, dropping infoResponse\n" );
 		return;
 	}
-	
+
 	// add this to the list
 	cls.numlocalservers = i + 1;
 	cls.localServers[i].adr = from;
@@ -3548,14 +3549,14 @@ void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
 	cls.localServers[i].netType = from.type;
 	cls.localServers[i].allowAnonymous = 0;
 	cls.localServers[i].gameskill = 0;
-        cls.localServers[i].maxlives = 0;
-        cls.localServers[i].reinforce = 0;
-        cls.localServers[i].airespawn = 0;
-	
+	cls.localServers[i].maxlives = 0;
+	cls.localServers[i].reinforce = 0;
+	cls.localServers[i].airespawn = 0;
+
 	Q_strncpyz( info, MSG_ReadString( msg ), MAX_INFO_STRING );
-	if (strlen(info)) {
-		if (info[strlen(info)-1] != '\n') {
-			strncat(info, "\n", sizeof(info) - 1);
+	if ( strlen( info ) ) {
+		if ( info[strlen( info ) - 1] != '\n' ) {
+			strncat( info, "\n", sizeof( info ) - 1 );
 		}
 		Com_Printf( "%s: %s", NET_AdrToStringwPort( from ), info );
 	}
@@ -3918,41 +3919,41 @@ void CL_ServerStatusResponse( netadr_t from, msg_t *msg ) {
  */
 void CL_LocalServers_f( void ) {
 	char            *message;
-	int                     i, j;
-	netadr_t        to;  
-	
-	Com_Printf( "Scanning for servers on the local network...\n");
-	
+	int i, j;
+	netadr_t to;
+
+	Com_Printf( "Scanning for servers on the local network...\n" );
+
 	// reset the list, waiting for response
-	cls.numlocalservers = 0; 
+	cls.numlocalservers = 0;
 	cls.pingUpdateSource = AS_LOCAL;
-	
-	for (i = 0; i < MAX_OTHER_SERVERS; i++) {
+
+	for ( i = 0; i < MAX_OTHER_SERVERS; i++ ) {
 		qboolean b = cls.localServers[i].visible;
-		Com_Memset(&cls.localServers[i], 0, sizeof(cls.localServers[i]));
-		cls.localServers[i].visible = b; 
-	}    
-	Com_Memset( &to, 0, sizeof( to ) ); 
-	
+		Com_Memset( &cls.localServers[i], 0, sizeof( cls.localServers[i] ) );
+		cls.localServers[i].visible = b;
+	}
+	Com_Memset( &to, 0, sizeof( to ) );
+
 	// The 'xxx' in the message is a challenge that will be echoed back
 	// by the server.  We don't care about that here, but master servers
 	// can use that to prevent spoofed server responses from invalid ip
 	message = "\377\377\377\377getinfo xxx";
-	
+
 	// send each message twice in case one is dropped
 	for ( i = 0 ; i < 2 ; i++ ) {
 		// send a broadcast packet on each server port
 		// we support multiple server ports so a single machine
 		// can nicely run multiple servers
 		for ( j = 0 ; j < NUM_SERVER_PORTS ; j++ ) {
-			to.port = BigShort( (short)(PORT_SERVER + j) );
-			
+			to.port = BigShort( (short)( PORT_SERVER + j ) );
+
 			to.type = NA_BROADCAST;
 			NET_SendPacket( NS_CLIENT, strlen( message ), message, to );
 			to.type = NA_MULTICAST6;
 			NET_SendPacket( NS_CLIENT, strlen( message ), message, to );
-		}    
-	}    
+		}
+	}
 }
 
 #if 0
@@ -4202,7 +4203,7 @@ ping_t* CL_GetFreePing( void ) {
 					// still waiting for response
 					continue;
 				}
-			} else if ( pingptr->time < 500 )     {
+			} else if ( pingptr->time < 500 ) {
 				// results have not been queried
 				continue;
 			}
@@ -4509,11 +4510,11 @@ void CL_AddToLimboChat( const char *str ) {
 		}
 
 		if ( Q_IsColorString( str ) ) {
-			*p++ = *str++;			
+			*p++ = *str++;
 			*p++ = *str++;
 			continue;
 		}
-		
+
 		*p++ = *str++;
 		len++;
 	}
@@ -4632,7 +4633,7 @@ static trans_t* LookupTrans( char *original, char *translated[MAX_LANGUAGES], qb
 
 	// see if we want to save out the translation table everytime a string is added
 	if ( cl_debugTranslation->integer == 2 && !isLoading ) {
-		CL_SaveTransTable( "scripts/translation.lang", qtrue);
+		CL_SaveTransTable( "scripts/translation.lang", qtrue );
 	}
 
 	return newt;
@@ -5033,7 +5034,7 @@ void CL_ReloadTranslation( void ) {
 	fileList = FS_ListFiles( "translations", ".lang", &numFiles );
 
 	for ( i = 0; i < numFiles; i++ ) {
-		Com_sprintf( fileName, sizeof (fileName), "translations/%s", fileList[i] );
+		Com_sprintf( fileName, sizeof( fileName ), "translations/%s", fileList[i] );
 		CL_LoadTransTable( fileName );
 	}
 }
@@ -5054,7 +5055,7 @@ void CL_InitTranslation( void ) {
 	fileList = FS_ListFiles( "translations", ".lang", &numFiles );
 
 	for ( i = 0; i < numFiles; i++ ) {
-		Com_sprintf( fileName, sizeof (fileName), "translations/%s", fileList[i] );
+		Com_sprintf( fileName, sizeof( fileName ), "translations/%s", fileList[i] );
 		CL_LoadTransTable( fileName );
 	}
 }
@@ -5077,7 +5078,7 @@ void CL_TranslateString( const char *string, char *dest_buffer ) {
 	if ( !string ) {
 		strcpy( buf, "(null)" );
 		return;
-	} else if ( currentLanguage == -1 || currentLanguage >= MAX_LANGUAGES || !strlen( string ) )   {
+	} else if ( currentLanguage == -1 || currentLanguage >= MAX_LANGUAGES || !strlen( string ) ) {
 		strcpy( buf, string );
 		return;
 	}

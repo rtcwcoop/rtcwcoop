@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ If you have questions concerning this license or the applicable additional terms
 //#define VectorSet(v, x, y, z)	((v)[0]=(x), (v)[1]=(y), (v)[2]=(z))
 #define Vector4Copy( a,b )        ( ( b )[0] = ( a )[0],( b )[1] = ( a )[1],( b )[2] = ( a )[2],( b )[3] = ( a )[3] )
 
-#define SnapVector( v ) {v[0] = (int)v[0]; v[1] = (int)v[1]; v[2] = (int)v[2];}
+#define SnapVector( v ) {v[0] = (int)v[0]; v[1] = (int)v[1]; v[2] = (int)v[2]; }
 
 
 //#include "util_heap.h"
@@ -133,62 +133,62 @@ static inline double idSqrt( double x ) {
 class idVec3 {
 public:
 #ifndef FAT_VEC3
-	float x,y,z;
+float x,y,z;
 #else
-	float x,y,z,dist;
+float x,y,z,dist;
 #endif
 
 #ifndef FAT_VEC3
-	idVec3( void ) {
-	};
+idVec3( void ) {
+};
 #else
-	idVec3( void ) {
-		dist = 0.0f;
-	};
+idVec3( void ) {
+	dist = 0.0f;
+};
 #endif
-	idVec3( const float x, const float y, const float z );
+idVec3( const float x, const float y, const float z );
 
-	operator float*();
+operator float*();
 
-	float operator[]( const int index ) const;
-	float           &operator[]( const int index );
+float operator[]( const int index ) const;
+float           &operator[]( const int index );
 
-	void            set( const float x, const float y, const float z );
+void            set( const float x, const float y, const float z );
 
-	idVec3 operator-() const;
+idVec3 operator-() const;
 
-	idVec3          &operator=( const idVec3 &a );
+idVec3          &operator=( const idVec3 &a );
 
-	float operator*( const idVec3 &a ) const;
-	idVec3 operator*( const float a ) const;
-	friend idVec3 operator*( float a, idVec3 b );
+float operator*( const idVec3 &a ) const;
+idVec3 operator*( const float a ) const;
+friend idVec3 operator*( float a, idVec3 b );
 
-	idVec3 operator+( const idVec3 &a ) const;
-	idVec3 operator-( const idVec3 &a ) const;
+idVec3 operator+( const idVec3 &a ) const;
+idVec3 operator-( const idVec3 &a ) const;
 
-	idVec3          &operator+=( const idVec3 &a );
-	idVec3          &operator-=( const idVec3 &a );
-	idVec3          &operator*=( const float a );
+idVec3          &operator+=( const idVec3 &a );
+idVec3          &operator-=( const idVec3 &a );
+idVec3          &operator*=( const float a );
 
-	int operator==( const idVec3 &a ) const;
-	int operator!=( const idVec3 &a ) const;
+int operator==( const idVec3 &a ) const;
+int operator!=( const idVec3 &a ) const;
 
-	idVec3          Cross( const idVec3 &a ) const;
-	idVec3          &Cross( const idVec3 &a, const idVec3 &b );
+idVec3          Cross( const idVec3 &a ) const;
+idVec3          &Cross( const idVec3 &a, const idVec3 &b );
 
-	float           Length( void ) const;
-	float           Normalize( void );
+float           Length( void ) const;
+float           Normalize( void );
 
-	void            Zero( void );
-	void            Snap( void );
-	void            SnapTowards( const idVec3 &to );
+void            Zero( void );
+void            Snap( void );
+void            SnapTowards( const idVec3 &to );
 
-	float           toYaw( void );
-	float           toPitch( void );
-	angles_t        toAngles( void );
-	friend idVec3   LerpVector( const idVec3 &w1, const idVec3 &w2, const float t );
+float           toYaw( void );
+float           toPitch( void );
+angles_t        toAngles( void );
+friend idVec3   LerpVector( const idVec3 &w1, const idVec3 &w2, const float t );
 
-	char            *string( void );
+char            *string( void );
 };
 
 extern idVec3 vec_zero;
@@ -388,20 +388,20 @@ ID_INLINE void idVec3::SnapTowards( const idVec3 &to ) {
 
 class Bounds {
 public:
-	idVec3 b[2];
+idVec3 b[2];
 
-	Bounds();
-	Bounds( const idVec3 &mins, const idVec3 &maxs );
+Bounds();
+Bounds( const idVec3 &mins, const idVec3 &maxs );
 
-	void    Clear();
-	void    Zero();
-	float   Radius();       // radius from origin, not from center
-	idVec3  Center();
-	void    AddPoint( const idVec3 &v );
-	void    AddBounds( const Bounds &bb );
-	bool    IsCleared();
-	bool    ContainsPoint( const idVec3 &p );
-	bool    IntersectsBounds( const Bounds &b2 );   // touching is NOT intersecting
+void    Clear();
+void    Zero();
+float   Radius();           // radius from origin, not from center
+idVec3  Center();
+void    AddPoint( const idVec3 &v );
+void    AddBounds( const Bounds &bb );
+bool    IsCleared();
+bool    ContainsPoint( const idVec3 &p );
+bool    IntersectsBounds( const Bounds &b2 );       // touching is NOT intersecting
 };
 
 extern Bounds boundsZero;
@@ -515,12 +515,12 @@ ID_INLINE float Bounds::Radius( void ) {
 
 class idVec2 {
 public:
-	float x;
-	float y;
+float x;
+float y;
 
-	operator float*();
-	float operator[]( int index ) const;
-	float           &operator[]( int index );
+operator float*();
+float operator[]( int index ) const;
+float           &operator[]( int index );
 };
 
 ID_INLINE float idVec2::operator[]( int index ) const {
@@ -538,15 +538,15 @@ ID_INLINE idVec2::operator float*( void ) {
 class idVec4 : public idVec3 {
 public:
 #ifndef FAT_VEC3
-	float dist;
+float dist;
 #endif
-	idVec4();
-	~idVec4( void ) {
-	};
+idVec4();
+~idVec4( void ) {
+};
 
-	idVec4( float x, float y, float z, float dist );
-	float operator[]( int index ) const;
-	float           &operator[]( int index );
+idVec4( float x, float y, float z, float dist );
+float operator[]( int index ) const;
+float           &operator[]( int index );
 };
 
 ID_INLINE idVec4::idVec4( void ) {
@@ -569,10 +569,10 @@ ID_INLINE float& idVec4::operator[]( int index ) {
 
 class idVec5_t : public idVec3 {
 public:
-	float s;
-	float t;
-	float operator[]( int index ) const;
-	float           &operator[]( int index );
+float s;
+float t;
+float operator[]( int index ) const;
+float           &operator[]( int index );
 };
 
 

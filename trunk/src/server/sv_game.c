@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,10 +31,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "server.h"
 
 #include "../game/botlib.h"
-
-#ifdef SQL
-#include "../database/database.h"
-#endif
 
 botlib_export_t *botlib_export;
 
@@ -203,7 +199,7 @@ qboolean SV_inPVSIgnorePortals( const vec3_t p1, const vec3_t p2 ) {
 	mask = CM_ClusterPVS( cluster );
 
 	leafnum = CM_PointLeafnum( p2 );
-	cluster = CM_LeafCluster( leafnum );	
+	cluster = CM_LeafCluster( leafnum );
 
 	if ( mask && ( !( mask[cluster >> 3] & ( 1 << ( cluster & 7 ) ) ) ) ) {
 		return qfalse;
@@ -468,7 +464,7 @@ int SV_GameSystemCalls( int *args ) {
 	case G_GETTAG:
 		return SV_GetTag( args[1], VMA( 2 ), VMA( 3 ) );
 
-		//====================================
+	//====================================
 
 	case BOTLIB_SETUP:
 		return SV_BotLibSetup();
@@ -519,11 +515,11 @@ int SV_GameSystemCalls( int *args ) {
 	case BOTLIB_AAS_TIME:
 		return FloatAsInt( botlib_export->aas.AAS_Time() );
 
-		// Ridah
+	// Ridah
 	case BOTLIB_AAS_SETCURRENTWORLD:
 		botlib_export->aas.AAS_SetCurrentWorld( args[1] );
 		return 0;
-		// done.
+	// done.
 
 	case BOTLIB_AAS_POINT_AREA_NUM:
 		return botlib_export->aas.AAS_PointAreaNum( VMA( 1 ) );
@@ -555,7 +551,7 @@ int SV_GameSystemCalls( int *args ) {
 		return botlib_export->aas.AAS_PredictClientMovement( VMA( 1 ), args[2], VMA( 3 ), args[4], args[5],
 															 VMA( 6 ), VMA( 7 ), args[8], args[9], VMF( 10 ), args[11], args[12], args[13] );
 
-		// Ridah, route-tables
+	// Ridah, route-tables
 	case BOTLIB_AAS_RT_SHOWROUTE:
 		botlib_export->aas.AAS_RT_ShowRoute( VMA( 1 ), args[2], args[3] );
 		return 0;
@@ -572,7 +568,7 @@ int SV_GameSystemCalls( int *args ) {
 	case BOTLIB_AAS_SETAASBLOCKINGENTITY:
 		botlib_export->aas.AAS_SetAASBlockingEntity( VMA( 1 ), VMA( 2 ), args[3] );
 		return 0;
-		// done.
+	// done.
 
 	case BOTLIB_EA_SAY:
 		botlib_export->ea.EA_Say( args[1], VMA( 2 ) );
@@ -831,11 +827,11 @@ int SV_GameSystemCalls( int *args ) {
 	case BOTLIB_AI_INIT_MOVE_STATE:
 		botlib_export->ai.BotInitMoveState( args[1], VMA( 2 ) );
 		return 0;
-		// Ridah
+	// Ridah
 	case BOTLIB_AI_INIT_AVOID_REACH:
 		botlib_export->ai.BotInitAvoidReach( args[1] );
 		return 0;
-		// done.
+	// done.
 
 	case BOTLIB_AI_CHOOSE_BEST_FIGHT_WEAPON:
 		return botlib_export->ai.BotChooseBestFightWeapon( args[1], VMA( 2 ) );
@@ -896,33 +892,6 @@ int SV_GameSystemCalls( int *args ) {
 
 	case TRAP_CEIL:
 		return FloatAsInt( ceil( VMF( 1 ) ) );
-
-#ifdef SQL
-	case G_SQL_RUNQUERY:
-		return OW_RunQuery( (char*)VMA(1) );
-	case G_SQL_FINISHQUERY:
-		OW_FinishQuery( args[1] );
-		return 0;
-	case G_SQL_NEXTROW:
-		return OW_NextRow( args[1] );
-	case G_SQL_ROWCOUNT:
-		return OW_RowCount( args[1] );
-	case G_SQL_GETFIELDBYID:
-		OW_GetFieldByID( args[1], args[2], (char*)VMA(3), args[4]  );
-		return 0;
-	case G_SQL_GETFIELDBYNAME:
-		OW_GetFieldByName( args[1], (char*)VMA(2), (char*)VMA(3), args[4] );
-		return 0;
-	case G_SQL_GETFIELDBYID_INT:
-		return OW_GetFieldByID_int( args[1], args[2] );
-	case G_SQL_GETFIELDBYNAME_INT:
-		return OW_GetFieldByName_int( args[1], (char*)VMA(2) );
-	case G_SQL_FIELDCOUNT:
-		return OW_FieldCount( args[1] );
-	case G_SQL_CLEANSTRING:
-		OW_CleanString( (char*)VMA(1), (char*)VMA(2), args[3] );
-		return 0;
-#endif
 
 	default:
 		Com_Error( ERR_DROP, "Bad game system trap: %i", args[0] );
@@ -1003,16 +972,16 @@ Called on a normal map change, not on a map_restart
 ===============
 */
 void SV_InitGameProgs( void ) {
-        cvar_t  *var;
-        //FIXME these are temp while I make bots run in vm
-        extern int bot_enable;
+	cvar_t  *var;
+	//FIXME these are temp while I make bots run in vm
+	extern int bot_enable;
 
-        var = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
-        if ( var ) {
-                bot_enable = var->integer;
-        } else {
-                bot_enable = 0; 
-        } 
+	var = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
+	if ( var ) {
+		bot_enable = var->integer;
+	} else {
+		bot_enable = 0;
+	}
 
 	// load the dll
 	gvm = VM_Create( "qagame", SV_GameSystemCalls, VMI_NATIVE );
@@ -1081,5 +1050,5 @@ SV_GetModelInfo
 ===================
 */
 qboolean SV_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo ) {
-        return VM_Call( gvm, GAME_GETMODELINFO, clientNum, modelName, modelInfo );
+	return VM_Call( gvm, GAME_GETMODELINFO, clientNum, modelName, modelInfo );
 }

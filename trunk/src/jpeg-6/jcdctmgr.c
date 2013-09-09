@@ -155,8 +155,8 @@ start_pass_fdctmgr( j_compress_ptr cinfo ) {
 			for ( row = 0; row < DCTSIZE; row++ ) {
 				for ( col = 0; col < DCTSIZE; col++ ) {
 					fdtbl[i] = (FAST_FLOAT)
-					  ( 1.0 / ( ( (double) qtbl->quantval[jpeg_zigzag_order[i]] *
-								  aanscalefactor[row] * aanscalefactor[col] * 8.0 ) ) );
+							   ( 1.0 / ( ( (double) qtbl->quantval[jpeg_zigzag_order[i]] *
+										   aanscalefactor[row] * aanscalefactor[col] * 8.0 ) ) );
 					i++;
 				}
 			}
@@ -215,9 +215,9 @@ forward_DCT( j_compress_ptr cinfo, jpeg_component_info * compptr,
 			  *workspaceptr++ = GETJSAMPLE( *elemptr++ ) - CENTERJSAMPLE;
 #else
 			  { register int elemc;
-			for ( elemc = DCTSIZE; elemc > 0; elemc-- ) {
-				*workspaceptr++ = GETJSAMPLE( *elemptr++ ) - CENTERJSAMPLE;
-			}}
+				for ( elemc = DCTSIZE; elemc > 0; elemc-- ) {
+					*workspaceptr++ = GETJSAMPLE( *elemptr++ ) - CENTERJSAMPLE;
+				}}
 #endif
 		  }}
 
@@ -302,10 +302,10 @@ forward_DCT_float( j_compress_ptr cinfo, jpeg_component_info * compptr,
 			  *workspaceptr++ = (FAST_FLOAT)( GETJSAMPLE( *elemptr++ ) - CENTERJSAMPLE );
 #else
 			  { register int elemc;
-			for ( elemc = DCTSIZE; elemc > 0; elemc-- ) {
-				*workspaceptr++ = (FAST_FLOAT)
-					  ( GETJSAMPLE( *elemptr++ ) - CENTERJSAMPLE );
-			}}
+				for ( elemc = DCTSIZE; elemc > 0; elemc-- ) {
+					*workspaceptr++ = (FAST_FLOAT)
+									  ( GETJSAMPLE( *elemptr++ ) - CENTERJSAMPLE );
+				}}
 #endif
 		  }}
 
@@ -344,8 +344,8 @@ jinit_forward_dct( j_compress_ptr cinfo ) {
 	int i;
 
 	fdct = (my_fdct_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_fdct_controller ) );
+		   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										 SIZEOF( my_fdct_controller ) );
 	cinfo->fdct = (struct jpeg_forward_dct *) fdct;
 	fdct->pub.start_pass = start_pass_fdctmgr;
 

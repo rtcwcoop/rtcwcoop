@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,42 +44,39 @@ Creates and sends the server command necessary to update the CS index for the
 given client
 ===============
 */
-static void SV_SendConfigstring(client_t *client, int index)
-{
+static void SV_SendConfigstring( client_t *client, int index ) {
 	int maxChunkSize = MAX_STRING_CHARS - 24;
 	int len;
 
-	len = strlen(sv.configstrings[index]);
+	len = strlen( sv.configstrings[index] );
 
-	if( len >= maxChunkSize ) {
-		int		sent = 0;
-		int		remaining = len;
-		char	*cmd;
-		char	buf[MAX_STRING_CHARS];
+	if ( len >= maxChunkSize ) {
+		int sent = 0;
+		int remaining = len;
+		char    *cmd;
+		char buf[MAX_STRING_CHARS];
 
-		while (remaining > 0 ) {
+		while ( remaining > 0 ) {
 			if ( sent == 0 ) {
 				cmd = "bcs0";
-			}
-			else if( remaining < maxChunkSize ) {
+			} else if ( remaining < maxChunkSize )    {
 				cmd = "bcs2";
-			}
-			else {
+			} else {
 				cmd = "bcs1";
 			}
 			Q_strncpyz( buf, &sv.configstrings[index][sent],
-				maxChunkSize );
+						maxChunkSize );
 
 			SV_SendServerCommand( client, "%s %i \"%s\"\n", cmd,
-				index, buf );
+								  index, buf );
 
-			sent += (maxChunkSize - 1);
-			remaining -= (maxChunkSize - 1);
+			sent += ( maxChunkSize - 1 );
+			remaining -= ( maxChunkSize - 1 );
 		}
 	} else {
 		// standard cs, just send it
 		SV_SendServerCommand( client, "cs %i \"%s\"\n", index,
-			sv.configstrings[index] );
+							  sv.configstrings[index] );
 	}
 }
 
@@ -92,21 +89,21 @@ Called when a client goes from CS_PRIMED to CS_ACTIVE.  Updates all
 Configstring indexes that have changed while the client was in CS_PRIMED
 ===============
 */
-void SV_UpdateConfigstrings(client_t *client)
-{
+void SV_UpdateConfigstrings( client_t *client ) {
 	int index;
 
-	for( index = 0; index <= MAX_CONFIGSTRINGS; index++ ) {
+	for ( index = 0; index <= MAX_CONFIGSTRINGS; index++ ) {
 		// if the CS hasn't changed since we went to CS_PRIMED, ignore
-		if(!client->csUpdated[index])
+		if ( !client->csUpdated[index] ) {
 			continue;
+		}
 
 		// do not always send server info to all clients
 		if ( index == CS_SERVERINFO && client->gentity &&
-			(client->gentity->r.svFlags & SVF_NOSERVERINFO) ) {
+			 ( client->gentity->r.svFlags & SVF_NOSERVERINFO ) ) {
 			continue;
 		}
-		SV_SendConfigstring(client, index);
+		SV_SendConfigstring( client, index );
 		client->csUpdated[index] = qfalse;
 	}
 }
@@ -118,7 +115,7 @@ SV_SetConfigstring
 ===============
 */
 void SV_SetConfigstring( int index, const char *val ) {
-	int i;	
+	int i;
 	client_t    *client;
 
 	if ( index < 0 || index >= MAX_CONFIGSTRINGS ) {
@@ -145,11 +142,12 @@ void SV_SetConfigstring( int index, const char *val ) {
 
 		// send the data to all relevent clients
 		for ( i = 0, client = svs.clients; i < sv_maxclients->integer ; i++, client++ ) {
-			// L0 - ioquake bug fix for reliable command overflow			
+			// L0 - ioquake bug fix for reliable command overflow
 			if ( client->state < CS_ACTIVE ) {
-				if ( client->state == CS_PRIMED )
+				if ( client->state == CS_PRIMED ) {
 					client->csUpdated[ index ] = qtrue;
-			// End
+				}
+				// End
 				continue;
 			}
 
@@ -158,8 +156,8 @@ void SV_SetConfigstring( int index, const char *val ) {
 				continue;
 			}
 
-			// L0 - ioquake bug fix for reliable command overflow	
-			SV_SendConfigstring(client, index);
+			// L0 - ioquake bug fix for reliable command overflow
+			SV_SendConfigstring( client, index );
 			// End
 		}
 	}
@@ -526,7 +524,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 		// done
 
 		if ( !g_gametype ) {
-			g_gametype = Cvar_Get( "g_gametype", va("%d", GT_COOP), CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
+			g_gametype = Cvar_Get( "g_gametype", va( "%d", GT_COOP ), CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE );
 		}
 		if ( !bot_enable ) {
 			bot_enable = Cvar_Get( "bot_enable", "1", CVAR_LATCH );
@@ -543,7 +541,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 				Cvar_Set( "bot_enable", "1" );
 			}
 		}
-                if ( g_gametype->integer <= GT_COOP ) {
+		if ( g_gametype->integer <= GT_COOP ) {
 			if ( sv_maxcoopclients->latchedString ) {
 				// it's been modified, so grab the new value
 				Cvar_Get( "sv_maxcoopclients", "8", 0 );
@@ -552,9 +550,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 				Cvar_SetValue( "sv_maxcoopclients", MAX_COOP_CLIENTS );
 			}
 			if ( sv_maxcoopclients->integer < 1 ) {
-				Cvar_SetValue( "sv_maxcoopclients", 1);
+				Cvar_SetValue( "sv_maxcoopclients", 1 );
 			}
-                }
+		}
 	}
 	// done.
 
@@ -617,13 +615,13 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	Cvar_Set( "nextmap", "map_restart 0" );
 //	Cvar_Set( "nextmap", va("map %s", server) );
 
-        // fretn - from ioq3
-        for (i=0 ; i<sv_maxclients->integer ; i++) {
-                // save when the server started for each client already connected
-                if (svs.clients[i].state >= CS_CONNECTED) {
-                        svs.clients[i].oldServerTime = sv.time;
-                }   
-        } 
+	// fretn - from ioq3
+	for ( i = 0 ; i < sv_maxclients->integer ; i++ ) {
+		// save when the server started for each client already connected
+		if ( svs.clients[i].state >= CS_CONNECTED ) {
+			svs.clients[i].oldServerTime = sv.time;
+		}
+	}
 	// Ridah
 	// DHM - Nerve :: We want to use the completion bar in multiplayer as well
 	if ( sv_gametype->integer <= GT_SINGLE_PLAYER ) {
@@ -646,9 +644,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	//Com_DPrintf("SV_SpawnServer checksum feed: %p\n", sv.checksumFeed);
 
 #else // DO_LIGHT_DEDICATED implementation below
-	// we are not able to randomize the checksum feed since the feed is used as key for pure_checksum computations
-	// files.c 1776 : pack->pure_checksum = Com_BlockChecksumKey( fs_headerLongs, 4 * fs_numHeaderLongs, LittleLong(fs_checksumFeed) );
-	// we request a fake randomized feed, files.c knows the answer
+	  // we are not able to randomize the checksum feed since the feed is used as key for pure_checksum computations
+	  // files.c 1776 : pack->pure_checksum = Com_BlockChecksumKey( fs_headerLongs, 4 * fs_numHeaderLongs, LittleLong(fs_checksumFeed) );
+	  // we request a fake randomized feed, files.c knows the answer
 	srand( Sys_Milliseconds() );
 	sv.checksumFeed = FS_RandChecksumFeed();
 #endif
@@ -897,7 +895,7 @@ void SV_Init( void ) {
 	Cvar_Get( "dmflags", "0", /*CVAR_SERVERINFO*/ 0 );
 	Cvar_Get( "fraglimit", "0", /*CVAR_SERVERINFO*/ 0 );
 	Cvar_Get( "timelimit", "0", CVAR_SERVERINFO );
-	sv_gametype = Cvar_Get( "g_gametype", va("%d", GT_COOP), CVAR_SERVERINFO | CVAR_LATCH );
+	sv_gametype = Cvar_Get( "g_gametype", va( "%d", GT_COOP ), CVAR_SERVERINFO | CVAR_LATCH );
 
 	// Rafael gameskill
 	sv_gameskill = Cvar_Get( "g_gameskill", "1", CVAR_SERVERINFO | CVAR_LATCH );
@@ -916,7 +914,7 @@ void SV_Init( void ) {
 	sv_floodProtect = Cvar_Get( "sv_floodProtect", "1", CVAR_ARCHIVE | CVAR_SERVERINFO );
 	sv_allowAnonymous = Cvar_Get( "sv_allowAnonymous", "0", CVAR_SERVERINFO );
 	sv_maxlives = Cvar_Get( "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO );
-        Cvar_Get( "gamestate", "-1", CVAR_SERVERINFO | CVAR_ROM );
+	Cvar_Get( "gamestate", "-1", CVAR_SERVERINFO | CVAR_ROM );
 	sv_reinforce = Cvar_Get( "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
 	sv_airespawn = Cvar_Get( "g_airespawn", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH );
 
@@ -930,12 +928,12 @@ void SV_Init( void ) {
 	Cvar_Get( "sv_referencedPakNames", "", CVAR_SYSTEMINFO | CVAR_ROM );
 
 #ifdef FEATURE_ANTICHEAT
-	wh_active = Cvar_Get("wh_active", "0", CVAR_ARCHIVE);
+	wh_active = Cvar_Get( "wh_active", "0", CVAR_ARCHIVE );
 	// FIXME: adjust bounding box ?
-	wh_bbox_horz = Cvar_Get("wh_bbox_horz", "30", CVAR_ARCHIVE);
-	wh_bbox_vert = Cvar_Get("wh_bbox_vert", "60", CVAR_ARCHIVE);
-	wh_add_xy = Cvar_Get("wh_add_xy", "0", CVAR_ARCHIVE);
-	wh_check_fov = Cvar_Get("wh_check_fov", "0", CVAR_ARCHIVE);
+	wh_bbox_horz = Cvar_Get( "wh_bbox_horz", "30", CVAR_ARCHIVE );
+	wh_bbox_vert = Cvar_Get( "wh_bbox_vert", "60", CVAR_ARCHIVE );
+	wh_add_xy = Cvar_Get( "wh_add_xy", "0", CVAR_ARCHIVE );
+	wh_check_fov = Cvar_Get( "wh_check_fov", "0", CVAR_ARCHIVE );
 	SV_InitWallhack();
 #endif
 
@@ -953,7 +951,7 @@ void SV_Init( void ) {
 
 	sv_allowDownload = Cvar_Get( "sv_allowDownload", "1", 0 );
 	//sv_master[0] = Cvar_Get( "sv_master1", "wolfmaster.idsoftware.com", 0 );      // NERVE - SMF - wolfMP master server
-	sv_master[0] = Cvar_Get( "sv_master1", "master.rtcwcoop.com", 0 );      // fretn 
+	sv_master[0] = Cvar_Get( "sv_master1", "master.rtcwcoop.com", 0 );      // fretn
 	sv_master[1] = Cvar_Get( "sv_master2", "", CVAR_ARCHIVE );
 	sv_master[2] = Cvar_Get( "sv_master3", "", CVAR_ARCHIVE );
 	sv_master[3] = Cvar_Get( "sv_master4", "", CVAR_ARCHIVE );
@@ -965,7 +963,7 @@ void SV_Init( void ) {
 	sv_mapChecksum = Cvar_Get( "sv_mapChecksum", "", CVAR_ROM );
 	sv_lanForceRate = Cvar_Get( "sv_lanForceRate", "1", CVAR_ARCHIVE );
 
-        sv_reloading = Cvar_Get( "g_reloading", "0", CVAR_ROM );   //----(SA)   added
+	sv_reloading = Cvar_Get( "g_reloading", "0", CVAR_ROM );       //----(SA)   added
 
 	sv_onlyVisibleClients = Cvar_Get( "sv_onlyVisibleClients", "0", 0 );       // DHM - Nerve
 
@@ -987,11 +985,11 @@ void SV_Init( void ) {
 	sv_dl_maxRate = Cvar_Get( "sv_dl_maxRate", "60000", CVAR_ARCHIVE );
 #endif
 
-    sv_wwwDownload = Cvar_Get( "sv_wwwDownload", "1", CVAR_ARCHIVE );
-	
-    sv_wwwBaseURL = Cvar_Get( "sv_wwwBaseURL", "", CVAR_ARCHIVE );
-    sv_wwwDlDisconnected = Cvar_Get( "sv_wwwDlDisconnected", "0", CVAR_ARCHIVE );
-    sv_wwwFallbackURL = Cvar_Get( "sv_wwwFallbackURL", "", CVAR_ARCHIVE );
+	sv_wwwDownload = Cvar_Get( "sv_wwwDownload", "1", CVAR_ARCHIVE );
+
+	sv_wwwBaseURL = Cvar_Get( "sv_wwwBaseURL", "", CVAR_ARCHIVE );
+	sv_wwwDlDisconnected = Cvar_Get( "sv_wwwDlDisconnected", "0", CVAR_ARCHIVE );
+	sv_wwwFallbackURL = Cvar_Get( "sv_wwwFallbackURL", "", CVAR_ARCHIVE );
 
 	// initialize bot cvars so they are listed and can be set before loading the botlib
 	SV_BotInitCvars();
@@ -1075,7 +1073,7 @@ void SV_Shutdown( char *finalmsg ) {
 	}
 
 #ifdef USE_HTTP_SERVER
-    SV_HTTPInitiateShutdown();
+	SV_HTTPInitiateShutdown();
 #endif
 
 	SV_RemoveOperatorCommands();
@@ -1088,9 +1086,9 @@ void SV_Shutdown( char *finalmsg ) {
 	// free server static data
 	if ( svs.clients ) {
 		int index;
-    
-                for(index = 0; index < sv_maxclients->integer; index++)
-                        SV_FreeClient(&svs.clients[index]);
+
+		for ( index = 0; index < sv_maxclients->integer; index++ )
+			SV_FreeClient( &svs.clients[index] );
 		free( svs.clients );    // RF, avoid trying to allocate large chunk on a fragmented zone
 	}
 	memset( &svs, 0, sizeof( svs ) );
@@ -1106,4 +1104,3 @@ void SV_Shutdown( char *finalmsg ) {
 	SV_HTTPWaitShutdown();
 #endif
 }
-

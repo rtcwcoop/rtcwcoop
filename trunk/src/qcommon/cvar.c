@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -114,19 +114,19 @@ static cvar_t *Cvar_FindVar( const char *var_name ) {
 Cvar_Flags
 ============
 */
-int Cvar_Flags(const char *var_name)
-{
-        cvar_t *var;
-     
-        if(!(var = Cvar_FindVar(var_name)))
-                return CVAR_NONEXISTENT;
-        else 
-        {    
-                if(var->modified)
-                        return var->flags | CVAR_MODIFIED;
-                else 
-                        return var->flags;
-        }    
+int Cvar_Flags( const char *var_name ) {
+	cvar_t *var;
+
+	if ( !( var = Cvar_FindVar( var_name ) ) ) {
+		return CVAR_NONEXISTENT;
+	} else
+	{
+		if ( var->modified ) {
+			return var->flags | CVAR_MODIFIED;
+		} else {
+			return var->flags;
+		}
+	}
 }
 
 
@@ -200,7 +200,7 @@ void Cvar_VariableStringBuffer( const char *var_name, char *buffer, int bufsize 
 Cvar_CommandCompletion
 ============
 */
-void    Cvar_CommandCompletion( void ( *callback )(const char *s) ) {
+void    Cvar_CommandCompletion( void ( *callback )( const char *s ) ) {
 	cvar_t      *cvar;
 
 	for ( cvar = cvar_vars ; cvar ; cvar = cvar->next ) {
@@ -430,21 +430,20 @@ void Cvar_Set( const char *var_name, const char *value ) {
 Cvar_SetSafe
 ============
 */
-void Cvar_SetSafe( const char *var_name, const char *value )
-{
-        int flags = Cvar_Flags( var_name );
+void Cvar_SetSafe( const char *var_name, const char *value ) {
+	int flags = Cvar_Flags( var_name );
 
-        if((flags != CVAR_NONEXISTENT) && (flags & CVAR_PROTECTED))
-        {    
-                if( value )
-                        Com_Error( ERR_DROP, "Restricted source tried to set "
-                                "\"%s\" to \"%s\"", var_name, value );
-                else 
-                        Com_Error( ERR_DROP, "Restricted source tried to "
-                                "modify \"%s\"", var_name );
-                return;
-        }    
-        Cvar_Set( var_name, value );
+	if ( ( flags != CVAR_NONEXISTENT ) && ( flags & CVAR_PROTECTED ) ) {
+		if ( value ) {
+			Com_Error( ERR_DROP, "Restricted source tried to set "
+								 "\"%s\" to \"%s\"", var_name, value );
+		} else {
+			Com_Error( ERR_DROP, "Restricted source tried to "
+								 "modify \"%s\"", var_name );
+		}
+		return;
+	}
+	Cvar_Set( var_name, value );
 }
 
 

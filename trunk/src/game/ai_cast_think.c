@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -196,7 +196,7 @@ void AICast_InputToUserCommand( cast_state_t *cs, bot_input_t *bi, usercmd_t *uc
 		if ( ( cs->triggerReleaseTime < level.time ) &&
 			 (   ( cs->lockViewAnglesTime >= level.time ) ||
 				 ( fabs( AngleDifference( cs->ideal_viewangles[YAW], cs->viewangles[YAW] ) ) < 20 ) ) &&
-			 // check for radid luger firing by skilled users (release fire between shots)
+		     // check for radid luger firing by skilled users (release fire between shots)
 			 ( ( ( level.time + cs->entityNum * 500 ) / 2000 ) % 2 || !( rand() % ( 1 + g_gameskill.integer ) ) || ( cs->attributes[ATTACK_SKILL] < 0.5 ) || ( cs->weaponNum != WP_LUGER ) || ( cs->bs->cur_ps.weaponTime == 0 ) || ( cs->bs->cur_ps.releasedFire ) ) ) {
 			ucmd->buttons |= BUTTON_ATTACK;
 			// do some swaying around for some weapons
@@ -268,7 +268,7 @@ void AICast_InputToUserCommand( cast_state_t *cs, bot_input_t *bi, usercmd_t *uc
 			//get the pitch in the range [-180, 180]
 			if ( bi->dir[2] ) {
 				angles[PITCH] = bi->viewangles[PITCH];
-			} else { angles[PITCH] = 0;}
+			} else { angles[PITCH] = 0; }
 			angles[YAW] = bi->viewangles[YAW];
 			angles[ROLL] = 0;
 			AngleVectors( angles, forward, right, up );
@@ -474,7 +474,7 @@ void AICast_Think( int client, float thinktime ) {
 	//
 	// update bounding box
 	//AIChar_SetBBox( ent, cs, qtrue );
-        // fretn: a dedicated server can't use the trap_GetTag functions, this function does
+	// fretn: a dedicated server can't use the trap_GetTag functions, this function does
 	AIChar_SetBBox( ent, cs, qfalse );
 	//
 	// set/disable these each frame as required
@@ -504,33 +504,36 @@ void AICast_Think( int client, float thinktime ) {
 			vec3_t mins, maxs;
 			int touch[10], numTouch;
 			float oldmaxZ;
-                        int i;
-                        gentity_t *player;
-                        qboolean inPVS = qfalse;
+			int i;
+			gentity_t *player;
+			qboolean inPVS = qfalse;
 
-                        // fretn - if we respawn, make sure we are not in their pvs
-                        if (ent->aiCharacter != AICHAR_ZOMBIE && ent->aiCharacter != AICHAR_HELGA 
-                                && ent->aiCharacter != AICHAR_HEINRICH ) {
+			// fretn - if we respawn, make sure we are not in their pvs
+			if ( ent->aiCharacter != AICHAR_ZOMBIE && ent->aiCharacter != AICHAR_HELGA
+				 && ent->aiCharacter != AICHAR_HEINRICH ) {
 
-                                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                                        player = &g_entities[i];
+				for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+					player = &g_entities[i];
 
-                                        if ( !player || !player->inuse )
-                                                continue;
+					if ( !player || !player->inuse ) {
+						continue;
+					}
 
-                                        if (player->r.svFlags & SVF_CASTAI)
-                                                continue;
+					if ( player->r.svFlags & SVF_CASTAI ) {
+						continue;
+					}
 
-                                        if (trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin )) {
-                                                inPVS = qtrue;
-                                                break;
-                                        }
-                                }
-                        }
+					if ( trap_InPVS( player->r.currentOrigin, ent->r.currentOrigin ) ) {
+						inPVS = qtrue;
+						break;
+					}
+				}
+			}
 
-                        // we are in the PVS, wait a bit before we respawn again
-                        if (inPVS)
-                                cs->rebirthTime = level.time + 5000 + rand() % 2000;
+			// we are in the PVS, wait a bit before we respawn again
+			if ( inPVS ) {
+				cs->rebirthTime = level.time + 5000 + rand() % 2000;
+			}
 
 			oldmaxZ = ent->r.maxs[2];
 
@@ -555,7 +558,7 @@ void AICast_Think( int client, float thinktime ) {
 				}
 			}
 
-			if ( numTouch == 0 && !inPVS) {    // ok to spawn
+			if ( numTouch == 0 && !inPVS ) {    // ok to spawn
 
 				// give them health when they start reviving, so we won't gib after
 				// just a couple shots while reviving
@@ -735,7 +738,7 @@ void AICast_Think( int client, float thinktime ) {
 	}
 	// crouching?
 	if (    ( cs->attackcrouch_time >= level.time ) /*&&
-			((cs->lastAttackCrouch > level.time - 500) || (cs->thinkFuncChangeTime < level.time - 1000))*/) {
+	        ((cs->lastAttackCrouch > level.time - 500) || (cs->thinkFuncChangeTime < level.time - 1000))*/) {
 		// if we are not moving, and we are firing, always stand, unless we are allowed to crouch + fire
 		if ( ( cs->lastucmd.forwardmove || cs->lastucmd.rightmove ) || ( cs->lastWeaponFired < level.time - 2000 ) || ( cs->aiFlags & AIFL_ATTACK_CROUCH ) ) {
 			cs->lastAttackCrouch = level.time;
@@ -761,7 +764,7 @@ void AICast_Think( int client, float thinktime ) {
 	// in query mode, we do special handling (pause scripting, check for transition to alert/combat, etc)
 	if ( cs->aiState == AISTATE_QUERY ) {
 		AICast_QueryThink( cs );
-	} else if ( cs->pauseTime < level.time )     {
+	} else if ( cs->pauseTime < level.time ) {
 		// do the thinking
 		AICast_ProcessAIFunctions( cs, thinktime );
 		//
@@ -885,19 +888,20 @@ void AICast_StartFrame( int time ) {
 	// update the player's area, only update if it's valid
 	for ( i = 0; i < 2; i++ ) {
 		trap_AAS_SetCurrentWorld( i );
-                // fretn
-                for ( j = 0; j < level.maxclients; j++ ) {
-                        // if AI, continue;
-                        if ( caststates[j].bs )
-                                continue;
+		// fretn
+		for ( j = 0; j < level.maxclients; j++ ) {
+			// if AI, continue;
+			if ( caststates[j].bs ) {
+				continue;
+			}
 
-                        castcount = BotPointAreaNum( g_entities[j].s.pos.trBase );
-                        if ( castcount ) {
-                                caststates[j].lastValidAreaNum[i] = castcount;
-                                caststates[j].lastValidAreaTime[i] = level.time;
-                        }
-                }
-                // fretn
+			castcount = BotPointAreaNum( g_entities[j].s.pos.trBase );
+			if ( castcount ) {
+				caststates[j].lastValidAreaNum[i] = castcount;
+				caststates[j].lastValidAreaTime[i] = level.time;
+			}
+		}
+		// fretn
 	}
 	//
 	count = 0;
@@ -940,8 +944,8 @@ void AICast_StartFrame( int time ) {
 									 ( cs->vislist[0].visible_timestamp && cs->vislist[0].visible_timestamp > level.time - 4000 ) ||
 									 ( ent->client->buttons ) ||
 									 ( elapsed >= aicast_thinktime ) ) /*&&
-								(count <= aicast_maxthink)*/) ||
-							( elapsed >= aicast_thinktime * 2 ) ) ) ) {
+				                (count <= aicast_maxthink)*/) ||
+							 ( elapsed >= aicast_thinktime * 2 ) ) ) ) {
 					// make it think now
 					AICast_Think( i, (float)elapsed / 1000 );
 					// did they drop?
@@ -1033,7 +1037,7 @@ void AICast_StartServerFrame( int time ) {
 		return;         // no time has elapsed
 	}
 
-	// fretn : fixme ... 
+	// fretn : fixme ...
 	pcs = AICast_GetCastState( 0 );
 
 //G_Printf( "AI startserverframe: %i\n", time );
@@ -1051,7 +1055,7 @@ void AICast_StartServerFrame( int time ) {
 	//
 	// process player's current script if it exists
 	// fretn : run this for all the players
-	for ( i=0; i<MAX_COOP_CLIENTS; i++)
+	for ( i = 0; i < MAX_COOP_CLIENTS; i++ )
 		AICast_ScriptRun( AICast_GetCastState( i ), qfalse );
 	//
 	//AICast_SightUpdate( (int)((float)SIGHT_PER_SEC * ((float)elapsed / 1000)) );
@@ -1090,7 +1094,7 @@ void AICast_StartServerFrame( int time ) {
 							||  ( highPriority && ( pcs->vislist[cs->entityNum].visible_timestamp == pcs->vislist[cs->entityNum].lastcheck_timestamp ) )
 							||  ( VectorLength( ent->client->ps.velocity ) > 0 )
 							||  ( highPriority && ( cs->lastucmd.forwardmove || cs->lastucmd.rightmove || cs->lastucmd.upmove > 0 || cs->lastucmd.buttons || cs->lastucmd.wbuttons ) )
-							// !!NOTE: always allow thinking if in PVS, otherwise bosses won't gib, and dead guys might not push away from clipped walls
+					        // !!NOTE: always allow thinking if in PVS, otherwise bosses won't gib, and dead guys might not push away from clipped walls
 							||  ( trap_InPVS( cs->bs->origin, g_entities[0].s.pos.trBase ) ) ) { // do pvs check last, since it's the most expensive to call
 						oldLegsTimer = ent->client->ps.legsTimer;
 						//
@@ -1363,7 +1367,7 @@ qboolean AICast_GetAvoid( cast_state_t *cs, bot_goal_t *goal, vec3_t outpos, qbo
 			distmoved = Distance( castmove.endpos, cs->bs->cur_ps.origin );
 		}
 		if (    ( distmoved > bestmoved )
-				//&&	((cs->bs->origin[2] - castmove.endpos[2]) < 64)	// allow up, but not down (falling)
+		        //&&	((cs->bs->origin[2] - castmove.endpos[2]) < 64)	// allow up, but not down (falling)
 				&&  ( castmove.groundEntityNum != ENTITYNUM_NONE ) ) {
 			// they all passed, check any other stuff
 			if ( !enemyVisible || AICast_CheckAttackAtPos( cs->entityNum, cs->enemyNum, castmove.endpos, qfalse, qfalse ) ) {
@@ -1693,8 +1697,9 @@ void AICast_QueryThink( cast_state_t *cs ) {
 	ocs = AICast_GetCastState( cs->enemyNum );
 
 	// fretn: had a segfault at the line "if ( ocs->lastWeaponFired > cs->queryStartTime ) {"
-	if (!ent || !ocs || !cs)
+	if ( !ent || !ocs || !cs ) {
 		return;
+	}
 
 	// never crouch while in this state (by choice anyway)
 	cs->attackcrouch_time = 0;
@@ -1753,30 +1758,30 @@ AICast_DeadClipWalls
 */
 void AICast_DeadClipWalls( cast_state_t *cs ) {
 /*
-	//animation_t *anim;
-	orientation_t or;
-	vec3_t	src, vel;
-	trace_t	tr;
+    //animation_t *anim;
+    orientation_t or;
+    vec3_t	src, vel;
+    trace_t	tr;
 
-	// get the death animation we are currently playing
-	//anim = BG_GetAnimationForIndex( cs->entityNum, (cs->bs->cur_ps.torsoAnim & ~ANIM_TOGGLEBIT) );
+    // get the death animation we are currently playing
+    //anim = BG_GetAnimationForIndex( cs->entityNum, (cs->bs->cur_ps.torsoAnim & ~ANIM_TOGGLEBIT) );
 
-	// find the head position
-	trap_GetTag( cs->entityNum, "tag_head", &or );
-	// move up a tad
-	or.origin[2] += 3;
+    // find the head position
+    trap_GetTag( cs->entityNum, "tag_head", &or );
+    // move up a tad
+    or.origin[2] += 3;
 
-	// trace from the base of our bounding box, to the head
-	VectorCopy( cs->bs->origin, src );
-	src[2] -= cs->bs->cur_ps.mins[2] + 3;
-	trap_Trace( &tr, src, vec3_origin, vec3_origin, or.origin, cs->entityNum, MASK_SOLID );
+    // trace from the base of our bounding box, to the head
+    VectorCopy( cs->bs->origin, src );
+    src[2] -= cs->bs->cur_ps.mins[2] + 3;
+    trap_Trace( &tr, src, vec3_origin, vec3_origin, or.origin, cs->entityNum, MASK_SOLID );
 
-	// if we hit something, move away from it
-	if (!tr.startsolid && !tr.allsolid && tr.fraction < 1.0) {
-		VectorScale( tr.plane.normal, 80, vel );
-		vel[2] = 0;
-		VectorAdd( g_entities[cs->entityNum].client->ps.velocity, vel, g_entities[cs->entityNum].client->ps.velocity );
-	}
+    // if we hit something, move away from it
+    if (!tr.startsolid && !tr.allsolid && tr.fraction < 1.0) {
+        VectorScale( tr.plane.normal, 80, vel );
+        vel[2] = 0;
+        VectorAdd( g_entities[cs->entityNum].client->ps.velocity, vel, g_entities[cs->entityNum].client->ps.velocity );
+    }
 */
 }
 

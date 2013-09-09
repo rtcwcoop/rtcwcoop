@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -584,8 +584,8 @@ void SV_ClipMoveToEntities( moveclip_t *clip ) {
 		// DHM - Nerve :: If clipping against BBOX, set to correct contents
 		// fretn - not implemented yet
 		//if ( clipHandle == BOX_MODEL_HANDLE ) {
-	//		CM_SetTempBoxModelContents( touch->r.contents );
-	//	}
+		//		CM_SetTempBoxModelContents( touch->r.contents );
+		//	}
 
 		origin = touch->r.currentOrigin;
 		angles = touch->r.currentAngles;
@@ -724,12 +724,10 @@ int SV_PointContents( const vec3_t p, int passEntityNum ) {
 			angles = vec3_origin;   // boxes don't rotate
 		}
 
-		c2 = CM_TransformedPointContents (p, clipHandle, hit->r.currentOrigin, angles);
+		c2 = CM_TransformedPointContents( p, clipHandle, hit->r.currentOrigin, angles );
 
 		contents |= c2;
 	}
 
 	return contents;
 }
-
-

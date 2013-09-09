@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ If you have questions concerning this license or the applicable additional terms
 typedef unsigned int glIndex_t;
 
 // fast float to int conversion
-#if id386 && !defined(__GNUC__)
+#if id386 && !defined( __GNUC__ )
 long myftol( float f );
 #else
 #define myftol( x ) ( (int)( x ) )
@@ -61,9 +61,9 @@ long myftol( float f );
 
 // can't be increased without changing bit packing for drawsurfs
 
-extern float     displayAspect;
-extern qboolean  textureFilterAnisotropic;
-extern int       maxAnisotropy;
+extern float displayAspect;
+extern qboolean textureFilterAnisotropic;
+extern int maxAnisotropy;
 
 // a trRefEntity_t has all the information passed in by
 // the client game, as well as some locally derived info
@@ -120,7 +120,7 @@ typedef enum {
 
 	SS_DECAL,           // scorch marks, etc.
 	SS_SEE_THROUGH,     // ladders, grates, grills that may have small blended edges
-						// in addition to alpha test
+	                    // in addition to alpha test
 	SS_BANNER,
 
 	SS_FOG,
@@ -271,11 +271,11 @@ typedef struct {
 
 	// used for TMOD_SCALE
 	float scale[2];                     // s *= scale[0]
-										// t *= scale[1]
+	                                    // t *= scale[1]
 
 	// used for TMOD_SCROLL
 	float scroll[2];                    // s' = s + scroll[0] * time
-										// t' = t + scroll[1] * time
+	                                    // t' = t + scroll[1] * time
 
 	// + = clockwise
 	// - = counterclockwise
@@ -371,10 +371,10 @@ typedef struct shader_s {
 	float sort;                         // lower numbered shaders draw before higher numbered
 
 	qboolean defaultShader;             // we want to return index 0 if the shader failed to
-										// load for some reason, but R_FindShader should
-										// still keep a name allocated for it, so if
-										// something calls RE_RegisterShader again with
-										// the same name, we don't try looking for it again
+	                                    // load for some reason, but R_FindShader should
+	                                    // still keep a name allocated for it, so if
+	                                    // something calls RE_RegisterShader again with
+	                                    // the same name, we don't try looking for it again
 
 	qboolean explicitlyDefined;         // found in a .shader file
 
@@ -438,7 +438,7 @@ typedef struct corona_s {
 	float scale;                // uses r_flaresize as the baseline (1.0)
 	int id;
 	int flags;                  // '1' is 'visible'
-								// still send the corona request, even if not visible, for proper fading
+	                            // still send the corona request, even if not visible, for proper fading
 } corona_t;
 
 typedef struct dlight_s {
@@ -536,7 +536,7 @@ typedef struct {
 } fog_t;
 
 typedef struct {
-	orientationr_t  or;
+	orientationr_t or;
 	orientationr_t world;
 	vec3_t pvsOrigin;               // may be different than or.origin for portals
 	qboolean isPortal;              // true if this view is through a portal
@@ -660,7 +660,7 @@ typedef struct {
 	int numIndices;
 	int ofsIndices;
 	float points[1][VERTEXSIZE];        // variable sized
-										// there is a variable length list of indices here also
+	                                    // there is a variable length list of indices here also
 } srfSurfaceFace_t;
 
 
@@ -924,7 +924,7 @@ typedef struct {
 	int smpFrame;
 	trRefdef_t refdef;
 	viewParms_t viewParms;
-	orientationr_t  or;
+	orientationr_t or;
 	backEndCounters_t pc;
 	qboolean isHyperspace;
 	trRefEntity_t   *currentEntity;
@@ -934,8 +934,8 @@ typedef struct {
 	byte color2D[4];
 	qboolean vertexes2D;        // shader needs to be finished
 #ifdef USE_BLOOM
-	qboolean	doneBloom;		// done bloom this frame
-	qboolean	doneSurfaces;   // done any 3d surfaces already
+	qboolean doneBloom;         // done bloom this frame
+	qboolean doneSurfaces;      // done any 3d surfaces already
 #endif
 	trRefEntity_t entity2D;     // currentEntity will point at this when doing 2D rendering
 } backEndState_t;
@@ -955,7 +955,7 @@ typedef struct {
 	int frameCount;                         // incremented every frame
 	int sceneCount;                         // incremented every scene
 	int viewCount;                          // incremented every view (twice a scene if portaled)
-											// and every R_MarkFragments call
+	                                        // and every R_MarkFragments call
 
 	int smpFrame;                           // toggles from 0 to 1 every endFrame
 
@@ -1000,7 +1000,7 @@ typedef struct {
 	int identityLightByte;                      // identityLight * 255
 	int overbrightBits;                         // r_overbrightBits->integer, but set to 0 if no hw gamma
 
-	orientationr_t          or;                 // for current entity
+	orientationr_t or;                          // for current entity
 
 	trRefdef_t refdef;
 
@@ -1078,15 +1078,15 @@ extern cvar_t   *r_zfar;                // far Z clip plane
 
 extern cvar_t   *r_stencilbits;         // number of desired stencil bits
 extern cvar_t   *r_depthbits;           // number of desired depth bits
-extern cvar_t   *r_stereoEnabled;    
-extern  cvar_t  *r_greyscale;
+extern cvar_t   *r_stereoEnabled;
+extern cvar_t  *r_greyscale;
 extern cvar_t   *r_colorbits;           // number of desired color bits, only relevant for fullscreen
 extern cvar_t   *r_stereo;              // desired pixelformat stereo flag
 extern cvar_t   *r_texturebits;         // number of desired texture bits
-										// 0 = use framebuffer depth
-										// 16 = use 16-bit textures
-										// 32 = use 32-bit textures
-										// all else = error
+                                        // 0 = use framebuffer depth
+                                        // 16 = use 16-bit textures
+                                        // 32 = use 32-bit textures
+                                        // all else = error
 extern cvar_t  *r_ext_multisample;
 
 extern cvar_t   *r_measureOverdraw;     // enables stencil buffer overdraw measurement
@@ -1095,16 +1095,16 @@ extern cvar_t   *r_lodbias;             // push/pull LOD transitions
 extern cvar_t   *r_lodscale;
 
 extern cvar_t   *r_primitives;          // "0" = based on compiled vertex array existance
-										// "1" = glDrawElemet tristrips
-										// "2" = glDrawElements triangles
-										// "-1" = no drawing
+                                        // "1" = glDrawElemet tristrips
+                                        // "2" = glDrawElements triangles
+                                        // "-1" = no drawing
 
 extern cvar_t   *r_inGameVideo;             // controls whether in game video should be draw
 extern cvar_t   *r_fastsky;             // controls whether sky should be cleared or drawn
 extern cvar_t   *r_drawSun;             // controls drawing of sun quad
-										// "0" no sun
-										// "1" draw sun
-										// "2" also draw lens flare effect centered on sun
+                                        // "0" no sun
+                                        // "1" draw sun
+                                        // "2" also draw lens flare effect centered on sun
 extern cvar_t   *r_dynamiclight;        // dynamic lights enabled/disabled
 extern cvar_t   *r_dlightScale;         // global user attenuation of dlights
 extern cvar_t   *r_dlightBacks;         // dlight non-facing surfaces for continuity
@@ -1371,7 +1371,7 @@ void        R_ShaderList_f( void );
 void    R_RemapShader( const char *oldShader, const char *newShader, const char *timeOffset );
 
 // fretn - renderToTexture
-void RE_RenderToTexture( int textureid, int x, int y, int w, int h ); 
+void RE_RenderToTexture( int textureid, int x, int y, int w, int h );
 // bani
 int R_GetTextureId( const char *name );
 
@@ -1447,12 +1447,12 @@ typedef struct shaderCommands_s
 extern shaderCommands_t tess;
 
 #ifdef USE_BLOOM
-void RB_SetGL2D (void);
+void RB_SetGL2D( void );
 #endif
 void RB_BeginSurface( shader_t *shader, int fogNum );
 void RB_EndSurface( void );
 void RB_CheckOverflow( int verts, int indexes );
-#define RB_CHECKOVERFLOW( v,i ) if ( tess.numVertexes + ( v ) >= SHADER_MAX_VERTEXES || tess.numIndexes + ( i ) >= SHADER_MAX_INDEXES ) {RB_CheckOverflow( v,i );}
+#define RB_CHECKOVERFLOW( v,i ) if ( tess.numVertexes + ( v ) >= SHADER_MAX_VERTEXES || tess.numIndexes + ( i ) >= SHADER_MAX_INDEXES ) {RB_CheckOverflow( v,i ); }
 
 void RB_StageIteratorGeneric( void );
 void RB_StageIteratorSky( void );
@@ -1696,7 +1696,7 @@ typedef struct {
 
 	byte gradientColor[4];      // color values 0-255
 	int gradientType;       //----(SA)	added
-        float angle;
+	float angle;
 } stretchPicCommand_t;
 
 typedef struct {
@@ -1709,28 +1709,28 @@ typedef struct {
 
 //bani
 typedef struct {
-        int commandId;
-        image_t *image;
-        int x;
-        int y;
-        int w;
-        int h;
+	int commandId;
+	image_t *image;
+	int x;
+	int y;
+	int w;
+	int h;
 } renderToTextureCommand_t;
 
 //bani
 typedef struct {
-        int commandId;
+	int commandId;
 } renderFinishCommand_t;
 
 typedef enum {
 	RC_END_OF_LIST,
 	RC_SET_COLOR,
 	RC_STRETCH_PIC,
-        RC_ROTATED_PIC,
+	RC_ROTATED_PIC,
 	RC_STRETCH_PIC_GRADIENT,    // (SA) added
 	RC_DRAW_SURFS,
 	RC_DRAW_BUFFER,
-        RC_RENDERTOTEXTURE,
+	RC_RENDERTOTEXTURE,
 	RC_SWAP_BUFFERS
 } renderCommand_t;
 
@@ -1784,7 +1784,7 @@ void RE_SetColor( const float *rgba );
 void RE_StretchPic( float x, float y, float w, float h,
 					float s1, float t1, float s2, float t2, qhandle_t hShader );
 void RE_RotatedPic( float x, float y, float w, float h,
-                                        float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );
+					float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );
 void RE_StretchPicGradient( float x, float y, float w, float h,
 							float s1, float t1, float s2, float t2, qhandle_t hShader, const float *gradientColor, int gradientType );
 void RE_BeginFrame( stereoFrame_t stereoFrame );
@@ -1839,7 +1839,7 @@ extern float r_anormals[NUMMDCVERTEXNORMALS][3];
 // NOTE: MDC_MAX_ERROR is effectively the compression level. the lower this value, the higher
 // the accuracy, but with lower compression ratios.
 #define MDC_MAX_ERROR       0.1     // if any compressed vert is off by more than this from the
-									// actual vert, make this a baseframe
+                                    // actual vert, make this a baseframe
 
 #define MDC_DIST_SCALE      0.05    // lower for more accuracy, but less range
 

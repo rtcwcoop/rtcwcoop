@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -741,7 +741,7 @@ void RB_CalcWaveColor( const waveForm_t *wf, unsigned char *dstColors ) {
 
 	if ( glow < 0 ) {
 		glow = 0;
-	} else if ( glow > 1 )   {
+	} else if ( glow > 1 ) {
 		glow = 1;
 	}
 
@@ -1105,13 +1105,13 @@ void RB_CalcRotateTexCoords( float degsPerSecond, float *st ) {
 
 
 
-#if id386 && !defined(__GNUC__)
+#if id386 && !defined( __GNUC__ )
 
 long myftol( float f ) {
-        static int tmp; 
-        __asm fld f
-        __asm fistp tmp
-        __asm mov eax, tmp
+	static int tmp;
+	__asm fld f
+	__asm fistp tmp
+	__asm mov eax, tmp
 }
 
 #endif
@@ -1228,4 +1228,3 @@ void RB_CalcDiffuseColor( unsigned char *colors ) {
 		colors[i * 4 + 3] = 255;
 	}
 }
-

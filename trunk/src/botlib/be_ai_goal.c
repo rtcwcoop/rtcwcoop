@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -88,12 +88,12 @@ typedef struct campspot_s
 
 //FIXME: these are game specific
 typedef enum {
-        GT_COOP_BATTLE, // 1vs1
-        GT_COOP_SPEEDRUN,
-        // other coop variations should come before this one, because we will
-        // use g_gametype.integer <= GT_COOP
-        GT_COOP,
-        // coop games come before this
+	GT_COOP_BATTLE,     // 1vs1
+	GT_COOP_SPEEDRUN,
+	// other coop variations should come before this one, because we will
+	// use g_gametype.integer <= GT_COOP
+	GT_COOP,
+	// coop games come before this
 	GT_SINGLE_PLAYER,
 	//-- team games go after this --
 
@@ -430,7 +430,7 @@ void AddLevelItemToList( levelitem_t *li ) {
 void RemoveLevelItemFromList( levelitem_t *li ) {
 	if ( li->prev ) {
 		li->prev->next = li->next;
-	} else { levelitems = li->next;}
+	} else { levelitems = li->next; }
 	if ( li->next ) {
 		li->next->prev = li->prev;
 	}
@@ -1195,22 +1195,22 @@ int BotChooseLTGItem( int goalstate, vec3_t origin, int *inventory, int travelfl
 		//if not in lava or slime
 		if (!AAS_AreaLava(areanum) && !AAS_AreaSlime(areanum))
 		{
-			if (AAS_RandomGoalArea(areanum, travelflags, &goal.areanum, goal.origin))
-			{
-				VectorSet(goal.mins, -15, -15, -15);
-				VectorSet(goal.maxs, 15, 15, 15);
-				goal.entitynum = 0;
-				goal.number = 0;
-				goal.flags = GFL_ROAM;
-				goal.iteminfo = 0;
-				//push the goal on the stack
-				BotPushGoal(goalstate, &goal);
-				//
-#ifdef DEBUG
-				botimport.Print(PRT_MESSAGE, "chosen roam goal area %d\n", goal.areanum);
-#endif //DEBUG
-				return qtrue;
-			} //end if
+		    if (AAS_RandomGoalArea(areanum, travelflags, &goal.areanum, goal.origin))
+		    {
+		        VectorSet(goal.mins, -15, -15, -15);
+		        VectorSet(goal.maxs, 15, 15, 15);
+		        goal.entitynum = 0;
+		        goal.number = 0;
+		        goal.flags = GFL_ROAM;
+		        goal.iteminfo = 0;
+		        //push the goal on the stack
+		        BotPushGoal(goalstate, &goal);
+		        //
+		#ifdef DEBUG
+		        botimport.Print(PRT_MESSAGE, "chosen roam goal area %d\n", goal.areanum);
+		#endif //DEBUG
+		        return qtrue;
+		    } //end if
 		} //end if
 		*/
 		return qfalse;
@@ -1286,7 +1286,7 @@ int BotChooseNBGItem( int goalstate, vec3_t origin, int *inventory, int travelfl
 	//
 	if ( ltg ) {
 		ltg_time = AAS_AreaTravelTimeToGoalArea( areanum, origin, ltg->areanum, travelflags );
-	} else { ltg_time = 99999;}
+	} else { ltg_time = 99999; }
 	//the item configuration
 	ic = itemconfig;
 	if ( !itemconfig ) {

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -113,7 +113,7 @@ void CG_PositionRotatedEntityOnTag( refEntity_t *entity, const refEntity_t *pare
 /*
 ==============
 CG_LoseArmor
-	maybe better in cg_localents.c
+    maybe better in cg_localents.c
 ==============
 */
 void CG_LoseArmor( centity_t *cent, int index ) {
@@ -219,7 +219,7 @@ void CG_LoseArmor( centity_t *cent, int index ) {
 		if ( !models[index + ( 2 * totalparts )] ) {
 			return;
 		}
-	} else if ( !models[index + totalparts] )        {
+	} else if ( !models[index + totalparts] ) {
 		return;
 	}
 
@@ -479,14 +479,14 @@ static void CG_EntityEffects( centity_t *cent ) {
 
 		if ( cent->currentState.eType == ET_SPEAKER ) {
 			/*if(cent->currentState.density == 1) {	// NO_PVS
-				trap_S_AddRealLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.gameSounds[ cent->currentState.loopSound ] );
+			    trap_S_AddRealLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.gameSounds[ cent->currentState.loopSound ] );
 			}
 			else*/if ( cent->currentState.dmgFlags ) { // range is set
 				trap_S_AddRangedLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.gameSounds[ cent->currentState.loopSound ], cent->currentState.dmgFlags );
 			} else {
 				trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.gameSounds[ cent->currentState.loopSound ], 255 );
 			}
-		} else if ( cent->currentState.solid == SOLID_BMODEL )   {
+		} else if ( cent->currentState.solid == SOLID_BMODEL ) {
 			vec3_t origin;
 			float   *v;
 
@@ -504,12 +504,12 @@ static void CG_EntityEffects( centity_t *cent ) {
 			trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.gameSounds[ cent->currentState.loopSound ], 255 );
 		}
 	} /*else {
-		// stop NO_PVS speakers if they've been turned off
-		if(cent->currentState.eType == ET_SPEAKER) {
-			if(cent->currentState.density == 1) {
-				trap_S_StopLoopingSound(cent->currentState.number);
-			}
-		}
+	    // stop NO_PVS speakers if they've been turned off
+	    if(cent->currentState.eType == ET_SPEAKER) {
+	        if(cent->currentState.density == 1) {
+	            trap_S_StopLoopingSound(cent->currentState.number);
+	        }
+	    }
 	}*/
 
 
@@ -968,27 +968,27 @@ static void CG_Item( centity_t *cent ) {
 
 	item = &bg_itemlist[ es->modelindex ];
 
-        // fretn - The dropammo command can drop items that where not in
-        // the map, so the server doesn't tell the client to preload them
-        // to overcome this problem, lets load the model now
-        CG_RegisterItemVisuals( item - bg_itemlist );
+	// fretn - The dropammo command can drop items that where not in
+	// the map, so the server doesn't tell the client to preload them
+	// to overcome this problem, lets load the model now
+	CG_RegisterItemVisuals( item - bg_itemlist );
 
 
 	// fretn: the shaders are wrong, so disable this for now
 /*
-	if ( cg_simpleItems.integer && item->giType != IT_TEAM ) {
-		memset( &ent, 0, sizeof( ent ) );
-		ent.reType = RT_SPRITE;
-		VectorCopy( cent->lerpOrigin, ent.origin );
-		ent.radius = 14;
-		ent.customShader = cg_items[es->modelindex].icons[0];
-		ent.shaderRGBA[0] = 255;
-		ent.shaderRGBA[1] = 255;
-		ent.shaderRGBA[2] = 255;
-		ent.shaderRGBA[3] = 255;
-		trap_R_AddRefEntityToScene( &ent );
-		return;
-	}
+    if ( cg_simpleItems.integer && item->giType != IT_TEAM ) {
+        memset( &ent, 0, sizeof( ent ) );
+        ent.reType = RT_SPRITE;
+        VectorCopy( cent->lerpOrigin, ent.origin );
+        ent.radius = 14;
+        ent.customShader = cg_items[es->modelindex].icons[0];
+        ent.shaderRGBA[0] = 255;
+        ent.shaderRGBA[1] = 255;
+        ent.shaderRGBA[2] = 255;
+        ent.shaderRGBA[3] = 255;
+        trap_R_AddRefEntityToScene( &ent );
+        return;
+    }
 */
 	memset( &ent, 0, sizeof( ent ) );
 
@@ -1074,7 +1074,7 @@ static void CG_Item( centity_t *cent ) {
 
 
 	if ( es->modelindex2 ) {   // modelindex2 was specified for the ent, meaning it probably has an alternate model (as opposed to the one in the itemlist)
-							   // try to load it first, and if it fails, default to the itemlist model
+		                       // try to load it first, and if it fails, default to the itemlist model
 		ent.hModel = cgs.gameModels[ es->modelindex2 ];
 	} else {
 		if ( item->giType == IT_WEAPON && cg_items[es->modelindex].models[2] ) {   // check if there's a specific model for weapon pickup placement
@@ -1239,7 +1239,7 @@ static void CG_Missile( centity_t *cent ) {
 
 	if ( cent->currentState.eType == ET_FP_PARTS ) {
 		ent.hModel = cgs.gameModels[cent->currentState.modelindex];
-	} else if ( cent->currentState.eType == ET_EXPLO_PART )     {
+	} else if ( cent->currentState.eType == ET_EXPLO_PART ) {
 		ent.hModel = cgs.gameModels[cent->currentState.modelindex];
 	} else if ( cent->currentState.eType == ET_FLAMEBARREL ) {
 		ent.hModel = cgs.media.flamebarrel;
@@ -1485,7 +1485,7 @@ static void CG_RunAnim( centity_t *cent, int *frame, int *oldframe, float *backl
 /*
 ==============
 CG_Trap
-	// TODO: change from 'trap' to something else.  'trap' is a misnomer.  it's actually used for other stuff too
+    // TODO: change from 'trap' to something else.  'trap' is a misnomer.  it's actually used for other stuff too
 ==============
 */
 static void CG_Trap( centity_t *cent ) {
@@ -1670,7 +1670,7 @@ static void CG_Efx( centity_t *cent ) {
 				trap_R_AddLightToScene( cent->currentState.origin, cent->currentState.time, (float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, 0 );
 			}
 		}
-	} else if ( cent->currentState.eType == ET_SPOTLIGHT_EF )     {
+	} else if ( cent->currentState.eType == ET_SPOTLIGHT_EF ) {
 
 		vec3_t targetpos, normalized_direction, direction;
 		float dist, fov = 90;
@@ -1760,9 +1760,9 @@ static void CG_Efx( centity_t *cent ) {
 /*
 ===============
 CG_Explosive
-	This is currently almost exactly the same as CG_Mover
-	It's split out so that any changes or experiments are
-	unattached to anything else.
+    This is currently almost exactly the same as CG_Mover
+    It's split out so that any changes or experiments are
+    unattached to anything else.
 ===============
 */
 static void CG_Explosive( centity_t *cent ) {
@@ -2119,7 +2119,7 @@ static void CG_Prop( centity_t *cent ) {
 			ent.oldframe = ent.frame - 1;
 			ent.backlerp = 1 - cg.frameInterpolation;
 			ent.renderfx = RF_DEPTHHACK | RF_FIRST_PERSON;
-		} else if ( ent.frame )     {
+		} else if ( ent.frame ) {
 			ent.oldframe -= 1;
 			ent.backlerp = 1 - cg.frameInterpolation;
 		} else
@@ -2580,7 +2580,7 @@ void CG_AddPacketEntities( void ) {
 		}
 	} else {
 		cg.frameInterpolation = 0;  // actually, it should never be used, because
-									// no entities should be marked as interpolating
+		                            // no entities should be marked as interpolating
 	}
 
 	cg.rumbleScale = 0.0;   // RF, default to 0 each frame

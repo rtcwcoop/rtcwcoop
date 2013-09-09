@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,42 +50,42 @@ L0 - Svcmd_AddIP_f
 =================
 */
 void Svcmd_AddIP_f( void ) {
-	FILE		*bannedfile;
+	FILE        *bannedfile;
 
-	char	arg1[MAX_STRING_TOKENS];
-	trap_Argv(1, arg1, sizeof(arg1));
+	char arg1[MAX_STRING_TOKENS];
+	trap_Argv( 1, arg1, sizeof( arg1 ) );
 
-	bannedfile=fopen("banned.txt","a+");
+	bannedfile = fopen( "banned.txt","a+" );
 
-	fputs(va("%s\n",arg1),bannedfile);
-	G_LogPrintf ("%s was added to the banned file\n", arg1);
-    
-	fclose(bannedfile);
+	fputs( va( "%s\n",arg1 ),bannedfile );
+	G_LogPrintf( "%s was added to the banned file\n", arg1 );
+
+	fclose( bannedfile );
 }
 
 /*
 ================
-L0 - Svcmd_tempban_f 
+L0 - Svcmd_tempban_f
 
 - from S4NDMOD
 ================
 */
-void Svcmd_tempban_f( void ){
-	int			clientNum;
-	int			bannedtime;
-	gentity_t	*ent;
-	char		arg1[MAX_STRING_TOKENS];
-	char		arg2[MAX_STRING_TOKENS];	
+void Svcmd_tempban_f( void ) {
+	int clientNum;
+	int bannedtime;
+	gentity_t   *ent;
+	char arg1[MAX_STRING_TOKENS];
+	char arg2[MAX_STRING_TOKENS];
 
 	trap_Argv( 1, arg1, sizeof( arg1 ) );
-	clientNum = atoi(arg1);
+	clientNum = atoi( arg1 );
 	ent = &g_entities[ clientNum ];
 
 	trap_Argv( 2, arg2, sizeof( arg2 ) );
-	bannedtime = atoi(arg2);
+	bannedtime = atoi( arg2 );
 
-	TEMPBAN_CLIENT(ent,bannedtime);
-} 
+	TEMPBAN_CLIENT( ent,bannedtime );
+}
 
 /*
 ===================
@@ -234,7 +234,7 @@ L0 - Print Poll answer,,
 ============
 */
 void Svcmd_PollPrint_f( void ) {
-	trap_SendServerCommand(-1, va("chat \"console: Poll result is ^2Yes^7!\n\""));	
+	trap_SendServerCommand( -1, va( "chat \"console: Poll result is ^2Yes^7!\n\"" ) );
 }
 
 /*
@@ -242,36 +242,32 @@ void Svcmd_PollPrint_f( void ) {
 L0 - Unignore
 ============
 */
-void Svcmd_Unignore_f( void )
-{
+void Svcmd_Unignore_f( void ) {
 	int clientNum;
 	char buf[5];
 
-	if (trap_Argc() != 2)
-	{
-		G_Printf("Usage: unignore <client num>\n");
+	if ( trap_Argc() != 2 ) {
+		G_Printf( "Usage: unignore <client num>\n" );
 		return;
 	}
 
-	trap_Argv(1, buf, sizeof(buf));
-	clientNum = atoi(buf);
+	trap_Argv( 1, buf, sizeof( buf ) );
+	clientNum = atoi( buf );
 
-	if ((clientNum < 0) || (clientNum >= MAX_CLIENTS))
-	{
-		G_Printf("Invalid client number.\n");
+	if ( ( clientNum < 0 ) || ( clientNum >= MAX_CLIENTS ) ) {
+		G_Printf( "Invalid client number.\n" );
 		return;
 	}
 
-	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) || (g_entities[clientNum].r.svFlags & SVF_BOT))
-	{
-		G_Printf("Client not on server.\n");
+	if ( ( !g_entities[clientNum].client ) || ( level.clients[clientNum].pers.connected != CON_CONNECTED ) || ( g_entities[clientNum].r.svFlags & SVF_BOT ) ) {
+		G_Printf( "Client not on server.\n" );
 		return;
 	}
 
 	g_entities[clientNum].client->sess.ignored = 0;
-	trap_SendServerCommand(clientNum, "cp \"You have been unignored^2!\n\"2");	//let them know they can talk again
-	trap_SendServerCommand( -1 , va("chat \"console: ^7%s ^7has been unignored.\n\"",g_entities[clientNum].client->pers.netname) );
-return;
+	trap_SendServerCommand( clientNum, "cp \"You have been unignored^2!\n\"2" );  //let them know they can talk again
+	trap_SendServerCommand( -1, va( "chat \"console: ^7%s ^7has been unignored.\n\"",g_entities[clientNum].client->pers.netname ) );
+	return;
 }
 
 /*
@@ -280,36 +276,32 @@ L0 - Ignore
 ============
 */
 
-void Svcmd_Ignore_f()
-{
+void Svcmd_Ignore_f() {
 	int clientNum;
 	char buf[5];
 
-	if (trap_Argc() != 2)
-	{
-		G_Printf("Usage: ignore <client num>\n");
+	if ( trap_Argc() != 2 ) {
+		G_Printf( "Usage: ignore <client num>\n" );
 		return;
 	}
 
-	trap_Argv(1, buf, sizeof(buf));
-	clientNum = atoi(buf);
+	trap_Argv( 1, buf, sizeof( buf ) );
+	clientNum = atoi( buf );
 
-	if ((clientNum < 0) || (clientNum >= MAX_CLIENTS))
-	{
-		G_Printf("Invalid client number\n");
+	if ( ( clientNum < 0 ) || ( clientNum >= MAX_CLIENTS ) ) {
+		G_Printf( "Invalid client number\n" );
 		return;
 	}
 
-	if ((!g_entities[clientNum].client) || (level.clients[clientNum].pers.connected != CON_CONNECTED) || (g_entities[clientNum].r.svFlags & SVF_BOT))
-	{
-		G_Printf("Client not on server.\n");
+	if ( ( !g_entities[clientNum].client ) || ( level.clients[clientNum].pers.connected != CON_CONNECTED ) || ( g_entities[clientNum].r.svFlags & SVF_BOT ) ) {
+		G_Printf( "Client not on server.\n" );
 		return;
 	}
 
 	g_entities[clientNum].client->sess.ignored = 1;
-	trap_SendServerCommand(clientNum, "cp \"You are now ignored^1\n\"");
-    trap_SendServerCommand( -1 , va("chat \"console: ^7%s ^7has been ignored.\n\"",g_entities[clientNum].client->pers.netname ));
-return;
+	trap_SendServerCommand( clientNum, "cp \"You are now ignored^1\n\"" );
+	trap_SendServerCommand( -1, va( "chat \"console: ^7%s ^7has been ignored.\n\"",g_entities[clientNum].client->pers.netname ) );
+	return;
 }
 
 
@@ -329,10 +321,10 @@ qboolean    ConsoleCommand( void ) {
 	// Ridah, savegame
 	if ( Q_stricmp( cmd, "savegame" ) == 0 ) {
 
-                // only for single player games
-                if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-                        return qtrue;
-                }
+		// only for single player games
+		if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
+			return qtrue;
+		}
 
 		// don't allow a manual savegame command while we are waiting for the game to start/exit
 		if ( g_reloading.integer ) {
@@ -393,10 +385,10 @@ qboolean    ConsoleCommand( void ) {
 
 	// L0 - Enhancements
 	// Poll
-	if (Q_stricmp(cmd, "Poll:") == 0 ) {
-		Svcmd_PollPrint_f ();
+	if ( Q_stricmp( cmd, "Poll:" ) == 0 ) {
+		Svcmd_PollPrint_f();
 		return qtrue;
-	} 
+	}
 
 	// Ban
 	if ( Q_stricmp( cmd, "addip" ) == 0 ) {
@@ -405,21 +397,21 @@ qboolean    ConsoleCommand( void ) {
 	}
 
 	// Tempban
-	if (Q_stricmp(cmd, "tempban") == 0){
-        Svcmd_tempban_f();
-  		return qtrue;
-	} 
+	if ( Q_stricmp( cmd, "tempban" ) == 0 ) {
+		Svcmd_tempban_f();
+		return qtrue;
+	}
 
 	// Ignore
-	if (Q_stricmp(cmd, "ignore") == 0 ) {
-		Svcmd_Ignore_f ();
+	if ( Q_stricmp( cmd, "ignore" ) == 0 ) {
+		Svcmd_Ignore_f();
 		return qtrue;
-	} 
+	}
 	// Unignore
-	if (Q_stricmp(cmd, "unignore") == 0 ) {
-		Svcmd_Unignore_f ();
+	if ( Q_stricmp( cmd, "unignore" ) == 0 ) {
+		Svcmd_Unignore_f();
 		return qtrue;
-	} 
+	}
 	// L0 - end
 
 	if ( g_dedicated.integer ) {
@@ -434,4 +426,3 @@ qboolean    ConsoleCommand( void ) {
 
 	return qfalse;
 }
-

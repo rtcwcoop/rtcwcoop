@@ -82,7 +82,7 @@ jpeg_idct_float( j_decompress_ptr cinfo, jpeg_component_info * compptr,
 
 	/* Pass 1: process columns from input, store into work array. */
 
-	inptr = coef_block;
+		inptr = coef_block;
 	quantptr = (FLOAT_MULT_TYPE *) compptr->dct_table;
 	wsptr = workspace;
 	for ( ctr = DCTSIZE; ctr > 0; ctr-- ) {

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -83,14 +83,14 @@ char *AIFunc_ZombieFlameAttack( cast_state_t *cs ) {
 		return AIFunc_DefaultStart( cs );
 	}
 /*	disabled, keep going so they cant come back for the easy kill
-	//
-	// if we can't see them anymore, abort immediately
-	if (cs->vislist[cs->enemyNum].real_visible_timestamp != cs->vislist[cs->enemyNum].real_update_timestamp) {
-		ent->s.onFireEnd = level.time + 1500;
-		ent->client->ps.torsoTimer = 0;
-		ent->client->ps.legsTimer = 0;
-		return AIFunc_DefaultStart( cs );
-	}
+    //
+    // if we can't see them anymore, abort immediately
+    if (cs->vislist[cs->enemyNum].real_visible_timestamp != cs->vislist[cs->enemyNum].real_update_timestamp) {
+        ent->s.onFireEnd = level.time + 1500;
+        ent->client->ps.torsoTimer = 0;
+        ent->client->ps.legsTimer = 0;
+        return AIFunc_DefaultStart( cs );
+    }
 */
 	// if outside range, move closer
 	if ( VectorDistance( cs->bs->origin, cs->vislist[cs->enemyNum].visible_pos ) > ZOMBIE_FLAME_RADIUS ) {
@@ -831,7 +831,7 @@ char *AIFunc_StimSoldierAttack2( cast_state_t *cs ) {
 char *AIFunc_StimSoldierAttack2Start( cast_state_t *cs ) {
 
 	cs->weaponFireTimes[cs->weaponNum] = level.time;
-	
+
 	//
 	// face them
 	AICast_AimAtEnemy( cs );

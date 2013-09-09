@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -128,11 +128,11 @@ qboolean G_ScriptAction_GotoMarker( gentity_t *ent, char *params ) {
 			if ( token[0] ) {
 				if ( !Q_stricmp( token, "accel" ) ) {
 					trType = TR_ACCELERATE;
-				} else if ( !Q_stricmp( token, "deccel" ) )      {
+				} else if ( !Q_stricmp( token, "deccel" ) ) {
 					trType = TR_DECCELERATE;
-				} else if ( !Q_stricmp( token, "wait" ) )      {
+				} else if ( !Q_stricmp( token, "wait" ) ) {
 					wait = qtrue;
-				} else if ( !Q_stricmp( token, "turntotarget" ) )      {
+				} else if ( !Q_stricmp( token, "turntotarget" ) ) {
 					turntotarget = qtrue;
 				}
 			}
@@ -295,7 +295,7 @@ qboolean G_ScriptAction_Trigger( gentity_t *ent, char *params ) {
 
 	trent = AICast_FindEntityForName( name );
 	if ( trent ) { // we are triggering an AI
-				  //oldId = trent->scriptStatus.scriptId;
+		           //oldId = trent->scriptStatus.scriptId;
 		AICast_ScriptEvent( AICast_GetCastState( trent->s.number ), "trigger", trigger );
 		return qtrue;
 	}
@@ -578,28 +578,28 @@ qboolean G_ScriptAction_PlayAnim( gentity_t *ent, char *params ) {
 	}
 };
 
-qboolean G_ScriptAction_RemoveEntity( gentity_t *ent, char *params) {
-        gentity_t   *removeent;
+qboolean G_ScriptAction_RemoveEntity( gentity_t *ent, char *params ) {
+	gentity_t   *removeent;
 
-        if ( !params || !params[0] ) {
-                G_Error( "G_Scripting: removeentity without targetname\n" );
-        }    
+	if ( !params || !params[0] ) {
+		G_Error( "G_Scripting: removeentity without targetname\n" );
+	}
 
-        // find this targetname
-        removeent = G_Find( NULL, FOFS( model ), params );
-        /*if ( !removeent ) {
-G_Printf("Remove entity 2\n");
-                // check for ainame here too since some logic has moved to game_manager
-                removeent = G_Find( NULL, FOFS( aiName ), params );
-                if ( !removeent || !removeent->client ) {
-                        G_Printf( S_COLOR_RED "G_Scripting: removeentity cannot find targetname \"%s\"\n", params );
-                        return qtrue; // cs: need to return true here or it keeps getting called every frame.
-                }    
-        }    */
+	// find this targetname
+	removeent = G_Find( NULL, FOFS( model ), params );
+	/*if ( !removeent ) {
+	G_Printf("Remove entity 2\n");
+	        // check for ainame here too since some logic has moved to game_manager
+	        removeent = G_Find( NULL, FOFS( aiName ), params );
+	        if ( !removeent || !removeent->client ) {
+	                G_Printf( S_COLOR_RED "G_Scripting: removeentity cannot find targetname \"%s\"\n", params );
+	                return qtrue; // cs: need to return true here or it keeps getting called every frame.
+	        }
+	}    */
 
-	trap_UnlinkEntity(removeent);
+	trap_UnlinkEntity( removeent );
 
-        return qtrue;
+	return qtrue;
 }
 
 /*
@@ -651,17 +651,17 @@ G_ScriptAction_Accum
 
   Commands:
 
-	accum <n> inc <m>
-	accum <n> abort_if_less_than <m>
-	accum <n> abort_if_greater_than <m>
-	accum <n> abort_if_not_equal <m>
-	accum <n> abort_if_equal <m>
-	accum <n> set <m>
-	accum <n> random <m>
-	accum <n> bitset <m>
-	accum <n> bitreset <m>
-	accum <n> abort_if_bitset <m>
-	accum <n> abort_if_not_bitset <m>
+    accum <n> inc <m>
+    accum <n> abort_if_less_than <m>
+    accum <n> abort_if_greater_than <m>
+    accum <n> abort_if_not_equal <m>
+    accum <n> abort_if_equal <m>
+    accum <n> set <m>
+    accum <n> random <m>
+    accum <n> bitset <m>
+    accum <n> bitreset <m>
+    accum <n> abort_if_bitset <m>
+    accum <n> abort_if_not_bitset <m>
 =================
 */
 qboolean G_ScriptAction_Accum( gentity_t *ent, char *params ) {
@@ -801,33 +801,34 @@ qboolean G_ScriptAction_MissionFailed( gentity_t *ent, char *params ) {
 		mof = 0;
 	}
 #ifdef LOCALISATION
-        if (mof == 1 )
-                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Civilian" );
-        else if (mof == 2 )
-                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Kreisau Agent" );
-        else if (mof == 3 )
-                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Kessler");
-        else if (mof == 4 )
-                trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Karl" );
-        else if (mof == 5 )
-                trap_SendServerCommand( -1, "cp Mission Failed\nYou Have Been Detected" );
-        else if (mof == 6 )
-                trap_SendServerCommand( -1, "cp Mission Failed\nRocket Launched" );
-        else if (mof == 7 )
-                trap_SendServerCommand( -1, "cp Mission Failed\nThe Scientist Has Been Killed" );
+	if ( mof == 1 ) {
+		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Civilian" );
+	} else if ( mof == 2 ) {
+		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Kreisau Agent" );
+	} else if ( mof == 3 ) {
+		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Kessler" );
+	} else if ( mof == 4 ) {
+		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Karl" );
+	} else if ( mof == 5 ) {
+		trap_SendServerCommand( -1, "cp Mission Failed\nYou Have Been Detected" );
+	} else if ( mof == 6 ) {
+		trap_SendServerCommand( -1, "cp Mission Failed\nRocket Launched" );
+	} else if ( mof == 7 ) {
+		trap_SendServerCommand( -1, "cp Mission Failed\nThe Scientist Has Been Killed" );
+	}
 #else
 	trap_SendServerCommand( -1, va( "cp missionfail%d", mof ) );
 #endif
-	if (g_gametype.integer == GT_SINGLE_PLAYER) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		// reload the current savegame, after a delay
 		trap_SetConfigstring( CS_SCREENFADE, va( "1 %i %i", level.time + 250, time * 1000 ) );
 		//	reloading = RELOAD_FAILED;
 		trap_Cvar_Set( "g_reloading", va( "%d", RELOAD_FAILED ) );
 
 		level.reloadDelayTime = level.time + 1000 + time * 1000;
-        } else {
-                trap_SendConsoleCommand( EXEC_INSERT, va("map_restart %d\n", time) );
-        }
+	} else {
+		trap_SendConsoleCommand( EXEC_INSERT, va( "map_restart %d\n", time ) );
+	}
 
 	return qtrue;
 }
@@ -841,18 +842,18 @@ G_ScriptAction_ObjectivesNeeded
 =================
 */
 qboolean G_ScriptAction_ObjectivesNeeded( gentity_t *ent, char *params ) {
-        char *pString, *token;
+	char *pString, *token;
 
-        pString = params;
+	pString = params;
 
-        token = COM_ParseExt( &pString, qfalse );
-        if ( !token[0] ) {
-                G_Error( "Level Scripting: objectivesneeded requires a num_objectives identifier\n" );
-        }    
+	token = COM_ParseExt( &pString, qfalse );
+	if ( !token[0] ) {
+		G_Error( "Level Scripting: objectivesneeded requires a num_objectives identifier\n" );
+	}
 
-        level.numObjectives = atoi( token );
+	level.numObjectives = atoi( token );
 
-        return qtrue;
+	return qtrue;
 }
 
 /*
@@ -863,46 +864,46 @@ G_ScriptAction_ObjectiveMet
 =================
 */
 qboolean G_ScriptAction_ObjectiveMet( gentity_t *ent, char *params ) {
-        vmCvar_t cvar;
-        int lvl; 
-        char *pString, *token;
+	vmCvar_t cvar;
+	int lvl;
+	char *pString, *token;
 
-        pString = params;
+	pString = params;
 
-        token = COM_ParseExt( &pString, qfalse );
-        if ( !token[0] ) {
-                G_Error( "G Scripting: objectivemet requires a num_objective identifier\n" );
-        }    
+	token = COM_ParseExt( &pString, qfalse );
+	if ( !token[0] ) {
+		G_Error( "G Scripting: objectivemet requires a num_objective identifier\n" );
+	}
 
-        lvl = atoi( token );
+	lvl = atoi( token );
 
-        // if you've already got it, just return.  don't need to set 'yougotmail'
-        if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
-                return qtrue;
-        }    
+	// if you've already got it, just return.  don't need to set 'yougotmail'
+	if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+		return qtrue;
+	}
 
-        level.missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
+	level.missionObjectives |= ( 1 << ( lvl - 1 ) );      // make this bitwise
 
-        //set g_objective<n> cvar
-        trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );
-        // set it to make sure
-        trap_Cvar_Set( va( "g_objective%i", lvl ), "1" );
+	//set g_objective<n> cvar
+	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );
+	// set it to make sure
+	trap_Cvar_Set( va( "g_objective%i", lvl ), "1" );
 
 
-        token = COM_ParseExt( &pString, qfalse );
-        if ( token[0] ) {
-                if ( Q_strcasecmp( token,"nodisplay" ) ) {   // unknown command
-                        G_Error( "G Scripting: missionsuccess with unknown parameter: %s\n", token );
-                }    
-        } else {    // show on-screen information
-                if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-                        trap_Cvar_Set( "cg_youGotMail", "2" ); // set flag to draw icon
-                } else {
-                        trap_SendServerCommand( -1 , "yougotmail 2\n" );
-                }    
-        }    
+	token = COM_ParseExt( &pString, qfalse );
+	if ( token[0] ) {
+		if ( Q_strcasecmp( token,"nodisplay" ) ) {           // unknown command
+			G_Error( "G Scripting: missionsuccess with unknown parameter: %s\n", token );
+		}
+	} else {        // show on-screen information
+		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+			trap_Cvar_Set( "cg_youGotMail", "2" );             // set flag to draw icon
+		} else {
+			trap_SendServerCommand( -1, "yougotmail 2\n" );
+		}
+	}
 
-        return qtrue;
+	return qtrue;
 }
 
 
@@ -914,18 +915,18 @@ G_ScriptAction_NumSecrets
 =================
 */
 qboolean G_ScriptAction_NumSecrets( gentity_t *ent, char *params ) {
-        char *pString, *token;
+	char *pString, *token;
 
-        pString = params;
+	pString = params;
 
-        token = COM_ParseExt( &pString, qfalse );
-        if ( !token[0] ) {
-                G_Error( "Level Scripting: numsecrets requires a num_secrets identifier\n" );
-        }
+	token = COM_ParseExt( &pString, qfalse );
+	if ( !token[0] ) {
+		G_Error( "Level Scripting: numsecrets requires a num_secrets identifier\n" );
+	}
 
-        level.numSecrets = atoi( token );
+	level.numSecrets = atoi( token );
 
-        return qtrue;
+	return qtrue;
 }
 
 /*
@@ -956,21 +957,21 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 
 	lvl = atoi( token );
 
-        if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-                // if you've already got it, just return.  don't need to set 'yougotmail'
-                if ( player->missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
-                        return qtrue;
-                }    
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+		// if you've already got it, just return.  don't need to set 'yougotmail'
+		if ( player->missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+			return qtrue;
+		}
 
-                player->missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
-        } else {
-                // if you've already got it, just return.  don't need to set 'yougotmail'
-                if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
-                        return qtrue;
-                }    
+		player->missionObjectives |= ( 1 << ( lvl - 1 ) );          // make this bitwise
+	} else {
+		// if you've already got it, just return.  don't need to set 'yougotmail'
+		if ( level.missionObjectives & ( 1 << ( lvl - 1 ) ) ) {
+			return qtrue;
+		}
 
-                level.missionObjectives |= ( 1 << ( lvl - 1 ) );  // make this bitwise
-        }
+		level.missionObjectives |= ( 1 << ( lvl - 1 ) );          // make this bitwise
+	}
 
 	//set g_objective<n> cvar
 	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );
@@ -983,11 +984,11 @@ qboolean G_ScriptAction_MissionSuccess( gentity_t *ent, char *params ) {
 			G_Error( "AI Scripting: missionsuccess with unknown parameter: %s\n", token );
 		}
 	} else {    // show on-screen information
-                if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-	        	trap_Cvar_Set( "cg_youGotMail", "2" ); // set flag to draw icon
-                } else {
-                        trap_SendServerCommand( -1 , "yougotmail 2\n" );
-                }
+		if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+			trap_Cvar_Set( "cg_youGotMail", "2" );     // set flag to draw icon
+		} else {
+			trap_SendServerCommand( -1, "yougotmail 2\n" );
+		}
 	}
 
 	return qtrue;
@@ -1115,7 +1116,7 @@ qboolean G_ScriptAction_FaceAngles( gentity_t *ent, char *params ) {
 ===================
 G_ScriptAction_ResetScript
 
-	causes any currently running scripts to abort, in favour of the current script
+    causes any currently running scripts to abort, in favour of the current script
 ===================
 */
 qboolean G_ScriptAction_ResetScript( gentity_t *ent, char *params ) {
@@ -1130,9 +1131,9 @@ qboolean G_ScriptAction_ResetScript( gentity_t *ent, char *params ) {
 ===================
 G_ScriptAction_TagConnect
 
-	syntax: attachtotag <targetname/scriptname> <tagname>
+    syntax: attachtotag <targetname/scriptname> <tagname>
 
-	connect this entity onto the tag of another entity
+    connect this entity onto the tag of another entity
 ===================
 */
 qboolean G_ScriptAction_TagConnect( gentity_t *ent, char *params ) {

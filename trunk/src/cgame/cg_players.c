@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -224,11 +224,11 @@ void CG_CalcMoveSpeeds( clientInfo_t *ci ) {
 		if ( !isStrafe ) {
 			if ( o[0].origin[0] > o[1].origin[0] ) {
 				thisFirst = 0;
-			} else { thisFirst = 1;}
+			} else { thisFirst = 1; }
 		} else {
 			if ( o[0].origin[1] > o[1].origin[1] ) {
 				thisFirst = 0;
-			} else { thisFirst = 1;}
+			} else { thisFirst = 1; }
 		}
 		lastFirst = thisFirst;
 
@@ -269,11 +269,11 @@ void CG_CalcMoveSpeeds( clientInfo_t *ci ) {
 				if ( !isStrafe ) {
 					if ( o[0].origin[0] > o[1].origin[0] ) {
 						thisFirst = 0;
-					} else { thisFirst = 1;}
+					} else { thisFirst = 1; }
 				} else {
 					if ( o[0].origin[1] > o[1].origin[1] ) {
 						thisFirst = 0;
-					} else { thisFirst = 1;}
+					} else { thisFirst = 1; }
 				}
 				// if they have changed, record the step
 				if ( lastFirst != thisFirst ) {
@@ -331,7 +331,7 @@ static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci,
 	Q_strncpyz( ci->modelInfo->modelname, modelname, sizeof( ci->modelInfo->modelname ) );
 
 	// load the cfg file
-        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
+	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.cfg", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		return qfalse;
@@ -355,7 +355,7 @@ static qboolean CG_ParseAnimationFiles( const char *modelname, clientInfo_t *ci,
 	CG_CalcMoveSpeeds( ci );
 
 	// load the script file
-        Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
+	Com_sprintf( filename, sizeof( filename ), "models/players/%s/wolfanim.script", modelname );
 	len = trap_FS_FOpenFile( filename, &f, FS_READ );
 	if ( len <= 0 ) {
 		if ( ci->modelInfo->version > 1 ) {
@@ -497,7 +497,7 @@ CG_CheckForExistingModelInfo
 */
 //fretn: COOP
 extern animScriptData_t *globalScriptData;
-#if 1 
+#if 1
 // this version is from wolfsp
 
 /*
@@ -511,44 +511,44 @@ G_CheckForExistingModelInfo
 ==================
 */
 qboolean CG_CheckForExistingModelInfo2( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
-        int i;
-        animModelInfo_t *trav;
+	int i;
+	animModelInfo_t *trav;
 
-        for ( i = 0; i < MAX_ANIMSCRIPT_MODELS; i++ ) {
-                trav = cgs.animScriptData.modelInfo[i];
-                if ( trav && trav->modelname[0] ) {
-                        if ( !Q_stricmp( trav->modelname, modelName ) ) {
-                                // found a match, use this modelinfo
-                                *modelInfo = trav;
-                                cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
-                                return qtrue;
-                        }    
-                } else {
-                        cgs.animScriptData.modelInfo[i] = malloc( sizeof( animModelInfo_t ) ); 
-                        *modelInfo = cgs.animScriptData.modelInfo[i];
-                        // clear the structure out ready for use
-                        memset( *modelInfo, 0, sizeof( **modelInfo ) ); 
-                        cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
-                        return qfalse;
-                }    
-        }    
+	for ( i = 0; i < MAX_ANIMSCRIPT_MODELS; i++ ) {
+		trav = cgs.animScriptData.modelInfo[i];
+		if ( trav && trav->modelname[0] ) {
+			if ( !Q_stricmp( trav->modelname, modelName ) ) {
+				// found a match, use this modelinfo
+				*modelInfo = trav;
+				cgs.animScriptData.clientModels[ci->clientNum] = i + 1;
+				return qtrue;
+			}
+		} else {
+			cgs.animScriptData.modelInfo[i] = malloc( sizeof( animModelInfo_t ) );
+			*modelInfo = cgs.animScriptData.modelInfo[i];
+			// clear the structure out ready for use
+			memset( *modelInfo, 0, sizeof( **modelInfo ) );
+			cgs.animScriptData.clientModels[ci->clientNum] = i + 1;
+			return qfalse;
+		}
+	}
 
-        CG_Error( "unable to find a free modelinfo slot, cannot continue\n" );
-        // qfalse signifies that we need to parse the information from the script files
-        return qfalse;
+	CG_Error( "unable to find a free modelinfo slot, cannot continue\n" );
+	// qfalse signifies that we need to parse the information from the script files
+	return qfalse;
 }
 
 //fretn
 qboolean CG_GetModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
 
-        if ( !CG_CheckForExistingModelInfo2( ci, modelName, modelInfo ) ) {
-                ci->modelInfo = *modelInfo;
-                if ( !CG_ParseAnimationFiles( modelName, ci, ci->clientNum ) ) {
-                        CG_Error( "Failed to load animation scripts for model %s\n", modelName );
-                }    
-        }    
+	if ( !CG_CheckForExistingModelInfo2( ci, modelName, modelInfo ) ) {
+		ci->modelInfo = *modelInfo;
+		if ( !CG_ParseAnimationFiles( modelName, ci, ci->clientNum ) ) {
+			CG_Error( "Failed to load animation scripts for model %s\n", modelName );
+		}
+	}
 
-        return qtrue;
+	return qtrue;
 }
 
 qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
@@ -571,7 +571,7 @@ qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animMo
 			// if we fell down to here, then we have found a free slot
 
 			// request it from the server (game module)
-                        // fretn COOP: we should implement the serverside function overhere
+			// fretn COOP: we should implement the serverside function overhere
 			//if ( trap_GetModelInfo( ci->clientNum, modelName, &cgs.animScriptData.modelInfo[i] ) ) {
 			if ( CG_GetModelInfo( ci, modelName, &cgs.animScriptData.modelInfo[i] ) ) {
 
@@ -597,53 +597,53 @@ qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animMo
 #else
 // this version is from wolfmp
 qboolean CG_CheckForExistingModelInfo( clientInfo_t *ci, char *modelName, animModelInfo_t **modelInfo ) {
-        int i;
-        animModelInfo_t *trav, *firstFree = NULL;
-        clientInfo_t *ci_trav;
-        char modelsUsed[MAX_ANIMSCRIPT_MODELS];
+	int i;
+	animModelInfo_t *trav, *firstFree = NULL;
+	clientInfo_t *ci_trav;
+	char modelsUsed[MAX_ANIMSCRIPT_MODELS];
 
-        for ( i = 0, trav = cgs.animScriptData.modelInfo; i < MAX_ANIMSCRIPT_MODELS; i++, trav++ ) {
-                if ( trav->modelname[0] ) {
-                        if ( !Q_stricmp( trav->modelname, modelName ) ) {
-                                // found a match, use this modelinfo
-                                *modelInfo = trav;
-                                cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
-                                return qtrue;
-                        }    
-                } else if ( !firstFree ) {
-                        firstFree = trav;
-                        cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
-                }    
-        }    
+	for ( i = 0, trav = cgs.animScriptData.modelInfo; i < MAX_ANIMSCRIPT_MODELS; i++, trav++ ) {
+		if ( trav->modelname[0] ) {
+			if ( !Q_stricmp( trav->modelname, modelName ) ) {
+				// found a match, use this modelinfo
+				*modelInfo = trav;
+				cgs.animScriptData.clientModels[ci->clientNum] = i + 1;
+				return qtrue;
+			}
+		} else if ( !firstFree ) {
+			firstFree = trav;
+			cgs.animScriptData.clientModels[ci->clientNum] = i + 1;
+		}
+	}
 
-        // set the modelInfo to the first free slot
-        if ( !firstFree ) {
-                // attempt to free a model that is no longer being used
-                memset( modelsUsed, 0, sizeof( modelsUsed ) ); 
-                for ( i = 0, ci_trav = cgs.clientinfo; i < MAX_CLIENTS; i++, ci_trav++ ) {
-                        if ( ci_trav->infoValid && ci_trav != ci ) {
-                                modelsUsed[ (int)( ci_trav->modelInfo - *cgs.animScriptData.modelInfo ) ] = 1; 
-                        }    
-                }    
-                // now use the first slot that isn't being utilized
-                for ( i = 0, trav = cgs.animScriptData.modelInfo; i < MAX_ANIMSCRIPT_MODELS; i++, trav++ ) {
-                        if ( !modelsUsed[i] ) {
-                                firstFree = trav;
-                                cgs.animScriptData.clientModels[ci->clientNum] = i + 1; 
-                                break;
-                        }    
-                }    
-        }    
+	// set the modelInfo to the first free slot
+	if ( !firstFree ) {
+		// attempt to free a model that is no longer being used
+		memset( modelsUsed, 0, sizeof( modelsUsed ) );
+		for ( i = 0, ci_trav = cgs.clientinfo; i < MAX_CLIENTS; i++, ci_trav++ ) {
+			if ( ci_trav->infoValid && ci_trav != ci ) {
+				modelsUsed[ (int)( ci_trav->modelInfo - *cgs.animScriptData.modelInfo ) ] = 1;
+			}
+		}
+		// now use the first slot that isn't being utilized
+		for ( i = 0, trav = cgs.animScriptData.modelInfo; i < MAX_ANIMSCRIPT_MODELS; i++, trav++ ) {
+			if ( !modelsUsed[i] ) {
+				firstFree = trav;
+				cgs.animScriptData.clientModels[ci->clientNum] = i + 1;
+				break;
+			}
+		}
+	}
 
-        if ( !firstFree ) {
-                CG_Error( "unable to find a free modelinfo slot, cannot continue\n" );
-        } else {
-                *modelInfo = firstFree;
-                // clear the structure out ready for use
-                memset( *modelInfo, 0, sizeof( *modelInfo ) ); 
-        }    
-        // qfalse signifies that we need to parse the information from the script files
-        return qfalse;
+	if ( !firstFree ) {
+		CG_Error( "unable to find a free modelinfo slot, cannot continue\n" );
+	} else {
+		*modelInfo = firstFree;
+		// clear the structure out ready for use
+		memset( *modelInfo, 0, sizeof( *modelInfo ) );
+	}
+	// qfalse signifies that we need to parse the information from the script files
+	return qfalse;
 }
 
 #endif
@@ -676,7 +676,7 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 		Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
 		ci->legsModel = trap_R_RegisterModel( filename );
 	} else {    // try skeletal model
-                Com_sprintf( filename, sizeof( filename ), "models/players/%s/body.mds", modelName );
+		Com_sprintf( filename, sizeof( filename ), "models/players/%s/body.mds", modelName );
 
 		ci->legsModel = trap_R_RegisterModel( filename );
 
@@ -786,12 +786,12 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 	// look for this model in the list of models already opened
 	if ( !CG_CheckForExistingModelInfo( ci, (char *)modelName, &ci->modelInfo ) ) {
 
-                /*
+		/*
 		if ( !CG_ParseAnimationFiles( modelName, ci, ci->clientNum ) ) {
-			Com_Printf( "Failed to load animation file %s\n", filename );
-			return qfalse;
+		Com_Printf( "Failed to load animation file %s\n", filename );
+		return qfalse;
 		}
-                */
+		*/
 
 		// special case, only cache certain shaders/models for certain characters
 		if ( !Q_strcasecmp( (char *)modelName, "zombie" ) ) {
@@ -817,16 +817,16 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 			cgs.media.spiritSkullModel = trap_R_RegisterModel( "models/mapobjects/skull/skul2t.md3" );
 
 			CG_RegisterWeapon( WP_GAUNTLET );
-		} else if ( !Q_strcasecmp( (char *)modelName, "beast" ) )      {
+		} else if ( !Q_strcasecmp( (char *)modelName, "beast" ) ) {
 			cgs.media.helgaSpiritSkullShader = trap_R_RegisterShader( "helgaSpiritGhost" );
 			cgs.media.helgaSpiritTrailShader = trap_R_RegisterShader( "helgaSpiritTrail" );
 			cgs.media.helgaGhostModel = trap_R_RegisterModel( "models/players/beast/ghost.md3" );
 			cgs.media.helgaSpiritLoopSound = trap_S_RegisterSound( "sound/beast/tortured_souls_loop.wav" );
 			cgs.media.helgaSpiritSound = CG_SoundScriptPrecache( "helgaSpiritStartSound" );
 			cgs.media.helgaGaspSound = CG_SoundScriptPrecache( "helgaSpiritGasp" );
-		} else if ( !Q_strcasecmp( (char *)modelName, "loper" ) )      {
+		} else if ( !Q_strcasecmp( (char *)modelName, "loper" ) ) {
 			//cgs.media.loperGroundChargeShader = trap_R_RegisterShader( "loperGroundCharge" );
-		} else if ( !Q_strcasecmp( (char *)modelName, "protosoldier" ) )        {
+		} else if ( !Q_strcasecmp( (char *)modelName, "protosoldier" ) ) {
 			cgs.media.protoArmorBreak = CG_SoundScriptPrecache( "Protosoldier_loseArmor" );
 
 			cgs.media.protoArmor[0]     = trap_R_RegisterModel( "models/players/protosoldier/armor/nodam_chest.md3" );
@@ -858,7 +858,7 @@ static qboolean CG_RegisterClientModelname( clientInfo_t *ci, const char *modelN
 			cgs.media.protoArmor[24]    = trap_R_RegisterModel( "models/players/protosoldier/armor/dam_rtforarm2.md3" );
 			cgs.media.protoArmor[25]    = trap_R_RegisterModel( "models/players/protosoldier/armor/dam_rtshoulder2.md3" );
 			cgs.media.protoArmor[26]    = trap_R_RegisterModel( "models/players/protosoldier/armor/dam_rtthigh2.md3" );
-		} else if ( !Q_strcasecmp( (char *)modelName, "supersoldier" ) )        {
+		} else if ( !Q_strcasecmp( (char *)modelName, "supersoldier" ) ) {
 
 			cgs.media.superArmorBreak = CG_SoundScriptPrecache( "Supersoldier_loseArmor" );
 
@@ -949,7 +949,7 @@ nodam_lftknee          attached to tag_calfleft
 
 nodam_rtknee          attached to tag_calfright
 */
-		} else if ( !Q_strcasecmp( (char *)modelName, "dark" ) )        {
+		} else if ( !Q_strcasecmp( (char *)modelName, "dark" ) ) {
 
 			cgs.media.superArmorBreak = CG_SoundScriptPrecache( "Supersoldier_loseArmor" );
 
@@ -1156,7 +1156,7 @@ nodam_rtshin            attached to tag_calfright
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/eliteguard/gravel%i.wav", i + 1 );
 				cgs.media.footsteps[FOOTSTEP_ELITE_GRAVEL][i] = trap_S_RegisterSound( name );
 			}
-		} else if (   !Q_strcasecmp( (char *)modelName, "protosoldier" ) )     {
+		} else if (   !Q_strcasecmp( (char *)modelName, "protosoldier" ) ) {
 			// ProtoSoldier
 			for ( i = 0; i < 4; i++ ) {
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/protosoldier/step%i.wav", i + 1 );
@@ -1174,7 +1174,7 @@ nodam_rtshin            attached to tag_calfright
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/protosoldier/wood%i.wav", i + 1 );
 				cgs.media.footsteps[FOOTSTEP_PROTOSOLDIER_WOOD][i] = trap_S_RegisterSound( name );
 			}
-		} else if ( !Q_strcasecmp( (char *)modelName, "supersoldier" ) )        {
+		} else if ( !Q_strcasecmp( (char *)modelName, "supersoldier" ) ) {
 			// SuperSoldier/HEINRICH
 			for ( i = 0; i < 4; i++ ) {
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/supersoldier/step%i.wav", i + 1 );
@@ -1200,7 +1200,7 @@ nodam_rtshin            attached to tag_calfright
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/heinrich/step%i.wav", i + 1 );
 				cgs.media.footsteps[FOOTSTEP_HEINRICH][i] = trap_S_RegisterSound( name );
 			}
-		} else if ( !Q_strcasecmp( (char *)modelName, "loper" ) )        {
+		} else if ( !Q_strcasecmp( (char *)modelName, "loper" ) ) {
 			// Loper
 			for ( i = 0; i < 4; i++ ) {
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/loper/clank%i.wav", i + 1 );
@@ -1212,7 +1212,7 @@ nodam_rtshin            attached to tag_calfright
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/loper/wood%i.wav", i + 1 );
 				cgs.media.footsteps[FOOTSTEP_LOPER_WOOD][i] = trap_S_RegisterSound( name );
 			}
-		} else if ( !Q_strcasecmp( (char *)modelName, "zombie" ) )        {
+		} else if ( !Q_strcasecmp( (char *)modelName, "zombie" ) ) {
 			// Zombie
 			for ( i = 0; i < 4; i++ ) {
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/zombie/gravel%i.wav", i + 1 );
@@ -1224,7 +1224,7 @@ nodam_rtshin            attached to tag_calfright
 				Com_sprintf( name, sizeof( name ), "sound/player/footsteps/zombie/wood%i.wav", i + 1 );
 				cgs.media.footsteps[FOOTSTEP_ZOMBIE_WOOD][i] = trap_S_RegisterSound( name );
 			}
-		} else if ( !Q_strcasecmp( (char *)modelName, "beast" ) )        {
+		} else if ( !Q_strcasecmp( (char *)modelName, "beast" ) ) {
 			// Helga Boss
 			cgs.media.footsteps[FOOTSTEP_BEAST][0] = CG_SoundScriptPrecache( "beastStep" );   // just precache the sound script
 		}
@@ -1233,7 +1233,7 @@ nodam_rtshin            attached to tag_calfright
 	// whoops!  this stuff would never get set if it found one existing already!!
 	if ( !Q_strcasecmp( (char *)modelName, "loper" ) ) {
 		ci->partModels[8] = trap_R_RegisterModel( va( "models/players/%s/spinner.md3", modelName ) );
-	} else if ( !Q_strcasecmp( (char *)modelName, "sealoper" ) )      {
+	} else if ( !Q_strcasecmp( (char *)modelName, "sealoper" ) ) {
 		ci->partModels[8] = trap_R_RegisterModel( va( "models/players/%s/spinner.md3", modelName ) );
 	}
 
@@ -1259,7 +1259,7 @@ static qboolean CG_RegisterClientHeadname( clientInfo_t *ci, const char *modelNa
 	if ( trap_R_GetSkinModel( ci->headSkin, "md3_part", &namefromskin[0] ) ) {
 		Com_sprintf( filename, sizeof( filename ), "models/players/%s/%s", modelName, namefromskin );
 	} else {
-                Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", modelName );
+		Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", modelName );
 	}
 
 	ci->headModel = trap_R_RegisterModel( filename );
@@ -1330,19 +1330,19 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 	// body, you will want to default the model back to a default and want the head to match)
 	//
 
-        if ( !CG_RegisterClientHeadname( ci, ci->modelName, ci->hSkinName ) ) {
-                if ( cg_buildScript.integer ) {
-                        CG_Error( "CG_RegisterClientHeadname( %s, %s ) failed.  setting default", ci->modelName, ci->hSkinName );
-                }
+	if ( !CG_RegisterClientHeadname( ci, ci->modelName, ci->hSkinName ) ) {
+		if ( cg_buildScript.integer ) {
+			CG_Error( "CG_RegisterClientHeadname( %s, %s ) failed.  setting default", ci->modelName, ci->hSkinName );
+		}
 
-                // fall back to default head
-                if ( !CG_RegisterClientHeadname( ci, ci->modelName, "default" ) ) {
-                        headfail = 1;
-                        if ( cg_buildScript.integer ) {
-                                CG_Error( "head model/skin (%s/default) failed to register", ci->modelName );    //----(SA)
-                        }
-                }
-        }
+		// fall back to default head
+		if ( !CG_RegisterClientHeadname( ci, ci->modelName, "default" ) ) {
+			headfail = 1;
+			if ( cg_buildScript.integer ) {
+				CG_Error( "head model/skin (%s/default) failed to register", ci->modelName );                    //----(SA)
+			}
+		}
+	}
 
 	if ( headfail || !CG_RegisterClientModelname( ci, ci->modelName, ci->skinName ) ) {
 		if ( cg_buildScript.integer ) {
@@ -1356,27 +1356,27 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 				CG_Error( "DEFAULT_MODEL (%s/default) failed to register", ci->modelName );
 			}
 		} else {
-                        if (cgs.gametype <= GT_COOP) {
-                                // go totally default
-                                if ( !CG_RegisterClientModelname( ci, DEFAULT_COOP_MODEL, "default" ) ) {
-                                        CG_Error( "DEFAULT_COOP_MODEL (%s/default) failed to register", DEFAULT_COOP_MODEL );
-                                }
+			if ( cgs.gametype <= GT_COOP ) {
+				// go totally default
+				if ( !CG_RegisterClientModelname( ci, DEFAULT_COOP_MODEL, "default" ) ) {
+					CG_Error( "DEFAULT_COOP_MODEL (%s/default) failed to register", DEFAULT_COOP_MODEL );
+				}
 
-                                // fall back to default head
-                                if ( !CG_RegisterClientHeadname( ci, DEFAULT_COOP_MODEL, "default" ) ) {
-                                        CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
-                                }
-                        } else {
-                                // go totally default
-                                if ( !CG_RegisterClientModelname( ci, DEFAULT_MODEL, "default" ) ) {
-                                        CG_Error( "DEFAULT_MODEL (%s/default) failed to register", DEFAULT_MODEL );
-                                }
+				// fall back to default head
+				if ( !CG_RegisterClientHeadname( ci, DEFAULT_COOP_MODEL, "default" ) ) {
+					CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
+				}
+			} else {
+				// go totally default
+				if ( !CG_RegisterClientModelname( ci, DEFAULT_MODEL, "default" ) ) {
+					CG_Error( "DEFAULT_MODEL (%s/default) failed to register", DEFAULT_MODEL );
+				}
 
-                                // fall back to default head
-                                if ( !CG_RegisterClientHeadname( ci, DEFAULT_MODEL, "default" ) ) {
-                                        CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
-                                }
-                        }
+				// fall back to default head
+				if ( !CG_RegisterClientHeadname( ci, DEFAULT_MODEL, "default" ) ) {
+					CG_Error( "model/ DEFAULT_HEAD / skin (%s/default) failed to register", DEFAULT_HEAD );
+				}
+			}
 		}
 
 	}
@@ -1385,15 +1385,15 @@ void CG_LoadClientInfo( clientInfo_t *ci ) {
 
 	// sounds
 	dir = ci->modelName;
-        if (cgs.gametype > GT_COOP) {
-                fallback = DEFAULT_MODEL;
-        } else {
-		if (ci->team == TEAM_RED) {
+	if ( cgs.gametype > GT_COOP ) {
+		fallback = DEFAULT_MODEL;
+	} else {
+		if ( ci->team == TEAM_RED ) {
 			fallback = DEFAULT_COOP_MODEL_AXIS;
 		} else {
 			fallback = DEFAULT_COOP_MODEL;
 		}
-        }
+	}
 
 	for ( i = 0 ; i < MAX_CUSTOM_SOUNDS ; i++ ) {
 		s = cg_customSoundNames[i];
@@ -1596,17 +1596,17 @@ void CG_NewClientInfo( int clientNum ) {
 	// head
 	v = Info_ValueForKey( configstring, "head" );
 /* RF, disabled this, not needed anymore
-	if ( cg_forceModel.integer )
-	{
-		char modelStr[MAX_QPATH];
+    if ( cg_forceModel.integer )
+    {
+        char modelStr[MAX_QPATH];
 
-		// forcemodel makes everyone use a single model
-		// to prevent load hitches
+        // forcemodel makes everyone use a single model
+        // to prevent load hitches
 
-		trap_Cvar_VariableStringBuffer( "head", modelStr, sizeof( modelStr ) );
-		Q_strncpyz( newInfo.hSkinName, modelStr, sizeof( newInfo.hSkinName ) );
-	}
-	else {
+        trap_Cvar_VariableStringBuffer( "head", modelStr, sizeof( modelStr ) );
+        Q_strncpyz( newInfo.hSkinName, modelStr, sizeof( newInfo.hSkinName ) );
+    }
+    else {
 */
 	Q_strncpyz( newInfo.hSkinName, v, sizeof( newInfo.hSkinName ) );
 //	}
@@ -2098,8 +2098,8 @@ void CG_RunLerpFrameRate( clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, c
 				lf->frameTime = lf->oldFrameTime + (int)( (float)anim->frameLerp * ( 1.0 / lf->animSpeedScale ) );
 				f = ( lf->frame - anim->firstFrame ) + 1;
 /*				if (lf->frameTime < cg.time) {
-					lf->frameTime = cg.time;
-				}
+                    lf->frameTime = cg.time;
+                }
 */
 				while ( lf->frameTime < cg.time ) {
 					lf->frameTime += (int)( (float)anim->frameLerp * ( 1.0 / lf->animSpeedScale ) );
@@ -2471,15 +2471,15 @@ static void CG_IdleHeadMovement( centity_t *cent, const vec3_t torsoAngles, vec3
 		cent->pe.headLookSpeed = 0;         // accelerate when resuming idle movement
 	}
 /*
-	// make sure these angles don't place us too far from the torso angles
-	for (i=0; i<3; i++) {
-		if (fabs(cent->pe.headLookOffset[i] + headAngles[i] - torsoAngles[i]) > diffThreshold) {
-			if (cent->pe.headLookOffset[i] + headAngles[i] - torsoAngles[i] > 0)
-				cent->pe.headLookOffset[i] = diffThreshold - (headAngles[i] - torsoAngles[i]);
-			else
-				cent->pe.headLookOffset[i] = -diffThreshold - (headAngles[i] - torsoAngles[i]);
-		}
-	}
+    // make sure these angles don't place us too far from the torso angles
+    for (i=0; i<3; i++) {
+        if (fabs(cent->pe.headLookOffset[i] + headAngles[i] - torsoAngles[i]) > diffThreshold) {
+            if (cent->pe.headLookOffset[i] + headAngles[i] - torsoAngles[i] > 0)
+                cent->pe.headLookOffset[i] = diffThreshold - (headAngles[i] - torsoAngles[i]);
+            else
+                cent->pe.headLookOffset[i] = -diffThreshold - (headAngles[i] - torsoAngles[i]);
+        }
+    }
 */
 	// finally, add the headLookOffset to the head angles
 	VectorAdd( headAngles, cent->pe.headLookOffset, headAngles );
@@ -2531,7 +2531,7 @@ static void CG_PlayerAngles( centity_t *cent, vec3_t legs[3], vec3_t torso[3], v
 
 	// allow yaw to drift a bit, unless these conditions don't allow them
 	if (    !( BG_GetConditionValue( cent->currentState.number, ANIM_COND_MOVETYPE, qfalse ) & ( ( 1 << ANIM_MT_IDLE ) | ( 1 << ANIM_MT_IDLECR ) ) )/*
-		||	 (BG_GetConditionValue( cent->currentState.number, ANIM_COND_MOVETYPE, qfalse ) & ((1<<ANIM_MT_STRAFELEFT) | (1<<ANIM_MT_STRAFERIGHT)) )*/) {
+	    ||	 (BG_GetConditionValue( cent->currentState.number, ANIM_COND_MOVETYPE, qfalse ) & ((1<<ANIM_MT_STRAFELEFT) | (1<<ANIM_MT_STRAFERIGHT)) )*/) {
 
 		// always point all in the same direction
 		cent->pe.torso.yawing = qtrue;  // always center
@@ -2899,36 +2899,36 @@ static void CG_PlayerSprites( centity_t *cent ) {
 		return;
 	}
 
-        if ( cent->currentState.eFlags & EF_FROZEN ) {
-                CG_PlayerFloatSprite( cent, cgs.media.frozenShader, 56 );
-                return;
-        }
+	if ( cent->currentState.eFlags & EF_FROZEN ) {
+		CG_PlayerFloatSprite( cent, cgs.media.frozenShader, 56 );
+		return;
+	}
 
-        if ( cent->currentState.powerups & ( 1 << PW_INVULNERABLE ) ) {
-                CG_PlayerFloatSprite( cent, cgs.media.spawnInvincibleShader, 56 );
-                return;
-        } 
+	if ( cent->currentState.powerups & ( 1 << PW_INVULNERABLE ) ) {
+		CG_PlayerFloatSprite( cent, cgs.media.spawnInvincibleShader, 56 );
+		return;
+	}
 
 	// DHM - Nerve :: If this client is a medic, draw a 'revive' icon over
 	//					dead players that are not in limbo yet.
 	team = cgs.clientinfo[ cent->currentState.clientNum ].team;
 
 
-        // DHM - Nerve :: show voice chat signal so players know who's talking
-        if ( cgs.gametype <= GT_COOP && cent->voiceChatSpriteTime > cg.time
-                 && cg.snap->ps.persistant[PERS_TEAM] == team ) {
-                CG_PlayerFloatSprite( cent, cent->voiceChatSprite, 56 );
-                return;
-        }    
+	// DHM - Nerve :: show voice chat signal so players know who's talking
+	if ( cgs.gametype <= GT_COOP && cent->voiceChatSpriteTime > cg.time
+		 && cg.snap->ps.persistant[PERS_TEAM] == team ) {
+		CG_PlayerFloatSprite( cent, cent->voiceChatSprite, 56 );
+		return;
+	}
 
-        // DHM - Nerve :: only show talk icon to team-mates
-        if ( cent->currentState.eFlags & EF_TALK && cg.snap->ps.persistant[PERS_TEAM] == team ) {
-                CG_PlayerFloatSprite( cent, cgs.media.balloonShader, 48 );
-                return;
-        }  
+	// DHM - Nerve :: only show talk icon to team-mates
+	if ( cent->currentState.eFlags & EF_TALK && cg.snap->ps.persistant[PERS_TEAM] == team ) {
+		CG_PlayerFloatSprite( cent, cgs.media.balloonShader, 48 );
+		return;
+	}
 
-        // fretn: draw friendly sprites in coop ?
-	if ( cgs.gametype > GT_SINGLE_PLAYER && 
+	// fretn: draw friendly sprites in coop ?
+	if ( cgs.gametype > GT_SINGLE_PLAYER &&
 		 !( cent->currentState.eFlags & EF_DEAD ) &&
 		 cg.snap->ps.persistant[PERS_TEAM] == team ) {
 
@@ -4173,11 +4173,11 @@ void CG_AddHelgaSpiritEffect( centity_t *cent ) {
 		//VectorInverse(cent->pe.zombieSpiritDir[i]);
 		AnglesToAxis( ang, refent.axis );
 /*		// create the non-normalized axis so we can size it
-		refent.nonNormalizedAxes = qtrue;
-		for (t=0; t<3; t++) {
-			VectorNormalize( refent.axis[t] );
-			VectorScale( refent.axis[t], 0.35, refent.axis[t] );
-						}
+        refent.nonNormalizedAxes = qtrue;
+        for (t=0; t<3; t++) {
+            VectorNormalize( refent.axis[t] );
+            VectorScale( refent.axis[t], 0.35, refent.axis[t] );
+                        }
 */                                                                                                                                                                                                                           //
 		// add the sound
 		trap_S_AddLoopingSound( -1, cent->lerpOrigin, vec3_origin, cgs.media.helgaSpiritLoopSound, fadeRatio );
@@ -4289,7 +4289,7 @@ void CG_AddRefEntityWithPowerups( refEntity_t *ent, int powerups, int team, enti
 		if ( ent->hModel == cent->pe.torsoRefEnt.hModel ) {
 			//ent->reFlags = REFLAG_ZOMBIEFX;
 			ent->shaderTime = 0;
-		} else if ( ent->hModel == cent->pe.legsRefEnt.hModel )     {
+		} else if ( ent->hModel == cent->pe.legsRefEnt.hModel ) {
 			//ent->reFlags = REFLAG_ZOMBIEFX2;	// ref needs to know this is the legs
 			ent->shaderTime = 0;
 		}
@@ -4307,7 +4307,7 @@ void CG_AddRefEntityWithPowerups( refEntity_t *ent, int powerups, int team, enti
 			// skeleton fades in towards end of effect
 			if ( alpha < 0.5 ) {
 				ent->shaderRGBA[3] = 0;
-			} else { ent->shaderRGBA[3] = ( unsigned char )( ( alpha - 0.5 ) * 2.0 * 255 );}
+			} else { ent->shaderRGBA[3] = ( unsigned char )( ( alpha - 0.5 ) * 2.0 * 255 ); }
 			//
 			ent->shaderTime = 0.001 * ( 1.0 - alpha ) * ZOMBIEFX_FADEOUT_TIME;
 
@@ -4339,27 +4339,27 @@ void CG_AddRefEntityWithPowerups( refEntity_t *ent, int powerups, int team, enti
 				ent->shaderTime = 0.001 * ( cg.time - cent->currentState.effect2Time );
 				trap_R_AddRefEntityToScene( ent );
 /*
-				// skeleton: add legs and head parts
-				if (ent->hModel == cent->pe.legsRefEnt.hModel) {
-					ent->skinNum = 0;
-					ent->reFlags = 0;
-					ent->customShader = cgs.media.skeletonSkinShader;
+                // skeleton: add legs and head parts
+                if (ent->hModel == cent->pe.legsRefEnt.hModel) {
+                    ent->skinNum = 0;
+                    ent->reFlags = 0;
+                    ent->customShader = cgs.media.skeletonSkinShader;
 
-					// legs
-					ent->hModel = cgs.media.skeletonLegsModel;
-					trap_R_AddRefEntityToScene( ent );
+                    // legs
+                    ent->hModel = cgs.media.skeletonLegsModel;
+                    trap_R_AddRefEntityToScene( ent );
 
-					// torso (just get this so we can place the head correctly)
-					parentEnt = *ent;
-					CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_torso", NULL );
-					ent->hModel = cgs.media.skeletonTorsoModel;
+                    // torso (just get this so we can place the head correctly)
+                    parentEnt = *ent;
+                    CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_torso", NULL );
+                    ent->hModel = cgs.media.skeletonTorsoModel;
 
-					// head
-					parentEnt = *ent;
-					CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_head", NULL );
-					ent->hModel = cgs.media.skeletonHeadModel;
-					trap_R_AddRefEntityToScene( ent );
-				}
+                    // head
+                    parentEnt = *ent;
+                    CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_head", NULL );
+                    ent->hModel = cgs.media.skeletonHeadModel;
+                    trap_R_AddRefEntityToScene( ent );
+                }
 */
 			} else {    // show it normally
 				trap_R_AddRefEntityToScene( ent );
@@ -4370,67 +4370,67 @@ void CG_AddRefEntityWithPowerups( refEntity_t *ent, int powerups, int team, enti
 		*ent = backupRefEnt;
 #endif
 /*
-	} else if (es->eFlags & EF_MONSTER_EFFECT2 && es->aiChar == AICHAR_ZOMBIE &&
-				cent->currentState.effect2Time < cg.time) {	// Ridah, Zombie death effect
-		const int fadeRiseTime = 4000;
+    } else if (es->eFlags & EF_MONSTER_EFFECT2 && es->aiChar == AICHAR_ZOMBIE &&
+                cent->currentState.effect2Time < cg.time) {	// Ridah, Zombie death effect
+        const int fadeRiseTime = 4000;
 
-		if (cent->pe.zombieDeathFadeStart < cg.time && ent->hModel == cent->pe.legsRefEnt.hModel) {
-			// add the skeleton models starting with the legs
-			ent->fadeEndTime = 0;
-			ent->fadeStartTime = 0;
-			ent->skinNum = 0;
+        if (cent->pe.zombieDeathFadeStart < cg.time && ent->hModel == cent->pe.legsRefEnt.hModel) {
+            // add the skeleton models starting with the legs
+            ent->fadeEndTime = 0;
+            ent->fadeStartTime = 0;
+            ent->skinNum = 0;
 
-			// legs
-			ent->hModel = cgs.media.skeletonLegsModel;
-			ent->customSkin = cgs.media.skeletonLegsSkin;
-			trap_R_AddRefEntityToScene( ent );
+            // legs
+            ent->hModel = cgs.media.skeletonLegsModel;
+            ent->customSkin = cgs.media.skeletonLegsSkin;
+            trap_R_AddRefEntityToScene( ent );
 
-			// torso
-			parentEnt = *ent;
-			CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_torso", NULL );
-			ent->hModel = cgs.media.skeletonTorsoModel;
-			ent->customSkin = cgs.media.skeletonTorsoSkin;
-			trap_R_AddRefEntityToScene( ent );
+            // torso
+            parentEnt = *ent;
+            CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_torso", NULL );
+            ent->hModel = cgs.media.skeletonTorsoModel;
+            ent->customSkin = cgs.media.skeletonTorsoSkin;
+            trap_R_AddRefEntityToScene( ent );
 
-			// head
-			parentEnt = *ent;
-			CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_head", NULL );
-			ent->hModel = cgs.media.skeletonHeadModel;
-			ent->customSkin = cgs.media.skeletonHeadSkin;
-			trap_R_AddRefEntityToScene( ent );
+            // head
+            parentEnt = *ent;
+            CG_PositionEntityOnTag( ent, &parentEnt, parentEnt.hModel, "tag_head", NULL );
+            ent->hModel = cgs.media.skeletonHeadModel;
+            ent->customSkin = cgs.media.skeletonHeadSkin;
+            trap_R_AddRefEntityToScene( ent );
 
-			// restore previous state
-			*ent = backupRefEnt;
-		}
+            // restore previous state
+            *ent = backupRefEnt;
+        }
 
-		if (cent->pe.zombieDeathFadeEnd + fadeRiseTime > cg.time) {
-			// slowly fade the zombie "skin" out, revealing the skeleton underneath
+        if (cent->pe.zombieDeathFadeEnd + fadeRiseTime > cg.time) {
+            // slowly fade the zombie "skin" out, revealing the skeleton underneath
 
-			//VectorSubtract( ent->origin, cg.snap->ps.origin, ent->fireRiseDir );
-			//VectorNegate( ent->axis[0], ent->fireRiseDir );
-			VectorNormalize2( ent->axis[0], ent->fireRiseDir );
+            //VectorSubtract( ent->origin, cg.snap->ps.origin, ent->fireRiseDir );
+            //VectorNegate( ent->axis[0], ent->fireRiseDir );
+            VectorNormalize2( ent->axis[0], ent->fireRiseDir );
 
-			if (cent->pe.zombieDeathFadeEnd > cg.time) {
+            if (cent->pe.zombieDeathFadeEnd > cg.time) {
 
-				// the zombie has hard-edged alpha blending on it's body texture by default
-				// so we need to override that for smooth fading
-				if (ent->hModel == cent->pe.legsRefEnt.hModel ||
-					ent->hModel == cent->pe.torsoRefEnt.hModel) {
-					ent->customShader = cgs.media.zombieBodyFadeShader;
-				} else if (ent->hModel == cent->pe.headRefEnt.hModel) {
-					ent->customShader = cgs.media.zombieHeadFadeShader;
-				}
-				// fade the alpha from 0 -> 255 as the time goes, which will fade from front to back
-				if (cent->pe.zombieDeathFadeStart > cg.time) {
-					ent->shaderRGBA[3] = 128;
-				} else {
-					ent->shaderRGBA[3] = 128 - (unsigned char)(128.0*pow(((float)(cg.time - cent->pe.zombieDeathFadeStart) / (float)(cent->pe.zombieDeathFadeEnd - cent->pe.zombieDeathFadeStart)), 2));
-				}
-				ent->shaderTime = 1.0;
+                // the zombie has hard-edged alpha blending on it's body texture by default
+                // so we need to override that for smooth fading
+                if (ent->hModel == cent->pe.legsRefEnt.hModel ||
+                    ent->hModel == cent->pe.torsoRefEnt.hModel) {
+                    ent->customShader = cgs.media.zombieBodyFadeShader;
+                } else if (ent->hModel == cent->pe.headRefEnt.hModel) {
+                    ent->customShader = cgs.media.zombieHeadFadeShader;
+                }
+                // fade the alpha from 0 -> 255 as the time goes, which will fade from front to back
+                if (cent->pe.zombieDeathFadeStart > cg.time) {
+                    ent->shaderRGBA[3] = 128;
+                } else {
+                    ent->shaderRGBA[3] = 128 - (unsigned char)(128.0*pow(((float)(cg.time - cent->pe.zombieDeathFadeStart) / (float)(cent->pe.zombieDeathFadeEnd - cent->pe.zombieDeathFadeStart)), 2));
+                }
+                ent->shaderTime = 1.0;
 
-				trap_R_AddRefEntityToScene( ent );
-			}
-		}
+                trap_R_AddRefEntityToScene( ent );
+            }
+        }
 */
 		// -------------------------------
 	} else {
@@ -4489,16 +4489,16 @@ void CG_AddRefEntityWithPowerups( refEntity_t *ent, int powerups, int team, enti
 			VectorSet( ent->fireRiseDir, 0, 0, 1 );
 		}
 /*
-		if (ent->fireRiseDir[2] > 0)
-			ent->fireRiseDir[2] *= -1;
+        if (ent->fireRiseDir[2] > 0)
+            ent->fireRiseDir[2] *= -1;
 
-		ent->customShader = cgs.media.dripWetShader2;
-		trap_R_AddRefEntityToScene( ent );
+        ent->customShader = cgs.media.dripWetShader2;
+        trap_R_AddRefEntityToScene( ent );
 
-		ent->customShader = cgs.media.dripWetShader;
-		trap_R_AddRefEntityToScene( ent );
+        ent->customShader = cgs.media.dripWetShader;
+        trap_R_AddRefEntityToScene( ent );
 
-		VectorCopy( fireRiseDir, ent->fireRiseDir );
+        VectorCopy( fireRiseDir, ent->fireRiseDir );
 */
 		ent->customShader = cgs.media.onFireShader;
 		trap_R_AddRefEntityToScene( ent );
@@ -4576,25 +4576,25 @@ static void CG_AddFireLight( centity_t *cent ) {
 
 /* OPTIMIZATION, TOO MANY DLIGHTS WHEN FIRE IS AROUND
 
-	entityState_t *es;
-	float alpha;
+    entityState_t *es;
+    float alpha;
 
-	if (CG_EntOnFire(&cg_entities[cent->currentState.number])) {
+    if (CG_EntOnFire(&cg_entities[cent->currentState.number])) {
 
-		es = &cent->currentState;
+        es = &cent->currentState;
 
-		// set the alpha
-		alpha = (cg.time - es->onFireStart) / 1500.0;
-		if (alpha > 1.0) {
-			alpha = (es->onFireEnd - cg.time) / 1500.0;
-			if (alpha > 1.0) {
-				alpha = 1.0;
-			}
-		}
-		if (alpha <= 0.0) return;
+        // set the alpha
+        alpha = (cg.time - es->onFireStart) / 1500.0;
+        if (alpha > 1.0) {
+            alpha = (es->onFireEnd - cg.time) / 1500.0;
+            if (alpha > 1.0) {
+                alpha = 1.0;
+            }
+        }
+        if (alpha <= 0.0) return;
 
-		trap_R_AddLightToScene( cent->lerpOrigin, 128 + 128*alpha, 1.000000*alpha, 0.603922*alpha, 0.207843*alpha, 0 );
-	}
+        trap_R_AddLightToScene( cent->lerpOrigin, 128 + 128*alpha, 1.000000*alpha, 0.603922*alpha, 0.207843*alpha, 0 );
+    }
 */
 }
 
@@ -4602,7 +4602,7 @@ static void CG_AddFireLight( centity_t *cent ) {
 ===============
 CG_AnimPlayerConditions
 
-	predict, or calculate condition for this entity, if it is not the local client
+    predict, or calculate condition for this entity, if it is not the local client
 ===============
 */
 void CG_AnimPlayerConditions( centity_t *cent ) {
@@ -4630,11 +4630,11 @@ void CG_AnimPlayerConditions( centity_t *cent ) {
 	// LEANING
 	/* TODO???
 	if (es->lean > 0) {
-		BG_UpdateConditionValue( es->clientNum, ANIM_COND_LEANING, LEANING_RIGHT, qtrue );
+	    BG_UpdateConditionValue( es->clientNum, ANIM_COND_LEANING, LEANING_RIGHT, qtrue );
 	} else if (es->lean < 0) {
-		BG_UpdateConditionValue( es->clientNum, ANIM_COND_LEANING, LEANING_LEFT, qtrue );
+	    BG_UpdateConditionValue( es->clientNum, ANIM_COND_LEANING, LEANING_LEFT, qtrue );
 	} else {
-		BG_UpdateConditionValue( es->clientNum, ANIM_COND_LEANING, LEANING_UNUSED, qtrue );
+	    BG_UpdateConditionValue( es->clientNum, ANIM_COND_LEANING, LEANING_UNUSED, qtrue );
 	}
 	*/
 
@@ -5006,7 +5006,7 @@ void CG_Player( centity_t *cent ) {
 				cent->pe.head.frameTime = cg.time + 2000;
 				CG_Printf( "%d - %d\n", cent->currentState.number, cent->pe.head.oldFrame );
 #else
-				while ( ( emotion = rand() % NUM_EMOTIONS ) == 1 ) ; // don't use happy emotion
+				while ( ( emotion = rand() % NUM_EMOTIONS ) == 1 ) ;  // don't use happy emotion
 				if ( ( cent->pe.head.frame - ci->modelInfo->headAnims[0].firstFrame ) % HEAD_EMOTION_SUBTYPES ) {
 					cent->pe.head.frame = ci->modelInfo->headAnims[emotion * HEAD_EMOTION_SUBTYPES].firstFrame;
 					cent->pe.head.frameTime = cg.time + 150;
@@ -5243,45 +5243,45 @@ void CG_Player( centity_t *cent ) {
 				( !Q_strcasecmp( (char *)ci->modelInfo->modelname, "dark" ) ) ) {
 		// TTimo: unused
 		/*
-			char *tags[] = {		"tag_armleft",
-									"tag_armright",
-									"tag_back",
-									"tag_back",
-									"tag_calfleft",
-									"tag_calfleft",
-									"tag_calfright",
-									"tag_calfright",
-									"tag_chest",
-									"tag_chest",
-									"tag_footleft",
-									"tag_footright",
-									"tag_legleft",
-									"tag_sholeft",
-									"tag_shoright",
-									"tag_torso"
-									};
-					*/
+		    char *tags[] = {		"tag_armleft",
+		                            "tag_armright",
+		                            "tag_back",
+		                            "tag_back",
+		                            "tag_calfleft",
+		                            "tag_calfleft",
+		                            "tag_calfright",
+		                            "tag_calfright",
+		                            "tag_chest",
+		                            "tag_chest",
+		                            "tag_footleft",
+		                            "tag_footright",
+		                            "tag_legleft",
+		                            "tag_sholeft",
+		                            "tag_shoright",
+		                            "tag_torso"
+		                            };
+		            */
 
 // TTimo: unused
 		/*
-int parts[] = { 34,
-				38,
-				0,
-				19,
-				0,
-				14,
-				21,
-				15,
-				16,
-				0,
-				0,
-				32,
-				0,
-				33,
-				0,
-				45
-				};
-	*/
+		int parts[] = { 34,
+		        38,
+		        0,
+		        19,
+		        0,
+		        14,
+		        21,
+		        15,
+		        16,
+		        0,
+		        0,
+		        32,
+		        0,
+		        33,
+		        0,
+		        45
+		        };
+		*/
 
 //		char *parts[] = {		"dam_lftforarm2",//	34
 //								"dam_rtforarm2",//38
@@ -5304,11 +5304,11 @@ int parts[] = { 34,
 
 // do not turn on unless asked for
 /*
-		for(i=0;i<16;i++) {
-			acc.hModel = cgs.media.superArmor[parts[i]];
-			CG_PositionEntityOnTag( &acc, &torso, tags[i], 0, NULL);
-			CG_AddRefEntityWithPowerups( &acc, cent->currentState.powerups, ci->team, &cent->currentState, cent->fireRiseDir );
-		}
+        for(i=0;i<16;i++) {
+            acc.hModel = cgs.media.superArmor[parts[i]];
+            CG_PositionEntityOnTag( &acc, &torso, tags[i], 0, NULL);
+            CG_AddRefEntityWithPowerups( &acc, cent->currentState.powerups, ci->team, &cent->currentState, cent->fireRiseDir );
+        }
 */
 //
 	}
@@ -5385,8 +5385,8 @@ int parts[] = { 34,
 			CG_PositionEntityOnTag( &acc,   &head,  "tag_mouth", 0, NULL );
 			break;
 
-			// weapon and weapon2
-			// these are used by characters who have permanent weapons attached to their character in the skin
+		// weapon and weapon2
+		// these are used by characters who have permanent weapons attached to their character in the skin
 		case ACC_WEAPON:        // weap
 			CG_PositionEntityOnTag( &acc,   &torso, "tag_weapon", 0, NULL );
 			break;

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -247,7 +247,7 @@ sfxHandle_t trap_S_RegisterSound( const char *sample ) {
 
 void    trap_S_StartBackgroundTrack( const char *intro, const char *loop, int fadeupTime ) {
 	//syscall( CG_S_STARTBACKGROUNDTRACK, intro, loop, fadeupTime );
-        // fretn
+	// fretn
 	syscall( CG_S_STARTBACKGROUNDTRACK, intro, loop );
 }
 
@@ -345,12 +345,12 @@ void    trap_R_RenderScene( const refdef_t *fd ) {
 }
 
 // fretn - render to texture
-void trap_R_RenderToTexture( int textureid, int x, int y, int w, int h ) { 
-        syscall( CG_R_RENDERTOTEXTURE, textureid, x, y, w, h );
+void trap_R_RenderToTexture( int textureid, int x, int y, int w, int h ) {
+	syscall( CG_R_RENDERTOTEXTURE, textureid, x, y, w, h );
 }
 
-int trap_R_GetTextureId( const char *name ) { 
-        return syscall( CG_R_GETTEXTUREID, name );
+int trap_R_GetTextureId( const char *name ) {
+	return syscall( CG_R_GETTEXTUREID, name );
 }
 
 void    trap_R_SetColor( const float *rgba ) {
@@ -363,8 +363,8 @@ void    trap_R_DrawStretchPic( float x, float y, float w, float h,
 }
 
 void    trap_R_DrawRotatedPic( float x, float y, float w, float h,
-                                                           float s1, float t1, float s2, float t2, qhandle_t hShader, float angle ) { 
-        syscall( CG_R_DRAWROTATEDPIC, PASSFLOAT( x ), PASSFLOAT( y ), PASSFLOAT( w ), PASSFLOAT( h ), PASSFLOAT( s1 ), PASSFLOAT( t1 ), PASSFLOAT( s2 ), PASSFLOAT( t2 ), hShader, PASSFLOAT( angle ) );
+							   float s1, float t1, float s2, float t2, qhandle_t hShader, float angle ) {
+	syscall( CG_R_DRAWROTATEDPIC, PASSFLOAT( x ), PASSFLOAT( y ), PASSFLOAT( w ), PASSFLOAT( h ), PASSFLOAT( s1 ), PASSFLOAT( t1 ), PASSFLOAT( s2 ), PASSFLOAT( t2 ), hShader, PASSFLOAT( angle ) );
 }
 
 
@@ -560,16 +560,16 @@ qboolean trap_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **mo
 #ifdef LOCALISATION
 #define MAX_VA_STRING       32000
 
-char* trap_TranslateString( const char *string ) { 
-        static char staticbuf[2][MAX_VA_STRING];
-        static int bufcount = 0;
-        char *buf;
+char* trap_TranslateString( const char *string ) {
+	static char staticbuf[2][MAX_VA_STRING];
+	static int bufcount = 0;
+	char *buf;
 
-        buf = staticbuf[bufcount++ % 2]; 
+	buf = staticbuf[bufcount++ % 2];
 
-        syscall( CG_TRANSLATE_STRING, string, buf );
+	syscall( CG_TRANSLATE_STRING, string, buf );
 
-        return buf;
+	return buf;
 }
 // -NERVE - SMF
 #endif

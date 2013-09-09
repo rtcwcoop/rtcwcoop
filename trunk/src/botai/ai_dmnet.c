@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -164,7 +164,7 @@ int BotGoForAir( bot_state_t *bs, int tfl, bot_goal_t *ltg, float range ) {
 #ifdef DEBUG
 		//BotAI_Print(PRT_MESSAGE, "going for air\n");
 #endif //DEBUG
-	   //if we can find an air goal
+		//if we can find an air goal
 		if ( BotGetAirGoal( bs, &goal ) ) {
 			trap_BotPushGoal( bs->gs, &goal );
 			return qtrue;
@@ -200,11 +200,11 @@ int BotNearbyGoal( bot_state_t *bs, int tfl, bot_goal_t *ltg, float range ) {
 	/*
 	if (ret)
 	{
-		char buf[128];
-		//get the goal at the top of the stack
-		trap_BotGetTopGoal(bs->gs, &goal);
-		trap_BotGoalName(goal.number, buf, sizeof(buf));
-		BotAI_Print(PRT_MESSAGE, "%1.1f: new nearby goal %s\n", trap_AAS_Time(), buf);
+	    char buf[128];
+	    //get the goal at the top of the stack
+	    trap_BotGetTopGoal(bs->gs, &goal);
+	    trap_BotGoalName(goal.number, buf, sizeof(buf));
+	    BotAI_Print(PRT_MESSAGE, "%1.1f: new nearby goal %s\n", trap_AAS_Time(), buf);
 	}
 	*/
 	return ret;
@@ -235,7 +235,7 @@ int BotReachedGoal( bot_state_t *bs, bot_goal_t *goal ) {
 				}
 			}
 		}
-	} else if ( goal->flags & GFL_AIR )     {
+	} else if ( goal->flags & GFL_AIR ) {
 		//if touching the goal
 		if ( trap_BotTouchingGoal( bs->origin, goal ) ) {
 			return qtrue;
@@ -286,7 +286,7 @@ int BotGetItemLongTermGoal( bot_state_t *bs, int tfl, bot_goal_t *goal ) {
 			*/
 			bs->ltg_time = trap_AAS_Time() + 20;
 		} else { //the bot gets sorta stuck with all the avoid timings, shouldn't happen though
-				//
+			     //
 #ifdef DEBUG
 			char netname[128];
 
@@ -549,7 +549,7 @@ int BotGetLongTermGoal( bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal 
 			BotAI_BotInitialChat( bs, "getitem_notthere", buf, NULL );
 			trap_BotEnterChat( bs->cs, bs->client, CHAT_TEAM );
 			bs->ltgtype = 0;
-		} else if ( BotReachedGoal( bs, goal ) )       {
+		} else if ( BotReachedGoal( bs, goal ) ) {
 			trap_BotGoalName( bs->teamgoal.number, buf, sizeof( buf ) );
 			BotAI_BotInitialChat( bs, "getitem_gotit", buf, NULL );
 			trap_BotEnterChat( bs->cs, bs->client, CHAT_TEAM );
@@ -978,7 +978,7 @@ int AINode_Respawn( bot_state_t *bs ) {
 		} else {
 			trap_EA_Respawn( bs->client );
 		}
-	} else if ( bs->respawn_time < trap_AAS_Time() )     {
+	} else if ( bs->respawn_time < trap_AAS_Time() ) {
 		//wait until respawned
 		bs->respawn_wait = qtrue;
 		//elementary action respawn
@@ -1089,7 +1089,7 @@ int AINode_Seek_ActivateEntity( bot_state_t *bs ) {
 			vectoangles( dir, bs->ideal_viewangles );
 			bs->ideal_viewangles[2] *= 0.5;
 		}
-	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) )       {
+	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) ) {
 		if ( trap_BotMovementViewTarget( bs->ms, goal, bs->tfl, 300, target ) ) {
 			VectorSubtract( target, bs->origin, dir );
 			vectoangles( dir, bs->ideal_viewangles );
@@ -1224,7 +1224,7 @@ int AINode_Seek_NBG( bot_state_t *bs ) {
 			vectoangles( dir, bs->ideal_viewangles );
 			bs->ideal_viewangles[2] *= 0.5;
 		}
-	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) )       {
+	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) ) {
 		if ( !trap_BotGetSecondGoal( bs->gs, &goal ) ) {
 			trap_BotGetTopGoal( bs->gs, &goal );
 		}
@@ -1233,7 +1233,7 @@ int AINode_Seek_NBG( bot_state_t *bs ) {
 			vectoangles( dir, bs->ideal_viewangles );
 		}
 		//FIXME: look at cluster portals?
-		else {vectoangles( moveresult.movedir, bs->ideal_viewangles );}
+		else {vectoangles( moveresult.movedir, bs->ideal_viewangles ); }
 		bs->ideal_viewangles[2] *= 0.5;
 	}
 	//if the weapon is used for the bot movement
@@ -1348,7 +1348,7 @@ int AINode_Seek_LTG( bot_state_t *bs ) {
 			return qfalse;
 		}
 	}
-	   //get the current long term goal
+	//get the current long term goal
 	if ( !BotLongTermGoal( bs, bs->tfl, qfalse, &goal ) ) {
 		return qtrue;
 	}
@@ -1360,7 +1360,7 @@ int AINode_Seek_LTG( bot_state_t *bs ) {
 		//
 		if ( bs->ltgtype == LTG_DEFENDKEYAREA ) {
 			range = 400;
-		} else { range = 150;}
+		} else { range = 150; }
 		//
 #ifdef CTF
 		//if carrying a flag the bot shouldn't be distracted too much
@@ -1368,7 +1368,7 @@ int AINode_Seek_LTG( bot_state_t *bs ) {
 			range = 50;
 		}
 #endif //CTF
-	   //
+		//
 		if ( BotNearbyGoal( bs, bs->tfl, &goal, range ) ) {
 			trap_BotResetLastAvoidReach( bs->ms );
 			//get the goal at the top of the stack
@@ -1406,7 +1406,7 @@ int AINode_Seek_LTG( bot_state_t *bs ) {
 			vectoangles( dir, bs->ideal_viewangles );
 			bs->ideal_viewangles[2] *= 0.5;
 		}
-	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) )       {
+	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) ) {
 		if ( trap_BotMovementViewTarget( bs->ms, &goal, bs->tfl, 300, target ) ) {
 			VectorSubtract( target, bs->origin, dir );
 			vectoangles( dir, bs->ideal_viewangles );
@@ -1414,7 +1414,7 @@ int AINode_Seek_LTG( bot_state_t *bs ) {
 		//FIXME: look at cluster portals?
 		else if ( VectorLength( moveresult.movedir ) ) {
 			vectoangles( moveresult.movedir, bs->ideal_viewangles );
-		} else if ( random() < bs->thinktime * 0.8 )     {
+		} else if ( random() < bs->thinktime * 0.8 ) {
 			BotRoamGoal( bs, target );
 			VectorSubtract( target, bs->origin, dir );
 			vectoangles( dir, bs->ideal_viewangles );
@@ -1697,7 +1697,7 @@ int AINode_Battle_Chase( bot_state_t *bs ) {
 	//
 	if ( moveresult.flags & ( MOVERESULT_MOVEMENTVIEWSET | MOVERESULT_MOVEMENTVIEW | MOVERESULT_SWIMVIEW ) ) {
 		VectorCopy( moveresult.ideal_viewangles, bs->ideal_viewangles );
-	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) )       {
+	} else if ( !( bs->flags & BFL_IDEALVIEWSET ) ) {
 		if ( bs->chase_time > trap_AAS_Time() - 2 ) {
 			BotAimAtEnemy( bs );
 		} else {
@@ -1822,7 +1822,7 @@ int AINode_Battle_Retreat( bot_state_t *bs ) {
 		}
 	}
 	//
-	   //use holdable items
+	//use holdable items
 	BotBattleUseItems( bs );
 	//get the current long term goal while retreating
 	if ( !BotLongTermGoal( bs, bs->tfl, qtrue, &goal ) ) {
@@ -1832,7 +1832,7 @@ int AINode_Battle_Retreat( bot_state_t *bs ) {
 	if ( bs->check_time < trap_AAS_Time() ) {
 		bs->check_time = trap_AAS_Time() + 1;
 		range = 150;
-	   //
+		//
 		if ( BotNearbyGoal( bs, bs->tfl, &goal, range ) ) {
 			trap_BotResetLastAvoidReach( bs->ms );
 			//time the bot gets to pick up the nearby goal item
@@ -1858,7 +1858,7 @@ int AINode_Battle_Retreat( bot_state_t *bs ) {
 	BotChooseWeapon( bs );
 	//if the view is fixed for the movement
 	if ( moveresult.flags & ( MOVERESULT_MOVEMENTVIEW
-							  //|MOVERESULT_SWIMVIEW
+	                          //|MOVERESULT_SWIMVIEW
 							  ) ) {
 		VectorCopy( moveresult.ideal_viewangles, bs->ideal_viewangles );
 	} else if ( !( moveresult.flags & MOVERESULT_MOVEMENTVIEWSET )
@@ -1966,7 +1966,7 @@ int AINode_Battle_NBG( bot_state_t *bs ) {
 	//if the bot has no goal or touches the current goal
 	if ( !trap_BotGetTopGoal( bs->gs, &goal ) ) {
 		bs->nbg_time = 0;
-	} else if ( trap_BotTouchingGoal( bs->origin, &goal ) )       {
+	} else if ( trap_BotTouchingGoal( bs->origin, &goal ) ) {
 		bs->nbg_time = 0;
 	}
 	//
@@ -1976,7 +1976,7 @@ int AINode_Battle_NBG( bot_state_t *bs ) {
 		//if the bot still has a goal
 		if ( trap_BotGetTopGoal( bs->gs, &goal ) ) {
 			AIEnter_Battle_Retreat( bs );
-		} else { AIEnter_Battle_Fight( bs );}
+		} else { AIEnter_Battle_Fight( bs ); }
 		//
 		return qfalse;
 	}

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -342,8 +342,8 @@ typedef struct centity_s {
 	refEntity_t refEnt;
 	int processedFrame;                 // frame we were last added to the scene
 
-        int voiceChatSprite;                    // DHM - Nerve
-        int voiceChatSpriteTime;                // DHM - Nerve
+	int voiceChatSprite;                        // DHM - Nerve
+	int voiceChatSpriteTime;                    // DHM - Nerve
 
 
 	// client-side lightning
@@ -504,14 +504,14 @@ typedef struct {
 	int client;
 	int score;
 	int ping;
-    int respawnsLeft;
+	int respawnsLeft;
 	int time;
 #ifndef MONEY
 	int scoreFlags;
 #else
-        int damage_given;
-        int damage_received;
-        int deaths;
+	int damage_given;
+	int damage_received;
+	int deaths;
 #endif
 	int powerUps;
 	int accuracy;
@@ -538,7 +538,7 @@ typedef enum {
 	ACC_MOUTH3,     //
 	//
 	ACC_MAX     // this is bound by network limits, must change network stream to increase this
-				// (SA) No, really?  that's not true is it?  isn't this client-side only?
+	            // (SA) No, really?  that's not true is it?  isn't this client-side only?
 } accType_t;
 
 #define ACC_NUM_MOUTH 3 // matches the above count (hat/mouth2/mouth3)
@@ -569,10 +569,10 @@ typedef struct {
 	int location;                   // location index for team mode
 	int health;                     // you only get this info about your teammates
 	int curWeapon;
-        int powerups;
-        int armor;
-        int ammoClip;
-        int ammo;
+	int powerups;
+	int armor;
+	int ammoClip;
+	int ammo;
 
 	int handicap;
 	int wins, losses;               // in tourney mode
@@ -620,8 +620,8 @@ typedef struct {
 
 	int blinkTime;              //----(SA)
 
-        int lastkilltime;
-        int lastteamkilltime;
+	int lastkilltime;
+	int lastteamkilltime;
 } clientInfo_t;
 
 
@@ -770,7 +770,7 @@ typedef struct {
 	int frametime;              // cg.time - cg.oldTime
 
 	int time;                   // this is the time value that the client
-								// is rendering at.
+	                            // is rendering at.
 	int oldTime;                // time at last frame, used for missile trails and prediction checking
 
 	int physicsTime;            // either cg.snap->time or cg.nextSnap->time
@@ -993,22 +993,22 @@ typedef struct {
 
 	// RF, new kick angles
 	vec3_t kickAVel;            // for damage feedback, weapon recoil, etc
-								// This is the angular velocity, to give a smooth
-								// rotational feedback, rather than sudden jerks
+	                            // This is the angular velocity, to give a smooth
+	                            // rotational feedback, rather than sudden jerks
 	vec3_t kickAngles;          // for damage feedback, weapon recoil, etc
-								// NOTE: this is not transmitted through MSG.C stream
-								// since weapon kicks are client-side, and damage feedback
-								// is rare enough that we can transmit that as an event
+	                            // NOTE: this is not transmitted through MSG.C stream
+	                            // since weapon kicks are client-side, and damage feedback
+	                            // is rare enough that we can transmit that as an event
 	float recoilPitch, recoilPitchAngle;
 
 	// Duffy
 	qboolean cameraMode;        // if rendering from a camera
 	// Duffy end
 
-        // for voice chat buffer
-        int voiceChatTime;
-        int voiceChatBufferIn;
-        int voiceChatBufferOut;
+	// for voice chat buffer
+	int voiceChatTime;
+	int voiceChatBufferIn;
+	int voiceChatBufferOut;
 
 	unsigned int cld;           // NERVE - SMF
 	qboolean limboMenu;         // NERVE - SMF
@@ -1026,21 +1026,21 @@ typedef struct {
 	float cameraShakePhase;
 	vec3_t cameraShakeAngles;
 
-    int cameraShakeTime;
-    float cameraShakeScale;
-    float cameraShakeLength;
+	int cameraShakeTime;
+	float cameraShakeScale;
+	float cameraShakeLength;
 
 	float rumbleScale;          //RUMBLE FX using new shakeCamera code
 
-    qboolean latchVictorySound;
+	qboolean latchVictorySound;
 
-	// L0 - New centerprint		
-	int		centerPrintAnnouncerTime;
-	char	*centerPrintAnnouncer;
-	float	centerPrintAnnouncerScale;
-	int		centerPrintAnnouncerDuration;
-	vec3_t	centerPrintAnnouncerColor;
-	int		centerPrintAnnouncerMode;
+	// L0 - New centerprint
+	int centerPrintAnnouncerTime;
+	char    *centerPrintAnnouncer;
+	float centerPrintAnnouncerScale;
+	int centerPrintAnnouncerDuration;
+	vec3_t centerPrintAnnouncerColor;
+	int centerPrintAnnouncerMode;
 	// end
 
 } cg_t;
@@ -1104,7 +1104,7 @@ typedef struct {
 
 	qhandle_t lightningShader;
 
-        qhandle_t voiceChatShader;
+	qhandle_t voiceChatShader;
 	qhandle_t friendShader;
 
 	qhandle_t frozenShader;
@@ -1116,7 +1116,7 @@ typedef struct {
 	qhandle_t selectShader;
 	qhandle_t viewBloodShader;
 	qhandle_t tracerShader;
-        qhandle_t spawnInvincibleShader;
+	qhandle_t spawnInvincibleShader;
 	qhandle_t crosshairShader[NUM_CROSSHAIRS];
 	qhandle_t crosshairFriendly;    //----(SA)	added
 	qhandle_t lagometerShader;
@@ -1377,7 +1377,7 @@ typedef struct {
 	sfxHandle_t gibBounce1Sound;
 	sfxHandle_t gibBounce2Sound;
 	sfxHandle_t gibBounce3Sound;
-        sfxHandle_t bonuslife[5];
+	sfxHandle_t bonuslife[5];
 	sfxHandle_t teleInSound;
 	sfxHandle_t teleOutSound;
 	sfxHandle_t noAmmoSound;
@@ -1427,7 +1427,7 @@ typedef struct {
 
 	// tournament sounds
 	// L0 - Added 5 & 4 + added audio.
-	sfxHandle_t count5Sound; 
+	sfxHandle_t count5Sound;
 	sfxHandle_t count4Sound;
 	sfxHandle_t count3Sound;
 	sfxHandle_t count2Sound;
@@ -1508,8 +1508,8 @@ typedef struct {
 	qhandle_t selectCursor;
 	qhandle_t sizeCursor;
 
-    // fretn
-    qhandle_t rtt;
+	// fretn
+	qhandle_t rtt;
 
 } cgMedia_t;
 
@@ -1636,11 +1636,11 @@ typedef struct {
 
 	char itemPrintNames[MAX_ITEMS][32];             //----(SA)	added
 
-        // New notify mechanism for obits
-        char notifyMsgs[NOTIFY_HEIGHT][NOTIFY_WIDTH * 3 + 1];
-        int notifyMsgTimes[NOTIFY_HEIGHT];
-        int notifyPos;
-        int notifyLastPos;
+	// New notify mechanism for obits
+	char notifyMsgs[NOTIFY_HEIGHT][NOTIFY_WIDTH * 3 + 1];
+	int notifyMsgTimes[NOTIFY_HEIGHT];
+	int notifyPos;
+	int notifyLastPos;
 
 	int cursorX;
 	int cursorY;
@@ -1662,8 +1662,8 @@ typedef struct {
 	// player/AI model scripting (client repository)
 	animScriptData_t animScriptData;
 
-        int currentVoiceClient;
-        gamestate_t gamestate;
+	int currentVoiceClient;
+	gamestate_t gamestate;
 
 } cgs_t;
 
@@ -1846,7 +1846,7 @@ extern vmCvar_t mp_mapDesc;
 extern vmCvar_t mp_mapTitle;
 // -NERVE - SMF
 
-// L0 
+// L0
 extern vmCvar_t cg_solidCrosshair;
 extern vmCvar_t cg_bloodBlend;
 extern vmCvar_t cg_announcer;
@@ -1884,9 +1884,9 @@ void DrawDebugLine( float *_start, float *_end, int _duration, vec4_t _color );
 void DrawDebugRadius( float *_start, float _radius, int _duration, vec4_t _color );
 void DrawDebugPolygon( vec3_t *verts, int _numverts, int _duration, vec4_t _color );
 void DrawDebugAABB( vec3_t origin, float *mins, float *_maxs, int _duration, vec4_t _color, int _side );
-void DrawDebugText(float *_start, const char *_msg, int _duration, vec4_t _color);
-void OmnibotDisableDrawing(void);
-void OmnibotRenderDebugLines(void);
+void DrawDebugText( float *_start, const char *_msg, int _duration, vec4_t _color );
+void OmnibotDisableDrawing( void );
+void OmnibotRenderDebugLines( void );
 
 //
 // cg_view.c
@@ -1975,7 +1975,7 @@ void CG_DrawFlagModel( float x, float y, float w, float h, int team );
 void CG_CheckForCursorHints( void );
 int CG_OwnerDrawWidth( int ownerDraw, int font, float scale );
 
-#define CPri(x) CG_CenterPrint(x, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.2), SMALLCHAR_WIDTH);
+#define CPri( x ) CG_CenterPrint( x, SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.2 ), SMALLCHAR_WIDTH );
 
 void CG_DrawTeamBackground( int x, int y, int w, int h, float alpha, int team );
 void CG_OwnerDraw( float x, float y, float w, float h, float text_x, float text_y, int ownerDraw, int ownerDrawFlags, int align, float special, int font, float scale, vec4_t color, qhandle_t shader, int textStyle );
@@ -1999,7 +1999,7 @@ void CG_ApplyShakeCamera();
 void CG_InitWorldText( void );
 void CG_ClearWorldText( void );
 qboolean CG_AddOnScreenText( const char *text, vec3_t origin, vec4_t color, float duration );
-void CG_DrawOnScreenText(void);
+void CG_DrawOnScreenText( void );
 
 //
 // cg_player.c
@@ -2022,7 +2022,7 @@ void CG_BuildSolidList( void );
 int CG_PointContents( const vec3_t point, int passEntityNum );
 void CG_Trace( trace_t *result, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end,
 			   int skipNumber, int mask );
-void CG_Trace_World( trace_t *result, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, 
+void CG_Trace_World( trace_t *result, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end,
 					 int skipNumber, int mask );
 qboolean PointVisible( vec3_t point );
 void CG_PredictPlayerState( void );
@@ -2446,7 +2446,7 @@ void        trap_R_SetColor( const float *rgba );   // NULL = 1,1,1,1
 void        trap_R_DrawStretchPic( float x, float y, float w, float h,
 								   float s1, float t1, float s2, float t2, qhandle_t hShader );
 void        trap_R_DrawRotatedPic( float x, float y, float w, float h,
-                                                                   float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );
+								   float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );
 void        trap_R_DrawStretchPicGradient( float x, float y, float w, float h,
 										   float s1, float t1, float s2, float t2, qhandle_t hShader, const float *gradientColor, int gradientType );
 
@@ -2532,7 +2532,7 @@ void trap_SnapVector( float *v );
 qboolean    trap_GetEntityToken( char *buffer, int bufferSize );
 
 //fretn - render to texture
-void    trap_R_RenderToTexture( int textureid, int x, int y, int w, int h ); 
+void    trap_R_RenderToTexture( int textureid, int x, int y, int w, int h );
 int trap_R_GetTextureId( const char *name );
 
 // Duffy, camera stuff
@@ -2554,12 +2554,11 @@ void CG_StartShakeCamera( float p, int duration, vec3_t src, float radius );
 
 qboolean    trap_GetModelInfo( int clientNum, char *modelName, animModelInfo_t **modelInfo );
 
-// L0 
-void CG_DrawAnnouncer( void ); 
-void CG_AddAnnouncer(char *text, sfxHandle_t sound, float scale, int duration, float r, float g, float b, int mode);
+// L0
+void CG_DrawAnnouncer( void );
+void CG_AddAnnouncer( char *text, sfxHandle_t sound, float scale, int duration, float r, float g, float b, int mode );
 #define ANNOUNCER_NORMAL 1
 #define ANNOUNCER_SINE 2
 #define ANNOUNCER_INVERSE_SINE 3
 #define ANNOUNCER_TAN 4
 // End
-

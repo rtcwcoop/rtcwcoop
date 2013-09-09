@@ -292,9 +292,9 @@ create_context_buffer( j_compress_ptr cinfo ) {
 	 * we need five row groups' worth of pointers for each component.
 	 */
 	fake_buffer = (JSAMPARRAY)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   ( cinfo->num_components * 5 * rgroup_height ) *
-											   SIZEOF( JSAMPROW ) );
+				  ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+												( cinfo->num_components * 5 * rgroup_height ) *
+												SIZEOF( JSAMPROW ) );
 
 	for ( ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
 		  ci++, compptr++ ) {
@@ -303,10 +303,10 @@ create_context_buffer( j_compress_ptr cinfo ) {
 		 * horizontally within the buffer, if it so chooses.
 		 */
 		true_buffer = ( *cinfo->mem->alloc_sarray )
-				  ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-				  (JDIMENSION) ( ( (long) compptr->width_in_blocks * DCTSIZE *
-								   cinfo->max_h_samp_factor ) / compptr->h_samp_factor ),
-				  (JDIMENSION) ( 3 * rgroup_height ) );
+						  ( (j_common_ptr) cinfo, JPOOL_IMAGE,
+						  (JDIMENSION) ( ( (long) compptr->width_in_blocks * DCTSIZE *
+										   cinfo->max_h_samp_factor ) / compptr->h_samp_factor ),
+						  (JDIMENSION) ( 3 * rgroup_height ) );
 		/* Copy true buffer row pointers into the middle of the fake row array */
 		MEMCOPY( fake_buffer + rgroup_height, true_buffer,
 				 3 * rgroup_height * SIZEOF( JSAMPROW ) );
@@ -338,8 +338,8 @@ jinit_c_prep_controller( j_compress_ptr cinfo, boolean need_full_buffer ) {
 	}
 
 	prep = (my_prep_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_prep_controller ) );
+		   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										 SIZEOF( my_prep_controller ) );
 	cinfo->prep = (struct jpeg_c_prep_controller *) prep;
 	prep->pub.start_pass = start_pass_prep;
 
@@ -361,10 +361,10 @@ jinit_c_prep_controller( j_compress_ptr cinfo, boolean need_full_buffer ) {
 		for ( ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
 			  ci++, compptr++ ) {
 			prep->color_buf[ci] = ( *cinfo->mem->alloc_sarray )
-				( (j_common_ptr) cinfo, JPOOL_IMAGE,
-				(JDIMENSION) ( ( (long) compptr->width_in_blocks * DCTSIZE *
-								 cinfo->max_h_samp_factor ) / compptr->h_samp_factor ),
-				(JDIMENSION) cinfo->max_v_samp_factor );
+									  ( (j_common_ptr) cinfo, JPOOL_IMAGE,
+									  (JDIMENSION) ( ( (long) compptr->width_in_blocks * DCTSIZE *
+													   cinfo->max_h_samp_factor ) / compptr->h_samp_factor ),
+									  (JDIMENSION) cinfo->max_v_samp_factor );
 		}
 	}
 }

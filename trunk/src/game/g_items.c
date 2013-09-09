@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -104,9 +104,9 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
 		return RESPAWN_PARTIAL_DONE;
 	}
 
-        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
-                return RESPAWN_SP;
-        }
+	if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
+		return RESPAWN_SP;
+	}
 
 	return RESPAWN_POWERUP;
 }
@@ -115,9 +115,9 @@ int Pickup_Powerup( gentity_t *ent, gentity_t *other ) {
 //======================================================================
 int Pickup_Key( gentity_t *ent, gentity_t *other ) {
 	other->client->ps.stats[STAT_KEYS] |= ( 1 << ent->item->giTag );
-        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
-                return RESPAWN_SP;
-        }
+	if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
+		return RESPAWN_SP;
+	}
 
 	return RESPAWN_KEY;
 }
@@ -145,16 +145,16 @@ Pickup_Treasure
 ==============
 */
 int Pickup_Treasure( gentity_t *ent, gentity_t *other ) {
-        level.numTreasureFound++;
+	level.numTreasureFound++;
 	G_SendMissionStats();
 
-        if ( g_gametype.integer == GT_COOP ) {
-                other->client->ps.persistant[PERS_SCORE] += 120;
-        }
+	if ( g_gametype.integer == GT_COOP ) {
+		other->client->ps.persistant[PERS_SCORE] += 120;
+	}
 #ifdef MONEY
-        if ( g_gametype.integer == GT_COOP_BATTLE ) {
-                other->client->ps.persistant[PERS_SCORE] += 400;
-        }
+	if ( g_gametype.integer == GT_COOP_BATTLE ) {
+		other->client->ps.persistant[PERS_SCORE] += 400;
+	}
 #endif
 
 	return RESPAWN_SP;  // no respawn
@@ -164,7 +164,7 @@ int Pickup_Treasure( gentity_t *ent, gentity_t *other ) {
 /*
 ==============
 UseHoldableItem
-	server side handling of holdable item use
+    server side handling of holdable item use
 ==============
 */
 void UseHoldableItem( gentity_t *ent, int item ) {
@@ -210,9 +210,9 @@ int Pickup_Holdable( gentity_t *ent, gentity_t *other ) {
 
 	other->client->ps.stats[STAT_HOLDABLE_ITEM] |= ( 1 << ent->item->giTag );   //----(SA)	added
 
-        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
-                return RESPAWN_SP;
-        }
+	if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
+		return RESPAWN_SP;
+	}
 
 	return RESPAWN_HOLDABLE;
 }
@@ -223,7 +223,7 @@ int Pickup_Holdable( gentity_t *ent, gentity_t *other ) {
 /*
 ==============
 Fill_Clip
-	push reserve ammo into available space in the clip
+    push reserve ammo into available space in the clip
 ==============
 */
 void Fill_Clip( playerState_t *ps, int weapon ) {
@@ -259,10 +259,10 @@ void Fill_Clip( playerState_t *ps, int weapon ) {
 /*
 ==============
 Add_Ammo
-	Try to always add ammo here unless you have specific needs
-	(like the AI "infinite ammo" where they get below 900 and force back up to 999)
+    Try to always add ammo here unless you have specific needs
+    (like the AI "infinite ammo" where they get below 900 and force back up to 999)
 
-	fillClip will push the ammo straight through into the clip and leave the rest in reserve
+    fillClip will push the ammo straight through into the clip and leave the rest in reserve
 ==============
 */
 void Add_Ammo( gentity_t *ent, int weapon, int count, qboolean fillClip ) {
@@ -272,7 +272,7 @@ void Add_Ammo( gentity_t *ent, int weapon, int count, qboolean fillClip ) {
 	ent->client->ps.ammo[ammoweap] += count;
 
 	switch ( ammoweap ) {
-		// some weaps load straight into the 'clip' since they have no storage outside the clip
+	// some weaps load straight into the 'clip' since they have no storage outside the clip
 
 	case WP_GRENADE_LAUNCHER:       // make sure if he picks up a grenade that he get's the "launcher" too
 	case WP_GRENADE_PINEAPPLE:
@@ -315,8 +315,8 @@ void Add_Ammo( gentity_t *ent, int weapon, int count, qboolean fillClip ) {
 }
 
 #ifdef MONEY
-int G_GetWeaponPrice(int weapon);
-int G_GetAmmoPrice(int weapon);
+int G_GetWeaponPrice( int weapon );
+int G_GetAmmoPrice( int weapon );
 #endif
 
 /*
@@ -327,10 +327,10 @@ Pickup_Ammo
 int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 	int quantity;
 #ifdef MONEY
-               if (g_gametype.integer == GT_COOP_BATTLE) {
-                       other->client->ps.persistant[PERS_SCORE] += G_GetAmmoPrice(ent->item->giTag);
-                       return RESPAWN_SP;
-               }
+	if ( g_gametype.integer == GT_COOP_BATTLE ) {
+		other->client->ps.persistant[PERS_SCORE] += G_GetAmmoPrice( ent->item->giTag );
+		return RESPAWN_SP;
+	}
 #endif
 
 	if ( ent->count ) {
@@ -348,9 +348,9 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 
 	Add_Ammo( other, ent->item->giTag, quantity, qfalse );   //----(SA)	modified
 
-        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
-                return RESPAWN_SP;
-        }
+	if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
+		return RESPAWN_SP;
+	}
 
 	return RESPAWN_AMMO;
 }
@@ -363,10 +363,10 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 
 	weapon = ent->item->giTag;
 #ifdef MONEY
-        if (g_gametype.integer == GT_COOP_BATTLE) {
-                other->client->ps.persistant[PERS_SCORE] += G_GetWeaponPrice(weapon);
-                return RESPAWN_SP;
-        }
+	if ( g_gametype.integer == GT_COOP_BATTLE ) {
+		other->client->ps.persistant[PERS_SCORE] += G_GetWeaponPrice( weapon );
+		return RESPAWN_SP;
+	}
 #endif
 
 	if ( ent->count < 0 ) {
@@ -412,8 +412,8 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	COM_BitSet( other->client->ps.weapons, weapon );
 
 	// L0 - Throw knives
-	if ( g_throwKnives.integer ) {			
-                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )]++;
+	if ( g_throwKnives.integer ) {
+		other->client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )]++;
 	} // End
 
 //----(SA)	added
@@ -436,9 +436,9 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 
 	Add_Ammo( other, weapon, quantity, !alreadyHave );
 
-        if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
-                return RESPAWN_SP;
-        }
+	if ( !( ent->spawnflags & FL_RESPAWN_SP ) ) {
+		return RESPAWN_SP;
+	}
 
 
 	return g_weaponRespawn.integer;
@@ -464,7 +464,7 @@ int Pickup_Health( gentity_t *ent, gentity_t *other ) {
 		if ( ent->s.density ) {    // multi-stage health
 			if ( ent->s.density == 2 ) {       // first stage (it counts down)
 				quantity = ent->item->gameskillnumber[g_gameskill.integer];
-			} else if ( ent->s.density == 1 )      { // second stage
+			} else if ( ent->s.density == 1 ) {      // second stage
 				quantity = ent->item->quantity;
 			}
 		} else {
@@ -498,7 +498,7 @@ int Pickup_Armor( gentity_t *ent, gentity_t *other ) {
 		other->client->ps.stats[STAT_ARMOR] = 100;
 	}
 
-		return RESPAWN_SP;
+	return RESPAWN_SP;
 }
 
 //======================================================================
@@ -545,9 +545,9 @@ void RespawnItem( gentity_t *ent ) {
 /*
 ==============
 Touch_Item
-	if other->client->pers.autoActivate == PICKUP_ACTIVATE	(0), he will pick up items only when using +activate
-	if other->client->pers.autoActivate == PICKUP_TOUCH		(1), he will pickup items when touched
-	if other->client->pers.autoActivate == PICKUP_FORCE		(2), he will pickup the next item when touched (and reset to PICKUP_ACTIVATE when done)
+    if other->client->pers.autoActivate == PICKUP_ACTIVATE	(0), he will pick up items only when using +activate
+    if other->client->pers.autoActivate == PICKUP_TOUCH		(1), he will pickup items when touched
+    if other->client->pers.autoActivate == PICKUP_FORCE		(2), he will pickup the next item when touched (and reset to PICKUP_ACTIVATE when done)
 ==============
 */
 void Touch_Item_Auto( gentity_t *ent, gentity_t *other, trace_t *trace ) {
@@ -581,12 +581,14 @@ void Touch_Item( gentity_t *entity, gentity_t *activator, trace_t *trace ) {
 		entity->active = qfalse;
 	}
 
-	if ( !activator->client )
+	if ( !activator->client ) {
 		return;
+	}
 
-	if ( G_IsClientDead( activator ) )
+	if ( G_IsClientDead( activator ) ) {
 		return;     // dead people can't pickup
 
+	}
 	// the same pickup rules are used for client side and server side
 	if ( !BG_CanItemBeGrabbed( &entity->s, &activator->client->ps ) ) {
 		return;
@@ -600,15 +602,17 @@ void Touch_Item( gentity_t *entity, gentity_t *activator, trace_t *trace ) {
 	case IT_WEAPON:
 		respawn = Pickup_Weapon( entity, activator );
 #ifdef MONEY
-                if (g_gametype.integer == GT_COOP_BATTLE)
-                        entity->wait = -1;
+		if ( g_gametype.integer == GT_COOP_BATTLE ) {
+			entity->wait = -1;
+		}
 #endif
 		break;
 	case IT_AMMO:
 		respawn = Pickup_Ammo( entity, activator );
 #ifdef MONEY
-                if (g_gametype.integer == GT_COOP_BATTLE)
-                        entity->wait = -1;
+		if ( g_gametype.integer == GT_COOP_BATTLE ) {
+			entity->wait = -1;
+		}
 #endif
 		break;
 	case IT_ARMOR:
@@ -968,7 +972,7 @@ void FinishSpawningItem( gentity_t *ent ) {
 		}
 
 		ent->touch = Touch_Item;    // no auto-pickup, only activate
-	} else if ( ent->item->giType == IT_HOLDABLE )      {
+	} else if ( ent->item->giType == IT_HOLDABLE ) {
 		if ( ent->item->giTag >= HI_BOOK1 && ent->item->giTag <= HI_BOOK3 ) {
 			G_FindConfigstringIndex( va( "hbook%d", ent->item->giTag - HI_BOOK1 ), CS_CLIPBOARDS, MAX_CLIPBOARD_CONFIGSTRINGS, qtrue );
 		}
@@ -1240,7 +1244,7 @@ void G_RunItemProp( gentity_t *ent, vec3_t origin ) {
 		Prop_Break_Sound( ent );
 
 		return;
-	} else if ( trace.surfaceFlags & SURF_NOIMPACT )    {
+	} else if ( trace.surfaceFlags & SURF_NOIMPACT ) {
 		ent->takedamage = qfalse;
 
 		Props_Chair_Skyboxtouch( ent );
@@ -1319,4 +1323,3 @@ void G_RunItem( gentity_t *ent ) {
 
 	G_BounceItem( ent, &tr );
 }
-

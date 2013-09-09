@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ void Team_InitGame( void ) {
 int OtherTeam( int team ) {
 	if ( team == TEAM_RED ) {
 		return TEAM_BLUE;
-	} else if ( team == TEAM_BLUE )  {
+	} else if ( team == TEAM_BLUE ) {
 		return TEAM_RED;
 	}
 	return team;
@@ -55,9 +55,9 @@ int OtherTeam( int team ) {
 const char *TeamName( int team ) {
 	if ( team == TEAM_RED ) {
 		return "RED";
-	} else if ( team == TEAM_BLUE )  {
+	} else if ( team == TEAM_BLUE ) {
 		return "BLUE";
-	} else if ( team == TEAM_SPECTATOR )  {
+	} else if ( team == TEAM_SPECTATOR ) {
 		return "SPECTATOR";
 	}
 	return "FREE";
@@ -66,9 +66,9 @@ const char *TeamName( int team ) {
 const char *OtherTeamName( int team ) {
 	if ( team == TEAM_RED ) {
 		return "BLUE";
-	} else if ( team == TEAM_BLUE )  {
+	} else if ( team == TEAM_BLUE ) {
 		return "RED";
-	} else if ( team == TEAM_SPECTATOR )  {
+	} else if ( team == TEAM_SPECTATOR ) {
 		return "SPECTATOR";
 	}
 	return "FREE";
@@ -77,9 +77,9 @@ const char *OtherTeamName( int team ) {
 const char *TeamColorString( int team ) {
 	if ( team == TEAM_RED ) {
 		return S_COLOR_RED;
-	} else if ( team == TEAM_BLUE )  {
+	} else if ( team == TEAM_BLUE ) {
 		return S_COLOR_BLUE;
-	} else if ( team == TEAM_SPECTATOR )  {
+	} else if ( team == TEAM_SPECTATOR ) {
 		return S_COLOR_YELLOW;
 	}
 	return S_COLOR_WHITE;
@@ -507,7 +507,7 @@ int Pickup_Team( gentity_t *ent, gentity_t *other ) {
 	// figure out what team this flag is
 	if ( strcmp( ent->classname, "team_CTF_redflag" ) == 0 ) {
 		team = TEAM_RED;
-	} else if ( strcmp( ent->classname, "team_CTF_blueflag" ) == 0 )   {
+	} else if ( strcmp( ent->classname, "team_CTF_blueflag" ) == 0 ) {
 		team = TEAM_BLUE;
 	} else {
 		PrintMsg( other, "Don't know what team the flag is on.\n" );
@@ -516,7 +516,7 @@ int Pickup_Team( gentity_t *ent, gentity_t *other ) {
 
 	return ( ( team == cl->sess.sessionTeam ) ?
 			 Team_TouchOurFlag : Team_TouchEnemyFlag )
-						( ent, other, team );
+			   ( ent, other, team );
 }
 
 /*
@@ -617,11 +617,11 @@ int FindFarthestObjectiveIndex( vec3_t source ) {
 	}
 
 /*
-	cs_obj += j;
-	trap_GetConfigstring( cs_obj, cs, sizeof(cs) );
-	objectivename = Info_ValueForKey( cs, "spawn_targ");
+    cs_obj += j;
+    trap_GetConfigstring( cs_obj, cs, sizeof(cs) );
+    objectivename = Info_ValueForKey( cs, "spawn_targ");
 
-	G_Printf("got furthest dist (%f) at point %d (%s) of %d\n",dist,j,objectivename,i);
+    G_Printf("got furthest dist (%f) at point %d (%s) of %d\n",dist,j,objectivename,i);
 */
 
 	return j;
@@ -689,7 +689,7 @@ gentity_t *SelectRandomTeamSpawnPoint( int teamstate, team_t team ) {
 		return spots[ selection ];
 	}
 
-        return NULL;
+	return NULL;
 // jpw
 }
 
@@ -723,7 +723,7 @@ gentity_t *SelectCTFSpawnPoint( team_t team, int teamstate, vec3_t origin, vec3_
 TeamplayLocationsMessage
 
 Format:
-	clientNum location health armor weapon powerups
+    clientNum location health armor weapon powerups
 
 ==================
 */
@@ -782,10 +782,10 @@ void CheckTeamStatus( void ) {
 
 		for ( i = 0; i < g_maxclients.integer; i++ ) {
 			ent = g_entities + i;
-	/*		if ( ent->inuse &&
-				 ( ent->client->sess.sessionTeam == TEAM_RED ||
-				   ent->client->sess.sessionTeam == TEAM_BLUE ) ) {*/
-                        if ( ent->inuse && !(ent->r.svFlags & SVF_CASTAI) ) {
+			/*		if ( ent->inuse &&
+			             ( ent->client->sess.sessionTeam == TEAM_RED ||
+			               ent->client->sess.sessionTeam == TEAM_BLUE ) ) {*/
+			if ( ent->inuse && !( ent->r.svFlags & SVF_CASTAI ) ) {
 				loc = Team_GetLocation( ent );
 				if ( loc ) {
 					ent->client->pers.teamState.location = loc->health;

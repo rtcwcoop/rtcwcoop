@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -84,9 +84,9 @@ static statsItem_t statsItems[] = {
 /*
 ==============
 CG_DrawExitStats
-	pretty much what the game should draw when you're at the exit
-	This is not the final deal, but represents the kind of thing
-	that will be there
+    pretty much what the game should draw when you're at the exit
+    This is not the final deal, but represents the kind of thing
+    that will be there
 ==============
 */
 
@@ -109,8 +109,9 @@ void CG_DrawExitStats( void ) {
 	}
 
 
-	if (cg.showScores)
+	if ( cg.showScores ) {
 		return;
+	}
 
 	color = CG_FadeColor( cg.cursorHintTime, cg.cursorHintFade );
 
@@ -253,16 +254,16 @@ void CG_DrawExitStats( void ) {
 	token = COM_Parse( &mstats );
 
 	ci = &cgs.clientinfo[cg.scores[cg.destroyer].client];
-	CG_Text_Paint(214, y+28, 2, 0.3, statsItems[0].formatColor, "Destructor", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-	CG_Text_Paint(348, y+28, 2, 0.3, statsItems[0].formatColor, va( "%s", ci->name), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE);
+	CG_Text_Paint( 214, y + 28, 2, 0.3, statsItems[0].formatColor, "Destructor", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	CG_Text_Paint( 348, y + 28, 2, 0.3, statsItems[0].formatColor, va( "%s", ci->name ), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE );
 
 	ci = &cgs.clientinfo[cg.scores[cg.airbourne].client];
-	CG_Text_Paint(214, y+(2*28), 2, 0.3, statsItems[1].formatColor, "Airbourne ranger:", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-	CG_Text_Paint(348, y+(2*28), 2, 0.3, statsItems[1].formatColor, va( "%s", ci->name), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE);
+	CG_Text_Paint( 214, y + ( 2 * 28 ), 2, 0.3, statsItems[1].formatColor, "Airbourne ranger:", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	CG_Text_Paint( 348, y + ( 2 * 28 ), 2, 0.3, statsItems[1].formatColor, va( "%s", ci->name ), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE );
 
 	ci = &cgs.clientinfo[cg.scores[cg.pickupmaster].client];
-	CG_Text_Paint(214, y+(3*28), 2, 0.3, statsItems[2].formatColor, "Pickup artist:", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-	CG_Text_Paint(348, y+(3*28), 2, 0.3, statsItems[2].formatColor, va( "%s", ci->name), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE);
+	CG_Text_Paint( 214, y + ( 3 * 28 ), 2, 0.3, statsItems[2].formatColor, "Pickup artist:", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	CG_Text_Paint( 348, y + ( 3 * 28 ), 2, 0.3, statsItems[2].formatColor, va( "%s", ci->name ), 0, 14, ITEM_TEXTSTYLE_SHADOWEDMORE );
 }
 
 
@@ -274,64 +275,64 @@ Draw all the status / pacifier stuff during level loading
 ====================
 */
 void CG_DrawInformation( void ) {
-    const char  *s;
-    const char  *info;
-    qhandle_t levelshot = 0; // TTimo: init
-    static int callCount = 0;
-    float percentDone;
+	const char  *s;
+	const char  *info;
+	qhandle_t levelshot = 0; // TTimo: init
+	static int callCount = 0;
+	float percentDone;
 
-    int expectedHunk;
-    char hunkBuf[MAX_QPATH];
+	int expectedHunk;
+	char hunkBuf[MAX_QPATH];
 
-    vec2_t xy = { 200, 448 };
-    vec2_t wh = { 240, 10 };
+	vec2_t xy = { 200, 448 };
+	vec2_t wh = { 240, 10 };
 
-    if ( cg.snap ) {
-        return;     // we are in the world, no need to draw information
-    }
+	if ( cg.snap ) {
+		return;     // we are in the world, no need to draw information
+	}
 
-    if ( callCount ) {    // reject recursive calls
-        return;
-    }
+	if ( callCount ) {    // reject recursive calls
+		return;
+	}
 
-    callCount++;
+	callCount++;
 
-    info = CG_ConfigString( CS_SERVERINFO );
+	info = CG_ConfigString( CS_SERVERINFO );
 
-    trap_Cvar_VariableStringBuffer( "com_expectedhunkusage", hunkBuf, MAX_QPATH );
-    expectedHunk = atoi( hunkBuf );
+	trap_Cvar_VariableStringBuffer( "com_expectedhunkusage", hunkBuf, MAX_QPATH );
+	expectedHunk = atoi( hunkBuf );
 
-    s = Info_ValueForKey( info, "mapname" );
+	s = Info_ValueForKey( info, "mapname" );
 
-    if ( s && s[0] != 0 ) {  // there is often no 's'
-        levelshot = trap_R_RegisterShaderNoMip( va( "levelshots/%s.tga", s ) );
-    }
+	if ( s && s[0] != 0 ) {  // there is often no 's'
+		levelshot = trap_R_RegisterShaderNoMip( va( "levelshots/%s.tga", s ) );
+	}
 
-    if ( !levelshot ) {
-        levelshot = trap_R_RegisterShaderNoMip( "levelshots/unknownmap.jpg" );
-    }
-    trap_R_SetColor( NULL );
-    CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, levelshot );
+	if ( !levelshot ) {
+		levelshot = trap_R_RegisterShaderNoMip( "levelshots/unknownmap.jpg" );
+	}
+	trap_R_SetColor( NULL );
+	CG_DrawPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, levelshot );
 
-    // Ridah, in single player, cheats disabled, don't show unnecessary information
-    // fretn - only in single player
-    if ( cgs.gametype == GT_SINGLE_PLAYER ) {
-            trap_UI_Popup( "briefing" );
+	// Ridah, in single player, cheats disabled, don't show unnecessary information
+	// fretn - only in single player
+	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
+		trap_UI_Popup( "briefing" );
 
-            trap_UpdateScreen();
-            callCount--;
-            return;
-    }
+		trap_UpdateScreen();
+		callCount--;
+		return;
+	}
 
-    // show the percent complete bar
-    if ( expectedHunk >= 0 ) {
-        percentDone = (float)( cg_hunkUsed.integer + cg_soundAdjust.integer ) / (float)( expectedHunk );
-        if ( percentDone > 0.97 ) { // never actually show 100%, since we are not in the game yet
-            percentDone = 0.97;
-        }
-        CG_HorizontalPercentBar( xy[0], xy[1], wh[0], wh[1], percentDone );
+	// show the percent complete bar
+	if ( expectedHunk >= 0 ) {
+		percentDone = (float)( cg_hunkUsed.integer + cg_soundAdjust.integer ) / (float)( expectedHunk );
+		if ( percentDone > 0.97 ) { // never actually show 100%, since we are not in the game yet
+			percentDone = 0.97;
+		}
+		CG_HorizontalPercentBar( xy[0], xy[1], wh[0], wh[1], percentDone );
 
-    }
+	}
 
-    callCount--;
+	callCount--;
 }

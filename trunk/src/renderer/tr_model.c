@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -101,9 +101,9 @@ qhandle_t RE_RegisterModel( const char *name ) {
 	qhandle_t hModel;
 	int numLoaded;
 
-        // fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
-        // there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
-        qboolean ignore = qfalse;; 
+	// fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
+	// there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
+	qboolean ignore = qfalse;;
 
 	if ( !name || !name[0] ) {
 		// Ridah, disabled this, we can see models that can't be found because they won't be there
@@ -116,12 +116,12 @@ qhandle_t RE_RegisterModel( const char *name ) {
 		return 0;
 	}
 
-        // fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
-        // there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
-        if ( !strcmp(name, "models/mapobjects/tree/tree_m08.md3") ||
-          !strcmp(name, "models/mapobjects/tree/tree_m07.md3")) {
-                ignore = qtrue;
-        }
+	// fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
+	// there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
+	if ( !strcmp( name, "models/mapobjects/tree/tree_m08.md3" ) ||
+		 !strcmp( name, "models/mapobjects/tree/tree_m07.md3" ) ) {
+		ignore = qtrue;
+	}
 
 	// Ridah, caching
 	if ( r_cacheGathering->integer ) {
@@ -209,12 +209,12 @@ qhandle_t RE_RegisterModel( const char *name ) {
 			strcat( filename, namebuf );
 		}
 
-                // fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
-                // there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
-		if ( r_compressModels->integer || ignore) {
+		// fretn: there's an mdc model in mp_pakmaps0.pk3 that crashes the renderer
+		// there also exist an md3 model of it, so we'll ignore that mdc file and load the md3 instead
+		if ( r_compressModels->integer || ignore ) {
 			filename[strlen( filename ) - 1] = '3';  // try MD3 first
 		} else {
-                        filename[strlen( filename ) - 1] = 'c';  // try MDC first
+			filename[strlen( filename ) - 1] = 'c';              // try MDC first
 		}
 		ri.FS_ReadFile( filename, (void **)&buf );
 
@@ -380,11 +380,11 @@ unsigned char R_MDC_GetAnorm( const vec3_t dir ) {
 			break; // done checking the group
 		}
 /*
-		if (	(this_norm[0] < 0 && dir[0] > 0)
-			||	(this_norm[0] > 0 && dir[0] < 0)
-			||	(this_norm[1] < 0 && dir[1] > 0)
-			||	(this_norm[1] > 0 && dir[1] < 0))
-			continue;
+        if (	(this_norm[0] < 0 && dir[0] > 0)
+            ||	(this_norm[0] > 0 && dir[0] < 0)
+            ||	(this_norm[1] < 0 && dir[1] > 0)
+            ||	(this_norm[1] > 0 && dir[1] < 0))
+            continue;
 */
 		diff = DotProduct( dir, this_norm );
 
@@ -1475,33 +1475,33 @@ R_GetMDSTag
 // TTimo: unused
 /*
 static int R_GetMDSTag( byte *mod, const char *tagName, int startTagIndex, mdsTag_t **outTag ) {
-	mdsTag_t		*tag;
-	int				i;
-	mdsHeader_t		*mds;
+    mdsTag_t		*tag;
+    int				i;
+    mdsHeader_t		*mds;
 
-	mds = (mdsHeader_t *) mod;
+    mds = (mdsHeader_t *) mod;
 
-	if (startTagIndex > mds->numTags) {
-		*outTag = NULL;
-		return -1;
-	}
+    if (startTagIndex > mds->numTags) {
+        *outTag = NULL;
+        return -1;
+    }
 
-	tag = (mdsTag_t *)((byte *)mod + mds->ofsTags);
-	for ( i = 0 ; i < mds->numTags ; i++ ) {
-		if ( (i >= startTagIndex) && !strcmp( tag->name, tagName ) ) {
-			break;	// found it
-		}
+    tag = (mdsTag_t *)((byte *)mod + mds->ofsTags);
+    for ( i = 0 ; i < mds->numTags ; i++ ) {
+        if ( (i >= startTagIndex) && !strcmp( tag->name, tagName ) ) {
+            break;	// found it
+        }
 
-		tag = (mdsTag_t *) ((byte *)tag + sizeof(mdsTag_t) - sizeof(mdsBoneFrameCompressed_t) + mds->numFrames * sizeof(mdsBoneFrameCompressed_t) );
-	}
+        tag = (mdsTag_t *) ((byte *)tag + sizeof(mdsTag_t) - sizeof(mdsBoneFrameCompressed_t) + mds->numFrames * sizeof(mdsBoneFrameCompressed_t) );
+    }
 
-	if (i >= mds->numTags) {
-		*outTag = NULL;
-		return -1;
-	}
+    if (i >= mds->numTags) {
+        *outTag = NULL;
+        return -1;
+    }
 
-	*outTag = tag;
-	return i;
+    *outTag = tag;
+    return i;
 }
 */
 
@@ -1532,12 +1532,12 @@ int R_LerpTag( orientation_t *tag, const refEntity_t *refent, const char *tagNam
 
 	Q_strncpyz( tagName, tagNameIn, MAX_QPATH );
 /*
-	// if the tagName has a space in it, then it is passing through the starting tag number
-	if (ch = strrchr(tagName, ' ')) {
-		*ch = 0;
-		ch++;
-		startIndex = atoi(ch);
-	}
+    // if the tagName has a space in it, then it is passing through the starting tag number
+    if (ch = strrchr(tagName, ' ')) {
+        *ch = 0;
+        ch++;
+        startIndex = atoi(ch);
+    }
 */
 	model = R_GetModelByHandle( handle );
 	if ( !model->md3[0] && !model->mdc[0] && !model->mds ) {
@@ -1623,35 +1623,35 @@ void R_TagInfo_f( void ) {
 	Com_Printf( "command not functional\n" );
 
 /*
-	int handle;
-	orientation_t tag;
-	int frame = -1;
+    int handle;
+    orientation_t tag;
+    int frame = -1;
 
-	if (ri.Cmd_Argc() < 3) {
-		Com_Printf("usage: taginfo <model> <tag>\n");
-		return;
-	}
+    if (ri.Cmd_Argc() < 3) {
+        Com_Printf("usage: taginfo <model> <tag>\n");
+        return;
+    }
 
-	handle = RE_RegisterModel( ri.Cmd_Argv(1) );
+    handle = RE_RegisterModel( ri.Cmd_Argv(1) );
 
-	if (handle) {
-		Com_Printf("found model %s..\n", ri.Cmd_Argv(1));
-	} else {
-		Com_Printf("cannot find model %s\n", ri.Cmd_Argv(1));
-		return;
-	}
+    if (handle) {
+        Com_Printf("found model %s..\n", ri.Cmd_Argv(1));
+    } else {
+        Com_Printf("cannot find model %s\n", ri.Cmd_Argv(1));
+        return;
+    }
 
-	if (ri.Cmd_Argc() < 3) {
-		frame = 0;
-	} else {
-		frame = atoi(ri.Cmd_Argv(3));
-	}
+    if (ri.Cmd_Argc() < 3) {
+        frame = 0;
+    } else {
+        frame = atoi(ri.Cmd_Argv(3));
+    }
 
-	Com_Printf("using frame %i..\n", frame);
+    Com_Printf("using frame %i..\n", frame);
 
-	R_LerpTag( &tag, handle, frame, frame, 0.0, (const char *)ri.Cmd_Argv(2) );
+    R_LerpTag( &tag, handle, frame, frame, 0.0, (const char *)ri.Cmd_Argv(2) );
 
-	Com_Printf("%s at position: %.1f %.1f %.1f\n", ri.Cmd_Argv(2), tag.origin[0], tag.origin[1], tag.origin[2] );
+    Com_Printf("%s at position: %.1f %.1f %.1f\n", ri.Cmd_Argv(2), tag.origin[0], tag.origin[1], tag.origin[2] );
 */
 }
 

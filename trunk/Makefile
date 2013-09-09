@@ -102,10 +102,6 @@ ifndef USE_BLOOM
 USE_BLOOM=1
 endif
 
-ifndef USE_SQL
-USE_SQL=0
-endif
-
 ifndef USE_IRC
 USE_IRC=1
 endif
@@ -139,10 +135,8 @@ BR=$(BUILD_DIR)/release-$(PLATFORM)-$(ARCH)
 CDIR=$(MOUNT_DIR)/client
 SDIR=$(MOUNT_DIR)/server
 RDIR=$(MOUNT_DIR)/renderer
-DBDIR=$(MOUNT_DIR)/database
 CMDIR=$(MOUNT_DIR)/qcommon
 SDLDIR=$(MOUNT_DIR)/sdl
-MYSQLDIR=$(MOUNT_DIR)/mysql
 SYSDIR=$(MOUNT_DIR)/sys
 GDIR=$(MOUNT_DIR)/game
 CGDIR=$(MOUNT_DIR)/cgame
@@ -272,17 +266,11 @@ ifeq ($(PLATFORM),linux)
   THREAD_LIBS=-lpthread
   LIBS=-ldl -lm -lsupc++ -lpthread -Wl,-Bstatic $(SDL_LIBS) -Wl,-Bdynamic
 
-  CLIENT_LIBS=$(SDL_LIBS) -Lsrc/libs/linux/ -Wl,-Bstatic -lcurl -Wl,-Bdynamic -lGL
-
-  ifeq ($(USE_SQL),1)
-	LIBS += -lmysqlclient
-  endif
+  #CLIENT_LIBS=$(SDL_LIBS) -Lsrc/libs/linux/ -Wl,-Bstatic -lcurl -Wl,-Bdynamic -lGL
+  CLIENT_LIBS=-Lsrc/libs/linux/ -Wl,-Bstatic -lSDL -lXext -lX11 -lxcb -lXau -lXdmcp -lcurl -lcaca -Wl,-Bdynamic -lGL -lasound -lpulse -lpulse-simple -lslang -lz -lncursesw
 
   ifeq ($(USE_LOCAL_HEADERS),1)
     CLIENT_CFLAGS += -I$(SDLHDIR)/include
-	ifeq ($(USE_SQL),1)
-		SERVER_CFLAGS += -I$(MYSQLDIR)/include
-	endif
   endif
 
   ifeq ($(ARCH),i386)
@@ -328,16 +316,8 @@ ifeq ($(PLATFORM),darwin)
   BASE_CFLAGS += -fno-strict-aliasing -DMACOS_X -fno-common -pipe
   BASE_CFLAGS += -D_THREAD_SAFE=1
 
-  ifeq ($(USE_SQL),1)
-	LIBS += -lmysqlclient
-  endif
-
   ifeq ($(USE_LOCAL_HEADERS),1)
     BASE_CFLAGS += -I$(SDLHDIR)/include
-
-	ifeq ($(USE_SQL),1)
-		SERVER_CFLAGS += -I$(MYSQLDIR)/include
-	endif
   endif
 
   # We copy sdlmain before ranlib'ing it so that subversion doesn't think
@@ -493,10 +473,6 @@ endif
 
 ifeq ($(USE_BLOOM),1)
   CLIENT_CFLAGS += -DUSE_BLOOM
-endif
-
-ifeq ($(USE_SQL),1)
-  SERVER_CFLAGS += -DSQL
 endif
 
 ifeq ($(USE_IRC),1)
@@ -870,12 +846,6 @@ ifeq ($(USE_BLOOM),1)
     $(B)/client/tr_bloom.o
 endif
 
-ifeq ($(USE_SQL),1)
-  WOLFOBJ += \
-    $(B)/client/db_main.o \
-    $(B)/client/db_mysql.o
-endif
-
 ifeq ($(USE_IRC),1)
   WOLFOBJ += \
     $(B)/client/cl_irc.o
@@ -1016,12 +986,6 @@ else
   WOLFDOBJ += \
     $(B)/ded/sys_unix.o \
     $(B)/ded/con_tty.o
-endif
-
-ifeq ($(USE_SQL),1)
-  WOLFDOBJ += \
-    $(B)/ded/db_main.o \
-    $(B)/ded/db_mysql.o
 endif
 
 ifeq ($(PLATFORM),darwin)
@@ -1197,9 +1161,6 @@ $(B)/client/%.o: $(ZDIR)/%.c
 $(B)/client/%.o: $(RDIR)/%.c
 	$(DO_CC)
 
-$(B)/client/%.o: $(DBDIR)/%.c
-	$(DO_CC)
-
 $(B)/client/%.o: $(SDLDIR)/%.c
 	$(DO_CC)
 
@@ -1231,9 +1192,6 @@ $(B)/ded/%.o: $(BLIBDIR)/%.c
 	$(DO_BOT_CC)
 
 $(B)/ded/%.o: $(ZDIR)/%.c
-	$(DO_DED_CC)
-
-$(B)/ded/%.o: $(DBDIR)/%.c
 	$(DO_DED_CC)
 
 $(B)/ded/%.o: $(SYSDIR)/%.c

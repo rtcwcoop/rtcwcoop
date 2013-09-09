@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,12 +42,12 @@ If you have questions concerning this license or the applicable additional terms
 #define RF_NOSHADOW         64      // don't add stencil shadows
 
 #define RF_LIGHTING_ORIGIN  128     // use refEntity->lightingOrigin instead of refEntity->origin
-									// for lighting.  This allows entities to sink into the floor
-									// with their origin going solid, and allows all parts of a
-									// player to get the same lighting
+                                    // for lighting.  This allows entities to sink into the floor
+                                    // with their origin going solid, and allows all parts of a
+                                    // player to get the same lighting
 #define RF_SHADOW_PLANE     256     // use refEntity->shadowPlane
 #define RF_WRAP_FRAMES      512     // mod the model frames by the maxframes to allow continuous
-									// animation without needing to know the frame count
+                                    // animation without needing to know the frame count
 
 #define RF_HILIGHT          ( 1 << 8 )  // more than RF_MINLIGHT.  For when an object is "Highlighted" (looked at/training identification/etc)
 #define RF_BLINK            ( 1 << 9 )  // eyes in 'blink' state
@@ -251,19 +251,19 @@ typedef enum {
 ** subsystem is initialized.
 */
 typedef enum {
-        TC_NONE,
-        TC_S3TC,
-        TC_EXT_COMP_S3TC,
-        TC_S3TC_ARB  // this is for the GL_EXT_texture_compression_s3tc extension
+	TC_NONE,
+	TC_S3TC,
+	TC_EXT_COMP_S3TC,
+	TC_S3TC_ARB      // this is for the GL_EXT_texture_compression_s3tc extension
 } textureCompression_t;
 
 
 typedef enum {
 	GLDRV_ICD,                  // driver is integrated with window system
-								// WARNING: there are tests that check for
-								// > GLDRV_ICD for minidriverness, so this
-								// should always be the lowest value in this
-								// enum set
+	                            // WARNING: there are tests that check for
+	                            // > GLDRV_ICD for minidriverness, so this
+	                            // should always be the lowest value in this
+	                            // enum set
 	GLDRV_STANDALONE,           // driver is a non-3Dfx standalone driver
 	GLDRV_VOODOO                // driver is a 3Dfx standalone driver
 } glDriverType_t;
@@ -271,8 +271,8 @@ typedef enum {
 typedef enum {
 	GLHW_GENERIC,           // where everthing works the way it should
 	GLHW_3DFX_2D3D,         // Voodoo Banshee or Voodoo3, relevant since if this is
-							// the hardware type then there can NOT exist a secondary
-							// display adapter
+	                        // the hardware type then there can NOT exist a secondary
+	                        // display adapter
 	GLHW_RIVA128,           // where you can't interpolate alpha
 	GLHW_RAGEPRO,           // where you can't modulate alpha on alpha textures
 	GLHW_PERMEDIA2          // where you don't have src*dst
@@ -285,7 +285,7 @@ typedef struct {
 	char extensions_string[4 * MAX_STRING_CHARS];                       // this is actually too short for many current cards/drivers  // (SA) doubled from 2x to 4x MAX_STRING_CHARS
 
 	int maxTextureSize;                             // queried from GL
-        int numTextureUnits;                // multitexture ability     
+	int numTextureUnits;                    // multitexture ability
 	int maxActiveTextures;                          // multitexture ability
 
 	int colorBits, depthBits, stencilBits;

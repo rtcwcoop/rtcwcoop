@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -330,10 +330,10 @@ static snapshot_t *CG_ReadNextSnapshot( void ) {
 	qboolean r;
 	snapshot_t  *dest;
 
-        if ( cg.latestSnapshotNum > cgs.processedSnapshotNum + 1000 ) { 
-                CG_Printf( "[skipnotify]WARNING: CG_ReadNextSnapshot: way out of range, %i > %i\n",
-                                   cg.latestSnapshotNum, cgs.processedSnapshotNum );
-        }
+	if ( cg.latestSnapshotNum > cgs.processedSnapshotNum + 1000 ) {
+		CG_Printf( "[skipnotify]WARNING: CG_ReadNextSnapshot: way out of range, %i > %i\n",
+				   cg.latestSnapshotNum, cgs.processedSnapshotNum );
+	}
 
 	while ( cgs.processedSnapshotNum < cg.latestSnapshotNum ) {
 		// decide which of the two slots to load it into

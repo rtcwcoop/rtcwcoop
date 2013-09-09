@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -398,7 +398,7 @@ void SCR_DrawDebugGraph( void ) {
 	for ( a = 0 ; a < w ; a++ )
 	{
 		i = ( current - 1 - a + 1024 ) & 1023;
-		v = values[i].value;	
+		v = values[i].value;
 		v = v * cl_graphscale->integer + cl_graphshift->integer;
 
 		if ( v < 0 ) {
@@ -437,15 +437,15 @@ This will be called twice if rendering in stereo mode
 ==================
 */
 void SCR_DrawScreenField( stereoFrame_t stereoFrame ) {
-        qboolean uiFullscreen;
+	qboolean uiFullscreen;
 
 	re.BeginFrame( stereoFrame );
 
-        uiFullscreen = (uivm && VM_Call( uivm, UI_IS_FULLSCREEN ));
+	uiFullscreen = ( uivm && VM_Call( uivm, UI_IS_FULLSCREEN ) );
 
 	// wide aspect ratio screens need to have the sides cleared
 	// unless they are displaying game renderings
-        if ( uiFullscreen || (cls.state != CA_ACTIVE && cls.state != CA_CINEMATIC) ) {
+	if ( uiFullscreen || ( cls.state != CA_ACTIVE && cls.state != CA_CINEMATIC ) ) {
 		if ( cls.glconfig.vidWidth * 480 > cls.glconfig.vidHeight * 640 ) {
 			re.SetColor( g_color_table[0] );
 			re.DrawStretchPic( 0, 0, cls.glconfig.vidWidth, cls.glconfig.vidHeight, 0, 0, 0, 0, cls.whiteShader );

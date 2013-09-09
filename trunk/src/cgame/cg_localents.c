@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ If you have questions concerning this license or the applicable additional terms
 // Ridah, increased this
 //#define	MAX_LOCAL_ENTITIES	512
 #define MAX_LOCAL_ENTITIES  768     // renderer can only handle 1024 entities max, so we should avoid
-									// overwriting game entities
+                                    // overwriting game entities
 // done.
 
 localEntity_t cg_localEntities[MAX_LOCAL_ENTITIES];
@@ -762,13 +762,13 @@ void CG_AddSparkElements( localEntity_t *le ) {
 		// moved some distance
 		VectorCopy( trace.endpos, le->refEntity.origin );
 /*
-		} else
-		{	// just move it there
+        } else
+        {	// just move it there
 
-			VectorCopy( newOrigin, le->refEntity.origin );
-			trace.fraction = 1.0;
+            VectorCopy( newOrigin, le->refEntity.origin );
+            trace.fraction = 1.0;
 
-		}
+        }
 */
 		time += cg.frametime * trace.fraction;
 
@@ -798,10 +798,10 @@ void CG_AddSparkElements( localEntity_t *le ) {
 			CG_FreeLocalEntity( le );
 			return;
 /*
-			// reflect the velocity on the trace plane
-			CG_ReflectVelocity( le, &trace );
-			// the intersection is a fraction of the frametime
-			le->pos.trTime = (int)time;
+            // reflect the velocity on the trace plane
+            CG_ReflectVelocity( le, &trace );
+            // the intersection is a fraction of the frametime
+            le->pos.trTime = (int)time;
 */
 		}
 
@@ -925,9 +925,9 @@ void CG_AddSpiritViewflash( localEntity_t *le ) {
 
 	if ( cg.time < le->startTime + SPIRIT_FLASH_FADEIN ) {
 		alpha = (float)( cg.time - le->startTime ) / (float)SPIRIT_FLASH_FADEIN;
-	} else if ( cg.time < le->startTime + SPIRIT_FLASH_FADEIN + SPIRIT_FLASH_DURATION )     {
+	} else if ( cg.time < le->startTime + SPIRIT_FLASH_FADEIN + SPIRIT_FLASH_DURATION ) {
 		alpha = 1.0;
-	} else if ( cg.time < le->startTime + SPIRIT_FLASH_FADEIN + SPIRIT_FLASH_DURATION + SPIRIT_FLASH_FADEOUT )     {
+	} else if ( cg.time < le->startTime + SPIRIT_FLASH_FADEIN + SPIRIT_FLASH_DURATION + SPIRIT_FLASH_FADEOUT ) {
 		alpha = 1.0 - (float)( cg.time - ( le->startTime + SPIRIT_FLASH_FADEIN + SPIRIT_FLASH_DURATION ) ) / (float)SPIRIT_FLASH_FADEOUT;
 	} else {
 		return;
@@ -1174,7 +1174,7 @@ void CG_AddClientCritter( localEntity_t *le ) {
 			if ( fabs( ang[ROLL] ) > 80 ) {
 				if ( ang[ROLL] > 80 ) {
 					ang[ROLL] = 80;
-				} else { ang[ROLL] = -80;}
+				} else { ang[ROLL] = -80; }
 			}
 			AnglesToAxis( ang, le->refEntity.axis );
 		}
@@ -1208,29 +1208,29 @@ void CG_AddClientCritter( localEntity_t *le ) {
 		}
 	}
 /*
-	if (le->leType == LE_HELGA_SPIRIT) {
-		int cnt=1;
-		float alpha;
-		refEntity_t re;
+    if (le->leType == LE_HELGA_SPIRIT) {
+        int cnt=1;
+        float alpha;
+        refEntity_t re;
 
-		// add the "motion blur" ghosts
-		re = le->refEntity;
-		i = le->oldPosHead - 1;
-		if (i < 0) i = MAX_OLD_POS-1;
-		while (i != le->oldPosHead && le->validOldPos[i]) {
-			alpha = 1.0 - ((float)cnt / (float)MAX_OLD_POS);
-			if (alpha > 1.0) alpha = 1.0;
-			if (alpha < 0.0) alpha = 0.0;
+        // add the "motion blur" ghosts
+        re = le->refEntity;
+        i = le->oldPosHead - 1;
+        if (i < 0) i = MAX_OLD_POS-1;
+        while (i != le->oldPosHead && le->validOldPos[i]) {
+            alpha = 1.0 - ((float)cnt / (float)MAX_OLD_POS);
+            if (alpha > 1.0) alpha = 1.0;
+            if (alpha < 0.0) alpha = 0.0;
 
-			re.shaderTime = le->refEntity.shaderTime - cnt*100;
-			VectorCopy( le->oldPos[i], re.origin );
-			re.shaderRGBA[3] = (unsigned char)(255.0 * alpha);
-			trap_R_AddRefEntityToScene( &re );
+            re.shaderTime = le->refEntity.shaderTime - cnt*100;
+            VectorCopy( le->oldPos[i], re.origin );
+            re.shaderRGBA[3] = (unsigned char)(255.0 * alpha);
+            trap_R_AddRefEntityToScene( &re );
 
-			if (--i<0) i=MAX_OLD_POS-1;
-			cnt++;
-		}
-	} else {
+            if (--i<0) i=MAX_OLD_POS-1;
+            cnt++;
+        }
+    } else {
 */  trap_R_AddRefEntityToScene( &le->refEntity );
 //	}
 
@@ -1653,9 +1653,9 @@ static void CG_AddSpriteExplosion( localEntity_t *le ) {
 		/*
 		light = (float)( cg.time - le->startTime ) / ( le->endTime - le->startTime );
 		if ( light < 0.5 ) {
-			light = 1.0;
+		    light = 1.0;
 		} else {
-			light = 1.0 - ( light - 0.5 ) * 2;
+		    light = 1.0 - ( light - 0.5 ) * 2;
 		}
 		light = le->light * light;
 		trap_R_AddLightToScene(re.origin, light, le->lightColor[0], le->lightColor[1], le->lightColor[2], 0 );
@@ -1701,7 +1701,7 @@ void CG_AddLocalEntities( void ) {
 			CG_Error( "Bad leType: %i", le->leType );
 			break;
 
-			// Ridah
+		// Ridah
 		case LE_MOVING_TRACER:
 			CG_AddMovingTracer( le );
 			break;
@@ -1724,7 +1724,7 @@ void CG_AddLocalEntities( void ) {
 			break;
 		case LE_SPIRIT_VIEWFLASH:
 			CG_AddSpiritViewflash( le );
-			// done.
+		// done.
 
 		case LE_MARK:
 			break;
@@ -1764,4 +1764,3 @@ void CG_AddLocalEntities( void ) {
 		}
 	}
 }
-

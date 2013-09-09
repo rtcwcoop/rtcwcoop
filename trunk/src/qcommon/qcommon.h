@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ typedef struct {
 	byte    *data;
 	int maxsize;
 	int cursize;
-	int uncompsize;		    // fretn from mp - net debugging
+	int uncompsize;         // fretn from mp - net debugging
 	int readcount;
 	int bit;                    // for bitwise reads and writes
 } msg_t;
@@ -128,7 +128,7 @@ NET
 */
 
 #define PACKET_BACKUP   32  // number of old messages that must be kept on client and
-							// server for delta comrpession and ping estimation
+                            // server for delta comrpession and ping estimation
 #define PACKET_MASK     ( PACKET_BACKUP - 1 )
 
 #define MAX_PACKET_USERCMDS     32      // max number of usercmd_t in a packet
@@ -150,56 +150,56 @@ NET
 
 /*
 typedef enum {
+    NA_BOT,
+    NA_BAD,                 // an address lookup failed
+    NA_LOOPBACK,
+    NA_BROADCAST,
+    NA_IP,
+    NA_IPX,
+    NA_BROADCAST_IPX
+} netadrtype_t;
+
+typedef enum {
+    NS_CLIENT,
+    NS_SERVER
+} netsrc_t;
+
+typedef struct {
+    netadrtype_t type;
+
+    byte ip[4];
+    byte ipx[10];
+
+    unsigned short port;
+} netadr_t;
+*/
+typedef enum {
+	NA_BAD = 0,                                         // an address lookup failed
 	NA_BOT,
-	NA_BAD,                 // an address lookup failed
 	NA_LOOPBACK,
 	NA_BROADCAST,
 	NA_IP,
-	NA_IPX,
-	NA_BROADCAST_IPX
+	NA_IP6,
+	NA_MULTICAST6,
+	NA_UNSPEC
 } netadrtype_t;
+
 
 typedef enum {
 	NS_CLIENT,
 	NS_SERVER
 } netsrc_t;
 
+#define NET_ADDRSTRMAXLEN 48    // maximum length of an IPv6 address string including trailing '\0'
 typedef struct {
 	netadrtype_t type;
 
 	byte ip[4];
-	byte ipx[10];
+	byte ipx[6];
+	byte ip6[16];
 
 	unsigned short port;
-} netadr_t;
-*/
-typedef enum {
-        NA_BAD = 0,                                     // an address lookup failed
-        NA_BOT,
-        NA_LOOPBACK,
-        NA_BROADCAST,
-        NA_IP,
-        NA_IP6,
-        NA_MULTICAST6,
-        NA_UNSPEC
-} netadrtype_t;
-
-
-typedef enum {
-        NS_CLIENT,
-        NS_SERVER
-} netsrc_t;
-
-#define NET_ADDRSTRMAXLEN 48    // maximum length of an IPv6 address string including trailing '\0'
-typedef struct {
-        netadrtype_t    type;
-
-        byte    ip[4];
-        byte    ipx[6];
-        byte    ip6[16];
-
-        unsigned short  port;
-        unsigned long   scope_id;       // Needed for IPv6 link-local addresses
+	unsigned long scope_id;             // Needed for IPv6 link-local addresses
 } netadr_t;
 
 
@@ -295,7 +295,7 @@ The server you attempted to join is running an incompatible version of the game.
 You or the server may be running older versions of the game. Press the auto-update\
  button if it appears on the Main Menu screen."
 
-#define PROTOCOL_VERSION   10 
+#define PROTOCOL_VERSION   10
 #define GAMENAME_STRING "wolfcoop"
 
 //----(SA)	heh, whoops.  we've been talking to id servers since we got a connection...
@@ -334,8 +334,8 @@ You or the server may be running older versions of the game. Press the auto-upda
 #define PORT_AUTHORIZE      27952
 #define PORT_SERVER         27960
 #define NUM_SERVER_PORTS    4       // broadcast scan this many ports after
-									// PORT_SERVER so a single machine can
-									// run multiple servers
+                                    // PORT_SERVER so a single machine can
+                                    // run multiple servers
 
 
 // the svc_strings[] array in cl_parse.c should mirror this
@@ -532,7 +532,7 @@ void    Cvar_Register( vmCvar_t *vmCvar, const char *varName, const char *defaul
 // basically a slightly modified Cvar_Get for the interpreted modules
 
 // fretn - from ioq3
-int Cvar_Flags(const char *var_name);
+int Cvar_Flags( const char *var_name );
 // returns CVAR_NONEXISTENT if cvar doesn't exist or the flags of that particular CVAR
 void Cvar_SetSafe( const char *var_name, const char *value );
 
@@ -744,7 +744,7 @@ void FS_PureServerSetLoadedPaks( const char *pakSums, const char *pakNames );
 // sole exception of .cfg files.
 
 qboolean FS_idPak( char *pak, char *base );
-qboolean FS_CheckDirTraversal(const char *checkdir);
+qboolean FS_CheckDirTraversal( const char *checkdir );
 qboolean FS_ComparePaks( char *neededpaks, int len, qboolean dlstring );
 
 void FS_Rename( const char *from, const char *to );
@@ -808,16 +808,16 @@ MISC
 
 // fretn - from ioq3
 // returned by Sys_GetProcessorFeatures
-typedef enum 
+typedef enum
 {
-  CF_RDTSC      = 1 << 0,
-  CF_MMX        = 1 << 1,
-  CF_MMX_EXT    = 1 << 2,
-  CF_3DNOW      = 1 << 3,
-  CF_3DNOW_EXT  = 1 << 4,
-  CF_SSE        = 1 << 5,
-  CF_SSE2       = 1 << 6,
-  CF_ALTIVEC    = 1 << 7 
+	CF_RDTSC      = 1 << 0,
+	CF_MMX        = 1 << 1,
+	CF_MMX_EXT    = 1 << 2,
+	CF_3DNOW      = 1 << 3,
+	CF_3DNOW_EXT  = 1 << 4,
+	CF_SSE        = 1 << 5,
+	CF_SSE2       = 1 << 6,
+	CF_ALTIVEC    = 1 << 7
 } cpuFeatures_t;
 
 
@@ -1065,22 +1065,22 @@ typedef struct {
 sysEvent_t  Sys_GetEvent( void );
 
 // fretn
-typedef enum 
+typedef enum
 {
-        DR_YES = 0, 
-        DR_NO = 1, 
-        DR_OK = 0, 
-        DR_CANCEL = 1
+	DR_YES = 0,
+	DR_NO = 1,
+	DR_OK = 0,
+	DR_CANCEL = 1
 } dialogResult_t;
 
 // fretn
-typedef enum 
+typedef enum
 {
-        DT_INFO,
-        DT_WARNING,
-        DT_ERROR,
-        DT_YES_NO,
-        DT_OK_CANCEL
+	DT_INFO,
+	DT_WARNING,
+	DT_ERROR,
+	DT_YES_NO,
+	DT_OK_CANCEL
 } dialogType_t;
 
 dialogResult_t Sys_Dialog( dialogType_t type, const char *message, const char *title );
@@ -1234,45 +1234,45 @@ extern huffman_t clientHuffTables;
 
 #if defined( _WIN32 )
 
-        // qagamex86.dll
-        #define SYS_DLLNAME_QAGAME_SHIFT 3
-        #define SYS_DLLNAME_QAGAME "tdjdph{;91go"
+// qagamex86.dll
+		#define SYS_DLLNAME_QAGAME_SHIFT 3
+		#define SYS_DLLNAME_QAGAME "tdjdph{;91go"
 
-        // cgamex86.dll
-        #define SYS_DLLNAME_CGAME_SHIFT 2
-        #define SYS_DLLNAME_CGAME "eicogz:80fnn"
+// cgamex86.dll
+		#define SYS_DLLNAME_CGAME_SHIFT 2
+		#define SYS_DLLNAME_CGAME "eicogz:80fnn"
 
-        // uix86.dll
-        #define SYS_DLLNAME_UI_SHIFT 5
-        #define SYS_DLLNAME_UI "zn}=;3iqq"
+// uix86.dll
+		#define SYS_DLLNAME_UI_SHIFT 5
+		#define SYS_DLLNAME_UI "zn}=;3iqq"
 
 #elif defined( __linux__ )
 
-        // qagamei386.so
-        #define SYS_DLLNAME_QAGAME_SHIFT 3 
-        #define SYS_DLLNAME_QAGAME "tdjdphl6;91vr"
+// qagamei386.so
+		#define SYS_DLLNAME_QAGAME_SHIFT 3
+		#define SYS_DLLNAME_QAGAME "tdjdphl6;91vr"
 
-        // cgamei386.so
-        #define SYS_DLLNAME_CGAME_SHIFT 2
-        #define SYS_DLLNAME_CGAME "eicogk5:80uq"
+// cgamei386.so
+		#define SYS_DLLNAME_CGAME_SHIFT 2
+		#define SYS_DLLNAME_CGAME "eicogk5:80uq"
 
-        // uii386.so
-        #define SYS_DLLNAME_UI_SHIFT 5
-        #define SYS_DLLNAME_UI "znn8=;3xt"
+// uii386.so
+		#define SYS_DLLNAME_UI_SHIFT 5
+		#define SYS_DLLNAME_UI "znn8=;3xt"
 
 #elif defined( MACOS_X )
 
-        // qagamei386.dylib
-        #define SYS_DLLNAME_QAGAME_SHIFT 3
-        #define SYS_DLLNAME_QAGAME "tdjdphl6;91g|ole"
+// qagamei386.dylib
+		#define SYS_DLLNAME_QAGAME_SHIFT 3
+		#define SYS_DLLNAME_QAGAME "tdjdphl6;91g|ole"
 
-        // cgamei386.dylib
-        #define SYS_DLLNAME_CGAME_SHIFT 2 
-        #define SYS_DLLNAME_CGAME "eicogk5:80f{nkd"
+// cgamei386.dylib
+		#define SYS_DLLNAME_CGAME_SHIFT 2
+		#define SYS_DLLNAME_CGAME "eicogk5:80f{nkd"
 
-        // uii386.dylib
-        #define SYS_DLLNAME_UI_SHIFT 5  
-        #define SYS_DLLNAME_UI "znn8=;3i~qng"
+// uii386.dylib
+		#define SYS_DLLNAME_UI_SHIFT 5
+		#define SYS_DLLNAME_UI "znn8=;3i~qng"
 
 #else
 #error unknown OS
@@ -1304,4 +1304,3 @@ void Sys_DestroyMutex( mutex_t *mutex );
 #endif
 
 #endif // _QCOMMON_H_
-

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -278,52 +278,52 @@ static void CG_Fade_f( void ) {
 }
 
 static void CG_PlayerStart_f( void ) {
-        trap_SendClientCommand( "playerstart" );
+	trap_SendClientCommand( "playerstart" );
 	trap_Cvar_Set( "cg_norender", "0" );
 }
 
-static void CG_VoiceChat_f( void ) { 
-        char chatCmd[64];
+static void CG_VoiceChat_f( void ) {
+	char chatCmd[64];
 
-        if ( cgs.gametype == GT_SINGLE_PLAYER || trap_Argc() != 2 ) { 
-                return;
-        }   
+	if ( cgs.gametype == GT_SINGLE_PLAYER || trap_Argc() != 2 ) {
+		return;
+	}
 
-        // NERVE - SMF - don't let spectators voice chat
-        // NOTE - This cg.snap will be the person you are following, but its just for intermission test
-        if ( cg.snap && ( cg.snap->ps.pm_type != PM_INTERMISSION ) ) { 
-                //if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE ) {
-                if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) { 
-                        CG_Printf( "Can't voice chat as a spectator.\n" );
-                        return;
-                }   
-        }   
+	// NERVE - SMF - don't let spectators voice chat
+	// NOTE - This cg.snap will be the person you are following, but its just for intermission test
+	if ( cg.snap && ( cg.snap->ps.pm_type != PM_INTERMISSION ) ) {
+		//if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE ) {
+		if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) {
+			CG_Printf( "Can't voice chat as a spectator.\n" );
+			return;
+		}
+	}
 
-        trap_Argv( 1, chatCmd, 64 );
+	trap_Argv( 1, chatCmd, 64 );
 
-        trap_SendConsoleCommand( va( "cmd vsay %s\n", chatCmd ) );
+	trap_SendConsoleCommand( va( "cmd vsay %s\n", chatCmd ) );
 }
 
-static void CG_TeamVoiceChat_f( void ) { 
-        char chatCmd[64];
+static void CG_TeamVoiceChat_f( void ) {
+	char chatCmd[64];
 
-        if ( cgs.gametype == GT_SINGLE_PLAYER || trap_Argc() != 2 ) { 
-                return;
-        }   
+	if ( cgs.gametype == GT_SINGLE_PLAYER || trap_Argc() != 2 ) {
+		return;
+	}
 
-        // NERVE - SMF - don't let spectators voice chat
-        // NOTE - This cg.snap will be the person you are following, but its just for intermission test
-        if ( cg.snap && ( cg.snap->ps.pm_type != PM_INTERMISSION ) ) { 
-                //if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE ) {
-                if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) { 
-                        CG_Printf( "Can't team voice chat as a spectator.\n" );
-                        return;
-                }   
-        }   
+	// NERVE - SMF - don't let spectators voice chat
+	// NOTE - This cg.snap will be the person you are following, but its just for intermission test
+	if ( cg.snap && ( cg.snap->ps.pm_type != PM_INTERMISSION ) ) {
+		//if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE ) {
+		if ( cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) {
+			CG_Printf( "Can't team voice chat as a spectator.\n" );
+			return;
+		}
+	}
 
-        trap_Argv( 1, chatCmd, 64 );
+	trap_Argv( 1, chatCmd, 64 );
 
-        trap_SendConsoleCommand( va( "cmd vsay_team %s\n", chatCmd ) );
+	trap_SendConsoleCommand( va( "cmd vsay_team %s\n", chatCmd ) );
 }
 
 #ifdef MONEY
@@ -331,11 +331,11 @@ static void CG_QuickBuy_f( void ) {
 	if ( cgs.gametype != GT_COOP_BATTLE ) {
 		return;
 	}
-        if ( cg_quickMessageAlt.integer ) { 
-                trap_UI_Popup( "UIMENU_WM_QUICKBUYALT" );
-        } else {
-                trap_UI_Popup( "UIMENU_WM_QUICKBUY" );
-        } 
+	if ( cg_quickMessageAlt.integer ) {
+		trap_UI_Popup( "UIMENU_WM_QUICKBUYALT" );
+	} else {
+		trap_UI_Popup( "UIMENU_WM_QUICKBUY" );
+	}
 }
 #endif
 
@@ -343,11 +343,11 @@ static void CG_QuickMessage_f( void ) {
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;
 	}
-        if ( cg_quickMessageAlt.integer ) { 
-                trap_UI_Popup( "UIMENU_WM_QUICKMESSAGEALT" );
-        } else {
-                trap_UI_Popup( "UIMENU_WM_QUICKMESSAGE" );
-        } 
+	if ( cg_quickMessageAlt.integer ) {
+		trap_UI_Popup( "UIMENU_WM_QUICKMESSAGEALT" );
+	} else {
+		trap_UI_Popup( "UIMENU_WM_QUICKMESSAGE" );
+	}
 }
 
 static void CG_OpenLimbo_f( void ) {
@@ -387,111 +387,111 @@ CG_DumpCastAi_f
 Dump a ai_zombie definition to the ents file
 ===================
 */
-static void CG_DumpCastAi_f( void ) { 
-        char aicastfilename[MAX_QPATH];
-        char ainame[MAX_STRING_CHARS];
-        char aitype[MAX_STRING_CHARS];
-        char *aiautoname;
-        char *extptr, *buffptr;
-        char buff[1024];
-        fileHandle_t f;
-        int autonumber = 0;
+static void CG_DumpCastAi_f( void ) {
+	char aicastfilename[MAX_QPATH];
+	char ainame[MAX_STRING_CHARS];
+	char aitype[MAX_STRING_CHARS];
+	char *aiautoname;
+	char *extptr, *buffptr;
+	char buff[1024];
+	fileHandle_t f;
+	int autonumber = 0;
 
 
-        trap_Cvar_VariableStringBuffer( "cg_entityEditCounter", buff, sizeof( buff ) );
-        autonumber = atoi(buff);
+	trap_Cvar_VariableStringBuffer( "cg_entityEditCounter", buff, sizeof( buff ) );
+	autonumber = atoi( buff );
 
-        // Check for argument
-        if ( trap_Argc() < 2 ) { 
-                CG_Printf( "Usage: dumpcastai <type> [name]\n" );
-                return;
-        }   
+	// Check for argument
+	if ( trap_Argc() < 2 ) {
+		CG_Printf( "Usage: dumpcastai <type> [name]\n" );
+		return;
+	}
 	trap_Argv( 1, aitype, sizeof( aitype ) );
 
-        if (strcmp("ai_soldier", aitype) && 
-                strcmp("ai_american", aitype) && 
-                strcmp("ai_zombie", aitype) && 
-                strcmp("ai_warzombie", aitype) && 
-                strcmp("ai_venom", aitype) && 
-                strcmp("ai_loper", aitype) && 
-                strcmp("ai_boss_helga", aitype) && 
-                strcmp("ai_boss_heinrich", aitype) && 
-                strcmp("ai_eliteguard", aitype) && 
-                strcmp("ai_stimsoldier_dual", aitype) && 
-                strcmp("ai_stimsoldier_rocket", aitype) && 
-                strcmp("ai_stimsoldier_tesla", aitype) && 
-                strcmp("ai_supersoldier", aitype) && 
-                strcmp("ai_protosoldier", aitype) && 
-                strcmp("ai_frogman", aitype) && 
-                strcmp("ai_blackguard", aitype) && 
-                strcmp("ai_partisan", aitype) && 
-                strcmp("ai_civilian", aitype) ) {
-                
-                    CG_Printf( "Wrong type\n");
-                    CG_Printf( "Usage: dumpcastai <type> [name]\n" );
-                    return;
-        }
+	if ( strcmp( "ai_soldier", aitype ) &&
+		 strcmp( "ai_american", aitype ) &&
+		 strcmp( "ai_zombie", aitype ) &&
+		 strcmp( "ai_warzombie", aitype ) &&
+		 strcmp( "ai_venom", aitype ) &&
+		 strcmp( "ai_loper", aitype ) &&
+		 strcmp( "ai_boss_helga", aitype ) &&
+		 strcmp( "ai_boss_heinrich", aitype ) &&
+		 strcmp( "ai_eliteguard", aitype ) &&
+		 strcmp( "ai_stimsoldier_dual", aitype ) &&
+		 strcmp( "ai_stimsoldier_rocket", aitype ) &&
+		 strcmp( "ai_stimsoldier_tesla", aitype ) &&
+		 strcmp( "ai_supersoldier", aitype ) &&
+		 strcmp( "ai_protosoldier", aitype ) &&
+		 strcmp( "ai_frogman", aitype ) &&
+		 strcmp( "ai_blackguard", aitype ) &&
+		 strcmp( "ai_partisan", aitype ) &&
+		 strcmp( "ai_civilian", aitype ) ) {
 
-        if ( trap_Argc() == 3)
-	        trap_Argv( 2, ainame, sizeof( ainame ) );
-        else
-        {        
-                aiautoname = va("coop_%s_%d", aitype, autonumber++);
-                Q_strncpyz( ainame, aiautoname, strlen ( aiautoname ) + 1);
-        }
+		CG_Printf( "Wrong type\n" );
+		CG_Printf( "Usage: dumpcastai <type> [name]\n" );
+		return;
+	}
 
-        trap_Cvar_Set( "cg_entityEditCounter", va( "%i",autonumber ) );
+	if ( trap_Argc() == 3 ) {
+		trap_Argv( 2, ainame, sizeof( ainame ) );
+	} else
+	{
+		aiautoname = va( "coop_%s_%d", aitype, autonumber++ );
+		Q_strncpyz( ainame, aiautoname, strlen( aiautoname ) + 1 );
+	}
 
-        // Open aicast file
-        Q_strncpyz( aicastfilename, cgs.mapname, sizeof( aicastfilename ) );
-        extptr = aicastfilename + strlen( aicastfilename ) - 4;
-        if ( extptr < aicastfilename || Q_stricmp( extptr, ".bsp" ) ) { 
-                CG_Printf( "Unable to dump, unknown map name?\n" );
-                return;
-        }   
-        Q_strncpyz( extptr, ".ents", 6 );
-        trap_FS_FOpenFile( aicastfilename, &f, FS_APPEND_SYNC );
-        if ( !f ) { 
-                CG_Printf( "Failed to open '%s' for writing.\n", aicastfilename );
-                return;
-        }   
+	trap_Cvar_Set( "cg_entityEditCounter", va( "%i",autonumber ) );
 
-        // Strip bad characters out
-        for ( buffptr = ainame; *buffptr; buffptr++ )
-        {
-                if ( *buffptr == '\n' ) {
-                        *buffptr = ' ';
-                } else if ( *buffptr == '"' ) {
-                        *buffptr = '\'';
-                }
-        }
-        // Kill any trailing space as well
-        if ( *( buffptr - 1 ) == ' ' ) {
-                *( buffptr - 1 ) = 0;
-        }
+	// Open aicast file
+	Q_strncpyz( aicastfilename, cgs.mapname, sizeof( aicastfilename ) );
+	extptr = aicastfilename + strlen( aicastfilename ) - 4;
+	if ( extptr < aicastfilename || Q_stricmp( extptr, ".bsp" ) ) {
+		CG_Printf( "Unable to dump, unknown map name?\n" );
+		return;
+	}
+	Q_strncpyz( extptr, ".ents", 6 );
+	trap_FS_FOpenFile( aicastfilename, &f, FS_APPEND_SYNC );
+	if ( !f ) {
+		CG_Printf( "Failed to open '%s' for writing.\n", aicastfilename );
+		return;
+	}
 
-        // Strip bad characters out
-        for ( buffptr = aitype; *buffptr; buffptr++ )
-        {
-                if ( *buffptr == '\n' ) {
-                        *buffptr = ' ';
-                } else if ( *buffptr == '"' ) {
-                        *buffptr = '\'';
-                }
-        }
-        // Kill any trailing space as well
-        if ( *( buffptr - 1 ) == ' ' ) {
-                *( buffptr - 1 ) = 0;
-        }
+	// Strip bad characters out
+	for ( buffptr = ainame; *buffptr; buffptr++ )
+	{
+		if ( *buffptr == '\n' ) {
+			*buffptr = ' ';
+		} else if ( *buffptr == '"' ) {
+			*buffptr = '\'';
+		}
+	}
+	// Kill any trailing space as well
+	if ( *( buffptr - 1 ) == ' ' ) {
+		*( buffptr - 1 ) = 0;
+	}
 
-        // Build the entity definition
-        buffptr = va(   "{\n\"classname\" \"%s\"\n\"origin\" \"%i %i %i\"\n\"ainame\" \"%s\"\n\"angle\" \"%i\"\n\"spawnflags\" \"1\"\n}\n", aitype, (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], ainame, (int)cg.refdefViewAngles[YAW] );
+	// Strip bad characters out
+	for ( buffptr = aitype; *buffptr; buffptr++ )
+	{
+		if ( *buffptr == '\n' ) {
+			*buffptr = ' ';
+		} else if ( *buffptr == '"' ) {
+			*buffptr = '\'';
+		}
+	}
+	// Kill any trailing space as well
+	if ( *( buffptr - 1 ) == ' ' ) {
+		*( buffptr - 1 ) = 0;
+	}
 
-        // And write out/acknowledge
-        trap_FS_Write( buffptr, strlen( buffptr ), f );
-        trap_FS_FCloseFile( f );
-        CG_Printf( "%s (%s) entity dumped to '%s' (%i %i %i).\n", aitype, ainame, aicastfilename,
-                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
+	// Build the entity definition
+	buffptr = va(   "{\n\"classname\" \"%s\"\n\"origin\" \"%i %i %i\"\n\"ainame\" \"%s\"\n\"angle\" \"%i\"\n\"spawnflags\" \"1\"\n}\n", aitype, (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], ainame, (int)cg.refdefViewAngles[YAW] );
+
+	// And write out/acknowledge
+	trap_FS_Write( buffptr, strlen( buffptr ), f );
+	trap_FS_FCloseFile( f );
+	CG_Printf( "%s (%s) entity dumped to '%s' (%i %i %i).\n", aitype, ainame, aicastfilename,
+			   (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
 }
 
 /*
@@ -501,56 +501,56 @@ CG_DumpLocation_f
 Dump a target_location definition to a file
 ===================
 */
-static void CG_DumpLocation_f( void ) { 
-        char locfilename[MAX_QPATH];
-        char locname[MAX_STRING_CHARS];
-        char *extptr, *buffptr;
-        fileHandle_t f;
+static void CG_DumpLocation_f( void ) {
+	char locfilename[MAX_QPATH];
+	char locname[MAX_STRING_CHARS];
+	char *extptr, *buffptr;
+	fileHandle_t f;
 
-        // Check for argument
-        if ( trap_Argc() < 2 ) { 
-                CG_Printf( "Usage: dumploc <locationname>\n" );
-                return;
-        }   
-        trap_Args( locname, sizeof( locname ) );
+	// Check for argument
+	if ( trap_Argc() < 2 ) {
+		CG_Printf( "Usage: dumploc <locationname>\n" );
+		return;
+	}
+	trap_Args( locname, sizeof( locname ) );
 
-        // Open locations file
-        Q_strncpyz( locfilename, cgs.mapname, sizeof( locfilename ) );
-        extptr = locfilename + strlen( locfilename ) - 4;
-        if ( extptr < locfilename || Q_stricmp( extptr, ".bsp" ) ) { 
-                CG_Printf( "Unable to dump, unknown map name?\n" );
-                return;
-        }   
-        Q_strncpyz( extptr, ".ents", 6 );
-        trap_FS_FOpenFile( locfilename, &f, FS_APPEND_SYNC );
-        if ( !f ) { 
-                CG_Printf( "Failed to open '%s' for writing.\n", locfilename );
-                return;
-        }   
+	// Open locations file
+	Q_strncpyz( locfilename, cgs.mapname, sizeof( locfilename ) );
+	extptr = locfilename + strlen( locfilename ) - 4;
+	if ( extptr < locfilename || Q_stricmp( extptr, ".bsp" ) ) {
+		CG_Printf( "Unable to dump, unknown map name?\n" );
+		return;
+	}
+	Q_strncpyz( extptr, ".ents", 6 );
+	trap_FS_FOpenFile( locfilename, &f, FS_APPEND_SYNC );
+	if ( !f ) {
+		CG_Printf( "Failed to open '%s' for writing.\n", locfilename );
+		return;
+	}
 
-        // Strip bad characters out
-        for ( buffptr = locname; *buffptr; buffptr++ )
-        {
-                if ( *buffptr == '\n' ) {
-                        *buffptr = ' ';
-                } else if ( *buffptr == '"' ) {
-                        *buffptr = '\'';
-                }
-        }
-        // Kill any trailing space as well
-        if ( *( buffptr - 1 ) == ' ' ) {
-                *( buffptr - 1 ) = 0;
-        }
+	// Strip bad characters out
+	for ( buffptr = locname; *buffptr; buffptr++ )
+	{
+		if ( *buffptr == '\n' ) {
+			*buffptr = ' ';
+		} else if ( *buffptr == '"' ) {
+			*buffptr = '\'';
+		}
+	}
+	// Kill any trailing space as well
+	if ( *( buffptr - 1 ) == ' ' ) {
+		*( buffptr - 1 ) = 0;
+	}
 
-        // Build the entity definition
-        buffptr = va(   "{\n\"classname\" \"target_location\"\n\"origin\" \"%i %i %i\"\n\"message\" \"%s\"\n}\n\n",
-                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], locname );
+	// Build the entity definition
+	buffptr = va(   "{\n\"classname\" \"target_location\"\n\"origin\" \"%i %i %i\"\n\"message\" \"%s\"\n}\n\n",
+					(int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], locname );
 
-        // And write out/acknowledge
-        trap_FS_Write( buffptr, strlen( buffptr ), f );
-        trap_FS_FCloseFile( f );
-        CG_Printf( "Entity dumped to '%s' (%i %i %i).\n", locfilename,
-                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
+	// And write out/acknowledge
+	trap_FS_Write( buffptr, strlen( buffptr ), f );
+	trap_FS_FCloseFile( f );
+	CG_Printf( "Entity dumped to '%s' (%i %i %i).\n", locfilename,
+			   (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
 }
 
 /*
@@ -560,56 +560,57 @@ CG_DumpCoopSpawnpoint_f
 Dump a coop_spawnpoint definition to a file
 ===================
 */
-static void CG_DumpCoopSpawnpoint_f( void ) { 
-        char entsfilename[MAX_QPATH];
-        char *extptr, *buffptr;
-        fileHandle_t f;
-        char buf[64];
-        int flagpolenumber = 0;
+static void CG_DumpCoopSpawnpoint_f( void ) {
+	char entsfilename[MAX_QPATH];
+	char *extptr, *buffptr;
+	fileHandle_t f;
+	char buf[64];
+	int flagpolenumber = 0;
 
-        trap_Cvar_VariableStringBuffer( "__flagpolenumber", buf, sizeof( buf ) );
+	trap_Cvar_VariableStringBuffer( "__flagpolenumber", buf, sizeof( buf ) );
 
-        flagpolenumber = atoi(buf);
+	flagpolenumber = atoi( buf );
 
-        trap_Cvar_VariableStringBuffer( "mapname", buf, sizeof( buf ) );
+	trap_Cvar_VariableStringBuffer( "mapname", buf, sizeof( buf ) );
 
 
 
-        // Open ents file
-        Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
-        extptr = entsfilename + strlen( entsfilename ) - 4;
-        if ( extptr < entsfilename || Q_stricmp( extptr, ".bsp" ) ) { 
-                CG_Printf( "Unable to dump, unknown map name?\n" );
-                return;
-        }   
-        Q_strncpyz( extptr, ".ents", 6 );
-        trap_FS_FOpenFile( entsfilename, &f, FS_APPEND_SYNC );
-        if ( !f ) { 
-                CG_Printf( "Failed to open '%s' for writing.\n", entsfilename );
-                return;
-        }   
+	// Open ents file
+	Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
+	extptr = entsfilename + strlen( entsfilename ) - 4;
+	if ( extptr < entsfilename || Q_stricmp( extptr, ".bsp" ) ) {
+		CG_Printf( "Unable to dump, unknown map name?\n" );
+		return;
+	}
+	Q_strncpyz( extptr, ".ents", 6 );
+	trap_FS_FOpenFile( entsfilename, &f, FS_APPEND_SYNC );
+	if ( !f ) {
+		CG_Printf( "Failed to open '%s' for writing.\n", entsfilename );
+		return;
+	}
 
-        // Build the entity definition
-        if (flagpolenumber-1 >= 0) {
-                buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"0\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"targetname\" \"%s\"\n}\n\n",
-                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW], va("%s%d", buf, flagpolenumber-1));
-        } else {
-                buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"1\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
-                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW]);
-        }
+	// Build the entity definition
+	if ( flagpolenumber - 1 >= 0 ) {
+		buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"0\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"targetname\" \"%s\"\n}\n\n",
+						(int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW], va( "%s%d", buf, flagpolenumber - 1 ) );
+	} else {
+		buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"1\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
+						(int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW] );
+	}
 
-        // And write out/acknowledge
-        trap_FS_Write( buffptr, strlen( buffptr ), f );
-        trap_FS_FCloseFile( f );
-        CG_Printf( "coop_spawnpoint dumped to '%s' (%i %i %i).\n", entsfilename,
-                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
+	// And write out/acknowledge
+	trap_FS_Write( buffptr, strlen( buffptr ), f );
+	trap_FS_FCloseFile( f );
+	CG_Printf( "coop_spawnpoint dumped to '%s' (%i %i %i).\n", entsfilename,
+			   (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] );
 
-        // draw the new spawnpoint
-        DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorBlue, 6);
-        if (flagpolenumber-1 >= 0) 
-                DrawDebugText(cg.snap->ps.origin, va("coop_spawnpoint: \ntargetname: %s%d", buf, flagpolenumber-1), 999999, colorWhite);
-        else
-                DrawDebugText(cg.snap->ps.origin, "coop_spawnpoint", 999999, colorWhite);
+	// draw the new spawnpoint
+	DrawDebugAABB( cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorBlue, 6 );
+	if ( flagpolenumber - 1 >= 0 ) {
+		DrawDebugText( cg.snap->ps.origin, va( "coop_spawnpoint: \ntargetname: %s%d", buf, flagpolenumber - 1 ), 999999, colorWhite );
+	} else {
+		DrawDebugText( cg.snap->ps.origin, "coop_spawnpoint", 999999, colorWhite );
+	}
 }
 
 /*
@@ -620,51 +621,50 @@ Dump a coop_spawnpoint_trigger definition to a file
 ===================
 */
 static void CG_DumpFlagPole_f( void ) {
-        char entsfilename[MAX_QPATH];
-        char *extptr, *buffptr;
-        fileHandle_t f;
-        char buf[64];
-        int flagpolenumber = 0;
+	char entsfilename[MAX_QPATH];
+	char *extptr, *buffptr;
+	fileHandle_t f;
+	char buf[64];
+	int flagpolenumber = 0;
 
-        trap_Cvar_VariableStringBuffer( "__flagpolenumber", buf, sizeof( buf ) );
+	trap_Cvar_VariableStringBuffer( "__flagpolenumber", buf, sizeof( buf ) );
 
-        flagpolenumber = atoi(buf);
+	flagpolenumber = atoi( buf );
 
-        trap_Cvar_VariableStringBuffer( "mapname", buf, sizeof( buf ) );
+	trap_Cvar_VariableStringBuffer( "mapname", buf, sizeof( buf ) );
 
-        // Open ents file
-        Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
-        extptr = entsfilename + strlen( entsfilename ) - 4;
-        if ( extptr < entsfilename || Q_stricmp( extptr, ".bsp" ) ) { 
-                CG_Printf( "Unable to dump, unknown map name?\n" );
-                return;
-        }   
-        Q_strncpyz( extptr, ".ents", 6 );
-        trap_FS_FOpenFile( entsfilename, &f, FS_APPEND_SYNC );
-        if ( !f ) { 
-                CG_Printf( "Failed to open '%s' for writing.\n", entsfilename );
-                return;
-        }   
+	// Open ents file
+	Q_strncpyz( entsfilename, cgs.mapname, sizeof( entsfilename ) );
+	extptr = entsfilename + strlen( entsfilename ) - 4;
+	if ( extptr < entsfilename || Q_stricmp( extptr, ".bsp" ) ) {
+		CG_Printf( "Unable to dump, unknown map name?\n" );
+		return;
+	}
+	Q_strncpyz( extptr, ".ents", 6 );
+	trap_FS_FOpenFile( entsfilename, &f, FS_APPEND_SYNC );
+	if ( !f ) {
+		CG_Printf( "Failed to open '%s' for writing.\n", entsfilename );
+		return;
+	}
 
-        // Build the entity definition
-        buffptr = va(   "{\n\"classname\" \"coop_spawnpoint_trigger\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"model\" \"models/multiplayer/flagpole/flagpole_reinforce.md3\"\n\"target\" \"%s\"\n}\n\n",
-                                        (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2]-60, (int)cg.refdefViewAngles[YAW], va("%s%d", buf, flagpolenumber++));
+	// Build the entity definition
+	buffptr = va(   "{\n\"classname\" \"coop_spawnpoint_trigger\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"model\" \"models/multiplayer/flagpole/flagpole_reinforce.md3\"\n\"target\" \"%s\"\n}\n\n",
+					(int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] - 60, (int)cg.refdefViewAngles[YAW], va( "%s%d", buf, flagpolenumber++ ) );
 
-        // And write out/acknowledge
-        trap_FS_Write( buffptr, strlen( buffptr ), f );
-        trap_FS_FCloseFile( f );
-        CG_Printf( "coop_spawnpoint dumped to '%s' (%i %i %i).\n", entsfilename,
-                           (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2]-60 );
+	// And write out/acknowledge
+	trap_FS_Write( buffptr, strlen( buffptr ), f );
+	trap_FS_FCloseFile( f );
+	CG_Printf( "coop_spawnpoint dumped to '%s' (%i %i %i).\n", entsfilename,
+			   (int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2] - 60 );
 
-        // draw the new spawnpoint
-        DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorGreen, 6); 
-        DrawDebugText(cg.snap->ps.origin, va("coop_spawnpoint_trigger: \ntarget: %s%d", buf, flagpolenumber-1), 999999, colorWhite);
+	// draw the new spawnpoint
+	DrawDebugAABB( cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorGreen, 6 );
+	DrawDebugText( cg.snap->ps.origin, va( "coop_spawnpoint_trigger: \ntarget: %s%d", buf, flagpolenumber - 1 ), 999999, colorWhite );
 
-        trap_Cvar_Set("__flagpolenumber", va("%d", flagpolenumber));
+	trap_Cvar_Set( "__flagpolenumber", va( "%d", flagpolenumber ) );
 }
 
-static void CG_DisableDebugLines_f( void )
-{
+static void CG_DisableDebugLines_f( void ) {
 	OmnibotDisableDrawing();
 	CG_ClearWorldText();
 }
@@ -708,7 +708,7 @@ static consoleCommand_t commands[] = {
 	{ "loaddeferred", CG_LoadDeferredPlayers },  // spelling fixed (SA)
 	{ "camera", CG_Camera_f },   // duffy
 	{ "fade", CG_Fade_f },   // duffy
-        { "playerstart", CG_PlayerStart_f },
+	{ "playerstart", CG_PlayerStart_f },
 
 	// NERVE - SMF
 	{ "mp_QuickMessage", CG_QuickMessage_f },
@@ -716,13 +716,13 @@ static consoleCommand_t commands[] = {
 	{ "OpenLimboMenu", CG_OpenLimbo_f },
 	{ "CloseLimboMenu", CG_CloseLimbo_f },
 	{ "LimboMessage", CG_LimboMessage_f },
-        { "VoiceChat", CG_VoiceChat_f },
-        { "VoiceTeamChat", CG_TeamVoiceChat_f },
+	{ "VoiceChat", CG_VoiceChat_f },
+	{ "VoiceTeamChat", CG_TeamVoiceChat_f },
 	// -NERVE - SMF
-        { "dumploc", CG_DumpLocation_f },
-        { "dumpcastai", CG_DumpCastAi_f },
-        { "dumpcoopspawnpoint", CG_DumpCoopSpawnpoint_f },
-        { "dumpflagpole", CG_DumpFlagPole_f },
+	{ "dumploc", CG_DumpLocation_f },
+	{ "dumpcastai", CG_DumpCastAi_f },
+	{ "dumpcoopspawnpoint", CG_DumpCoopSpawnpoint_f },
+	{ "dumpflagpole", CG_DumpFlagPole_f },
 #ifdef MONEY
 	{ "quickbuy", CG_QuickBuy_f },
 #endif
@@ -779,8 +779,8 @@ void CG_InitConsoleCommands( void ) {
 	trap_AddCommand( "say_team" );
 	trap_AddCommand( "say_limbo" );           // NERVE - SMF
 	trap_AddCommand( "tell" );
-	trap_AddCommand ("vsay");
-	trap_AddCommand ("vsay_team");
+	trap_AddCommand( "vsay" );
+	trap_AddCommand( "vsay_team" );
 //	trap_AddCommand ("vtell");
 //	trap_AddCommand ("vtaunt");
 //	trap_AddCommand ("vosay");
@@ -812,20 +812,20 @@ void CG_InitConsoleCommands( void ) {
 	trap_AddCommand( "nofatigue" );
 	trap_AddCommand( "setspawnpt" );          // NERVE - SMF
 
-    // coop
+	// coop
 	trap_AddCommand( "spawnpoint" );
 	trap_AddCommand( "teleport" );
 
-	// L0 - New stuff	
+	// L0 - New stuff
 	trap_AddCommand( "login" );
 	trap_AddCommand( "@login" );
 	trap_AddCommand( "logout" );
 	trap_AddCommand( "incognito" );
-	trap_AddCommand( "getstatus" );	
+	trap_AddCommand( "getstatus" );
 	// End
 
 #ifdef MONEY
-	trap_AddCommand( "buy" );	
+	trap_AddCommand( "buy" );
 #endif
-	
+
 }

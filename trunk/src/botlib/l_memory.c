@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -92,7 +92,7 @@ void LinkMemoryBlock( memoryblock_t *block ) {
 void UnlinkMemoryBlock( memoryblock_t *block ) {
 	if ( block->prev ) {
 		block->prev->next = block->next;
-	} else { memory = block->next;}
+	} else { memory = block->next; }
 	if ( block->next ) {
 		block->next->prev = block->prev;
 	}
@@ -362,10 +362,10 @@ void *GetClearedMemory( unsigned long size )
 #ifdef MEMDEBUG
 	ptr = GetMemoryDebug( size, label, file, line );
 #else
-ptr = GetMemory( size );
+	ptr = GetMemory( size );
 #endif //MEMDEBUG
-memset( ptr, 0, size );
-return ptr;
+	memset( ptr, 0, size );
+	return ptr;
 } //end of the function GetClearedMemory
 //===========================================================================
 //
@@ -406,10 +406,10 @@ void *GetClearedHunkMemory( unsigned long size )
 #ifdef MEMDEBUG
 	ptr = GetHunkMemoryDebug( size, label, file, line );
 #else
-ptr = GetHunkMemory( size );
+	ptr = GetHunkMemory( size );
 #endif //MEMDEBUG
-memset( ptr, 0, size );
-return ptr;
+	memset( ptr, 0, size );
+	return ptr;
 } //end of the function GetClearedHunkMemory
 //===========================================================================
 //

@@ -278,9 +278,9 @@ compress_output( j_compress_ptr cinfo, JSAMPIMAGE input_buf ) {
 	for ( ci = 0; ci < cinfo->comps_in_scan; ci++ ) {
 		compptr = cinfo->cur_comp_info[ci];
 		buffer[ci] = ( *cinfo->mem->access_virt_barray )
-				  ( (j_common_ptr) cinfo, coef->whole_image[compptr->component_index],
-				  coef->iMCU_row_num * compptr->v_samp_factor,
-				  (JDIMENSION) compptr->v_samp_factor, FALSE );
+						 ( (j_common_ptr) cinfo, coef->whole_image[compptr->component_index],
+						 coef->iMCU_row_num * compptr->v_samp_factor,
+						 (JDIMENSION) compptr->v_samp_factor, FALSE );
 	}
 
 	/* Loop to process one whole iMCU row */
@@ -353,8 +353,8 @@ transencode_coef_controller( j_compress_ptr cinfo,
 	int i;
 
 	coef = (my_coef_ptr)
-				( *cinfo->mem->alloc_small ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   SIZEOF( my_coef_controller ) );
+		   ( *cinfo->mem->alloc_small )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										 SIZEOF( my_coef_controller ) );
 	cinfo->coef = (struct jpeg_c_coef_controller *) coef;
 	coef->pub.start_pass = start_pass_coef;
 	coef->pub.compress_data = compress_output;
@@ -364,8 +364,8 @@ transencode_coef_controller( j_compress_ptr cinfo,
 
 	/* Allocate and pre-zero space for dummy DCT blocks. */
 	buffer = (JBLOCKROW)
-				( *cinfo->mem->alloc_large ) ( (j_common_ptr) cinfo, JPOOL_IMAGE,
-											   C_MAX_BLOCKS_IN_MCU * SIZEOF( JBLOCK ) );
+			 ( *cinfo->mem->alloc_large )( (j_common_ptr) cinfo, JPOOL_IMAGE,
+										   C_MAX_BLOCKS_IN_MCU * SIZEOF( JBLOCK ) );
 	jzero_far( (void FAR *) buffer, C_MAX_BLOCKS_IN_MCU * SIZEOF( JBLOCK ) );
 	for ( i = 0; i < C_MAX_BLOCKS_IN_MCU; i++ ) {
 		coef->dummy_buffer[i] = buffer + i;

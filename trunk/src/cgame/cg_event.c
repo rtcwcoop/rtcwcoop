@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -106,9 +106,9 @@ CG_Obituary
 =============
 */
 static void CG_Obituary( entityState_t *ent ) {
-	int           mod; 
-	int           target, attacker;
-	char          targetName[32], attackerName[32];
+	int mod;
+	int target, attacker;
+	char targetName[32], attackerName[32];
 	const char    *message, *message2;
 	clientInfo_t  *ci, *ca; // JPW NERVE ca = attacker
 	centity_t     *tcent, *acent;
@@ -116,10 +116,11 @@ static void CG_Obituary( entityState_t *ent ) {
 	// Ridah, no obituaries in single player
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return;
-	}    
+	}
 
-	if ( !cg_obituaries.integer )
+	if ( !cg_obituaries.integer ) {
 		return;
+	}
 
 	target = ent->otherEntityNum;
 	attacker = ent->otherEntityNum2;
@@ -174,8 +175,8 @@ static void CG_Obituary( entityState_t *ent ) {
 				s = va( "%s %s", "You killed", targetName );
 			}
 
-			if (cg_obituaries.integer == 2) {
-				CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6);
+			if ( cg_obituaries.integer == 2 ) {
+				CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6 );
 			}
 			return;
 		} else {
@@ -304,7 +305,7 @@ static void CG_Obituary( entityState_t *ent ) {
 				message = "ate";
 				message2 = "'s rocket";
 				break;
-			// TIHan - End MODs
+				// TIHan - End MODs
 #ifdef _ADMINS
 			// L0 - MODs
 			case MOD_SLAP:
@@ -313,7 +314,7 @@ static void CG_Obituary( entityState_t *ent ) {
 			case MOD_ADMKILL:
 				message = "was killed by Admin";
 				break;
-			// end
+				// end
 #endif
 			// Default..
 			default:
@@ -695,7 +696,7 @@ void CG_PainEvent( centity_t *cent, int health, qboolean crouching ) {
 CG_Explode
 
 
-	if (cent->currentState.angles2[0] || cent->currentState.angles2[1] || cent->currentState.angles2[2])
+    if (cent->currentState.angles2[0] || cent->currentState.angles2[1] || cent->currentState.angles2[2])
 
 ==============
 */
@@ -710,7 +711,7 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 /*
 ==============
 CG_Explode
-	the old cent-based explode calls will still work with this pass-through
+    the old cent-based explode calls will still work with this pass-through
 ==============
 */
 void CG_Explode( centity_t *cent, vec3_t origin, vec3_t dir, qhandle_t shader ) {
@@ -751,7 +752,7 @@ void CG_Explode( centity_t *cent, vec3_t origin, vec3_t dir, qhandle_t shader ) 
 /*
 ==============
 CG_Explodef
-	made this more generic for spawning hits and breaks without needing a *cent
+    made this more generic for spawning hits and breaks without needing a *cent
 ==============
 */
 void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound, int forceLowGrav, qhandle_t shader, int parent, qboolean damage ) {
@@ -854,9 +855,9 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 					scale = 0.5f;
 				} else if ( i == 1 ) {
 					scale = 0.6f;
-				} else if ( i == 2 )                           {
+				} else if ( i == 2 ) {
 					scale = 0.7f;
-				} else if ( i == 3 )                                                               {
+				} else if ( i == 3 ) {
 					scale = 0.5f;
 				}
 				//					else
@@ -874,12 +875,12 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 					hmodel = cgs.media.shardGlass1;
 				} else if ( i == 4 ) {
 					hmodel = cgs.media.shardGlass2;
-				} else if ( i == 2 )                                             {
+				} else if ( i == 2 ) {
 					hmodel = cgs.media.shardGlass2;
-				} else if ( i == 1 )                                                                                                   {
+				} else if ( i == 1 ) {
 					hmodel = cgs.media.shardGlass2;
 					scale = 0.5f;
-				} else {goto pass;}
+				} else {goto pass; }
 				break;
 
 			case 2: // "metal"
@@ -888,12 +889,12 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 					hmodel = cgs.media.shardMetal1;
 				} else if ( i == 4 ) {
 					hmodel = cgs.media.shardMetal2;
-				} else if ( i == 2 )                                             {
+				} else if ( i == 2 ) {
 					hmodel = cgs.media.shardMetal2;
-				} else if ( i == 1 )                                                                                                   {
+				} else if ( i == 1 ) {
 					hmodel = cgs.media.shardMetal2;
 					scale = 0.5f;
-				} else {goto pass;}
+				} else {goto pass; }
 				break;
 
 			case 3: // "gibs"
@@ -902,9 +903,9 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 					hmodel = cgs.media.gibIntestine;
 				} else if ( i == 4 ) {
 					hmodel = cgs.media.gibLeg;
-				} else if ( i == 2 )                                        {
+				} else if ( i == 2 ) {
 					hmodel = cgs.media.gibChest;
-				} else { goto pass;}
+				} else { goto pass; }
 				break;
 
 			case 4: // "brick"
@@ -916,13 +917,13 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 				snd = LEBS_ROCK;
 				if ( i == 5 ) {
 					hmodel = cgs.media.debRock[2];                  // temporarily use the next smallest rock piece
-				} else if ( i == 4 )                                                              {
+				} else if ( i == 4 ) {
 					hmodel = cgs.media.debRock[2];
-				} else if ( i == 3 )                                                                                                                   {
+				} else if ( i == 3 ) {
 					hmodel = cgs.media.debRock[1];
-				} else if ( i == 2 )                                                                                                                                                                        {
+				} else if ( i == 2 ) {
 					hmodel = cgs.media.debRock[0];
-				} else if ( i == 1 )                                                                                                                                                                                                                             {
+				} else if ( i == 1 ) {
 					hmodel = cgs.media.debBlock[1];                 // temporarily use the small block pieces
 				} else { hmodel = cgs.media.debBlock[0];            // temporarily use the small block pieces
 				}
@@ -936,9 +937,9 @@ void CG_Explodef( vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound
 					hmodel = cgs.media.debFabric[0];
 				} else if ( i == 4 ) {
 					hmodel = cgs.media.debFabric[1];
-				} else if ( i == 2 )                                              {
+				} else if ( i == 2 ) {
 					hmodel = cgs.media.debFabric[2];
-				} else if ( i == 1 )                                                                                                     {
+				} else if ( i == 1 ) {
 					hmodel = cgs.media.debFabric[2];
 					scale = 0.5;
 				} else {goto pass;  // (only do 5, 4, 2 and 1)
@@ -1083,7 +1084,7 @@ pass:
 /*
 ==============
 CG_Effect
-	Quake ed -> target_effect (0 .5 .8) (-6 -6 -6) (6 6 6) TNT explode smoke debris gore lowgrav
+    Quake ed -> target_effect (0 .5 .8) (-6 -6 -6) (6 6 6) TNT explode smoke debris gore lowgrav
 ==============
 */
 void CG_Effect( centity_t *cent, vec3_t origin, vec3_t dir ) {
@@ -1227,7 +1228,7 @@ void CG_Effect( centity_t *cent, vec3_t origin, vec3_t dir ) {
 		CG_AddDebris( origin, dir,
 					  280,      // speed
 					  1400,     // duration
-					  // 15 + rand()%5 );	// count
+		              // 15 + rand()%5 );	// count
 					  7 + rand() % 2 ); // count
 	}
 }
@@ -1240,12 +1241,12 @@ void CG_Effect( centity_t *cent, vec3_t origin, vec3_t dir ) {
 /*
 CG_Shard
 
-	We should keep this separate since there will be considerable differences
-	in the physical properties of shard vrs debris. not to mention the fact
-	there is no way we can quantify what type of effects the designers will
-	potentially desire. If it is still possible to merge the functionality of
-	cg_shard into cg_explode at a latter time I would have no problem with that
-	but for now I want to keep it separate
+    We should keep this separate since there will be considerable differences
+    in the physical properties of shard vrs debris. not to mention the fact
+    there is no way we can quantify what type of effects the designers will
+    potentially desire. If it is still possible to merge the functionality of
+    cg_shard into cg_explode at a latter time I would have no problem with that
+    but for now I want to keep it separate
 */
 void CG_Shard( centity_t *cent, vec3_t origin, vec3_t dir ) {
 	localEntity_t   *le;
@@ -1302,25 +1303,25 @@ void CG_Shard( centity_t *cent, vec3_t origin, vec3_t dir ) {
 			} else {
 				re->hModel = cgs.media.shardGlass2;
 			}
-		} else if ( type == 1 )     { // wood
+		} else if ( type == 1 ) {     // wood
 			if ( rval ) {
 				re->hModel = cgs.media.shardWood1;
 			} else {
 				re->hModel = cgs.media.shardWood2;
 			}
-		} else if ( type == 2 )     { // metal
+		} else if ( type == 2 ) {     // metal
 			if ( rval ) {
 				re->hModel = cgs.media.shardMetal1;
 			} else {
 				re->hModel = cgs.media.shardMetal2;
 			}
-		} else if ( type == 3 )     { // ceramic
+		} else if ( type == 3 ) {     // ceramic
 			if ( rval ) {
 				re->hModel = cgs.media.shardCeramic1;
 			} else {
 				re->hModel = cgs.media.shardCeramic2;
 			}
-		} else if ( type == 4 )     { // rubble
+		} else if ( type == 4 ) {     // rubble
 			rval = rand() % 3;
 
 			if ( rval == 1 ) {
@@ -1490,14 +1491,15 @@ CG_PopUpClipboard
 ==============
 */
 void CG_PopUpClipboard( centity_t *activator, int density ) {
-	const char		*name;
-	entityState_t	*activatorState;
+	const char      *name;
+	entityState_t   *activatorState;
 
 	activatorState = &activator->currentState;
 
 	// TIHan - Only show the clipboard on the client who activated it.
-	if ( cg.snap->ps.clientNum != activatorState->clientNum )
+	if ( cg.snap->ps.clientNum != activatorState->clientNum ) {
 		return;
+	}
 
 	name = CG_GetClipboardName( density );
 	trap_Cvar_Set( "cg_clipboardName", name );    // store new current page name for the ui to pick up
@@ -1514,7 +1516,7 @@ TIHan - Since now we have a proper event for when a player dies, we could move
 ==============
 */
 void CG_PlayerDied( centity_t *entity, centity_t *killer ) {
-	entityState_t	*entityState;
+	entityState_t   *entityState;
 
 	entityState = &entity->currentState;
 
@@ -1527,8 +1529,8 @@ void CG_PlayerDied( centity_t *entity, centity_t *killer ) {
 
 // cs: for debug text. these need to match the order of debugText_t
 char *classNameMap[] = {
-    "coop_spawnpoint",
-    "ai_trigger"
+	"coop_spawnpoint",
+	"ai_trigger"
 };
 
 
@@ -1540,7 +1542,7 @@ An entity has an event value
 also called by CG_CheckPlayerstateEvents
 ==============
 */
-#define DEBUGNAME( x ) if ( cg_debugEvents.integer ) {CG_Printf( x "\n" );}
+#define DEBUGNAME( x ) if ( cg_debugEvents.integer ) {CG_Printf( x "\n" ); }
 void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	entityState_t   *es;
 	int event;
@@ -1576,11 +1578,11 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	}
 
 	switch ( event ) {
-		//
-		// movement generated events
-		//
+	//
+	// movement generated events
+	//
 
-		// TODO: change all this to sound scripts
+	// TODO: change all this to sound scripts
 
 	case EV_FOOTSTEP:
 		DEBUGNAME( "EV_FOOTSTEP" );
@@ -1968,9 +1970,9 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		}
 		break;
 
-		//
-		// weapon events
-		//
+	//
+	// weapon events
+	//
 	case EV_VENOM:
 		DEBUGNAME( "EV_VENOM" );
 		CG_VenomFire( es, qfalse );
@@ -2178,11 +2180,11 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_UseItem( cent );
 		break;
 
-		//=================================================================
+	//=================================================================
 
-		//
-		// other events
-		//
+	//
+	// other events
+	//
 	case EV_PLAYER_TELEPORT_IN:
 		DEBUGNAME( "EV_PLAYER_TELEPORT_IN" );
 		trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.teleInSound );
@@ -2229,19 +2231,19 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 			if ( flags & SURF_WOOD ) { // SURF_WOOD
 				if ( rand() & 1 ) {
 					trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_WOOD][0] );
-				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_WOOD][1] );}
+				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_WOOD][1] ); }
 			} else if ( flags & ( SURF_METAL | SURF_ROOF | SURF_GLASS ) ) { //	SURF_METAL | SURF_ROOF | SURF_GLASS
 				if ( rand() & 1 ) {
 					trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_METAL][0] );
-				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_METAL][1] );}
+				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_METAL][1] ); }
 			} else if ( flags & ( SURF_GRASS | SURF_GRAVEL | SURF_SNOW | SURF_CARPET ) ) {  //SURF_GRASS | SURF_GRAVEL | SURF_SNOW | SURF_CARPET
 				if ( rand() & 1 ) {
 					trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_DIRT][0] );
-				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_DIRT][1] );}
+				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_DIRT][1] ); }
 			} else {
 				if ( rand() & 1 ) {
 					trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_DEFAULT][0] );
-				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_DEFAULT][1] );}
+				} else { trap_S_StartSound( NULL, es->number, CHAN_AUTO, cgs.media.grenadebounce[GRENBOUNCE_DEFAULT][1] ); }
 			}
 		}
 		break;
@@ -2259,9 +2261,9 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		// ev_railtrail is now sent standalone rather than by a player entity
 		CG_RailTrail( &cgs.clientinfo[ es->otherEntityNum2 ], es->origin2, es->pos.trBase, es->dmgFlags );   //----(SA)	added 'type' field
 		break;
-		//
-		// missile impacts
-		//
+	//
+	// missile impacts
+	//
 	case EV_MISSILE_HIT:
 		DEBUGNAME( "EV_MISSILE_HIT" );
 		ByteToDir( es->eventParm, dir );
@@ -2395,7 +2397,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 				trap_S_StartSound( NULL, cg.snap->ps.clientNum, CHAN_AUTO, cgs.gameSounds[ es->eventParm ] );
 			}
 		}
-		break;	
+		break;
 	// End
 	case EV_PAIN:
 		// local player sounds are triggered in CG_CheckLocalSounds,
@@ -2471,9 +2473,9 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_Obituary( es );
 		break;
 
-		//
-		// powerup events
-		//
+	//
+	// powerup events
+	//
 	case EV_POWERUP_QUAD:
 		DEBUGNAME( "EV_POWERUP_QUAD" );
 		if ( es->number == cg.snap->ps.clientNum ) {
@@ -2552,7 +2554,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_Beam( cent );
 		break;
 
-		// Rafael particles
+	// Rafael particles
 	case EV_SMOKE:
 		DEBUGNAME( "EV_SMOKE" );
 		if ( cent->currentState.density == 3 ) {          // cannon
@@ -2566,7 +2568,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 			CG_ParticleSmoke( cgs.media.smokePuffShader, cent );
 		}
 		break;
-		// done.
+	// done.
 
 	case EV_FLAMETHROWER_EFFECT:
 	{
@@ -2708,7 +2710,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	}
 	break;
 
-		// Rafael bats
+	// Rafael bats
 	case EV_BATS:
 	{
 		int i;
@@ -2725,7 +2727,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_BatDeath( cent );
 		break;
 
-		// Rafael snow pvs check
+	// Rafael snow pvs check
 	case EV_SNOW_ON:
 		CG_SnowLink( cent, qtrue );
 		break;
@@ -2739,23 +2741,23 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		CG_ParticleSnowFlurry( cgs.media.snowShader, cent );
 		break;
 
-		//----(SA)
+	//----(SA)
 
-		// for func_exploding
+	// for func_exploding
 	case EV_EXPLODE:
 		DEBUGNAME( "EV_EXPLODE" );
 		ByteToDir( es->eventParm, dir );
 		CG_Explode( cent, position, dir, 0 );
 		break;
 
-		// for target_effect
+	// for target_effect
 	case EV_EFFECT:
 		DEBUGNAME( "EV_EFFECT" );
 //		ByteToDir( es->eventParm, dir );
 		CG_Effect( cent, position, dir );
 		break;
 
-		//----(SA) done
+	//----(SA) done
 
 	case EV_MORTAREFX:  // mortar firing
 		DEBUGNAME( "EV_MORTAREFX" );
@@ -2791,24 +2793,24 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		break;
 
 	case EV_DBG_AABB:
-	    if ( !cgs.localServer ) {
-		return;
-	    }
-
-	    {
-		vec3_t origin;
-		DrawDebugAABB( es->origin, es->angles, es->angles2, es->time, colorRed, es->solid );
-
-		VectorCopy(es->origin, origin);
-		if (origin[0] == 0 && origin[1] == 0 && origin[2] == 0) {
-		    origin[0] = (es->angles2[0] + es->angles[0]) * 0.5f;
-		    origin[1] = (es->angles2[1] + es->angles[1]) * 0.5f;
-		    origin[2] = (es->angles2[2] + es->angles[2]) * 0.5f;
+		if ( !cgs.localServer ) {
+			return;
 		}
 
-		DrawDebugText( origin, va("%s\n%.1f %.1f %.1f", classNameMap[es->time2], origin[0], origin[1], origin[2]), 999999, colorWhite );
-	    }
-	    break;
+		{
+			vec3_t origin;
+			DrawDebugAABB( es->origin, es->angles, es->angles2, es->time, colorRed, es->solid );
+
+			VectorCopy( es->origin, origin );
+			if ( origin[0] == 0 && origin[1] == 0 && origin[2] == 0 ) {
+				origin[0] = ( es->angles2[0] + es->angles[0] ) * 0.5f;
+				origin[1] = ( es->angles2[1] + es->angles[1] ) * 0.5f;
+				origin[2] = ( es->angles2[2] + es->angles[2] ) * 0.5f;
+			}
+
+			DrawDebugText( origin, va( "%s\n%.1f %.1f %.1f", classNameMap[es->time2], origin[0], origin[1], origin[2] ), 999999, colorWhite );
+		}
+		break;
 
 	default:
 		DEBUGNAME( "UNKNOWN" );
@@ -2886,13 +2888,13 @@ void CG_CheckEvents( centity_t *cent ) {
 		/*
 		// check for events riding with another entity
 		if ( cent->currentState.event == cent->previousEvent ) {
-			goto skipEvent;
-			//return;
+		    goto skipEvent;
+		    //return;
 		}
 		cent->previousEvent = cent->currentState.event;
 		if ( ( cent->currentState.event & ~EV_EVENT_BITS ) == 0 ) {
-			goto skipEvent;
-			//return;
+		    goto skipEvent;
+		    //return;
 		}
 		*/
 		// dhm - end
@@ -2930,48 +2932,47 @@ skipEvent:
 
 /*
 void CG_CheckEvents( centity_t *cent ) {
-	int i, event;
+    int i, event;
 
-	// calculate the position at exactly the frame time
-	BG_EvaluateTrajectory( &cent->currentState.pos, cg.snap->serverTime, cent->lerpOrigin );
-	CG_SetEntitySoundPosition( cent );
+    // calculate the position at exactly the frame time
+    BG_EvaluateTrajectory( &cent->currentState.pos, cg.snap->serverTime, cent->lerpOrigin );
+    CG_SetEntitySoundPosition( cent );
 
-	// check for event-only entities
-	if ( cent->currentState.eType > ET_EVENTS ) {
-		if ( !cent->previousEvent ) {
-			cent->previousEvent = 1;
-			cent->currentState.event = cent->currentState.eType - ET_EVENTS;
-			CG_EntityEvent( cent, cent->lerpOrigin );
-		}
-	} else {
-		// check for events riding with another entity
-		if ( cent->currentState.event != cent->previousEvent ) {
-			cent->previousEvent = cent->currentState.event;
-			if ( cent->currentState.event & ~EV_EVENT_BITS ) {
-				CG_EntityEvent( cent, cent->lerpOrigin );
-			}
-		}
-	}
+    // check for event-only entities
+    if ( cent->currentState.eType > ET_EVENTS ) {
+        if ( !cent->previousEvent ) {
+            cent->previousEvent = 1;
+            cent->currentState.event = cent->currentState.eType - ET_EVENTS;
+            CG_EntityEvent( cent, cent->lerpOrigin );
+        }
+    } else {
+        // check for events riding with another entity
+        if ( cent->currentState.event != cent->previousEvent ) {
+            cent->previousEvent = cent->currentState.event;
+            if ( cent->currentState.event & ~EV_EVENT_BITS ) {
+                CG_EntityEvent( cent, cent->lerpOrigin );
+            }
+        }
+    }
 
-	// check the sequencial list
-	// if we've added more events than can fit into the list, make sure we only add them once
-	if (cent->currentState.eventSequence < cent->previousEventSequence) {
-		cent->previousEventSequence -= (1 << 8);	// eventSequence is sent as an 8-bit through network stream
-	}
-	if (cent->currentState.eventSequence - cent->previousEventSequence > MAX_EVENTS) {
-		cent->previousEventSequence = cent->currentState.eventSequence - MAX_EVENTS;
-	}
-	for ( i = cent->previousEventSequence ; i != cent->currentState.eventSequence; i++ ) {
-		event = cent->currentState.events[ i & (MAX_EVENTS-1) ];
+    // check the sequencial list
+    // if we've added more events than can fit into the list, make sure we only add them once
+    if (cent->currentState.eventSequence < cent->previousEventSequence) {
+        cent->previousEventSequence -= (1 << 8);	// eventSequence is sent as an 8-bit through network stream
+    }
+    if (cent->currentState.eventSequence - cent->previousEventSequence > MAX_EVENTS) {
+        cent->previousEventSequence = cent->currentState.eventSequence - MAX_EVENTS;
+    }
+    for ( i = cent->previousEventSequence ; i != cent->currentState.eventSequence; i++ ) {
+        event = cent->currentState.events[ i & (MAX_EVENTS-1) ];
 
-		cent->currentState.event = event;
-		cent->currentState.eventParm = cent->currentState.eventParms[ i & (MAX_EVENTS-1) ];
-		CG_EntityEvent( cent, cent->lerpOrigin );
-	}
-	cent->previousEventSequence = cent->currentState.eventSequence;
+        cent->currentState.event = event;
+        cent->currentState.eventParm = cent->currentState.eventParms[ i & (MAX_EVENTS-1) ];
+        CG_EntityEvent( cent, cent->lerpOrigin );
+    }
+    cent->previousEventSequence = cent->currentState.eventSequence;
 
-	// set the event back so we don't think it's changed next frame (unless it really has)
-	cent->currentState.event = cent->previousEvent;
+    // set the event back so we don't think it's changed next frame (unless it really has)
+    cent->currentState.event = cent->previousEvent;
 }
 */
-

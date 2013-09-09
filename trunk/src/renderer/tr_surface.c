@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1487,16 +1487,16 @@ void RB_SurfaceSkip( void *surf ) {
 
 
 void( *rb_surfaceTable[SF_NUM_SURFACE_TYPES] ) ( void * ) = {
-	( void( * ) ( void* ) )RB_SurfaceBad,          // SF_BAD,
-	( void( * ) ( void* ) )RB_SurfaceSkip,         // SF_SKIP,
-	( void( * ) ( void* ) )RB_SurfaceFace,         // SF_FACE,
-	( void( * ) ( void* ) )RB_SurfaceGrid,         // SF_GRID,
-	( void( * ) ( void* ) )RB_SurfaceTriangles,    // SF_TRIANGLES,
-	( void( * ) ( void* ) )RB_SurfacePolychain,    // SF_POLY,
-	( void( * ) ( void* ) )RB_SurfaceMesh,         // SF_MD3,
-	( void( * ) ( void* ) )RB_SurfaceCMesh,        // SF_MDC,
-	( void( * ) ( void* ) )RB_SurfaceAnim,         // SF_MDS,
-	( void( * ) ( void* ) )RB_SurfaceFlare,        // SF_FLARE,
-	( void( * ) ( void* ) )RB_SurfaceEntity,       // SF_ENTITY
-	( void( * ) ( void* ) )RB_SurfaceDisplayList   // SF_DISPLAY_LIST
+	( void ( * )( void* ) )RB_SurfaceBad,          // SF_BAD,
+	( void ( * )( void* ) )RB_SurfaceSkip,         // SF_SKIP,
+	( void ( * )( void* ) )RB_SurfaceFace,         // SF_FACE,
+	( void ( * )( void* ) )RB_SurfaceGrid,         // SF_GRID,
+	( void ( * )( void* ) )RB_SurfaceTriangles,    // SF_TRIANGLES,
+	( void ( * )( void* ) )RB_SurfacePolychain,    // SF_POLY,
+	( void ( * )( void* ) )RB_SurfaceMesh,         // SF_MD3,
+	( void ( * )( void* ) )RB_SurfaceCMesh,        // SF_MDC,
+	( void ( * )( void* ) )RB_SurfaceAnim,         // SF_MDS,
+	( void ( * )( void* ) )RB_SurfaceFlare,        // SF_FLARE,
+	( void ( * )( void* ) )RB_SurfaceEntity,       // SF_ENTITY
+	( void ( * )( void* ) )RB_SurfaceDisplayList   // SF_DISPLAY_LIST
 };

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 /*
-	SP_Tramcar
+    SP_Tramcar
 */
 #include "g_local.h"
 
@@ -235,7 +235,7 @@ void Calc_Roll( gentity_t *ent ) {
 		if ( ent->s.apos.trBase[ROLL] > 90 ) {
 			ent->s.apos.trBase[ROLL] = 90;
 		}
-	} else if ( dot < 0 )     {
+	} else if ( dot < 0 ) {
 		if ( ent->s.apos.trBase[ROLL] > -( ent->angle * 2 ) ) {
 			ent->s.apos.trBase[ROLL] -= 2;
 		} else if ( ent->s.apos.trBase[ROLL] < -( ent->angle * 2 ) ) {
@@ -335,15 +335,15 @@ void Reached_Tramcar( gentity_t *ent ) {
 			} else {
 				G_Printf( "%s lap %i\n", next->targetname, next->count );
 			}
-		} else if ( ( next->spawnflags & 1 ) && !( next->count ) && ent->health > 0 )         { // SCRIPT flag
+		} else if ( ( next->spawnflags & 1 ) && !( next->count ) && ent->health > 0 ) {         // SCRIPT flag
 			GetNextTrack( ent );
 			Think_SetupAirplaneWaypoints( ent );
-		} else if ( ( next->spawnflags & 2 ) && ( ent->spawnflags & 8 ) && ent->health <= 0 && ent->takedamage )         { // death path
+		} else if ( ( next->spawnflags & 2 ) && ( ent->spawnflags & 8 ) && ent->health <= 0 && ent->takedamage ) {         // death path
 			ent->takedamage = qfalse;
 
 			GetNextTrack( ent );
 			Think_SetupAirplaneWaypoints( ent );
-		} else if ( ( next->spawnflags & 4 ) )       { // explode the plane
+		} else if ( ( next->spawnflags & 4 ) ) {       // explode the plane
 			ExplodePlaneSndFx( ent );
 
 			ent->s.modelindex = crash_part;
@@ -407,7 +407,7 @@ void Reached_Tramcar( gentity_t *ent ) {
 
 		ent->think = props_me109_think;
 		ent->nextthink = level.time + 50;
-	} else if ( !Q_stricmp( ent->classname, "truck_cam" ) )       {
+	} else if ( !Q_stricmp( ent->classname, "truck_cam" ) ) {
 		G_Printf( "target: %s\n", next->targetname );
 
 		if ( next->spawnflags & 2 ) { // END
@@ -483,7 +483,7 @@ void Reached_Tramcar( gentity_t *ent ) {
 		ent->think = truck_cam_think;
 		ent->nextthink = level.time + ( FRAMETIME / 2 );
 
-	} else if ( !Q_stricmp( ent->classname, "camera_cam" ) )       {
+	} else if ( !Q_stricmp( ent->classname, "camera_cam" ) ) {
 
 	}
 
@@ -729,11 +729,11 @@ void SP_func_tramcar( gentity_t *self ) {
 	G_SpawnString( "type", "wood", &type );
 	if ( !Q_stricmp( type,"wood" ) ) {
 		self->key = 0;
-	} else if ( !Q_stricmp( type,"glass" ) )   {
+	} else if ( !Q_stricmp( type,"glass" ) ) {
 		self->key = 1;
-	} else if ( !Q_stricmp( type,"metal" ) )                                                            {
+	} else if ( !Q_stricmp( type,"metal" ) ) {
 		self->key = 2;
-	} else if ( !Q_stricmp( type,"gibs" ) )                                                                                                                     {
+	} else if ( !Q_stricmp( type,"gibs" ) ) {
 		self->key = 3;
 	}
 
@@ -852,34 +852,36 @@ void ExplodePlaneSndFx( gentity_t *self ) {
 		gentity_t   *player;
 		vec3_t vec, ang;
 
-                for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                        player = &g_entities[i];
+		for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+			player = &g_entities[i];
 
-                        if ( !player || !player->inuse )
-                                continue;
+			if ( !player || !player->inuse ) {
+				continue;
+			}
 
-                        if (player->r.svFlags & SVF_CASTAI)
-                                continue;
+			if ( player->r.svFlags & SVF_CASTAI ) {
+				continue;
+			}
 
-                        VectorSubtract( player->s.origin, self->r.currentOrigin, vec );
-                        vectoangles( vec, ang );
-                        AngleVectors( ang, dir, NULL, NULL );
+			VectorSubtract( player->s.origin, self->r.currentOrigin, vec );
+			vectoangles( vec, ang );
+			AngleVectors( ang, dir, NULL, NULL );
 
-                        dir[2] = 1;
+			dir[2] = 1;
 
-                        VectorCopy( self->r.currentOrigin, start );
+			VectorCopy( self->r.currentOrigin, start );
 
-                        part = fire_flamebarrel( temp, start, dir );
+			part = fire_flamebarrel( temp, start, dir );
 
-                        if ( !part ) {
-                                G_Printf( "ExplodePlaneSndFx Failed to spawn part\n" );
-                                continue;
-                        }
+			if ( !part ) {
+				G_Printf( "ExplodePlaneSndFx Failed to spawn part\n" );
+				continue;
+			}
 
-                        part->s.eType = ET_FP_PARTS;
+			part->s.eType = ET_FP_PARTS;
 
-                        part->s.modelindex = wing_part;
-                }
+			part->s.modelindex = wing_part;
+		}
 		return;
 	}
 
@@ -974,7 +976,7 @@ void Plane_Attack( gentity_t *self, qboolean in_PVS ) {
 		} else {
 			self->s.density = 7;
 		}
-	} else if ( self->spawnflags & 4 )     { // spinning prop
+	} else if ( self->spawnflags & 4 ) {     // spinning prop
 		self->s.density = 7;
 	} else {
 		self->s.density = 0;
@@ -982,42 +984,44 @@ void Plane_Attack( gentity_t *self, qboolean in_PVS ) {
 }
 
 void props_me109_think( gentity_t *self ) {
-        int i;
+	int i;
 	qboolean in_PVS = qfalse;
-        gentity_t *player;
+	gentity_t *player;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+		player = &g_entities[i];
 
-                if ( !player || !player->inuse )
-                        continue;
+		if ( !player || !player->inuse ) {
+			continue;
+		}
 
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
+		if ( player->r.svFlags & SVF_CASTAI ) {
+			continue;
+		}
 
-                in_PVS = trap_InPVS( player->r.currentOrigin, self->s.pos.trBase );
-				self->melee->s.eType = ET_GENERAL;
+		in_PVS = trap_InPVS( player->r.currentOrigin, self->s.pos.trBase );
+		self->melee->s.eType = ET_GENERAL;
 
-                if ( in_PVS ) {        
-                    float len;
-                    vec3_t vec;
-                    vec3_t forward;
-                    vec3_t dir;
-                    vec3_t point;
+		if ( in_PVS ) {
+			float len;
+			vec3_t vec;
+			vec3_t forward;
+			vec3_t dir;
+			vec3_t point;
 
-                    VectorCopy( player->r.currentOrigin, point );
-                    VectorSubtract( player->r.currentOrigin, self->r.currentOrigin, vec );
-                    len = VectorLength( vec );
-                    vectoangles( vec, dir );
-                    AngleVectors( dir, forward, NULL, NULL );
-                    VectorMA( point, len * 0.1, forward, point );
+			VectorCopy( player->r.currentOrigin, point );
+			VectorSubtract( player->r.currentOrigin, self->r.currentOrigin, vec );
+			len = VectorLength( vec );
+			vectoangles( vec, dir );
+			AngleVectors( dir, forward, NULL, NULL );
+			VectorMA( point, len * 0.1, forward, point );
 
-                    G_SetOrigin( self->melee, point );
-                }
+			G_SetOrigin( self->melee, point );
+		}
 
-                trap_LinkEntity( self->melee );
-                Plane_Attack( self, in_PVS );
-        }
+		trap_LinkEntity( self->melee );
+		Plane_Attack( self, in_PVS );
+	}
 
 	Calc_Roll( self );
 
@@ -1044,13 +1048,13 @@ void props_me109_think( gentity_t *self ) {
 
 		if ( self->props_frame_state == plane_choke ) {
 			self->melee->s.loopSound = self->melee->noise_index = fpchoke_snd;
-		} else if ( self->props_frame_state == plane_startup )     {
+		} else if ( self->props_frame_state == plane_startup ) {
 			self->melee->s.loopSound = self->melee->noise_index = fpstartup_snd;
-		} else if ( self->props_frame_state == plane_idle )     {
+		} else if ( self->props_frame_state == plane_idle ) {
 			self->melee->s.loopSound = self->melee->noise_index = fpidle_snd;
-		} else if ( self->props_frame_state == plane_flyby1 )     {
+		} else if ( self->props_frame_state == plane_flyby1 ) {
 			self->melee->s.loopSound = self->melee->noise_index = fpflyby1_snd;
-		} else if ( self->props_frame_state == plane_flyby2 )     {
+		} else if ( self->props_frame_state == plane_flyby2 ) {
 			self->melee->s.loopSound = self->melee->noise_index = fpflyby2_snd;
 		}
 	} else
@@ -1235,25 +1239,25 @@ void SP_props_me109( gentity_t *ent ) {
 */
 void truck_cam_touch( gentity_t *self, gentity_t *other, trace_t *trace ) {
 
-	if ( IsPlayerEnt(other) ) {
-        vec3_t point;
+	if ( IsPlayerEnt( other ) ) {
+		vec3_t point;
 
-        trap_UnlinkEntity( other );
+		trap_UnlinkEntity( other );
 
-        // VectorCopy ( self->r.currentOrigin, other->client->ps.origin );
-        VectorCopy( self->r.currentOrigin, point );
-        point[2] = other->client->ps.origin[2];
-        VectorCopy( point, other->client->ps.origin );
+		// VectorCopy ( self->r.currentOrigin, other->client->ps.origin );
+		VectorCopy( self->r.currentOrigin, point );
+		point[2] = other->client->ps.origin[2];
+		VectorCopy( point, other->client->ps.origin );
 
-        // save results of pmove
-        BG_PlayerStateToEntityState( &other->client->ps, &other->s, qtrue );
+		// save results of pmove
+		BG_PlayerStateToEntityState( &other->client->ps, &other->s, qtrue );
 
-        // use the precise origin for linking
-        VectorCopy( other->client->ps.origin, other->r.currentOrigin );
+		// use the precise origin for linking
+		VectorCopy( other->client->ps.origin, other->r.currentOrigin );
 
-        other->client->ps.persistant[PERS_HWEAPON_USE] = 1;
+		other->client->ps.persistant[PERS_HWEAPON_USE] = 1;
 
-        trap_LinkEntity( other );
+		trap_LinkEntity( other );
 	}
 }
 
@@ -1364,94 +1368,98 @@ void Init_Camera( gentity_t *ent ) {
 
 void camera_cam_think( gentity_t *ent ) {
 	gentity_t *player;
-        int i;
+	int i;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+		player = &g_entities[i];
 
-                if ( !player || !player->inuse )
-                        continue;
+		if ( !player || !player->inuse ) {
+			continue;
+		}
 
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
+		if ( player->r.svFlags & SVF_CASTAI ) {
+			continue;
+		}
 
-                if ( ent->spawnflags & 2 ) { // tracking
-                        vec3_t point;
+		if ( ent->spawnflags & 2 ) {         // tracking
+			vec3_t point;
 
-                        trap_UnlinkEntity( player );
+			trap_UnlinkEntity( player );
 
-                        // VectorCopy ( self->r.currentOrigin, other->client->ps.origin );
-                        VectorCopy( ent->r.currentOrigin, point );
-                        point[2] = player->client->ps.origin[2];
-                        VectorCopy( point, player->client->ps.origin );
+			// VectorCopy ( self->r.currentOrigin, other->client->ps.origin );
+			VectorCopy( ent->r.currentOrigin, point );
+			point[2] = player->client->ps.origin[2];
+			VectorCopy( point, player->client->ps.origin );
 
-                        // save results of pmove
-                        BG_PlayerStateToEntityState( &player->client->ps, &player->s, qtrue );
+			// save results of pmove
+			BG_PlayerStateToEntityState( &player->client->ps, &player->s, qtrue );
 
-                        // use the precise origin for linking
-                        VectorCopy( player->client->ps.origin, player->r.currentOrigin );
+			// use the precise origin for linking
+			VectorCopy( player->client->ps.origin, player->r.currentOrigin );
 
-                        // tracking
-                        {
-                                gentity_t   *target = NULL;
-                                vec3_t dang;
-                                vec3_t vec;
+			// tracking
+			{
+				gentity_t   *target = NULL;
+				vec3_t dang;
+				vec3_t vec;
 
-                                if ( ent->track ) {
-                                        target = G_Find( NULL, FOFS( targetname ), ent->track );
-                                }
+				if ( ent->track ) {
+					target = G_Find( NULL, FOFS( targetname ), ent->track );
+				}
 
-                                if ( target ) {
-                                        VectorSubtract( target->r.currentOrigin, ent->r.currentOrigin, vec );
-                                        vectoangles( vec, dang );
-                                        SetClientViewAngle( player, dang );
+				if ( target ) {
+					VectorSubtract( target->r.currentOrigin, ent->r.currentOrigin, vec );
+					vectoangles( vec, dang );
+					SetClientViewAngle( player, dang );
 
-                                        VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
-                                        VectorCopy( dang, ent->s.apos.trBase );
+					VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
+					VectorCopy( dang, ent->s.apos.trBase );
 
-                                        trap_LinkEntity( ent );
-                                }
-                        }
+					trap_LinkEntity( ent );
+				}
+			}
 
-                        trap_LinkEntity( player );
-                }
-        }
+			trap_LinkEntity( player );
+		}
+	}
 
 	ent->nextthink = level.time + ( FRAMETIME / 2 );
 }
 
 void camera_cam_use( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
 	gentity_t *player;
-        int i;
+	int i;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+		player = &g_entities[i];
 
-                if ( !player || !player->inuse )
-                        continue;
+		if ( !player || !player->inuse ) {
+			continue;
+		}
 
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
+		if ( player->r.svFlags & SVF_CASTAI ) {
+			continue;
+		}
 
-                if ( !( ent->spawnflags & 1 ) ) {
-                        ent->think = camera_cam_think;
-                        ent->nextthink = level.time + ( FRAMETIME / 2 );
-                        ent->spawnflags |= 1;
-                        {
-                                player->client->ps.persistant[PERS_HWEAPON_USE] = 1;
-                                player->client->ps.viewlocked = 4;
-                                player->client->ps.viewlocked_entNum = ent->s.number;
-                        }
-                } else {
-                        ent->spawnflags &= ~1;
-                        ent->think = NULL;
-                        {
-                                player->client->ps.persistant[PERS_HWEAPON_USE] = 0;
-                                player->client->ps.viewlocked = 0;
-                                player->client->ps.viewlocked_entNum = 0;
-                        }
-                }
-        }
+		if ( !( ent->spawnflags & 1 ) ) {
+			ent->think = camera_cam_think;
+			ent->nextthink = level.time + ( FRAMETIME / 2 );
+			ent->spawnflags |= 1;
+			{
+				player->client->ps.persistant[PERS_HWEAPON_USE] = 1;
+				player->client->ps.viewlocked = 4;
+				player->client->ps.viewlocked_entNum = ent->s.number;
+			}
+		} else {
+			ent->spawnflags &= ~1;
+			ent->think = NULL;
+			{
+				player->client->ps.persistant[PERS_HWEAPON_USE] = 0;
+				player->client->ps.viewlocked = 0;
+				player->client->ps.viewlocked_entNum = 0;
+			}
+		}
+	}
 
 }
 
@@ -1549,57 +1557,61 @@ used will reset the player back to his last position
 
 void mark_players_pos( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 	gentity_t   *player;
-        int i;
+	int i;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+		player = &g_entities[i];
 
-                if ( !player || !player->inuse )
-                        continue;
+		if ( !player || !player->inuse ) {
+			continue;
+		}
 
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
+		if ( player->r.svFlags & SVF_CASTAI ) {
+			continue;
+		}
 
-                if ( player == other ) {
-                        VectorCopy( player->r.currentOrigin, ent->s.origin2 );
-                        VectorCopy( player->r.currentAngles, ent->s.angles2 );
+		if ( player == other ) {
+			VectorCopy( player->r.currentOrigin, ent->s.origin2 );
+			VectorCopy( player->r.currentAngles, ent->s.angles2 );
 
-                        G_UseTargets( ent, NULL );
-                }
-        }
+			G_UseTargets( ent, NULL );
+		}
+	}
 }
 
 void reset_players_pos( gentity_t *ent, gentity_t *other, gentity_t *activator ) {
-        int i;
+	int i;
 	gentity_t *player;
 
-        for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
-                player = &g_entities[i];
+	for ( i = 0 ; i < g_maxclients.integer ; i++ ) {
+		player = &g_entities[i];
 
-                if ( !player || !player->inuse )
-                        continue;
+		if ( !player || !player->inuse ) {
+			continue;
+		}
 
-                if (player->r.svFlags & SVF_CASTAI)
-                        continue;
+		if ( player->r.svFlags & SVF_CASTAI ) {
+			continue;
+		}
 
-                trap_UnlinkEntity( player );
+		trap_UnlinkEntity( player );
 
-                VectorCopy( ent->s.origin2, player->client->ps.origin );
+		VectorCopy( ent->s.origin2, player->client->ps.origin );
 
-                // save results of pmove
-                BG_PlayerStateToEntityState( &player->client->ps, &player->s, qtrue );
+		// save results of pmove
+		BG_PlayerStateToEntityState( &player->client->ps, &player->s, qtrue );
 
-                // use the precise origin for linking
-                VectorCopy( player->client->ps.origin, player->r.currentOrigin );
+		// use the precise origin for linking
+		VectorCopy( player->client->ps.origin, player->r.currentOrigin );
 
-                SetClientViewAngle( player, ent->s.angles2 );
+		SetClientViewAngle( player, ent->s.angles2 );
 
-                player->client->ps.persistant[PERS_HWEAPON_USE] = 0;
-                player->client->ps.viewlocked = 0;
-                player->client->ps.viewlocked_entNum = 0;
+		player->client->ps.persistant[PERS_HWEAPON_USE] = 0;
+		player->client->ps.viewlocked = 0;
+		player->client->ps.viewlocked_entNum = 0;
 
-                trap_LinkEntity( player );
-        }
+		trap_LinkEntity( player );
+	}
 
 }
 

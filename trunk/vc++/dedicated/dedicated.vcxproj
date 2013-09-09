@@ -56,14 +56,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>USE_HTTP_SERVER;_MT;DEDICATED;BOTLIB;NO_VM_COMPILED;C_ONLY;LOCALISATION;USE_ICON;WIN32;MONEY;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\src\mysql\include;..\..\src\SDL12\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\SDL12\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sdlmain.lib;SDL.lib;winmm.lib;msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sdlmain.lib;SDL.lib;winmm.lib;msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>..\..\src\mysql\lib\win32;..\..\src\libs\win32\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\src\libs\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,16 +76,16 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>USE_HTTP_SERVER;_MT;DEDICATED;BOTLIB;NO_VM_COMPILED;MONEY;LOCALISATION;C_ONLY;USE_ICON;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\src\mysql\include;..\..\src\SDL12\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src\SDL12\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sdlmain.lib;SDL.lib;winmm.lib;msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sdlmain.lib;SDL.lib;winmm.lib;msvcrt.lib;/NODEFAULTLIB:libcmt.lib;psapi.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>..\..\src\mysql\lib\win32;..\..\src\libs\win32\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\src\libs\win32\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -118,8 +118,6 @@
     <ClCompile Include="..\..\src\botlib\l_precomp.c" />
     <ClCompile Include="..\..\src\botlib\l_script.c" />
     <ClCompile Include="..\..\src\botlib\l_struct.c" />
-    <ClCompile Include="..\..\src\database\db_main.c" />
-    <ClCompile Include="..\..\src\database\db_mysql.c" />
     <ClCompile Include="..\..\src\game\q_math.c" />
     <ClCompile Include="..\..\src\game\q_shared.c" />
     <ClCompile Include="..\..\src\null\null_client.c" />

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -86,7 +86,7 @@ static qboolean R_CullGrid( srfGridMesh_t *cv ) {
 		if ( boxCull == CULL_OUT ) {
 			tr.pc.c_box_cull_patch_out++;
 			return qtrue;
-		} else if ( boxCull == CULL_IN )   {
+		} else if ( boxCull == CULL_IN ) {
 			tr.pc.c_box_cull_patch_in++;
 		} else
 		{
@@ -307,7 +307,7 @@ static void R_AddWorldSurface( msurface_t *surf, int dlightBits ) {
 /*
 =============================================================
 
-	BRUSH MODELS
+    BRUSH MODELS
 
 =============================================================
 */
@@ -396,7 +396,7 @@ void R_AddBrushModelSurfaces( trRefEntity_t *ent ) {
 /*
 =============================================================
 
-	WORLD MODEL
+    WORLD MODEL
 
 =============================================================
 */
@@ -476,26 +476,26 @@ static void R_RecursiveWorldNode( mnode_t *node, int planeBits, int dlightBits )
 		newDlights[1] = 0;
 /*
 //		if ( dlightBits )
-		{
-			int	i;
+        {
+            int	i;
 
-			for ( i = 0 ; i < tr.refdef.num_dlights ; i++ ) {
-				dlight_t	*dl;
-				float		dist;
+            for ( i = 0 ; i < tr.refdef.num_dlights ; i++ ) {
+                dlight_t	*dl;
+                float		dist;
 
 //				if ( dlightBits & ( 1 << i ) ) {
-					dl = &tr.refdef.dlights[i];
-					dist = DotProduct( dl->origin, node->plane->normal ) - node->plane->dist;
+                    dl = &tr.refdef.dlights[i];
+                    dist = DotProduct( dl->origin, node->plane->normal ) - node->plane->dist;
 
-					if ( dist > -dl->radius ) {
-						newDlights[0] |= ( 1 << i );
-					}
-					if ( dist < dl->radius ) {
-						newDlights[1] |= ( 1 << i );
-					}
+                    if ( dist > -dl->radius ) {
+                        newDlights[0] |= ( 1 << i );
+                    }
+                    if ( dist < dl->radius ) {
+                        newDlights[1] |= ( 1 << i );
+                    }
 //				}
-			}
-		}
+            }
+        }
 */
 		// recurse down the children, front side first
 		R_RecursiveWorldNode( node->children[0], planeBits, newDlights[0] );

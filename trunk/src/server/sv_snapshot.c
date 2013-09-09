@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -300,7 +300,7 @@ static void SV_AddEntitiesVisibleFromPoint( vec3_t origin, clientSnapshot_t *fra
 	int clientarea, clientcluster;
 	int leafnum;
 #ifdef FEATURE_ANTICHEAT
-	int wh;		// L0 - So it can be tweaked.
+	int wh;     // L0 - So it can be tweaked.
 #endif
 	byte    *clientpvs;
 	byte    *bitvector;
@@ -487,30 +487,26 @@ static void SV_AddEntitiesVisibleFromPoint( vec3_t origin, clientSnapshot_t *fra
 
 #ifdef FEATURE_ANTICHEAT
 		// L0 - Ugly but does it's job.
-		// 
-		// 1 = counts AI's so they're hidden as well, 2 only hides players so normal WH will still show 
-		// AI thru wall but hide players (theoretically). 
-		wh =( (wh_active->integer == 1) 
-			? sv_maxclients->integer : sv_maxcoopclients->integer ); 
-		
-		if (e < wh)     // client
-		{
+		//
+		// 1 = counts AI's so they're hidden as well, 2 only hides players so normal WH will still show
+		// AI thru wall but hide players (theoretically).
+		wh = ( ( wh_active->integer == 1 )
+			   ? sv_maxclients->integer : sv_maxcoopclients->integer );
+
+		if ( e < wh ) {   // client
 			sharedEntity_t *client;
 
-			if (e == frame->ps.clientNum)
-			{
+			if ( e == frame->ps.clientNum ) {
 				continue;
 			}
 
-			client = SV_GentityNum(frame->ps.clientNum);
+			client = SV_GentityNum( frame->ps.clientNum );
 
-			if (wh_active->integer && !portal && !(client->r.svFlags & SVF_BOT) && 
-				(frame->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR))
-			{
-				if (!SV_CanSee(frame->ps.clientNum, e))
-				{
-					SV_RandomizePos(frame->ps.clientNum, e);
-					SV_AddEntToSnapshot(svEnt, ent, eNums);
+			if ( wh_active->integer && !portal && !( client->r.svFlags & SVF_BOT ) &&
+				 ( frame->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR ) ) {
+				if ( !SV_CanSee( frame->ps.clientNum, e ) ) {
+					SV_RandomizePos( frame->ps.clientNum, e );
+					SV_AddEntToSnapshot( svEnt, ent, eNums );
 					continue;
 				}
 			}
@@ -645,11 +641,9 @@ static void SV_BuildClientSnapshot( client_t *client ) {
 		state = &svs.snapshotEntities[svs.nextSnapshotEntities % svs.numSnapshotEntities];
 		*state = ent->s;
 #ifdef FEATURE_ANTICHEAT
-		if (wh_active->integer && entityNumbers.snapshotEntities[i] < sv_maxclients->integer)
-		{
-			if (SV_PositionChanged(entityNumbers.snapshotEntities[i]))
-			{
-				SV_RestorePos(entityNumbers.snapshotEntities[i]);
+		if ( wh_active->integer && entityNumbers.snapshotEntities[i] < sv_maxclients->integer ) {
+			if ( SV_PositionChanged( entityNumbers.snapshotEntities[i] ) ) {
+				SV_RestorePos( entityNumbers.snapshotEntities[i] );
 			}
 		}
 #endif
