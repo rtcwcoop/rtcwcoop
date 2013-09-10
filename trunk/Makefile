@@ -266,8 +266,8 @@ ifeq ($(PLATFORM),linux)
   THREAD_LIBS=-lpthread
   LIBS=-ldl -lm -lsupc++ -lpthread -Wl,-Bstatic $(SDL_LIBS) -Wl,-Bdynamic
 
-  #CLIENT_LIBS=$(SDL_LIBS) -Lsrc/libs/linux/ -Wl,-Bstatic -lcurl -Wl,-Bdynamic -lGL
-  CLIENT_LIBS=-Lsrc/libs/linux/ -Wl,-Bstatic -lSDL -lXext -lX11 -lxcb -lXau -lXdmcp -lcurl -lcaca -Wl,-Bdynamic -lGL -lasound -lpulse -lpulse-simple -lslang -lz -lncursesw
+  CLIENT_LIBS=$(SDL_LIBS) -Lsrc/libs/linux/ -Wl,-Bstatic -lcurl -Wl,-Bdynamic -lGL
+  #CLIENT_LIBS=-Lsrc/libs/linux/ -Wl,-Bstatic -lSDL -lXext -lX11 -lxcb -lXau -lXdmcp -lcurl -lcaca -Wl,-Bdynamic -lGL -lasound -lpulse -lpulse-simple -lslang -lz -lncursesw
 
   ifeq ($(USE_LOCAL_HEADERS),1)
     CLIENT_CFLAGS += -I$(SDLHDIR)/include
