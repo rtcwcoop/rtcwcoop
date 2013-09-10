@@ -589,8 +589,6 @@ bool idCameraDef::getCameraInfo( long time, idVec3 &origin, idVec3 &direction, f
 
 	origin = *cameraPosition->getPosition( time );
 
-	CHECK_NAN_VEC( origin );
-
 	*fv = fov.getFOV( time );
 
 	idVec3 temp = origin;

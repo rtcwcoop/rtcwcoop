@@ -165,8 +165,8 @@ int HTTP_ClientConnection( void *sock ) {
 	char *input;
 	int len;
 	int handle;
-	char *downloadName;
-	char *fs_game;
+	char *downloadName = NULL;
+	char *fs_game = NULL;
 	char *tofree;
 	char *string;
 	int cnt = 0;
