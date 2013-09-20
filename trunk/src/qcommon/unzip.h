@@ -2,9 +2,9 @@
 ===========================================================================
 
 Return to Castle Wolfenstein single player GPL Source Code
-Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company. 
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).
+This file is part of the Return to Castle Wolfenstein single player GPL Source Code (RTCW SP Source Code).  
 
 RTCW SP Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #if defined( STRICTUNZIP ) || defined( STRICTZIPUNZIP )
 /* like the STRICT of WIN32, we define a pointer that cannot be converted
-    from (void*) without cast */
+	from (void*) without cast */
 typedef struct TagunzFile__ { int unused; } unzFile__;
 typedef unzFile__ *unzFile;
 #else
@@ -114,7 +114,7 @@ typedef z_stream *z_streamp;
 
 
 /* file_in_zip_read_info_s contain internal information about a file in zipfile,
-    when reading and decompress it */
+	when reading and decompress it */
 typedef struct
 {
 	char  *read_buffer;         /* internal buffer for compressed data */
@@ -151,12 +151,12 @@ typedef struct
 
 	unsigned long size_central_dir;     /* size of the central directory  */
 	unsigned long offset_central_dir;   /* offset of start of central directory with
-	                               respect to the starting disk number */
+								   respect to the starting disk number */
 
 	unz_file_info cur_file_info; /* public info about the current file in zip*/
 	unz_file_info_internal cur_file_info_internal; /* private info about it*/
 	file_in_zip_read_info_s* pfile_in_zip_read; /* structure about the current
-	                                    file if we are decompressing it */
+										file if we are decompressing it */
 } unz_s;
 
 #define UNZ_OK                                  ( 0 )
@@ -178,9 +178,9 @@ extern int unzStringFileNameCompare( const char* fileName1, const char* fileName
    Compare two filename (fileName1,fileName2).
    If iCaseSenisivity = 1, comparision is case sensitivity (like strcmp)
    If iCaseSenisivity = 2, comparision is not case sensitivity (like strcmpi
-                                or strcasecmp)
+								or strcasecmp)
    If iCaseSenisivity = 0, case sensitivity is defaut of your operating system
-    (like 1 on Unix, 2 on Windows)
+	(like 1 on Unix, 2 on Windows)
 */
 
 extern unzFile unzOpen( const char *path );
@@ -188,12 +188,12 @@ extern unzFile unzReOpen( const char* path, unzFile file );
 
 /*
   Open a Zip file. path contain the full pathname (by example,
-     on a Windows NT computer "c:\\zlib\\zlib111.zip" or on an Unix computer
-     "zlib/zlib111.zip".
-     If the zipfile cannot be opened (file don't exist or in not valid), the
-       return value is NULL.
-     Else, the return value is a unzFile Handle, usable with other function
-       of this unzip package.
+	 on a Windows NT computer "c:\\zlib\\zlib111.zip" or on an Unix computer
+	 "zlib/zlib111.zip".
+	 If the zipfile cannot be opened (file don't exist or in not valid), the
+	   return value is NULL.
+	 Else, the return value is a unzFile Handle, usable with other function
+	   of this unzip package.
 */
 
 extern int unzClose( unzFile file );
@@ -201,7 +201,7 @@ extern int unzClose( unzFile file );
 /*
   Close a ZipFile opened with unzipOpen.
   If there is files inside the .Zip opened with unzOpenCurrentFile (see later),
-    these files MUST be closed with unzipCloseCurrentFile before call unzipClose.
+	these files MUST be closed with unzipCloseCurrentFile before call unzipClose.
   return UNZ_OK if there is no problem. */
 
 extern int unzGetGlobalInfo( unzFile file, unz_global_info *pglobal_info );
@@ -270,14 +270,14 @@ extern int unzGetCurrentFileInfo( unzFile file, unz_file_info *pfile_info, char 
 /*
   Get Info about the current file
   if pfile_info!=NULL, the *pfile_info structure will contain somes info about
-        the current file
+		the current file
   if szFileName!=NULL, the filemane string will be copied in szFileName
-            (fileNameBufferSize is the size of the buffer)
+			(fileNameBufferSize is the size of the buffer)
   if extraField!=NULL, the extra field information will be copied in extraField
-            (extraFieldBufferSize is the size of the buffer).
-            This is the Central-header version of the extra field
+			(extraFieldBufferSize is the size of the buffer).
+			This is the Central-header version of the extra field
   if szComment!=NULL, the comment string of the file will be copied in szComment
-            (commentBufferSize is the size of the buffer)
+			(commentBufferSize is the size of the buffer)
 */
 
 /***************************************************************************/
@@ -310,7 +310,7 @@ extern int unzReadCurrentFile( unzFile file, void* buf, unsigned len );
   return the number of unsigned char copied if somes unsigned chars are copied
   return 0 if the end of file was reached
   return <0 with error code if there is an error
-    (UNZ_ERRNO for IO error, or zLib error for uncompress error)
+	(UNZ_ERRNO for IO error, or zLib error for uncompress error)
 */
 
 extern long unztell( unzFile file );
@@ -330,12 +330,12 @@ extern int unzGetLocalExtrafield( unzFile file, void* buf, unsigned len );
 /*
   Read extra field from the current file (opened by unzOpenCurrentFile)
   This is the local-header version of the extra field (sometimes, there is
-    more info in the local-header version than in the central-header)
+	more info in the local-header version than in the central-header)
 
   if buf==NULL, it return the size of the local extra field
 
   if buf!=NULL, len is the size of the buffer, the extra header is copied in
-    buf.
+	buf.
   the return value is the number of unsigned chars copied in buf, or (if <0)
-    the error code
+	the error code
 */
