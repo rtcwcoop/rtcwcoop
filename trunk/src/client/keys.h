@@ -54,7 +54,9 @@ extern field_t chatField;
 extern int anykeydown;
 extern qboolean chat_team;
 extern qboolean chat_limbo;             // NERVE - SMF
+#ifdef USE_IRC
 extern qboolean chat_irc;             // fretn
+#endif
 extern int chat_playerNum;
 
 void Key_WriteBindings( fileHandle_t f );

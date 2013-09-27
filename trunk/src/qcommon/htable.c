@@ -1,3 +1,4 @@
+#ifdef USE_IRC
 /*
 ===========================================================================
 
@@ -703,3 +704,4 @@ static void _HT_InsertInGlobalList(hashtable_t table, struct tentry_t *t_entry, 
 	}
 }
 
+#endif // USE_IRC

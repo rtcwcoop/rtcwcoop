@@ -111,7 +111,9 @@ Con_MessageMode_f
 void Con_MessageMode_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qfalse;
+#ifdef USE_IRC
 	chat_irc = qfalse;
+#endif
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 
@@ -126,7 +128,9 @@ Con_MessageMode2_f
 void Con_MessageMode2_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qtrue;
+#ifdef USE_IRC
 	chat_irc = qfalse;
+#endif
 	Field_Clear( &chatField );
 	chatField.widthInChars = 25;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -144,7 +148,9 @@ void Con_MessageMode3_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
+#ifdef USE_IRC
 	chat_irc = qfalse;
+#endif
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
@@ -162,12 +168,15 @@ void Con_MessageMode4_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
+#ifdef USE_IRC
 	chat_irc = qfalse;
+#endif
 	Field_Clear( &chatField );
 	chatField.widthInChars = 30;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
 }
 
+#ifdef USE_IRC
 /*
 ================
 Con_IrcMessageMode_f
@@ -180,6 +189,7 @@ void Con_IrcMessageMode_f( void ) {
 	chatField.widthInChars = 30;
 	cls.keyCatchers ^= KEYCATCH_MESSAGE;
 }
+#endif
 
 // NERVE - SMF
 /*
@@ -392,7 +402,9 @@ void Con_Init( void ) {
 	Cmd_AddCommand( "messagemode2", Con_MessageMode2_f );
 	Cmd_AddCommand( "messagemode3", Con_MessageMode3_f );
 	Cmd_AddCommand( "messagemode4", Con_MessageMode4_f );
+#ifdef USE_IRC
 	Cmd_AddCommand( "ircmessagemode", Con_IrcMessageMode_f );
+#endif
 	Cmd_AddCommand( "startLimboMode", Con_StartLimboMode_f );     // NERVE - SMF
 	Cmd_AddCommand( "stopLimboMode", Con_StopLimboMode_f );           // NERVE - SMF
 	Cmd_AddCommand( "clear", Con_Clear_f );
@@ -633,6 +645,7 @@ void Con_DrawNotify( void ) {
 			SCR_DrawBigString( 8, v, "say_team:", 1.0f );
 			skip = 11;
 #endif
+#ifdef USE_IRC
 		} else if ( chat_irc ) {
 #ifdef LOCALISATION
 			char buf[128];
@@ -643,6 +656,7 @@ void Con_DrawNotify( void ) {
 			SCR_DrawBigString( 8, v, "say_irc:", 1.0f );
 			skip = 11;
 #endif
+#endif // USE_IRC
 		} else
 		{
 #ifdef LOCALISATION

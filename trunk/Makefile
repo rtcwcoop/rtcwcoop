@@ -477,6 +477,7 @@ endif
 
 ifeq ($(USE_IRC),1)
   CLIENT_CFLAGS += -DUSE_IRC
+  CFLAGS += -DUSE_IRC
 endif
 
 ifeq ($(USE_HTTP_SERVER),1)
@@ -686,7 +687,6 @@ WOLFOBJ = \
   $(B)/client/cvar.o \
   $(B)/client/dl_main_curl.o \
   $(B)/client/files.o \
-  $(B)/client/htable.o \
   $(B)/client/md4.o \
   $(B)/client/msg.o \
   $(B)/client/net_chan.o \
@@ -848,6 +848,7 @@ endif
 
 ifeq ($(USE_IRC),1)
   WOLFOBJ += \
+    $(B)/client/htable.o \
     $(B)/client/cl_irc.o
 endif
 

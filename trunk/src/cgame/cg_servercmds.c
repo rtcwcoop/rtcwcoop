@@ -557,7 +557,11 @@ CG_AddToTeamChat
 
 =======================
 */
+#ifdef USE_IRC
 void CG_AddToTeamChat( const char *str ) {
+#else
+static void CG_AddToTeamChat( const char *str ) {
+#endif
 	int len;
 	char *p, *ls;
 	int lastcolor;

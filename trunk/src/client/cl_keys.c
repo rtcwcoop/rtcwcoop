@@ -44,7 +44,9 @@ field_t g_consoleField;
 field_t chatField;
 qboolean chat_team;
 qboolean chat_limbo;            // NERVE - SMF
+#ifdef USE_IRC
 qboolean chat_irc;      // fretn
+#endif
 
 int chat_playerNum;
 
@@ -1842,19 +1844,26 @@ void Message_Key( int key ) {
 				Com_sprintf( buffer, sizeof( buffer ), "say_limbo \"%s\"\n", chatField.buffer );
 			}
 			// -NERVE - SMF
+#ifdef USE_IRC
 			else if ( chat_irc ) {
 
 				Com_sprintf( buffer, sizeof( buffer ), "irc_say \"%s\"\n", chatField.buffer );
-			} else {
+			}
+#endif
+			else {
 				Com_sprintf( buffer, sizeof( buffer ), "say \"%s\"\n", chatField.buffer );
 			}
 
 
+#ifdef USE_IRC
 			if ( !chat_irc ) {
 				CL_AddReliableCommand( buffer );
 			} else {
 				Cbuf_AddText( buffer );
 			}
+#else
+			CL_AddReliableCommand( buffer );
+#endif
 		}
 		cls.keyCatchers &= ~KEYCATCH_MESSAGE;
 		Field_Clear( &chatField );
