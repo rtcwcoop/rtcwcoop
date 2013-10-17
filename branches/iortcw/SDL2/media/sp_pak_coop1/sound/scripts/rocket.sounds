@@ -1,0 +1,691 @@
+// Assault sounds
+// This file is meant mostly for level defind sounds.
+//
+// channels: local, announcer, body, voice, weapon, item, auto (default)
+// toggles: streaming, looping (only works for streaming sounds), global
+
+basein_switch
+{
+	streaming
+	auto
+	sound sound/scenaric/general/misc_switch.wav
+}
+
+basein_rumble
+{
+	shake 0.025 16000 16000
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/rumble.wav
+}
+
+basein_cough2
+{
+	streaming
+	voice
+	sound sound/scenaric/general/misc_cough_2.wav
+}
+
+basein_yawn
+{
+	streaming
+	voice
+	sound sound/scenaric/general/misc_yawn.wav
+}
+
+rocket_ls_attention
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_attention.wav
+}
+
+rocket_ls_rocket_test
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_v2_rocket_test.wav
+}
+
+rocket_ls_54321
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_54321.wav
+}
+
+rocket_ls_test_complete
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_v2_test_complete.wav
+}
+
+rocket_ls_2min
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_2min.wav
+}
+
+rocket_ls_1min30sec
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_1min30sec.wav
+}
+
+rocket_ls_1min
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_1min.wav
+}
+
+rocket_ls_30sec
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_30sec.wav
+}
+
+rocket_ls_15sec
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_15sec.wav
+}
+
+rocket_ls_1098765sec
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_1098765sec.wav
+}
+
+rocket_ls_launch
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_launch.wav
+}
+
+rocket_ls_launch_aborted
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_launch_aborted.wav
+}
+
+rocket_ls_intruder
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_intruder.wav
+}
+
+rocket_ls_tower
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_tower.wav
+}
+
+rocket_ls_fueling
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/ls_fueling.wav
+}
+
+rocket_driver1_huh
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/driver1_huh.wav
+}
+
+rocket_driver1_damn_tailgate
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/driver1_damn_tailgate.wav
+}
+
+rocket_driver1_imagination
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/driver1_imagination.wav
+}
+
+rocket_driver1_not_falling
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/driver1_not_falling.wav
+}
+
+rocket_driver1_dont_kill_me
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/driver1_dont_kill_me.wav
+}
+
+rocket_driver1_man_down
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/driver1_man_down.wav
+}
+
+rocket_driver1_gun_fire
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/driver1_gun_fire.wav
+}
+
+rocket_mech1_crane_connected
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech1_crane_connected.wav
+}
+
+rocket_mech1_train_arrived
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech1_has_train_arrived.wav
+}
+
+rocket_mech1_stand_clear
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/mech1pa_stand_clear.wav
+}
+
+rocket_mech1_crane_ready
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech1_crane_ready.wav
+}
+
+rocket_mech1_lifting
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech1_lifting_container.wav
+}
+
+rocket_mech1_moving_container
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech1_moving_container.wav
+}
+
+rocket_mech1_lowering
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech1_lowering.wav
+}
+
+rocket_mech1_man_down
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech1_man_down.wav
+}
+
+rocket_mech2_affirmative
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_affirmative.wav
+}
+
+rocket_mech2_in_position
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_in_position.wav
+}
+
+rocket_mech2_acknowledged
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_acknowledged.wav
+}
+
+rocket_mech2_almost_there
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_almost_there.wav
+}
+
+rocket_mech2_lower
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_lower.wav
+}
+
+rocket_mech2_its_on
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_its_on.wav
+}
+
+rocket_mech2_come_in
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_hanz_come_in.wav
+}
+
+rocket_mech2_whats_happening
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_whats_happening.wav
+}
+
+rocket_mech2_sending_troops
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_sending_troops.wav
+}
+
+rocket_mech2_forgot
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_hanz_you_forgot.wav
+}
+
+rocket_mech2_your_back
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_your_back.wav
+}
+
+rocket_mech2pa_affirmative
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_affirmative.wav
+}
+
+rocket_mech2pa_in_position
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_in_position.wav
+}
+
+rocket_mech2pa_acknowledged
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_acknowledged.wav
+}
+
+rocket_mech2pa_almost_there
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_almost_there.wav
+}
+
+rocket_mech2pa_lower
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_lower.wav
+}
+
+rocket_mech2pa_its_on
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_its_on.wav
+}
+
+rocket_mech2pa_come_in
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_hanz_come_in.wav
+}
+
+rocket_mech2pa_whats_happening
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_whatshappening.wav
+}
+
+rocket_mech2pa_sending_troops
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_sending_troops.wav
+}
+
+rocket_mech2pa_forgot
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_hanz_you_forgot.wav
+}
+
+rocket_mech2pa_your_back
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/mech2_your_back.wav
+}
+
+rocket_nazi26_this_way
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis26_this_way.wav
+}
+
+rocket_nazi29_ammo
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis29_out_of_ammo.wav
+}
+
+rocket_nazi2a_elevator
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis2a_elevator.wav
+}
+
+rocket_nazi2a_down
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis2a_going_down.wav
+}
+
+rocket_nazi2a_lost_him
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis2a_lost_him.wav
+}
+
+rocket_nazi2a_gunfire
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis2a_gunfire.wav
+}
+
+rocket_nazi30_hurry
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis30_hurry.wav
+}
+
+rocket_nazi35_comes
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis35_comes.wav
+}
+
+rocket_nazi36_charge_set
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis36_charge_set.wav
+}
+
+rocket_nazi37_hold_him
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis37_hold_him.wav
+}
+
+rocket_nazi4_rocket_tests
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis4_rocket_tests.wav
+}
+
+rocket_nazi4_the_front
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis4_the_front.wav
+}
+
+rocket_nazi5_babysitting
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis5_babysitting.wav
+}
+
+
+rocket_nazi5_headache
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis5_headache.wav
+}
+
+rocket_nazi6a_where
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis6a_where.wav
+}
+
+rocket_nazi7a_any_minute
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis7a_any_minute.wav
+}
+
+rocket_sci0_man_down
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci1_man_down.wav
+}
+
+rocket_sci0_here_all_day
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci0_here_all_day.wav
+}
+
+rocket_sci0_hurry_up
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci0_hurry_up.wav
+}
+
+rocket_sci0_dont_shoot
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci0_dont_shoot.wav
+}
+
+rocket_sci1_intruder
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci1_intruder.wav
+}
+
+rocket_sci1_man_down
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci1_man_down.wav
+}
+
+rocket_sci1_guards
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci1_guards.wav
+}
+
+rocket_sci_misc_fear2
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci_fear_2.wav
+}
+
+rocket_sci_jeapordize
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci_jeapordize.wav
+}
+
+rocket_sci_quick_guards
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci_quick_guards.wav
+}
+
+rocket_sci_fear3
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/sci_fear_3.wav
+}
+
+rocket_nazi40_move_out
+{
+	streaming
+	voice
+	sound sound/scenaric/rocket/axis40_move_out.wav
+}
+
+rocket_v2_explode
+{
+	shake 0.4 16000 10000
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/v2_explode.wav
+}
+
+rocket_v2_takeoff
+{
+	shake 0.1 16000 20000
+	streaming
+	global
+	auto
+	sound sound/scenaric/rocket/v2_takeoff.wav
+}
+
+rocket_bridge_fall
+{
+	shake 0.2 1024 7000
+	streaming
+	//global
+	auto
+	sound sound/scenaric/rocket/bridge_fall.wav
+}
+
+rocket_bridge_fall2
+{
+	shake 0.05 1024 7000
+	streaming
+	//global
+	auto
+	sound sound/scenaric/rocket/bridge_2nd_fall.wav
+}
+
+rocket_bridge_crash
+{
+	shake 0.2 16000 5000
+	streaming
+	//global
+	auto
+	sound sound/scenaric/rocket/bridge_crash.wav
+}
+
+rocket_bridge_creak1
+{
+	shake 0.005 1024 5000
+	streaming
+	//global
+	auto
+	sound sound/scenaric/rocket/bridge_creak1.wav
+}
+
+rocket_bridge_creak2
+{
+	shake 0.005 1024 5000
+	streaming
+	//global
+	auto
+	sound sound/scenaric/rocket/bridge_creak2.wav
+}
+
+rocket_bridge_creak3
+{
+	shake 0.005 1024 4000
+	streaming
+	//global
+	auto
+	sound sound/scenaric/rocket/bridge_creak3.wav
+}
+
+rocket_d_battle
+{
+	streaming
+	auto
+	sound sound/scenaric/rocket/distant_battle.wav
+}

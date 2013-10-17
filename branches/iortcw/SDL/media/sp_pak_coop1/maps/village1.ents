@@ -1,0 +1,617 @@
+{
+"classname" "script_multiplayer"
+"scriptname" "game_manager"
+}
+
+// AXIS SPAWNPOINTS (flags: 0 = disabled; 1 enabled; 2 = allied and disabled; 3 = allied and enabled; 4 = axis and disabled; 5 = axis and enabled; 6 = axis and allied and disabled; 7 = axis and allied and enabled)
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "-2539 -1677 -103"
+"angle" "-6"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "-2528 -1571 -103"
+"angle" "-6"
+}
+
+// SPAWNPOINTS 
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2534 -367 -167"
+"angle" "-89"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2600 -367 -167"
+"angle" "-89"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2663 -367 -167"
+"angle" "-89"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2717 -367 -167"
+"angle" "-89"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2717 -415 -167"
+"angle" "-89"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2667 -415 -167"
+"angle" "-89"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2599 -415 -167"
+"angle" "-89"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2702 -495 -167"
+"angle" "-89"
+}
+
+// ADDITIONAL WEAPONS
+
+{
+"classname" "weapon_thompson"		// Cemetery's old tree
+"origin" "-512 3408 -128"
+"angle" "270"
+}
+{
+"classname" "weapon_thompson"		// Secret basement
+"origin" "2136 -1160 -288"
+"angle" "315"
+}
+{
+"classname" "weapon_thompson"		// Partisan's table
+"origin" "-288 -904 -128"
+"angle" "135"
+}
+{
+"classname" "weapon_thompson"		// Kessler's self
+"origin" "-2656 -1308 -288"
+"angle" "150"
+}
+{
+"classname" "weapon_sten"			// Secret basement
+"origin" "2144 -1360 -296"
+"angle" "90"
+}
+{
+"classname" "weapon_sten"			// Partisan's room (floor)
+"origin" "-600 -1200 -216"
+"angle" "0"
+}
+{
+"classname" "weapon_sten"			// Partisan's room (left wall)
+"origin" "-608 -1200 -112"
+"angle" "0"
+}
+{
+"classname" "weapon_sten"			// Partisan's room (right wall)
+"origin" "-544 -1016 -80"
+"angle" "180"
+}
+{
+"classname" "weapon_sniperScope"	// Empty room
+"origin" "-1736 -1808 40"
+"angle" "180"
+}
+{
+"classname" "weapon_silencer"		// Pub
+"origin" "1728 -744 -112"
+"angle" "63"
+}
+
+// REINFORCES
+
+{
+"classname" "ai_soldier"
+"origin" "-2793 -1990 -327"
+"ainame" "coop_ai_soldier_1"
+"skin" "infantryss/village1"
+"head" "village1"
+"spawnflags" "1" 
+"angle" "109"
+}
+{
+"classname" "ai_soldier"
+"origin" "-2880 -1984 -327"
+"ainame" "coop_ai_soldier_2"
+"skin" "infantryss/village2"
+"head" "village2"
+"spawnflags" "1" 
+"angle" "22"
+}
+{
+"classname" "ai_soldier"
+"origin" "-2482 -1582 -103"
+"ainame" "coop_ai_soldier_3"
+"skin" "infantryss/village1"
+"head" "village3"
+"spawnflags" "1" 
+"angle" "82"
+}
+{
+"classname" "ai_soldier"
+"origin" "-2217 -989 -103"
+"ainame" "coop_ai_soldier_4"
+"skin" "infantryss/village3"
+"head" "village8"
+"spawnflags" "1" 
+"angle" "-17"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1962 -1532 8"
+"ainame" "coop_ai_soldier_5"
+"skin" "infantryss/village2"
+"head" "village6"
+"spawnflags" "1" 
+"angle" "-178"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1826 -1821 24"
+"ainame" "coop_ai_soldier_6"
+"skin" "infantryss/village1"
+"head" "village4"
+"spawnflags" "1" 
+"angle" "-29"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1680 -1739 24"
+"ainame" "coop_ai_soldier_7"
+"skin" "infantryss/village2"
+"head" "village1"
+"spawnflags" "7" 
+"angle" "-113"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1682 -1406 24"
+"ainame" "coop_ai_soldier_8"
+"skin" "infantryss/village1"
+"head" "village5"
+"spawnflags" "1" 
+"angle" "80"
+}
+{
+"classname" "ai_soldier"
+"origin" "-483 -652 -151"
+"ainame" "coop_ai_soldier_9"
+"skin" "infantryss/village4"
+"head" "village9"
+"spawnflags" "1" 
+"angle" "-171"
+}
+{
+"classname" "ai_soldier"
+"origin" "-703 -471 -167"
+"ainame" "coop_ai_soldier_10"
+"skin" "infantryss/village3"
+"head" "village10"
+"spawnflags" "1" 
+"angle" "5"
+}
+{
+"classname" "ai_soldier"
+"origin" "-718 -502 32"
+"ainame" "coop_ai_soldier_11"
+"skin" "infantryss/village1"
+"head" "village5"
+"spawnflags" "1" 
+"angle" "-106"
+}
+{
+"classname" "ai_soldier"
+"origin" "-772 37 -159"
+"ainame" "coop_ai_soldier_12"
+"skin" "infantryss/village3"
+"head" "village1"
+"spawnflags" "1" 
+"angle" "74"
+}
+{
+"classname" "ai_soldier"
+"origin" "257 366 -175"
+"ainame" "coop_ai_soldier_13"
+"skin" "infantryss/village3"
+"head" "village8"
+"spawnflags" "1" 
+"angle" "-98"
+}
+{
+"classname" "ai_soldier"
+"origin" "274 -217 -167"
+"ainame" "coop_ai_soldier_14"
+"skin" "infantryss/village4"
+"head" "village9"
+"spawnflags" "1" 
+"angle" "90"
+}
+{
+"classname" "ai_soldier"
+"origin" "811 -978 -151"
+"ainame" "coop_ai_soldier_15"
+"skin" "infantryss/village4"
+"head" "village10"
+"spawnflags" "1" 
+"angle" "106"
+}
+{
+"classname" "ai_soldier"
+"origin" "1735 -677 -143"
+"ainame" "coop_ai_soldier_16"
+"skin" "infantryss/village1"
+"head" "village3"
+"spawnflags" "1" 
+"angle" "-86"
+}
+{
+"classname" "ai_soldier"
+"origin" "1681 -1112 -143"
+"ainame" "coop_ai_soldier_17"
+"skin" "infantryss/village2"
+"head" "village1"
+"spawnflags" "1" 
+"angle" "86"
+}
+{
+"classname" "ai_soldier"
+"origin" "1125 229 -135"
+"ainame" "coop_ai_soldier_18"
+"skin" "infantryss/village1"
+"head" "village3"
+"spawnflags" "1" 
+"angle" "82"
+}
+{
+"classname" "ai_soldier"
+"origin" "1027 303 -135"
+"ainame" "coop_ai_soldier_19"
+"skin" "infantryss/village2"
+"head" "village2"
+"spawnflags" "1" 
+"angle" "9"
+}
+{
+"classname" "ai_soldier"
+"origin" "973 282 -135"
+"ainame" "coop_ai_soldier_20"
+"skin" "infantryss/village1"
+"head" "village7"
+"spawnflags" "1" 
+"angle" "-166"
+}
+{
+"classname" "ai_soldier"
+"origin" "686 469 -103"
+"ainame" "coop_ai_soldier_21"
+"skin" "infantryss/village4"
+"head" "village8"
+"spawnflags" "1" 
+"angle" "-101"
+}
+{
+"classname" "ai_soldier"
+"origin" "920 1774 -135"
+"ainame" "coop_ai_soldier_22"
+"skin" "infantryss/village1"
+"head" "village3"
+"spawnflags" "1" 
+"angle" "12"
+}
+{
+"classname" "ai_soldier"
+"origin" "1053 1646 32"
+"ainame" "coop_ai_soldier_23"
+"skin" "infantryss/village3"
+"head" "village10"
+"spawnflags" "1" 
+"angle" "55"
+}
+{
+"classname" "ai_soldier"
+"origin" "1314 1862 24"
+"ainame" "coop_ai_soldier_24"
+"skin" "infantryss/village1"
+"head" "village2"
+"spawnflags" "1" 
+"angle" "-170"
+}
+{
+"classname" "ai_soldier"
+"origin" "1674 2098 24"
+"ainame" "coop_ai_soldier_25"
+"skin" "infantryss/village2"
+"head" "village6"
+"spawnflags" "1" 
+"angle" "-111"
+}
+{
+"classname" "ai_soldier"
+"origin" "435 1595 32"
+"ainame" "coop_ai_soldier_26"
+"skin" "infantryss/village2"
+"head" "village7"
+"spawnflags" "1" 
+"angle" "21"
+}
+{
+"classname" "ai_soldier"
+"origin" "-904 1070 -175"
+"ainame" "coop_ai_soldier_27"
+"skin" "infantryss/village3"
+"head" "village8"
+"spawnflags" "1" 
+"angle" "-20"
+}
+{
+"classname" "ai_soldier"
+"origin" "-919 887 -167"
+"ainame" "coop_ai_soldier_28"
+"skin" "infantryss/village4"
+"head" "village10"
+"spawnflags" "1" 
+"angle" "16"
+}
+{
+"classname" "ai_soldier"
+"origin" "-761 561 -159"
+"ainame" "coop_ai_soldier_30"
+"skin" "infantryss/village3"
+"head" "village9"
+"spawnflags" "1" 
+"angle" "94"
+}
+{
+"classname" "ai_soldier"
+"origin" "-617 2078 -183"
+"ainame" "coop_ai_soldier_31"
+"skin" "infantryss/village1"
+"head" "village2"
+"spawnflags" "1" 
+"angle" "-3"
+}
+{
+"classname" "ai_soldier"
+"origin" "-657 2512 -31"
+"ainame" "coop_ai_soldier_32"
+"skin" "infantryss/village2"
+"head" "village4"
+"spawnflags" "1" 
+"angle" "-43"
+}
+{
+"classname" "ai_soldier"
+"origin" "126 2101 -163"
+"ainame" "coop_ai_soldier_33"
+"skin" "infantryss/village1"
+"head" "village5"
+"spawnflags" "1" 
+"angle" "91"
+}
+{
+"classname" "ai_soldier"
+"origin" "-73 2099 -163"
+"ainame" "coop_ai_soldier_34"
+"skin" "infantryss/village2"
+"head" "village7"
+"spawnflags" "1" 
+"angle" "62"
+}
+{
+"classname" "ai_soldier"
+"origin" "519 3504 -121"
+"ainame" "coop_ai_soldier_35"
+"skin" "infantryss/village3"
+"head" "village8"
+"spawnflags" "1" 
+"angle" "-162"
+}
+{
+"classname" "ai_soldier"
+"origin" "-281 3763 -143"
+"ainame" "coop_ai_soldier_36"
+"skin" "infantryss/village4"
+"head" "village9"
+"spawnflags" "1" 
+"angle" "-58"
+}
+{
+"classname" "ai_soldier"
+"origin" "-718 4409 -61"
+"ainame" "coop_ai_soldier_37"
+"skin" "infantryss/village3"
+"head" "village10"
+"spawnflags" "1" 
+"angle" "-34"
+}
+{
+"classname" "ai_soldier"
+"origin" "-163 4828 -51"
+"ainame" "coop_ai_soldier_38"
+"skin" "infantryss/village4"
+"head" "village9"
+"spawnflags" "1" 
+"angle" "-102"
+}
+
+// FLAGZONES
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "42 -1009 -267"
+"angle" "-91"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "39 -1229 -221"
+"angle" "105"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "33 -1177 -227"
+"angle" "109"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "32 -1115 -231"
+"angle" "127"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-45 -1092 -231"
+"angle" "99"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-41 -1047 -231"
+"angle" "104"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-62 -995 -231"
+"angle" "104"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-141 -1006 -231"
+"angle" "87"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-137 -937 -225"
+"angle" "87"
+"targetname" "village10"
+}
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-1080 1736 -115"
+"angle" "174"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-1101 1652 -55"
+"angle" "77"
+"targetname" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-1094 1584 -55"
+"angle" "77"
+"targetname" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-1100 1517 -55"
+"angle" "77"
+"targetname" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-1100 1440 -55"
+"angle" "77"
+"targetname" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-985 1448 -55"
+"angle" "96"
+"targetname" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-979 1495 -55"
+"angle" "96"
+"targetname" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-987 1567 -55"
+"angle" "98"
+"targetname" "village11"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-984 1636 -55"
+"angle" "103"
+"targetname" "village11"
+}
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn != 0
+{
+"classname" "weapon_luger"
+"origin" "-2750 -1544 -487"
+"angle" "-151"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-162 -1108 -199"
+"angle" "81"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-884 1715 -55"
+"angle" "-177"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

@@ -1,0 +1,525 @@
+//Cleaned for COOP by -SSF-Sage on 24.1.2013
+//
+//Brush Scripting
+//Map: Crypt1
+//Last edited by: Mike (110501)
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger remove_1st_door
+	{
+		wait 3300
+		removeentity *121
+	}
+
+	trigger a_boom
+	{
+		mu_play sound/music/s_bighits
+		wait 8000
+		mu_stop
+		mu_start sound/music/c_chant
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2	
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+}
+
+piece1
+{
+
+	trigger rotate
+	{
+		faceangles 0 -1 0 200
+		faceangles -2 -1 0 200
+		faceangles -1 -1 0 200
+		faceangles -3 -1 0 200		
+	}
+
+	trigger fall
+	{
+		alertentity debris1
+		gotomarker p1spot1 80
+		faceangles -10 0 0 gototime
+		alertentity debris2
+		gotomarker p1spot2 160
+		faceangles -18 0 0 gototime
+		alertentity dust1
+		alertentity dust4
+		gotomarker p1spot3 40
+		faceangles -18 0 0 gototime
+	}
+}
+
+piece2
+{
+	trigger fall
+	{
+		gotomarker p2spot1 90
+		faceangles -50 0 0 gototime
+		gotomarker p2spot2 180
+		faceangles -40 0 0 gototime
+		gotomarker p2spot3 240
+		faceangles -38 0 0 gototime
+	}
+}
+
+piece3
+{
+	trigger fall
+	{                  
+		gotomarker p3spot1 70
+		faceangles 50 0 0 gototime
+		gotomarker p3spot2 140
+		faceangles 62 0 0 gototime
+		gotomarker p3spot3 210
+		faceangles 84 0 0 gototime
+		alertentity dust2
+		alertentity dust2
+		alertentity dust2
+	}
+}
+
+piece4
+{
+	trigger fall
+	{
+		alertentity debris4
+		gotomarker p4spot1 90
+		faceangles 18 0 0 gototime
+		gotomarker p4spot2 180
+		faceangles 34 0 0 gototime
+		gotomarker p4spot3 240
+		faceangles 44 0 0 gototime
+		gotomarker p4spot4 360
+		faceangles 50 0 0 gototime
+		faceangles 96 0 0 150
+		alertentity dust3
+		alertentity dust3
+	}
+}
+
+counter1	//MISC Counter
+{
+	spawn
+	{
+		accum 0 bitreset 0	// ON/OFF for action4a1.
+		accum 0 bitreset 1	// ON/OFF for action6b.
+		accum 1 set 0
+		accum 2 set 0		// Random for action8b
+		accum 3 set 0		// Random action3
+		accum 4 set 0		// Random action8a
+		accum 5 set 0		// Used for Zombie4 eating. IF dead, then it turns off the eating.
+		accum 6 set 0		// Used to count the last Z
+
+	}
+
+	trigger cine1_cleanup
+	{
+		wait 50
+		alertentity kill_cine1_nazis
+		wait 50
+		alertentity nazi0
+		wait 50
+		alertentity nazi1
+		wait 50
+		alertentity nazi2
+		wait 50
+		alertentity zombie0a
+		wait 50
+		alertentity zombie0
+		wait 50
+		alertentity warzombie1
+		wait 50
+		alertentity warzombie2
+
+		alertentity lastdoor
+	}
+
+	trigger action2
+	{
+		accum 1 random 2
+		wait 5
+		trigger counter1 action2_a
+		wait 5
+		trigger counter1 action2_b
+	}
+
+	trigger action2_a
+	{
+		accum 1 abort_if_not_equal 0
+		alertentity warzombie3e
+		accum 1 set 0
+		wait 5
+		trigger counter1 action2_choose
+	}
+
+	trigger action2_b
+	{
+		accum 1 abort_if_not_equal 1
+		accum 1 set 0
+		wait 5
+		trigger counter1 action2_choose	
+	}
+
+	trigger action2_choose
+	{
+		accum 1 random 2
+		wait 5
+		trigger counter1 action2_1
+		wait 5
+		trigger counter1 action2_2
+	}
+
+	trigger action2_1
+	{
+		accum 1 abort_if_not_equal 0
+		alertentity warzombie3
+		alertentity warzombie3a
+	}
+
+	trigger action2_2
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity warzombie3c
+		alertentity warzombie3d		
+	}
+
+	trigger kick_coffin1
+	{
+		wait 400
+		alertentity coffinbust1
+	}
+
+	trigger stop_kick_coffin1
+	{
+		resetscript
+	}
+
+	trigger action4a1
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		wait 1000 0
+		alertentity z5growl
+		wait 2000 0
+		trigger zombie5 go
+		wait 1000 0
+		trigger zombie6 getup
+	}
+
+	trigger action4a1_b
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		wait 500 0
+		trigger zombie5 go
+		wait 1000 0
+		trigger zombie6 getup
+	}
+
+	trigger action4c
+	{
+		wait 2000
+		alertentity zombie6c
+		alertentity zombie6d
+	}
+
+	trigger wz11count
+	{
+//		accum 1 inc 1
+//		accum 1 abort_if_less_than 2
+		wait 3000 0
+		alertentity w11_sound1
+		wait 600 0
+		alertentity w11_sound2
+		wait 400 0
+		alertentity w11_sound3
+		alertentity warzombie11
+		alertentity warzombie11a
+	}
+
+	trigger action8b_choose
+	{
+		accum 2 random 2
+		wait 5
+		trigger counter1 action8b_1
+		wait 5
+		trigger counter1 action8b_2
+	}
+
+	trigger action8b_1
+	{
+		accum 2 abort_if_not_equal 0
+		resetscript
+		alertentity zombie15d
+	}
+
+	trigger action8b_2
+	{
+		accum 2 abort_if_not_equal 1
+		resetscript
+		alertentity zombie15e
+	}
+
+	// For eating sound
+	trigger z4dead
+	{
+		accum 5 inc -1
+		accum 5 abort_if_not_equal 0
+		alertentity z4_doneeat
+	}
+
+	trigger action3_choose
+	{
+		accum 3 random 7
+		wait 5
+		trigger counter1 action3_1
+		wait 5
+		trigger counter1 action3_2
+		wait 5
+		trigger counter1 action3_3
+		wait 5
+		trigger counter1 action3_4
+		wait 5
+		trigger counter1 action3_5
+		wait 5
+		trigger counter1 action3_6
+		wait 5
+		trigger counter1 action3_7
+	}
+
+	trigger action3_1
+	{
+		accum 3 abort_if_not_equal 0
+		resetscript
+		accum 5 set 2
+		alertentity zombie4
+		alertentity zombie4a
+	}
+
+	trigger action3_2
+	{
+		accum 3 abort_if_not_equal 1
+		resetscript
+		accum 5 set 1
+		alertentity zombie4a
+		alertentity zombie4b
+	}
+
+	trigger action3_3
+	{
+		accum 3 abort_if_not_equal 2
+		resetscript
+		accum 5 set 1
+		alertentity zombie4a
+		alertentity zombie4c
+	}
+
+	trigger action3_4
+	{
+		accum 3 abort_if_not_equal 3
+		resetscript
+		accum 5 set 1
+		alertentity zombie4a
+		alertentity zombie4d
+	}
+
+	trigger action3_5
+	{
+		accum 3 abort_if_not_equal 4
+		resetscript
+		accum 5 set 1
+		alertentity zombie4
+		alertentity zombie4d
+	}
+
+	trigger action3_6
+	{
+		accum 3 abort_if_not_equal 5
+		resetscript
+		accum 5 set 1
+		alertentity zombie4
+		alertentity zombie4c
+	}
+
+	trigger action3_7
+	{
+		accum 3 abort_if_not_equal 6
+		resetscript
+		accum 5 set 2
+		alertentity zombie4
+		alertentity zombie4a
+	}	
+
+	trigger action8a_choose
+	{
+		accum 4 random 10
+		wait 5
+		trigger counter1 action8a_1
+		wait 5
+		trigger counter1 action8a_2
+		wait 5
+		trigger counter1 action8a_3
+		wait 5
+		trigger counter1 action8a_4
+		wait 5
+		trigger counter1 action8a_5
+		wait 5
+		trigger counter1 action8a_6
+		wait 5
+		trigger counter1 action8a_7
+		wait 5
+		trigger counter1 action8a_8
+		wait 5
+		trigger counter1 action8a_9
+		wait 5
+		trigger counter1 action8a_10
+	}
+
+	trigger action8a_1
+	{
+		accum 4 abort_if_not_equal 0
+		resetscript
+		alertentity zombie15a
+		alertentity zombie15b
+	}
+
+	trigger action8a_2
+	{
+		accum 4 abort_if_not_equal 1
+		resetscript
+		alertentity zombie15a
+		alertentity zombie15c
+	}
+
+	trigger action8a_3
+	{
+		accum 4 abort_if_not_equal 2
+		resetscript
+		alertentity zombie15a
+		alertentity warzombie15a
+	}
+
+	trigger action8a_4
+	{
+		accum 4 abort_if_not_equal 3
+		resetscript
+		alertentity zombie15a
+		alertentity warzombie15b
+	}
+
+	trigger action8a_5
+	{
+		accum 4 abort_if_not_equal 4
+		resetscript
+		alertentity zombie15b
+		alertentity zombie15c
+	}
+
+	trigger action8a_6
+	{
+		accum 4 abort_if_not_equal 5
+		resetscript
+		alertentity zombie15b
+		alertentity warzombie15a
+	}
+
+	trigger action8a_7
+	{
+		accum 4 abort_if_not_equal 6
+		resetscript
+		alertentity zombie15b
+		alertentity warzombie15b
+	}
+
+	trigger action8a_8
+	{
+		accum 4 abort_if_not_equal 7
+		resetscript
+		alertentity zombie15c
+		alertentity warzombie15a
+	}
+
+	trigger action8a_9
+	{
+		accum 4 abort_if_not_equal 8
+		resetscript
+		alertentity zombie15c
+		alertentity warzombie15b
+	}
+
+	trigger action8a_10
+	{
+		accum 4 abort_if_not_equal 9
+		resetscript
+		alertentity warzombie15a
+		alertentity warzombie15b
+	}
+
+	trigger lastdead
+	{
+		accum 6 inc 1
+		accum 6 abort_if_not_equal 3
+		wait 2000
+		alertentity flame_push
+		wait 250
+		alertentity flame1_kill_push
+		wait 5
+		alertentity flamezombie
+		wait 500
+		alertentity coop_ai_zombie_28
+		wait 500
+		alertentity coop_ai_zombie_29
+		wait 500
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_30 #endif
+		wait 500
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_31 #endif
+		wait 500
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_32 #endif
+		wait 1000
+
+		alertentity zombie16
+		wait 500
+		alertentity lastwall
+
+	}
+}
+
+block1
+{
+	spawn
+	{
+		wait 5
+		faceangles 0 0 -21 1000
+	}
+
+	trigger go
+	{
+		faceangles 0 -1 15 400
+		faceangles 0 -3 90 500
+		
+	}
+}

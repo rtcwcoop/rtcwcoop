@@ -1,0 +1,208 @@
+
+{
+"classname" "script_multiplayer"
+"scriptname" "game_manager"
+}
+
+// AXIS SPAWNPOINTS (flags: 0 = disabled; 1 enabled; 2 = allied and disabled; 3 = allied and enabled; 4 = axis and disabled; 5 = axis and enabled; 6 = axis and allied and disabled; 7 = axis and allied and enabled)
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "-2713 320 -103"
+"angle" "-87"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "-2676 -121 -103"
+"angle" "91"
+}
+
+// SPAWNPOINTS
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2664 112 84"
+"angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2664 16 84"
+"angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2600 112 84"
+"angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2600 64 84"
+"angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2600 16 84"
+"angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2536 112 84"
+"angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2536 64 84"
+"angle" "0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-2536 16 84"
+"angle" "0"
+}
+
+// REINFROCES
+
+// to fix the ai scripts lots of script logic must be moved from
+// .ai to .script, because g_script_actions uses targetname
+// for the alertentity call we have to add a targetname field to the entity
+// but, the g_script_actions code has been modified by cs so it has a fallback
+// and looks for an ainame if it cant find the targetname, adding a targetname
+// makes it 'faster' because this is checked first.
+
+{
+"classname" "ai_zombie"
+"origin" "-1483 -196 24"
+"targetname" "coop_ai_zombie_1"
+"ainame" "coop_ai_zombie_1"
+"angle" "60"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2063 -226 24"
+"targetname" "coop_ai_zombie_2"
+"ainame" "coop_ai_zombie_2"
+"angle" "45"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1778 -59 24"
+"targetname" "coop_ai_zombie_3"
+"ainame" "coop_ai_zombie_3"
+"angle" "76"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1778 -59 24"
+"targetname" "coop_ai_zombie_4"
+"ainame" "coop_ai_zombie_4"
+"angle" "88"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1713 54 24"
+"targetname" "coop_ai_zombie_5"
+"ainame" "coop_ai_zombie_5"
+"angle" "135"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1679 227 24"
+"targetname" "coop_ai_zombie_6"
+"ainame" "coop_ai_zombie_6"
+"angle" "225"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1412 121 36"
+"targetname" "coop_ai_zombie_10"
+"ainame" "coop_ai_zombie_10"
+"angle" "180"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1939 17 24"
+"targetname" "coop_ai_zombie_11"
+"ainame" "coop_ai_zombie_11"
+"angle" "225"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1429 310 24"
+"targetname" "coop_ai_zombie_12"
+"ainame" "coop_ai_zombie_12"
+"angle" "-4"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1247 199 24"
+"targetname" "coop_ai_zombie_13"
+"ainame" "coop_ai_zombie_13"
+"angle" "195"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2107 -162 24"
+"targetname" "coop_ai_zombie_14"
+"ainame" "coop_ai_zombie_14"
+"angle" "-4"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-2143 253 24"
+"targetname" "coop_ai_zombie_15"
+"ainame" "coop_ai_zombie_15"
+"angle" "-14"
+"spawnflags" "1"
+}
+{
+"classname" "ai_zombie"
+"origin" "-1107 63 24"
+"targetname" "coop_ai_zombie_16"
+"ainame" "coop_ai_zombie_16"
+"angle" "177"
+"spawnflags" "1"
+}
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn != 0
+{
+"classname" "weapon_mp40"
+"origin" "-2603 361 -71"
+"angle" "177"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "-1444 466 40"
+"angle" "-104"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

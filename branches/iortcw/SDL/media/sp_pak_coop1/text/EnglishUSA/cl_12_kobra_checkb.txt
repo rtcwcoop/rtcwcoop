@@ -1,0 +1,6 @@
+1) Elevation - the Platform Operator will elevate the rocket to the fueling position.
+
+
+2) Fueling - Upon completion of elevation, the Fueling Operator will initiate fueling.
+
+3) Tower Clearance - Upon completion of fueling, the Launch Tower Operator will open the tower doors.

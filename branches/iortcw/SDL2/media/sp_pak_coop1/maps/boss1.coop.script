@@ -1,0 +1,280 @@
+//Cleaned for COOP by -SSF-Sage on 15.1.2013
+//
+//Brush Scripting
+//Map: boss 1 
+//Last edited by: Dan
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		//accum 1 set 0 // 
+		accum 2 set 0 // triggers
+		accum 3 set 0 // helga
+		accum 4 set 0 // zombie counter
+		accum 5 set 0 // zombie spawns 1 - 4
+		accum 6 set 0 // zombie spawns 5 - 8
+		accum 7 set 0 // fence
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player endmap2
+	}
+	
+	trigger objective1
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		
+		alertentity zombie1
+		alertentity zombie2
+		alertentity zombie3
+		alertentity zombie4
+		alertentity zombie5
+		alertentity zombie6
+		alertentity zombie7
+		alertentity zombie8
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_1 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_2 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_3 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_4 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_5 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_10 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_11 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_12 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_13 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_14 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_zombie_15 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_zombie_16 #endif
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+	
+	trigger spawnhelga
+	{
+		accum 3 abort_if_bitset 1
+		accum 3 bitset 1
+
+		// spawn the femzombie
+		alertentity helga_zombie
+	}
+	
+	trigger gibhelga
+	{
+		accum 3 abort_if_bitset 2
+		accum 3 bitset 2
+		
+		alertentity helga_zombie
+	}
+	
+	trigger enterbattle
+	{
+		accum 2 abort_if_bitset 1
+		accum 2 bitset 1
+		
+		trigger helga_zombie unhide1
+	}
+	
+	trigger exitbattle
+	{
+		accum 2 abort_if_bitset 2
+		accum 2 bitset 2
+		
+		trigger helga_zombie hide1
+	}
+	
+	trigger spawned_zombie
+	{
+		accum 4 inc 1
+	}
+	
+	trigger killed_zombie
+	{
+		accum 4 inc -1
+	}
+	
+	trigger ztrigger1_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 5 abort_if_bitset 1
+		accum 5 bitset 1
+		alertentity zombie1				// wake up zombie
+	}
+
+	trigger ztrigger2_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 5 abort_if_bitset 2
+		accum 5 bitset 2	
+		alertentity zombie2				// wake up zombie
+	}
+
+	trigger ztrigger3_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 5 abort_if_bitset 3
+		accum 5 bitset 3	
+		alertentity zombie3				// wake up zombie
+	}
+
+	trigger ztrigger4_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 5 abort_if_bitset 4
+		accum 5 bitset 4
+		alertentity zombie4				// wake up zombie
+	}
+
+	trigger ztrigger5_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 6 abort_if_bitset 1
+		accum 6 bitset 1
+		alertentity zombie5				// wake up zombie
+	}
+
+	trigger ztrigger6_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 6 abort_if_bitset 2
+		accum 6 bitset 2	
+		alertentity zombie6				// wake up zombie
+	}
+
+	trigger ztrigger7_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 6 abort_if_bitset 3
+		accum 6 bitset 3	
+		alertentity zombie7				// wake up zombie
+	}
+
+	trigger ztrigger8_hit
+	{
+		accum 4 abort_if_greater_than 2	// only 3 zombies at once
+		accum 6 abort_if_bitset 4
+		accum 6 bitset 4	
+		alertentity zombie8				// wake up zombie
+	}
+
+	trigger blowfence
+	{
+		accum 7 abort_if_bitset 1
+		accum 7 bitset 1
+		
+		alertentity blowfence
+	}
+}
+
+counter1	// Used for cinematic syncronization.
+{
+	spawn
+	{
+		accum 2 set 0
+	}
+
+	trigger cine1_cleanup
+	{
+		alertentity coronaon
+		alertentity kill_cine1
+
+//		resetscript
+	}
+
+	trigger killed_total
+	{
+		accum 2 inc 1
+		#if g_reinforce == 0 accum 2 abort_if_less_than 9 #endif
+		#if g_reinforce == 1 accum 2 abort_if_less_than 15 #endif
+		#if g_reinforce == 2 accum 2 abort_if_less_than 22 #endif
+		trigger player got_objective1
+		alertentity on_objective2
+		alertentity opendoor
+	}
+}
+
+counter2
+{
+	spawn
+	{
+		accum 0 bitset 0
+	}
+
+	trigger corner1 // player has touched corner 1, check for spawning zombies
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		// boom
+		trigger player ztrigger8_hit
+		wait 1500
+		// Boom
+		trigger player ztrigger1_hit
+		wait 1500
+		// BOOM!
+		trigger player ztrigger4_hit
+
+		// turn on all the remaining proximity triggers on the zombie graves
+		alertentity ztrigger2
+		alertentity ztrigger3
+		alertentity ztrigger5
+		alertentity ztrigger6
+		alertentity ztrigger7
+	}
+
+	trigger corner2 // player has touched corner 2, check for spawning zombies
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		// boom
+		trigger player ztrigger1_hit
+		wait 1500
+		// Boom
+		trigger player ztrigger8_hit
+		wait 1500
+		// BOOM!
+		trigger player ztrigger5_hit
+
+		// turn on all the remaining proximity triggers on the zombie graves
+		alertentity ztrigger2
+		alertentity ztrigger3
+		alertentity ztrigger4
+		alertentity ztrigger6
+		alertentity ztrigger7
+	}
+
+	trigger corner3 // player has touched corner 2, check for spawning zombies
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		// boom
+		trigger player ztrigger4_hit
+		wait 1500
+		// Boom
+		trigger player ztrigger5_hit
+		wait 1500
+		// BOOM!
+		trigger player ztrigger8_hit
+
+		// turn on all the remaining proximity triggers on the zombie graves
+		alertentity ztrigger1
+		alertentity ztrigger2
+		alertentity ztrigger3
+		alertentity ztrigger6
+		alertentity ztrigger7
+	}
+}

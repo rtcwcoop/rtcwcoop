@@ -1,0 +1,23 @@
+Exercise 17: The Mauser K98K Long Rifle with Variable Optic System
+
+This exercise will teach you how to employ the Mauser K98K long rifle with a variable optic system (sniper scope).
+
+Instructions:
+
+Now that you are comfortable with the use of the Mauser rifle, practice firing at the long-range targets with the sniper scope attached. The scope is located on the shooter's bench in front of you. 
+
+To switch to the scope view, select the Mauser K98K long rifle (key default 4) and then press your 'alternate fire' key.
+
+With the magnification and change in field of view, you will quickly notice that your crosshairs sway slightly. This natural occurrence can be monitored and controlled by the colored bar to the left of the horizontal crosshair.
+
+The color red signifies the highest amount of sway. If you remain still, you will notice that the bar begins to shrink and become green in color. If you remain still for a long enough period of time the bar will disappear altogether and the sway in your crosshairs will become virtually undetectable. This is when you are most accurate.
+
+You may also change your field of view and magnification by pressing your 'zoom in' and 'zoom out' keys. Doing so increases the amount of sway but also increases the weapons effectiveness at incredibly long ranges.
+
+Continue to aim, fire and reload the K98K until you feel comfortable firing the weapon at long ranges. 
+
+When you are ready, move to the next station.
+
+Time Limit: None
+
+

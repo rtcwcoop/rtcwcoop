@@ -1,0 +1,22 @@
+// Game type info
+//
+// description, g_gametype enum
+gametypes {
+  { "Battle" 0 }
+  { "Speedrun" 1 }
+  { "Cooperative" 2 }
+}
+
+
+// english name, map name, vs count, par times per gametype valid gametyes for ui
+// 
+maps {
+}
+
+joingametypes {
+  { "All" -1 }
+  { "Battle" 0 }
+  { "Speedrun" 1 }
+  { "Cooperative" 2 }
+
+}

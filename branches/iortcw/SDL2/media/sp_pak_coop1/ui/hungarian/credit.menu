@@ -1,0 +1,1596 @@
+#include "ui/menudef.h"
+
+{
+\\ CREDIT \\
+
+  menuDef {
+    	name "credit"
+    	visible 0
+    	fullscreen 1
+    	rect 0 0 640 480
+//    background "menuback_a"
+    	focusColor 1 .67 0 1
+    	style 1
+    	border 1
+	soundloop ""
+	onEsc { close credit ; open menu }
+	onOpen { setitemcolor fadebox backcolor 0 0 0 1 ; 	
+	fadeout fadebox ; 
+	show grpGMIcredit ; 
+	hide grpnervecredit ;
+	hide grpatvicredit ; 
+	hide grpIDcredit ;
+	hide grpQAcredit ;
+	transition programming 0 0 640 30 0 80 640 30 20 10 ; 
+	transition artist 0 0 640 30 0 110 640 30 20 10 ; 
+	transition levelDesign 0 0 640 30 0 140 640 30 20 10 ; 
+	transition gameDesign 0 0 640 30 0 170 640 30 20 10 ; 
+	transition ceo 0 0 640 30 0 200 640 30 20 10 ; 
+	transition bizdev 0 0 640 30 0 230 640 30 20 10 ; 
+	transition idMom 0 0 640 30 0 260 640 30 20 10 ; 
+	transition devAssist 0 0 640 30 0 290 640 30 20 10 ;
+	transition progAssist 0 0 640 30 0 340 640 30 20 10 ;
+	hide back_alt ;
+	show back ;
+	hide grpmessage }
+
+
+	    
+
+// LEVEL SELECTION BAR	//
+
+
+itemDef {
+	name mappreview
+	style WINDOW_STYLE_CINEMATIC
+	cinematic "menu.roq"
+	rect 0 80 640 400
+	backcolor 1 1 1 .25
+	border 1
+	bordersize 1
+	bordercolor .1 .1 .1 1
+	decoration
+	visible 1
+	}
+
+//////////////// new wolf
+/*
+itemDef {
+      	name menu_select					// menu_select
+      	style WINDOW_STYLE_SHADER
+      	rect 0 0 640 480
+     		background "menu_select"
+      	visible 1
+		decoration
+    	}
+*/
+
+//////////////// FRAME /////////////
+
+
+itemDef {
+      name green					// green
+      style WINDOW_STYLE_SHADER
+      rect 0 0 640 480
+    	background "green"
+     	visible 1
+	decoration
+}
+
+
+itemDef {
+      name band2					// band2
+      style WINDOW_STYLE_SHADER
+      rect 360 20 128 640
+    	background "band2"
+     	visible 1
+	decoration
+}
+
+
+itemDef {
+      	name bands					// bands
+      	style WINDOW_STYLE_SHADER
+      	rect 0 -480 640 1024
+     	background "bands"
+      	visible 1
+	decoration
+    	}
+
+
+itemDef {
+		name BLACKGRAD					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name BLACKGRAD2					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 420 640 -128
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+
+itemDef {
+		name FLAME					// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name WOLFFLAMELOGO					// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name WOLFICONBACK					// WOLFICONBACK
+		style WINDOW_STYLE_SHADER
+		rect 140 200 360 190
+		background "WOLFICONBACK"
+		visible 1
+		decoration
+		}
+
+///////////////
+
+itemDef {
+	name GMIcredit
+	group grpGMIcredit
+	rect 170 100 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .2
+	textalign ITEM_ALIGN_CENTER
+	text "DEVELOPED BY"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name GMIcredit
+	group grpGMIcredit
+	rect 170 112 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .22
+	textalign ITEM_ALIGN_CENTER
+	text "GRAY MATTER STUDIOS INC"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 137 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 150 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 163 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 176 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 189 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 202 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 215 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 228 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 241 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 254 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 267 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 280 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 293 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 306 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 319 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 332 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 345 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpGMIcredit
+ 	rect 120 358 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		style 1 
+		rect 130 94 400 400
+		textfile "text/EnglishUSA/credits.txt"
+		textfont UI_FONT_SMALL
+		textscale .2
+		textstyle 6
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		style 1 
+		rect 367 94 280 200
+		textfile "text/EnglishUSA/credits2.txt"
+		textfont UI_FONT_SMALL
+		textstyle 6
+		textscale .2
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+
+
+
+
+
+
+itemDef {
+		name nextcreditbttn
+      	group grpGMIcredit
+      	rect 550 450 70 26
+		type 1
+		textfont UI_FONT_NORMAL
+  		text "NERVE"
+		style WINDOW_STYLE_FILLED
+		background "ui/assets/button_back.tga"
+		textalign 1   	
+		textscale .22
+		textalignx 30
+		textaligny 12
+     	 	visible 0
+		backcolor .37 .1 .1 0
+      	forecolor 1 1 1 1
+		action { play "sound/misc/kcaction.wav" ;  
+		hide grpGMIcredit ; 
+		show grpNERVEcredit }
+		mouseEnter { setitemcolor outcreditbttn backcolor .1 .37 .1 0 ; show message_credits }
+      	mouseExit { setitemcolor outcreditbttn backcolor .37 .1 .1 0 ; hide message_credits }	
+	}
+
+
+itemDef {
+	name GMIcredit
+	group grpnervecredit
+	rect 170 100 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .2
+	textalign ITEM_ALIGN_CENTER
+	text "MULTIPLAYER BY"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name GMIcredit
+	group grpnervecredit
+	rect 170 110 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .22
+	textalign ITEM_ALIGN_CENTER
+	text "NERVE"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 137 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "President / Game Director"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 150 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Vice-President / Content Director"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 163 440 10
+	style 1
+	textalign 1
+	textalignx 166
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Programming"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+//	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 176 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Technical Director"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 189 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Senior Engineer"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 202 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Engineer"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+itemDef {
+	name win1
+	group grpnervecredit
+	rect 120 215 440 10
+	style 1
+	textalign 1
+	textalignx 168
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Art & Design"
+	textalign ITEM_ALIGN_LEFT
+	style WINDOW_STYLE_FILLED
+//      backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+itemDef {
+		name win1
+		group grpnervecredit
+		style 1 
+		rect 130 94 280 400
+		textfile "text/EnglishUSA/credits_nerve.txt"
+		textfont UI_FONT_SMALL
+		textscale .2
+		textstyle 6
+		forecolor .9 .9 .9 1
+		
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+//itemDef {
+//		name win1
+//		group grpnervecredit
+//		style 1 
+//		rect 367 114 280 400
+//		textfile "text/EnglishUSA/credits2_nerve.txt"
+//		textfont UI_FONT_SMALL
+//		textstyle 6
+//		textscale .2
+//		forecolor .9 .9 .9 1
+//		visible MENU_TRUE
+//		autowrapped
+//		decoration
+//		visible 0
+//	}
+
+
+
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 228 440 10
+ 	style WINDOW_STYLE_FILLED
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Content Director"
+	textalign ITEM_ALIGN_LEFT
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 241 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 254 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 267 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpnervecredit
+ 	rect 120 280 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+
+
+
+
+//////////////////// id software //////////////////
+
+
+
+
+itemDef {
+		name nextcreditbttn2
+      	group grpnervecredit
+      	rect 540 450 70 26
+		type 1
+		textfont UI_FONT_NORMAL
+  		text "ID SOFTWARE"
+		style WINDOW_STYLE_FILLED
+		background "ui/assets/button_back.tga"
+		textalign 1   	
+		textscale .22
+		textalignx 35
+		textaligny 12
+     	 	visible 0
+		backcolor .37 .1 .1 0
+      	forecolor 1 1 1 1
+		action { play "sound/misc/kcaction.wav" ;  
+		hide grpnervecredit ; 
+		show grpIDcredit }
+		mouseEnter { setitemcolor outcreditbttn backcolor .1 .37 .1 0 ; show message_credits }
+      	mouseExit { setitemcolor outcreditbttn backcolor .37 .1 .1 0 ; hide message_credits }	
+	}
+
+
+itemDef {
+	name GMIcredit
+	group grpidcredit
+	rect 170 112 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .26
+	textalign ITEM_ALIGN_CENTER
+	text "ID SOFTWARE"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+		name win1
+		group grpIDcredit
+		style 0 
+		rect 48 160 600 200
+		textfile "text/EnglishUSA/credit_id.txt"
+		textfont UI_FONT_SMALL
+		textstyle 6
+		textscale .24
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+
+/////////////////
+
+
+
+
+
+
+//////////////////////
+
+
+itemDef {
+		name nextcreditbttn2
+      	group grpIDcredit
+      	rect 540 450 70 26
+		type 1
+		textfont UI_FONT_NORMAL
+  		text "ACTIVISION"
+		style WINDOW_STYLE_FILLED
+		background "ui/assets/button_back.tga"
+		textalign 1   	
+		textscale .22
+		textalignx 35
+		textaligny 12
+     	 	visible 0
+		backcolor .37 .1 .1 0
+      	forecolor 1 1 1 1
+		action { play "sound/misc/kcaction.wav" ;  
+		hide grpIDcredit ; 
+		show grpATVIcredit }
+		mouseEnter { setitemcolor outcreditbttn backcolor .1 .37 .1 0 ; show message_credits }
+      	mouseExit { setitemcolor outcreditbttn backcolor .37 .1 .1 0 ; hide message_credits }	
+	}
+
+
+itemDef {
+	name GMIcredit
+	group grpATVIcredit
+	rect 170 100 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .2
+	textalign ITEM_ALIGN_CENTER
+	text "PRODUCED BY"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name GMIcredit
+	group grpATVIcredit
+	rect 170 112 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .22
+	textalign ITEM_ALIGN_CENTER
+	text "ACTIVISION"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+
+
+
+
+
+
+
+itemDef {
+		name win1
+		group grpatvicredit
+		style 1 
+		rect 130 94 400 400
+		textfile "text/EnglishUSA/credits_atvi.txt"
+		textfont UI_FONT_SMALL
+		textscale .2
+		textstyle 6
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+itemDef {
+		name win1
+		group grpatvicredit
+		style 1 
+		rect 367 94 280 400
+		textfile "text/EnglishUSA/credits2_atvi.txt"
+		textfont UI_FONT_SMALL
+		textstyle 6
+		textscale .2
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 137 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 150 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 163 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 189 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 202 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 215 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 228 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+//itemDef {
+//	name win1
+//	group grpatvicredit
+ //	rect 120 241 440 10
+ //	style WINDOW_STYLE_FILLED
+//	backcolor 1 1 1 .1         
+//   	forecolor 1 1 1 1
+//   	visible 0 
+//	decoration
+//	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 254 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 267 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+/*
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 280 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 293 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 306 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 319 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 332 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 345 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpatvicredit
+ 	rect 120 358 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+*/
+
+
+
+///////////////////////////////////////////////////////////////////// 
+
+itemDef {
+      	name backcreditbttn
+		group grpatvicredit
+		type 1
+		textfont UI_FONT_NORMAL
+      	rect 520 450 100 26
+  		text "QUALITY ASSURANCE"
+		style WINDOW_STYLE_FILLED
+		background "ui/assets/button_back.tga"
+		textalign 1   	
+		textscale .23
+		textalignx 50
+		textaligny 12 
+      	visible 0
+		backcolor .37 .1 .1 0
+      	forecolor 1 1 1 1
+		action { play "sound/misc/kcaction.wav" ; 
+		hide grpATVIcredit ; 
+		show grpQAcredit }
+		mouseEnter { setitemcolor idcreditbttn backcolor .1 .37 .1 0 ; show message_credits }
+      	mouseExit { setitemcolor idcreditbttn backcolor .37 .1 .1 0 ; hide message_credits }	  	  
+	}
+
+
+
+
+itemDef {
+	name GMIcredit
+	group grpqacredit
+	rect 170 112 300 20
+	style 1
+	textalign 1
+	textalignx 150
+	textaligny 10
+	textstyle 6
+	textscale .22
+	textalign ITEM_ALIGN_CENTER
+	text "QUALITY ASSURANCE"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+
+
+
+
+itemDef {
+		name win1
+		group grpQAcredit
+		style 1 
+		rect 130 80 500 400
+		textfile "text/EnglishUSA/credits_QA.txt"
+		textfont UI_FONT_SMALL
+		textscale .2
+		textstyle 6
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+
+
+/////////////////////////////
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 137 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "QA Project Lead"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 150 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "QA Senior Project Lead"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+	rect 120 176 440 10
+	style 1
+	textalign 1
+	textalignx 184
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Testers"
+	textalign ITEM_ALIGN_LEFT
+	style WINDOW_STYLE_FILLED
+//      backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 189 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 202 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 215 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 228 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 241 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 254 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 267 440 10
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 293 440 10	
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Night Crew Lead"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 306 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Code Release Group"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 332 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Network"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 345 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "Compatibility"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 371 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "QA Manager, PC Testing"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+itemDef {
+	name win1
+	group grpqacredit
+ 	rect 120 384 440 10
+	style 1
+	textalign 1
+	textalignx 260
+	textaligny 10
+	textstyle 6
+	textscale .2
+	text "QA Manager, Customer Support"
+	textalign ITEM_ALIGN_LEFT
+ 	style WINDOW_STYLE_FILLED
+	backcolor 1 1 1 .1         
+   	forecolor 1 1 1 1
+   	visible 0 
+	decoration
+	}
+
+
+////////////////////////////
+
+itemDef {
+      	name backcreditbttn
+		group grpQAcredit
+		type 1
+		textfont UI_FONT_NORMAL
+      	rect 520 450 100 26
+  		text "GRAY MATTER"
+		style WINDOW_STYLE_FILLED
+		background "ui/assets/button_back.tga"
+		textalign 1   	
+		textscale .23
+		textalignx 50
+		textaligny 12 
+      	visible 0
+		backcolor .37 .1 .1 0
+      	forecolor 1 1 1 1
+		action { play "sound/misc/kcaction.wav" ; 
+		hide grpQAcredit ; 
+		show grpGMIcredit }
+		mouseEnter { setitemcolor idcreditbttn backcolor .1 .37 .1 0 ; show message_credits }
+      	mouseExit { setitemcolor idcreditbttn backcolor .37 .1 .1 0 ; hide message_credits }	  	  
+	}
+
+
+
+
+
+// BACK BAR	//
+
+
+
+
+itemDef {
+      	name gotobar
+      	style 2
+      	rect 0 445 640 20 
+      	textscale 0.4
+      	textalign 0		// center
+      	textalignx 60        	// x alignment point for text
+      				     // use it to offset left/right text from the edge 
+    					     // or to center the text on a different point
+      	textaligny 21        
+      	style 2
+      	border 4
+      	bordercolor 0.5 0.5 0.5 0.0
+      	bordersize 2
+      	backcolor 0.5 0.5 .5 0.0
+      	visible 1 
+      	mouseEnter { setcolor backcolor .5 0.5 0.5 .5 }
+      	mouseExit { setcolor backcolor .5 .5 .5 .0 }
+      	decoration 
+    	}
+
+
+
+
+
+
+
+
+
+itemDef {
+      name back
+      text "VISSZA"
+ 	type 1
+	textfont UI_FONT_NORMAL
+	style 0	
+	textstyle 6
+	rect 30 450 60 14 
+	textalign 0
+	textscale .23		
+	textalignx 6
+	textaligny 12
+	forecolor .9 .9 .9 .9
+	visible 1 
+     	action { close credit ; open main }
+	mouseEnter { hide back ; show back_alt ; show message_back }
+    	}
+
+itemDef {
+     name back_alt
+     text "VISSZA"
+ 	type 1
+	textfont UI_FONT_NORMAL
+	style 0	
+	textstyle 6
+	rect 30 450 60 14 
+	textalign 0
+	textscale .23		
+	textalignx 6
+	textaligny 12
+	forecolor .6 .6 .6 .6
+	visible 1 
+	type ITEM_TYPE_BUTTON
+     	action { close credit ; open main }	
+     mouseExit { hide back_alt ; show back ; hide message_back }	  
+    	}
+
+
+
+
+
+//	MESSAGES	//
+
+
+
+itemDef {
+	name message_back
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textstyle 1
+	textalign 1
+	textalignx 0
+	textaligny 25
+	textscale .18
+	text "KILÉPÉS A FÕMENÜBE"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+	name message_credits
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textstyle 1
+	textalign 1
+	textalignx 0
+	textaligny 25
+	textscale .18
+	text "TOVÁBBI KÉSZÍTÕK"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+      	name fadebox
+      	style WINDOW_STYLE_FILLED
+ 	background "ui/assets/fadebox.tga"
+	forecolor 0 0 0 1
+	backcolor 0 0 0 1
+	rect 0 0 640 480
+      	visible 1 
+	decoration
+    	}
+
+
+
+
+
+
+}
+
+
+}
+
+}
+}

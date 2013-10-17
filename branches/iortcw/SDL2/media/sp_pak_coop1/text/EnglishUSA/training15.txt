@@ -1,0 +1,19 @@
+Exercise 15: The Mauser K98K long rifle
+
+The Mauser K98K is the preferred long rifle of your enemy. This exercise will teach you how to employ it effectively.
+
+Instructions:
+
+The K98K (key default 4) is easy to operate and retains a good combat accuracy over fairly long ranges. With this in mind, aim the rifle down rage and fire a single shot in the same manner learned in the previous exercises. 
+
+You will quickly notice that this weapon is extremely accurate. Obtaining successful kills at long ranges with the K98K can be easily achieved.
+
+You will instinctively chamber a new round after each shot. If you would like to reload the internal box magazine with a fresh clip, press the 'reload' key at any time.  
+
+Continue to aim, fire and reload the K98K until you feel comfortable with the weapon. 
+
+When ready, move to the next station.
+
+NOTE: In a later exercise, we will show you how to employ the rifle with a variable optic system using the 'alternate fire' mode.
+
+Time Limit: None

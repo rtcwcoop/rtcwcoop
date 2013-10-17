@@ -1,0 +1,156 @@
+{
+map			"escape1"
+longname		"01 - Escape!"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"escape2"
+longname		"02 - Castle Keep"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"tram"
+longname		"03 - Tram Ride"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"village1"
+longname		"04 - Village"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"crypt1"
+longname		"05 - Catacombs"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"crypt2"
+longname		"06 - Crypt"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"church"
+longname		"07 - The Defiled Church"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"boss1"
+longname		"08 - Tomb"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"forest"
+longname		"09 - Forest Compound"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"rocket"
+longname		"10 - Rocket Base"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"baseout"
+longname		"11 - Radar Installation"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"assault"
+longname		"12 - Air Base Assault"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"sfm"
+longname		"13 - Kugelstadt"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"factory"
+longname		"14 - The Bombed Factory"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"trainyard"
+longname		"15 - The Trainyards"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"swf"
+longname		"16 - Secret Weapons Facility"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"norway"
+longname		"17 - Ice Station Norway"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"xlabs"
+longname		"18 - X-Labs"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"boss2"
+longname		"19 - Super Soldier"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"dam"
+longname		"20 - Bramburg Dam"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"village2"
+longname		"21 - Paderborn Village"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"chateau"
+longname		"22 - Chateau Schufstaffel"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"dark"
+longname		"23 - Unhallowed Ground"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"dig"
+longname		"24 - The Dig"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"castle"
+longname		"25 - Return to Castle Wolfenstein"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"end"
+longname		"26 - Heinrich"
+type		"coop_battle coop_speedrun coop_normal"
+}
+

@@ -1,0 +1,10 @@
+
+A flat dwell profile in the cam path holds the bolt locked briefly until the bullet has traveled past the muzzle and the pressure has dropped to a safe level.
+
+Pins in the bolt head interface with the cam surfaces on the firing pin and cause the striker to rotate with the head.
+
+After the extraction and ejection, the bolt has completed a 360-degree cycle and is positioned to pick up another round. All six bolts repeat this identical process in sequence.
+
+Original Design Problems and Construction Notes:
+
+The six barrels are held to the front of the rotor by an integral interrupted flange on one side of each barrel that requires a 180-degree turn for retention All of the barrels are prevented from rotating out of their retained positions by a barrel clamp which mates with four flanges on the front of each barrel. This clamp is held in place by a single bolt.

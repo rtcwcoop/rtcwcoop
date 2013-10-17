@@ -1,0 +1,643 @@
+{
+"classname" "script_multiplayer"
+"scriptname" "game_manager"
+
+}
+// AXIS SPAWNPOINTS (flags: 0 = disabled; 1 enabled; 2 = allied and disabled; 3 = allied and enabled; 4 = axis and disabled; 5 = axis and enabled; 6 = axis and allied and disabled; 7 = axis and allied and enabled)
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "872 2062 424"
+"angle" "127"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "113 1239 424"
+"angle" "113"
+}
+
+// SPAWNPOINTS 
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3485 6320 544"
+"angle" "-45"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3424 6383 532"
+"angle" "-45"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3351 6456 523"
+"angle" "-45"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3291 6397 515"
+"angle" "-45"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3363 6321 524"
+"angle" "-45"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3425 6260 532"
+"angle" "-45"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3378 6199 526"
+"angle" "-45"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-3320 6242 519"
+"angle" "-45"
+}
+
+// REINFORCES
+
+{
+"classname" "ai_soldier"
+"origin" "-1470 3307 517"
+"ainame" "coop_ai_soldier_1"
+"angle" "42"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway3"
+}
+{
+"classname" "ai_soldier"
+"origin" "-1005 4204 519"
+"ainame" "coop_ai_soldier_2"
+"angle" "-100"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway1"
+}
+{
+"classname" "ai_soldier"
+"origin" "1576 754 471"
+"ainame" "coop_ai_soldier_3"
+"angle" "-46"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway2"
+}
+{
+"classname" "ai_soldier"
+"origin" "1952 1309 472"
+"ainame" "coop_ai_soldier_4"
+"angle" "-16"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway3"
+}
+{
+"classname" "ai_soldier"
+"origin" "2193 1051 504"
+"ainame" "coop_ai_soldier_5"
+"angle" "-134"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway1"
+}
+{
+"classname" "ai_soldier"
+"origin" "1430 -288 536"
+"ainame" "coop_ai_soldier_6"
+"angle" "110"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway2"
+}
+{
+"classname" "ai_soldier"
+"origin" "1281 -282 536"
+"ainame" "coop_ai_soldier_7"
+"angle" "70"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway3"
+}
+{
+"classname" "ai_blackguard"
+"origin" "794 -430 536"
+"ainame" "coop_ai_blackguard_8"
+"angle" "93"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "2491 -865 488"
+"ainame" "coop_ai_blackguard_9"
+"angle" "139"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_soldier"
+"origin" "3036 -864 712"
+"ainame" "coop_ai_soldier_10"
+"angle" "113"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "2581 -1911 768"
+"ainame" "coop_ai_blackguard_11"
+"angle" "78"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_soldier"
+"origin" "2245 -1231 496"
+"ainame" "coop_ai_soldier_12"
+"angle" "4"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway2"
+}
+{
+"classname" "ai_soldier"
+"origin" "2140 -1777 496"
+"ainame" "coop_ai_soldier_13"
+"angle" "4"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway3"
+}
+{
+"classname" "ai_soldier"
+"origin" "3260 -1463 552"
+"ainame" "coop_ai_soldier_14"
+"angle" "177"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "2670 -2377 472"
+"ainame" "coop_ai_blackguard_15"
+"angle" "-75"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "2491 -2133 792"
+"ainame" "coop_ai_blackguard_16"
+"angle" "-62"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_soldier"
+"origin" "3496 -2134 712"
+"ainame" "coop_ai_soldier_17"
+"angle" "-138"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway2"
+}
+{
+"classname" "ai_soldier"
+"origin" "3026 -3348 1088"
+"ainame" "coop_ai_soldier_18"
+"angle" "98"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway3"
+}
+{
+"classname" "ai_soldier"
+"origin" "2993 -3328 760"
+"ainame" "coop_ai_soldier_19"
+"angle" "93"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway1"
+}
+{
+"classname" "ai_soldier"
+"origin" "-478 -3222 1112"
+"ainame" "coop_ai_soldier_20"
+"angle" "5"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway2"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-973 -2465 912"
+"ainame" "coop_ai_blackguard_21"
+"angle" "-21"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_venom"
+"origin" "-4332 -1856 494"
+"ainame" "coop_ai_venom_22"
+"angle" "-20"
+"spawnflags" "1"
+"skin" "venom/norway"
+}
+{
+"classname" "ai_venom"
+"origin" "-2151 -1708 824"
+"ainame" "coop_ai_venom_23"
+"angle" "-45"
+"spawnflags" "1"
+"skin" "venom/norway"
+}
+{
+"classname" "ai_venom"
+"origin" "-3582 -3200 519"
+"ainame" "coop_ai_venom_24"
+"angle" "-175"
+"spawnflags" "1"
+"skin" "venom/norway"
+}
+{
+"classname" "ai_soldier"
+"origin" "-3302 -1344 528"
+"ainame" "coop_ai_soldier_25"
+"angle" "-153"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway3"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-3657 -1249 528"
+"ainame" "coop_ai_blackguard_26"
+"angle" "-84"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-3466 -1246 528"
+"ainame" "coop_ai_blackguard_27"
+"angle" "-101"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_venom"
+"origin" "-2138 -4231 823"
+"ainame" "coop_ai_venom_28"
+"angle" "100"
+"spawnflags" "1"
+"skin" "venom/norway"
+}
+{
+"classname" "ai_venom"
+"origin" "-5404 -1588 472"
+"ainame" "coop_ai_venom_29"
+"angle" "27"
+"spawnflags" "1"
+"skin" "venom/norway"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-5404 -2311 800"
+"ainame" "coop_ai_blackguard_30"
+"angle" "3"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-5404 -1990 800"
+"ainame" "coop_ai_blackguard_31"
+"angle" "-16"
+"spawnflags" "1"
+}
+{
+"classname" "ai_soldier"
+"origin" "-4537 -2792 479"
+"ainame" "coop_ai_soldier_32"
+"angle" "87"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway1"
+}
+{
+"classname" "ai_soldier"
+"origin" "-4529 -1782 461"
+"ainame" "coop_ai_soldier_33"
+"angle" "-95"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway2"
+}
+{
+"classname" "ai_venom"
+"origin" "-6174 -2311 488"
+"ainame" "coop_ai_venom_34"
+"angle" "0"
+"spawnflags" "1"
+}
+{
+"classname" "ai_venom"
+"origin" "-5934 -2141 488"
+"ainame" "coop_ai_venom_35"
+"angle" "1"
+"spawnflags" "1"
+"skin" "venom/norway"
+}
+{
+"classname" "ai_venom"
+"origin" "-7126 -2799 552"
+"ainame" "coop_ai_venom_36"
+"angle" "152"
+"spawnflags" "1"
+"skin" "venom/factory1"
+}
+{
+"classname" "ai_venom"
+"origin" "-7446 -1343 552"
+"ainame" "coop_ai_venom_37"
+"angle" "-178"
+"spawnflags" "1"
+"skin" "venom/factory1"
+}
+{
+"classname" "ai_soldier"
+"origin" "-7490 -1865 552"
+"ainame" "coop_ai_soldier_38"
+"angle" "-39"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway3"
+}
+{
+"classname" "ai_soldier"
+"origin" "-6699 -2114 488"
+"ainame" "coop_ai_soldier_39"
+"angle" "-91"
+"spawnflags" "1"
+"skin" "infantryss/norway1"
+"head" "norway1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-6735 -1673 552"
+"ainame" "coop_ai_blackguard_40"
+"angle" "-86"
+"spawnflags" "1"
+"skin" "blackguard/snow1"
+"head" "snow1"
+}
+
+// FLAGZONES
+
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "998 -80 476"
+"angle" "-1"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "1043 130 479"
+"angle" "-20"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "1021 73 480"
+"angle" "-12"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "982 137 479"
+"angle" "-18"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "959 66 480"
+"angle" "-18"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "905 135 477"
+"angle" "-18"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "883 70 480"
+"angle" "-18"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "812 95 472"
+"angle" "-18"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "834 157 469"
+"angle" "-18"
+"targetname" "norway0"
+}
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "3134 -3582 1028"
+"angle" "0"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3104 -3696 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3168 -3696 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3232 -3696 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3296 -3696 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3104 -3352 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3168 -3352 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3232 -3352 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "3296 -3352 768"
+"angle" "-164"
+"targetname" "norway1"
+}
+{
+"classname" "coop_spawnpoint_trigger"
+"origin" "-3923 -2629 496"
+"angle" "-92"
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"target" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3779 -2683 462"
+"angle" "119"
+"targetname" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3822 -2740 462"
+"angle" "97"
+"targetname" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3827 -2642 463"
+"angle" "102"
+"targetname" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3832 -2686 463"
+"angle" "89"
+"targetname" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3765 -2732 461"
+"angle" "113"
+"targetname" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3881 -2787 472"
+"angle" "69"
+"targetname" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3833 -2800 473"
+"angle" "78"
+"targetname" "norway2"
+}
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "-3764 -2801 472"
+"angle" "102"
+"targetname" "norway2"
+}
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn != 0
+{
+"classname" "ammo_792mm"
+"origin" "-827 3542 488"
+"angle" "-110"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "ammo_792mm"
+"origin" "-434 -3194 912"
+"angle" "116"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "-4397 -2417 473"
+"angle" "126"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//

@@ -1,0 +1,51 @@
+// menu defs
+// 
+{	
+
+	loadMenu { "ui/main.menu" }
+	loadMenu { "ui/play.menu" }			// (mx) added
+	loadMenu { "ui/load.menu" }			// (mx) added
+
+// COOP menu
+
+	loadMenu { "ui/multi.menu" }
+	loadMenu { "ui/create.menu" }
+	loadMenu { "ui/ingame.menu" }
+	loadMenu { "ui/ingame_callvote.menu" }
+	loadMenu { "ui/ingame_quick.menu" }
+	loadMenu { "ui/ingame_join.menu" }
+	loadMenu { "ui/serverinfo.menu" }
+
+// OPTIONS menu
+
+ 	loadMenu { "ui/setup.menu" }
+	loadMenu { "ui/controls.menu" }
+	loadMenu { "ui/system.menu" }
+	loadMenu { "ui/options.menu" }
+	loadMenu { "ui/mods.menu" }
+	loadMenu { "ui/default.menu" }
+	loadMenu { "ui/credit.menu" }
+
+
+// INGAME menus
+
+        loadMenu { "ui_mp/wm_quickmessage.menu" }
+        loadMenu { "ui_mp/wm_quickmessageAlt.menu" }
+
+// OTHER menus
+
+
+	loadMenu { "ui/cdkey.menu" }
+	loadMenu { "ui/connect.menu" }
+	loadMenu { "ui/vid_restart.menu" }
+	loadMenu { "ui/snd_restart.menu" }
+	loadMenu { "ui/rec_restart.menu" }
+	loadMenu { "ui/error.menu" }
+	loadMenu { "ui/quitcredit.menu" }
+	loadMenu { "ui/resetscore.menu" }
+	loadMenu { "ui/buy_pop.menu" }
+	loadMenu { "ui/briefing.menu" }		//----(SA)	added
+
+
+
+}

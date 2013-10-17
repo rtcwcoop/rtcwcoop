@@ -1,0 +1,778 @@
+//Cleaned for COOP by -SSF-Sage on 18.2.2013
+//
+//Brush Scripting
+//Map: Xlabs
+//Last edited by: Mike (110501)
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 1 set 0	//Loper9 alive status
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+
+	trigger loper9_dead
+	{
+		accum 1 set 1
+	}
+
+	trigger check_loper9
+	{
+		trigger game_manager l9_alive
+		wait 5
+		trigger game_manager l9_dead
+	}
+
+	trigger l9_alive
+	{
+		accum 1 abort_if_not_equal 0
+
+		trigger proto2 continue_l9_alive
+	}
+
+	trigger l9_dead
+	{
+		accum 1 abort_if_not_equal 1
+
+		trigger proto2 continue_l9_dead
+	}
+}
+
+// All of the levers used for the electric doors.
+lever1
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used to turn on/off
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger lever1 on
+		wait 5 
+		trigger lever1 off
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound xlabs_switch
+		faceangles -90 0 0 500
+		faceangles -180 0 0 500
+		alertentity lever1_electric
+	}
+
+	trigger off
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		playsound xlabs_switch
+		faceangles -90 0 0 500
+		faceangles 0 0 0 500
+		alertentity lever1_electric
+	}
+}
+
+lever2
+{
+	spawn
+	{
+		accum 0 bitset 0	// Used to turn on/off
+		wait 5
+		faceangles 0 0 180 500
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger lever2 on
+		wait 5 
+		trigger lever2 off
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound xlabs_switch
+		faceangles 0 0 90 500
+		faceangles 0 0 180 500
+		alertentity lever2_electric
+	}
+
+	trigger off
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		faceangles 0 0 90 500
+		faceangles 0 0 0 500
+		alertentity lever2_electric
+	}
+}
+
+lever3
+{
+	spawn
+	{
+		accum 0 bitset 0	// Used to turn on/off
+		accum 0 bitset 1	// Used for the lopers turning it off only.
+		wait 5
+		faceangles 0 0 180 500
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger lever3 on
+		wait 5 
+		trigger lever3 off
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound xlabs_switch
+		faceangles 0 0 90 500
+		faceangles 0 0 180 500
+		alertentity lever3_electric
+	}
+
+	trigger off
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		playsound xlabs_switch
+		faceangles 0 0 90 500
+		faceangles 0 0 0 500
+		alertentity lever3_electric
+	}
+
+	trigger toggle_by_loper
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		faceangles 0 0 90 5
+		faceangles 0 0 0 5
+		alertentity lever3_electric		
+	}
+}
+
+lever4
+{
+	spawn
+	{
+		accum 0 bitset 0	// Used to turn on/off
+		wait 5
+		faceangles 0 0 180 500
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger lever4 on
+		wait 5 
+		trigger lever4 off
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound xlabs_switch
+		faceangles 0 0 90 500
+		faceangles 0 0 180 500
+		alertentity lever4_electric
+	}
+
+	trigger off
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		playsound xlabs_switch
+		faceangles 0 0 90 500
+		faceangles 0 0 0 500
+		alertentity lever4_electric
+	}
+
+	trigger toggle_quick
+	{
+		accum 0 bitreset 0
+		alertentity lever4_electric
+		faceangles 0 0 90 10
+		faceangles 0 0 0 10
+	}
+}
+
+lever5
+{
+	spawn
+	{
+		accum 0 bitset 0	// Used to turn on/off
+		accum 0 bitreset 1	// Used to LOCK this lever so player cannot get stuck.
+		wait 5
+		faceangles -180 0 0 500
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger lever5 on
+		wait 5 
+		trigger lever5 off
+		wait 5
+		trigger lever5 lock
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound xlabs_switch
+		faceangles 90 0 0 500
+		faceangles 180 0 0 500
+		alertentity lever5_electric
+	}
+
+	trigger off
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		accum 0 bitset 1
+		playsound xlabs_switch
+		faceangles 90 0 0 500
+		faceangles 0 0 0 500
+		alertentity lever5_electric
+		//alertentity l5_sparks
+		//trigger lever5 sparkloop
+	}
+
+	trigger lock
+	{
+		accum 0 abort_if_not_bitset 1
+		playsound sound/world/saarc2.wav
+	}
+}
+
+lever6
+{
+	spawn
+	{
+		accum 0 bitset 0	// Used to turn on/off
+		wait 5
+		faceangles -180 0 0 500
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger lever6 on
+		wait 5 
+		trigger lever6 off
+	}
+
+	trigger off
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound xlabs_switch
+		faceangles -90 0 0 500
+		faceangles -180 0 0 500
+		alertentity lever6_electric
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		playsound xlabs_switch
+		faceangles -90 0 0 500
+		faceangles 0 0 0 500
+		alertentity lever6_electric
+	}
+}
+
+counter1
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 1 set 0		// Used to randomly choose a route. Also to count how many are dead before triggering room 4. (1st loper room)
+		wait 5
+	}
+
+	trigger choose_labroom1
+	{
+		accum 1 random 10
+		wait 5
+		trigger counter1 room1_setup12
+		wait 5
+		trigger counter1 room1_setup13
+		wait 5
+		trigger counter1 room1_setup14
+		wait 5
+		trigger counter1 room1_setup15
+		wait 5
+		trigger counter1 room1_setup23
+		wait 5
+		trigger counter1 room1_setup24
+		wait 5
+		trigger counter1 room1_setup25
+		wait 5
+		trigger counter1 room1_setup34
+		wait 5
+		trigger counter1 room1_setup35
+		wait 5
+		trigger counter1 room1_setup45
+	}
+
+	trigger room1_setup12
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript
+		accum 1 set 0
+		alertentity scientist1
+		alertentity scientist2
+	}
+
+	trigger room1_setup13
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		accum 1 set 0
+		alertentity scientist1
+		alertentity scientist3
+	}
+
+	trigger room1_setup14
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		accum 1 set 0
+		alertentity scientist1
+		alertentity scientist4
+	}
+
+	trigger room1_setup15
+	{
+		accum 1 abort_if_not_equal 3
+		resetscript
+		accum 1 set 0
+		alertentity scientist1
+		alertentity scientist5
+	}
+
+	trigger room1_setup23
+	{
+		accum 1 abort_if_not_equal 4
+		resetscript
+		accum 1 set 0
+		alertentity scientist2
+		alertentity scientist3
+	}
+
+	trigger room1_setup24
+	{
+		accum 1 abort_if_not_equal 5
+		resetscript
+		accum 1 set 0
+		alertentity scientist2
+		alertentity scientist4
+	}
+
+	trigger room1_setup25
+	{
+		accum 1 abort_if_not_equal 6
+		resetscript
+		accum 1 set 0
+		alertentity scientist2
+		alertentity scientist5
+	}
+
+	trigger room1_setup34
+	{
+		accum 1 abort_if_not_equal 7
+		resetscript
+		accum 1 set 0
+		alertentity scientist3
+		alertentity scientist4
+	}
+
+	trigger room1_setup35
+	{
+		accum 1 abort_if_not_equal 8
+		resetscript
+		accum 1 set 0
+		alertentity scientist3
+		alertentity scientist5
+	}
+
+	trigger room1_setup45
+	{
+		accum 1 abort_if_not_equal 9
+		resetscript
+		accum 1 set 0
+		alertentity scientist4
+		alertentity scientist5
+	}
+
+	trigger cage_room_count
+	{
+		accum 1 inc 1
+		accum 1 abort_if_not_equal 3	//1 can freeze
+		mu_fade 0 1000
+		mu_queue sound/music/x_atmos
+		resetscript
+		alertentity loper1
+		alertentity nazi12
+		alertentity nazi13
+		alertentity nazi14
+		alertentity scientist6
+	}
+
+	trigger sci11_scene
+	{
+		wait 300
+		alertentity glass_debris1
+	}
+
+	trigger l9_check
+	{
+		alertentity l9_check_player
+	}
+
+	trigger p3_bash1
+	{
+		wait 50
+		trigger proto3 bash_anim
+		wait 600 0
+		alertentity p3_pillar1
+		wait 1000	// I think this is the wrong way to do this. But the AI will not be able to find p3spot2 if I put a nostop on it.
+		trigger proto3 bash_anim
+		wait 750 0
+		alertentity p3_pillar2
+	}
+
+	trigger p3_bash2
+	{
+		wait 5
+		trigger proto3 bash_anim
+		wait 750 0
+		alertentity p3_pillar2
+	}
+
+	trigger reset
+	{
+		resetscript
+	}
+}
+
+counter2
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that spawn_scientist2_4 doesn't trigger more than once.
+		accum 1 set 0	// Randomize room2 spawning
+		wait 5
+	}
+
+	trigger choose_room2
+	{
+		accum 1 random 6
+		wait 5
+		trigger counter2 room2_15
+		wait 5
+		trigger counter2 room2_26
+		wait 5
+		trigger counter2 room2_16
+		wait 5
+		trigger counter2 room2_12
+		wait 5
+		trigger counter2 room2_25
+		wait 5
+		trigger counter2 room2_56
+	}
+
+	trigger room2_15
+	{	
+		accum 1 abort_if_not_equal 0
+		alertentity nazi1
+	}
+
+	trigger room2_26
+	{	
+		accum 1 abort_if_not_equal 1
+		alertentity nazi2
+	}
+
+	trigger room2_16
+	{	
+		accum 1 abort_if_not_equal 2
+		alertentity nazi6
+	}
+
+	trigger room2_12
+	{
+		accum 1 abort_if_not_equal 3
+		alertentity nazi2
+	}
+
+	trigger room2_25
+	{	
+		accum 1 abort_if_not_equal 4
+		alertentity nazi5
+	}
+
+	trigger room2_56
+	{	
+		accum 1 abort_if_not_equal 5
+		alertentity nazi6
+		
+	}
+
+
+	trigger loper1_bust
+	{
+		alertentity l1_push1
+		wait 100
+		alertentity bust1
+	}
+
+	trigger open_cages
+	{
+		wait 2000 0
+		trigger cage_door1 up
+	}
+
+	trigger cleanup
+	{
+		wait 50 //After map_start
+		alertentity kill_cine1
+		trigger counter1 choose_labroom1
+		wait 50
+		trigger counter2 choose_room2
+	}
+
+//If one script fail, we are safe.
+	trigger secret_backup
+	{
+		wait 17000
+	//	trigger loper9 go3
+		alertentity proto2
+		wait 2
+		trigger proto2 go
+		wait 10000
+//Incase proto2 fails to breach the door, breach it - Sage
+		trigger player destroy_secret_door
+	}
+}
+
+table1
+{
+	spawn
+	{
+		accum 0 bitreset 0	// ON/OFF, checks to see how far the table is from flipping.
+	}
+
+	trigger knockback
+	{
+		wait 300
+		gotomarker table1_spot1 750 accel
+		faceangles 60 30 0 gototime
+		gotomarker table1_spot2 750
+		faceangles 120 60 0 gototime
+		gotomarker table1_spot3 750
+		faceangles 180 85 0 gototime
+		gotomarker table1_spot4 750 deccel
+		faceangles 180 113 0 gototime
+	}
+}
+
+cage_door1
+{
+	spawn
+	{
+	}
+
+	trigger up
+	{
+		alertentity lopercage_alarm
+		wait 2000 0
+		trigger scientist7 go
+		trigger scientist8 go
+		trigger scientist9 go
+		trigger scientist10 go
+		alertentity cage1_light
+		wait 3000 0
+		trigger cage_door2 up
+		trigger cage_door3 up
+		wait 1250
+		playsound sound/movers/doors/door3_loopo.wav looping
+		gotomarker cd1spot1 20 wait
+		stopsound
+		alertentity cage1_light
+		trigger loper2 go
+		alertentity lopercage_alarm
+	}
+}
+
+cage_door2
+{
+	spawn
+	{
+	}
+
+	trigger up
+	{
+		alertentity cage2_light
+		playsound sound/movers/doors/door3_loopo.wav looping
+		gotomarker cd2spot1 20 wait
+		stopsound
+		alertentity cage2_light
+		trigger loper3 go
+	}
+}
+
+cage_door3
+{
+	spawn
+	{
+	}
+
+	trigger up
+	{
+		alertentity cage3_light
+		wait 750
+		playsound sound/movers/doors/door3.loopo.wav looping
+		gotomarker cd3spot1 20 wait
+		stopsound
+		alertentity cage3_light
+		trigger loper4 go
+	}
+}
+
+scdoor1
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		wait 5
+		faceangles 0 90 0 5
+		gotomarker scdoor1spot1 1000 wait
+	}
+
+	trigger switch
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		alertentity scdoor
+		trigger lever3 toggle
+		gotomarker scdoor1spot2 1000 wait
+	}
+}
+
+bigdoor1
+{
+	spawn
+	{
+	}
+
+	trigger open
+	{
+		alertentity big_door1_sound
+		playsound sound/scenaric/assault/big_gate1.wav
+		wait 400
+		playsound sound/scenaric/assault/big_gate2.wav looping forever
+		gotomarker bigdoor1spot1 10 wait
+		stopsound
+		playsound sound/scenaric/assault/big_gate3.wav
+		alertentity big_door1_sound
+	}
+}
+
+bigdoor2
+{
+	spawn
+	{
+	}
+
+	trigger open
+	{
+		alertentity big_door2_sound
+		playsound sound/scenaric/assault/big_gate1.wav
+		wait 400
+		playsound sound/scenaric/assault/big_gate2.wav looping forever
+		gotomarker bigdoor2spot1 10 wait
+		stopsound
+		playsound sound/scenaric/assault/big_gate3.wav
+		alertentity big_door2_sound
+	}
+}
+
+big_door1_lever
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that open only triggers once.
+		wait 5
+		faceangles -75 0 0 1000
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		faceangles 20 0 0 1000
+		alertentity proto4
+		alertentity proto5
+		alertentity big_door1
+		alertentity big_door1_sound
+		wait 26000 0
+		alertentity big_door1_sound		
+	}
+}
+
+big_door2_lever
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that open only triggers once.
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		faceangles -90 0 0 500
+		faceangles -180 0 0 500
+		alertentity big_door2
+		alertentity big_door2_sound
+		wait 26000 0
+		alertentity big_door2_sound
+	}
+}

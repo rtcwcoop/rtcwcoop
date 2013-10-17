@@ -1,0 +1,319 @@
+#include "ui/menudef.h"
+
+
+{
+\\ INGAME_LEAVE MENU \\
+
+  menuDef {
+    	name "ingame_leave"
+    	visible 1
+    	fullScreen 0
+	outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+	rect 100 125 443 340
+	focusColor 1 .75 0 1
+	style 1
+	border 1
+	onOpen { show grpMenu ; hide grpConfirm }
+
+
+
+
+itemDef 
+	{
+	name window
+	group ingamebox
+	rect 0 2 443 300	
+	style WINDOW_STYLE_FILLED
+	border 1
+	bordercolor .5 .5 .5 .5
+	forecolor 1 1 1 1
+	backcolor 0 0 0 .5
+	visible 1
+	decoration
+	}
+
+
+itemDef 
+	{
+	name window2
+	group grpControlbutton
+	rect 2 4 439 20	
+	style WINDOW_STYLE_FILLED
+	border 1
+	bordercolor .1 .1 .1 .2
+	forecolor 1 1 1 1
+	backcolor .3 0.5 0.2 .5
+	visible 1
+	decoration
+	}
+
+itemDef {
+	name leave
+	text "Kilépés"
+	type 1
+	textscale .23
+	group grpControlbutton
+	rect 168 10 100 12
+	textalign 1
+	textalignx 50
+	textaligny 10
+	forecolor 1 1 1 1
+	backcolor .1 .1 .1 0
+	visible 1
+}
+
+itemDef {
+	 name leave
+	 group grpMenu
+	 text "a Fõmenübe"
+	 rect 152 45 290 12
+	 textalign ITEM_ALIGN_CENTER
+	 textalignx 65
+	 textaligny 10
+	 textscale .23		
+	 style WINDOW_STYLE_FILLED
+	 backcolor 1 1 1 .02  
+	 forecolor 1 1 1 1
+	 visible 0
+       action { hide grpMenu ; show leaveConfirm }
+    	}
+
+
+
+ itemDef {
+      	name leave
+		group grpMenu
+      	text "a Windowsba"
+		rect 152 75 290 12
+		textalign ITEM_ALIGN_CENTER
+		textalignx 65
+		textaligny 10
+		textscale .23
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .02 	
+		forecolor 1 1 1 1
+		visible 0
+      	action { hide grpMenu ; show quitConfirm }
+    	}
+
+
+// CONFIRMS	//
+
+
+itemDef {
+     	name leaveConfirm
+     	text "Kilépsz"
+	group grpConfirm
+      style 2	
+     	rect 155 60 128 20
+	textstyle 6   
+     	textalign 1	
+     	textalignx 65
+    	textaligny 18        
+	textscale .23
+	decoration
+      forecolor 1 1 1 1
+      visible 1 
+    	}
+itemDef {
+     	name leaveConfirm
+     	text "a Fõmenübe?"
+	group grpConfirm
+      style 2	
+     	rect 155 80 128 20
+	textstyle 6   
+     	textalign 1	
+     	textalignx 65
+    	textaligny 18        
+	textscale .23
+	decoration
+      forecolor 1 1 1 1
+      visible 1 
+    	}
+
+
+itemDef {
+	name leaveConfirm
+	text "Igen"
+	group grpConfirm
+	type 1
+	
+	textscale .23
+
+	background "ui/assets/button_back.tga"
+	rect 175 110 40 20
+	textstyle 6
+	textalign 1
+	textalignx 20
+	textaligny 15
+	visible 1
+	action { uiScript leave }
+	mouseEnter { setitemcolor ok backcolor .1 .37 .1 1 }
+      mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
+	}
+
+itemDef {
+	name leaveConfirm
+	text "Nem"
+	group grpConfirm
+	type 1
+	
+	textscale .23
+	background "ui/assets/button_back.tga"
+	rect 222 110 40 20
+	textstyle 6
+	textalign 1
+	textalignx 20
+	textaligny 15
+	visible 1
+	action { hide grpConfirm ; show grpMenu }
+	mouseEnter { setitemcolor ok backcolor .1 .37 .1 1 }
+      	mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
+	}
+
+
+itemDef {
+     	name restartConfirm
+     	text "Szeretnéd"
+	group grpConfirm
+      	style 2	
+     	rect 155 60 128 20
+	textstyle 6   
+     	textalign 1	
+     	textalignx 64
+    	textaligny 18        
+	textscale .23
+	decoration
+      	forecolor 1 1 1 1
+      	visible 1 
+    	}
+itemDef {
+     	name restartConfirm
+     	text "újrakezdeni a Pályát?"
+	group grpConfirm
+      style 2	
+   	rect 155 80 128 20
+	textstyle 6  
+     	textalign 1	
+     	textalignx 64
+    	textaligny 18        
+	textscale .23
+	decoration
+      	forecolor 1 1 1 1
+      	visible 1 
+    	}
+
+
+
+itemDef {
+	name restartConfirm
+	text "Igen"
+	group grpConfirm
+	type 1
+	
+	textscale .23
+	background "ui/assets/button_back.tga"
+	rect 175 110 40 20
+	textstyle 6
+	textalign 1
+	textalignx 20
+	textaligny 15 
+	visible 1
+	action { exec "loadgame current" ; close ingame_leave ; close ingame }
+//	action { exec "map_restart" ; close ingame_leave ; close ingame }
+	mouseEnter { setitemcolor ok backcolor .1 .37 .1 1 }
+      	mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
+	}
+
+itemDef {
+	name restartConfirm
+	text "Nem"
+	group grpConfirm
+	type 1
+	
+	textscale .23
+	background "ui/assets/button_back.tga"
+	rect 222 110 40 20
+	textstyle 6
+	textalign 1
+	textalignx 20
+	textaligny 15 
+	visible 1
+	action { hide grpConfirm ; show grpMenu }
+	mouseEnter { setitemcolor ok backcolor .1 .37 .1 1 }
+      	mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
+	}
+
+itemDef {
+     	name quitConfirm
+     	text "Szeretnél"
+	group grpConfirm
+      	style 2	
+     	rect 155 60 128 20
+	textstyle 6  
+     	textalign 1	
+     	textalignx 64
+    	textaligny 18        
+	textscale .23
+      	forecolor 1 1 1 1
+	decoration
+      	visible 1 
+    	}
+itemDef {
+     	name quitConfirm
+     	text "Kilépni a Játékból?"
+	group grpConfirm
+      style 2	
+     	rect 155 80 128 20
+	textstyle 6   
+     	textalign 1	
+     	textalignx 64
+    	textaligny 18        
+	textscale .23
+      	forecolor 1 1 1 1
+	decoration
+      	visible 1 
+    	}
+
+
+itemDef {
+	name quitConfirm
+	text "Igen"
+	group grpConfirm
+	type 1
+	
+	textscale .23
+	background "ui/assets/button_back.tga"
+	rect 175 110 40 20
+	textstyle 6
+	textalign 1
+	textalignx 20
+	textaligny 15 
+	visible 1
+	action { uiScript quit }
+	mouseEnter { setitemcolor ok backcolor .1 .37 .1 1 }
+      	mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
+	}
+
+itemDef {
+	name quitConfirm
+	text "Nem"
+	group grpConfirm
+	type 1
+	textscale .23
+	rect 222 110 40 20
+	textstyle 6
+	textalign 1
+	textalignx 20
+	textaligny 15
+	visible 1
+	action { hide grpConfirm ; show grpMenu }
+	mouseEnter { setitemcolor ok backcolor .1 .37 .1 1 }
+      	mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
+	}
+
+
+
+}
+
+}

@@ -1,0 +1,15 @@
+Exercise 2: Opening Doors
+
+The following exercise will teach you how to open doors.
+
+Instructions:
+
+Open the following set of doors in front of you. By pressing your 'activate' key the door will open and you will be allowed entry. 
+
+The 'hand' icon, which appears at the bottom of your display, will notify you when a door, gate or portcullis may be entered.
+
+You may also choose to open a rotating door with a swift boot kick. While standing directly in front of the door, press your 'kick' key. Kicking a door will cause it to open faster.
+
+When you feel comfortable with your ability to open doors using the two methods described above, proceed to the next station.
+
+Time Limit: None

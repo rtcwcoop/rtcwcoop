@@ -1,0 +1,17 @@
+Exercise 20: Chairs
+
+This exercise will teach you how to pick up and use a chair.
+
+Instructions:
+
+Chairs can be extremely useful when there appears to be no other means of escape. They can also be used for cover or even used to stun the enemy.
+
+To pick up a chair walk towards it until you see the 'hand' icon at the bottom of your screen. If the hand icon appears within a circle and slash you are wielding a two handed weapon and do not have a free hand to pick up the chair. Once you have switched to a one handed weapon simply hit your 'activate' key to pick up the chair. 
+
+Once the chair is in your hand you may swing it by pressing you 'kick' key. To throw the chair, press your 'activate' key once again. If there is an obstacle in front of you the chair will remain in your hand until it is clear. 
+
+You may also use the chair to climb into areas normally inaccessible. Simply pick up the chair and position it under the exit (to the right of the ladder). Press your 'jump' key while moving forward to leap onto the top of the chair. Press jump and move forward once again to exit the station.
+
+NOTE: If the chair breaks, use the ladder to exit and proceed to the next station.
+
+

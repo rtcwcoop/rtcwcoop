@@ -1,0 +1,1221 @@
+//Cleaned for COOP by -SSF-Sage on 31.1.2013
+//
+//Brush Scripting
+//Map: Forest
+//Last edited by: Dan
+//
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 0 bitreset 3
+		accum 0 bitreset 4
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_not_bitset 3
+		accum 0 abort_if_not_bitset 4
+
+//trigger dialog ending	//Uncomment to get the truck move 
+trigger player exitmap	//Comment   to get the truck move 
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+
+	trigger objective3
+	{
+		accum 0 bitset 3
+	}
+
+	trigger objective4
+	{
+		accum 0 bitset 4
+	}
+}
+
+spawner
+{
+	spawn
+	{
+	}
+
+	trigger spawnx
+	{
+		wait 500
+		trigger player explode_alarm1
+		wait 500
+		trigger player explode_alarm2
+		wait 500
+		trigger player explode_alarm3
+		wait 500
+		trigger player explode_alarm4
+		wait 500
+		trigger player explode_alarm5
+		wait 500
+		trigger player explode_alarm6
+	}		
+	
+	trigger spawn1
+	{
+		alertentity nazi9
+		alertentity nazi10
+		alertentity nazi11
+		wait 100
+		trigger nazi9 pattern9a
+	}
+
+	trigger spawn2
+	{
+		alertentity nazi1
+		alertentity nazi2
+		wait 50
+		alertentity nazi4
+		alertentity nazi5
+		wait 500
+		alertentity nazi7
+		alertentity nazi8
+		wait 2000
+		alertentity nazi14	
+	}
+
+	trigger spawn3
+	{
+		alertentity nazi13
+		wait 5
+		alertentity nazi15
+		wait 500
+//		alertentity nazi17
+//		wait 500
+		alertentity nazi18
+		wait 500
+		alertentity nazi20
+	}
+
+	trigger spawn4
+	{
+		alertentity nazi19
+		wait 500
+		alertentity nazi21	
+		wait 500
+		alertentity nazi22
+		wait 500
+//		alertentity nazi23
+//		wait 500
+		alertentity nazi24
+		wait 500
+		alertentity nazi25
+	}
+}
+
+alarm
+{
+	spawn
+	{
+		accum 0 set 0 // 1 = let other nazi procced to alarm
+		accum 1 set 0 // fire alarm only once
+	}
+
+	trigger spottedby4
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger nazi4 awaken4
+	}
+
+	trigger spottedby5
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger nazi5 awaken5
+	}
+	
+	trigger spottedbyc5
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger coop_ai_soldier_5 awakenc5
+	}
+	
+	trigger spottedbyc6
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		trigger coop_ai_soldier_6 awakenc6
+	}
+
+
+	trigger alarmset
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+
+		trigger dialog alarmon
+		missionfailed 9 5
+		alertentity alarmalert1
+		trigger nazi3 alarm3
+		trigger nazi4 alarm4
+		trigger nazi5 alarm5
+		trigger nazi6 alarm6
+		trigger nazi7 alarm7
+		trigger nazi8 alarm8
+		wait 50
+		trigger nazi14 alarm14
+		trigger nazi18 alarm18
+		trigger coop_ai_soldier_5 alarmc5
+	}
+
+	trigger alarmset2
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+
+		trigger dialog alarmon
+		missionfailed 6 9
+		trigger nazi3 alarm3
+		trigger nazi4 alarm4
+		trigger nazi5 alarm5
+		trigger nazi6 alarm6
+		trigger nazi7 alarm7
+		trigger nazi8 alarm8
+		wait 50
+		trigger nazi14 alarm14
+		trigger nazi18 alarm18
+		trigger coop_ai_soldier_5 alarmc5
+	}
+
+	trigger incutscene
+	{
+		accum 1 set 1
+	}
+}
+
+dialog
+{
+	spawn
+	{
+		accum 0 set 0 // 1 = alarmset no new ambient dialog.
+		accum 1 set 0 // 1 = cutscene started
+		accum 2 set 0 // 1 = house 2 dead
+		accum 4 set 0 // objectives
+	}	
+
+	trigger alarmon
+	{
+		accum 0 set 1 // 1 = alarmset no new ambient dialog.
+		resetscript // stop current dialog
+	}
+
+	trigger parachute
+	{
+		accum 0 abort_if_not_equal 0
+		trigger nazi11 parachute
+		wait 4000
+		trigger nazi10 misdrop
+		wait 8100
+		trigger nazi11 training
+		wait 2100
+		trigger nazi10 findout
+		wait 7100
+		trigger nazi11 investigate
+		wait 2200
+		trigger nazi10 schedule
+		wait 6300
+		trigger nazi11 yaya
+	}
+
+	trigger house2alert
+	{
+		wait 7000
+		accum 2 abort_if_not_equal 0
+		trigger nazi3 timesup
+	}
+
+	trigger house2clear
+	{
+		accum 2 set 1
+	}
+
+
+	trigger delivery
+	{
+		accum 0 abort_if_not_equal 0
+		wait 200
+		trigger nazi7 delivery
+		wait 1800
+		trigger t2body ontocamp4
+		wait 500
+		trigger nazi8 believeso
+	}
+
+	trigger report
+	{
+		accum 0 abort_if_not_equal 0
+		wait 1000
+		trigger nazi15 special
+		wait 2500
+		trigger nazi13 wellsir
+		wait 7000
+		trigger nazi15 deathshead
+		wait 7500
+		trigger nazi15 handle
+	}
+
+	trigger ending
+	{
+		accum 0 abort_if_not_equal 0
+		accum 1 set 1
+		wait 400
+		trigger alarm incutscene
+		trigger player movetruck
+		//wait 10000
+		//wait 500
+		wait 8000
+		trigger player exitmap
+	}
+
+	trigger clearend
+	{
+//		accum 3 set 1 // dont let cutscene start
+//		accum 1 abort_if_not_equal 1
+//		resetscript
+//		trigger player clearcam
+	}
+}
+
+post1
+{
+	trigger up1
+	{
+		wait 1000
+		faceangles 60 0 0 1000
+	}
+
+	trigger down1
+	{
+		faceangles 0 0 0 1000
+	}
+}
+
+t2body
+{
+	spawn
+	{
+//NO!!		//accum 0 set 0 // 1 = nazi4 is dead or running to alarm
+	
+		wait 5000
+		gotomarker t2spot1 1000
+		faceangles 0 180 0 gototime
+	}
+
+	trigger nazi4nogate
+	{
+	
+		//accum 0 set 1		//COOP
+	}
+
+	trigger begin2
+	{
+		//wait 50		//Was 3000
+
+		playsound sound/world/shift_01.wav looping
+		trigger t2bwheels begin2
+		trigger t2lwheel begin2
+		trigger t2rwheel begin2
+		trigger t2tail begin2
+		gotomarker t2spot2 160
+		faceangles 0 180 0 gototime
+		trigger t2rwheel right12
+		trigger t2lwheel right12
+		gotomarker t2spot3 160
+		faceangles 0 171 0 gototime
+		gotomarker t2spot4 160
+		faceangles 0 162 0 gototime
+		gotomarker t2spot5 160
+		faceangles 0 153 0 gototime
+		gotomarker t2spot6 160
+		faceangles 0 144 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot7 160
+		faceangles 0 135 0 gototime
+		gotomarker t2spot8 160
+		faceangles 0 135 0 gototime
+		gotomarker t2spot9 160
+		faceangles 0 135 0 gototime
+		gotomarker t2spot10 160
+		faceangles 0 135 0 gototime
+		trigger t2rwheel right12
+		trigger t2lwheel right12
+		gotomarker t2spot11 160
+		faceangles 0 126 0 gototime
+		gotomarker t2spot12 160
+		faceangles 0 117 0 gototime
+		gotomarker t2spot13 160
+		faceangles 0 108 0 gototime
+		gotomarker t2spot14 160
+		faceangles 0 99 0 gototime
+		gotomarker t2spot15 160
+		faceangles 0 90 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot16 130
+		faceangles 0 90 0 gototime
+		gotomarker t2spot17 100
+		faceangles 0 90 0 gototime
+		gotomarker t2spot18 70
+		faceangles 0 90 0 gototime
+		trigger t2bwheels stop2
+		trigger t2lwheel stop2
+		trigger t2rwheel stop2
+		playsound sound/world/idle_01.wav looping
+		gotomarker t2spot19 40
+		faceangles 0 90 0 gototime
+		trigger t2body atbridge
+	}
+
+	trigger atbridge
+	{
+		//accum 0 abort_if_not_equal 0	//COOP
+		trigger post1 up1			//COOP
+		trigger nazi4 salute4
+		wait 3000
+		playsound sound/world/shift_01.wav looping
+		trigger t2bwheels begin2
+		trigger t2lwheel begin2
+		trigger t2rwheel begin2
+		trigger t2tail atbridge
+		trigger t2cargo atbridge
+		gotomarker t2spot20 60
+		faceangles 0 90 0 gototime
+		gotomarker t2spot21 90
+		faceangles 0 90 0 gototime
+		gotomarker t2spot22 120
+		faceangles 0 90 0 gototime
+		gotomarker t2spot23 140
+		faceangles 0 90 0 gototime
+		gotomarker t2spot24 160
+		faceangles 0 90 0 gototime
+		gotomarker t2spot25 160
+		faceangles 0 90 0 gototime
+		gotomarker t2spot26 160
+		faceangles 0 90 0 gototime
+		trigger t2body intotunnel2
+	}
+
+	trigger intotunnel2
+	{
+		gotomarker t2spot27 320
+		faceangles 0 90 0 gototime
+		trigger t2rwheel left12
+		trigger t2lwheel left12
+		gotomarker t2spot28 320
+		faceangles 0 99 0 gototime
+		trigger nazi3 pastbridge // this informes nazi3 to look around more
+		gotomarker t2spot29 320
+		faceangles 0 108 0 gototime
+		gotomarker t2spot30 320
+		faceangles 0 117 0 gototime
+		gotomarker t2spot31 320
+		faceangles 0 126 0 gototime
+		gotomarker t2spot32 320
+		faceangles 0 135 0 gototime
+		gotomarker t2spot33 320
+		faceangles 0 144 0 gototime
+		gotomarker t2spot34 320
+		faceangles 0 153 0 gototime
+		gotomarker t2spot35 320
+		faceangles 0 162 0 gototime
+		gotomarker t2spot36 320
+		faceangles 0 171 0 gototime
+		gotomarker t2spot37 320
+		faceangles 0 180 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot38 320
+		faceangles 0 180 0 gototime
+		trigger t2body securitycheck3
+	}
+
+	trigger securitycheck3
+	{
+		gotomarker t2spot39 320
+		faceangles 0 180 0 gototime
+		gotomarker t2spot40 140
+		faceangles 0 180 0 gototime
+		gotomarker t2spot41 160
+		faceangles 0 180 0 gototime
+		trigger t2bwheels stop2
+		trigger t2lwheel stop2
+		trigger t2rwheel stop2
+//		trigger nazi7 checkback7
+//		playsound sound/world/idle_01.wav looping
+		gotomarker t2spot42 80
+		faceangles 0 180 0 gototime
+		trigger t2body ontocamp4
+	}
+
+	trigger ontocamp4
+	{
+		playsound sound/world/shift_01.wav looping
+		trigger t2bwheels begin2
+		trigger t2lwheel begin2
+		trigger t2rwheel begin2
+		trigger t2tail ontocamp4
+		trigger t2cargo ontocamp4
+		gotomarker t2spot43 160
+		faceangles 0 180 0 gototime
+		gotomarker t2spot44 240
+		faceangles 0 180 0 gototime
+		gotomarker t2spot45 320
+		faceangles 0 180 0 gototime
+		trigger t2rwheel left12
+		trigger t2lwheel left12
+		gotomarker t2spot46 320
+		faceangles 0 189 0 gototime
+//		trigger nazi7 chat7
+//		trigger nazi8 chat8
+		gotomarker t2spot47 320
+		faceangles 0 198 0 gototime
+		gotomarker t2spot48 320
+		faceangles 0 207 0 gototime
+		gotomarker t2spot49 320
+		faceangles 0 216 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot50 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot51 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot52 320
+		faceangles 0 225 0 gototime
+		trigger t2rwheel left12
+		trigger t2lwheel left12
+		gotomarker t2spot53 320
+		faceangles 0 234 0 gototime
+		gotomarker t2spot54 320
+		faceangles 0 243 0 gototime
+		gotomarker t2spot55 320
+		faceangles 0 252 0 gototime
+		gotomarker t2spot56 320
+		faceangles 0 261 0 gototime
+		trigger nazi18 truckapproch
+		gotomarker t2spot57 320
+		faceangles 0 270 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot58 320
+		faceangles 0 270 0 gototime
+		gotomarker t2spot59 320
+		faceangles 4 270 0 gototime
+		gotomarker t2spot60 320
+		faceangles 4 270 0 gototime
+		alertentity opengater
+		alertentity opengatel
+		trigger nazi18 opengate
+		gotomarker t2spot61 280
+		faceangles 0 270 0 gototime
+		gotomarker t2spot62 240
+		faceangles 0 270 0 gototime
+		trigger t2body incamp5
+	}
+
+	trigger incamp5
+	{
+		gotomarker t2spot63 200
+		faceangles 0 270 0 gototime
+		trigger t2rwheel right30
+		trigger t2lwheel right30
+		gotomarker t2spot64 200
+		faceangles 0 240 0 gototime
+		gotomarker t2spot65 200
+		faceangles 0 210 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot66 200
+		faceangles 0 180 0 gototime
+		gotomarker t2spot67 240
+		faceangles 0 180 0 gototime
+		gotomarker t2spot68 280
+		faceangles 0 180 0 gototime
+		trigger t2rwheel left30
+		trigger t2lwheel left30
+		gotomarker t2spot69 200
+		faceangles 0 210 0 gototime
+		gotomarker t2spot70 200
+		faceangles 0 240 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot71 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot72 280
+		faceangles 0 270 0 gototime
+		gotomarker t2spot73 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot74 120
+		faceangles 0 270 0 gototime
+		wait 2000
+		trigger t2rwheel right30
+		trigger t2lwheel right30
+		gotomarker t2spot75 100
+		faceangles 0 315 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot76 100
+		faceangles 0 315 0 gototime
+		trigger t2rwheel left30
+		trigger t2lwheel left30
+		gotomarker t2spot77 100
+		faceangles 0 270 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot78 80
+		faceangles 0 270 0 gototime
+		trigger t2bwheels stop2
+		trigger t2lwheel stop2
+		trigger t2rwheel stop2
+		playsound sound/world/idle_01.wav looping
+		gotomarker t2spot79 40
+		faceangles 0 270 0 gototime
+		alertentity truckparked
+		trigger t2door hatchdown
+	}
+
+	trigger exit
+	{
+		playsound sound/world/shift_01.wav looping
+		trigger t2bwheels begin2
+		trigger t2lwheel begin2
+		trigger t2rwheel begin2
+		trigger t2door hatchup
+		trigger t2cargo exit
+		gotomarker t2spot80 100
+		faceangles 0 270 0 gototime
+		trigger t2rwheel right30
+		trigger t2lwheel right30		
+		gotomarker t2spot81 100
+		faceangles 0 240 0 gototime
+		gotomarker t2spot82 100
+		faceangles 0 210 0 gototime
+		trigger t2rwheel strait
+		trigger t2lwheel strait
+		gotomarker t2spot83 100
+		faceangles 0 180 0 gototime
+		gotomarker t2spot84 100
+		faceangles 0 180 0 gototime
+		gotomarker t2spot85 100
+		faceangles 0 180 0 gototime
+		gotomarker t2spot86 100
+		faceangles 0 180 0 gototime
+	}
+}
+
+t2cargo
+{
+	spawn
+	{
+		wait 5000
+		gotomarker t2spot1 1000
+		faceangles 0 180 0 gototime
+	}
+
+	trigger begin2
+	{
+		gotomarker t2spot2 160
+		faceangles 0 180 0 gototime
+		gotomarker t2spot3 160
+		faceangles 0 171 0 gototime
+		gotomarker t2spot4 160
+		faceangles 0 162 0 gototime
+		gotomarker t2spot5 160
+		faceangles 0 153 0 gototime
+		gotomarker t2spot6 160
+		faceangles 0 144 0 gototime
+		gotomarker t2spot7 160
+		faceangles 0 135 0 gototime
+		gotomarker t2spot8 160
+		faceangles 0 135 0 gototime
+		gotomarker t2spot9 160
+		faceangles 0 135 0 gototime
+		gotomarker t2spot10 160
+		faceangles 0 135 0 gototime
+		gotomarker t2spot11 160
+		faceangles 0 126 0 gototime
+		gotomarker t2spot12 160
+		faceangles 0 117 0 gototime
+		gotomarker t2spot13 160
+		faceangles 0 108 0 gototime
+		gotomarker t2spot14 160
+		faceangles 0 99 0 gototime
+		gotomarker t2spot15 160
+		faceangles 0 90 0 gototime
+		gotomarker t2spot16 130
+		faceangles 0 90 0 gototime
+		gotomarker t2spot17 100
+		faceangles 0 90 0 gototime
+		gotomarker t2spot18 70
+		faceangles 0 90 0 gototime
+		gotomarker t2spot19 40
+		faceangles 0 90 0 gototime
+	}
+
+	trigger atbridge
+	{
+		gotomarker t2spot20 60
+		faceangles 0 90 0 gototime
+		gotomarker t2spot21 90
+		faceangles 0 90 0 gototime
+		gotomarker t2spot22 120
+		faceangles 0 90 0 gototime
+		gotomarker t2spot23 140
+		faceangles 0 90 0 gototime
+		gotomarker t2spot24 160
+		faceangles 0 90 0 gototime
+		gotomarker t2spot25 160
+		faceangles 0 90 0 gototime
+		gotomarker t2spot26 160
+		faceangles 0 90 0 gototime
+		trigger t2cargo intotunnel2
+	}
+
+	trigger intotunnel2
+	{
+		gotomarker t2spot27 320
+		faceangles 0 90 0 gototime
+		gotomarker t2spot28 320
+		faceangles 0 99 0 gototime
+		gotomarker t2spot29 320
+		faceangles 0 108 0 gototime
+		gotomarker t2spot30 320
+		faceangles 0 117 0 gototime
+		gotomarker t2spot31 320
+		faceangles 0 126 0 gototime
+		gotomarker t2spot32 320
+		faceangles 0 135 0 gototime
+		gotomarker t2spot33 320
+		faceangles 0 144 0 gototime
+		gotomarker t2spot34 320
+		faceangles 0 153 0 gototime
+		gotomarker t2spot35 320
+		faceangles 0 162 0 gototime
+		gotomarker t2spot36 320
+		faceangles 0 171 0 gototime
+		gotomarker t2spot37 320
+		faceangles 0 180 0 gototime
+		gotomarker t2spot38 320
+		faceangles 0 180 0 gototime
+		trigger t2cargo securitycheck3
+	}
+
+	trigger securitycheck3
+	{
+		gotomarker t2spot39 320
+		faceangles 0 180 0 gototime
+		gotomarker t2spot40 240
+		faceangles 0 180 0 gototime
+		gotomarker t2spot41 160
+		faceangles 0 180 0 gototime
+		gotomarker t2spot42 80
+		faceangles 0 180 0 gototime
+		trigger t2cargo ontocamp4
+	}
+
+	trigger ontocamp4
+	{
+		gotomarker t2spot43 160
+		faceangles 0 180 0 gototime
+		gotomarker t2spot44 240
+		faceangles 0 180 0 gototime
+		gotomarker t2spot45 320
+		faceangles 0 180 0 gototime
+		gotomarker t2spot46 320
+		faceangles 0 189 0 gototime
+		gotomarker t2spot47 320
+		faceangles 0 198 0 gototime
+		gotomarker t2spot48 320
+		faceangles 0 207 0 gototime
+		gotomarker t2spot49 320
+		faceangles 0 216 0 gototime
+		gotomarker t2spot50 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot51 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot52 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot53 320
+		faceangles 0 234 0 gototime
+		gotomarker t2spot54 320
+		faceangles 0 243 0 gototime
+		gotomarker t2spot55 320
+		faceangles 0 252 0 gototime
+		gotomarker t2spot56 320
+		faceangles 0 261 0 gototime
+		gotomarker t2spot57 320
+		faceangles 0 270 0 gototime
+		gotomarker t2spot58 320
+		faceangles 0 270 0 gototime
+		gotomarker t2spot59 320
+		faceangles 4 270 0 gototime
+		gotomarker t2spot60 320
+		faceangles 4 270 0 gototime
+		gotomarker t2spot61 280
+		faceangles 0 270 0 gototime
+		gotomarker t2spot62 240
+		faceangles 0 270 0 gototime
+		trigger t2cargo incamp5
+	}
+
+	trigger incamp5
+	{
+		gotomarker t2spot63 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot64 200
+		faceangles 0 240 0 gototime
+		gotomarker t2spot65 200
+		faceangles 0 210 0 gototime
+		gotomarker t2spot66 200
+		faceangles 0 180 0 gototime
+		gotomarker t2spot67 220
+		faceangles 0 180 0 gototime
+		gotomarker t2spot68 280
+		faceangles 0 180 0 gototime
+		gotomarker t2spot69 200
+		faceangles 0 210 0 gototime
+		gotomarker t2spot70 200
+		faceangles 0 240 0 gototime
+		gotomarker t2spot71 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot72 280
+		faceangles 0 270 0 gototime
+		gotomarker t2spot73 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot74 120
+		faceangles 0 270 0 gototime
+		wait 2000
+		gotomarker t2spot75 100
+		faceangles 0 315 0 gototime
+		gotomarker t2spot76 100
+		faceangles 0 315 0 gototime
+		gotomarker t2spot77 100
+		faceangles 0 270 0 gototime
+		gotomarker t2spot78 80
+		faceangles 0 270 0 gototime
+		gotomarker t2spot79 40
+		faceangles 0 270 0 gototime
+	}
+
+	trigger exit
+	{
+		gotomarker t2spot80 100
+		faceangles 0 270 0 gototime
+		gotomarker t2spot81 100
+		faceangles 0 240 0 gototime
+		gotomarker t2spot82 100
+		faceangles 0 210 0 gototime
+		gotomarker t2spot83 100
+		faceangles 0 180 0 gototime
+		gotomarker t2spot84 100
+		faceangles 0 180 0 gototime
+		gotomarker t2spot85 100
+		faceangles 0 180 0 gototime
+		gotomarker t2spot86 100
+		faceangles 0 180 0 gototime
+	}
+}
+
+t2bwheels
+{
+	spawn
+	{
+		wait 1000
+		attachtotag t2body tbwheels
+	}
+
+	trigger begin2
+	{
+		playsound sound/world/shift_01.wav looping
+		wait 5
+		playanim 0 20 looping forever
+	}
+
+	trigger stop2
+	{
+		wait 1000
+		playsound sound/world/idle_01.wav looping
+		playanim 0 20 10000
+	}
+}
+
+t2rwheel
+{
+	spawn
+	{
+		wait 1000
+		attachtotag t2body tag_w2
+	}
+
+	trigger begin2
+	{
+		wait 5
+		playanim 0 20 looping forever		
+	}
+
+	trigger stop2
+	{
+		wait 1000
+		playanim 0 10 10000
+	}
+
+	trigger right12
+	{
+		faceangles 0 -12 0 500
+	}
+
+	trigger left12
+	{
+		faceangles 0 12 0 500
+	}
+
+	trigger right30
+	{
+		faceangles 0 -30 0 500
+	}
+
+	trigger left30
+	{
+		faceangles 0 30 0 500
+	}
+
+	trigger strait
+	{
+		faceangles 0 0 0 2000
+	}
+
+}
+
+t2lwheel
+{
+	spawn
+	{
+		wait 1000
+		attachtotag t2body tag_w1
+	}
+
+	trigger begin2
+	{
+		wait 5
+		playanim 0 20 looping forever		
+	}
+
+	trigger stop2
+	{
+		wait 1000
+		playanim 0 10 10000
+	}
+
+	trigger right12
+	{
+		faceangles 0 -12 0 500
+	}
+
+	trigger left12
+	{
+		faceangles 0 12 0 500
+	}
+
+	trigger right30
+	{
+		faceangles 0 -30 0 500
+	}
+
+	trigger left30
+	{
+		faceangles 0 30 0 500
+	}
+
+	trigger strait
+	{
+		faceangles 0 0 0 2000
+	}
+}
+
+t2door
+{
+	spawn
+	{
+		wait 1000
+		attachtotag t2body tag_door
+	}
+
+	trigger hatchdown
+	{
+		faceangles -90 0 0 2000
+	}
+
+	trigger hatchup
+	{
+		faceangles 0 0 0 500
+	}
+}
+
+t2tail
+{
+	spawn
+	{
+		wait 5000
+		gotomarker t2spot1 100
+		faceangles 0 180 0 gototime
+	}
+
+	trigger begin2
+	{
+		gotomarker t2spot2 1600
+		faceangles 0 180 0 gototime
+		gotomarker t2spot3 1600
+		faceangles 0 171 0 gototime
+		gotomarker t2spot4 1600
+		faceangles 0 162 0 gototime
+		gotomarker t2spot5 1600
+		faceangles 0 153 0 gototime
+		gotomarker t2spot6 1600
+		faceangles 0 144 0 gototime
+		gotomarker t2spot7 1600
+		faceangles 0 135 0 gototime
+		gotomarker t2spot8 1600
+		faceangles 0 135 0 gototime
+		gotomarker t2spot9 1600
+		faceangles 0 135 0 gototime
+		gotomarker t2spot10 1600
+		faceangles 0 135 0 gototime
+		gotomarker t2spot11 1600
+		faceangles 0 126 0 gototime
+		gotomarker t2spot12 1600
+		faceangles 0 117 0 gototime
+		gotomarker t2spot13 1600
+		faceangles 0 108 0 gototime
+		gotomarker t2spot14 1600
+		faceangles 0 99 0 gototime
+		gotomarker t2spot15 1600
+		faceangles 0 90 0 gototime
+		gotomarker t2spot16 1300
+		faceangles 0 90 0 gototime
+		gotomarker t2spot17 1000
+		faceangles 0 90 0 gototime
+		gotomarker t2spot18 700
+		faceangles 0 90 0 gototime
+		gotomarker t2spot19 400
+		faceangles 0 90 0 gototime
+	}
+
+	trigger atbridge
+	{
+		gotomarker t2spot20 60
+		faceangles 0 90 0 gototime
+		gotomarker t2spot21 90
+		faceangles 0 90 0 gototime
+		gotomarker t2spot22 120
+		faceangles 0 90 0 gototime
+		gotomarker t2spot23 140
+		faceangles 0 90 0 gototime
+		gotomarker t2spot24 160
+		faceangles 0 90 0 gototime
+		gotomarker t2spot25 160
+		faceangles 0 90 0 gototime
+		gotomarker t2spot26 160
+		faceangles 0 90 0 gototime
+		trigger t2tail intotunnel2
+	}
+
+	trigger intotunnel2
+	{
+		gotomarker t2spot27 320
+		faceangles 0 90 0 gototime
+		gotomarker t2spot28 320
+		faceangles 0 99 0 gototime
+		gotomarker t2spot29 320
+		faceangles 0 108 0 gototime
+		gotomarker t2spot30 320
+		faceangles 0 117 0 gototime
+		gotomarker t2spot31 320
+		faceangles 0 126 0 gototime
+		gotomarker t2spot32 320
+		faceangles 0 135 0 gototime
+		gotomarker t2spot33 320
+		faceangles 0 144 0 gototime
+		gotomarker t2spot34 320
+		faceangles 0 153 0 gototime
+		gotomarker t2spot35 320
+		faceangles 0 162 0 gototime
+		gotomarker t2spot36 320
+		faceangles 0 171 0 gototime
+		gotomarker t2spot37 320
+		faceangles 0 180 0 gototime
+		gotomarker t2spot38 320
+		faceangles 0 180 0 gototime
+		trigger t2tail securitycheck3
+	}
+
+	trigger securitycheck3
+	{
+		gotomarker t2spot39 320
+		faceangles 0 180 0 gototime
+		gotomarker t2spot40 240
+		faceangles 0 180 0 gototime
+		gotomarker t2spot41 160
+		faceangles 0 180 0 gototime
+		gotomarker t2spot42 80
+		faceangles 0 180 0 gototime
+	}
+
+	trigger ontocamp4
+	{
+		gotomarker t2spot43 160
+		faceangles 0 180 0 gototime
+		gotomarker t2spot44 240
+		faceangles 0 180 0 gototime
+		gotomarker t2spot45 320
+		faceangles 0 180 0 gototime
+		gotomarker t2spot46 320
+		faceangles 0 189 0 gototime
+		gotomarker t2spot47 320
+		faceangles 0 198 0 gototime
+		gotomarker t2spot48 320
+		faceangles 0 207 0 gototime
+		gotomarker t2spot49 320
+		faceangles 0 216 0 gototime
+		gotomarker t2spot50 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot51 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot52 320
+		faceangles 0 225 0 gototime
+		gotomarker t2spot53 320
+		faceangles 0 234 0 gototime
+		gotomarker t2spot54 320
+		faceangles 0 243 0 gototime
+		gotomarker t2spot55 320
+		faceangles 0 252 0 gototime
+		gotomarker t2spot56 320
+		faceangles 0 261 0 gototime
+		gotomarker t2spot57 320
+		faceangles 0 270 0 gototime
+		gotomarker t2spot58 320
+		faceangles 0 270 0 gototime
+		gotomarker t2spot59 320
+		faceangles 4 270 0 gototime
+		gotomarker t2spot60 320
+		faceangles 4 270 0 gototime
+		gotomarker t2spot61 280
+		faceangles 0 270 0 gototime
+		gotomarker t2spot62 240
+		faceangles 0 270 0 gototime
+		trigger t2tail incamp5
+	}
+
+	trigger incamp5
+	{
+		gotomarker t2spot63 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot64 200
+		faceangles 0 240 0 gototime
+		gotomarker t2spot65 200
+		faceangles 0 210 0 gototime
+		gotomarker t2spot66 200
+		faceangles 0 180 0 gototime
+		gotomarker t2spot67 240
+		faceangles 0 180 0 gototime
+		gotomarker t2spot68 280
+		faceangles 0 180 0 gototime
+		gotomarker t2spot69 200
+		faceangles 0 210 0 gototime
+		gotomarker t2spot70 200
+		faceangles 0 240 0 gototime
+		gotomarker t2spot71 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot72 280
+		faceangles 0 270 0 gototime
+		gotomarker t2spot73 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot74 200
+		faceangles 0 270 0 gototime
+		gotomarker t2spot74t 200
+		faceangles 0 270 0 gototime
+	}
+}
+
+me109no1
+{
+	spawn
+	{
+		wait 5000
+		gotomarker no1loc1 10000
+		faceangles 0 196 0 gototime
+	}
+
+	trigger cycle1
+	{
+		wait 1000
+
+		gotomarker no1loc2 1500
+		faceangles 0 196 8 gototime
+		gotomarker no1loc3 1500
+		faceangles 0 196 8 gototime
+		gotomarker no1loc4 1500
+		faceangles 0 196 0 gototime
+		gotomarker no1loc5 1500
+		faceangles 0 196 -8 gototime
+		gotomarker no1loc6 1500
+		faceangles 0 196 0 gototime
+		gotomarker no1loc7 1500
+		faceangles 0 196 12 gototime
+		gotomarker no1loc8 1500
+		faceangles 0 196 12 gototime
+		gotomarker no1final 1500
+		faceangles 0 196 0 gototime
+	}
+}
+
+me109no2
+{
+	spawn
+	{
+		wait 5000
+		gotomarker no2loc1 10000
+		faceangles 0 196 -8 gototime
+	}
+
+	trigger cycle2
+	{
+		wait 1000
+		gotomarker no2loc2 1500
+		faceangles 0 196 -8 gototime
+		gotomarker no2loc3 1500
+		faceangles 0 196 0 gototime
+		gotomarker no2loc4 1500
+		faceangles 0 196 0 gototime
+		gotomarker no2loc5 1600
+		faceangles 0 196 -12 gototime
+		gotomarker no2loc6 1500
+		faceangles 0 196 -12 gototime
+		gotomarker no2loc7 1500
+		faceangles 0 196 0 gototime
+		gotomarker no2loc8 1500
+		faceangles 0 196 6 gototime
+		gotomarker no2final 1500
+		faceangles 0 196 6 gototime
+	}
+}

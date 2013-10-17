@@ -1,0 +1,22 @@
+tag_head,
+tag_footleft,
+tag_legleft,
+tag_footright,
+tag_legright,
+tag_lbelt,
+tag_torso,
+tag_bleft,
+tag_bright,
+
+l_legs,models/players/multi/legs_american.tga
+u_body,models/players/multi/body_upper_american.tga
+u_rthand,models/players/multi/body_upper_american.tga
+u_lfthand,models/players/multi/body_upper_american.tga
+
+ammo,models/players/multi/acc/backpack/backpack_sol.tga
+ammo2,models/players/multi/acc/backpack/backpack_sol.tga
+ammo3,models/players/multi/acc/backpack/backpack_sol.tga
+ammo4,models/players/multi/acc/backpack/backpack_sol.tga
+
+md3_back, "acc/backpack/backpack_sol.md3"
+
