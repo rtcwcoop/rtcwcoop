@@ -59,7 +59,7 @@ If you have questions concerning this license or the applicable additional terms
   #define CLIENT_WINDOW_MIN_TITLE 	"RTCWCoop"
   #define HOMEPATH_NAME_UNIX		".wolf"
   #define HOMEPATH_NAME_WIN		"RTCWCoop"
-  #define HOMEPATH_NAME_MACOSX		HOMEPATH_NAME_WIN
+  #define HOMEPATH_NAME_MACOSX	"rtcwcoop"	
   #define GAMENAME_FOR_MASTER		"wolfcoop"
   #define LEGACY_PROTOCOL
   #define HEARTBEAT_GAME  "WolfensteinCoop-1"

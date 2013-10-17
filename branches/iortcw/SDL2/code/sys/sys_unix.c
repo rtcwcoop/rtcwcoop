@@ -60,7 +60,7 @@ char *Sys_DefaultHomePath(void)
 			Com_sprintf(homePath, sizeof(homePath), "%s%c", p, PATH_SEP);
 #ifdef MACOS_X
 			Q_strcat(homePath, sizeof(homePath),
-				"Library/Application Support/");
+				"Documents/");
 
 			if(com_homepath->string[0])
 				Q_strcat(homePath, sizeof(homePath), com_homepath->string);
