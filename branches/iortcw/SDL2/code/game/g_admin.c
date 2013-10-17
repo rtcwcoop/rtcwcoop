@@ -842,9 +842,7 @@ Kick player based upon clientnumber + optional <msg> (NOT PRINTED ATM DUE ERROR 
 void cmd_clientkick( gentity_t *ent ) {
 	int player_id;
 	gentity_t   *targetclient;
-	char *tag, *log;
-
-	tag = sortTag( ent );
+	char *log;
 
 	player_id = ClientNumberFromString2( ent, ent->client->pers.cmd2 );
 	if ( player_id == -1 ) {
@@ -855,7 +853,7 @@ void cmd_clientkick( gentity_t *ent ) {
 
 	//kick the client
 	trap_DropClient( player_id, va( "^3kicked by ^3admin. ^7%s", ent->client->pers.cmd3 ) );
-	trap_SendServerCommand( -1, va( "chat \"console: %s ^7has kicked player %s^1 %s\n\"", /*tag,*/ ent->client->pers.netname, targetclient->client->pers.netname, ent->client->pers.cmd3 ) );
+	trap_SendServerCommand( -1, va( "chat \"console: %s ^7has kicked player %s^1 %s\n\"", ent->client->pers.netname, targetclient->client->pers.netname, ent->client->pers.cmd3 ) );
 
 	// Log it
 	log = va( "Player %s (IP:%i.%i.%i.%i) has clientKicked user %s. %s",

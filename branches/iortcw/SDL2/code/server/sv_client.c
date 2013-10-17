@@ -810,7 +810,7 @@ static void SV_SendClientGameState( client_t *client ) {
 	MSG_WriteLong( &msg, sv.checksumFeed );
 
 	// NERVE - SMF - debug info
-	Com_DPrintf( "Sending %i bytes in gamestate to client: %i\n", msg.cursize, client - svs.clients );
+	Com_DPrintf( "Sending %i bytes in gamestate to client: %i\n", msg.cursize, (int)( client - svs.clients ) );
 
 	// deliver this to the client
 	SV_SendMessageToClient( &msg, client );

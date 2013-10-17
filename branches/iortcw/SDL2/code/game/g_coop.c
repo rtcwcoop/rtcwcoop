@@ -224,7 +224,7 @@ gentity_t *SelectRandomAntiCoopSpawnPoint( gentity_t *ent, vec3_t origin, vec3_t
 	gentity_t       *spot = NULL;
 	//gentity_t       *spots[MAX_SPAWN_POINTS];
 	gspawnpoint_t   *spots[MAX_SPAWN_POINTS];
-	gspawnpoint_t spawnpoint;
+	gspawnpoint_t spawnpoint = { 0 };
 
 	for ( i = MAX_COOP_CLIENTS; i < level.maxclients; i++ ) {
 		spot = g_entities + i;
