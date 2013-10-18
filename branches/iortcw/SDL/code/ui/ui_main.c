@@ -7138,7 +7138,6 @@ static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint,
 	UI_ReadableSize( totalSizeBuf,  sizeof totalSizeBuf,    downloadSize );
 
 	if ( downloadCount < 4096 || !downloadTime ) {
-		Text_PaintCenter( centerPoint, yStart + 235, font, scale, colorYellow, "estimating", 0 );
 		Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
 	} else {
 		if ( ( uiInfo.uiDC.realTime - downloadTime ) / 1000 ) {
@@ -7170,7 +7169,6 @@ static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint,
 			Text_Paint( 260, yStart + 235, font, scale, colorYellow, dlTimeBuf, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 			Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
 		} else {
-			Text_PaintCenter( centerPoint, yStart + 235, font, scale, colorYellow, "estimating", 0 );
 			if ( downloadSize ) {
 				Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
 			} else {
