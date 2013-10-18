@@ -3370,6 +3370,15 @@ qboolean FS_idPak(char *pak, char *base, int numPaks)
 {
 	int i;
 
+	if ( !FS_FilenameCompare( pak, va( "%s/mp_bin", base ) ) ) {
+                return qtrue;
+        }
+
+	// Don't download the coop bin pak either
+	if ( !FS_FilenameCompare( pak, va( "%s/bin", base ) ) ) {
+		return qtrue;
+	}
+
 	for ( i = 0; i < NUM_ID_PAKS; i++ ) {
 		if ( !FS_FilenameCompare( pak, va( "%s/pak%d", base, i ) ) ) {
 			break;
@@ -3379,6 +3388,10 @@ qboolean FS_idPak(char *pak, char *base, int numPaks)
 			break;
 		}
 		if ( !FS_FilenameCompare( pak, va( "%s/sp_pak%d",base,i ) ) ) {
+			break;
+		}
+		// Don't download the coop paks either
+		if ( !FS_FilenameCompare( pak, va( "%s/sp_pak_coop%d",base,i ) ) ) {
 			break;
 		}
 // jpw
