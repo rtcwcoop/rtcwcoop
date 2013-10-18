@@ -287,7 +287,7 @@ You or the server may be running older versions of the game. Press the auto-upda
  button if it appears on the Main Menu screen."
 
 #define	PROTOCOL_VERSION	11
-#define PROTOCOL_LEGACY_VERSION	10
+#define PROTOCOL_LEGACY_VERSION	11
 //#define	PROTOCOL_VERSION	43	// (SA) bump this up
 
 // maintain a list of compatible protocols for demo playing
