@@ -1076,7 +1076,7 @@ qboolean Load_Menu( int handle ) {
 			int handle;
 			handle = trap_PC_LoadSource( va( "ui/%s_notebook.menu", levelname ) );
 			if ( !handle ) {
-+				UI_ParseMenu( token.string );
+				UI_ParseMenu( token.string );
 			} else {
 				UI_ParseMenu( va( "ui/%s_notebook.menu", levelname ) );
 			}
