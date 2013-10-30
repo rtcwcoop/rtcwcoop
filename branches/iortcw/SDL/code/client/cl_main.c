@@ -2602,10 +2602,15 @@ void CL_InitServerInfo( serverInfo_t *server, netadr_t *address ) {
 	server->ping = -1;
 	server->game[0] = '\0';
 	server->gameType = 0;
-	server->coop = 0;
 	server->netType = 0;
 	server->allowAnonymous = 0;
+	server->coop = 0;
 	server->gameskill = 0;
+	server->maxlives = 0;
+	server->reinforce = 0;
+	server->airespawn = 0;
+	server->g_humanplayers = 0;
+	server->g_needpass = 0;
 }
 
 #define MAX_SERVERSPERPACKET    256
@@ -3169,11 +3174,19 @@ void CL_Frame( int msec ) {
 		if ( clc.state == CA_ACTIVE || cl_forceavidemo->integer) {
 			CL_TakeVideoFrame( );
 
-			// fixed time for next frame'
-			msec = (int)ceil( (1000.0f / cl_aviFrameRate->value) * com_timescale->value );
-			if (msec == 0) {
-				msec = 1;
-			}
+			float fps = cl_aviFrameRate->value * com_timescale->value;
+
+			if ( fps > 1000.0f )
+				fps = 1000.0f;
+
+			float frameTime = ( 1000.0f / fps );
+
+			if ( frameTime < 1 )
+				frameTime = 1;
+
+			frameTime += clc.aviDemoRemain;
+			msec = (int)frameTime;
+			clc.aviDemoRemain = frameTime - msec;
 		}
 	}
 
@@ -4388,14 +4401,14 @@ static void CL_SetServerInfo( serverInfo_t *server, const char *info, int ping )
 			server->netType = atoi( Info_ValueForKey( info, "nettype" ) );
 			server->minPing = atoi( Info_ValueForKey( info, "minping" ) );
 			server->maxPing = atoi( Info_ValueForKey( info, "maxping" ) );
-			server->g_humanplayers = atoi(Info_ValueForKey(info, "g_humanplayers"));
-			server->g_needpass = atoi(Info_ValueForKey(info, "g_needpass"));
 			server->allowAnonymous = atoi( Info_ValueForKey( info, "sv_allowAnonymous" ) );
 			server->coop = atoi( Info_ValueForKey( info, "coop" ) );
 			server->gameskill = atoi( Info_ValueForKey( info, "gameskill" ) );
 			server->maxlives = atoi( Info_ValueForKey( info, "maxlives" ) );
 			server->reinforce = atoi( Info_ValueForKey( info, "reinforce" ) );
 			server->airespawn = atoi( Info_ValueForKey( info, "airespawn" ) );
+			server->g_humanplayers = atoi(Info_ValueForKey(info, "g_humanplayers"));
+			server->g_needpass = atoi(Info_ValueForKey(info, "g_needpass"));
 		}
 		server->ping = ping;
 	}
@@ -4527,25 +4540,7 @@ void CL_ServerInfoPacket( netadr_t from, msg_t *msg ) {
 
 	// add this to the list
 	cls.numlocalservers = i + 1;
-	cls.localServers[i].adr = from;
-	cls.localServers[i].clients = 0;
-	cls.localServers[i].hostName[0] = '\0';
-	cls.localServers[i].mapName[0] = '\0';
-	cls.localServers[i].maxClients = 0;
-	cls.localServers[i].maxPing = 0;
-	cls.localServers[i].minPing = 0;
-	cls.localServers[i].ping = -1;
-	cls.localServers[i].game[0] = '\0';
-	cls.localServers[i].gameType = 0;
-	cls.localServers[i].coop = 0;
-	cls.localServers[i].netType = from.type;
-	cls.localServers[i].allowAnonymous = 0;
-	cls.localServers[i].gameskill = 0;
-	cls.localServers[i].maxlives = 0;
-	cls.localServers[i].reinforce = 0;
-	cls.localServers[i].airespawn = 0;
-	cls.localServers[i].g_humanplayers = 0;
-	cls.localServers[i].g_needpass = 0;
+	CL_InitServerInfo( &cls.localServers[i], &from );
 
 	Q_strncpyz( info, MSG_ReadString( msg ), MAX_INFO_STRING );
 	if ( strlen( info ) ) {
