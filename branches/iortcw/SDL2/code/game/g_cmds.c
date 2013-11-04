@@ -1657,7 +1657,7 @@ static void G_VoiceTo( gentity_t *ent, gentity_t *other, int mode, const char *i
 	        return;
 	}*/
 	// no chatting to players in sp
-	if ( ( g_gametype.integer == GT_SINGLE_PLAYER ) ) {
+	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 		return;
 	}
 

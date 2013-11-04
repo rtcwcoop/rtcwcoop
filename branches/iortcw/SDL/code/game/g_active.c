@@ -907,7 +907,7 @@ void ClientThink_real( gentity_t *ent ) {
 						return;
 					}
 				}
-				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) ) {
+				if ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) {
 					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
 						// drop the current weapon
 						weapon = client->ps.weapon;

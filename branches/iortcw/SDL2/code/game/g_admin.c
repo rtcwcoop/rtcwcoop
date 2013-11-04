@@ -1552,7 +1552,7 @@ void cmd_getstatus( gentity_t *ent ) {
 				extra = ( g_entities[j].client->sess.admin == ADM_NONE && g_entities[j].client->sess.ignored ) ? "^1Ignored" : "";
 				if ( ent->client->sess.admin == ADM_NONE ) {
 					tag = ( g_entities[j].client->sess.admin != ADM_NONE && !g_entities[j].client->sess.incognito ) ? sortTag : extra;
-				} else if ( ent->client->sess.admin != ADM_NONE ) {
+				} else {
 					tag = ( g_entities[j].client->sess.admin == ADM_NONE && g_entities[j].client->sess.ignored ) ? "^1Ignored" : sortTag;
 				}
 

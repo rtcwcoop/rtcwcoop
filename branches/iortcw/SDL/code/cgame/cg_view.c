@@ -848,9 +848,7 @@ static int CG_CalcFov( void ) {
 			lastfov = fov_x;
 		} else {                    // binoc zooming out
 			f = ( cg.time - cg.zoomTime ) / (float)ZOOM_TIME;
-			if ( f > 1.0 ) {
-				fov_x = fov_x;
-			} else {
+			if ( f <= 1.0 ) {
 				fov_x = zoomFov + f * ( fov_x - zoomFov );
 			}
 		}
@@ -1349,9 +1347,7 @@ void CG_DrawSkyBoxPortal( void ) {
 				lastfov = fov_x;
 			} else {                    // binoc zooming out
 				f = ( cg.time - cg.zoomTime ) / (float)ZOOM_TIME;
-				if ( f > 1.0 ) {
-					fov_x = fov_x;
-				} else {
+				if ( f <= 1.0 ) {
 					fov_x = zoomFov + f * ( fov_x - zoomFov );
 				}
 			}
