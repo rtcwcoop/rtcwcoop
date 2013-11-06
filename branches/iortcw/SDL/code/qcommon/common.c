@@ -2247,6 +2247,7 @@ Com_Init
 void Com_Init( char *commandLine ) {
 	char    *s;
 	int	qport;
+	qboolean playIntro = qtrue;
 
 	Com_Printf( "%s %s %s\n", Q3_VERSION, PLATFORM_STRING, __DATE__ );
 
@@ -2422,6 +2423,10 @@ void Com_Init( char *commandLine ) {
 	// add + commands from command line
 	if ( !Com_AddStartupCommands() ) {
 		// if the user didn't give any commands, run default action
+	} else {
+		// starting a non dedicated server from the command line on OSX fails because
+		// the intro starts playing in the background
+		playIntro = qfalse; 
 	}
 
 	// start in full screen ui mode
@@ -2436,7 +2441,7 @@ void Com_Init( char *commandLine ) {
 
 	if ( !com_dedicated->integer ) {
 		//Cbuf_AddText ("cinematic gmlogo.RoQ\n");
-		if ( !com_introPlayed->integer ) {
+		if ( !com_introPlayed->integer && playIntro) {
 			//Cvar_Set( com_introPlayed->name, "1" );		//----(SA)	force this to get played every time (but leave cvar for override)
 			Cbuf_AddText( "cinematic wolfintro.RoQ 3\n" );
 			//Cvar_Set( "nextmap", "cinematic wolfintro.RoQ" );
