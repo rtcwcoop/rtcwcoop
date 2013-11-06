@@ -1150,7 +1150,6 @@ endif
 ifeq ($(USE_IRC),1)
   CLIENT_CFLAGS += -DUSE_IRC
   CFLAGS += -DUSE_IRC
-  LIBS += -lpthread
 endif
 
 BASE_CFLAGS += -DPRODUCT_VERSION=\\\"$(VERSION)\\\"
