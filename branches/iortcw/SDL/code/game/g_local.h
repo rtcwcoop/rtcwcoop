@@ -1562,8 +1562,22 @@ typedef enum
 	AITEAM_NEUTRAL
 } AITeam_t;
 
+
+// Coop
 #include "g_coop.h"
 
-// Admin stuff
+#ifdef _ADMINS
 #include "g_admin.h"
+#endif
+
+/* -> Macros <- */
+#define APS( x ) APSound( x );          // Global sound
+#define CPS( x, y ) CPSound( x, y );    // Client sound only
+#define AP( x ) trap_SendServerCommand( -1, x )                 // Print to all
+#define CP( x ) trap_SendServerCommand( ent - g_entities, x )     // Print to an ent
+#define CPx( x, y ) trap_SendServerCommand( x, y )              // Print to id = x
+
+void CheckVote( void );
+void CPSound( gentity_t *ent, char *sound );
+void APSound( char *sound );
 

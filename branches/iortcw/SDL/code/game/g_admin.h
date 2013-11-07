@@ -37,6 +37,7 @@ If you have questions concerning this license or the applicable additional terms
 * Last edit: 07.11/12
 ****************************************************************************
 */
+#ifdef _ADMINS
 
 // Logs
 #define ADMLOG "./COOP/adminLogins.log"
@@ -53,21 +54,9 @@ void cmd_getstatus( gentity_t *ent );
 /* -> g_admin.c <- */
 qboolean cmds_admin( char cmd[MAX_TOKEN_CHARS], gentity_t * ent );
 void ParseAdmStr( const char *strInput, char *strCmd, char *strArgs );
+void logEntry( char *filename, char *info );
 
 /* -> g_cmds.c <- */
 char *ConcatArgs( int start );
 
-/* -> g_main.c <- */
-void CheckVote( void );
-
-/* -> Linked all accross <- */
-void logEntry( char *filename, char *info );
-void CPSound( gentity_t *ent, char *sound );
-void APSound( char *sound );
-
-/* -> Macros <- */
-#define APS( x ) APSound( x );          // Global sound
-#define CPS( x, y ) CPSound( x, y );    // Client sound only
-#define AP( x ) trap_SendServerCommand( -1, x )                 // Print to all
-#define CP( x ) trap_SendServerCommand( ent - g_entities, x )     // Print to an ent
-#define CPx( x, y ) trap_SendServerCommand( x, y )              // Print to id = x
+#endif // _ADMINS

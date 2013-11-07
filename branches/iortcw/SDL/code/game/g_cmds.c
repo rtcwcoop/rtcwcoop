@@ -42,14 +42,14 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 	gclient_t   *cl;
 	gentity_t *tmpent;
 	int numSorted;
-	//int scoreFlags;
+	int scoreFlags;
 
 	int counter = 0;
 
 	// send the latest information on all clients
 	string[0] = 0;
 	stringlength = 0;
-	//scoreFlags = 0;
+	scoreFlags = 0;
 
 	// don't send more than 32 scores (FIXME?)
 	numSorted = level.numConnectedClients;
@@ -88,13 +88,12 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 		}
 
 		// TODO: add respawnsLeft to the end of the message
-#ifndef MONEY
+#ifdef MONEY
 		Com_sprintf( entry, sizeof( entry ),
-					 " %i %i %i %i %i %i", level.sortedClients[i],
-					g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000,
-					 scoreFlags, g_entities[level.sortedClients[i]].s.powerups );
+				" %i %i %i %i %i %i %i", level.sortedClients[i], g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000, g_entities[level.sortedClients[i]].client->ps.persistant[PERS_KILLED], cl->sess.damage_given, cl->sess.damage_received );
 #else
-		Com_sprintf( entry, sizeof( entry ), " %i %i %i %i %i %i %i", level.sortedClients[i], g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000, g_entities[level.sortedClients[i]].client->ps.persistant[PERS_KILLED], cl->sess.damage_given, cl->sess.damage_received );
+		Com_sprintf( entry, sizeof( entry ),
+				 " %i %i %i %i %i %i", level.sortedClients[i], 	g_entities[level.sortedClients[i]].client->ps.persistant[PERS_SCORE], ping, ( level.time - cl->pers.enterTime ) / 60000, scoreFlags, g_entities[level.sortedClients[i]].s.powerups );
 #endif
 
 		j = strlen( entry );
@@ -1463,6 +1462,7 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	// don't let text be too long for malicious reasons
 	char text[MAX_SAY_TEXT];
 	char location[64];
+#ifdef _ADMINS
 	// Admin stuff
 	char *tag;
 	char arg[MAX_SAY_TEXT]; // ! & ?
@@ -1515,6 +1515,7 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	} else {
 		tag = "";
 	}
+#endif
 
 	if ( g_gametype.integer <= GT_SINGLE_PLAYER && mode == SAY_TEAM ) {
 		mode = SAY_ALL;
@@ -1523,8 +1524,14 @@ void G_Say( gentity_t *ent, gentity_t *target, int mode, const char *chatText ) 
 	switch ( mode ) {
 	default:
 	case SAY_ALL:
-		G_LogPrintf( "say: %s%s: %s\n", ent->client->pers.netname, tag, chatText );     // Added admin tag for log print..
-		Com_sprintf( name, sizeof( name ), "%s%s%c%c: ", ent->client->pers.netname, tag, Q_COLOR_ESCAPE, COLOR_WHITE );     // Added admin tag..
+#ifdef _ADMINS
+		// Added admin tag for log
+		G_LogPrintf( "say: %s%s: %s\n", ent->client->pers.netname, tag, chatText );
+		Com_sprintf( name, sizeof( name ), "%s%s%c%c: ", ent->client->pers.netname, tag, Q_COLOR_ESCAPE, COLOR_WHITE );
+#else
+		G_LogPrintf( "say: %s: %s\n", ent->client->pers.netname, chatText );
+		Com_sprintf( name, sizeof( name ), "%s%c%c: ", ent->client->pers.netname, Q_COLOR_ESCAPE, COLOR_WHITE );
+#endif
 		color = COLOR_GREEN;
 		break;
 	case SAY_TEAM:
@@ -3488,7 +3495,7 @@ void ClientCommand( int clientNum ) {
 		return;
 	}
 //----(SA)	end
-
+#ifdef _ADMINS
 	// Hook our commands above intermission
 	if ( Q_stricmp( cmd, "login" ) == 0 ) {
 		cmd_do_login( ent, qfalse );
@@ -3506,6 +3513,7 @@ void ClientCommand( int clientNum ) {
 		cmd_getstatus( ent );
 		return;
 	}
+#endif
 
 	// ignore all other commands when at intermission
 	if ( level.intermissiontime ) {

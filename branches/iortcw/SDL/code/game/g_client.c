@@ -1269,6 +1269,7 @@ qboolean G_ParseAnimationFiles( char *modelname, gclient_t *cl ) {
 	return qtrue;
 }
 
+#ifdef _ADMINS 
 /*
 ===========
 Save players IP
@@ -1290,7 +1291,7 @@ void SaveIP( gclient_t * client, char * sip ) {
 			(int *)&client->sess.ip[2], (int *)&client->sess.ip[3] );
 	return;
 }
-void G_WriteClientSessionData( gclient_t *client );
+#endif
 
 /*
 ===========
@@ -1341,10 +1342,12 @@ void ClientUserinfoChanged( int clientNum ) {
 		Coop_DeleteStats( clientNum );
 	}
 
+#ifdef _ADMINS 
 	// save IP FIXME IPV6
 	if ( s[0] != 0 ) {
 		SaveIP( client, s );
 	}
+#endif
 
 	// check the item prediction
 	s = Info_ValueForKey( userinfo, "cg_predictItems" );
@@ -1511,6 +1514,7 @@ void ClientUserinfoChanged( int clientNum ) {
 	// Moved log print bellow to fix an exploit (command could reveal IP of players..)
 	// as well as cleared half of garbage that's completely unimportant for Admins..
 	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
+#ifdef _ADMINS 
 		char *team;
 
 		team = ( client->sess.sessionTeam == TEAM_RED ) ? "Axis" :
@@ -1521,8 +1525,10 @@ void ClientUserinfoChanged( int clientNum ) {
 				client->pers.netname, team,
 				client->sess.ip[0],client->sess.ip[1],
 				client->sess.ip[2], client->sess.ip[3] );
-
+#endif
+		// this is not the userinfo actually, it's the config string
 		G_LogPrintf( "ClientUserinfoChanged: %i %s\n", clientNum, s );
+		G_DPrintf( "ClientUserinfoChanged: %i :: %s\n", clientNum, s );
 	}
 }
 

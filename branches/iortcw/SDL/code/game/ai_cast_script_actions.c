@@ -1028,10 +1028,9 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 	char *pString, *token;
 	int weapon;
 	int i;
-
-#ifdef MONEY
 	gentity_t   *ent = &g_entities[cs->entityNum];
 
+#ifdef MONEY
 	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) ) {
 		return qtrue;
 	}
@@ -1040,10 +1039,10 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 	// existing players don't receive
 	// the weapons and ammo from the ai scripts on a mapchange
 	// on a mapchange we give everyone at least one point, so we can identify new players
-	if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE ) {
-		if ( ent->inuse && !( ent->r.svFlags & SVF_CASTAI ) && ent->client->ps.persistant[PERS_SCORE] != 0 ) {
+	if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE )
+	{
+		if ( ent->inuse && !( ent->r.svFlags & SVF_CASTAI ) && ent->client->ps.persistant[PERS_SCORE] != 0 )
 			return qtrue;
-		}
 	}
 	pString = params;
 
@@ -1399,21 +1398,20 @@ AICast_ScriptAction_GiveWeapon
 qboolean AICast_ScriptAction_GiveWeapon( cast_state_t *cs, char *params ) {
 	int weapon;
 	int i;
+	gentity_t   *ent = &g_entities[cs->entityNum];
 
 #ifdef MONEY
-	gentity_t   *ent = &g_entities[cs->entityNum];
-	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) ) {
+	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) )
 		return qtrue;
-	}
 #endif
 
 	// existing players don't receive
 	// the weapons and ammo from the ai scripts on a mapchange
 	// on a mapchange we give everyone at least one point, so we can identify new players
-	if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE ) {
-		if ( ent->inuse && !( ent->r.svFlags & SVF_CASTAI ) && ent->client->ps.persistant[PERS_SCORE] != 0 ) {
+	if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE )
+	{
+		if ( ent->inuse && !( ent->r.svFlags & SVF_CASTAI ) && ent->client->ps.persistant[PERS_SCORE] != 0 )
 			return qtrue;
-		}
 	}
 
 	weapon = WP_NONE;

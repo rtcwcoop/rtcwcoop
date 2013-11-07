@@ -244,6 +244,18 @@ ifndef USE_BLOOM
 USE_BLOOM=1
 endif
 
+ifndef USE_ADMIN
+USE_ADMIN=0
+endif
+
+ifndef USE_MONEY
+USE_MONEY=0
+endif
+
+ifndef USE_LOCALISATION
+USE_LOCALISATION=1
+endif
+
 ifndef USE_OPENGLES
 USE_OPENGLES=0
 endif
@@ -359,7 +371,7 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu"))
   endif
 
   BASE_CFLAGS = -Wall -fno-strict-aliasing \
-    -pipe -DUSE_ICON -D_ADMINS -DMONEY -DLOCALISATION
+    -pipe -DUSE_ICON
   CLIENT_CFLAGS += $(SDL_CFLAGS)
 
   OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
@@ -458,7 +470,7 @@ ifeq ($(PLATFORM),darwin)
   RENDERER_LIBS=
   OPTIMIZEVM=
 
-  BASE_CFLAGS = -Wall -D_ADMINS -DMONEY -DLOCALISATION
+  BASE_CFLAGS = -Wall
 
   ifeq ($(ARCH),ppc)
     BASE_CFLAGS += -arch ppc -faltivec -mmacosx-version-min=10.2
@@ -599,7 +611,7 @@ ifeq ($(PLATFORM),mingw32)
   endif
 
   BASE_CFLAGS = -Wall -fno-strict-aliasing \
-    -DUSE_ICON -D_ADMINS -DMONEY -DLOCALISATION
+    -DUSE_ICON
 
   # In the absence of wspiapi.h, require Windows XP or later
   ifeq ($(shell test -e $(CMDIR)/wspiapi.h; echo $$?),1)
@@ -1150,6 +1162,20 @@ endif
 ifeq ($(USE_IRC),1)
   CLIENT_CFLAGS += -DUSE_IRC
   CFLAGS += -DUSE_IRC
+endif
+
+ifeq ($(USE_ADMIN),1)
+  CFLAGS += -D_ADMINS
+endif
+
+ifeq ($(USE_MONEY),1)
+  CLIENT_CFLAGS += -DMONEY
+  CFLAGS += -DMONEY
+endif
+
+ifeq ($(USE_LOCALISATION),1)
+  CLIENT_CFLAGS += -DLOCALISATION
+  CFLAGS += -DLOCALISATION
 endif
 
 BASE_CFLAGS += -DPRODUCT_VERSION=\\\"$(VERSION)\\\"

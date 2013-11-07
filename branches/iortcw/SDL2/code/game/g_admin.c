@@ -37,6 +37,8 @@ If you have questions concerning this license or the applicable additional terms
 * Last edit: 20.Mar/13
 ****************************************************************************
 */
+#ifdef _ADMINS
+
 #include "g_local.h"
 
 
@@ -525,38 +527,6 @@ qboolean canUse( gentity_t *ent, qboolean isCmd ) {
 		return qfalse;
 	}
 	return qfalse;
-}
-
-/*
-===========
-Global sound
-===========
-*/
-void APSound( char *sound ) {
-	gentity_t *ent;
-	gentity_t *te;
-	int o;
-
-	for ( o = 0; o < MAX_COOP_CLIENTS; o++ ) {
-		ent = g_entities + o;
-
-		te = G_TempEntity( ent->s.pos.trBase, EV_GLOBAL_SOUND );
-		te->s.eventParm = G_SoundIndex( sound );
-		te->r.svFlags |= SVF_BROADCAST;
-	}
-}
-
-/*
-===========
-Client sound
-===========
-*/
-void CPSound( gentity_t *ent, char *sound ) {
-	gentity_t *te;
-
-	te = G_TempEntity( ent->s.pos.trBase, EV_CLIENT_SOUND );
-	te->s.eventParm = G_SoundIndex( sound );
-	te->s.teamNum = ent->s.clientNum;
 }
 
 /*
@@ -1831,3 +1801,5 @@ qboolean cmds_admin( char cmd[MAX_TOKEN_CHARS], gentity_t *ent ) {
 
 	return qfalse;
 }
+
+#endif // _ADMINS

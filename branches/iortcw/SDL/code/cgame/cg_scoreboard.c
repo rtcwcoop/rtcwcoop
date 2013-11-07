@@ -37,7 +37,6 @@ void CG_DrawCoopScoreboard( void ) {
 	float *color;       // faded color based on cursor hint drawing
 	float color2[4] = {0, 0, 0, 1};
 	float color3[4] = {1, 1, 1, 1};
-	float green[4] = {0, 1, 0, 1};
 	float black[4] = {0, 0, 0, 1};
 	clientInfo_t *ci;
 	long score;
@@ -48,6 +47,7 @@ void CG_DrawCoopScoreboard( void ) {
 	int highest_score;
 	float highest_damage_ratio;
 	int lowest_deaths;
+	float green[4] = {0, 1, 0, 1};
 #endif
 	const char *s;
 	int msec, mins, seconds, tens;     // JPW NERVE
@@ -227,21 +227,36 @@ void CG_DrawCoopScoreboard( void ) {
 #endif
 
 
-			if ( maxlives ) {
+			if ( maxlives )
+			{
 				w = strlen( va( "%ld (%d)", score, cg.scores[i].respawnsLeft ) ) * SMALLCHAR_WIDTH;
-				if ( ci->team != TEAM_SPECTATOR ) {
-					if ( cg.scores[i].score == highest_score ) {
+				if ( ci->team != TEAM_SPECTATOR )
+				{
+#ifdef MONEY
+					if ( cg.scores[i].score == highest_score )
+					{
 						CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i ) + 1, va( "%d (%d)", cg.scores[i].score, cg.scores[i].respawnsLeft ), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
-					} else {
+					}
+					else
+#endif
+					{
 						CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i ) + 1, va( "%d (%d)", cg.scores[i].score, cg.scores[i].respawnsLeft ), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
 					}
 				}
-			} else {
+			}
+			else
+			{
 				w = strlen( va( "%ld", score ) ) * SMALLCHAR_WIDTH;
-				if ( ci->team != TEAM_SPECTATOR ) {
-					if ( cg.scores[i].score == highest_score ) {
+				if ( ci->team != TEAM_SPECTATOR )
+				{
+#ifdef MONEY
+					if ( cg.scores[i].score == highest_score )
+					{
 						CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i ) + 1, va( "%d", cg.scores[i].score ), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
-					} else {
+					}
+					else
+#endif
+					{
 						CG_DrawStringExt( 170 + 255 - w, 154 + ( 28 * i ) + 1, va( "%d", cg.scores[i].score ), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25 ) ;
 					}
 				}

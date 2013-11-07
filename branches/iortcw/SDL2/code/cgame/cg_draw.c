@@ -2425,22 +2425,39 @@ static qboolean CG_DrawFollow( void ) {
 		color[1] = 0.0;
 		color[2] = 0.0;
 		if ( cg.snap->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
+#ifdef LOCALISATION
 			Q_strncpyz( deploytime, CG_TranslateString( "No more deployments this round" ), sizeof(deploytime) );
+#else
+			Q_strncpyz( deploytime, "No more deployments this round", sizeof(deploytime) );
+#endif
 		} else {
+#ifdef LOCALISATION
 			Com_sprintf( deploytime, sizeof(deploytime), CG_TranslateString( "Deploying in %d seconds" ),
 					 (int)( 1 + (float)( cg_limbotime.integer - ( cg.time % cg_limbotime.integer ) ) * 0.001f ) );
+#else
+			Com_sprintf( deploytime, sizeof(deploytime), "Deploying in %d seconds",
+					 (int)( 1 + (float)( cg_limbotime.integer - ( cg.time % cg_limbotime.integer ) ) * 0.001f ) );
+#endif
 		}
 
 		CG_DrawStringExt( INFOTEXT_STARTX, 68, deploytime, color, qtrue, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 80 );
 
 		// DHM - Nerve :: Don't display if you're following yourself
 		if ( cg.snap->ps.clientNum != cg.clientNum ) {
+#ifdef LOCALISATION
 			Com_sprintf( deploytime, sizeof(deploytime), "(%s %s)", CG_TranslateString( "Following" ), cgs.clientinfo[ cg.snap->ps.clientNum ].name );
+#else
+			Com_sprintf( deploytime, sizeof(deploytime), "(%s %s)", "Following", cgs.clientinfo[ cg.snap->ps.clientNum ].name );
+#endif
 			CG_DrawStringExt( INFOTEXT_STARTX, 86, deploytime, color, qtrue, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 80 );
 		}
 	} else {
 		// jpw
+#ifdef LOCAISATION
 		CG_DrawSmallString( INFOTEXT_STARTX, 68, CG_TranslateString( "following" ), 1.0F );
+#else
+		CG_DrawSmallString( INFOTEXT_STARTX, 68, "following", 1.0F );
+#endif
 
 		name = cgs.clientinfo[ cg.snap->ps.clientNum ].name;
 

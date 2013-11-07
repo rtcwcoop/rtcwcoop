@@ -2418,7 +2418,11 @@ void CL_InitDownloads( void ) {
 
 		else if ( FS_ComparePaks( clc.downloadList, sizeof( clc.downloadList ), qtrue ) ) {
 			// this gets printed to UI, i18n
+#ifdef LOCALISATION
 			Com_Printf( CL_TranslateStringBuf( "Need paks: %s\n" ), clc.downloadList );
+#else
+			Com_Printf("Need paks: %s\n", clc.downloadList );
+#endif
 
 			if ( *clc.downloadList ) {
 				// if autodownloading is not enabled on the server
