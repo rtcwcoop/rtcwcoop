@@ -417,7 +417,7 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu"))
   SHLIBLDFLAGS=-shared $(LDFLAGS)
 
   THREAD_LIBS=-lpthread
-  LIBS=-ldl -lm
+  LIBS=-ldl -lm $(THREAD_LIBS)
 
   ifeq ($(USE_OPENGLES),1)
     CLIENT_LIBS=-lSDL
