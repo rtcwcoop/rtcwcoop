@@ -54,6 +54,7 @@ void G_WriteClientSessionData( gclient_t *client ) {
 		Coop_DeleteStats( client - level.clients );
 	}
 
+#ifdef _ADMINS
 	// Added Admin sessions and stuff related to it
 	s = va( "%i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			client->sess.sessionTeam,
@@ -75,6 +76,22 @@ void G_WriteClientSessionData( gclient_t *client ) {
 			client->sess.incognito,     // Toggle admin presence
 			client->sess.ignored        // Ignored players
 			);
+#else
+	s = va( "%i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
+			client->sess.sessionTeam,
+			client->sess.spectatorNum,
+			client->sess.spectatorState,
+			client->sess.spectatorClient,
+			client->sess.wins,
+			client->sess.losses,
+			client->sess.playerType,    // DHM - Nerve
+			client->sess.playerWeapon,  // DHM - Nerve
+			client->sess.playerPistol,  // DHM - Nerve
+			client->sess.playerItem,    // DHM - Nerve
+			client->sess.playerSkin,    // DHM - Nerve
+			client->sess.ignored        // Ignored players
+			);
+#endif
 
 	var = va( "session%i", (int)(client - level.clients) );
 
@@ -95,6 +112,7 @@ void G_ReadSessionData( gclient_t *client ) {
 	var = va( "session%i", (int)(client - level.clients) );
 	trap_Cvar_VariableStringBuffer( var, s, sizeof( s ) );
 
+#ifdef _ADMINS
 	// Added Admin sessions and stuff related to it
 	sscanf( s, "%i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			(int *)&client->sess.sessionTeam,
@@ -116,6 +134,22 @@ void G_ReadSessionData( gclient_t *client ) {
 			&client->sess.incognito,	// Toggle admin presence
 			&client->sess.ignored		// Ignored players
 			);
+#else
+	sscanf( s, "%i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
+			(int *)&client->sess.sessionTeam,
+			&client->sess.spectatorNum,
+			(int *)&client->sess.spectatorState,
+			&client->sess.spectatorClient,
+			&client->sess.wins,
+			&client->sess.losses,
+			&client->sess.playerType,       // DHM - Nerve
+			&client->sess.playerWeapon,     // DHM - Nerve
+			&client->sess.playerPistol,     // DHM - Nerve
+			&client->sess.playerItem,       // DHM - Nerve
+			&client->sess.playerSkin,       // DHM - Nerve
+			&client->sess.ignored		// Ignored players
+			);
+#endif
 }
 
 
@@ -156,12 +190,14 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 	sess->playerItem = 0;
 	sess->playerSkin = 0;
 	// dhm - end
+#ifdef _ADMINS
 	sess->admin = ADM_NONE; // admin
 	sess->ip[0] = 0;        // ip
 	sess->ip[1] = 0;        // ip
 	sess->ip[2] = 0;        // ip
 	sess->ip[3] = 0;        // ip
 	sess->incognito = 0;    // admin presence
+#endif
 	sess->ignored = 0;      // Ignored players
 
 	Coop_DeleteStats( client - level.clients );
