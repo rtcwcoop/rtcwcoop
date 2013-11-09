@@ -1333,7 +1333,7 @@ void ClientUserinfoChanged( int clientNum ) {
 
 	// check for local client
 	s = Info_ValueForKey( userinfo, "ip" );
-	if ( !strcmp( s, "localhost" ) ) {
+	if ( s && !strcmp( s, "localhost" ) ) {
 		client->pers.localClient = qtrue;
 	}
 
@@ -1575,17 +1575,22 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 		// Only bother with this is we want to run it as private..
 		if ( g_usePassword.integer ) {
 			value = Info_ValueForKey( userinfo, "password" );
-			if ( g_password.string[0] && strcmp( g_password.string, value ) != 0 ) {
+			if ( g_password.string[0] && Q_stricmp( g_password.string, "none" ) &&
+					strcmp( g_password.string, value ) != 0 ) {
 				return "Invalid password";
 			}
 			// Nah we don't..check now if client is banned..
-		} else {
+		}
+#if _ADMINS
+		else
+		{
 			if ( checkBanned( Info_ValueForKey( userinfo, "ip" ), Info_ValueForKey( userinfo, "password" ) ) == 1 ) {
 				return g_bannedMSG.string;
 			} else if ( checkBanned( Info_ValueForKey( userinfo, "ip" ), Info_ValueForKey( userinfo, "password" ) ) == 2 ) {
 				return TempBannedMessage;
 			}
 		}
+#endif
 	}
 
 	// if a player reconnects quickly after a disconnect, the client disconnect may never be called, thus flag can get lost in the ether

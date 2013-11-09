@@ -10,6 +10,8 @@
  * so credits go to Martin and Travis ( AG3NT & S4NDM4NN ).
  *
  */
+#ifdef _ADMINS
+
 #include "g_local.h"
 
 char *TempBannedMessage;
@@ -290,3 +292,5 @@ int checkBanned( char *data, char * password ) {
 	}
 	return 0;
 }
+
+#endif // _ADMINS

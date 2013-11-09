@@ -62,17 +62,24 @@ If 0, then only addresses matching the list will be allowed.  This lets you easi
 ==============================================================================
 */
 
-#if 0
+#ifndef _ADMINS
 typedef struct ipFilter_s
 {
 	unsigned mask;
 	unsigned compare;
 } ipFilter_t;
 
+typedef struct ipGUID_s
+{
+	char compare[33];
+} ipGUID_t;
+
 #define MAX_IPFILTERS   1024
 
 static ipFilter_t ipFilters[MAX_IPFILTERS];
+static ipGUID_t ipMaxLivesFilters[MAX_IPFILTERS];
 static int numIPFilters;
+static int numMaxLivesFilters = 0;
 
 /*
 =================
@@ -146,6 +153,16 @@ static void UpdateIPBans( void ) {
 	trap_Cvar_Set( "g_banIPs", iplist );
 }
 
+void PrintMaxLivesGUID( void ) {
+	int i;
+
+	for ( i = 0 ; i < numMaxLivesFilters ; i++ )
+	{
+		G_LogPrintf( "%i. %s\n", i, ipMaxLivesFilters[i].compare );
+	}
+	G_LogPrintf( "--- End of list\n" );
+}
+
 /*
 =================
 G_FilterPacket
@@ -182,6 +199,21 @@ qboolean G_FilterPacket( char *from ) {
 }
 
 /*
+ Check to see if the user is trying to sneak back in with g_enforcemaxlives enabled
+*/
+qboolean G_FilterMaxLivesPacket( char *from ) {
+	int i;
+
+	for ( i = 0 ; i < numMaxLivesFilters ; i++ )
+	{
+		if ( !Q_stricmp( ipMaxLivesFilters[i].compare, from ) ) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+/*
 =================
 AddIP
 =================
@@ -206,6 +238,22 @@ static void AddIP( char *str ) {
 	}
 
 	UpdateIPBans();
+}
+
+/*
+=================
+AddMaxLivesGUID
+Xian - with g_enforcemaxlives enabled, this adds a client GUID to a list
+that prevents them from quitting a disconnecting
+=================
+*/
+void AddMaxLivesGUID( char *str ) {
+	if ( numMaxLivesFilters == MAX_IPFILTERS ) {
+		G_Printf( "MaxLives GUID filter list is full\n" );
+		return;
+	}
+	Q_strncpyz( ipMaxLivesFilters[numMaxLivesFilters].compare, str, 33 );
+	numMaxLivesFilters++;
 }
 
 /*
@@ -287,7 +335,20 @@ void Svcmd_RemoveIP_f( void ) {
 
 	G_Printf( "Didn't find %s.\n", str );
 }
-#endif
+
+/*
+ Xian - Clears out the entire list maxlives enforcement banlist
+*/
+void ClearMaxLivesGUID() {
+	int i;
+
+	for ( i = 0 ; i < numMaxLivesFilters ; i++ ) {
+		ipMaxLivesFilters[i].compare[0] = '\0';
+	}
+	numMaxLivesFilters = 0;
+}
+
+#else
 
 /*
 =================
@@ -329,6 +390,8 @@ void Svcmd_tempban_f( void ) {
 
 	TEMPBAN_CLIENT( ent,bannedtime );
 }
+
+#endif // _ADMINS
 
 /*
 ===================
@@ -631,23 +694,41 @@ qboolean    ConsoleCommand( void ) {
 		return qtrue;
 	}
 
-	// Enhancements
-
-	// Poll
-	if ( Q_stricmp( cmd, "Poll:" ) == 0 ) {
-		Svcmd_PollPrint_f();
-		return qtrue;
-	}
- 
-	// Ban
 	if ( Q_stricmp( cmd, "addip" ) == 0 ) {
 		Svcmd_AddIP_f();
 		return qtrue;
 	}
 
+#ifndef _ADMINS
+	if ( Q_stricmp( cmd, "removeip" ) == 0 ) {
+		Svcmd_RemoveIP_f();
+		return qtrue;
+	}
+
+	if ( Q_stricmp( cmd, "listip" ) == 0 ) {
+		trap_SendConsoleCommand( EXEC_INSERT, "g_banIPs\n" );
+		return qtrue;
+	}
+
+	if ( Q_stricmp( cmd, "listmaxlivesip" ) == 0 ) {
+		PrintMaxLivesGUID();
+		return qtrue;
+	}
+#endif
+
+#ifdef _ADMINS
 	// Tempban
 	if ( Q_stricmp( cmd, "tempban" ) == 0 ) {
 		Svcmd_tempban_f();
+		return qtrue;
+	}
+#endif
+
+	// Enhancements
+
+	// Poll
+	if ( Q_stricmp( cmd, "Poll:" ) == 0 ) {
+		Svcmd_PollPrint_f();
 		return qtrue;
 	}
 

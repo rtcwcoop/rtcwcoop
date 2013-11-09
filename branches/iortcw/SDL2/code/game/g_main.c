@@ -2076,8 +2076,10 @@ void ExitLevel( void ) {
 	// we need to do this here before changing to CON_CONNECTING
 	G_WriteSessionData();
 
+#ifdef _ADMINS
 	// Clean up the (IP) tempbans
 	clean_tempbans();
+#endif
 
 	// change all client states to connecting, so the early players into the
 	// next level will know the others aren't done reconnecting

@@ -1418,6 +1418,7 @@ NET_GetCvars
 static qboolean NET_GetCvars( void ) {
 	int modified;
 
+#ifndef _ADMINS
 #ifdef DEDICATED
 	// I want server owners to explicitly turn on ipv6 support.
 	net_enabled = Cvar_Get( "net_enabled", "1", CVAR_LATCH | CVAR_ARCHIVE );
@@ -1425,6 +1426,12 @@ static qboolean NET_GetCvars( void ) {
 	/* End users have it enabled so they can connect to ipv6-only hosts, but ipv4 will be
 	 * used if available due to ping */
 	net_enabled = Cvar_Get( "net_enabled", "3", CVAR_LATCH | CVAR_ARCHIVE );
+#endif
+#endif
+
+#ifdef _ADMINS
+	// Disable ipv6 when using admin bot
+	net_enabled = Cvar_Get( "net_enabled", "1", CVAR_ROM );
 #endif
 	modified = net_enabled->modified;
 	net_enabled->modified = qfalse;
