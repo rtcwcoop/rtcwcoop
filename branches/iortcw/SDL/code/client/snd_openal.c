@@ -2317,6 +2317,20 @@ void S_AL_StopEntStreamingSound( int entnum ) {
 	// FIXME: Stub
 }
 
+/*
+======================
+S_GetVoiceAmplitude
+======================
+*/
+int S_AL_GetVoiceAmplitude( int entityNum ) {
+	if ( entityNum >= MAX_CLIENTS ) {
+		Com_Printf( "Error: S_GetVoiceAmplitude() called for a non-client\n" );
+		return 0;
+	}
+
+	return (int)s_entityTalkAmplitude[entityNum] * 2;
+}
+
 //===========================================================================
 
 
@@ -2790,25 +2804,24 @@ qboolean S_AL_Init( soundInterface_t *si )
 			defaultinputdevice = qalcGetString(NULL, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER);
 
 			// dump a list of available devices to a cvar for the user to see.
-			while((curlen = strlen(inputdevicelist)))
+			if (inputdevicelist)
 			{
-				Q_strcat(inputdevicenames, sizeof(inputdevicenames), inputdevicelist);
-				Q_strcat(inputdevicenames, sizeof(inputdevicenames), "\n");
-				inputdevicelist += curlen + 1;
+				while((curlen = strlen(inputdevicelist)))
+				{
+					Q_strcat(inputdevicenames, sizeof(inputdevicenames), inputdevicelist);
+					Q_strcat(inputdevicenames, sizeof(inputdevicenames), "\n");
+					inputdevicelist += curlen + 1;
+				}
 			}
 
 			s_alAvailableInputDevices = Cvar_Get("s_alAvailableInputDevices", inputdevicenames, CVAR_ROM | CVAR_NORESTART);
 
-			// !!! FIXME: 8000Hz is what Speex narrowband mode needs, but we
-			// !!! FIXME:  should probably open the capture device after
-			// !!! FIXME:  initializing Speex so we can change to wideband
-			// !!! FIXME:  if we like.
-			Com_Printf("OpenAL default capture device is '%s'\n", defaultinputdevice);
-			alCaptureDevice = qalcCaptureOpenDevice(inputdevice, 8000, AL_FORMAT_MONO16, 4096);
+			Com_Printf("OpenAL default capture device is '%s'\n", defaultinputdevice ? defaultinputdevice : "none");
+			alCaptureDevice = qalcCaptureOpenDevice(inputdevice, 48000, AL_FORMAT_MONO16, VOIP_MAX_PACKET_SAMPLES*4);
 			if( !alCaptureDevice && inputdevice )
 			{
 				Com_Printf( "Failed to open OpenAL Input device '%s', trying default.\n", inputdevice );
-				alCaptureDevice = qalcCaptureOpenDevice(NULL, 8000, AL_FORMAT_MONO16, 4096);
+				alCaptureDevice = qalcCaptureOpenDevice(NULL, 48000, AL_FORMAT_MONO16, VOIP_MAX_PACKET_SAMPLES*4);
 			}
 			Com_Printf( "OpenAL capture device %s.\n",
 				    (alCaptureDevice == NULL) ? "failed to open" : "opened");
@@ -2826,6 +2839,7 @@ qboolean S_AL_Init( soundInterface_t *si )
 	si->FadeAllSounds = S_AL_FadeAllSounds;
 	si->StartStreamingSound = S_AL_StartStreamingSound;
 	si->StopEntStreamingSound = S_AL_StopEntStreamingSound;
+	si->GetVoiceAmplitude = S_AL_GetVoiceAmplitude;
 	si->RawSamples = S_AL_RawSamples;
 	si->StopAllSounds = S_AL_StopAllSounds;
 	si->ClearLoopingSounds = S_AL_ClearLoopingSounds;

@@ -204,10 +204,6 @@ ifndef USE_FREETYPE
 USE_FREETYPE=0
 endif
 
-ifndef USE_INTERNAL_SPEEX
-USE_INTERNAL_SPEEX=1
-endif
-
 ifndef USE_INTERNAL_OGG
 USE_INTERNAL_OGG=1
 endif
@@ -288,10 +284,9 @@ BLIBDIR=$(MOUNT_DIR)/botlib
 NDIR=$(MOUNT_DIR)/null
 UIDIR=$(MOUNT_DIR)/ui
 JPDIR=$(MOUNT_DIR)/jpeg-8c
-SPEEXDIR=$(MOUNT_DIR)/libspeex
-OGGDIR=$(MOUNT_DIR)/libogg-1.3.0
-OPUSDIR=$(MOUNT_DIR)/opus-1.0.2
-OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.2
+OGGDIR=$(MOUNT_DIR)/libogg-1.3.1
+OPUSDIR=$(MOUNT_DIR)/opus-1.1
+OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.4
 ZDIR=$(MOUNT_DIR)/zlib
 SPLDIR=$(MOUNT_DIR)/splines
 Q3ASMDIR=$(MOUNT_DIR)/tools/asm
@@ -1055,6 +1050,12 @@ ifeq ($(USE_CURL),1)
   endif
 endif
 
+ifeq ($(USE_VOIP),1)
+  CLIENT_CFLAGS += -DUSE_VOIP
+  SERVER_CFLAGS += -DUSE_VOIP
+  NEED_OPUS=1
+endif
+
 ifeq ($(USE_CODEC_VORBIS),1)
   CLIENT_CFLAGS += -DUSE_CODEC_VORBIS
   CLIENT_LIBS += -lvorbisfile -lvorbis
@@ -1063,6 +1064,10 @@ endif
 
 ifeq ($(USE_CODEC_OPUS),1)
   CLIENT_CFLAGS += -DUSE_CODEC_OPUS
+  NEED_OPUS=1
+endif
+
+ifeq ($(NEED_OPUS),1)
   ifeq ($(USE_INTERNAL_OPUS),1)
     CLIENT_CFLAGS += -DOPUS_BUILD -DHAVE_LRINTF -DFLOATING_POINT -DUSE_ALLOCA \
       -I$(OPUSDIR)/include -I$(OPUSDIR)/celt -I$(OPUSDIR)/silk \
@@ -1089,16 +1094,6 @@ endif
 
 ifeq ($(USE_MUMBLE),1)
   CLIENT_CFLAGS += -DUSE_MUMBLE
-endif
-
-ifeq ($(USE_VOIP),1)
-  CLIENT_CFLAGS += -DUSE_VOIP
-  SERVER_CFLAGS += -DUSE_VOIP
-  ifeq ($(USE_INTERNAL_SPEEX),1)
-    CLIENT_CFLAGS += -DFLOATING_POINT -DUSE_ALLOCA -I$(SPEEXDIR)/include
-  else
-    CLIENT_LIBS += -lspeex -lspeexdsp
-  endif
 endif
 
 ifeq ($(USE_INTERNAL_ZLIB),1)
@@ -1847,63 +1842,24 @@ ifeq ($(ARCH),x86_64)
     $(B)/client/ftola.o
 endif
 
-ifeq ($(USE_VOIP),1)
-ifeq ($(USE_INTERNAL_SPEEX),1)
-Q3OBJ += \
-  $(B)/client/bits.o \
-  $(B)/client/buffer.o \
-  $(B)/client/cb_search.o \
-  $(B)/client/exc_10_16_table.o \
-  $(B)/client/exc_10_32_table.o \
-  $(B)/client/exc_20_32_table.o \
-  $(B)/client/exc_5_256_table.o \
-  $(B)/client/exc_5_64_table.o \
-  $(B)/client/exc_8_128_table.o \
-  $(B)/client/fftwrap.o \
-  $(B)/client/filterbank.o \
-  $(B)/client/filters.o \
-  $(B)/client/gain_table.o \
-  $(B)/client/gain_table_lbr.o \
-  $(B)/client/hexc_10_32_table.o \
-  $(B)/client/hexc_table.o \
-  $(B)/client/high_lsp_tables.o \
-  $(B)/client/jitter.o \
-  $(B)/client/kiss_fft.o \
-  $(B)/client/kiss_fftr.o \
-  $(B)/client/lpc.o \
-  $(B)/client/lsp.o \
-  $(B)/client/lsp_tables_nb.o \
-  $(B)/client/ltp.o \
-  $(B)/client/mdf.o \
-  $(B)/client/modes.o \
-  $(B)/client/modes_wb.o \
-  $(B)/client/nb_celp.o \
-  $(B)/client/preprocess.o \
-  $(B)/client/quant_lsp.o \
-  $(B)/client/resample.o \
-  $(B)/client/sb_celp.o \
-  $(B)/client/smallft.o \
-  $(B)/client/speex.o \
-  $(B)/client/speex_callbacks.o \
-  $(B)/client/speex_header.o \
-  $(B)/client/stereo.o \
-  $(B)/client/vbr.o \
-  $(B)/client/vq.o \
-  $(B)/client/window.o
-endif
-endif
-
-ifeq ($(USE_CODEC_OPUS),1)
+ifeq ($(NEED_OPUS),1)
 ifeq ($(USE_INTERNAL_OPUS),1)
 Q3OBJ += \
   $(B)/client/opus/opus.o \
   $(B)/client/opus/opus_decoder.o \
   $(B)/client/opus/opus_encoder.o \
   $(B)/client/opus/opus_multistream.o \
+  $(B)/client/opus/opus_multistream_encoder.o \
+  $(B)/client/opus/opus_multistream_decoder.o \
   $(B)/client/opus/repacketizer.o \
+  $(B)/client/opus/analysis.o \
+  $(B)/client/opus/mlp.o \
+  $(B)/client/opus/mlp_data.o \
   \
   $(B)/client/opus/bands.o \
   $(B)/client/opus/celt.o \
+  $(B)/client/opus/celt_encoder.o \
+  $(B)/client/opus/celt_decoder.o \
   $(B)/client/opus/cwrs.o \
   $(B)/client/opus/entcode.o \
   $(B)/client/opus/entdec.o \
@@ -2033,6 +1989,10 @@ Q3OBJ += \
   $(B)/client/internal.o \
   $(B)/client/opusfile.o \
   $(B)/client/stream.o
+ifeq ($(PLATFORM),mingw32)
+Q3OBJ += \
+  $(B)/client/wincerts.o
+endif
 endif
 endif
 
@@ -2455,9 +2415,6 @@ $(B)/client/%.o: $(CMDIR)/%.c
 $(B)/client/%.o: $(BLIBDIR)/%.c
 	$(DO_BOT_CC)
 
-$(B)/client/%.o: $(SPEEXDIR)/%.c
-	$(DO_CC)
-
 $(B)/client/%.o: $(OGGDIR)/src/%.c
 	$(DO_CC)
 
@@ -2727,7 +2684,6 @@ ifeq ($(PLATFORM),mingw32)
 		USE_OPENAL_DLOPEN=$(USE_OPENAL_DLOPEN) \
 		USE_CURL_DLOPEN=$(USE_CURL_DLOPEN) \
 		USE_INTERNAL_OPUS=$(USE_INTERNAL_OPUS) \
-		USE_INTERNAL_SPEEX=$(USE_INTERNAL_SPEEX) \
 		USE_INTERNAL_ZLIB=$(USE_INTERNAL_ZLIB) \
 		USE_INTERNAL_JPEG=$(USE_INTERNAL_JPEG)
 else
