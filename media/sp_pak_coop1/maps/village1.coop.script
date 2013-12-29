@@ -1,0 +1,213 @@
+//Cleaned for COOP by -SSF-Sage on 17.2.2013
+//
+//Brush Scripting
+//Map Village1
+//Last edited by: Mike (110501)
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 1 set 0	//Bookshelf backup
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+
+//This is triggered by kesler AND with a little longer timer
+//so if kesler freezes, the bookshelf still open
+
+	trigger open_bookshelf
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		trigger bookshelf open
+		trigger kessler opened //Don't play open anim...
+	}
+}
+
+sign1
+{
+	spawn
+	{
+		wait 5
+		trigger sign1 swingloop
+	}
+
+	trigger swingloop
+	{
+		faceangles 2 0 0 125
+		faceangles 4 0 0 150
+		faceangles 6 0 0 175
+		faceangles 8 0 0 200
+		faceangles 10 0 0 250
+		faceangles 8 0 0 200
+		faceangles 6 0 0 175
+		faceangles 4 0 0 150
+		faceangles 2 0 0 125
+		faceangles 0 0 0 100
+		faceangles -2 0 0 125
+		faceangles -4 0 0 150
+		faceangles -6 0 0 175
+		faceangles -8 0 0 200
+		faceangles -10 0 0 250
+		faceangles -8 0 0 200
+		faceangles -6 0 0 175
+		faceangles -4 0 0 150
+		faceangles -2 0 0 125
+		faceangles 0 0 0 100
+		trigger sign1 swingloop
+	}
+
+	death
+	{
+		alertentity sign1debris
+	}
+}
+
+bookshelf
+{
+	spawn
+	{
+		accum 0 bitreset 1	// Used for Partisan4 to check the player.
+		accum 1 set 0		// Used to count dead guys for Partisan4
+		accum 2 set 0		// Used for partisan4's response.
+
+//Immediately open at map start:
+	//	wait 100
+	//	gotomarker bookspot2 30
+	}
+
+	trigger open
+	{
+		playsound sound/world/winerack.wav loop
+		gotomarker bookspot2 30
+		stopsound
+	}
+
+	trigger count2 	// Since there is no more counter2, I am using the bookshelf to do all the work.
+	{
+		accum 1 inc 1
+		accum 1 abort_if_not_equal 4
+		alertentity partisan4
+		resetscript		
+	}
+
+	trigger speak_wait	//COOP
+	{
+		wait 1750
+		trigger partisan4 player_is_close2
+	}
+
+	trigger n1check
+	{
+		accum 4 abort_if_less_than 1
+		trigger nazi5 turntalk
+	}
+
+	trigger set2to1
+	{
+		accum 2 set 1
+	}
+
+	trigger p4saystuff
+	{
+		accum 2 abort_if_less_than 1
+		accum 2 abort_if_greater_than 5
+		accum 2 inc 1
+		trigger bookshelf p4say1
+		wait 5
+		trigger bookshelf p4say2
+		wait 5
+		trigger bookshelf p4say3
+		wait 5
+		trigger bookshelf p4say4
+		resetscript
+	}
+
+	trigger p4say1
+	{
+		accum 2 abort_if_not_equal 2
+		resetscript
+		trigger partisan4 say1
+		accum 0 set 2
+	}
+
+	trigger p4say2
+	{
+		accum 2 abort_if_not_equal 3
+		trigger partisan4 say2	
+		wait 200
+		accum 0 set 3
+	}
+
+	trigger p4say3
+	{
+		accum 2 abort_if_not_equal 4
+		trigger partisan4 say3		
+		wait 200
+		accum 0 set 4
+	}
+
+	trigger p4say4
+	{
+		accum 2 abort_if_not_equal 5
+		trigger partisan4 say4		
+		wait 200
+		accum 0 set 5
+	}
+
+	trigger p4talk1
+	{
+		wait 250
+		trigger partisan4 talk1
+	}
+
+	trigger p4door3
+	{
+		wait 2000
+		alertentity openp4door3
+	}
+
+	trigger p4door4
+	{
+		wait 2000
+		alertentity openp4door2
+	}
+}
+
+slidefloor
+{
+	spawn
+	{
+		wait 100
+		gotomarker floorspot2 30
+		wait 100
+		trigger slidefloor bookshelf_safe_timer
+	}
+
+	trigger bookshelf_safe_timer
+	{
+		wait 35000
+		trigger game_manager open_bookshelf
+	}
+}

@@ -1,0 +1,74 @@
+//
+//Chad's second scripting attempt.  :)
+//First Room
+//
+// // DO NOT EDIT WITHOUT SPEAKING TO CHAD.  I DON'T CARE WHO YOU ARE.
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+}
+
+counter1
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+	trigger action2
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		alertentity bust1
+		wait 500
+		alertentity bust2
+		wait 1000
+		alertentity bust3
+	}
+}
+
+rock1
+{
+	trigger rockfall
+	{
+		gotomarker fall1 3000 accel
+		faceangles 540 540 540 gototime
+		trigger proto1 avoidfall
+	}
+}
+
+rock2
+{
+//	trigger rockfall
+//	{
+//		gotomarker fall2 300 accel wait
+//		faceangles -45 20 0 750
+//	}
+}
+
+
+

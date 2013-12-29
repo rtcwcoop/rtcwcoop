@@ -1,0 +1,241 @@
+//Brush Scripting
+//Map: SWF (Secret Weapons Facility)
+//Last edited by: Dan
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+}
+
+lever1
+{
+	spawn
+	{
+		accum 0 bitset 0 // bitset = away, bitreset = close
+		wait 5000
+		faceangles 0 0 -15 100
+	}
+
+	trigger activate
+	{
+		trigger lever1 moveclose
+		wait 5
+		trigger lever1 moveaway
+	}
+
+	trigger moveclose
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		faceangles 0 0 -75 200
+		trigger bridge1 moveclose
+	}
+
+	trigger moveaway
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+
+		faceangles 0 0 -15 200
+		trigger bridge1 moveaway
+	}
+
+}
+
+bridge1
+{
+	spawn
+	{
+	}
+
+	trigger moveclose
+	{
+		gotomarker bmarker2 100
+	}
+
+	trigger moveaway
+	{
+		gotomarker bmarker1 100
+	}
+}
+
+board1
+{
+	spawn
+	{
+		accum 0 bitset 0 // bitset = away, bitreset = close
+		wait 5000
+		faceangles 0 45 0 100
+	}
+
+	trigger clockwise
+	{
+		faceangles 0 45 -90 100
+		faceangles 0 45 -180 100
+		faceangles 0 45 -270 100
+		faceangles 0 45 -360 100
+		faceangles 0 45 -90 250
+		faceangles 0 45 -180 300
+		faceangles 0 45 -270 350
+		faceangles 0 45 -360 400
+		faceangles 0 45 -90 450
+		faceangles 0 45 -180 500
+		faceangles 0 45 -270 550
+		faceangles 0 45 -360 600
+		faceangles 0 45 -10 75
+		faceangles 0 45 -20 100
+		faceangles 0 45 -30 125
+		faceangles 0 45 -40 175
+		faceangles 0 45 -50 250
+		faceangles 0 45 -60 350
+		faceangles 0 45 -50 325
+		faceangles 0 45 -40 300
+		faceangles 0 45 -30 250
+		faceangles 0 45 -20 200
+		faceangles 0 45 -10 150
+		faceangles 0 45 0 100
+		faceangles 0 45 10 125
+		faceangles 0 45 20 150
+		faceangles 0 45 30 225
+		faceangles 0 45 40 300
+		faceangles 0 45 30 275
+		faceangles 0 45 20 250
+		faceangles 0 45 10 200
+		faceangles 0 45 0 150
+		faceangles 0 45 -10 225
+		faceangles 0 45 -20 300
+		faceangles 0 45 -10 275
+		faceangles 0 45 0 250
+	}
+
+	trigger counter_clockwise
+	{
+		faceangles 0 45 90 100
+		faceangles 0 45 180 100
+		faceangles 0 45 270 100
+		faceangles 0 45 360 100
+		faceangles 0 45 90 250
+		faceangles 0 45 180 300
+		faceangles 0 45 270 350
+		faceangles 0 45 360 400
+		faceangles 0 45 90 450
+		faceangles 0 45 180 500
+		faceangles 0 45 270 550
+		faceangles 0 45 360 600
+		faceangles 0 45 10 75
+		faceangles 0 45 20 100
+		faceangles 0 45 30 125
+		faceangles 0 45 40 175
+		faceangles 0 45 50 250
+		faceangles 0 45 60 350
+		faceangles 0 45 50 325
+		faceangles 0 45 40 300
+		faceangles 0 45 30 250
+		faceangles 0 45 20 200
+		faceangles 0 45 10 150
+		faceangles 0 45 0 100
+		faceangles 0 45 -10 125
+		faceangles 0 45 -20 150
+		faceangles 0 45 -30 225
+		faceangles 0 45 -40 300
+		faceangles 0 45 -30 275
+		faceangles 0 45 -20 250
+		faceangles 0 45 -10 200
+		faceangles 0 45 0 150
+		faceangles 0 45 10 225
+		faceangles 0 45 20 300
+		faceangles 0 45 10 275
+		faceangles 0 45 0 250
+	}
+}
+
+elevator
+{
+	spawn
+	{
+		accum 0 bitset 0
+
+	}
+
+	trigger spawnerg1 // just using this to spawn in these guys when one of 3 things happen
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		
+		alertentity guard4
+		alertentity guard5
+		alertentity guard6
+	}
+
+	trigger labtalk
+	{
+		wait 1000
+		trigger lab2 talk2a
+		wait 1000
+		trigger lab3 talk3a
+		wait 1800
+		trigger lab2 talk2b
+		wait 4500
+		trigger lab3 talk3b
+		wait 3000
+		trigger lab2 talk2c
+	}
+
+	trigger fixed
+	{
+		trigger mechanic1 talkm1a
+	}
+}
+
+counterweight
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitset 1
+	}
+
+	trigger spawnerg2 // spawning in guy upstairs based on player actions
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0	
+
+		alertentity guard7
+	}
+
+	trigger spawnerg2b
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		alertentity guard7
+		trigger guard7 routeb
+	}
+}
+
+

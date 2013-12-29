@@ -1,0 +1,939 @@
+
+//
+//Brush scripting
+//Map Norway_49
+// 11/03/01
+//last edited by jeremy
+//  
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+
+	trigger alarm_on
+	{
+		mu_stop 500
+		mu_start sound/music/m_action 200
+	}
+}
+
+checker1
+{
+	spawn
+	{
+		accum 0 bitset 0			// Save this for bitset or resetbitsit
+		accum 0 bitreset 27		// used for truck nazis
+		accum 0 bitreset 29
+		accum 1 set 0			// Used for button with elevator
+		accum 2 set 0			// Used to keep track of radio_nazi1
+		accum 3 set 0			// Used to keep track of truck nazis...
+		accum 4 set 0			// This is keeps tracks of radios are destoyed our not...
+		accum 5 set 0			// Used for zones
+		accum 6 set 0			// Used to tell ai that the alarm is on...
+		accum 7 set 0			// Used for nazi alive count
+	}
+
+	trigger alive_check_in			// This has each nazi check when alive
+	{
+		accum 7 inc 1
+//		accum 7 abort_if_less_than 7
+//		mu_fade 0 1000
+//		mu_queue sound/music/m_action	
+	}
+
+	trigger death_check_out			// This has each nazi check when they die
+	{
+		accum 7 inc -1
+//		accum 7 abort_if_greater_than 7
+//		mu_fade 0 1000
+//		mu_queue sound/music/m_tension
+	}
+
+	trigger radio_destroyed1  // This says the radio is destroyed...
+	{
+		accum 4 set 1    
+	}
+
+	trigger radio1_destroyed_response
+	{
+		trigger checker1 nazi7_turn_alarm_on
+		wait 5
+		trigger checker1 nazi7_alarm_destroyed
+	}
+
+	trigger nazi7_turn_alarm_on
+	{
+		accum 4 abort_if_not_equal 0
+		resetscript
+		trigger truck_nazi7 turn_alarm_on		
+	}
+
+	trigger nazi7_alarm_destroyed
+	{
+		accum 4 abort_if_not_equal 1
+		resetscript
+		trigger truck_nazi7 alarm_destroyed		
+	}
+
+	trigger radio_destroyed2  // This says the radio is destroyed...
+	{
+		accum 4 set 2
+	}
+
+	trigger radio2_destroyed_response
+	{
+		trigger checker1 radio_nazi1_turn_alarm_on
+		wait 5
+		trigger checker1 radio_nazi1_alarm_destroyed		
+	}
+
+	trigger radio_nazi1_turn_alarm_on
+	{
+		accum 4 abort_if_not_equal 0
+		resetscript
+		trigger truck_nazi7 turn_alarm_on		
+	}
+
+	trigger radio_nazi1_alarm_destroyed
+	{
+		accum 4 abort_if_not_equal 2
+		resetscript
+		trigger truck_nazi7 alarm_destroyed		
+	}
+
+	trigger alarm_on
+	{
+		accum 6 set 1
+	//	print ALARM ON incase you can't hear it...
+		trigger nazi1 go_to_alarm
+		trigger nazi2 go_to_alarm
+		trigger nazi3 go_to_alarm
+		accum 0 abort_if_bitset 29 
+		accum 0 bitset 29
+		mu_stop 500
+		mu_start sound/music/m_action 200
+	}
+
+	trigger if_alarm_on
+	{
+		accum 6 abort_if_not_equal 0
+	}
+
+	trigger alarm_on_response
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger mechanic1 alarm_on
+		trigger mechanic2 alarm_on
+		trigger sniper sniper_fight		// sniper gets into position...
+		trigger balcony1_guard1	alarm_on
+		trigger nest_nazi1 mount_mg42
+		trigger nest_nazi2 help_nest1
+		trigger tower_nazi1 alarm_on_response
+		trigger tower_nazi2 alarm_on_response
+		trigger tower_nazi3 alarm_on_response
+		trigger radio_nazi1 alarm_on_response
+		trigger radio_nazi2 alarm_on_response
+		trigger blackguard1 alarm_on 
+		trigger blackguard2 alarm_on
+		trigger last_blackguard1 alarm_on_response
+		trigger last_blackguard2 alarm_on_response
+		trigger last_blackguard3 alarm_on_response
+		trigger last_blackguard4 alarm_on_response
+	}
+
+	trigger alarm_off_response
+	{  
+		accum 6 abort_if_not_equal 0
+		resetscript  
+		trigger mechanic1 alarm_off
+		trigger mechanic2 alarm_off
+		trigger sniper go1
+		trigger balcony1_guard1	alarm_off
+		trigger tower_nazi1 alarm_off
+		trigger tower_nazi2 go1
+		trigger radio_nazi1 alarm_off_response
+		trigger radio_nazi2 alarm_off_response
+		trigger last_blackguard1 alarm_off_response
+		trigger last_blackguard2 alarm_off_response
+		trigger last_blackguard3 alarm_off_response
+		trigger last_blackguard4 alarm_off_response
+	}
+
+	trigger alarm_off_response2		//called when sniper sees Player
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger sniper turn_alarm_on	
+	}
+
+	trigger truck_nazis_activated
+	{
+		accum 3 set 1
+	}
+
+	trigger truck_nazis_spawn
+	{
+		accum 3 abort_if_not_equal 0
+		resetscript
+		alertentity truck_nazi5
+		alertentity truck_nazi6
+		alertentity truck_nazi7
+	}
+
+	trigger truck_nazi_going_to_alarm		// newly added on 17th
+	{
+		accum 0 bitreset 
+		trigger truck_nazi5 run_to_alarm
+		wait 50
+		trigger truck_nazi6 run_to_alarm
+		
+	}
+
+  //      trigger spawn_in_guards_to_help_generator			// This is backup for generator guys
+//	{
+	//	accum 7 abort_if_greater_less_than 3
+		//alertentity
+		//alertentity
+		//alertentity
+//	}
+
+	trigger radio_nazi1_activated
+	{
+		accum 2 inc 1
+	}
+
+	trigger radio_nazi1_spawn
+	{
+		accum 2 abort_if_greater_than 2
+		resetscript
+		alertentity radio_nazi1
+	}
+
+	// You need place reinforcements lets say three areas
+
+	trigger reinforcements_zone1
+	{
+		accum 7 abort_if_not_equal 1
+		accum 5 abort_if_not_equal 1
+		resetscript
+		// then you need to have guys for this... 
+		//  Alreayd have blackguards for this...
+	}
+
+	trigger reinforcements_zone2
+	{
+	}
+
+	// This sets an accum stating that the player is in zone1
+	// Which is done at truck_nazis trigger...
+		
+	trigger in_zone1	// Called from truck nazi trigger...	
+	{
+		accum 5 set 1
+	}
+ 
+	trigger backup_for_zone1		// guys come from	
+	{
+		accum 5 abort_if_not_equal 1
+		accum 7 abort_if_greater_than 2
+		accum 6 abort_if_not_equal 1
+		resetscript
+		// Need group of guys ccming in from
+		alertentity zone1_backup1
+		alertentity zone1_backup2
+		alertentity zone2_backup5
+		alertentity zone2_backup6
+		alertentity zone2_backup7
+	}
+
+	// This sets an accum stating that the player is in zone2
+	// Which is done at nazi nest trigger...
+	trigger in_zone2	// Called from nest nazi trigger	
+	{
+		accum 5 set 2
+		accum 6 abort_if_not_equal 1
+		accum 7 abort_if_greater_than 2
+		mu_fade 0 1000
+		mu_queue sound/music/m_mission
+//		mu_queue sound/music/m_drums
+	}
+
+	trigger backup_for_zone2
+	{
+		accum 5 abort_if_not_equal 2
+		accum 7 abort_if_not_equal 2
+		accum 6 abort_if_not_equal 1
+		resetscript
+		alertentity zone2_backup1
+		alertentity zone2_backup2
+		// These back ups will come from behind the player...
+	//	alertentity zone2_backup3  
+	//	alertentity zone2_backup4
+	//	alertentity zone2_backup5
+	//	alertentity zone2_backup6
+	//	alertentity zone2_backup7
+		alertentity zone2_backup9
+		alertentity zone2_backup10	
+	}
+
+	trigger zone2_backup_spawn				// THESE GUYS COME FROM BEHIND THE PLAYER
+	{
+		accum 6 abort_if_not_equal 0			// these guys are still coming in...
+		alertentity zone2_backup3  
+		alertentity zone2_backup4
+	//	alertentity zone2_backup5
+	//	alertentity zone2_backup6
+	//	alertentity zone2_backup7
+	}
+
+	trigger backup_for_zone2s_backup			// to do 
+	{
+	}
+
+//----- newly added music control so action can drop to realx
+
+	trigger zone2_checkin_relax
+	{
+		// nazis whom checkin are blackguard1-3 sniper mechanic1-2 baclony1-guard1 zone2_backup6-7-2-5
+		accum 1 inc 1
+	}
+
+	trigger zone2_checkin_relax
+	{
+		accum 1 inc -1
+		accum 1 abort_if_greater_than 1
+		mu_fade 0 5000
+		mu_queue sound/music/m_situation		
+	}
+
+//------- end
+
+	// This sets an accum stating that the player is in zone3
+	// Which is done at entering last dorr trigger
+	trigger in_zone3	// Called from before last door...
+	{
+		accum 5 set 3
+		accum 6 abort_if_equal 0
+		mu_fade 0 4000
+		mu_queue sound/music/m_situation
+	}
+
+	trigger backup_for_zone3		// Not done yet
+	{
+		accum 5 abort_if_not_equal 3
+		accum 7 abort_if_not_equal 1
+		resetscript
+	//	alertentity zone2_backup1
+	//	alertentity zone2_backup2
+		alertentity venom3
+		alertentity v3_support1
+		alertentity v3_support2
+	}
+
+	trigger alarm_middle_off
+	{
+		accum 0 bitset 16
+		accum 6 abort_if_not_equal 0
+		alertentity alarm_sound
+		accum 0 bitset 17
+	}
+
+	trigger last_alarm				// this has func explosive trigger alarm...
+	{
+		accum 6 abort_if_not_equal 0
+		accum 0 abort_if_not_bitset 17
+		resetscript
+		wait 2000
+		alertentity alarm_sound
+	}
+
+	trigger last_alarm_on
+	{
+	}
+
+	trigger last_alarm_off
+	{
+		accum 0 abort_if_not_bitset 16
+		resetscript
+		wait 2000
+		alertentity alarm_sound
+	}
+
+	// ---START CHARACTER TALKING SYNCRONIZATION---		!!!CURRENTLY NOT USING!!!
+
+	trigger conv1
+	{
+		accum 0 abort_if_bitset 1	// THIS IS TO STOP CONVERSATION IF EITHER NAZI ID DEAD
+		trigger nazi2 talk1
+		wait 3600
+		trigger nazi1 talk1
+		accum 0 abort_if_bitset 1
+		wait 2500
+		trigger nazi2 talk2
+		accum 0 abort_if_bitset 1
+		wait 4700
+		trigger nazi1 talk2
+		accum 0 abort_if_bitset 1
+		wait 1200
+		trigger nazi2 talk3  		// tell me, do you often make such swred observations? You should seroiusly consider officers traning
+		accum 0 abort_if_bitset 1
+		wait 6800
+		trigger nazi1 talk3		// Crank it harder...
+		accum 0 abort_if_bitset 1
+		wait 3500
+		trigger nazi2 talk4
+		accum 0 abort_if_bitset 1
+		wait 6500
+		trigger nazi1 talk4		// Relax I was just trying to heplfull
+		accum 0 abort_if_bitset 1
+		wait 6000
+		trigger nazi2 talk5 		// You want to be helpfull go get the antifreeze
+		accum 0 abort_if_bitset 1
+		wait 5500
+		trigger nazi1 talk5
+		accum 0 abort_if_bitset 1
+		wait 5
+		trigger nazi2 anim_loop_forever	
+		accum 0 abort_if_bitset 1
+	}	
+
+	trigger conv1_nazi2_alive
+	{
+		accum 0 bitreset 1 		//THIS IS TO KNOW IF NAZI2 IS ALIVE
+	}
+
+	trigger conv1_nazi2_dead
+	{
+		accum 0 bitset 1 		//THIS IS TO KNOW IF NAZI2 IS DEAD
+	}
+
+	trigger nazi2_alive
+	{
+		accum 0 bitreset 15                                                                                                
+	}
+
+	trigger nazi3_dead
+	{
+		accum 0 bitset 15
+	}                                                   
+
+	trigger conversation1
+	{
+		accum 0 abort_if_bitset 15
+		trigger nazi2 talk1
+	}  
+
+	trigger stroopers_go
+	{
+		accum 6 abort_if_not_equal 1
+		accum 7 abort_if_greater_than 3
+		resetscript
+		alertentity strooper1
+		alertentity strooper2
+		alertentity strooper3
+	}                                                                                                                                                                      
+
+	trigger before_last_door
+	{
+		alertentity venom1 
+		alertentity venom2
+		alertentity last_blackguard1
+		alertentity last_blackguard2
+		alertentity last_blackguard3
+		alertentity last_blackguard4
+		accum 6 abort_if_not_equal 1
+		alertentity last_blackguard5
+		alertentity last_blackguard6
+	}
+}
+
+button
+{
+	spawn
+	{
+		gotomarker button_start
+	}
+
+	trigger go1
+	{
+		trigger button go2
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1 
+		resetscript
+		playsound sound/movers/switches/switch.wav
+		gotomarker button_in 10 wait
+		wait 2000
+	//	gotomarker button_start 10 wait
+		trigger elevator up
+	}
+
+	trigger return1
+	{
+		playsound sound/movers/switches/switch.wav
+		gotomarker button_start 10 wait
+	}
+
+	trigger go2
+	{
+		accum 1 abort_if_not_equal 1
+		accum 1 set 0 
+		resetscript
+		playsound sound/movers/switches/switch.wav
+		gotomarker button_in 20
+		wait 2000
+//		gotomarker button_start 20
+		trigger elevator down
+	}
+
+	trigger return2
+	{
+		playsound sound/movers/switches/switch.wav
+		gotomarker button_start 20
+	}
+}
+
+elevator
+{
+	spawn
+	{
+		trigger elevator go1
+	}
+
+	trigger go1
+	{
+		gotomarker elevator4 100
+	}
+		
+	trigger up		// Starts from down position
+	{
+	//	gotomarker elevator4 20 wait 
+	//	gotomarker elevator4 20 accel wait
+	//	accum 1 set 1
+		playsound sound/movers/elevators/elev1_start.wav
+		wait 5
+		playsound sound/movers/elevators/elev1_loop.wav looping
+		gotomarker elevator3 10 accel wait
+		gotomarker elevator2 10 wait
+		gotomarker elevator1 10 deccel wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav
+		trigger button return1
+	}
+
+	trigger down		// Starts from up position...
+	{
+		//gotomarker elevator1 30 accel wait 
+		playsound sound/movers/elevators/elev1_start.wav
+		wait 5
+		playsound sound/movers/elevators/elev1_loop.wav looping
+		gotomarker elevator2 10 accel wait
+		gotomarker elevator3 10 wait
+		gotomarker elevator4 10 deccel wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav
+	//	accum 1 set 0	
+		trigger button return2	
+	}
+}
+
+floating_ice1
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 1 set 0
+		gotomarker ice1_spot1 5
+		trigger floating_ice1 choose_float
+	}
+
+	trigger go1
+	{
+		wait 733
+		trigger floating_ice1 choose_flat
+	}
+
+	trigger choose_float
+	{
+		accum 1 random 3
+		trigger floating_ice1 float1
+		wait 5
+		trigger floating_ice1 float2
+		wait 5
+		trigger floating_ice1 float3
+	}
+
+	trigger float1
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript	
+		faceangles 0 0 357 4300
+		faceangles 0 0 0 4300
+		faceangles 0 0 4 4000	
+		faceangles 0 0 0 4300	
+		trigger floating_ice1 choose_float
+	}
+
+	trigger float2
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		faceangles 0 357 4 4300
+		faceangles 0 0 0 4300
+		faceangles 0 4 357 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice1 choose_float
+	}
+	
+	trigger float3
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		faceangles 0 5 6 4300
+		faceangles 0 0 0 4300
+		faceangles 0 356 354 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice1 choose_float
+	}
+
+}
+
+floating_ice2
+{
+	spawn
+	{
+		accum 0 bitset 0 
+		accum 1 set 0
+		gotomarker ice2_spot2 5
+		trigger floating_ice2 go1
+	}
+
+	trigger go1
+	{
+		wait 900
+		trigger floating_ice2 choose_float
+	}
+	
+//	trigger float2
+//	{
+//		gotomarker ice2_spot2 1
+//		faceangles 0 0 3 gototime
+//		gotomarker ice2_spot1 1
+//		faceangles 0 0 0 gototime
+//		gotomarker ice2_spot2 1
+//		faceangles 0 0 357 gototime
+//		gotomarker ice2_spot1 1
+//		faceangles 0 0 0 gototime
+//		gotomarker ice2_spot2 1
+//		trigger floating_ice2 go1
+//	}
+
+	trigger choose_float
+	{
+		accum 1 random 3
+		trigger floating_ice2 float1
+		wait 5
+		trigger floating_ice2 float2
+		wait 5
+		trigger floating_ice2 float3
+	}
+
+	trigger float1
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript	
+		faceangles 0 0 357 4300
+		faceangles 0 0 0 4300
+		faceangles 0 0 4 4000	
+		faceangles 0 0 0 4300	
+		trigger floating_ice2 choose_float
+	}
+
+	trigger float2
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		faceangles 0 357 4 4300
+		faceangles 0 0 0 4300
+		faceangles 0 4 357 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice2 choose_float
+	}
+	
+	trigger float3
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		faceangles 0 5 6 4300
+		faceangles 0 0 0 4300
+		faceangles 0 356 354 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice2 choose_float
+	}
+
+}
+
+floating_ice3
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 1 set 0
+		trigger floating_ice3 go1
+	}
+
+	trigger go1
+	{
+		wait 347
+		trigger floating_ice3 choose_float
+	}
+
+//	trigger float2
+//	{
+//		faceangles 0 357 4 4300
+//		faceangles 0 0 0 4300
+//		faceangles 0 4 357 4000	
+//		faceangles 0 0 0 4300
+//		trigger floating_ice3 float2
+//	}
+
+	trigger choose_float
+	{
+		accum 1 random 3
+		trigger floating_ice3 float1
+		wait 5
+		trigger floating_ice3 float2
+		wait 5
+		trigger floating_ice3 float3
+	}
+
+	trigger float1
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript	
+		faceangles 0 0 357 4300
+		faceangles 0 0 0 4300
+		faceangles 0 0 4 4000	
+		faceangles 0 0 0 4300	
+		trigger floating_ice3 choose_float
+	}
+
+	trigger float2
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		faceangles 0 357 4 4300
+		faceangles 0 0 0 4300
+		faceangles 0 4 357 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice3 choose_float
+	}
+	
+	trigger float3
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		faceangles 0 5 6 4300
+		faceangles 0 0 0 4300
+		faceangles 0 356 354 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice3 choose_float
+	}
+
+}
+
+floating_ice4
+{
+	spawn
+	{
+		accum 0 bitset 0 
+		accum 1 set 1
+		trigger floating_ice4 go1
+	}
+
+	trigger go1
+	{ 
+		wait 399
+		trigger floating_ice4 choose_float
+	}
+
+//	trigger float2
+//	{
+//		faceangles 0 0 357 4300
+//		faceangles 0 0 0 4300
+//		faceangles 0 0 4 4000	
+//		faceangles 0 0 0 4300
+//		trigger floating_ice4 float2
+//	}
+
+	trigger choose_float
+	{
+		accum 1 random 3
+		trigger floating_ice4 float1
+		wait 5
+		trigger floating_ice4 float2
+		wait 5
+		trigger floating_ice4 float3
+	}
+
+	trigger float1
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript	
+		faceangles 0 0 357 4300
+		faceangles 0 0 0 4300
+		faceangles 0 0 4 4000	
+		faceangles 0 0 0 4300	
+		trigger floating_ice4 choose_float
+	}
+
+	trigger float2
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		faceangles 0 357 4 4300
+		faceangles 0 0 0 4300
+		faceangles 0 4 357 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice4 choose_float
+	}
+	
+	trigger float3
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		faceangles 0 5 6 4300
+		faceangles 0 0 0 4300
+		faceangles 0 356 354 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice4 choose_float
+	}
+}
+
+floating_ice5
+{
+	spawn
+	{
+		accum 0 bitset 0 
+		accum 1 set 1
+		trigger floating_ice5 go1
+	}
+
+	trigger go1
+	{
+		wait 1100 
+		trigger floating_ice5 choose_float
+	}
+
+	trigger choose_float
+	{
+		accum 1 random 3
+		trigger floating_ice5 float1
+		wait 5
+		trigger floating_ice5 float2
+		wait 5
+		trigger floating_ice5 float3
+	}
+
+	trigger float1
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript	
+		faceangles 0 0 357 4300
+		faceangles 0 0 0 4300
+		faceangles 0 0 4 4000	
+		faceangles 0 0 0 4300	
+		trigger floating_ice5 choose_float
+	}
+
+	trigger float2
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		faceangles 0 357 4 4300
+		faceangles 0 0 0 4300
+		faceangles 0 4 357 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice5 choose_float
+	}
+	
+	trigger float3
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		faceangles 0 5 6 4300
+		faceangles 0 0 0 4300
+		faceangles 0 356 354 4000	
+		faceangles 0 0 0 4300
+		trigger floating_ice5 choose_float
+	}
+}
+
+shutter1
+{
+	spawn
+	{
+	}
+
+	trigger fall1
+	{
+		faceangles 0 0 3 500
+//		playsound sound/world/metalbreak.wav
+//		playsound sound/movers/doors/door4_locked.wav
+		wait 700
+		faceangles 0 0 90 500 accel
+		wait 5
+		faceangles 0 0 85 500
+		wait 5
+		faceangles 0 0 83 225
+		wait 5
+		faceangles 0 0 90 175
+		wait 5
+		faceangles 0 0 87 150
+		wait 5
+		faceangles 0 0 90 100
+	}
+}
+
+submarine
+{
+	spawn
+	{
+		trigger submarine move
+	}
+
+	trigger move
+	{
+		gotomarker sub_spot2 2000 wait
+		gotomarker sub_spot1 2000 wait
+		trigger submarine move
+	}
+}
+
+
+
+
+

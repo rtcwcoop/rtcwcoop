@@ -1,0 +1,1697 @@
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
+//
+//Brush scripting
+//Map dam_106_jeremy 
+// 11/03/01
+//last edited by jeremy
+//  
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+}
+
+checker1					// Remember you still nbeed to put physical checker in
+{
+	spawn
+	{
+		accum 0 bitreset 0			// Save this for bitset or resetbitset
+		accum 1 set 0			
+		accum 2 set 0			
+		accum 3 set 0			// Used for alarms
+		accum 4 set 0			// Tower_nazi2 uses this
+		accum 5 set 0			// Used for zones
+		accum 6 set 0			// Used for alarm
+		accum 7 set 0			// Used for nazi alive count
+	}
+
+	trigger alive_check_in			// This has each nazi check when alive
+	{
+		accum 7 inc 1
+	}
+
+	trigger death_check_out			// This has each nazi check when they die
+	{
+		accum 7 inc -1
+	}
+
+	trigger music_situation
+	{
+		accum 7 abort_if_less_than 2
+		mu_fade 0 3000
+		mu_queue sound/music/m_situation		
+	}
+
+	trigger alarm1_destroyed
+	{
+		trigger checker1 alarm1_destroyed2
+	}
+
+	trigger alarm1_destroyed2		// If alarm is on 
+	{
+		accum 6 abort_if_equal 0
+		resetscript
+		alertentity alarm_on
+	}
+
+	trigger alarm_tunnel_destroyed
+	{
+		trigger checker1 alarm_tunnel_destroyed2
+	}
+
+	trigger alarm_tunnel_destroyed2
+	{
+		accum 6 abort_if_equal 0
+		resetscript
+		alertentity alarm_on
+	}
+
+	trigger alarm2_destroyed
+	{
+		trigger checker1 alarm2_destroyed2
+	}
+
+	trigger alarm2_destroyed2
+	{
+		accum 6 abort_if_equal 0
+		resetscript
+		alertentity alarm_on
+	}
+
+
+	trigger in_zone1
+	{
+		accum 5 set 1
+	}
+
+	trigger backup_for_zone1			// 
+	{
+		accum 5 abort_if_equal 2
+		accum 6 abort_if_not_equal 1
+		accum 7 abort_if_greater_than 5
+		resetscript
+		alertentity backup1_zone1
+		alertentity backup2_zone1
+		alertentity backup3_zone1
+		alertentity backup4_zone1
+		// Need to add three more guys for this area
+	}
+
+	trigger backup_for_zone1_through_nazi3
+	{
+		accum 5 abort_if_equal 2
+		accum 6 abort_if_not_equal 1
+		accum 7 abort_if_greater_than 3
+		resetscript
+	//	alertentity backup1_zone1
+	//	alertentity backup2_zone1
+		alertentity backup3_zone1
+		alertentity backup4_zone1
+	}
+
+	trigger in_zone2		
+	{
+		accum 5 set 2
+	}
+
+	trigger backup_for_zone2			// done
+	{
+		accum 6 abort_if_not_equal 1
+		accum 5 abort_if_not_equal 2		// Which is zone 2
+		accum 7 abort_if_greater_than 3
+		resetscript
+//		alertentity nazi5a
+//		alertentity nazi5b
+//		alertentity nazi5c
+		// Need to add back up guys for this..
+	}
+
+	trigger backup_for_zone2_through_nazi5
+	{
+		accum 6 abort_if_not_equal 1
+		accum 5 abort_if_not_equal 2		// Which is zone 2
+		accum 7 abort_if_greater_than 3
+		alertentity nazi5a
+		alertentity nazi5b
+		alertentity nazi5c
+	}
+
+	trigger in_zone3
+	{
+		accum 5 set 3
+	}
+
+	trigger backup_for_zone3			// done
+	{
+		accum 5 abort_if_not_equal 3
+		accum 7 abort_if_greater_than 2
+		resetscript
+		// Need to add back up guys for this..
+	}
+
+	trigger alarm_on
+	{
+		accum 6 set 1			// THIS TURNS ALARM ON
+//		alertentity alarm_on
+		wait 500
+		trigger checker2 alarm_continued_from_checker1		// USING checker2 FOR AN EXTRA CHECKER
+	}
+
+	trigger door_has_been_open			// This is state if door is open
+	{
+		accum 0 bitset 2
+	}
+
+	trigger if_door_has_been_open			// this will be checked if door is open,.. by nazi1
+	{
+		trigger checker1 door_open_response
+		wait 5
+		trigger checker1 door_closed
+	}
+
+	trigger door_open_response			// this has nazi1 get inside of doors...
+	{
+		accum 0 abort_if_bitset 2
+		resetscript
+		trigger nazi1 get_into_base
+	}
+
+	trigger door_closed				// this has nazi frun for cover outside of doors...
+	{
+	
+		accum 0 abort_if_not_bitset 2
+		resetscript
+		trigger nazi1 frantic_talk
+	}
+
+	trigger if_alarm_on
+	{
+		wait 500
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger officer1_support alarm_on_response
+		wait 500
+//		trigger tower_nazi1 alarm_on_response
+//		wait 5
+//		trigger tower_nazi1a alarm_on_response
+//		wait 500
+//		trigger tower_nazi2 alarm_on_response
+//		wait 5
+		trigger nazi4 go1
+		wait 5
+	//	alertentity plank_guard
+		wait 5
+		trigger elevator_guard alarm_on_response
+		wait 5	
+//		trigger nazi2a alarm_on_response
+		wait 500
+//		trigger nazi3 alarm_on_response
+//		wait 5
+//		trigger nazi3a alarm_on_response
+//		wait 500
+		trigger nazi4 alarm_on_response
+		wait 5
+		trigger nazi5 alarm_on_response
+		wait 5
+		trigger nazi6 alarm_on_response
+		wait 5
+		trigger nazi7 alarm_on_response
+		wait 500
+		trigger nazi8 alarm_on_response
+		trigger nazi9 alarm_on_response
+		wait 5
+//		trigger blackguard1 alarm_on_response
+//		wait 500
+		trigger mechanic3 alarm_on_response
+		trigger mechanic3a alarm_on_response
+//		trigger mechanic3b alarm_on_response
+//		wait 5
+		trigger radio_nazi1 alarm_on_response
+		wait 5
+		trigger radio_nazi2 alarm_on_response
+		wait 5
+		trigger radio_nazi3 alarm_on_response
+		wait 500
+//		trigger blackguard1 alarm_on_response
+//		wait 5
+		trigger blackguard2 alarm_on_response
+		wait 5
+		trigger blackguard3 alarm_on_response
+		wait 5
+		trigger relax_plank_guard alarm_on_response
+		wait 56
+		trigger tower_nazi2 alarm_on_response
+	}
+
+	trigger if_alarm_off
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger tower_nazi1 run_to_alarm
+		wait 5
+//		trigger tower_nazi1a run_to_alarm
+//		wait 5
+		trigger officer1_support alarm_off_response
+		wait 5
+//		trigger tower_nazi2 alarm_off_response
+		wait 5
+		trigger nazi4 go1
+		wait 5
+		trigger elevator_guard alarm_off_response
+		wait 5	
+//		trigger nazi3 go1
+//		wait 5
+//		trigger nazi3a go1
+//		wait 5
+		trigger nazi4 go1
+		trigger nazi5 go1
+		wait 5
+		trigger nazi6 go1			// Inside generator room
+		wait 5
+		trigger nazi7 go1			// Inside generator room
+		wait 5
+		trigger nazi8 go1
+		trigger nazi9 go1
+		wait 5
+//		trigger blackguard1 go1
+//		wait 5
+		trigger mechanic3 working		// triggers different starting positions...
+		wait 5
+		trigger mechanic3a working
+		wait 5
+//		trigger mechanic3b working
+		wait 5
+		trigger radio_nazi1 go1
+		wait 5
+		trigger radio_nazi2 go1
+		wait 5
+		trigger radio_nazi3 go1
+		wait 5
+//		trigger blackguard1 go1			// to do
+//		wait 5
+		trigger blackguard2 go1
+		wait 5
+		trigger blackguard3 go1
+		wait 5
+		trigger tower_nazi2 alarm_off_response
+	}
+
+	trigger plank_get_into_position
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger backup3_zone1 plank
+		wait 5
+		trigger backup4_zone1 plank
+	}
+
+	trigger if_alarm_on_mechanic
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger mechanic1 alarm_on_response
+		wait 5
+		trigger mechanic2 alarm_on_response
+	}
+
+	trigger if_alarm_off_mechanic
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger mechanic1 working
+		wait 5
+		trigger mechanic2 working
+	}
+
+	trigger if_alarm_on_nazi2a
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger nazi2a alarm_on_response		
+	}
+
+	trigger if_alarm_off_nazi2a
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger nazi2a go1
+	}
+
+	trigger if_alarm_on_nazi3
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger nazi3 alarm_on_response		
+	}
+
+	trigger if_alarm_off_nazi3
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger nazi3 go1
+	}
+
+	trigger if_alarm_on_elevator_guard
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger flip_table go1
+		trigger elevator_guard alarm_on_response		
+	}
+
+	trigger if_alarm_on_elevator_guard
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger elevator_guard alarm_off_response
+	}
+
+	trigger alarm_on_alert_plank_gaurd
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		alertentity plank_guard
+	}
+
+	trigger alarm_off_spawn_in_relax_plank_guard
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		alertentity relax_plank_guard
+	//	wait 5 
+	//	trigger relax_plank_guard alarm_off_response
+	}
+
+//---------towercontrol----------
+
+	trigger tower_nazi2_alive
+	{
+		accum 0 bitreset 15
+	}
+	
+	trigger tower_nazi2_dead
+	{
+		accum 0 bitset 15
+	}
+
+	trigger spawn_in_tower_nazi3a
+	{
+//		alertentity tower_nazi3a
+	}
+
+	trigger alarm_on_tower_nazi3a		//IF ALARM ON DUE THIS REPSONSE
+	{
+		accum 6 abort_if_not_equal 1 
+		resetscript
+		trigger tower_nazi3a alarm_on_response
+	}
+
+	trigger alarm_off_tower_nazi3a		// IF ALARM OFF CHECK IF TOWER_NAZI ALIVE
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger checker1 alarm_off_tower_nazi3a_if_tower_nazi2_dead
+		wait 5
+		trigger checker1 alarm_off_tower_nazi3a_response
+	}
+
+	trigger alarm_off_tower_nazi3a_response				//. IF TOWER_NAZI2 IS ALIVE AND ALARM IS OFF JUST HANG OUT
+	{
+		accum 6 abort_if_not_equal 0
+		accum 0 abort_if_bitset 15 
+		resetscript
+		trigger tower_nazi3a alarm_off_response
+	}
+
+	trigger alarm_off_tower_nazi3a_if_tower_nazi2_dead		// IF TOWER_NAZI2 IS DEaD AND ALARM IS OFF DUE THIS REPSONSE
+	{
+		accum 0 abort_if_not_bitset 15
+		resetscript
+		trigger tower_nazi3a alarm_on_response_to_tw2
+	}
+
+//---------Towecontrol--------
+
+	trigger nazi3a_alive
+	{
+		accum 0 bitreset 29
+	}
+
+	trigger nazi3a_dead
+	{
+		accum 0 bitset 29
+	}	
+
+	trigger nazi3a_anim_loop_checker 	// Nazi3a animloop system
+	{
+		accum 0 abort_if_bitset 29
+		resetscript
+//		trigger nazi3a anim_loop1
+		wait 5
+		trigger nazi3a go2
+	}
+
+	trigger relax_plank_guard_alive
+	{
+		accum 0 bitreset 30
+	}
+
+	trigger relax_plank_guard_dead
+	{
+		accum 0 bitset 30
+	}	
+
+	trigger relax_plank_guard_smoking_checker 
+	{
+		accum 0 abort_if_bitset 30
+		resetscript
+		trigger relax_plank_guard anim_loop1
+		wait 5
+		trigger relax_plank_guard alarm_off_response3 
+	}
+
+	trigger tunnel_from_elevator_spawn
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		alertentity mechanic1
+		alertentity mechanic2
+	}
+
+	trigger in_tunnel			// CHECKING WIETHER ALARM IS ON OR OFF
+	{
+		wait 5
+		trigger checker1 in_tunnel1_on
+		wait 5
+		trigger checker1 in_tunnel2_off
+	}
+
+	trigger in_tunnel1_on		//IN TUNNEL ALERT STORM TROOPERS
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		alertentity strooper1
+		alertentity strooper2
+		alertentity strooper3
+	}
+
+	trigger in_tunnel2_off		// IN TUNNEL USE MECHANICS
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+	//	alertentity kill_first_two
+		alertentity mechanic1
+		alertentity mechanic2			
+	}
+
+	trigger if_alarm_off_stay_relaxed		//  THIS IS SO THEY STAY REALXED BUT STILL CHECKERD...
+	{
+		accum 6 abort_if_not_equal 0
+		wait 5
+		resetscript
+	}
+
+	trigger in_the_vents
+	{
+		accum 6 abort_if_not_equal 1 
+		mu_fade 0 3000
+		mu_queue sound/music/m_situation
+		alertentity vent_noise
+//		alertentity soundfile
+		alertentity nazi6
+		alertentity nazi8
+		alertentity nazi9
+		alertentity blackguard1 
+		alertentity nazi7
+		trigger nazi7 vent2
+		alertentity nazi7a			// Only spawns if alarm is off
+	}
+
+	trigger lower_alertness_guards_on_dam		// Called when the user goes half way elevator
+	{
+		trigger officer1 aim_accuracy_down
+		wait 5
+		trigger tower_nazi1a aim_accuracy_down
+		wait 5
+		trigger nazi3a aim_accuracy_down
+		wait 5
+		trigger officer1_support aim_accuracy_down
+		wait 5
+		trigger backup1_zone1 aim_accuracy_down
+		wait 5
+		trigger backup2_zone1 aim_accuracy_down
+		wait 5
+		trigger backup3_zone1 aim_accuracy_down
+		wait 5
+		trigger backup4_zone1 aim_accuracy_down
+		wait 5
+	//	trigger backup5_zone1 aim_accuracy_down
+	}
+	
+	trigger vent2_off
+	{
+		accum 0 bitset 4
+	}
+
+	trigger vent2
+	{
+		accum 0 abort_if_bitset 4
+		resetscript
+		trigger nazi6 vent2
+		accum 0 bitset 0 
+	}
+
+	trigger last_guards_response
+	{
+		trigger checker1 last_guards_response_alarm_on
+		wait 5
+		trigger checker1 last_guards_repsonse_alarm_off
+	}
+
+	trigger last_guards_response_alarm_on
+	{
+		accum 6 abort_if_not_equal 1
+		resetscript
+		trigger last_guard1 alarm_on_response
+		wait 5
+		trigger last_guard2 alarm_on_response
+		wait 5
+		trigger last_guard4 alarm_on_response
+		
+	}
+
+	trigger last_guards_response_alarm_on
+	{
+		accum 6 abort_if_not_equal 0
+		resetscript
+		trigger last_guard1 alarm_off_response
+		wait 5
+		trigger last_guard2 alarm_off_response
+		wait 5
+		trigger last_guard4 alarm_off_response
+		
+	}
+}
+
+radio				// LADIES AND GENTEL MEN ELVIS PRESLY
+{
+	spawn
+	{
+		accum 0 bitreset 25
+		accum 1 bitset 0  
+		accum 2 set 0 
+		accum 3 set 0 	// Used for alarms
+		accum 4 set 0 
+		accum 5 set 0   // Radio checker
+		accum 6 set 0 
+		accum 7 set 0   // Blown door is using this...
+	}
+
+	trigger static  // THIS WILL BE USED WHEN THE USER CHOOSES A RADIO TUNE
+	{
+		stopsound
+		playsound sound/scenaric/dam/radiostaticloop.wav looping
+		wait 1500
+		stopsound
+		trigger radio choose_tunes	
+	}
+
+	trigger choose_tunes
+	{
+	//	accum 1 set 0
+	//	accum 2 abort_if_equal 1  // Turns sounds off
+		accum 5 random 3
+		resetscript
+		wait 5
+		trigger radio radio1
+		wait 5
+		trigger radio radio2
+		wait 5
+		trigger radio radio3
+	}
+
+	trigger radio1		// YOU NEED TO REPLACE SOUNDFILE WITH SOMETHING MUCH MUCH SMALLER		
+	{
+	//	accum 1 abort_if_bitset 4
+	//	accum 1 bitset 4
+		accum 5 abort_if_not_equal 0 
+		resetscript 
+		stopsound
+		playsound sound/scenaric/dam/1933_reichstag.wav looping
+		wait 29000
+		stopsound
+		trigger radio static
+	}
+
+	trigger radio2		// YOU NEED TO REPLACE SOUNDFILE WITH SOMETHING MUCH MUCH SMALLER
+	{
+	//	accum 1 abort_if_bitset 5
+	//	accum 1 bitset 5
+		accum 5 abort_if_not_equal 1 
+		stopsound
+		resetscript
+		playsound sound/scenaric/dam/cafemusic.wav looping
+		wait 30000
+		stopsound 
+		trigger radio static
+	}
+
+	trigger radio3		// YOU NEED TO REPLACE SOUNDFILE WITH SOMETHING MUCH MUCH SMALLER
+	{
+	//	accum 1 abort_if_bitset 6
+	//	accum 1 bitset 6
+		accum 5 abort_if_not_equal 2 
+		resetscript
+		stopsound
+		playsound sound/scenaric/village2/beethoven_9_2.wav looping	
+		wait 30000
+		stopsound
+		trigger radio static
+	}
+
+	trigger turn_off			// THIS WIL LSHUT THE RADIO OFF WHEN IT IS DESTROYED
+	{
+		//print SHUTT THE HELL OFF
+		accum 2 set 1
+		stopsound
+	//	alertentity kill_sound
+		wait 5
+		stopsound
+		wait 5
+		stopsound
+		//alertentity kill_sound 
+		//playsound sound/scenaric/dam/blank.wav
+	}
+
+	trigger radio_buildup
+	{
+//		accum 1 abort_if_not_bitset 4
+//		accum 1 abort_if_not_bitset 5
+//		accum 1 abort_if_not_bitset 6
+//		resetscript
+//		accum 1 bitreset 4
+//		accum 1 bitreset 5
+//		accum 1 bitreset 6
+	}
+
+	trigger door_status
+	{
+		accum 7 set 1
+	}
+
+	trigger door1_alive
+	{
+		trigger radio door_alive_response
+		wait 5
+		trigger radio door_destroyed_response
+	}
+
+	trigger door_alive_response
+	{
+		accum 7 abort_if_not_equal 0
+		wait 5 
+		resetscript
+		trigger nazi2a door_alive
+	}
+
+	trigger door_destroyed_response
+	{
+		accum 7 abort_if_not_equal 1
+		wait 5
+		resetscript
+		trigger nazi2a door_dead
+	}
+
+	trigger first_tower_alarm_status
+	{
+		trigger alarm_working
+	//	wait 5
+		trigger alarm_destroyed	
+	}
+
+	trigger first_tower_alarm_working		//	Used to know if radio is destroyed or not
+	{
+	}
+
+	trigger first_tower_alarm_destroyed		//      Used to know if radio is destroyed or not
+	{
+		accum 3 set 1 	
+	}
+
+	trigger second_tower_alarm_status
+	{
+	}
+
+	trigger second_tower_alarm_working         //	Used to know if radio is destroyed or not
+	{
+	}
+
+	trigger second_tower_alarm_destroyed         //	Used to know if radio is destroyed or not
+	{
+		accum 4 set 1
+	}
+}
+
+//Elevator is speeded up for COOP
+//DAMN BORING TO WAIT!! :P
+//And redid much of the elev/btn script!
+elevator1
+{
+	spawn
+	{
+		accum 3 set 0
+	}
+
+	trigger up
+	{
+		trigger button1 elevator_operating
+		trigger button2 elevator_operating
+
+		wait 250
+
+		playsound sound/movers/elevators/elev1_start.wav
+		wait 5
+		playsound sound/movers/elevators/elev1_loop.wav looping
+		gotomarker eupa 220 accel wait 	//140
+		gotomarker eup 100 deccel wait	//80
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav	
+
+		trigger button1 elevator_upcheckin
+		trigger button2 elevator_upcheckin
+	}
+
+	trigger down
+	{
+		trigger button1 elevator_operating
+		trigger button2 elevator_operating
+
+		wait 250
+
+		playsound sound/movers/elevators/elev1_start.wav
+		wait 5
+		playsound sound/movers/elevators/elev1_loop.wav looping
+		// gotomarker eupa 50 accel wait
+		gotomarker downa 240 accel wait 	//140
+		gotomarker edown 70 deccel wait	//50
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav	
+
+		trigger button1 elevator_downcheckin
+		trigger button2 elevator_downcheckin
+	}
+
+	trigger down_with_guys_on
+	{
+		trigger button1 elevator_operating
+		trigger button2 elevator_operating
+
+		alertentity elevator_guard
+		playsound sound/movers/elevators/elev1_loop.wav looping
+		gotomarker guys_on_spot1 5000 wait
+		wait 4000
+	 	alertentity nazi2a
+		alertentity nazi3
+//		alertentity elevator_guard
+		wait 2500
+//	 	alertentity nazi2a
+		gotomarker downa 95 accel wait 
+		gotomarker edown 50 deccel wait 
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav
+
+		trigger button1 elevator_downcheckin
+		trigger button2 elevator_downcheckin
+
+		wait 500
+		trigger nazi2a walkthrough_door
+	}
+
+	trigger radios_destroyed_now
+	{
+		accum 3 inc 1 
+		accum 3 abort_if_not_equal 4
+		resetscript	
+		trigger player radios_destroyed_now
+	}
+}
+
+button1
+{
+	spawn
+	{	
+		accum 1 set 0	//COOP, am I operating?
+		accum 2 set 0
+	}
+
+	trigger elevator_operating
+	{
+		accum 1 set 1
+
+		gotomarker b1in 50
+		playsound sound/movers/switches/switch.wav
+	}
+
+	trigger elevator_upcheckin
+	{		
+		wait 100
+
+		gotomarker b1start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
+		accum 2 set 1
+	}
+
+	trigger elevator_downcheckin
+	{		
+		wait 100
+
+		gotomarker b1start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
+		accum 2 set 0
+	}
+
+	trigger buttons
+	{
+		//Stop bashing you idiot
+		
+		trigger button1 fail_pushing 
+
+		accum 1 abort_if_not_equal 0	
+
+		wait 5
+		trigger button1 start
+		wait 5 
+		trigger button1 off		
+	}
+
+	trigger fail_pushing		//coop-only
+	{
+		accum 1 abort_if_not_equal 1
+		playsound sound/items/use_nothing.wav
+	}
+
+	trigger start
+	{
+		accum 2 abort_if_not_equal 0
+		wait 5
+		trigger elevator1 up
+	}
+
+	trigger off
+	{
+		accum 2 abort_if_not_equal 1
+		wait 5
+		trigger elevator1 down	
+	}
+}
+
+button2
+{
+	spawn
+	{	
+		accum 1 set 0	//COOP, am I operating?
+		accum 2 set 0
+	}
+
+
+	trigger elevator_operating
+	{
+		accum 1 set 1
+
+		gotomarker b2in 50
+		playsound sound/movers/switches/switch.wav
+	}
+
+	trigger elevator_upcheckin
+	{
+		wait 100
+
+		gotomarker b2start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
+		accum 2 set 1
+	}
+
+	trigger elevator_downcheckin
+	{
+		wait 100
+
+		gotomarker b2start 50 wait 
+		playsound sound/movers/switches/switch.wav
+
+		wait 50
+
+		accum 1 set 0	//COOP, Stopped moving
+		accum 2 set 0
+	}
+
+	trigger buttons
+	{
+		//Stop bashing you idiot
+		
+		trigger button2 fail_pushing 
+
+		accum 1 abort_if_not_equal 0
+
+		wait 5
+		trigger button2 start
+		wait 5
+		trigger button2 off
+	}
+
+	trigger fail_pushing		//coop-only
+	{
+		accum 1 abort_if_not_equal 1
+		playsound sound/items/use_nothing.wav
+	}
+
+	trigger start
+	{
+		accum 2 abort_if_not_equal 0
+		wait 5
+
+		trigger elevator1 up
+	}
+
+	trigger off
+	{
+		accum 2 abort_if_not_equal 1
+		wait 5
+
+		trigger elevator1 down
+	}
+}
+
+tools
+{
+	spawn
+	{
+		wait 5
+		faceangles 0 330 0 1000 wait
+		gotomarker tools_spot1 1000
+	}
+
+	trigger
+	{
+	}
+}
+
+tank
+{
+	spawn
+	{
+		accum 0 bitset 0 
+		accum 1 set 0
+		accum 2 set 0 
+		accum 3 set 0 
+	}
+
+	trigger door_closed_checkin
+	{
+		accum 0 bitreset 10
+	}
+
+	trigger door_open_checkin
+	{
+		accum 0 bitset 10
+	}
+
+	trigger blast
+	{
+		trigger tank blast_door_closed
+		wait 5
+		trigger tank blast_door_open
+	}
+
+	trigger blast_door_closed
+	{
+		accum 0 abort_if_bitset 10
+		accum 0 bitset 1
+		gotomarker tankspot1 1300 accel 
+		faceangles -90 0 0 gototime
+		alertentity door_blowna
+		alertentity door_blown
+	//	print TANK SHOULD BLOW UP NOW...
+		alertentity kill_tank
+		gotomarker tankspot2 3000 wait
+	}
+
+	trigger blast_door_open		//	THIS HAS TANK FLY THROUGH OPEN DOOR...
+	{
+		accum 0 abort_if_not_bitset 10
+		accum 0 bitset 1
+		gotomarker tankspot1a 1500 accel 
+		faceangles -90 0 0 gototime
+		alertentity explode_tank2
+	//	alertentity door_blowna
+	//	alertentity door_blown
+	//	print TANK SHOULD BLOW UP NOW...
+		alertentity kill_tank
+		gotomarker tankspot2 5000 wait
+	}
+
+	trigger mechanics_alive
+	{
+		accum 1 inc 1
+	}
+		
+	trigger mechanics_dead
+	{
+		accum 1 inc -1
+	}
+
+	trigger blown_tank_response
+	{
+		trigger tank mechanics_tank_response
+		wait 5
+	}
+
+	trigger mechanics_tank_response
+	{
+		accum 1 abort_if_greater_than 1 
+		resetscript
+		trigger mechanic1 blown_response
+		wait 5
+		trigger mechanic2 blown_response
+	}
+}
+
+falling_plank
+{
+	spawn	
+	{
+	}
+
+	trigger fall1
+	{
+		playsound sound/scenaric/rocket/elevator_crash.wav looping
+		alertentity plank_rubble1
+		faceangles 342 0 355 150
+		stopsound
+		alertentity plank_rubble2
+		playsound sound/scenaric/rocket/elevator_crash.wav looping
+		alertentity plank_rubble3
+		faceangles 340 0 350 1300
+		stopsound
+		playsound sound/scenaric/rocket/bridge_creak3.wav looping
+		wait 1000
+		faceangles 318 345 345 5500
+		stopsound
+	}
+}
+
+sliding_door2
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 1 set 0 
+		accum 2 set 0  // Used for knowing if it is open or not
+		accum 3 set 0
+	}
+
+	trigger door_is_now_open
+	{
+		accum 1 set 1 
+		trigger tank door_open_checkin
+	}
+
+	trigger door_is_now_closed
+	{
+		accum 1 set 0 
+		trigger tank door_closed_checkin
+	}
+
+	trigger choose_to_move
+	{
+		trigger sliding_door2 choose_to_move2
+		wait 5
+		trigger sliding_door2 lock_door_trying_to_open
+	}
+
+	trigger choose_to_move2
+	{
+		accum 3 abort_if_equal 1
+		wait 5
+		trigger sliding_door2 open
+		wait 5
+		trigger sliding_door2 close
+	}
+
+	trigger open
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript
+		gotomarker open 60
+		playsound sound/movers/doors/door10_open.wav
+	//	gotomarker closed 60
+		trigger sliding_door2 door_is_now_open
+	}
+
+	trigger close
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		playsound sound/movers/doors/door10_open.wav
+		gotomarker open 60
+		wait 4000
+		playsound sound/movers/doors/door10_open.wav
+		gotomarker closed 60
+		trigger sliding_door2 door_is_now_closed
+	}
+
+	trigger lock_door
+	{
+		accum 3 set 1
+	}
+
+	trigger lock_door_trying_to_open
+	{
+		accum 3 abort_if_not_equal 1
+		playsound sound/movers/doors/door8_locked.wav
+	}
+}
+
+radio_button
+{
+	spawn
+	{
+		wait 5
+		faceangles 0 0 0 5		
+	}
+
+	trigger rotate1
+	{
+		faceangles 0 0 85 200
+		wait 10
+		faceangles 0 0 300 200
+		wait 5
+		faceangles 0 0 20 200
+		wait 5
+		faceangles 0 0 0 200
+	}
+
+	trigger rotate2		// original
+	{
+		faceangles 270 25 25 200
+		wait 10
+		faceangles 270 320 320 200
+		wait 5
+		faceangles 270 20 20 200
+		wait 5
+		faceangles 270 0 0 200
+	}
+}
+
+valve
+{
+	spawn
+	{
+		accum 0 bitset 0 
+		accum 1 set 0 
+		accum 2 set 0
+		accum 3 set 0
+	}
+
+	trigger go1
+	{
+		accum 2 abort_if_not_equal 0
+		accum 1 inc 1
+		trigger valve rotate1 
+		wait 5
+		trigger valve rotate2
+		wait 5
+		trigger valve rotate3
+		wait 5
+		trigger valve rotate4
+	}
+
+	trigger rotate1
+	{
+		accum 2 set 1
+		accum 1 abort_if_not_equal 1
+		resetscript
+		playsound sound/scenaric/assault/metal_crank1.wav looping
+		faceangles 0 0 100 4000
+		stopsound
+		accum 2 set 0
+	}
+
+	trigger rotate2
+	{
+		accum 2 set 1
+		accum 1 abort_if_not_equal 2
+		resetscript
+		playsound sound/scenaric/assault/metal_crank1.wav looping
+		faceangles 0 0 200 4000	
+		stopsound
+		accum 2 set 0
+	}
+
+	trigger rotate3
+	{
+		accum 2 set 1
+		accum 1 abort_if_not_equal 3
+		resetscript
+		playsound sound/scenaric/assault/metal_crank1.wav looping
+		faceangles 0 0 300 4000	
+		stopsound
+		accum 2 set 0
+	}
+
+	trigger rotate4
+	{
+		accum 2 set 1
+		accum 1 abort_if_not_equal 4
+		resetscript
+		playsound sound/scenaric/assault/metal_crank1.wav looping
+		faceangles 0 0 100 4000	
+		stopsound
+		accum 2 set 0
+	}
+
+	trigger stop_valve
+	{
+		stopsound		
+	}
+}
+
+flip_table
+{
+
+	spawn
+	{
+	}
+
+	trigger go1
+	{
+//		gotomarker table_spot1 5
+//		faceangles 275 330 0 5
+	}
+}
+
+checker2
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 0 bitreset 10
+		accum 0 bitreset 11
+		accum 0 bitreset 15
+		accum 0 bitreset 16
+		accum 0 bitreset 17
+		accum 0 bitreset 25
+		accum 0 bitreset 27
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0
+		accum 4 set 0
+		accum 5 set 0
+		accum 6 set 0		//used for the alarm
+		accum 7 set 0
+//		trigger checker2 wait_then_relax_or_alert
+	}
+
+	trigger alarm1_on_check
+	{
+		trigger checker2 turn_alarm1_on
+		wait 5
+		trigger checker2 turn_alarm1_off
+	}
+
+	trigger turn_alarm1_on
+	{
+		accum 6 abort_if_equal 1
+		accum 6 set 1
+		wait 50
+		alertentity alarm_on	
+	}
+
+	trigger turn_alarm1_off
+	{
+		accum 6 abort_if_equal 0
+		accum 6 set 0
+		wait 50
+		alertentity alarm_on
+	}
+
+
+	trigger alarm_on_check_underneath
+	{
+		trigger elevator_guard alarm_on_response		// newly added
+		wait 5
+		trigger checker2 turn_alarm_underneath_on
+		wait 5
+		trigger checker2 turn_alarm_underneath_off
+	}
+
+	trigger turn_alarm_underneath_on
+	{
+		accum 6 abort_if_equal 1
+		accum 6 set 1
+		wait 500
+		alertentity alarm_on
+	}
+
+	trigger turn_alarm_underneath_off
+	{
+		accum 6 abort_if_equal 0
+		accum 6 set 0
+		wait 500
+		alertentity alarm_on
+	}
+
+	trigger last_tower_alarm
+	{
+		trigger checker2 last_tower_alarm_on
+		wait 5
+		trigger checker2 last_tower_alarm_off
+	}
+
+	trigger last_tower_alarm_on
+	{
+		accum 6 abort_if_equal 1
+		accum 6 set 1
+		wait 500
+		alertentity alarm_on
+	}
+
+	trigger last_tower_alarm_off
+	{
+		accum 6 abort_if_equal 0
+		accum 6 set 0
+		wait 500
+		alertentity alarm_on
+	}
+
+	trigger alarm_continued_from_checker1		// THIS IS CONTINUED FROM CHECKER 1
+	{
+//		print made it1
+		accum 6 set 1	
+		accum 0 abort_if_bitset 27
+		accum 0 bitset 27
+		wait 5
+		trigger tower_nazi1a alarm_on_response
+		trigger officer1 alarm_on
+		trigger officer1_support alarm_on
+		trigger nazi3a alarm_on_response
+		trigger relax_plank_guard alarm_on_response
+		trigger tower_nazi2 alarm_on_response
+		alertentity nazi3
+		trigger nazi1 alarm_on_response
+//		alertentity switch_alarm		// need target relay for alarm
+//		alertentity alarm_on
+//		print Alarm sound through script
+//		print made it2
+		trigger checker2 intruder_sound
+	}
+
+	trigger intruder_sound
+	{
+		accum 0 abort_if_bitset 25
+		accum 0 bitset 25
+		alertentity alarm_on
+		mu_stop 1000
+		mu_start sound/music/m_action 200
+		wait 3000
+		alertentity speaker_intruder
+		
+	}
+
+	trigger alarm_with_music
+	{
+	}
+
+	trigger tower_nazi1a_if_alarm_on
+	{
+		accum 6 abort_if_equal 0
+		trigger tower_nazi1a alarm_on_response
+	}
+
+	trigger tower_nazi1a_if_alarm_off
+	{
+		accum 6 abort_if_equal 1
+		trigger tower_nazi1a run_to_alarm
+		wait 5		
+	}
+
+	trigger nazi3_if_alarm_on
+	{
+//		print made it checker2
+		accum 6 abort_if_equal 0
+		wait 5
+		trigger nazi3 alarm_on_response
+	}
+
+	trigger nazi3_if_alarm_off
+	{
+		accum 6 abort_if_equal 1
+		wait 5
+		trigger nazi3 go1
+	}
+
+	trigger nazi3a_if_alarm_on
+	{
+		accum 6 abort_if_equal 0
+		trigger nazi3a alarm_on_response
+	}
+
+	trigger nazi3a_if_alarm_off
+	{
+		accum 6 abort_if_equal 1
+		trigger nazi3a go1
+	}
+
+	trigger blackguard1_alarm_on_response
+	{
+		accum 6 abort_if_equal 0
+		trigger blackguard1 alarm_on_response
+	}
+
+	trigger blackguard1_alarm_off_response
+	{
+		accum 6 abort_if_equal 1
+		trigger blackguard1 go1
+	}
+
+	trigger position_tower_nazi1a
+	{
+		trigger tower_nazi1a in_tower
+		wait 5
+		trigger tower_nazi1a on_ground
+	}
+
+	trigger wait_then_relax_or_alert
+	{
+		wait 90000
+		trigger checker2 wait_low_music
+		wait 5 
+		trigger checker2 wait_med_music
+	}
+
+	trigger choose_mechanic			// THIS IS IN LAST ROOM, RANDOM MECHANCICS CHOOSEN
+	{
+		accum 4 set 0
+		//accum 4 random 3 
+		wait 5
+		trigger checker1 mechanic1
+		wait 5
+	 	trigger checker1 mechanic2
+		wait 5
+		trigger checker1 mechanci3
+	}
+
+	trigger mechanic1
+	{
+		accum 4 abort_if_not_equal 0
+		resetscript
+		alertentity mechanic3
+	}
+
+	trigger mechanic2
+	{
+		accum 4 abort_if_not_equal 1
+		resetscript
+		alertentity mechanic3a
+	}
+
+	trigger mechanic3
+	{
+		accum 4 abort_if_not_equal 2
+		resetscript
+		alertentity mechanic3b
+	}
+
+	trigger wait_low_music 
+	{
+		accum 0 abort_if_bitset 15 
+		accum 0 abort_if_bitset 10
+		accum 0 bitset 10	// says low music has been chosen don't shoose again
+		accum 0 bitreset 11
+		mu_fade 0 2500
+		mu_queue sound/music/m_drums 
+		trigger checker2 wait_then_relax_or_alert		
+	}
+
+	trigger wait_med_music
+	{
+		accum 0 abort_if_bitset 16	// this keeps track of other music
+		accum 0 abort_if_bitset 11
+		accum 0 bitset 11	// says med music has been chosen don't shoose again
+		accum 0 bitreset 10
+		mu_fade 0 2500
+		mu_queue sound/music/m_stealth
+		trigger checker2 wait_then_relax_or_alert		
+	}
+
+	trigger sight_check_in
+	{
+//		accum 4 inc 1
+//		trigger checker2 inter_music_in2
+//		wait 5
+//		trigger checker2 high_music
+	}
+
+	trigger choose_music_in
+	{
+		trigger checker2 inter_music_in
+		wait 5
+		trigger checker2 high_music		
+	}
+
+	trigger inter_music_in
+	{
+		accum 4 abort_if_not_equal 2
+		accum 0 abort_if_bitset 16
+		accum 0 bitset 16
+		accum 0 bitreset 15
+		accum 0 bitreset 17
+//		print play medium inter
+		mu_fade 0 3000
+		mu_queue sound/music/m_moving
+	}
+
+	trigger inter_music_in2
+	{
+		accum 4 abort_if_not_equal 1
+		accum 0 abort_if_bitset 16
+		accum 0 bitset 16
+		accum 0 bitreset 15
+		accum 0 bitreset 17
+//		print play medium inter
+		mu_fade 0 3000
+		mu_queue sound/music/m_moving
+	}
+
+	trigger high_music
+	{
+		accum 4 abort_if_less_than 3
+		accum 0 abort_if_bitset 17
+		accum 0 bitset 17
+		accum 0 bitreset 16
+		accum 0 bitreset 15		
+//		print PLay high music
+		mu_fade 0 3000
+		mu_queue sound/music/m_moving
+	}
+
+
+	trigger sight_check_out
+	{
+//		accum 4 inc -1
+//		trigger checker2 choose_music
+	}
+
+	trigger choose_music_out		// this is needed so that there is no wait in the accum inc
+	{
+		trigger checker2 low_music
+		wait 5
+		trigger checker2 inter_music_out
+	}
+
+	trigger low_music
+	{
+		accum 4 abort_if_greater_than 0
+		accum 0 abort_if_bitset 15
+		accum 0 bitset 15
+		accum 0 bitreset 16
+		accum 0 bitreset 17
+//		print play low music
+		mu_fade 0 3000
+		mu_queue sound/music/m_drums 
+	}
+	
+	trigger inter_music
+	{
+		accum 4 abort_if_not_equal 1
+		accum 0 abort_if_bitset 16
+		accum 0 bitset 16
+		accum 0 bitreset 15
+		accum 0 bitreset 17
+		mu_fade 0 3000
+		mu_queue sound/music/m_moving
+	}
+
+	trigger truck_cine	//COOP only
+	{
+		alertentity nazi1
+		wait 100
+		trigger nazi1 go1
+
+		wait 2000
+
+		trigger nazi1 go1a
+	}
+}
+
+parachute1			// newly added for cutscene
+{
+	spawn
+	{
+	}
+
+	trigger go1		//Commented out, COOP
+	{
+		faceangles 0 90 0 5
+		playanim 1 74 looping forever
+		wait 100
+		alertentity bj2 
+		gotomarker parachute1_spot1 150 deccel wait
+		alertentity kill_parachute
+		alertentity kill_bj2
+	}
+}

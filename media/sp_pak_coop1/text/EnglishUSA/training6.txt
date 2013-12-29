@@ -1,0 +1,15 @@
+Exercise 6: Medical Kits
+
+This is an introduction to first aid.
+
+Instructions:
+
+Sitting on the table beside you are three large medical kits. If you are in need of healing you will automatically pick them up as you move toward them.
+
+You may also choose to pick up a medical kit by pressing the 'activate' key. When you are close enough to pick up the item it will become highlighted signifying it is ready for use. 
+
+If you prefer this method, you may turn off the 'auto pick-up' option in your control settings. However, in doing so, you will need to manually pick up all items in the game, including weapons and ammunition.
+
+Once you are at full health, proceed to the next station.
+
+Time Limit: None

@@ -1,0 +1,4336 @@
+//Cleaned for COOP by -SSF-Sage on 6.2.2013
+//
+// Brush Scripting
+// Map: Rocket (Inner Compound)
+// Last updated by: Mike (110501)
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 0 bitreset 3
+		accum 1 set 0	//Exit door
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_not_bitset 3
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+	
+	trigger objective3
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+
+		accum 0 bitset 3
+
+		//To make this safer, moved from nazi40 spawn - Sage
+
+		alertentity unlockexitdoor
+	}
+}
+
+siren1
+{
+	spawn
+	{
+		accum 0 bitreset 0	// So siren1 knows if the alarms are on, or off.
+		accum 0 bitreset 1	// Used so that the that "alarm_on" for the enemy is triggered only once.
+		accum 0 bitreset 3	// Used so that when ALARM is triggered, it only triggers the AI once.
+	}
+
+	trigger toggle_by_ai
+	{
+		wait 500
+		trigger siren1 on
+		wait 5
+		trigger siren1 off
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+		//print ALARM ON!
+		alertentity action1b_toggle
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		trigger counter1 0bitset0
+		wait 5
+		trigger counter5 alarm_on
+		trigger alarm1 on
+		accum 0 abort_if_bitset 3
+		accum 0 bitset 3
+		trigger mech1 alarm_on
+		trigger nazi2 alarm_on
+		trigger nazi3 alarm_on
+		trigger driver1 alarm_on
+		trigger nazi8 alarm_on
+		alertentity kill_action1
+		alertentity nazi4
+		alertentity nazi5
+		wait 5
+		trigger nazi4 alarm_on
+		trigger nazi5 alarm_on
+	}
+
+	trigger off
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		resetscript
+		//print ALARM OFF!
+		alertentity action1b_toggle
+	}
+
+
+	trigger off_by_explode
+	{
+		wait 5
+		trigger siren1 off_by_explode_on
+		wait 5
+		trigger siren1 off_by_explode_off
+	}
+
+	trigger off_by_explode_on
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		resetscript
+		alertentity sirens_1
+		//print ALARM OFF!
+		accum 1 abort_if_equal 1
+	}
+
+	trigger off_by_explode_off
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+	}
+
+	trigger reset
+	{
+		resetscript
+	}
+}
+
+// The Truck door at the beginning of the level.
+truckdoor
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 0 bitreset 1
+		accum 0 bitreset 2	// Used if driver1 has already been at the tailgate.
+		accum 0 bitreset 3	// used so driver1 only says "not falling for it again" once.
+		accum 0 bitreset 4
+		accum 0 bitset 5
+		wait 5
+		gotomarker truckdoorspot1 1000 wait
+		faceangles 0 90 0 1000
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger truckdoor open
+	}
+
+	// Opens the truck door so that the player can get out.	
+	trigger open	
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+		playsound sound\scenaric\rocket\tailgate_open.wav
+		wait 500 0
+		faceangles -22 90 0 400
+		faceangles -45 90 0 250
+		faceangles -67 90 0 125
+		faceangles -90 90 0 75
+		trigger driver1 heard_door
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		trigger nazi2 marchloop1
+		trigger nazi3 marchloop1
+		trigger counter2 choose_loudspeaker1
+	}
+
+	// Closes the truck door so that the player can play around. 
+	trigger close
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		resetscript
+		playsound sound\scenaric\rocket\tailgate_close.wav
+		faceangles -20 90 0 500
+		faceangles 0 90 0 100
+	}
+
+	// Driver1 the truck door so that the player can play around. 
+	trigger d1_close
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		wait 1000 0
+		resetscript
+		playsound sound\scenaric\rocket\tailgate_close.wav
+		faceangles -20 90 0 500
+		faceangles 0 90 0 100		
+	}
+
+	trigger driver1_check
+	{
+		wait 5
+		trigger truckdoor d1_opened
+		wait 5
+		trigger truckdoor d1_closed
+		wait 5
+		trigger truckdoor d1_not_again
+	}
+
+	trigger d1_opened
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitset 2
+		resetscript
+		trigger driver1 truckdoor_opened
+	}
+
+	trigger d1_closed
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 2
+		resetscript
+		trigger driver1 truckdoor_closed
+	}
+
+	trigger d1_not_again
+	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_bitset 3
+		accum 0 bitset 3
+		resetscript
+		trigger driver1 truckdoor_not_again
+	}
+
+	trigger e2_downlever
+	{
+		accum 0 abort_if_not_bitset 4
+		trigger e2lever1 toggle
+	}
+
+	trigger enable_e2downlever
+	{
+		accum 0 bitset 4
+	}
+
+	trigger disable_e2downlever
+	{
+		accum 0 bitreset 4
+	}
+
+	trigger e2_uplever
+	{
+		accum 0 abort_if_not_bitset 5
+		trigger e2lever1 toggle
+	}
+
+	trigger enable_e2uplever
+	{
+		accum 0 bitset 5
+	}
+
+	trigger disable_e2uplever
+	{
+		accum 0 bitreset 5
+	}
+}
+
+counter1
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 0 bitreset 1
+	}
+
+	trigger turn_on_alarm
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		trigger nazi2 hit_alarm
+		trigger nazi3 hit_alarm
+		trigger driver1 hit_alarm
+		trigger mech1 hit_alarm
+	}
+
+	trigger 0bitreset0
+	{
+		accum 0 bitreset 0
+	}
+
+	trigger reset
+	{
+		resetscript
+	}
+
+	trigger mech1_start_crane
+	{
+		wait 500
+		alertentity start_crane
+	}
+
+	trigger elevator1_soundloop
+	{
+		wait 1000
+		trigger elevator1 soundloop
+	}
+
+	trigger elevator2_soundloop
+	{
+		wait 1000
+		trigger elevator2 soundloop
+	}
+}
+
+counter2
+{
+	spawn
+	{
+		accum 1 set 0	// Randomly chooses how long to wait until loudspeaker triggers.
+	}
+
+	trigger choose_loudspeaker1
+	{
+		accum 1 random 4
+		wait 5
+		trigger counter2 25seconds
+		wait 5
+		trigger counter2 20seconds
+		wait 5
+		trigger counter2 15seconds
+		wait 5
+		trigger counter2 10seconds
+	}
+
+	trigger 25seconds
+	{
+		accum 1 abort_if_not_equal 0
+		trigger nazi2 march_cough
+		wait 10000
+		trigger counter2 loudspeaker1
+	}
+
+	trigger 20seconds
+	{
+		accum 1 abort_if_not_equal 1
+		trigger nazi2 march_yawn
+		wait 15000
+		trigger counter2 loudspeaker1
+	}
+
+	trigger 15seconds
+	{
+		accum 1 abort_if_not_equal 2
+		trigger nazi2 march_cough
+		wait 5000
+		trigger counter2 loudspeaker1
+	}
+
+	trigger 10seconds
+	{
+		accum 1 abort_if_not_equal 3
+		trigger nazi2 march_sneeze
+		wait 7500
+		trigger counter2 loudspeaker1
+	}
+
+	trigger loudspeaker1
+	{
+		alertentity ls_attention	// print ATTENTION ALL PERSONELL...
+		trigger nazi3 loudspeaker_stop
+		trigger mech1 loudspeaker_stop
+		wait 6600
+		alertentity ls_54321	// print V2 ROCKET TEST GOING TO COMMENCE IN...5..4..3..2..1
+		wait 7250
+		alertentity rumble1
+		wait 12000
+		alertentity ls_test_complete	// print V2 ROCKET TEST COMPLETE.
+		wait 9000
+		trigger nazi3 loudspeaker_restore
+		trigger mech1 loudspeaker_restore
+	}
+
+	trigger v2_countdown
+	{
+		trigger player music_fade_2000
+		wait 1000		
+		alertentity ls_2min	// print ATTENTION ALL PERSONELL...V2 will launch in 2 minutes.
+		wait 9000
+		trigger player start_music2
+		wait 35000 
+		alertentity ls_1min30sec	// print Launch will commence in 1 minute 30 seconds.
+		wait 32000
+		alertentity ls_1min	// print Launch will commence in 1 minute.
+		alertentity v2_lights
+		trigger player change_music5
+		wait 32000
+		alertentity ls_30sec	// print Launch will commence in 30 seconds.
+		wait 15000
+		alertentity ls_15sec	// print Launch will commence in 15 seconds.
+		wait 6000
+		alertentity ls_1098765sec	// print Launch will commence in 10 seconds.
+		wait 12000
+		trigger v2_rocket go
+		wait 2500
+		alertentity ls_launch
+	}
+
+	trigger stop
+	{
+		stopsound
+		resetscript
+	}
+}
+
+counter3
+{
+	spawn
+	{
+		accum 0 bitset 0	// Used to see if reinforcer is dead or alive. Default, dead.
+		accum 0 bitreset 1
+	}
+
+	trigger 0bitreset0
+	{
+		accum 0 bitreset 0
+	}
+
+	trigger 0bitset0
+	{
+		accum 0 bitset 0
+	}
+
+	trigger n2a_choose_talk1
+	{
+		wait 5
+		trigger counter3 n2a_not_alone_talk1
+		wait 5
+		trigger counter3 n2a_alone_talk1
+	}
+
+	trigger n2a_not_alone_talk1
+	{
+		accum 0 abort_if_bitset 0
+		trigger nazi2a talk1_not_alone
+	}
+
+	trigger n2a_alone_talk1
+	{
+		accum 0 abort_if_not_bitset 0
+		trigger nazi2a talk1_alone
+	}
+
+	trigger n2a_choose_talk2
+	{
+		wait 5
+		trigger counter3 n2a_not_alone_talk2
+		wait 5
+		trigger counter3 n2a_alone_talk2
+	}
+
+	trigger n2a_not_alone_talk2
+	{
+		accum 0 abort_if_bitset 0
+		resetscript
+		trigger nazi2a talk2_not_alone
+	}
+
+	trigger n2a_alone_talk2
+	{
+		accum 0 abort_if_not_bitset 0
+		resetscript
+		trigger nazi2a talk2_alone
+	}
+
+	trigger n2a_check_elevator1
+	{
+		wait 5
+		trigger counter3 elevator1_up
+		wait 5
+		trigger counter3 elevator1_down
+	}
+
+	trigger 0bitreset1	// DOWN
+	{
+		accum 0 bitreset 1
+	}
+
+	trigger 0bitset1	// UP
+	{
+		accum 0 bitset 1
+	}
+
+	trigger n2a_elevator1_up
+	{
+		accum 0 abort_if_not_bitset 1
+		resetscript
+		trigger nazi2a get_on_elevator1
+	}
+
+	trigger n2a_elevator1_down
+	{
+		accum 0 abort_if_bitset 1
+		resetscript
+		trigger nazi2a elevator1_down
+	}
+
+	//COOP
+	trigger elevator2_down
+	{
+		wait 5000
+		trigger e2lever1 down2
+	}
+}
+
+counter4
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 0 bitreset 1	// Used to see if the crane is finished.
+		accum 0 bitreset 2 	// Used so that the crane stops only once.
+		accum 0 bitreset 3	// Used so that the crane doesn't "STOP" while in the shaft.
+		accum 0 bitreset 4	// Used to make sure mech1 is dead before triggering the crane to stop.
+		accum 0 bitreset 5	// Used so that mech1_dead is only triggered once.
+		accum 1 set 0
+	}
+
+	trigger v2_spot1
+	{
+		accum 1 set 1
+	}
+
+	trigger v2_spot2
+	{
+		accum 1 set 2
+	}
+
+	trigger v2_spot3
+	{
+		accum 1 set 3
+	}
+
+	trigger v2_spot4
+	{
+		accum 1 set 4
+	}
+
+	trigger v2_spot5
+	{
+		accum 1 set 5
+	}
+
+	trigger v2_spot0a
+	{
+		accum 1 set 6
+	}
+
+	trigger choose_blow
+	{
+		trigger counter2 stop
+		wait 500 0
+		trigger v2_door1 0bitset0
+		wait 5
+		trigger counter4 blow0
+		wait 5
+		trigger counter4 blow0a
+		wait 5
+		trigger counter4 blow1
+		wait 5
+		trigger counter4 blow2
+		wait 5
+		trigger counter4 blow3
+		wait 5
+		trigger counter4 blow4
+	}
+
+	trigger blow0
+	{
+		accum 1 abort_if_not_equal 0
+		alertentity v2_blow1
+		trigger v2_rocket blow0
+		wait 5000
+		trigger player change_music3	// Turns on music3 for blowing up the V2 rocket.
+		alertentity ls_launch_aborted
+		alertentity v2_lights
+		trigger counter4 snd_ls_intruder
+	}
+
+	trigger blow0a
+	{
+		accum 1 abort_if_not_equal 6
+		alertentity v2_blow1
+		trigger v2_rocket blow0a
+		wait 5000
+		trigger player change_music3	// Turns on music3 for blowing up the V2 rocket.
+		alertentity ls_launch_aborted
+		alertentity v2_lights
+		trigger counter4 snd_ls_intruder
+	}
+
+	trigger blow1
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity v2_blow1
+		trigger v2_rocket blow1
+		wait 5000
+		trigger player change_music3	// Turns on music3 for blowing up the V2 rocket.
+		alertentity ls_launch_aborted
+		alertentity v2_lights
+		trigger counter4 snd_ls_intruder
+	}
+
+	trigger blow2
+	{
+		accum 1 abort_if_not_equal 2
+		alertentity v2_blow2
+		trigger v2_rocket blow2
+		wait 5000
+		trigger player change_music3	// Turns on music3 for blowing up the V2 rocket.
+		alertentity ls_launch_aborted
+		alertentity v2_lights
+		trigger counter4 snd_ls_intruder
+	}
+
+	trigger blow3
+	{
+		accum 1 abort_if_not_equal 3	
+		alertentity v2_blow3
+		trigger v2_rocket blow3
+		wait 5000
+		trigger player change_music3	// Turns on music3 for blowing up the V2 rocket.
+		alertentity ls_launch_aborted
+		alertentity v2_lights
+		trigger counter4 snd_ls_intruder
+		wait 1500
+		wait 1500
+		alertentity nazi16
+		alertentity nazi17
+		alertentity nazi18
+		alertentity nazi19
+	}
+
+	trigger blow4
+	{
+		accum 1 abort_if_not_equal 4
+		alertentity v2_blow4
+		trigger v2_rocket blow4
+		wait 5000
+		trigger player change_music3	// Turns on music3 for blowing up the V2 rocket.
+		alertentity ls_launch_aborted
+		alertentity v2_lights
+		trigger counter4 snd_ls_intruder
+		wait 1500
+		wait 1500
+		alertentity nazi16
+		alertentity nazi17
+		alertentity nazi18
+		alertentity nazi19
+	}
+
+	trigger blow_bridge
+	{
+		wait 3000 0
+		alertentity sus_bang
+		trigger sus_bridge go1
+	}
+
+	trigger snd_ls_tower	// This just activates the ls_tower speaker
+	{
+		wait 25000
+		alertentity ls_tower
+	}
+
+	trigger snd_ls_intruder	// This actiavtes the ls_intruder speaker
+	{
+		wait 5000
+		alertentity ls_intruder
+		wait 500
+		alertentity nazi16
+		alertentity nazi17
+		alertentity nazi18
+		alertentity nazi19
+	}
+
+	trigger 0bitset1
+	{
+		accum 0 bitset 1
+	}
+
+	trigger 0bitset3
+	{
+		accum 0 bitset 3
+	}
+
+	trigger 0bitreset3
+	{
+		accum 0 bitset 3
+		wait 5
+		trigger counter4 stop_crane
+	}
+
+	trigger mech1_dead
+	{
+		accum 0 abort_if_bitset 5 // Trigger only once.
+		accum 0 bitset 5
+		accum 0 bitset 4
+		wait 5
+		trigger counter4 stop_crane
+	}
+
+	trigger stop_crane
+	{
+		accum 0 abort_if_bitset 3	//Abort if going down shaft.
+		accum 0 abort_if_not_bitset 4	// Abort if mech1 is not dead
+		accum 0 abort_if_bitset 2	// Only trigger once.
+		accum 0 bitset 2
+		accum 0 abort_if_bitset 1	// Abort if finished with sequence
+		trigger crane1 stop
+		trigger link1 stop
+		trigger link2 stop
+		trigger link3 stop
+		trigger link4 stop
+		trigger link5 stop
+		trigger link6 stop
+		trigger link7 stop
+		trigger link8 stop
+		trigger link9 stop
+		trigger link10 stop
+		trigger link11 stop
+		trigger link12 stop
+		trigger crane1coil stop
+		trigger crane1arm stop
+		trigger fueltank1 stop
+	}
+
+	trigger player_restarted
+	{
+		accum 0 abort_if_bitset 1
+		trigger crane1 resume
+		trigger link1 resume
+		trigger link2 resume
+		trigger link3 resume
+		trigger link4 resume
+		trigger link5 resume
+		trigger link6 resume
+		trigger link7 resume
+		trigger link8 resume
+		trigger link9 resume
+		trigger link10 resume
+		trigger link11 resume
+		trigger link12 resume
+		trigger crane1coil resume	
+		trigger crane1arm resume
+		trigger fueltank1 resume
+		trigger mech2 player_restarted	
+	}
+}
+
+counter5
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used see if the alarm is on or off.
+		accum 0 bitreset 1	// Used so that ls_fueling is triggered once.
+		accum 1 set 0	// Used to count the dead guys at the beginning of the map.
+		accum 2 set 0	// Used to count the dead guys at the end of the map.
+		accum 3 set 0	// Used to count the secret area, 1 for the button, and 1 for the func_explosive.
+	}
+
+	trigger deadman_count
+	{
+		accum 1 inc 1
+		accum 1 abort_if_not_equal 8
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		trigger player change_music4
+	}
+
+	trigger deadman_count2
+	{
+		accum 2 inc 1
+		accum 2 abort_if_not_equal 6
+		trigger player change_music4
+	}
+
+	trigger alarm_on
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		trigger player change_music2
+	}
+
+	trigger snd_fueling
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		alertentity ls_fueling
+		trigger counter4 snd_ls_tower
+	}
+
+	trigger v2_boom	// SINCE V2_ROCKET cannot trigger itself to KILL, this will do it.
+	{
+		wait 5
+		alertentity kill_v2_rocket // Kills rocket
+		alertentity e2_enable_fall // Enables the trigger for the elevator to fall.
+		alertentity rumble2 // Triggers the rumble.
+		alertentity v2_explosion // Triggers the v2_explosions/func_explosives.
+		trigger beam4 go
+		trigger beam5 go
+		trigger beam6 go
+		trigger block1 go
+		trigger block2 go
+		trigger block3 go
+		trigger block4 go
+		trigger block5 go
+		trigger block6 go
+		trigger v2_support go
+		trigger v2_funnel go
+		trigger v2_gangway go
+		wait 5
+		alertentity v2_explosion2 // Triggers some func_explosives.
+		wait 5
+		alertentity v2_explosion3 // Triggers some func_explosives.
+		wait 1000
+		trigger v2_door1 open
+	}
+
+	trigger mech_1_2_talk
+	{
+		wait 5000
+		trigger mech1 talk1
+		wait 4000
+		trigger mech1 talk1b
+		wait 3000
+		trigger mech2 talk1
+		wait 7000
+		trigger mech2 talk1b
+		wait 4500
+		trigger mech1 talk2
+		wait 5300
+		trigger mech1 talk2b
+		wait 3000
+		trigger mech2 talk2
+		wait 2000
+		trigger mech1 talk3
+		wait 1500
+		trigger crane1 lift
+		wait 1500
+	}
+
+	trigger mech2_lower
+	{
+		wait 2000
+		trigger mech2 talk3
+		wait 3500
+		trigger mech2 talk3b
+	}
+
+	trigger secret_count
+	{
+		accum 2 inc 1
+		accum 2 abort_if_not_equal 3
+		wait 5
+		trigger player found_secret1
+	}
+}
+
+fakeradio1
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used to tell what position the transport is in.
+	}
+
+	trigger talk1
+	{
+		playsound sound/scenaric/rocket/mech2pa_affirmative.wav
+	}
+
+	trigger talk2
+	{
+		playsound sound/scenaric/rocket/mech2pa_in_position.wav
+	}
+
+	trigger talk3
+	{
+		playsound sound/scenaric/rocket/mech2pa_acknowledged.wav
+	}
+
+	trigger talk4
+	{
+		playsound sound/scenaric/rocket/mech2pa_almost_here.wav
+	}
+
+	trigger talk5
+	{
+		playsound sound/scenaric/rocket/mech2pa_lower.wav
+	}
+
+	trigger talk6
+	{
+		playsound sound/scenaric/rocket/mech2pa_its_on.wav
+	}
+
+	trigger talk7
+	{
+		playsound sound/scenaric/rocket/mech2pa_hanz_come_in.wav
+	}
+
+	trigger talk8
+	{
+		playsound sound/scenaric/rocket/mech2pa_whats_happening.wav
+	}
+
+	trigger talk9
+	{
+		playsound sound/scenaric/rocket/mech2pa_sending_troops.wav
+	}
+
+	trigger talk10
+	{
+		playsound sound/scenaric/rocket/mech2pa_hanz_you_forgot.wav
+	}
+}
+
+fakeradio2
+{
+	spawn
+	{
+	}
+
+	trigger talk1
+	{
+		playsound sound/scenaric/rocket/mech1pa_crane_connected.wav
+	}
+
+	trigger talk2
+	{
+		playsound sound/scenaric/rocket/mech1pa_has_train_arrived.wav
+	}
+
+	trigger talk3
+	{
+		playsound sound/scenaric/rocket/mech1pa_crane_ready.wav
+	}
+
+	trigger talk4
+	{
+		playsound sound/scenaric/rocket/mech1pa_lifting_container.wav
+	}
+
+	trigger talk5
+	{
+		playsound sound/scenaric/rocket/mech1pa_moving_container.wav
+	}
+
+	trigger talk6
+	{
+		playsound sound/scenaric/rocket/mech1pa_lowering.wav
+	}
+
+	trigger mech1_dead
+	{
+		stopsound
+		resetscript
+	}
+}
+
+
+crane1
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that the crane only triggers once.
+		accum 0 bitreset 1	/// uSed so that lift continues with train after actually on the train and mech1 is dead.
+		wait 5
+		gotomarker c1spot6 1000 wait
+	}
+
+	trigger reset
+	{
+		resetscript
+	}
+
+	trigger 0bitset0
+	{
+		accum 0 bitset 0
+	}
+
+	trigger lift
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		trigger trainlever disabled
+		alertentity crane_siren
+		wait 3000
+		// Lifts FUELTANK UP.
+		playsound sound\scenaric\rocket\crane_start.wav
+		trigger fueltank2 spot1_back
+		wait 300
+		trigger fueltank1 spot1
+		trigger link1 linkup1a
+		playsound sound\scenaric\rocket\crane_loop.wav looping
+		gotomarker c1spot1 20 wait
+		stopsound
+		playsound sound\scenaric\rocket\crane_end.wav
+		wait 5000
+		trigger mech1 talk4	// Tells mech1 to communicate with mech1.
+		playsound sound\scenaric\rocket\crane_move_start.wav
+		wait 300
+		// Moves over the top of the big double doors.
+		trigger link1 linkup3a
+		trigger link2 linkup3a
+		trigger link3 linkup3a
+		trigger link4 linkup3a
+		trigger link5 linkup3a
+		trigger link6 linkup3a
+		trigger link7 linkup3a
+		trigger link8 linkup3a
+		trigger link9 linkup3a
+		trigger link10 linkup3a
+		trigger link11 linkup3a
+		trigger link12 linkup3a
+		trigger crane1coil spot2
+		trigger fueltank1 spot2
+		trigger crane1arm spot2
+		playsound sound\scenaric\rocket\crane_move_loop.wav looping
+		gotomarker c1spot2 30 wait
+		stopsound
+		playsound sound\scenaric\rocket\crane_move_end.wav
+		trigger mech1 talk5	// Mech1 comunicating with mech2.
+		wait 1000
+		trigger crane1 lower0
+	}
+
+	trigger lower0	//the above event is long, so I made this one.
+	{
+		playsound sound\scenaric\rocket\crane_move_start.wav
+		wait 300
+		// Centers into position.
+		trigger link1 linkup2
+		trigger link2 linkup2
+		trigger link3 linkup2
+		trigger link4 linkup2
+		trigger link5 linkup2
+		trigger link6 linkup2
+		trigger link7 linkup2
+		trigger link8 linkup2
+		trigger link9 linkup2
+		trigger link10 linkup2
+		trigger link11 linkup2
+		trigger link12 linkup2
+		trigger crane1coil spot3
+		trigger fueltank1 spot3
+		playsound sound\scenaric\rocket\crane_move_loop.wav looping
+		gotomarker c1spot3 30 wait
+		stopsound
+		playsound sound\scenaric\rocket\crane_move_end.wav
+		alertentity cdoor1relay
+		alertentity cdoor2relay
+		wait 1000	
+		trigger crane1 lower
+	}
+
+	trigger lower
+	{
+		wait 5000
+		// Lowers down
+		playsound sound\scenaric\rocket\crane_start.wav
+		wait 300
+		trigger counter4 0bitset3	// Used to disable the "stopping" of the crane while going down the shaft.
+		trigger nazi3 back_to_marchloop1
+		trigger link1 spot1
+		wait 2
+		trigger fueltank1 spot4
+		playsound sound\scenaric\rocket\crane_loop.wav looping
+		gotomarker c1spot4 30 wait
+		stopsound
+		playsound sound\scenaric\rocket\crane_load_end.wav
+		trigger trainlever enabled2
+		trigger mech2 talk4
+		wait 3000
+		// pulls away.
+		playsound sound\scenaric\rocket\crane_move_start.wav
+		wait 300
+		trigger counter4 0bitreset3 // Used to re-enable the "stopping" of the crane
+		trigger mech2 0bitset0
+		trigger link1 spot2
+		trigger link2 spot2
+		trigger link3 spot2
+		trigger link4 spot2
+		trigger link5 spot2
+		trigger link6 spot2
+		trigger link7 spot2
+		trigger link8 spot2
+		trigger link9 spot2
+		trigger link10 spot2
+		trigger link11 spot2
+		trigger link12 spot2
+		trigger crane1coil spot2
+		playsound sound\scenaric\rocket\crane_move_loop.wav looping
+		gotomarker c1spot5 30 wait
+		stopsound
+		playsound sound\scenaric\rocket\crane_move_end.wav
+		accum 0 bitset 1
+		wait 3000
+		trigger mech2 train_go
+		wait 1000
+		trigger crane1 lower1
+	}
+
+	trigger lower1
+	{
+		// Raises back up.
+		playsound sound\scenaric\rocket\crane_start.wav
+		wait 300
+		trigger link1 linkup3
+		trigger link2 linkup3
+		trigger link3 linkup3
+		trigger link4 linkup3
+		trigger link5 linkup3
+		trigger link6 linkup3
+		trigger link7 linkup3
+		trigger link8 linkup3
+		trigger link9 linkup3
+		trigger link10 linkup3
+		trigger link11 linkup3
+		trigger link12 linkup3
+		playsound sound\scenaric\rocket\crane_loop.wav looping
+		gotomarker c1spot2 50 wait
+		stopsound
+		playsound sound\scenaric\rocket\crane_end.wav
+		alertentity cdoor1relay
+		alertentity cdoor2relay
+		wait 500
+		trigger mech2 0bitset7
+		// Goes back to resting spot.
+		playsound sound\scenaric\rocket\crane_move_start.wav
+		wait 300
+		trigger link1 linkup1
+		trigger link2 linkup1
+		trigger link3 linkup1
+		trigger link4 linkup1
+		trigger link5 linkup1
+		trigger link6 linkup1
+		trigger link7 linkup1
+		trigger link8 linkup1
+		trigger link9 linkup1
+		trigger link10 linkup1
+		trigger link11 linkup1
+		trigger link12 linkup1
+		trigger crane1coil spot1
+		trigger crane1arm spot1
+		trigger counter4 0bitset1 // This tells b the crane is done.
+		playsound sound\scenaric\rocket\crane_move_loop.wav looping
+		gotomarker c1spot1 50 deccel wait
+		stopsound
+		playsound sound\scenaric\rocket\crane_move_end.wav
+		alertentity crane_siren
+		wait 500
+		resetscript
+		trigger mech1 stop_crane
+	}
+
+	// PUT IN USE WHEN WE GET THE "TRIGGER_HOLD" ENTITY.
+	trigger stop
+	{
+		accum 0 abort_if_bitset 1
+		trigger trainlever enabled
+		stopsound
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+crane1coil
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger set0to1
+	{
+		accum 0 set 1
+	}
+
+	trigger spot2
+	{
+		gotomarker c1spot2 30 wait
+		resetscript
+	}
+
+	trigger spot3
+	{
+		gotomarker c1spot3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker c1spot1 50 deccel wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+crane1arm
+{
+	spawn
+	{
+	}
+
+	trigger spot1
+	{
+		gotomarker c1spot1 50 deccel wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker c1spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+fueltank1
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that it only triggers once.
+	}
+
+	trigger spot1
+	{
+
+		trigger fueltank2 spot1
+		gotomarker ftspot1 20 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		trigger fueltank2 spot2
+		gotomarker ftspot2 30 wait
+		resetscript		
+	}
+
+	trigger spot3
+	{
+		trigger fueltank2 spot3
+		gotomarker ftspot3 30 wait
+		resetscript
+	}
+
+	trigger spot4
+	{
+		trigger fueltank2 spot4
+		gotomarker ftspot4 30 wait
+		resetscript
+		wait 4000
+	}
+
+	trigger straight1
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		trigger fueltank2 straight1
+		wait 2000
+		gotomarker ftankspot1 50
+		faceangles 0 0 0 gototime
+		gotomarker ftankspot2 50
+		faceangles 0 0 0 gototime
+		trigger fueltank2 turn1
+		trigger fueltank1 turn1
+	}
+
+	trigger turn1
+	{
+		gotomarker ftankspot3 50
+		faceangles 0 -5 0 gototime
+		gotomarker ftankspot4 60
+		faceangles 0 -10 0 gototime
+		gotomarker ftankspot5 70
+		faceangles 0 -22 0 gototime
+		gotomarker ftankspot6 80
+		faceangles 0 -36 0 gototime
+		gotomarker ftankspot7 90
+		faceangles 0 -52 0 gototime
+		gotomarker ftankspot8 100
+		faceangles 0 -64 0 gototime
+		gotomarker ftankspot9 110
+		faceangles 0 -74 0 gototime
+		gotomarker ftankspot10 120
+		faceangles 0 -85 0 gototime
+		gotomarker ftankspot11 130
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 straight2
+		trigger fueltank1 straight2
+	}
+
+	trigger straight2
+	{
+		gotomarker ftankspot12 140
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot13 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 straight2_back
+		gotomarker ftankspot16 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 sturn1
+		trigger fueltank1 sturn1
+	}
+
+	trigger sturn1
+	{
+		gotomarker ftankspot17 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot18 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot19 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot20 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot21 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot22 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot23 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot24 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot25 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot26 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot27 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot28 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot29 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot30 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot31 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot32 150
+		faceangles 0 -100 0 gototime
+		trigger fueltank2 sturn1_back
+		gotomarker ftankspot33 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 straight3
+		trigger fueltank1 straight3
+	}
+
+	trigger straight3
+	{
+		gotomarker ftankspot34 125
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot35 100
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot36 75
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot37 75
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot38 100
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot39 125
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot40 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 straight3_back
+		gotomarker ftankspot41 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 turn2
+		trigger fueltank1 turn2
+	}
+
+	trigger turn2
+	{
+		gotomarker ftankspot42 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot43 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot44 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot45 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot46 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot47 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot48 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot49 150
+		faceangles 0 -170 0 gototime
+		trigger fueltank2 turn2_back
+		gotomarker ftankspot50 150
+		faceangles 0 -180 0 gototime
+		trigger fueltank2 straight4
+		trigger fueltank1 straight4
+	}
+
+	trigger straight4
+	{
+		gotomarker ftankspot51 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot52 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot53 150
+		faceangles 0 -180 0 gototime
+		trigger fueltank2 straight4_back
+		gotomarker ftankspot54 150
+		faceangles 0 -180 0 gototime
+		trigger fueltank2 turn3
+		trigger fueltank1 turn3
+	}
+
+	trigger turn3
+	{
+		gotomarker ftankspot55 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot56 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot57 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot58 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot59 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot60 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot61 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot62 150
+		faceangles 0 -100 0 gototime
+		trigger fueltank2 turn3_back
+		gotomarker ftankspot63 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 straight5
+		trigger fueltank1 straight5
+	}
+
+	trigger straight5
+	{
+		gotomarker ftankspot64 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot65 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot66 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 straight5_back
+		gotomarker ftankspot67 150
+		faceangles 0 -90 0 gototime
+		trigger fueltank2 turn4
+		trigger fueltank1 turn4
+	}
+
+	trigger turn4
+	{
+		gotomarker ftankspot68 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot69 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot70 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot71 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot72 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot73 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot74 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot75 150
+		faceangles 0 -170 0 gototime
+		trigger fueltank2 turn4_back
+		gotomarker ftankspot76 150
+		faceangles 0 -180 0 gototime
+		trigger fueltank2 straight6
+		trigger fueltank1 straight6
+	}
+
+	trigger straight6
+	{
+		gotomarker ftankspot77 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot78 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot79 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot86 150 deccel
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger stop
+	{
+		halt
+		trigger fueltank2 stop
+	}
+
+	trigger resume
+	{
+	}
+}
+
+fueltank2
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that it only triggers once.
+		accum 0 bitreset 1	// Used so that it only goes_away once, until it returns
+		accum 0 bitreset 2	// Used to say go back or not.
+		accum 0 bitreset 3	// Used to either stay on track or not.
+	}
+
+	trigger spot1
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftspot1 20 wait
+		resetscript
+	}
+
+	trigger spot1_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ft2spot1 500000 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		accum 0 abort_if_bitset 2
+		gotomarker ftspot1 500000 wait
+		gotomarker ftspot2 30 wait
+		resetscript		
+	}
+
+	trigger spot3
+	{
+		accum 0 abort_if_bitset 2
+		gotomarker ftspot2 500000 wait
+		gotomarker ftspot3 30 wait
+		resetscript
+	}
+
+	trigger spot4
+	{
+		accum 0 abort_if_bitset 2
+		gotomarker ftspot3 500000 wait
+		gotomarker ftspot4 30 wait
+		resetscript
+		wait 4000
+	}
+
+	trigger go_away
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		accum 0 bitset 2
+		accum 0 bitset 3
+		halt
+		resetscript
+		gotomarker ft2spot 50000 wait
+		wait 10000
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+	}
+
+	trigger straight1
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		accum 0 abort_if_bitset 2
+		gotomarker ftspot4 500000 wait
+		wait 2000
+		gotomarker ftankspot1 50
+		faceangles 0 0 0 gototime
+		gotomarker ftankspot2 50
+		faceangles 0 0 0 gototime
+	}
+
+	trigger turn1
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot3 50
+		faceangles 0 -5 0 gototime
+		gotomarker ftankspot4 60
+		faceangles 0 -10 0 gototime
+		gotomarker ftankspot5 70
+		faceangles 0 -22 0 gototime
+		gotomarker ftankspot6 80
+		faceangles 0 -36 0 gototime
+		gotomarker ftankspot7 90
+		faceangles 0 -52 0 gototime
+		gotomarker ftankspot8 100
+		faceangles 0 -64 0 gototime
+		gotomarker ftankspot9 110
+		faceangles 0 -74 0 gototime
+		gotomarker ftankspot10 120
+		faceangles 0 -85 0 gototime
+		gotomarker ftankspot11 130
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger straight2
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot12 140
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot13 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot16 150
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger straight2_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot16 50000
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger sturn1
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot17 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot18 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot19 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot20 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot21 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot22 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot23 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot24 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot25 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot26 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot27 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot28 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot29 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot30 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot31 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot32 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot33 150
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger sturn1_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot33 50000
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger straight3
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot34 125
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot35 100
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot36 75
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot37 75
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot38 100
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot39 125
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot40 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot41 150
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger straight3_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot41 50000
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger turn2
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot42 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot43 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot44 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot45 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot46 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot47 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot48 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot49 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot50 150
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger turn2_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot50 50000
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger straight4
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot51 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot52 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot53 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot54 150
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger straight4_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot54 5000
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger turn3
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot55 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot56 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot57 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot58 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot59 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot60 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot61 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot62 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot63 150
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger turn3_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot63 50000
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger straight5
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot64 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot65 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot66 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot67 150
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger straight5_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot67 50000
+		faceangles 0 -90 0 gototime
+	}
+
+	trigger turn4
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot68 150
+		faceangles 0 -100 0 gototime
+		gotomarker ftankspot69 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot70 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot71 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot72 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot73 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot74 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot75 150
+		faceangles 0 -170 0 gototime
+		gotomarker ftankspot76 150
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger turn4_back
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitreset 3
+		gotomarker ftankspot76 50000
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger straight6
+	{
+		accum 0 abort_if_bitset 3
+		gotomarker ftankspot77 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot78 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot79 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot86 150 deccel
+		faceangles 0 -180 0 gototime
+	}
+
+	trigger stop
+	{
+		halt
+	}
+}
+
+
+link1
+{
+	spawn
+	{
+		wait 5
+		gotomarker link1spot1a 1000
+	}
+
+	trigger linkup1a
+	{
+		gotomarker linkup1 20 wait
+		resetscript
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{ 
+		gotomarker link12spot1 30 wait
+		trigger link2 spot1
+		gotomarker link1spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link1spot2 30 wait
+		resetscript
+	}
+
+	trigger spot1a
+	{
+		gotomarker link1spot1a 50 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link2
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1a
+	{
+		gotomarker linkup1 20 wait
+		resetscript
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link3 spot1
+		gotomarker link2spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link2spot2 30 wait
+		resetscript
+	}
+
+	trigger spot1a
+	{
+		gotomarker link2spot1a 50 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link3
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger counter5 mech2_lower
+		trigger link4 spot1
+		gotomarker link3spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link3spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link4
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link5 spot1
+		gotomarker link4spot1 30 wait
+		resetscript	
+	}
+
+	trigger spot2
+	{
+		gotomarker link4spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link5
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link6 spot1
+		gotomarker link5spot1 30 wait
+		resetscript	
+	}
+
+	trigger spot2
+	{
+		gotomarker link5spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link6
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link7 spot1
+		gotomarker link6spot1 30 wait
+		resetscript	
+	}
+
+	trigger spot2
+	{
+		gotomarker link6spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link7
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link8 spot1
+		gotomarker link7spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link7spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link8
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link9 spot1
+		gotomarker link8spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link8spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link9
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link10 spot1
+		gotomarker link9spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link9spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link10
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link11 spot1
+		gotomarker link10spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link10spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link11
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		trigger link12 spot1
+		gotomarker link11spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link11spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+link12
+{
+	spawn
+	{
+		wait 5
+		gotomarker linkup1 1000
+	}
+
+	trigger linkup1
+	{
+		gotomarker linkup1 50 deccel wait
+		resetscript
+	}
+
+	trigger linkup2
+	{
+		gotomarker linkup2 30 wait
+		resetscript
+	}
+
+	trigger linkup3
+	{
+		gotomarker linkup3 50 wait
+		resetscript
+	}
+
+	trigger linkup3a
+	{
+		gotomarker linkup3 30 wait
+		resetscript
+	}
+
+	trigger spot1
+	{
+		gotomarker link12spot1 30 wait
+		resetscript
+	}
+
+	trigger spot2
+	{
+		gotomarker link12spot2 30 wait
+		resetscript
+	}
+
+	trigger stop
+	{
+		halt
+	}
+
+	trigger resume
+	{
+	}
+}
+
+locker_door1
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		wait 5
+		faceangles 0 23 0 10
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger locker_door1 open
+		wait 5
+		trigger locker_door1 close
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound sound/scenaric/rocket/locker_open.wav
+		faceangles 0 145 0 1000
+	}
+
+	trigger close
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		playsound sound/scenaric/rocket/locker_close.wav
+		faceangles 0 0 0 1000
+	}
+}
+
+elevator1	// The first elevator you run into in the map.
+{
+
+	spawn
+	{
+		accum 0 bitreset 0	// Used so the soundloop will only be triggered when needed.
+	}
+
+
+	trigger stop	// This stops the elevator in it's tracks.
+	{
+		accum 0 bitset 0
+		wait 5
+		stopsound
+		playsound sound\movers\elevators\elev1_end.wav
+		halt
+		resetscript
+	}
+
+	trigger soundloop
+	{
+		accum 0 abort_if_bitset 0
+		playsound sound\movers\elevators\elev1_loop.wav LOOPING
+	}
+
+	trigger up	// This moves the elevator up.
+	{
+		accum 0 bitreset 0
+		wait 5
+		playsound sound\movers\elevators\elev1_start.wav
+		trigger e1lever1 up	// This triggers the lever to move up with the elevator.
+		trigger counter1 elevator1_soundloop
+		gotomarker e1up1 75 wait
+		gotomarker e1up4 75 deccel wait
+		trigger counter3 0bitset1	// Used so that Nazi2a knows where the elevator is.
+		stopsound
+		playsound sound\movers\elevators\elev1_end.wav
+	}
+
+	trigger down	// This moves the elevator down
+	{
+		accum 0 bitreset 0
+		wait 5
+		playsound sound\movers\elevators\elev1_start.wav
+		trigger e1lever1 down	// This trigger the lever to mvoe down with the elevator.
+		trigger counter1 elevator1_soundloop
+		gotomarker e1down1 75 wait
+		gotomarker e1down4 75 deccel wait
+		trigger counter3 0bitreset1	// Used so that nazi2a knows where the elevator is.
+		stopsound
+		playsound sound\movers\elevators\elev1_end.wav
+	}
+}
+
+e1upbtn
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitreset 1
+		wait 5
+		gotomarker e1upbtnspot2 10
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger e1upbtn beep
+		wait 5
+		trigger e1upbtn up
+	}
+
+	trigger beep
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+	}
+	
+	trigger up
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		resetscript
+		trigger e1lever1 reset //COOP
+		wait 10
+		trigger e1lever1 up2	// This triggers the lever to go down.
+	}
+
+	trigger on	// Player has touched the button
+	{
+		accum 0 bitset 0
+		accum 0 bitreset 1
+		gotomarker e1upbtnspot1 10 wait
+	}
+
+	trigger off 	// Player has not touched the button
+	{
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		playsound basein_switch
+		gotomarker e1upbtnspot2 10 wait
+	}
+}
+
+e1dwnbtn
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitreset 1
+		wait 5
+		gotomarker e1dwnbtnspot2 10 wait
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger e1dwnbtn beep
+		wait 5
+		trigger e1dwnbtn down
+	}
+
+	trigger beep
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+	}
+	
+	trigger down
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		resetscript
+		trigger e1lever1 reset //COOP
+		wait 10
+		trigger e1lever1 down2	// This triggers the lever to go down.
+	}
+
+	trigger on	// Player has touched the button
+	{
+		accum 0 bitset 0
+		accum 0 bitreset 1
+		gotomarker e1dwnbtnspot1 10 wait
+	}
+
+	trigger off 	// Player has not touched the button
+	{
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		playsound basein_switch
+		gotomarker e1dwnbtnspot2 10 wait
+	}
+}
+
+e1lever1	// This is the elevator's lever. 
+{
+	spawn
+	{
+		accum 0 bitset 0 	// Accum value so that it knows to Stop.
+		accum 0 bitreset 1	// Accum value so that it knows to go Down.
+		accum 0 bitset 2	// Accum value so that it knows to go Up.
+		accum 1 set 0		// Checks to see what direction the elevator is going. (1 up, 2 down, 3 stop)
+		//wait 5
+		//alertentity e1updisable
+		//print UPDISABLE
+	}
+
+	trigger toggle
+	{
+		wait 5
+		trigger e1lever1 stop
+		wait 5
+		trigger e1lever1 up2
+		wait 5
+		trigger e1lever1 down2
+	}
+
+	trigger toggle_by_ai
+	{
+		wait 500
+		trigger e1lever1 stop
+		wait 5
+		trigger e1lever1 up2
+		wait 5
+		trigger e1lever1 down2
+	}
+
+	trigger stop	// This triggers everything to stop.
+	{
+		accum 0 abort_if_bitset 0
+		resetscript
+		accum 0 bitset 0
+//		trigger e1lever1 check	
+		wait 5	
+		trigger e1lever1 upstop // Checks to see what direction the elevator is heading.
+		wait 5
+		trigger e1lever1 downstop	
+	}
+
+	trigger upstop
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		//alertentity e1downdisable
+		//print DOWNDISABLE
+		trigger elevator1 stop	// Triggers the elevator to stop.
+		playsound sound\scenaric\rocket\elev_lever.wav
+		wait 5
+		halt
+		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger player enable_e1uplever
+		trigger player enable_e1downlever
+		trigger e1upbtn on
+		trigger e1dwnbtn on
+//COOP
+	}
+
+	trigger downstop
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		//alertentity e1updisable
+		//print UPDISABLE
+		trigger elevator1 stop	// Triggers the elevator to stop.
+		playsound sound\scenaric\rocket\elev_lever.wav
+		wait 5
+		halt
+		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger player enable_e1uplever
+		trigger player enable_e1downlever
+		trigger e1upbtn on
+		trigger e1dwnbtn on
+//COOP
+	}
+
+//COOP This is a cheap workaround, shame on me - Sage//
+//Forget up/down status when exec not in elevator (for 10 ms)
+
+	trigger reset
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+	}
+
+//COOP------------------------------------------------//
+
+	trigger up2
+	{
+		accum 0 abort_if_bitset 1
+		resetscript
+		accum 0 bitreset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+		wait 20
+		trigger e1upbtn off	// Turns off the UPBTN light
+		trigger e1dwnbtn off	//COOP
+		faceangles -20 0 0 750
+		trigger elevator1 up
+	}
+
+	trigger down2
+	{
+		accum 0 abort_if_bitset 2
+		resetscript
+		accum 0 bitreset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+		wait 20
+		trigger e1dwnbtn off	// Turns off the DWNBTN light.
+		trigger e1upbtn off	//COOP
+		playsound sound\scenaric\rocket\elev_lever.wav
+		faceangles 20 0 0 750
+		trigger elevator1 down	
+	}
+
+	trigger up	// Triggers the Lever to go up with the elevator.
+	{
+		accum 1 set 1
+		accum 0 bitreset 2
+		//alertentity e1updisable
+		trigger player disable_e1uplever		//COOP
+		trigger player disable_e1downlever
+		gotomarker e1lvr1up1 75 wait
+		accum 0 bitset 0
+		gotomarker e1lvr1up4 75 deccel wait
+		wait 200
+		playsound sound\scenaric\rocket\elev_lever.wav
+		faceangles 0 0 0 400
+		//alertentity e1downdisable
+		trigger player enable_e1uplever
+		trigger e1upbtn off
+		trigger e1dwnbtn on
+	}
+
+	trigger down	// Triggers the Lever to go up with the elevator.
+	{
+		accum 1 set 2
+		accum 0 bitreset 1
+		//alertentity e1downdisable
+		trigger player disable_e1downlever	//COOP
+		trigger player disable_e1uplever
+		gotomarker e1lvr1down1 75 wait
+		accum 0 bitset 0
+		gotomarker e1lvr1down4 75 deccel wait
+		wait 200
+		playsound sound\scenaric\rocket\elev_lever.wav
+		faceangles 0 0 0 400
+		//alertentity e1updisable
+		trigger player enable_e1downlever
+		trigger e1dwnbtn off
+		trigger e1upbtn on
+	}
+}
+
+
+// ELEVATOR 2
+
+elevator2	// The 2nd elevator you run into in the map.
+{
+
+	spawn
+	{
+		accum 0 bitreset 0	//Used so that nazi14 and nazi15 are triggered only once.
+		accum 0 bitreset 1
+	}
+
+
+	trigger stop	// This stops the elevator in it's tracks.
+	{
+		accum 0 bitset 1
+		wait 5
+		stopsound
+		playsound sound\movers\elevators\elev1_end.wav
+		halt
+		resetscript
+	}
+
+	trigger soundloop
+	{
+		accum 0 abort_if_bitset 1
+		playsound sound\movers\elevators\elev1_loop.wav LOOPING
+	}
+
+	trigger up	// This moves the elevator up.
+	{
+		accum 0 bitreset 1
+		wait 5
+		playsound sound\movers\elevators\elev1_start.wav
+		trigger e2lever1 up	// This triggers the lever to move up with the elevator.
+		trigger counter1 elevator2_soundloop
+		gotomarker e2up1 75 wait
+		gotomarker e2up4 75 deccel wait
+		stopsound
+		playsound sound\movers\elevators\elev1_end.wav
+	}
+
+	trigger down	// This moves the elevator down
+	{
+		accum 0 bitreset 1
+		wait 5
+		playsound sound\movers\elevators\elev1_start.wav
+		trigger e2lever1 down	// This trigger the lever to mvoe down with the elevator.
+		trigger counter1 elevator2_soundloop
+		gotomarker e2down1 75 wait
+		gotomarker e2down4 75 deccel wait
+		stopsound
+		playsound sound\movers\elevators\elev1_end.wav
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		trigger nazi12 go
+		trigger nazi13 go
+	}
+
+	trigger fall
+	{
+		trigger e2upbtn e2_destroyed
+		trigger e2dwnbtn e2_destroyed
+		trigger e2lever1 fall
+		playsound sound/scenaric/rocket/elevator_fall_loop.wav looping
+		alertentity kill_elev2
+		gotomarker e2down4 500 accel wait
+		stopsound
+		alertentity e2_debris
+		playsound sound/scenaric/rocket/elevator_crash.wav
+		gotomarker e2down2 500
+		faceangles 7 37 -5 gototime
+	}
+}
+
+e2upbtn
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitreset 1
+		accum 0 bitreset 2	// Used so if the elevator is "destroyed" the player will not be able to hit the button.
+		wait 5
+		gotomarker e2upbtnspot2 10 wait
+	}
+
+	trigger toggle
+	{
+		accum 0 abort_if_bitset 2
+		wait 5
+		trigger e2upbtn beep
+		wait 5
+		trigger e2upbtn up
+	}
+
+	trigger beep
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+	}
+	
+	trigger up
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		resetscript
+
+		trigger e2lever1 reset //COOP
+		wait 5
+		trigger e2lever1 up2	// This triggers the lever to go down.
+	}
+
+	trigger on	// Player has touched the button
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitset 0
+		accum 0 bitreset 1
+		gotomarker e2upbtnspot1 10 wait
+	}
+
+
+	trigger off 	// Player has not touched the button
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		playsound basein_switch
+		gotomarker e2upbtnspot2 10 wait
+	}
+
+	trigger e2_destroyed
+	{
+		accum 0 bitset 2
+	}
+}
+
+e2dwnbtn
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitreset 2	// Used so if the elevator is "destroyed" the player will not be able to hit the button.
+		wait 5
+		gotomarker e2dwnbtnspot2 10 wait
+	}
+
+	trigger toggle
+	{
+		accum 0 abort_if_bitset 2
+		wait 5
+		trigger e2dwnbtn beep
+		wait 5
+		trigger e2dwnbtn down
+	}
+
+	trigger beep
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+		faceangles 0 0 0 2
+	}
+	
+	trigger down
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		resetscript
+
+		trigger e2lever1 reset //COOP
+		wait 5
+		trigger e2lever1 down2	// This triggers the lever to go down.
+	}
+
+	trigger on	// Player has touched the button
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitset 0
+		accum 0 bitreset 1
+		playsound basein_switch
+		gotomarker e2dwnbtnspot1 10 wait
+	}
+
+	trigger off 	// Player has not touched the button
+	{
+		accum 0 abort_if_bitset 2
+		faceangles 0 0 0 2
+		accum 0 bitset 1
+		accum 0 bitreset 0
+		gotomarker e2dwnbtnspot2 10 wait
+	}
+
+	trigger e2_destroyed
+	{
+		accum 0 bitset 2
+	}
+}
+
+e2lever1	// This is the elevator's lever. 
+{
+	spawn
+	{
+		accum 0 bitset 0 	// Accum value so that it knows to Stop.
+		accum 0 bitset 1		// Accum value so that it knows to go UP.
+		accum 0 bitreset 2	// Accum value so that it knows to go DOWN.
+		accum 0 bitreset 3	// Used so if the elevator is "destroyed" the player will not be able to hit the button.
+		accum 1 set 0		// Checks to see what direction the elevator is going. (1 up, 2 down, 3 stop)
+	}
+
+	trigger toggle
+	{
+		accum 0 abort_if_bitset 3
+		wait 5
+		trigger e2lever1 stop
+		wait 5
+		trigger e2lever1 up2
+		wait 5
+		trigger e2lever1 down2
+	}
+
+	trigger toggle_by_ai
+	{
+		accum 0 abort_if_bitset 3
+		wait 500
+		trigger e2lever1 stop
+		wait 5
+		trigger e2lever1 up2
+		wait 5
+		trigger e2lever1 down2
+	}
+
+	trigger stop	// This triggers everything to stop.
+	{
+		accum 0 abort_if_bitset 0
+		resetscript
+		accum 0 bitset 0
+//		trigger e2lever1 check //Not used - Sage
+		wait 5	
+		trigger e2lever1 upstop // Checks to see what direction the elevator is heading.
+		wait 5
+		trigger e2lever1 downstop	
+	}
+
+	trigger upstop
+	{
+		accum 0 abort_if_bitset 3
+		accum 1 abort_if_not_equal 1
+		resetscript
+		trigger elevator2 stop	// Triggers the elevator to stop.
+		playsound sound\scenaric\rocket\elev_lever.wav
+		wait 5
+		halt
+		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger truckdoor enable_e2uplever	//coop
+		trigger truckdoor enable_e2downlever
+		trigger e2upbtn on
+		trigger e2dwnbtn on
+//COOP
+	}
+
+	trigger downstop
+	{
+		accum 0 abort_if_bitset 3
+		accum 1 abort_if_not_equal 2
+		resetscript
+		trigger elevator2 stop	// Triggers the elevator to stop.
+		playsound sound\scenaric\rocket\elev_lever.wav
+		wait 5
+		halt
+		faceangles 0 0 0 400
+
+//COOP:
+//Sage - Allow operating from up/down so we won't stuck
+		wait 100
+		trigger truckdoor enable_e2uplever	//coop
+		trigger truckdoor enable_e2downlever
+		trigger e2upbtn on
+		trigger e2dwnbtn on
+//COOP
+	}
+
+//COOP This is a cheap workaround, shame on me - Sage//
+//Forget up/down status when exec not in elevator (for 10 ms)
+
+	trigger reset
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+	}
+
+//COOP------------------------------------------------//
+
+	trigger up2
+	{
+		accum 0 abort_if_bitset 1
+		resetscript
+		accum 0 bitreset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+		wait 20
+		trigger e2upbtn off	// Turns off the UPBTN light
+		trigger e2dwnbtn off	//COOP
+		playsound sound\scenaric\rocket\elev_lever.wav
+		faceangles -20 0 0 750
+		trigger elevator2 up
+	}
+
+	trigger down2
+	{
+		accum 0 abort_if_bitset 2
+		resetscript
+		accum 0 bitreset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+		wait 20
+		trigger e2dwnbtn off	// Turns off the DWNBTN light.
+		trigger e2upbtn off	//COOP
+		playsound sound\scenaric\rocket\elev_lever.wav
+		faceangles 20 0 0 750
+		trigger elevator2 down	
+	}
+
+	trigger up	// Triggers the Lever to go up with the elevator.
+	{
+		accum 0 abort_if_bitset 3
+		accum 1 set 1
+		accum 0 bitreset 2
+		//alertentity e2updisable
+		trigger truckdoor disable_e2uplever	//coop
+		trigger truckdoor disable_e2downlever
+		gotomarker e2lvr1up1 75 wait
+		accum 0 bitset 0
+		gotomarker e2lvr1up4 75 deccel wait
+		wait 20
+		wait 200
+		playsound sound\scenaric\rocket\elev_lever.wav
+		faceangles 0 0 0 400
+		//alertentity e2downdisable
+		trigger truckdoor enable_e2uplever
+		trigger e2upbtn off
+		trigger e2dwnbtn on
+	}
+
+	trigger down	// Triggers the Lever to go up with the elevator.
+	{
+		accum 0 abort_if_bitset 3
+		accum 1 set 2
+		accum 0 bitreset 1
+		//alertentity e2downdisable
+		trigger truckdoor disable_e2downlever	 //coop
+		trigger truckdoor disable_e2uplever
+		gotomarker e2lvr1down1 75 wait
+		accum 0 bitset 0
+		gotomarker e2lvr1down4 75 deccel wait
+		wait 200
+		playsound sound\scenaric\rocket\elev_lever.wav
+		faceangles 0 0 0 400
+		//alertentity e2updisable
+		trigger truckdoor enable_e2downlever
+		trigger e2dwnbtn off
+		trigger e2upbtn on
+	}
+
+	trigger fall
+	{
+		accum 0 bitset 3
+		gotomarker e2down4 500 accel
+		faceangles 33 66 59 gototime
+	}
+}
+
+trainlever
+{
+	spawn
+	{
+		accum 0 bitset 0	// Means that the CRANE is not finished positioning crate.
+		accum 0 bitreset 1	// Means that the train will not trigger more than once.
+		accum 0 bitset 2
+		wait 5
+		alertentity alert_train_button
+		alertentity train_lights
+		faceangles 0 0 -60 10
+	}
+
+	trigger enabled
+	{
+		alertentity train_lights
+		accum 0 bitset 0
+	}
+
+	trigger enabled2
+	{
+		alertentity train_lights
+		accum 0 bitset 0
+		accum 0 bitreset 2
+	}
+
+	trigger disabled
+	{
+		alertentity train_lights
+		accum 0 bitreset 0
+	}
+
+	trigger 0bitreset2
+	{
+		accum 0 bitreset 2
+	}
+
+	trigger go
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 abort_if_bitset 1
+		accum 0 bitreset 0
+		accum 0 bitset 1
+		faceangles 0 0 20 2000
+		trigger train1 straight1
+		trigger crane1 0bitset0
+		accum 0 abort_if_bitset 2
+		trigger fueltank1 straight1
+	}
+
+	trigger go_by_mech2
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 abort_if_bitset 1
+		accum 0 bitreset 0
+		accum 0 bitset 1
+		wait 1000
+		faceangles 0 0 20 2000
+		trigger crane1 0bitset0
+		trigger train1 straight1
+		accum 0 abort_if_bitset 2
+		trigger fueltank1 straight1
+	}
+}
+
+train1
+{
+	spawn
+	{
+		accum 0 bitreset 0
+	}
+
+	trigger straight1
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		trigger traingear rotate1
+		wait 2000
+		playsound sound/scenaric/rocket/elec_train_start.wav
+		gotomarker ftankspot1 50
+		faceangles 0 0 0 gototime
+		playsound sound/scenaric/rocket/elec_train_loop.wav looping
+		gotomarker ftankspot2 50
+		faceangles 0 0 0 gototime
+		trigger train1 turn1
+	}
+
+	trigger turn1
+	{
+		trigger trainrw right_15
+		gotomarker ftankspot3 50
+		faceangles 0 -5 0 gototime
+		trigger trainfw right_15
+		gotomarker ftankspot4 60
+		faceangles 0 -10 0 gototime
+		gotomarker ftankspot5 70
+		trigger traingear rotate2
+		faceangles 0 -22 0 gototime
+		gotomarker ftankspot6 80
+		faceangles 0 -36 0 gototime
+		gotomarker ftankspot7 90
+		trigger traingear rotate3
+		faceangles 0 -52 0 gototime
+		gotomarker ftankspot8 100
+		faceangles 0 -64 0 gototime
+		gotomarker ftankspot9 110
+		faceangles 0 -74 0 gototime
+		trigger traingear rotate4
+		trigger trainrw center
+		gotomarker ftankspot10 120
+		faceangles 0 -85 0 gototime
+		trigger trainfw center
+		gotomarker ftankspot11 130
+		trigger traingear rotate5
+		faceangles 0 -90 0 gototime
+		trigger train1 straight2
+	}
+
+	trigger straight2
+	{
+		gotomarker ftankspot12 140
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot13 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot16 150
+		trigger traingear rotate6
+		faceangles 0 -90 0 gototime
+		trigger train1 sturn1
+	}
+
+	trigger sturn1
+	{
+		trigger trainrw right_15
+		gotomarker ftankspot17 150
+		faceangles 0 -100 0 gototime
+		trigger trainfw right_15
+		gotomarker ftankspot18 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot19 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot20 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot21 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot22 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot23 150
+		faceangles 0 -160 0 gototime
+		trigger trainrw center
+		gotomarker ftankspot24 150
+		faceangles 0 -170 0 gototime
+		trigger trainfw center
+		gotomarker ftankspot25 150
+		faceangles 0 -170 0 gototime
+		trigger trainrw left_15
+		gotomarker ftankspot26 150
+		faceangles 0 -160 0 gototime
+		trigger trainfw left_15
+		gotomarker ftankspot27 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot28 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot29 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot30 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot31 150
+		faceangles 0 -110 0 gototime
+		trigger trainrw center
+		gotomarker ftankspot32 150
+		faceangles 0 -100 0 gototime
+		trigger trainfw center
+		gotomarker ftankspot33 150
+		faceangles 0 -90 0 gototime
+		trigger train1 straight3
+	}
+
+	trigger straight3
+	{
+		gotomarker ftankspot34 125
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot35 100
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot36 75
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot37 75
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot38 100
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot39 125
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot40 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot41 150
+		faceangles 0 -90 0 gototime
+		trigger train1 turn2
+	}
+
+	trigger turn2
+	{
+		trigger trainrw right_15
+		gotomarker ftankspot42 150
+		faceangles 0 -100 0 gototime
+		trigger trainfw right_15
+		gotomarker ftankspot43 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot44 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot45 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot46 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot47 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot48 150
+		faceangles 0 -160 0 gototime
+		trigger trainrw center
+		gotomarker ftankspot49 150
+		faceangles 0 -170 0 gototime
+		trigger trainfw center
+		gotomarker ftankspot50 150
+		faceangles 0 -180 0 gototime
+		trigger train1 straight4
+	}
+
+	trigger straight4
+	{
+		gotomarker ftankspot51 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot52 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot53 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot54 150
+		faceangles 0 -180 0 gototime
+		trigger train1 turn3
+	}
+
+	trigger turn3
+	{
+		trigger trainrw left_15
+		gotomarker ftankspot55 150
+		faceangles 0 -170 0 gototime
+		trigger trainfw left_15
+		gotomarker ftankspot56 150
+		faceangles 0 -160 0 gototime
+		gotomarker ftankspot57 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot58 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot59 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot60 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot61 150
+		faceangles 0 -110 0 gototime
+		trigger trainrw center
+		gotomarker ftankspot62 150
+		faceangles 0 -100 0 gototime
+		trigger trainfw center
+		gotomarker ftankspot63 150
+		faceangles 0 -90 0 gototime
+		trigger train1 straight5
+	}
+
+	trigger straight5
+	{
+		gotomarker ftankspot64 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot65 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot66 150
+		faceangles 0 -90 0 gototime
+		gotomarker ftankspot67 150
+		faceangles 0 -90 0 gototime
+		trigger train1 turn4
+	}
+
+	trigger turn4
+	{
+		trigger trainrw right_15
+		gotomarker ftankspot68 150
+		faceangles 0 -100 0 gototime
+		trigger trainfw right_15
+		gotomarker ftankspot69 150
+		faceangles 0 -110 0 gototime
+		gotomarker ftankspot70 150
+		faceangles 0 -120 0 gototime
+		gotomarker ftankspot71 150
+		faceangles 0 -130 0 gototime
+		gotomarker ftankspot72 150
+		faceangles 0 -140 0 gototime
+		gotomarker ftankspot73 150
+		faceangles 0 -150 0 gototime
+		gotomarker ftankspot74 150
+		faceangles 0 -160 0 gototime
+		trigger trainrw center
+		gotomarker ftankspot75 150
+		faceangles 0 -170 0 gototime
+		trigger trainfw center
+		gotomarker ftankspot76 150
+		faceangles 0 -180 0 gototime
+		trigger train1 straight6
+	}
+
+	trigger straight6
+	{
+		gotomarker ftankspot77 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot78 150
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot79 150
+		trigger traingear stop
+		faceangles 0 -180 0 gototime
+		gotomarker ftankspot86 150 deccel
+		faceangles 0 -180 0 gototime
+		stopsound
+		playsound sound/scenaric/rocket/elec_train_stop.wav
+	}
+}
+
+traingear
+{
+	spawn
+	{
+		wait 5
+		attachtotag train1 tag_gen01
+		wait 5
+		faceangles 0 90 0 1000
+	}
+
+	trigger rotate1
+	{
+		faceangles 0 90 90 1200
+		faceangles 0 90 180 1200
+		faceangles 0 90 270 1200
+		faceangles 0 90 360 1200
+		trigger traingear rotate1
+	}
+
+	trigger rotate2
+	{
+		faceangles 0 90 90 1000
+		faceangles 0 90 180 1000
+		faceangles 0 90 270 1000
+		faceangles 0 90 360 1000
+		trigger traingear rotate2
+	}
+
+	trigger rotate3
+	{
+		faceangles 0 90 90 800
+		faceangles 0 90 180 800
+		faceangles 0 90 270 800
+		faceangles 0 90 360 800
+		trigger traingear rotate3
+	}
+
+	trigger rotate4
+	{
+		faceangles 0 90 90 600
+		faceangles 0 90 180 600
+		faceangles 0 90 270 600
+		faceangles 0 90 360 600
+		trigger traingear rotate4
+	}
+
+	trigger rotate5
+	{
+		faceangles 0 90 90 400
+		faceangles 0 90 180 400
+		faceangles 0 90 270 400
+		faceangles 0 90 360 400
+		trigger traingear rotate5
+	}
+
+	trigger rotate6
+	{
+		faceangles 0 90 90 200
+		faceangles 0 90 180 200
+		faceangles 0 90 270 200
+		faceangles 0 90 360 200
+		trigger traingear rotate6
+	}
+
+	trigger stop
+	{
+		faceangles 0 90 90 200
+		faceangles 0 90 180 225
+		faceangles 0 90 270 250
+		faceangles 0 90 360 275
+		faceangles 0 90 90 300
+		faceangles 0 90 180 325
+		faceangles 0 90 270 350
+		faceangles 0 90 360 375
+		faceangles 0 90 90 400
+		faceangles 0 90 180 425
+		faceangles 0 90 270 450
+		faceangles 0 90 360 475
+		faceangles 0 90 90 500
+		faceangles 0 90 180 525
+		faceangles 0 90 270 550
+		faceangles 0 90 360 575
+		faceangles 0 90 90 600
+		faceangles 0 90 180 625
+		faceangles 0 90 270 650
+		faceangles 0 90 360 675
+		resetscript
+	}
+}
+
+trainfw
+{
+	spawn
+	{
+		wait 5
+		attachtotag train1 tag_wF
+		wait 5
+		faceangles 0 90 0 1000
+	}
+
+	trigger right_15
+	{
+		faceangles 0 105 0 2000
+	}
+
+	trigger left_20
+	{
+		faceangles 0 75 0 2000
+	}
+
+	trigger center
+	{
+		faceangles 0 90 0 1000
+	}
+}
+
+trainrw
+{
+	spawn
+	{
+		wait 5
+		attachtotag train1 tag_wR
+		wait 5
+		faceangles 0 90 0 1000
+	}
+
+	trigger right_20
+	{
+		faceangles 0 75 0 2000
+	}
+
+	trigger left_15
+	{
+		faceangles 0 105 0 2000
+	}
+
+	trigger center
+	{
+		faceangles 0 90 0 1000
+	}
+}
+	
+v2_rocket
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that V2 knows it was destroyed.
+		wait 500
+		faceangles 0 90 0 100
+	}
+
+	trigger go
+	{
+		trigger counter4 v2_spot0a
+		alertentity start_flame	// Ignite Flame1
+		alertentity v2_flame1	// Shut off flame1
+
+		//print SPOT 0
+		//wait 5000
+
+		wait 2000
+		alertentity rumble3
+		wait 1000
+		alertentity v2_flame2	// Ignite Flame2
+		trigger counter4 v2_spot1
+
+		//print SPOT 1
+		//wait 5000
+		
+		alertentity v2_smoke1 // Turns off v2_smoke
+		gotomarker v2spot1 100 accel wait
+		trigger counter4 v2_spot2
+
+		//print SPOT 2
+		//wait 5000
+
+		alertentity v2_flame1	// Shut off flame1
+		alertentity v2_flame3	// Ignite Flame3
+		gotomarker v2spot2 200 wait
+		trigger counter4 v2_spot3
+
+		//print SPOT 3
+		//wait 5000
+
+		alertentity v2_flame2	// Shut off flame2
+		alertentity v2_flame4	// Ignite Flame4
+		gotomarker v2spot3 300 wait
+		trigger counter4 v2_spot4
+
+		//print SPOT 4
+		//wait 5000
+
+		alertentity v2_flame3	// Shut off flame3
+		alertentity v2_flame5	// Ignite Flame5
+		gotomarker v2spot4 400 wait
+		trigger counter4 v2_spot5
+
+		//print SPOT 5
+		//wait 5000
+
+		alertentity v2_flame4	// Shut off flame4
+		gotomarker v2spot5 500 wait
+		accum 0 abort_if_bitset 0
+		wait 1000 0
+		alertentity v2_flame5	// Shut off flame5
+		alertentity start_flame	// Ignite Flame1
+		wait 4000 0
+		trigger player failed
+	}
+
+	trigger 0bitset0
+	{
+		accum 0 bitset 0
+	}
+
+	trigger blow0
+	{
+		wait 5
+		alertentity v2_smoke1 // Turns off v2_smoke
+		alertentity v2_blow1
+		trigger counter5 v2_boom // This triggers the destruction.
+	}
+
+	trigger blow0a
+	{
+		wait 5
+		alertentity start_flame
+		alertentity v2_flame1
+		alertentity v2_smoke1 // Turns off v2_smoke
+		alertentity v2_blow1
+		trigger counter5 v2_boom // This triggers the destruction.
+	}
+
+	trigger blow1
+	{
+		wait 5
+		alertentity start_flame
+		alertentity v2_flame1
+		alertentity v2_flame2
+		//alertentity v2_smoke1 // Turns off v2_smoke
+		playanim 0 1 1
+		gotomarker v2spot1 100 deccel wait
+		gotomarker v2spot0 100 accel
+		faceangles 30 212 0 gototime
+		alertentity v2_blow1
+		trigger counter5 v2_boom // This triggers the destruction. 
+	}
+
+	trigger blow2
+	{
+		wait 5
+		//alertentity v2_flame1	// Shut off flame1
+		alertentity v2_flame2	// Shut off flame2
+		alertentity v2_flame3	// Shut off flame3
+		playanim 0 1 1
+		gotomarker v2spot1a 150 deccel wait
+		gotomarker v2spot0 150 accel
+		faceangles 30 100 0 gototime
+		alertentity v2_blow1
+		alertentity start_flame
+		trigger counter5 v2_boom // This triggers the destruction. 
+	}
+
+	trigger blow3
+	{
+		wait 5
+		//alertentity v2_flame2	// Shut off flame2
+		alertentity v2_flame3	// Shut off flame3
+		alertentity v2_flame4	// Shut off flame4
+		playanim 0 1 1
+		gotomarker v2spot2a 300 deccel wait
+		gotomarker v2spot0 300 accel
+		faceangles -50 -45 0 gototime
+		alertentity v2_blow1
+		alertentity start_flame
+		trigger counter5 v2_boom // This triggers the destruction. 
+	}
+
+	trigger blow4
+	{
+		wait 5
+		//alertentity v2_flame3	// Shut off flame3
+		alertentity v2_flame4	// Shut off flame4
+		alertentity v2_flame5	// Shut off flame5
+		playanim 0 1 1
+		gotomarker v2spot3a 450 deccel wait
+		gotomarker v2spot0 450 accel
+		faceangles -50 0 0 gototime
+		alertentity v2_blow1
+		alertentity start_flame
+		trigger counter5 v2_boom // This triggers the destruction. 
+	}
+
+	death
+	{
+		resetscript
+	}
+}
+
+v2_gangway
+{
+	spawn
+	{
+		wait 500
+		faceangles 0 90 0 100
+	}
+
+	trigger go
+	{
+		gotomarker v2_gangwayspot1 100
+		faceangles 51 92 17 gototime
+		alertentity v2_explosion4
+	}
+}
+
+v2_support
+{
+	spawn
+	{
+		wait 500
+		faceangles 0 90 0 100
+	}
+
+	trigger go
+	{
+		gotomarker v2_suppspot1 100
+		faceangles 15 0 10 gototime
+	}
+}
+
+v2_funnel
+{
+	spawn
+	{
+		wait 500
+		faceangles 0 90 0 100
+	}
+
+	trigger go
+	{
+		gotomarker v2_funnelspot1 100
+		faceangles -15 0 -10 gototime
+	}
+}
+
+v2_door1
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 0 bitreset 1
+	}
+
+	trigger open
+	{
+		playsound sound/scenaric/rocket/electric_door_start.wav
+		wait 200
+		playsound sound/scenaric/rocket/electric_door_loop.wav looping
+		gotomarker v2door1spot2 10
+		faceangles -3 0 0 gototime
+		trigger v2_door1 moveloop
+	}
+
+
+	trigger moveloop
+	{
+		gotomarker v2door1spot2 5 wait
+		faceangles -3 0 0 gototime
+		gotomarker v2door1spot1 15 wait
+		faceangles -1 0 0 gototime
+		trigger v2_door1 moveloop	
+	}
+
+	trigger close
+	{
+		stopsound
+		playsound sound/scenaric/rocket/electric_door_end.wav
+		gotomarker v2door1spot3 100 accel
+		faceangles -5 0 0 gototime
+		alertentity e2_debris
+	}
+
+	trigger check
+	{
+		accum 0 abort_if_bitset 1
+		wait 5
+		trigger v2_door1 v2_gone
+		wait 5
+		trigger v2_door1 v2_here
+	}
+
+	trigger v2_here
+	{
+		accum 0 abort_if_bitset 0
+		resetscript
+		alertentity v2_door1_locked
+	}
+
+	trigger v2_gone
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		resetscript
+		wait 5
+		trigger v2_door1 open
+	}
+
+	trigger 0bitset0
+	{
+		accum 0 bitset 0
+	}
+}
+
+sus_bridge
+{
+	spawn
+	{
+		accum 0 bitreset 0 // Used so that the fall is only triggered once.
+	}
+
+	trigger go1
+	{
+		wait 5
+		alertentity bridge_fall1
+		faceangles -1 0 1 25
+		faceangles -2 0 2 75
+		faceangles -3 0 3 150
+		faceangles -4 0 4 250
+		faceangles -5 0 5 375
+		faceangles -6 0 5 525
+		trigger sus_bridge creaksound
+	}
+
+	trigger creaksound
+	{
+		resetscript
+		alertentity bridge_creak1
+		wait 9000
+		alertentity bridge_creak2
+		wait 7000
+		alertentity bridge_creak3
+		wait 5000
+		alertentity bridge_creak2
+		wait 9000
+		alertentity bridge_creak1
+		wait 7000
+		alertentity bridge_creak3
+		wait 5000
+		alertentity bridge_creak2
+		wait 11000
+		alertentity bridge_creak3
+		wait 7000
+		alertentity bridge_creak1
+		wait 5000
+		trigger sus_bridge creaksound
+	}
+
+	trigger go1b
+	{
+		resetscript
+		alertentity bridge_fall2
+		wait 500
+		faceangles -10 0 6 2000
+		faceangles -15 0 8 500 
+		alertentity bridge_creak1
+		wait 2500
+		alertentity bridge_creak2
+		wait 2500
+		trigger sus_bridge go2
+	}
+
+	trigger go2
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		resetscript
+		alertentity bridge_fall1
+		faceangles -40 0 10 1000
+		gotomarker sus_bridge_spot1 1000 accel
+		faceangles -73 0 10 gototime
+		alertentity bridge_crash
+	}
+}
+
+v2_button
+{
+	spawn
+	{
+		accum 0 bitreset 0	// Used so that PUSH cannot be triggered twice.
+		wait 5
+		faceangles 0 0 30 1000
+	}
+
+	trigger push
+	{
+		accum 0 abort_if_bitset 0
+		accum 0 bitset 0
+		playsound basein_switch
+		gotomarker v2btnspot1 100 wait
+		trigger counter4 choose_blow
+	}
+}
+
+front_door
+{
+	spawn
+	{
+	}
+
+	trigger open
+	{
+		gotomarker fdoorspot1 1000
+	}
+
+	trigger close
+	{
+		gotomarker fdoorspot2 20
+	}
+
+	trigger close2
+	{
+		gotomarker fdoorspot2 50
+	}
+}
+
+beam1
+{
+	spawn
+	{
+		wait 5
+		trigger beam1 go
+	}
+
+	trigger go
+	{
+		faceangles -8 0 0 1000
+	}
+}
+
+beam2
+{
+	spawn
+	{
+		wait 5
+		gotomarker beam2spot1 1000 wait
+	}
+
+	trigger swingloop
+	{
+		faceangles -76 0 0 3000
+		faceangles -73 0 0 3000
+		trigger beam2 swingloop
+	}
+}
+
+beam3
+{
+	spawn
+	{
+		wait 5
+		trigger beam3 go
+	}
+
+	trigger go
+	{
+		faceangles 15 0 0 1000
+	}
+}
+
+beam4
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		wait 500
+		faceangles 0 0 64 3000
+		wait 2000 0
+		gotomarker beam4spot1 500
+		faceangles 0 0 70 gototime
+		gotomarker beam4spot2 500
+		faceangles 0 0 75 gototime
+		gotomarker beam4spot3 400
+		faceangles 0 0 75 gototime
+		gotomarker beam4spot4 500
+		faceangles 0 0 68 gototime
+		gotomarker beam4spot5 500
+		faceangles 0 0 59 gototime
+		gotomarker beam4spot6 500
+		faceangles 0 0 52 gototime
+		gotomarker beam4spot7 500
+		faceangles 0 0 43 gototime
+	}
+}
+
+beam5
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		wait 500
+		faceangles 0 0 24 2000
+	}
+}
+
+beam6
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		wait 500
+		faceangles 0 0 -24 2000
+	}
+}
+
+block1
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		gotomarker block1spot1 1000
+		faceangles 0 -35 10 gototime
+	}
+}
+
+block2
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		gotomarker block2spot1 1000
+		faceangles 60 60 50 gototime
+	}
+}
+
+block3
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		gotomarker block3spot1 1000
+		faceangles -20 60 -10 gototime
+	}
+}
+
+block4
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		gotomarker block4spot1 1000
+		faceangles 0 20 0 gototime
+	}
+}
+
+block5
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		gotomarker block5spot1 1000
+		faceangles 0 -60 80 gototime
+	}
+}
+
+block6
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		gotomarker block6spot1 1000
+		faceangles -30 -20 0 gototime
+	}
+}

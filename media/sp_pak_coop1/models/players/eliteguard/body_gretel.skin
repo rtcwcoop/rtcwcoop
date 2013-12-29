@@ -1,0 +1,15 @@
+tag_head,
+tag_footleft,
+tag_legleft,
+tag_footright,
+tag_legright,
+tag_lbelt,
+tag_torso,
+tag_bleft,
+tag_bright,
+l_bootlft,models/players/eva/eva_boot.tga
+l_bootrt,models/players/eva/eva_boot.tga
+u_body,models/players/eva/eva_body1.tga
+
+md3_beltl,acc/l_belt.md3
+md3_beltr,acc/r_belt.md3
