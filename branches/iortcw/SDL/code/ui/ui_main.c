@@ -7226,7 +7226,7 @@ void UI_DrawConnectScreen( qboolean overlay ) {
 //		Text_PaintCenter(centerPoint, yStart + 48, UI_FONT_DEFAULT, scale, colorWhite, va("Get Psyched!"), ITEM_TEXTSTYLE_SHADOWEDMORE);
 	} else {
 		strcpy( text, va( "Connecting to %s", cstate.servername ) );
-		Text_PaintCenter( centerPoint, yStart + 48, UI_FONT_DEFAULT, scale, colorWhite,text, ITEM_TEXTSTYLE_SHADOWEDMORE );
+		Text_PaintCenter( centerPoint, 48, UI_FONT_DEFAULT, scale, colorWhite,text, ITEM_TEXTSTYLE_SHADOWEDMORE );
 	}
 
 	//UI_DrawProportionalString( 320, 96, "Press Esc to abort", UI_CENTER|UI_SMALLFONT|UI_DROPSHADOW, menu_text_color );
