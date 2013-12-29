@@ -416,8 +416,8 @@ itemDef {
 					group			grpCreate
 					type			ITEM_TYPE_MULTI
 					textfont		UI_FONT_NORMAL
-					text			"Server downloads:  "
-					cvar			"sv_allowdownload"
+					text			"Server Downloads:  "
+					cvar			"sv_allowDownload"
 					cvarFloatList	{ "Off" 0 "On" 1 }
 					rect			295 220 290 12
 				//	origin			ORIGIN_WINDOW1
