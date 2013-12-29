@@ -284,7 +284,7 @@ itemDef {
 			maxChars		16
 			maxpaintchars	16
 			text			"Downloads:"
-			cvar			"cl_download"
+			cvar			"cl_allowDownload"
 			cvarFloatList	{ "No" 0 "Yes" 1 }
 			textscale		.25
 			textalign		ITEM_ALIGN_LEFT	

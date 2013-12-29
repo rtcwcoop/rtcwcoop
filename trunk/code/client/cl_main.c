@@ -4044,7 +4044,7 @@ void CL_Init( void ) {
 	cl_showMouseRate = Cvar_Get( "cl_showmouserate", "0", 0 );
 	cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE );
 
-	cl_allowDownload = Cvar_Get( "cl_allowDownload", "0", CVAR_ARCHIVE );
+	cl_allowDownload = Cvar_Get( "cl_allowDownload", "1", CVAR_ARCHIVE );
 #ifdef USE_CURL_DLOPEN
 	cl_cURLLib = Cvar_Get("cl_cURLLib", DEFAULT_CURL_LIB, CVAR_ARCHIVE);
 #endif
