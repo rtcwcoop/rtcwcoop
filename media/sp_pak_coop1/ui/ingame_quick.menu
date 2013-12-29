@@ -1,0 +1,422 @@
+#include "ui/menudef.h"
+{
+
+\\ INGAME_QUICK MENU \\
+
+menuDef {
+	name "ingame_quick"
+	visible 0
+	fullScreen 0
+	outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+	rect 80 140 220 290
+	focusColor 1 .75 0 1
+	disableColor .5 .5 .5 1
+
+
+
+	itemDef {
+		name quick
+		rect 0 0 220 290	
+		style WINDOW_STYLE_FILLED
+		border 1
+		bordercolor .5 .5 .5 .5
+		forecolor 1 1 1 1
+		backcolor 0 0 0 .5
+		visible 1
+		decoration
+		}	
+
+	itemDef {
+		name quick
+		text "Quick Settings"
+		textfont UI_FONT_NORMAL
+		textalign ITEM_ALIGN_CENTER
+		textalignx 107
+		textaligny 14
+		textscale .25
+		rect 3 2 214 20
+		style WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.5 .5 .5 .5
+		forecolor		1 1 1 1
+		backcolor		.3 0.5 0.2 .25
+		visible			1
+		decoration
+		}
+
+		itemDef {
+			name			quick
+			visible			1
+			rect			-30 30 220 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		16
+			maxpaintchars	16
+			text			"Name:"
+			cvar			"name"
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			}
+			
+		itemDef {
+			name			quick
+			visible			1
+			rect			-30 45 220 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			maxChars		32
+			maxpaintchars	18
+			text			"Model:"
+			cvar			"skin"
+			cvarFloatList	{ "Yankee Soldier" 1 "Afro Soldier" 2 "Euro Soldier" 3 }
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			}
+
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Brightness:"
+			cvarfloat "r_gamma" 1 0.5 2
+			rect -30 65 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22 
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			action { uiScript glCustom }
+			}
+
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "FOV (90°-115°):"
+			cvarfloat "cg_fov" 90 90 115
+			rect -30 80 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22 
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			action { uiScript glCustom }
+			}
+			
+		itemDef {
+			name quick
+			type ITEM_TYPE_YESNO
+			text "Fullscreen:"
+			cvar "r_fullscreen"
+			rect -30 95 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0        
+			forecolor 1 1 1 1
+			visible 1 
+			action { uiScript glCustom }
+			}
+			
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Sound Volume:"
+			cvarfloat "s_volume" 0.7 0 1
+			rect -30 115 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 12
+			textscale .22    
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1 
+			}
+		
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Music Volume:"
+			cvarfloat "s_musicvolume" 0.25 0 1
+			rect -30 130 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22  
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1 
+			}
+			
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "HUD Alpha:"
+			cvarfloat "cg_hudAlpha" .6 .1 1
+			rect -30 150 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			}
+
+		itemDef {
+			name quick
+			type ITEM_TYPE_SLIDER
+			text "Crosshair Alpha:"
+			cvarfloat "cg_crosshairAlpha" .6 .1 1
+			rect -30 165 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			}
+
+		itemDef {
+			name quick
+			group grpControls
+			type ITEM_TYPE_SLIDER
+			text "Sensitivity:"
+			cvarfloat "sensitivity" 5 1 30
+			rect -30 180 220 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_RIGHT
+			textalignx 126
+			textaligny 11
+			textscale .22
+			style 0
+			backcolor 0 0 0 0           
+			forecolor 1 1 1 1
+			visible 1
+			}
+						
+		itemDef {
+			name quick
+			text "Crosshair:"
+			type 1	
+			rect 40 195 60 12
+			textfont UI_FONT_NORMAL
+			textalign ITEM_ALIGN_CENTER
+			textalignx 130
+			textaligny 11
+			textscale .22
+			forecolor 1 1 1 1
+			visible 1 
+			decoration
+			}
+
+		itemDef {
+			name quick
+			rect 145 210 50 50
+			ownerdraw UI_CROSSHAIR
+			textalign ITEM_ALIGN_LEFT
+			textalignx 0 
+			textaligny 50  
+			style 0
+			backcolor 0 0 0 0
+			forecolor 1 1 1 1
+			visible 1
+			}
+
+		itemDef {
+			name			quick
+			rect			-30 209 170 12
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			text			"Crosshairnames:"
+			cvar			"cg_drawcrosshairnames"
+			cvarFloatList	{ "Off" 0 "On" 1}
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			backcolor		0 0 0 0 		  
+			forecolor		1 1 1 1
+			visible			1
+			}
+		
+		itemDef {
+			name			quick
+			rect			-30 224 170 12
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			WINDOW_STYLE_FILLED
+			text			"Team-Overlay:"
+			cvar			"cg_drawteamoverlay"
+			cvarFloatList	{ "Off" 0 "On" 1}
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			backcolor		0 0 0 0 		  
+			forecolor		1 1 1 1
+			visible			1
+			}
+
+		itemDef {
+			name			quick
+			rect			-30 239 170 12
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			WINDOW_STYLE_FILLED
+			text			"Compass:"
+			cvar			"cg_drawcompass"
+			cvarFloatList	{ "Off" 0 "On" 1}
+			textscale		.22
+			textalign		ITEM_ALIGN_RIGHT	
+			textalignx		126
+			textaligny		11
+			backcolor		0 0 0 0 		  
+			forecolor		1 1 1 1
+			visible			1
+			}
+
+
+		itemDef {
+			name                    joingame
+			text                    "Join Game"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					3 267 105 20
+			textalign               ITEM_ALIGN_CENTER
+			textalignx              54              // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			action                  { exec "cmd team free" ; uiScript closeingame }    
+                        cvarTest                "g_gametype"
+			// hide if g_gametype is set to speedrun
+                        showcvar                { "0" }
+			}  
+
+                itemDef {
+                        name                    joingame
+                        text                    "Join Allies"
+                        type                    ITEM_TYPE_BUTTON
+                        textscale               .25 
+                        style                   WINDOW_STYLE_FILLED    
+                        border                  1   
+                        bordercolor             .5 .5 .5 .5
+                        rect                                    3 267 68 20
+                        textalign               ITEM_ALIGN_CENTER
+                        textalignx              35              // center
+                        textaligny              14  
+                        textfont                UI_FONT_NORMAL
+                        backcolor               .3 .5 .2 .3
+                        forecolor               1 1 1 1 
+                        visible                 1   
+                        action                  { exec "cmd team free" ; uiScript closeingame }    
+                        cvarTest                "g_gametype"
+                        // show if g_gametype is set to speedrun
+                        hidecvar                { "0" }
+                        }
+
+		itemDef {
+			name                    joinspec
+			text                    "Join Spectators"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					112 267 105 20
+			textalign               ITEM_ALIGN_CENTER 
+			textalignx              54             // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			action                  { exec "cmd team s" ; uiScript closeingame }    
+                        cvarTest                "g_gametype"
+			// hide if g_gametype is set to speedrun
+                        showcvar                { "0" }
+			}
+
+                itemDef {
+                        name                    joinspec
+                        text                    "Join Specs"
+                        type                    ITEM_TYPE_BUTTON
+                        textscale               .25
+                        style                   WINDOW_STYLE_FILLED
+                        border                  1
+                        bordercolor             .5 .5 .5 .5
+                        rect                                    75 267 68 20
+                        textalign               ITEM_ALIGN_CENTER
+                        textalignx              35             // center
+                        textaligny              14
+                        textfont                UI_FONT_NORMAL
+                        backcolor               .3 .5 .2 .3
+                        forecolor               1 1 1 1
+                        visible                 1
+                        action                  { exec "cmd team s" ; uiScript closeingame }
+                        cvarTest                "g_gametype"
+                        // show if g_gametype is set to speedrun
+                        hidecvar                { "0" }
+                        }
+
+                itemDef {
+                        name                    joinspec
+                        text                    "Join Axis"
+                        type                    ITEM_TYPE_BUTTON
+                        textscale               .25
+                        style                   WINDOW_STYLE_FILLED
+                        border                  1
+                        bordercolor             .5 .5 .5 .5
+                        rect                                    148 267 68 20
+                        textalign               ITEM_ALIGN_CENTER
+                        textalignx              34             // center
+                        textaligny              14
+                        textfont                UI_FONT_NORMAL
+                        backcolor               .3 .5 .2 .3
+                        forecolor               1 1 1 1
+                        visible                 1
+                        action                  { exec "cmd team red" ; uiScript closeingame }
+                        cvarTest                "g_gametype"
+                        // show if g_gametype is set to speedrun
+                        hidecvar                { "0" }
+                        }
+}
+
+}

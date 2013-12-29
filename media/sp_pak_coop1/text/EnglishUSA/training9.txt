@@ -1,0 +1,11 @@
+Exercise 9: Jump-Crouch
+
+This obstacle will teach you how to master the jump-crouch.
+
+Instructions:
+
+While moving forward towards the drainage pipe press the 'jump' key quickly followed by the 'crouch' key until you have successfully entered the obstacle. Continue moving forward while crouched until you exit the pipe. 
+
+Continue to practice navigating the drainage pipes until you have mastered this skill. When finished proceed to the next station.
+
+Time Limit: None

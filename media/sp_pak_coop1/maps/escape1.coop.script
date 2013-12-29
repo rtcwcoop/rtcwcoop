@@ -1,0 +1,623 @@
+//Cleaned for COOP by -SSF-Sage on 29.1.2013
+//
+//Brush Scripting
+//Map: Escape #1
+//Last edited by: Dan
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+
+		accum 2 bitreset 1
+		accum 2 bitreset 2
+		accum 2 bitreset 3
+		accum 2 bitreset 4
+		accum 2 bitreset 5
+		accum 2 bitreset 6
+		accum 2 bitreset 7
+
+		accum 3 bitreset 1
+		accum 3 bitreset 2
+		accum 3 bitreset 3
+		accum 3 bitreset 4
+		accum 3 bitreset 5
+		accum 3 bitreset 6
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	//trigger init
+	//{
+	//	accum 4 abort_if_not_equal 0
+	//	accum 4 set 1
+//
+	//	mu_start sound/music/c_military
+	//}
+		
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 2
+		trigger player exitmap
+	}
+	
+	trigger objective1
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+
+		trigger spawner zone1calm
+		trigger nazi2 nohelp
+		trigger alarm exitcells
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_3 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_4 #endif		
+	}
+	
+	trigger objective2
+	{
+		accum 0 abort_if_bitset 2
+		accum 0 bitset 2
+
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_19 #endif
+	}
+	
+	trigger action1b
+	{
+		accum 2 abort_if_bitset 1
+		accum 2 bitset 1
+		
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_20 #endif
+	}
+
+	trigger action4
+	{
+		accum 2 abort_if_bitset 2
+		accum 2 bitset 2
+		
+		trigger nazi2 getballs2
+		trigger nazi5 inhall5
+		
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_5 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_6 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_21 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_22 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_23 #endif
+	}
+	
+	trigger action5
+	{
+		accum 2 abort_if_bitset 3
+		accum 2 bitset 3
+		
+		alertentity nazi6
+		alertentity nazi7
+		alertentity nazi8
+		alertentity nazi9
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_10 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_7 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_24 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_25 #endif
+	}
+
+	trigger action8
+	{
+		accum 2 abort_if_bitset 4
+		accum 2 bitset 4
+		
+		trigger nazi6 snuckby
+		trigger nazi8 useattackd
+		trigger dialog radiotalk
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_9 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_11 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_12 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_26 #endif
+	}
+
+	trigger action9
+	{
+		accum 2 abort_if_bitset 5
+		accum 2 bitset 5
+		
+		trigger spawner meetingroom
+		trigger nazi7 moveposition7
+		trigger nazi8 moveposition8
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_13 #endif
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_14 #endif
+	}
+
+	trigger action10a
+	{
+		accum 2 abort_if_bitset 6
+		accum 2 bitset 6
+		
+		alertentity nazi17
+		alertentity nazi18
+		alertentity nazi15
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_15 #endif
+		alertentity fakewall
+	}
+
+	trigger action10b
+	{
+		accum 2 abort_if_bitset 7
+		accum 2 bitset 7
+		
+		alertentity floorcreak
+		trigger nazi17 floor17
+		trigger nazi18 floor18
+	}
+
+	trigger action11
+	{
+		accum 3 abort_if_bitset 1
+		accum 3 bitset 1
+		
+		alertentity unlockdoor11
+		trigger nazi9 longrun9
+		trigger nazi17 clear17
+		trigger nazi18 clear18
+	}
+
+	trigger action12
+	{
+		accum 3 abort_if_bitset 2
+		accum 3 bitset 2
+
+		alertentity nazi19
+		alertentity nazi20
+	}
+
+	trigger action13
+	{
+		accum 3 abort_if_bitset 3
+		accum 3 bitset 3
+		
+		alertentity nazi21
+		alertentity nazi22
+		alertentity nazi23
+	}
+
+	trigger action17
+	{
+		accum 3 abort_if_bitset 4
+		accum 3 bitset 4
+
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_8 #endif
+	}
+
+	trigger action20
+	{
+		accum 3 abort_if_bitset 5
+		accum 3 bitset 5
+
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_16 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_27 #endif
+	}
+
+	trigger action21
+	{
+		accum 3 abort_if_bitset 6
+		accum 3 bitset 6
+
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_18 #endif
+	}
+}
+
+dialog // dialog counter
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+		accum 0 bitset 3
+	}
+
+	trigger timeing
+	{
+		accum 0 abort_if_not_bitset 0
+		wait 1200
+		trigger nazi1 door1
+		wait 7500
+		trigger nazi1 answer1
+		wait 6000
+		trigger nazi1 answer2
+	}
+
+	trigger killdialog1
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		accum 0 bitreset 1
+		resetscript
+	}
+
+	trigger radiotune
+	{
+		accum 0 abort_if_not_bitset 1
+		trigger nazi2 reply1a
+		trigger nazi3 talk3
+		wait 3000
+		trigger nazi3 weather
+		wait 6100
+		trigger nazi3 thanks
+	}
+
+	trigger killdialog2
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 0
+		accum 0 bitreset 1
+		resetscript
+	}
+
+	trigger anynews
+	{
+		accum 0 abort_if_not_bitset 2
+		wait 900
+		trigger nazi5 reply5a
+		wait 1800
+		trigger nazi2 reply2a
+		wait 3700
+		trigger nazi5 reply5b
+		wait 3500
+//		trigger nazi2 reply2b
+		wait 3000
+		trigger nazi5 reply5c
+		wait 2800
+		trigger nazi2 reply2c
+	}
+
+	trigger killdialog3
+	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2
+		resetscript
+	}
+
+	trigger radiotalk
+	{
+		accum 0 abort_if_not_bitset 3
+		trigger nazi12 radio12a
+		wait 2800
+		trigger nazi13 radio13a
+		wait 2250
+		trigger nazi12 radio12b
+		wait 4500
+		trigger nazi13 radio13b
+		wait 2700
+		trigger nazi12 radio12c
+		wait 2700
+		trigger nazi13 radio13c
+		wait 3600
+		trigger nazi12 radio12d
+		wait 3800
+		trigger nazi12 towindow
+		wait 200
+		trigger nazi13 toradio
+	}
+
+	trigger killdialog4
+	{
+		accum 0 abort_if_not_bitset 3
+		accum 0 bitreset 3
+		resetscript
+	}
+
+}
+
+spawner //escape1 spawner
+{
+	spawn
+	{
+		accum 0 bitset 0 // zone1 spawn
+		accum 0 bitset 1 // radio room spawn
+		accum 0 bitset 2 // barracks room spawn
+		accum 0 bitset 3 // meeting room spawn
+		accum 0 bitset 4 // dlight 1 toggle
+		accum 0 bitset 5 // dlight 2 toggle
+		accum 1 set 0 // alarm 0=off 1=on
+		accum 2 set 0 // boardxtra counter
+	}
+
+	trigger zone1calm
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		trigger nazi2 getgoing2
+		alertentity nazi3
+		alertentity nazi5
+	}
+
+	trigger zone1alert
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		trigger nazi2 bringiton2
+		alertentity nazi3
+		alertentity nazi5
+	}
+
+	trigger radioroom
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+
+		alertentity nazi12
+		alertentity nazi13
+	}
+
+	trigger barracks
+	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2
+
+		alertentity nazi10
+	}
+
+	trigger meetingroom
+	{
+		accum 0 abort_if_not_bitset 3
+		accum 0 bitreset 3
+		alertentity nazi14
+		wait 100
+		accum 1 abort_if_not_equal 1
+		trigger nazi14 alarm14
+	}
+
+	trigger boardxtra
+	{
+		accum 2 inc 1
+		accum 2 abort_if_not_equal 2
+		accum 2 set 10
+		alertentity nazi24
+		alertentity nazi25
+	}
+
+	trigger alarmset
+	{
+		accum 1 set 1
+	}
+
+	trigger dlight1off
+	{
+		accum 0 abort_if_bitset 4
+		alertentity cine1_dlight1
+		accum 0 bitset 4
+	}
+
+	trigger dlight1on
+	{
+		accum 0 abort_if_not_bitset 4
+		alertentity cine1_dlight1
+		accum 0 bitreset 4
+	}
+
+	trigger dlight2off
+	{
+		accum 0 abort_if_bitset 5
+		alertentity cine1_elect2
+		accum 0 bitset 5
+	}
+
+	trigger dlight2on
+	{
+		accum 0 abort_if_not_bitset 5
+		alertentity cine1_elect2
+		accum 0 bitreset 5
+	}
+
+}
+
+alarm //alarm counter
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitset 1 // call alarmspawn once
+		accum 0 bitset 2 // call gethelp once
+		accum 1 set 0 // alarm 0=off 1=on
+	}
+
+	trigger gethelp
+	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2
+		wait 2000
+		accum 0 abort_if_not_bitset 0
+		alertentity nazi4
+	}
+
+	trigger exitcells
+	{
+		accum 0 bitreset 0
+	}
+
+	trigger alarmspawn // alarm called for by others
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+
+		trigger spawner radioroom
+		trigger spawner barracks
+		trigger nazi12 pushalarm
+	}
+
+	trigger alarmspawn2 // alarm set by nazi12
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+
+		trigger spawner radioroom
+		trigger spawner barracks
+	}
+
+	trigger alarmon
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1 // alarm 0=off 1=on
+
+		trigger player musicmoving
+		trigger nazi13 alarm13
+		trigger nazi7 alarm7
+		trigger nazi8 alarm8
+		trigger nazi6 alarm6
+		trigger nazi9 alarm9
+		trigger spawner alarmset
+		trigger nazi10 alarm10
+		trigger nazi12 playeralarm
+	}
+}
+
+dummy
+{
+	spawn
+	{
+		accum 0 bitset 0 // bitset = off  bitreset = on
+		accum 0 bitset 1
+		accum 1 set 0
+		accum 2 set 0	//Stop cine
+
+		wait 5
+		
+		trigger dummy cine1_cleanup
+	}
+
+	// ---Start Cinematic1---
+
+
+	trigger cine1_cleanup
+	{
+	//Door triggers from spawn now, foolproof - Sage
+	//	trigger cine_door fast_up	
+
+		alertentity kill_c_nazi1
+		alertentity kill_c_nazi2
+		alertentity kill_cine1
+		wait 5
+		alertentity nazi1
+		wait 5
+		alertentity nazi2
+		alertentity spawngun
+
+	//These are not active in COOP
+	//	trigger player fix_bitset0
+	//	trigger spawner dlight1off
+	//	trigger spawner dlight2off
+	}
+
+//This is remade for COOP - Sage
+	trigger dr_sequence
+	{
+		accum 2 abort_if_not_equal 0
+		wait 500
+
+		trigger nazi1 lets_try
+
+		wait 5000
+		accum 2 abort_if_not_equal 0
+
+		trigger nazi1 zap
+		wait 500
+		trigger handle turnon
+		wait 250
+		alertentity cine1_scream1
+
+		wait 6000
+		accum 2 abort_if_not_equal 0
+
+		trigger nazi1 zap
+		wait 500
+		trigger handle turnon
+		wait 250
+		alertentity cine1_scream1
+
+		wait 6000
+		accum 2 abort_if_not_equal 0
+
+		trigger nazi1 hands1
+	}
+
+	trigger stop_cine
+	{
+		accum 2 abort_if_not_equal 0
+		accum 2 set 1
+		resetscript
+	}
+
+	// ---End Cinematic1---
+
+	trigger smoke
+	{
+		alertentity smoke1
+		wait 13000
+		alertentity smoke1
+	}
+
+	trigger surgicalon
+	{
+		accum 0 abort_if_not_bitset 0
+		alertentity water1
+		accum 0 bitreset 0
+	}
+
+	trigger surgicaloff
+	{
+		accum 0 abort_if_bitset 0
+		alertentity water1
+		accum 0 bitset 0
+	}
+
+	trigger moveback
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitreset 1
+		wait 4000
+		trigger nazi17 return17
+		trigger nazi18 return18
+	}
+
+	trigger finalbunch
+	{
+		accum 1 inc 1
+		accum 1 abort_if_less_than 5
+		trigger player musicmission
+	}
+}
+
+handle
+{
+	spawn
+	{
+
+	}
+
+	trigger turnon
+	{
+		playsound sound/movers/switches/butn2.wav
+		alertentity start_tesla
+		faceangles 180 0 0 500
+		alertentity hurt1
+		alertentity smoke1
+		wait 3000
+		alertentity hurt1
+		wait 1000
+		alertentity smoke1
+		faceangles 0 0 0 500
+	}
+}
+
+cine_door
+{
+	spawn
+	{
+		wait 5
+		gotomarker doorspot2 2000
+	}
+}

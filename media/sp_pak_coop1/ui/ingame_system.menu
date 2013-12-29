@@ -1,0 +1,286 @@
+#include "ui/menudef.h"
+
+{
+\\ SYSTEM MENU \\
+
+menuDef {
+    	name "ingame_system"
+    	visible 0
+    	fullscreen 0
+		outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+		rect 100 125 443 340
+    	focusColor 1 .75 0 1
+    	style 1
+    	border 1
+
+		onopen { hide grpsystem ; hide grpapplysystem ; show graphics ; show driver ; show graphicsapply ; show soundapply }
+
+
+itemDef {
+	name window
+	group ingamebox
+	rect 0 2 443 300
+	style WINDOW_STYLE_FILLED
+	border 1
+	bordercolor .5 .5 .5 .5
+	forecolor 1 1 1 1
+	backcolor 0 0 0 .5
+	visible 1
+	decoration
+}
+
+
+//////// START OF PASTE
+
+itemDef {
+	name graphics
+	group grpSystembutton
+	text "Video Settings"
+	textfont UI_FONT_NORMAL
+	textalign ITEM_ALIGN_CENTER
+	textalignx 145
+	textaligny 14
+	textscale .25
+	rect 82 15 290 20
+	style WINDOW_STYLE_FILLED
+	border			1
+	bordercolor		.5 .5 .5 .5
+	forecolor		1 1 1 1
+	backcolor		.3 0.5 0.2 .25
+	visible			1
+	decoration
+	}
+
+	itemDef {
+   		name graphics
+		group grpSystem
+   		type ITEM_TYPE_MULTI	
+		text "Resolution:"
+		cvar "r_mode"
+		cvarFloatList {  "Automatic" -2 "Custom" -1 "640*480 (4:3)" 0 "800*600 (4:3)" 1 "1024*768 (4:3)" 2 "1280*720 (16:9)" 3 "1280*800 (16:10)" 4 "1280*1024 (5:4)" 5 "1440*900 (16:10)" 6 "1600*1200 (4:3)" 7 "1680*1050 (16:10)" 8 "1920*1080 (16:9)" 9 "1920*1200 (16:10)" 10 "2048*1536 (4:3)" 11 "2560*2048 (5:4)" 12}
+		rect 82 40 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .22 
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07       
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+	}
+
+	itemDef {
+  		name graphics
+		group grpSystem
+      	type ITEM_TYPE_SLIDER
+		text "Brightness:"
+		cvarfloat "r_gamma" 1 0.5 2
+ 		rect 82 55 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142 
+      	textaligny 10
+		textscale .22 
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07       
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+    }
+	
+	
+	itemDef {
+   		name graphics
+		group grpSystem
+      	type ITEM_TYPE_YESNO
+		text "Fullscreen:"
+		cvar "r_fullscreen"
+		rect 82 70 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .22
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07        
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+	}
+	
+	itemDef {
+   		name graphics
+		group grpSystem
+   		type ITEM_TYPE_MULTI
+		text "Color Depth:"
+		cvar "r_colorbits"
+		cvarFloatList { "Desktop Default" 0 "16-bit" 16 "32-bit" 32 }
+		rect 82 85 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .22 
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07      
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom ; uiScript update "r_colorbits" }
+	}
+
+	itemDef {
+		name graphics
+		group grpSystem
+		type ITEM_TYPE_MULTI
+		text "Texture Quality:"
+		cvar "r_texturebits"
+		cvarFloatList { "Default" 0 "16 bit" 16 "32 bit" 32 }
+		rect 82 100 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .23 
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07       
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+    }
+
+	itemDef {
+		name graphicsapply
+		text "Apply Video"
+		type 1	
+		textscale .2
+		style WINDOW_STYLE_FILLED
+		group grpsystem
+		rect 177 115 100 20
+		textalign 1
+		textalignx 50
+		textaligny 14
+		forecolor 1 1 1 1
+		backcolor .1 .1 .1 .1 
+		visible 1
+		border 1
+		bordercolor .5 .5 .5 .5
+		action { play "sound/misc/kcaction.wav" ; 
+		open in_vid_restart_popmenu ; hide graphics ; hide driver ; hide graphicsapply ; hide soundapply }
+		mouseEnter { setitemcolor graphicsapply backcolor .3 .5 .2 .25 }
+      	mouseExit { setitemcolor graphicsapply backcolor .1 .1 .1 .1 }
+	}		
+	
+	
+itemDef {
+	name graphics
+	group grpSystembutton
+	text "Sound Settings"
+	textfont UI_FONT_NORMAL
+	textalign ITEM_ALIGN_CENTER
+	textalignx 145
+	textaligny 14
+	textscale .25
+	rect 82 145 290 20
+	style WINDOW_STYLE_FILLED
+	border			1
+	bordercolor		.5 .5 .5 .5
+	forecolor		1 1 1 1
+	backcolor		.3 0.5 0.2 .25
+	visible			1
+	decoration
+	}
+	
+	itemDef {
+		name graphics
+		group grpSystem
+		type ITEM_TYPE_SLIDER
+		text "Sound Volume:"
+		cvarfloat "s_volume" 0.7 0 1
+		rect 82 170 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .22    
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07   
+		forecolor 1 1 1 1
+		visible 0 
+    }
+	
+	itemDef {
+		name graphics
+		group grpSystem
+		type ITEM_TYPE_SLIDER
+		text "Music Volume:"
+		cvarfloat "s_musicvolume" 0.25 0 1
+		rect 82 185 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .22  
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07     
+		forecolor 1 1 1 1
+		visible 0 
+    }
+
+	itemDef {
+		name soundapply
+		text "Apply Sound"
+		type 1	
+		textscale .2
+		style WINDOW_STYLE_FILLED
+		group grpsystem
+		rect 177 200 100 20
+		textalign 1
+		textalignx 50
+		textaligny 14
+		forecolor 1 1 1 1
+		backcolor .1 .1 .1 .1 
+		visible 1
+		border 1
+		bordercolor .5 .5 .5 .5
+		action { play "sound/misc/kcaction.wav" ; 
+		open in_snd_restart_popmenu ; hide graphics ; hide driver ; hide graphicsapply ; hide soundapply }
+		mouseEnter { setitemcolor soundapply backcolor .3 .5 .2 .25 }
+      	mouseExit { setitemcolor soundapply backcolor .1 .1 .1 .1 }
+	}	
+	
+	
+itemDef {
+	name graphics
+	group grpSystembutton
+	text "Video Driver Info"
+	textfont UI_FONT_NORMAL
+	textalign ITEM_ALIGN_CENTER
+	textalignx 145
+	textaligny 14
+	textscale .25
+	rect 82 230 290 20
+	style WINDOW_STYLE_FILLED
+	border			1
+	bordercolor		.5 .5 .5 .5
+	forecolor		1 1 1 1
+	backcolor		.3 0.5 0.2 .25
+	visible			1
+	decoration
+	}
+
+itemDef {
+		name driver
+		group grpSystem
+		rect 160 250 400 30	
+		ownerdraw UI_GLINFO
+		textalign 0
+		textalignx 0
+		textaligny 14
+		textscale .15
+		forecolor 1 1 1 1
+		visible 0
+		decoration
+		style 1
+	}
+	
+//////// END OF PASTE
+
+}
+
+}
+

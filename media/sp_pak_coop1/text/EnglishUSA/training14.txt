@@ -1,0 +1,26 @@
+Exercise 14: The M1A1 sub machinegun
+
+This exercise will teach you how to properly fire the M1A1 sub machinegun.
+
+Instructions:
+
+The M1A1 sub machinegun (key default 3) is a difficult weapon to master. It is always best to fire any sub machinegun in short controlled bursts instead of a continuous stream of fire. 
+
+If you have not already done so, pick up the weapon and ammunition on the bench in front of you in the same manner learned previously.
+
+Aim the firearm down range and press your 'attack' key in one or two second intervals allowing short three round bursts of fire. You will quickly notice that the crosshair on the screen in front of you will continue to grow if you continue to hold the 'attack' key. The larger the crosshair grows, the less accurate your fire becomes. With controlled, short bursts of fire you can keep your crosshair small and remain accurate.
+
+To shoot a single shot with the sub machinegun simply tap your 'attack' key once. This will allow only one shot to be discharged from the weapon.
+
+Again, you will instinctively reload the weapon when the clip has depleted its 30 round capacity. If you would like to tactically reload the firearm before this occurs press your 'reload' key at any time.
+
+Continue firing the M1A1 sub machinegun at the moving targets until you are comfortable with the weapon.
+
+When ready, move to the next station.
+
+NOTE: There is no alternate fire mode for the M1A1 sub machinegun
+
+Time Limit: None
+
+
+

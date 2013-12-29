@@ -1,0 +1,766 @@
+//Cleaned for COOP by -SSF-Sage on 7.2.2013
+// 
+//Brush Scripting
+//Map: Tram
+//Last edited by: Dan
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 0 bitreset 3
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_not_bitset 3
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+	
+	trigger objective3
+	{
+		accum 0 bitset 3
+	}
+}
+
+gear1
+{
+	trigger on1
+	{
+		faceangles 0 -90 0 500
+		faceangles 0 -180 0 500 
+		faceangles 0 -270 0 500
+		faceangles 0 -360 0 500
+		trigger gear1 on1	
+	}
+}
+
+gear2
+{
+	trigger on2
+	{
+		faceangles 90 0 0 250
+		faceangles 180 0 0 250 
+		faceangles 270 0 0 250
+		faceangles 360 0 0 250
+		trigger gear2 on2
+	}
+}
+
+gear3
+{
+	trigger on3
+	{
+		faceangles -90 0 0 500
+		faceangles -180 0 0 500 
+		faceangles -270 0 0 500
+		faceangles -360 0 0 500	
+		trigger gear3 on3
+	}
+}
+
+locker1
+{
+	spawn
+	{
+		accum 0 set 0 //  0 = closed  1 = open
+	}
+
+	trigger toggle
+	{
+		trigger locker1 open
+		wait 5
+		trigger locker1 close
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		playsound sound/movers/doors/door8_open.wav
+		faceangles 0 85 0 700
+	}
+
+	trigger close
+	{
+		accum 0 abort_if_not_equal 1
+		accum 0 set 0
+		playsound sound/movers/doors/door8_open.wav
+		faceangles 0 0 0 700
+	}
+}
+
+
+tramcar
+{
+	spawn
+	{
+		accum 0 set 0	
+//		accum 1 set 0
+//		accum 2 set 1
+	}
+
+	trigger tramup
+	{
+		trigger tramdummy tram1_going_up
+		wait 200
+		playsound sound/scenaric/tram/tram_move.wav looping
+
+		gotomarker tramspot12 200
+		faceangles 0 0 0 gototime
+		gotomarker tramspot11 260
+		faceangles 0 0 1 gototime
+		gotomarker tramspot10 160
+		faceangles 0 0 -3 gototime
+		gotomarker tramspot9 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot8 160
+		faceangles 0 0 -3 gototime
+		gotomarker tramspot7 160
+		faceangles 0 0 1 gototime
+		trigger tramcar tramswing1
+	}
+
+	trigger tramswing1
+	{
+		gotomarker tramspot6 140
+		faceangles 0 0 1 gototime
+		gotomarker tramspot5 130
+		faceangles 0 0 1 gototime
+		gotomarker tramspot4 120
+		faceangles 0 0 1 gototime
+		gotomarker tramspot3 100
+		faceangles 0 0 1 gototime
+		stopsound
+		playsound sound/scenaric/tram/tram_stop.wav
+		gotomarker tramspot2 70
+		faceangles -1 0 1 gototime
+		trigger nazi6 headout6
+		trigger nazi7 headout7
+		gotomarker tramspot1 50
+		faceangles -2 0 1 gototime
+		faceangles -2 -1 1 550
+		playsound sound/scenaric/tram/tram_creak.wav // play creak sound
+		faceangles -1 0 1 500
+		faceangles 0 0 1 550
+		faceangles 0 1 1 600
+		faceangles 1 0 1 700
+		faceangles 1 0 0 800
+//		faceangles 0 0 0 2000
+
+		trigger player trams_down
+
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		trigger button1 resetbutton1
+		alertentity light2on
+	}
+
+	trigger tramdown
+	{
+		trigger tramdummy tram1_going_down
+		wait 500
+		playsound sound/scenaric/tram/tram_start.wav
+		wait 500
+		stopsound
+		playsound sound/scenaric/tram/tram_move.wav looping
+		gotomarker tramspot2 70
+		faceangles 0 0 0 gototime
+		gotomarker tramspot3 100
+		faceangles -1 0 0 gototime
+		gotomarker tramspot4 120
+		faceangles -2 0 0 gototime
+		gotomarker tramspot5 140
+		faceangles -2 0 0 gototime
+		gotomarker tramspot6 210
+		faceangles -2 0 0 gototime
+		gotomarker tramspot7 210
+		faceangles -1 0 1 gototime
+		gotomarker tramspot8 160
+		faceangles -1 0 -4 gototime
+		gotomarker tramspot9 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot10 160
+		faceangles 0 0 -3 gototime
+		gotomarker tramspot11 160
+		faceangles 0 0 2 gototime
+		gotomarker tramspot12 160
+		faceangles 0 0 1 gototime
+		trigger tramcar trammidstop
+	}
+
+	trigger trammidstop
+	{
+		gotomarker tramspot13 140
+		faceangles 0 0 1 gototime
+		gotomarker tramspot14 130
+		faceangles 0 0 1 gototime
+		gotomarker tramspot15 120
+		faceangles 0 0 1 gototime
+		gotomarker tramspot16 100
+		faceangles 0 0 1 gototime
+		gotomarker tramspot17 70
+		faceangles 1 0 1 gototime
+		stopsound
+		playsound sound/scenaric/tram/tram_stop.wav
+		gotomarker tramspot18 50
+		faceangles 2 0 1 gototime
+		faceangles 0 0 0 3000
+
+		trigger player trams_up
+	}
+}
+
+
+trammount
+{
+	trigger mountup
+	{
+		wait 200
+		gotomarker tramspot12 200
+		faceangles -9 0 0 gototime
+		gotomarker tramspot11 260
+		faceangles -9 0 0 gototime
+		gotomarker tramspot10 160
+		faceangles -9 0 0 gototime
+		gotomarker tramspot9 160
+		trigger zone1 onsight
+		faceangles -9 0 0 gototime
+		gotomarker tramspot8 160
+		faceangles -9 0 0 gototime
+		gotomarker tramspot7 160
+		faceangles -9 0 0 gototime
+		trigger trammount mountswing1
+	}
+
+	trigger mountswing1
+	{
+		gotomarker tramspot6 140
+		faceangles -9 0 0 gototime
+		gotomarker tramspot5 120
+		faceangles 0 0 0 gototime
+		gotomarker tramspot4 120
+		faceangles 0 0 0 gototime
+		gotomarker tramspot3 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot2 70
+		faceangles 0 0 0 gototime
+		gotomarker tramspot1 50
+		faceangles 0 0 0 gototime
+	}
+
+	trigger mountdown
+	{
+		wait 1000
+		gotomarker tramspot2 70
+		faceangles 0 0 0 gototime
+		gotomarker tramspot3 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot4 120
+		faceangles 0 0 0 gototime
+		gotomarker tramspot5 140
+		faceangles 0 0 0 gototime
+		gotomarker tramspot6 210
+		faceangles -9 0 0 gototime
+		gotomarker tramspot7 210
+		faceangles -9 0 0 gototime
+		playsound sound/scenaric/tram/tram_creak.wav // play creak sound
+		gotomarker tramspot8 160
+		faceangles -9 0 0 gototime
+		gotomarker tramspot9 160
+		faceangles -9 0 0 gototime
+		playsound sound/scenaric/tram/cable_creak.wav // play creak sound
+		gotomarker tramspot10 160
+		faceangles -9 0 0 gototime
+		gotomarker tramspot11 160
+		faceangles -9 0 0 gototime
+		gotomarker tramspot12 160
+		faceangles -9 0 0 gototime
+		trigger trammount mountmidstop
+	}
+	
+	trigger mountmidstop
+	{
+		gotomarker tramspot13 140
+		faceangles -9 0 0 gototime
+		gotomarker tramspot14 130
+		faceangles -9 0 0 gototime
+		gotomarker tramspot15 120
+		faceangles -9 0 0 gototime
+		gotomarker tramspot16 100
+		faceangles -9 0 0 gototime
+		playsound sound/scenaric/tram/tram_creak.wav // play creak sound
+		gotomarker tramspot17 70
+		faceangles -9 0 0 gototime
+		gotomarker tramspot18 50
+		faceangles -9 0 0 gototime
+		faceangles -9 0 0 3000
+	}
+}
+
+//The second tram car script:
+
+tramcar_coop
+{
+	trigger tramcontinue
+	{
+		wait 500
+		playsound sound/scenaric/tram/tram_start.wav
+		wait 500
+		playsound sound/scenaric/tram/tram_move.wav looping
+		gotomarker tramspot19 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot20 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot21 160
+		faceangles -1 0 0 gototime
+		gotomarker tramspot22 160
+		faceangles -2 0 0 gototime
+		gotomarker tramspot23 160
+		faceangles -2 0 0 gototime
+		gotomarker tramspot24 160
+		faceangles -1 0 0 gototime
+		gotomarker tramspot25 160
+		faceangles -1 0 0 gototime
+		gotomarker tramspot26 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot27 160
+		faceangles 0 0 1 gototime
+		gotomarker tramspot28 160
+		faceangles 0 0 -4 gototime
+		gotomarker tramspot29 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot30 160
+		faceangles 0 0 3 gototime
+		gotomarker tramspot31 160
+		faceangles 0 0 -2 gototime
+		gotomarker tramspot32 160
+		faceangles 0 0 -1 gototime
+		gotomarker tramspot33 140
+		faceangles 1 0 -1 gototime
+		gotomarker tramspot34 130
+		faceangles 2 0 -1 gototime
+		gotomarker tramspot35 120
+		faceangles 1 0 -1 gototime
+		gotomarker tramspot36 120
+		faceangles 0 0 -1 gototime
+		gotomarker tramspot37 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot38 90
+		faceangles 1 0 0 gototime
+		gotomarker tramspot39 70
+		faceangles 2 0 0 gototime
+		stopsound
+		playsound sound/scenaric/tram/tram_stop.wav
+		gotomarker tramspot40 40
+		faceangles 2 0 0 gototime
+		faceangles 0 0 0 2000
+	}
+
+	trigger tramreturn
+	{
+		wait 200
+		playsound sound/scenaric/tram/tram_move.wav looping
+		gotomarker tramspot33 210
+		faceangles 0 0 0 gototime
+		gotomarker tramspot32 210
+		faceangles 0 0 1 gototime
+		gotomarker tramspot31 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot30 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot29 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot28 160
+		faceangles 0 0 -1 gototime
+		gotomarker tramspot27 160
+		faceangles 0 0 1 gototime
+		gotomarker tramspot26 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot25 160
+		faceangles -1 0 0 gototime
+		gotomarker tramspot24 160
+		faceangles -1 0 0 gototime
+		gotomarker tramspot23 160
+		faceangles -1 0 0 gototime
+		gotomarker tramspot22 140
+		faceangles -1 0 0 gototime
+		gotomarker tramspot21 120
+		faceangles -1 0 0 gototime
+		gotomarker tramspot20 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot19 70
+		faceangles 0 0 0 gototime
+		gotomarker tramspot18 40
+		faceangles 2 0 0 gototime
+		stopsound
+		playsound sound/scenaric/tram/tram_stop.wav
+		faceangles 0 0 0 2000
+
+		trigger tramdummy tram2_at_mid
+	}	
+}
+
+trammount_coop
+{
+	trigger mountcontinue
+	{
+
+		wait 1000
+		gotomarker tramspot19 160
+		faceangles -9 0 0 gototime
+		gotomarker tramspot20 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot21 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot22 160
+		faceangles -25 0 0 gototime
+		playsound sound/scenaric/tram/cable_creak.wav // play creak sound
+		gotomarker tramspot23 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot24 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot25 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot26 160
+		faceangles -25 0 0 gototime
+		playsound sound/scenaric/tram/tram_creak.wav // play creak sound
+		gotomarker tramspot27 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot28 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot29 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot30 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot31 160
+		faceangles -25 0 0 gototime
+		playsound sound/scenaric/tram/cable_creak.wav // play creak sound
+		gotomarker tramspot32 160
+		faceangles 0 0 0 gototime
+		gotomarker tramspot33 140
+		faceangles 0 0 0 gototime
+		gotomarker tramspot34 130
+		faceangles 0 0 0 gototime
+		gotomarker tramspot35 120
+		faceangles 0 0 0 gototime
+		gotomarker tramspot36 120
+		faceangles 0 0 0 gototime
+		trigger nazi16 gooutdoor16
+		gotomarker tramspot37 100
+		faceangles 0 0 0 gototime
+		gotomarker tramspot38 90
+		faceangles 0 0 0 gototime
+		gotomarker tramspot39 70
+		faceangles 0 0 0 gototime
+		gotomarker tramspot40 40
+		faceangles 0 0 0 gototime
+		faceangles 0 0 0 2000
+	}
+
+	trigger mountreturn
+	{
+		wait 200
+		gotomarker tramspot33 210
+		faceangles 0 0 0 gototime
+		gotomarker tramspot32 210
+		faceangles -25 0 0 gototime
+		gotomarker tramspot31 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot30 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot29 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot28 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot27 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot26 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot25 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot24 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot23 160
+		faceangles -25 0 0 gototime
+		gotomarker tramspot22 140
+		faceangles -25 0 0 gototime
+		gotomarker tramspot21 120
+		faceangles -25 0 0 gototime
+		gotomarker tramspot20 100
+		faceangles -25 0 0 gototime
+		gotomarker tramspot19 70
+		faceangles -9 0 0 gototime
+		gotomarker tramspot18 40
+		faceangles -9 0 0 gototime
+		faceangles -9 0 0 2000
+	}	
+}
+
+zone1
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitset 2 // explode upper alarm
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger firstgroupdead
+	{
+		accum 1 inc 1
+		accum 1 abort_if_not_equal 2
+		accum 1 set -69
+
+		alertentity nazi5
+		alertentity unlockdoor1
+		accum 0 abort_if_bitset 2
+		trigger nazi5 noalarm
+	}
+
+	trigger upperalarm //the upper alarm has been set off 
+	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		alertentity nazi8
+		alertentity nazi9
+		alertentity nazi10
+		wait 100
+		trigger nazi8 upperalarm8
+		trigger nazi9 upperalarm9
+		trigger nazi10 upperalarm10
+	}
+
+	trigger loweralarm //the lower alarm has been (will be) set off
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		alertentity nazi8
+		alertentity nazi9
+		alertentity nazi10
+		wait 3000
+		trigger nazi9 loweralarm9
+		trigger player playalarm
+	}
+
+	trigger explode_upper
+	{
+		accum 0 bitreset 2
+		trigger nazi1 sighted1
+		trigger nazi2 sighted2
+		trigger nazi3 sighted3
+		trigger nazi4 sighted4
+	}
+
+	trigger onsight
+	{
+		wait 1500
+		trigger nazi6 startshooting6
+		trigger nazi7 startshooting7
+	}	
+
+	trigger finalbattle
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+
+		alertentity nazi25
+		alertentity exitopen
+		alertentity nazi26
+		alertentity nazi27
+		alertentity nazi28
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_30 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_31 #endif
+		#if g_reinforce >= 2 alertentity coop_ai_soldier_32 #endif
+	}
+
+	trigger reset
+	{
+//No more used in coop... Kesler should no stop talking, when one player dies.
+		//resetscript
+		//accum 2 abort_if_not_equal 5
+		// use to clear cutscene camera on player death
+		//trigger player clear_cam
+		//trigger kesler clear_cam
+	}
+
+	trigger finaldown
+	{
+		accum 2 inc 1
+		accum 2 abort_if_not_equal 2  //Room for 1 freezing
+		accum 2 set -69
+
+		// activate cutscene
+		trigger player got_objective3 //objective completed
+//		wait 2500
+//		trigger player cam1
+
+		alertentity kesler
+//		wait 1000
+//
+//		alertentity station1
+//		wait 4200
+//		trigger kesler under_control
+//		wait 4200
+//		alertentity station2
+//		wait 2000
+//		trigger kesler dead
+//		wait 800
+//		alertentity station3
+//		wait 3000
+//		trigger kesler movetotalk
+//		wait 3000
+//		accum 2 set 0
+//		alertentity post_cutscene
+//		trigger kesler walkback
+
+		alertentity cutscenedoor
+
+
+	}
+}
+
+button1
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger pushbutton1
+	{
+		trigger button1 coop_down
+	}
+
+	trigger coop_down
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		wait 5
+		trigger player first_start
+		playsound sound/world/alarmswitch.wav
+		gotomarker button1in 20	
+		alertentity light2on
+	}
+
+	trigger resetbutton1
+	{
+		gotomarker button1out 20
+	}
+}
+
+button2
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger pushbutton2
+	{
+		trigger button2 coop_down
+	}
+
+	trigger coop_down
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		wait 5
+		trigger player startlower
+		playsound sound/world/alarmswitch.wav
+		gotomarker button2in 20	
+		alertentity light4on
+	}
+
+	trigger resetbutton2
+	{
+		gotomarker button2out 20
+	}
+}
+
+tramdummy
+{
+	spawn
+	{
+		//Tram1 goes on unless stopped here!
+		accum 0 set 0	//Tram1 0=down 1=up
+		accum 1 set 0	//Tram1 want to stop?
+	}
+
+	trigger tram1_going_up
+	{
+		accum 0 set 1
+	}
+	
+	trigger tram1_going_down
+	{
+		accum 0 set 0
+	}
+
+	trigger button2_pressed
+	{
+		accum 0 abort_if_not_equal 1
+
+		trigger player stop_tram1
+		accum 1 set 1	//Reset tram2 once if waiting	
+
+		trigger tramcar_coop tramreturn
+		wait 5
+		trigger trammount_coop mountreturn
+	}
+
+	trigger tram2_at_mid
+	{
+		accum 1 abort_if_not_equal 1 //Tram2 waiting?
+		accum 1 set 69 //Not needed anymore
+
+		trigger player reset_tram1
+		wait 50
+		trigger player trams_down
+	}
+}
+
+//Visible models since the model2 key did not show for all :(
+
+tramcar_coop_model
+{
+	spawn
+	{
+		wait 100
+		attachtotag tramcar_coop tag_tram
+	}
+}
+
+trammount_coop_model
+{
+	spawn
+	{
+		wait 100
+		attachtotag trammount_coop tag_tram
+	}
+}
