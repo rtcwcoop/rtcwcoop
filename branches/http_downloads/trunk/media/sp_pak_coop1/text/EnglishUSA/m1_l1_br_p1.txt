@@ -1,9 +1,0 @@
- 
- ^0MISSION OBJECTIVES:^0
-
-            Escape the dungeon by any
-            means necessary
-
-            Locate the exit to the lower 
-            keep
-
