@@ -652,6 +652,7 @@ issues.
 */
 
 #define BASEGAME "main"
+#define COOP_BASEGAME "coopmain"
 
 // referenced flags
 // these are in loop specific order so don't change the order
