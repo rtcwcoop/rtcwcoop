@@ -322,7 +322,13 @@ static qboolean Sys_StringToSockaddr(const char *s, struct sockaddr *sadr, int s
 			return qtrue;
 		}
 		else
+		{
 			Com_Printf("Sys_StringToSockaddr: Error resolving %s: No address of required type found.\n", s);
+			if (net_enabled->integer == 0)
+			{
+				Com_Printf("This probably happens because you've set net_enabled to 0.\n");
+			}
+		}
 	}
 	else
 		Com_Printf("Sys_StringToSockaddr: Error resolving %s: %s\n", s, gai_strerror(retval));
