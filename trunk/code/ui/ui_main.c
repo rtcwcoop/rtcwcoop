@@ -7255,7 +7255,7 @@ void UI_DrawConnectScreen( qboolean overlay ) {
 
 		trap_Cvar_VariableStringBuffer( "cl_downloadName", downloadName, sizeof( downloadName ) );
 		if ( *downloadName ) {
-			UI_DisplayDownloadInfo( downloadName, centerPoint, yStart, UI_FONT_DEFAULT, scale );
+			UI_DisplayDownloadInfo( downloadName, centerPoint, yStart - 100, UI_FONT_DEFAULT, scale );
 			return;
 		}
 	}
