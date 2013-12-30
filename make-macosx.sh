@@ -27,7 +27,7 @@ else
 	exit 1
 fi
 
-CC=gcc-4.0
+CC=gcc
 APPBUNDLE=rtcwcoop.app
 BINARY=rtcwcoop.${ARCH}
 DEDBIN=rtcwcoopded.${ARCH}
@@ -74,11 +74,11 @@ unset ARCH_SDK
 unset ARCH_CFLAGS
 unset ARCH_LDFLAGS
 
-if [ -d /Developer/SDKs/MacOSX10.5.sdk ]; then
-	ARCH_SDK=/Developer/SDKs/MacOSX10.5.sdk
-	ARCH_CFLAGS="-arch ${ARCH} -isysroot /Developer/SDKs/MacOSX10.5.sdk \
-			-DMAC_OS_X_VERSION_MIN_REQUIRED=1050"
-	ARCH_LDFLAGS=" -mmacosx-version-min=10.5"
+if [ -d /Developer/SDKs/MacOSX10.6.sdk ]; then
+	ARCH_SDK=/Developer/SDKs/MacOSX10.6.sdk
+	ARCH_CFLAGS="-arch ${ARCH} -isysroot /Developer/SDKs/MacOSX10.6.sdk \
+			-DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+	ARCH_LDFLAGS=" -mmacosx-version-min=10.6"
 fi
 
 
