@@ -3731,6 +3731,16 @@ static void FS_Startup( const char *gameName )
 		}
 	}
 
+	// fretn
+	if ( fs_basepath->string[0] ) {
+		FS_AddGameDirectory( fs_basepath->string, COOP_BASEGAME );
+	}
+	if ( fs_homepath->string[0] && Q_stricmp( fs_homepath->string,fs_basepath->string ) ) {
+		FS_AddGameDirectory( fs_homepath->string, COOP_BASEGAME );
+	}
+	
+	// -fretn
+
 #ifndef STANDALONE
 	if(!com_standalone->integer)
 	{
