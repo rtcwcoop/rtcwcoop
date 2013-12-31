@@ -7077,37 +7077,17 @@ static void UI_ReadableSize( char *buf, int bufsize, int value ) {
 	}
 }
 
-// Assumes time is in msec
-static void UI_PrintTime( char *buf, int bufsize, int time ) {
-	time /= 1000;  // change to seconds
-
-	if ( time > 3600 ) { // in the hours range
-		Com_sprintf( buf, bufsize, "%d hr %d min", time / 3600, ( time % 3600 ) / 60 );
-	} else if ( time > 60 ) { // mins
-		Com_sprintf( buf, bufsize, "%d min %d sec", time / 60, time % 60 );
-	} else  { // secs
-		Com_sprintf( buf, bufsize, "%d sec", time );
-	}
-}
-
 void Text_PaintCenter( float x, float y, int font, float scale, vec4_t color, const char *text, float adjust ) {
 	int len = Text_Width( text, font, scale, 0 );
 	Text_Paint( x - len / 2, y, font, scale, color, text, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 }
 
-#define ESTIMATES 80
 static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint, float yStart, int font, float scale ) {
 	static char dlText[]    = "Downloading:";
-	static char etaText[]   = "Estimated time left:";
 	static char xferText[]  = "Transfer rate:";
-	static int tleEstimates[ESTIMATES] = { 60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,
-										   60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,
-										   60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,
-										   60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60 };
-	static int tleIndex = 0;
 
 	int downloadSize, downloadCount, downloadTime;
-	char dlSizeBuf[64], totalSizeBuf[64], xferRateBuf[64], dlTimeBuf[64];
+	char dlSizeBuf[64], totalSizeBuf[64], xferRateBuf[64];
 	int xferRate;
 	const char *s;
 
@@ -7122,8 +7102,7 @@ static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint,
 
 	UI_SetColor( colorYellow );
 	Text_Paint( 92, yStart + 210, font, scale, colorYellow, dlText, 0, 64, ITEM_TEXTSTYLE_SHADOWEDMORE );
-	Text_Paint( 35, yStart + 235, font, scale, colorYellow, etaText, 0, 64, ITEM_TEXTSTYLE_SHADOWEDMORE );
-	Text_Paint( 86, yStart + 260, font, scale, colorYellow, xferText, 0, 64, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	Text_Paint( 92, yStart + 260, font, scale, colorYellow, xferText, 0, 64, ITEM_TEXTSTYLE_SHADOWEDMORE );
 
 	if ( downloadSize > 0 ) {
 		s = va( "%s (%d%%)", downloadName,
@@ -7132,7 +7111,7 @@ static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint,
 		s = downloadName;
 	}
 
-	Text_Paint( 260, yStart + 210, font, scale, colorYellow, s, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+	Text_Paint( 111, yStart + 235, font, scale, colorYellow, s, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
 
 	UI_ReadableSize( dlSizeBuf,     sizeof dlSizeBuf,       downloadCount );
 	UI_ReadableSize( totalSizeBuf,  sizeof totalSizeBuf,    downloadSize );
@@ -7147,33 +7126,10 @@ static void UI_DisplayDownloadInfo( const char *downloadName, float centerPoint,
 		}
 		UI_ReadableSize( xferRateBuf, sizeof xferRateBuf, xferRate );
 
-		// Extrapolate estimated completion time
-		if ( downloadSize && xferRate ) {
-			int n = downloadSize / xferRate; // estimated time for entire d/l in secs
-			int timeleft = 0, i;
-
-			// We do it in K (/1024) because we'd overflow around 4MB
-			tleEstimates[ tleIndex ] = ( n - ( ( ( downloadCount / 1024 ) * n ) / ( downloadSize / 1024 ) ) );
-			tleIndex++;
-			if ( tleIndex >= ESTIMATES ) {
-				tleIndex = 0;
-			}
-
-			for ( i = 0; i < ESTIMATES; i++ )
-				timeleft += tleEstimates[ i ];
-
-			timeleft /= ESTIMATES;
-
-			UI_PrintTime( dlTimeBuf, sizeof dlTimeBuf, timeleft );
-
-			Text_Paint( 260, yStart + 235, font, scale, colorYellow, dlTimeBuf, 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );
+		if ( downloadSize ) {
 			Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
 		} else {
-			if ( downloadSize ) {
-				Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s of %s copied)", dlSizeBuf, totalSizeBuf ), 0 );
-			} else {
-				Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s copied)", dlSizeBuf ), 0 );
-			}
+			Text_PaintCenter( centerPoint, yStart + 340, font, scale, colorYellow, va( "(%s copied)", dlSizeBuf ), 0 );
 		}
 
 		if ( xferRate ) {
