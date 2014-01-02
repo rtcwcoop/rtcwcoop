@@ -1363,9 +1363,9 @@ inge1a						// Warming hands next to fire...
 
 	death player
 	{
-		missionfailed 6 1
-		accum 0 abort_if_not_bitset 20
-		trigger checker1 sight_check_out
+		//missionfailed 6 1
+		//accum 0 abort_if_not_bitset 20
+		//trigger checker1 sight_check_out
 	}
 }
 
