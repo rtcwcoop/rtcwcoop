@@ -546,7 +546,7 @@
 }
 {
 "classname" "coop_spawnpoint"
-"spawnflags" "3"
+"spawnflags" "2"
 "origin" "-3707 4339 536"
 "angle" "-36"
 "targetname" "forest1"
