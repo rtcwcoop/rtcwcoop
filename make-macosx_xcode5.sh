@@ -27,6 +27,7 @@ else
 fi
 
 CC=clang
+CXX=clang++
 APPBUNDLE=rtcwcoop.app
 BINARY=rtcwcoop.${ARCH}
 DEDBIN=rtcwcoopded.${ARCH}
@@ -87,7 +88,7 @@ NCPU=`sysctl -n hw.ncpu`
 #if [ -d build/release-darwin-${BUILDARCH} ]; then
 #	rm -r build/release-darwin-${BUILDARCH}
 #fi
-(ARCH=${BUILDARCH} CFLAGS=$ARCH_CFLAGS LDFLAGS=$ARCH_LDFLAGS make -j$NCPU) || exit 1;
+(CC=${CC} CXX=${CXX} ARCH=${BUILDARCH} CFLAGS=$ARCH_CFLAGS LDFLAGS=$ARCH_LDFLAGS make -j$NCPU) || exit 1;
 
 echo "Creating .app bundle $DESTDIR/$APPBUNDLE"
 if [ ! -d $DESTDIR/$APPBUNDLE/Contents/MacOS/$BASEDIR ]; then
