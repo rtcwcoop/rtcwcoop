@@ -817,6 +817,9 @@ typedef struct {
 
 	// used in ai files
 	int globalAccumBuffer[G_MAX_SCRIPT_ACCUM_BUFFERS];
+
+	// fretn - maybe not the best place to add this
+	char *maplist[MAX_MAPS];
 } level_locals_t;
 
 //extern    qboolean	reloading;				// loading up a savegame
@@ -1127,6 +1130,7 @@ void G_CheckBotSpawn( void );
 void G_QueueBotBegin( int clientNum );
 qboolean G_BotConnect( int clientNum, qboolean restart );
 void Svcmd_AddBot_f( void );
+void G_LoadArenas( void );
 
 // ai_main.c
 #define MAX_FILEPATH            144

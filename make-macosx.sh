@@ -3,14 +3,14 @@
 
 # Lets make the user give us a target build system
 
-if [ $# -ne 1 ]; then
-	echo "Usage:   $0 target_architecture"
-	echo "Example: $0 x86"
-	echo "other valid options are x86_64 or ppc"
-	echo
-	echo "If you don't know or care about architectures please consider using make-macosx-ub.sh instead of this script."
-	exit 1
-fi
+#if [ $# -ne 1 ]; then
+#	echo "Usage:   $0 target_architecture"
+#	echo "Example: $0 x86"
+#	echo "other valid options are x86_64 or ppc"
+#	echo
+#	echo "If you don't know or care about architectures please consider using make-macosx-ub.sh instead of this script."
+#	exit 1
+#fi
 
 if [ "$1" == "x86" ]; then
 	BUILDARCH=x86
@@ -22,12 +22,13 @@ elif [ "$1" == "ppc" ]; then
 	BUILDARCH=ppc
 	ARCH=ppc
 else
-	echo "Invalid architecture: $1"
-	echo "Valid architectures are x86, x86_64 or ppc"
-	exit 1
+	BUILDARCH=`uname -m`
+	ARCH=`uname -m`
+	#echo "Invalid architecture: $1"
+	#echo "Valid architectures are x86, x86_64 or ppc"
+	#exit 1
 fi
 
-CC=gcc
 APPBUNDLE=rtcwcoop.app
 BINARY=rtcwcoop.${ARCH}
 DEDBIN=rtcwcoopded.${ARCH}
@@ -83,7 +84,7 @@ fi
 
 
 echo "Building ${BUILDARCH} Client/Dedicated Server against \"$ARCH_SDK\""
-sleep 3
+#sleep 3
 
 if [ ! -d $DESTDIR ]; then
 	mkdir -p $DESTDIR
@@ -94,9 +95,9 @@ NCPU=`sysctl -n hw.ncpu`
 
 
 # intel client and server
-if [ -d build/release-darwin-${BUILDARCH} ]; then
-	rm -r build/release-darwin-${BUILDARCH}
-fi
+#if [ -d build/release-darwin-${BUILDARCH} ]; then
+#	rm -r build/release-darwin-${BUILDARCH}
+#fi
 (ARCH=${BUILDARCH} CFLAGS=$ARCH_CFLAGS LDFLAGS=$ARCH_LDFLAGS make -j$NCPU) || exit 1;
 
 echo "Creating .app bundle $DESTDIR/$APPBUNDLE"

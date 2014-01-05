@@ -1462,6 +1462,9 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	}
 
 	G_RemapTeamShaders();
+
+	// fretn
+	G_LoadArenas();
 }
 
 
