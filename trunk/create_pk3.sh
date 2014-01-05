@@ -14,9 +14,9 @@ cd media/sp_pak_coop1
 #zip -r $PAKFILE models/players/coop/* models/movespeeds/* maps/* scripts/* ui/* ./* levelshots/*
 zip -r $PAKFILE ./ -x "*.svn*"
 
-if [ "`uname`" = "Darwin" ]; then
-        cp $PAKFILE ~/Documents/rtcwcoop/main/
-fi
+#if [ "`uname`" = "Darwin" ]; then
+        #cp $PAKFILE ~/Documents/rtcwcoop/main/
+#fi
 if [ "`uname`" = "Linux" ]; then
         cp $PAKFILE ~/.wolf/main
 fi

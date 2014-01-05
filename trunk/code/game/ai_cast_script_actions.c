@@ -2846,7 +2846,33 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 	if ( g_gametype.integer == GT_COOP_BATTLE ) {
 		trap_Cvar_VariableStringBuffer( "mapname", level.nextMap, sizeof( level.nextMap ) );
 	} else {
-		Q_strncpyz( level.nextMap, newstr, sizeof( level.nextMap ) );
+		if (!strcmp(newstr, "campaign_end")) {
+			char currentmap[MAX_STRING_CHARS];
+			int i = 0;
+			qboolean found = qfalse;
+
+			trap_Cvar_VariableStringBuffer( "mapname", currentmap, sizeof( currentmap ) );
+
+			for (i=0;i<MAX_MAPS;i++) {
+				if (level.maplist[i] && !strcmp(level.maplist[i], currentmap)) {
+					if ( (i+1) > MAX_MAPS || !level.maplist[i+1]) {
+						Q_strncpyz( level.nextMap, level.maplist[0], sizeof( level.nextMap ) );
+						found = qtrue;
+					} else {
+						if (level.maplist[i+1]) {
+							Q_strncpyz( level.nextMap, level.maplist[i+1], sizeof( level.nextMap ) );
+							found = qtrue;
+						}
+					}
+				}
+			}
+
+			if (!found) {
+				Q_strncpyz( level.nextMap, newstr, sizeof( level.nextMap ) );
+			}
+		} else {
+			Q_strncpyz( level.nextMap, newstr, sizeof( level.nextMap ) );
+		}
 	}
 
 	//send gameCompleteStatus message to master servers

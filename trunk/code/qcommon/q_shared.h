@@ -79,6 +79,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #define MAX_COOP_CLIENTS 8
 
+#define MAX_MAPS 128
+
 #define MAX_TEAMNAME		32
 #define NEW_ANIMS
 #define MAX_MASTER_SERVERS      5	// number of supported master servers

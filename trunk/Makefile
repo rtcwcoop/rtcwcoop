@@ -229,7 +229,7 @@ USE_RENDERER_DLOPEN=1
 endif
 
 ifndef DEBUG_CFLAGS
-DEBUG_CFLAGS=-g -O0
+DEBUG_CFLAGS=-g -O0 -ggdb3
 endif
 
 ifndef USE_ANTIWALLHACK
@@ -464,6 +464,7 @@ ifeq ($(PLATFORM),darwin)
   CLIENT_LIBS=
   RENDERER_LIBS=
   OPTIMIZEVM=
+  CC=gcc-4.2
 
   BASE_CFLAGS = -Wall
 
@@ -475,13 +476,13 @@ ifeq ($(PLATFORM),darwin)
     BASE_CFLAGS += -arch ppc64 -faltivec -mmacosx-version-min=10.2
   endif
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM += -march=prescott -mfpmath=sse
+    OPTIMIZEVM += -march=prescott #-mfpmath=sse
     # x86 vm will crash without -mstackrealign since MMX instructions will be
     # used no matter what and they corrupt the frame pointer in VM calls
     BASE_CFLAGS += -arch i386 -m32 -mstackrealign
   endif
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM += -arch x86_64 -mfpmath=sse
+    OPTIMIZEVM += -arch x86_64 #-mfpmath=sse
   endif
 
   # When compiling on OSX for OSX, we're not cross compiling as far as the
@@ -539,7 +540,7 @@ ifeq ($(PLATFORM),darwin)
     $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib
   RENDERER_LIBS += -framework OpenGL $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib
 
-  OPTIMIZEVM += -falign-loops=16
+  #OPTIMIZEVM += -falign-loops=16
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
   SHLIBEXT=dylib
@@ -1261,7 +1262,7 @@ endef
 # MAIN TARGETS
 #############################################################################
 
-default: release
+default: debug
 all: debug release
 
 debug:
