@@ -6,7 +6,7 @@
 #if [ $# -ne 1 ]; then
 #	echo "Usage:   $0 target_architecture"
 #	echo "Example: $0 x86"
-#	echo "other valid options are x86_64 or ppc"
+#	echo "The other valid option is x86_64"
 #	echo
 #	echo "If you don't know or care about architectures please consider using make-macosx-ub.sh instead of this script."
 #	exit 1
@@ -18,14 +18,11 @@ if [ "$1" == "x86" ]; then
 elif [ "$1" == "x86_64" ]; then
 	BUILDARCH=x86_64
 	ARCH=x86_64
-elif [ "$1" == "ppc" ]; then
-	BUILDARCH=ppc
-	ARCH=ppc
 else
 	BUILDARCH=`uname -m`
 	ARCH=`uname -m`
 	#echo "Invalid architecture: $1"
-	#echo "Valid architectures are x86, x86_64 or ppc"
+	#echo "Valid architectures are x86, x86_64"
 	#exit 1
 fi
 
@@ -72,20 +69,11 @@ TIGERHOST=`uname -r |perl -w -p -e 's/\A(\d+)\..*\Z/$1/; $_ = (($_ >= 8) ? "1" :
 # enough gcc to actually compile rtcwcoop
 # For PPC macs, G4's or better are required to run rtcwcoop.
 
-unset ARCH_SDK
 unset ARCH_CFLAGS
 unset ARCH_LDFLAGS
 
-if [ -d /Developer/SDKs/MacOSX10.6.sdk ]; then
-	ARCH_SDK=/Developer/SDKs/MacOSX10.6.sdk
-	ARCH_CFLAGS="-arch ${ARCH} -isysroot /Developer/SDKs/MacOSX10.6.sdk \
-			-DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
-	ARCH_LDFLAGS=" -mmacosx-version-min=10.6"
-fi
-
-
-echo "Building ${BUILDARCH} Client/Dedicated Server against \"$ARCH_SDK\""
-#sleep 3
+ARCH_CFLAGS="-arch ${ARCH} -DMAC_OS_X_VERSION_MIN_REQUIRED=1060"
+ARCH_LDFLAGS=" -mmacosx-version-min=10.6"
 
 if [ ! -d $DESTDIR ]; then
 	mkdir -p $DESTDIR
