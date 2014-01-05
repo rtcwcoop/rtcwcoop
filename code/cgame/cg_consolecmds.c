@@ -592,10 +592,10 @@ static void CG_DumpCoopSpawnpoint_f( void ) {
 
 	// Build the entity definition
 	if ( flagpolenumber - 1 >= 0 ) {
-		buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"0\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"targetname\" \"%s\"\n}\n\n",
+		buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"2\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n\"targetname\" \"%s\"\n}\n\n",
 						(int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW], va( "%s%d", buf, flagpolenumber - 1 ) );
 	} else {
-		buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"1\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
+		buffptr = va(   "{\n\"classname\" \"coop_spawnpoint\"\n\"spawnflags\" \"3\"\n\"origin\" \"%i %i %i\"\n\"angle\" \"%d\"\n}\n\n",
 						(int) cg.snap->ps.origin[0], (int) cg.snap->ps.origin[1], (int) cg.snap->ps.origin[2], (int)cg.refdefViewAngles[YAW] );
 	}
 
