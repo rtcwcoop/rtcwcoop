@@ -41,6 +41,18 @@ In most time all we need to do is edit the .AI file that has AI scripting in it.
 
 I just want to frag a couple AIs in a custom SP map with my friends!
 
+=== Adding the map ===
+
+It is simple. Download the original pk3 file. Place it in your RTCW COOP installation folder inside main folder. Just like you would do it in SP.
+
+=== Adding first set of spawns ===
+
+First we need a 
+
+
+
+
+
 == Making the map work properly ==
 === General script functionality ===
 === Random respawning ===
