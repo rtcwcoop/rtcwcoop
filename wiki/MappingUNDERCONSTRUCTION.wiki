@@ -2,17 +2,20 @@
 
 *!!!!!!This tutorial is currently under construction!!!!!!!!* 
 
+Up to date with RTCW Coop mod version 0.9.5!
+
 <wiki:toc max_depth="5" />
 
 =Introduction=
 
 Aim of this tutorial is to be up-to-date tutorial and list of features that can be used to get a map running for RTCW Coop from RTCW SP.
+ 
+If this tutorial seems to be too wide and big for you, check at this very [http://www.rtcwcoop.com/forum/viewtopic.php?id=77 quick summary tutorial].
 
 This has been done in Windows 7 environment. Users of other OS' must figure the correct folders.
 
-I can't be held responsible for anything. Any feedback, questions, tutorial requests or such can be pointed out on our official mod forum:
+I can't be held responsible for anything. Any feedback, questions, tutorial requests or such can be pointed out on our [http://www.rtcwcoop.com/forum/ official mod forum].
 
-[http://www.rtcwcoop.com/forum/ Go to the forums!]
 
 Good luck and have fun from
 
@@ -372,6 +375,10 @@ player
 //and so on.......
 
 }
+
+*TEST YOUR MAP NOW*
+
+If it does not load, check section Problem solving -> Script errors.
 }}}
 
 === 3.3. Make the objectives work properly ===
@@ -428,34 +435,140 @@ player //Starts up with this
 
 *!!!NOTE!!! DO NOT REPLACE ANY MORE THAN WHAT IS INSIDE PLAYER SCRIPTBLOCK!*
 
-=== General script functionality ===
-=== 3.2. Remove any cutscene scripting ===
-=== Making music work properly ===
-=== Random respawning ===
+=== 3.4. Remove any cutscene scripting ===
 
+RTCW Coop mod does not support cutscenes. All cam related script commands should be ignored by code, but it is safer to remove them.
+
+Most of the times during a cutscene AI does some actions. Normally SP either plays the action or skips it with Esc. Coop cannot do this. So you must manually skip the cutscene script actions. Do the following.
+
+ * 1) Load the map in SP game. Go to part where cutscene starts. Try pressing Esc button. This should skip the tutorial. 
+
+_If it does, good, please continue! If not, you better know how to do some scripting. Or then post it on the forum for me to solve. The cutscene script will need to be skipped, or the cutscene script will play out while you play the game._
+
+ * 2) Search .ai file with a keyword _trigger camerainterrupt_
+
+_This is the trigger that is executed when you press Esc_
+
+Example from map Escape1:
+
+{{{
+   trigger camerainterrupt
+   {
+   stopcam
+   trigger dummy cine1_cleanup
+   }
+}}}
+
+ * 3) Copy the line with the trigger command
+ * 4) Paste it to the action where the cutscene happens. Usually when the map starts:
+
+{{{
+   player
+   {
+   ....
+
+   trigger map_start
+   {
+   ...
+
+   trigger dummy cine1_cleanup  //Directly skip to end of the cutscene
+   }
+   ....
+   }
+}}}
+
+=== Making music work properly ===
+
+Coding music from SP to MP world is not simple. Here is the quick approach we have.
+
+When a new player joins, he gets the first music that the map played. He will listen to the map starting music until it is changed with mu_fade/mu_queue command. Every player must start sounds with mu_start command, or it will fail to start. mu_start command is only executed to the newly joined player!
+
+
+That's why we add mu_start in player spawn event. 
+
+{{{
+player
+{
+spawn
+{
+...
+mu_start sound/..
+}
+}
+}}}
+
+*If you need to stop the music in the middle of the round. Use mu_stop.
+You must restart the music in game_manager or only one player will hear it* eg:
+
+{{{
+game_manager
+{
+...
+
+trigger restart_stopped_music
+{
+mu_start sound/...
+}
+}
+}}}
+
+Here is the more detail info on how the mu_ commands were done in Coop.
+
+{{{
+mu_start: -In coop.ai file this only affects the client who called it, so you must use it in player->spawn event! This is only for map start. -If you need to start music in the middle of the map, place it in coop.script file!
+
+mu_fade: -Affects all client in both coop.script and coop.ai file
+
+mu_stop: -Affects all client in both coop.script and coop.ai file
+
+mu_play: -Affects all client in both coop.script and coop.ai file
+
+mu_queue: -Affects all client in both coop.script and coop.ai file 
+}}}
 
 == 4. Optional common Coop features ==
 === 4.1. Flag spawns ===
 === 4.2. AI reinforcements ===
 === 4.3. Axis spawnpoints ===
 === 4.4. Making single AI not respawning ===
-=== 4.5. Creating loading image ===
-=== 4.6. Creating levelshot images ===
-=== 4.7. Showing up in Create server menu ===
+=== 4.5. Random respawning ===
+
+We introduced a new feature to 
+=== 4.6. Creating loading image ===
+=== 4.7. Creating levelshot images ===
+=== 4.8. Showing up in Create server menu ===
 
 == 5. Advanced/Extra features ==
-=== 5.1. Adding new entities like extra guns/item
-=== 5.2. Using IF commands for advantage
+=== 5.1. Adding new entities like extra guns/item ===
+=== 5.2. Using IF commands for advantage ===
 === 5. Adding Notebook entries ===
 === 5. Adding clipboards ===
 === 5. Adding location info ===
-=== 5.
 
 == 6. List of useful console commands ==
 
 == 7. Problem solving ==
 === 7.1. Bugs mapper can not fix ===
 === 7.2. Script errors ===
+
+If your map fails to load with a script error. Check any AI who spawn at map_start that if they have special actions, it starts after a wait. This is normal action for a mapper to do to be safe in any Q3 engine game, but apparently not all mappers know this. Eg.
+
+{{{
+nazi1
+{
+
+spawn
+{
+//Hey I spawn at mapstart
+wait 50 //Add me or you will crash the coop map muaha
+trigger nazi1 go //I wanna go when I born
+}
+....
+}
+}}}
+
+_If not you will crash after adding script_multiplayer_
+
 === 7.3. Map objectives still bug ===
 
 == 8. Example map ==
