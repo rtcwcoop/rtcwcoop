@@ -156,7 +156,7 @@ Idea of this is to have a special trigger that only runs when the map starts. We
 
 === 3.2. Make the map start the scripts properly ===
 
- * 1) Open mymapname.coop.ai file and you will see something like this from our example map christmas_map:
+Open mymapname.coop.ai file and you will see something like this from our example map christmas_map:
 
 {{{
 player
@@ -191,18 +191,182 @@ player
 }
 }}}
 
-Now we must edit these.
+Now we must edit this.
 
 
 
 
+ * 1) Add that trigger map_start we triggered from game_manager's spawn. It will look like this:
+
+{{{
+player
+{
+   spawn
+   {
+   accum 1 set 0
+   objectivesneeded 1
+   abort_if_loadgame
+   mu_start sound/music/l_briefing_1
+   print Mission Objective: Capture the German Camp
+   }
+
+   playerstart
+   {
+   giveweapon weapon_knife
+   giveweapon weapon_luger
+   setammo ammo_9mm 100
+   giveweapon weapon_mp40
+   setammo ammo_grenades 3
+   setammo ammo_dynamite 1
+   selectweapon weapon_mp40
+   mu_fade 0 100
+   mu_queue sound/music/music1
+   wait 7000
+   mu_stop 0 100
+   }
+
+   trigger map_start
+   {
+
+   }
+
+//and so on.......
+
+}
+}}}
+
+ * 2) Look at spawn event. Remove such commands as:
+
+{{{
+suggestweapon
+abort_if_loadgame
+mu_start
+}}}
+
+ * 3) Now copy the accum, objective and such commands to trigger map_start. It should look like following now:
+
+{{{
+player
+{
+   spawn
+   {
+
+   }
+
+   playerstart
+   {
+   giveweapon weapon_knife
+   giveweapon weapon_luger
+   setammo ammo_9mm 100
+   giveweapon weapon_mp40
+   setammo ammo_grenades 3
+   setammo ammo_dynamite 1
+   selectweapon weapon_mp40
+   mu_fade 0 100
+   mu_queue sound/music/music1
+   wait 7000
+   mu_stop 0 100
+   }
+
+   trigger map_start
+   {
+   accum 1 set 0
+   objectivesneeded 1
+   print Mission Objective: Capture the German Camp
+   }
+
+//and so on.......
+
+}
+}}}
+
+ * 4) Now we must empty playerstart. It no longer is supported. Leave the empty event thought or you might get an error. Only ammo and items and music should be moved to spawn event. Optional ones to the map_start. So it should look like following:
 
 
+{{{
+player
+{
+   spawn
+   {
+   giveweapon weapon_knife
+   giveweapon weapon_luger
+   setammo ammo_9mm 100
+   giveweapon weapon_mp40
+   setammo ammo_grenades 3
+   setammo ammo_dynamite 1
+   selectweapon weapon_mp40
+   mu_fade 0 100
+   mu_queue sound/music/music1
+   wait 7000
+   mu_stop 0 100
+   }
 
+   playerstart
+   {
 
- 
+   }
+
+   trigger map_start
+   {
+   accum 1 set 0
+   objectivesneeded 1
+   print Mission Objective: Capture the German Camp
+   }
+
+//and so on.......
+
+}
+}}}
+
+ * 5) Now rename mu_queue to mu_start and remove all other mu_ commands from spawn event. 
+
+_The particular example map has different idea on music. Check music scripting section, if you want something different than this. Cosmetics.._
+
+The final result should look like this:
+
+{{{
+player
+{
+   spawn
+   {
+   giveweapon weapon_knife
+   giveweapon weapon_luger
+   setammo ammo_9mm 100
+   giveweapon weapon_mp40
+   setammo ammo_grenades 3
+   setammo ammo_dynamite 1
+   selectweapon weapon_mp40
+
+   mu_start sound/music/music1
+   }
+
+   playerstart
+   {
+
+   }
+
+   trigger map_start
+   {
+   accum 1 set 0
+   objectivesneeded 1
+   print Mission Objective: Capture the German Camp
+   }
+
+//and so on.......
+
+}
+}}}
 
 === 3.2. Make the objectives work properly ===
+
+*Accum commands does not work properly in player scriptblock!!!*
+
+Best solution would be to move all accums and objective stuff to the game_manager in .script file.
+
+But I have a lazy solution for you, that I have used sometimes.. So far it have worked for me. If you want to be extra safe then look at problem solving section.
+
+Also if you for any other than objective reason have accums 
+
 === General script functionality ===
 === 3.2. Remove any cutscene scripting ===
 === Making music work properly ===
@@ -219,9 +383,12 @@ Now we must edit these.
 === 4.7. Showing up in Create server menu ===
 
 == 5. Advanced/Extra features ==
-=== 5.1. Adding Notebook entries ===
-=== 5.2. Adding clipboards ===
-=== 5.3. Adding location info ===
+=== 5.1. Adding new entities like extra guns/item
+=== 5.2. Using IF commands for advantage
+=== 5. Adding Notebook entries ===
+=== 5. Adding clipboards ===
+=== 5. Adding location info ===
+=== 5.
 
 == 6. List of useful console commands ==
 
