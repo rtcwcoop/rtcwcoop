@@ -1,6 +1,6 @@
 #summary Getting custom RTCW SP maps converted in RTCW Coop mod.
 
-= Tutorial =
+= Introduction =
 
 *!!!!!!This tutorial is currently under construction!!!!!!!!* 
 
@@ -16,15 +16,35 @@ Good luck and have fun from
 
 -SSF-Sage
 
-== Introduction to RTCW Coop mapping ==
+= Tutorial =
 
-*1) Introduction
+ * Introduction to RTCW Coop mapping
 
-== Getting started ==
+ * Getting able to shoot and run
+
+ * Making the map work properly
+ # Player scripting
+ # Random respawning
+
+ * Optional common Coop features
+ # Flag spawns
+ # AI reinforcements
+ # Axis spawnpoints
+ # Making single AI not respawning
+
+ * Advanced features
+
+ * List of useful console commands
+
+ * Problem solving
+
+
+#Introduction
+Getting started
 
 I just want to frag a couple AIs in a custom SP map with my friends!
 
-*1) Getting a SP map running on RTCW Coop
+*1) 
 
 == Flag spawns ==
 
