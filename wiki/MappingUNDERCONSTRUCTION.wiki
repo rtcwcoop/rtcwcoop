@@ -119,9 +119,9 @@ Just running and shooting is not enough you? You want the map to play well, be a
 
 If we leave the scripts as they are now, it probably work somewhat when you play alone on local. But when a friend or friends join you, weird things start to happen. 
 
-=== 3.1. Add MP script support ===
+=== 3.1. Adding MP script support ===
 
-First we need to add a game_manager.
+First we need to add a script_multiplayer entity.
 
  * 1) Open your .ents file.
  * 2) Add the following on top of everything in the file:
