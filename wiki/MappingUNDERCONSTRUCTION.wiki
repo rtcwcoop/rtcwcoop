@@ -12,10 +12,9 @@ Aim of this tutorial is to be up-to-date tutorial and list of features that can 
  
 If this tutorial seems to be too wide and big for you, check at this very [http://www.rtcwcoop.com/forum/viewtopic.php?id=77 quick summary tutorial].
 
-This has been done in Windows 7 environment. Users of other OS' must figure the correct folders.
+This has been done in Windows 7 environment. Users of other OS' must figure the correct folders. 
 
-I can't be held responsible for anything. Any feedback, questions, tutorial requests or such can be pointed out on our [http://www.rtcwcoop.com/forum/ official mod forum].
-
+I can't be held responsible for anything. Any feedback, mistakes, questions, problems, tutorial requests or such can be pointed out on our [http://www.rtcwcoop.com/forum/ official mod forum].
 
 Good luck and have fun from
 
@@ -28,14 +27,14 @@ Good luck and have fun from
 == 1. Introduction to RTCW Coop map converting ==
 
 === 1.1. I want custom! ===
-So you want to play a custom map in RTCW COOP mod? Fear not, it is fairly simple and fast. It will help tons if you know understand basics of map scripting. But even if you know nothing about scripting it is possible to play a custom with a bit of luck, patience, well created map and this tutorial.
+So you want to play a custom map in RTCW COOP mod? Fear not, it is fairly simple and fast. It will help tons if you know understand basics of map scripting. But even if you know nothing about scripting/mapping it is possible to convert a custom map with a bit of luck, patience, by selecting a well created map and following this tutorial.
 
-If you are not really good scripter, pick up a simple small map at first. Make sure it runs perfectly in SP. Select one that has *no* cutscenes. Cutscene scripting needs to be removed and skipped.
+If you are not really good scripter, pick up a simple small map at first. Make sure it runs perfectly in SP. Select one that has *no* cutscenes. Cutscene scripting needs to be removed and skipped. Not always it is easy.
 
-When you create a custom map. Remember to test it many times before releasing it. Also do test it multiple times with your friends on a dedicated server. Many bugs you will encounter only happens when there is more than 1 player on the server.
+When you create a custom map. Remember to test it many times before releasing it. Also do test it multiple times with your friends on a dedicated server. Many bugs you will encounter *only* happen when there are more than 1 player on the server.
 
-=== 1.2. Remember respect! ===
-It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contact and still want to proceed, it is recommended that you do not alter gameplay or original files. Also do remember to give full credit to the hard work by original author!
+=== 1.2. Remember to respect ===
+It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contact and still want to proceed, it is recommended that you do not alter gameplay or original files of the map. _This means include original pk3 and your custom pk3._ Also do remember to give full credit to the hard work by original author!
 
 === 1.3.Difference between Coop and SP ===
 
@@ -71,9 +70,15 @@ The map should start now. Many things don't work, but you should be able to run 
 === 2.3. Let the mod read map scripts ===
 
  * 1) Open the custom pk3 file
+
  * 2) Go to folder main inside the pk3 file
+
  * 3) Copy the files called mymap.ai and mymap.script
+
  * 4) Paste these two files into C://Documents and settings/User/Files/RtcwCOOP/main/maps folder
+
+_Most likely you don't have maps folder yet. Just add it like any other folder._
+
  * 5) Rename the files. You should now have mymap.coop.ai and mymap.coop.script files
 
 Now the AI should have guns, be able to run and perform.
@@ -84,11 +89,17 @@ If the map has no script file, just ignore it for now. We will add one later.
 === 2.4. Adding first set of spawns ===
 
  * 1) Join Allied team. Go to where you want your first spawns.
+
  * 2) Type /dumpcoopspawnpoint into console, this will create first spawnpoint
- * 3) Repeat previous 8 times. We need 8 spawnpoints. 
+
+ * 3) Repeat previous 8 times. We need 8 spawnpoints.
+ 
  * 4) Close game. 
+
  * 5) Go to C://Documents and settings/User/Files/RtcwCOOP/main/maps/ folder
+
  * 6) Open file mapname.ents in notepad
+
  * 7) Fix the spawnflags, game create them wrong in mod version 0.9.5:
 
 {{{
@@ -112,6 +123,7 @@ Change spawnflags from 1 to 3:
 }}}
 
  * 8) Do the previous to all 8 of them.
+
  * 9) Save and exit. Reload game and test it. Use /kill and see if you can spawn in 8 different locations.
 
 Great. Now we also learned where the .ents file is located! This is all basicly we need to play the map.
@@ -144,6 +156,7 @@ If we leave the scripts as they are now, it probably work somewhat when you play
 First we need to add a script_multiplayer entity.
 
  * 1) Open your .ents file.
+
  * 2) Add the following on top of everything in the file:
 
 {{{
@@ -154,6 +167,7 @@ First we need to add a script_multiplayer entity.
 }}}
 
  * 3) Close and save .ents file.
+
  * 4) Open mymapname.coop.script file in notepad
 
 _If the map don't have one. Copy an existing script file. Open it in notepad, empty it. And then rename it._
@@ -477,7 +491,7 @@ Example from map Escape1:
    }
 }}}
 
-=== Making music work properly ===
+=== 3.5. Making music work properly ===
 
 Coding music from SP to MP world is not simple. Here is the quick approach we have.
 
@@ -527,16 +541,219 @@ mu_queue: -Affects all client in both coop.script and coop.ai file
 }}}
 
 == 4. Optional common Coop features ==
-=== 4.1. Flag spawns ===
-=== 4.2. AI reinforcements ===
-=== 4.3. Axis spawnpoints ===
-=== 4.4. Making single AI not respawning ===
-=== 4.5. Random respawning ===
 
-We introduced a new feature to 
+This is the list of common features most Coop maps should have in my opinion. These are not really required to play!
+
+=== 4.1. AI reinforcements ===
+
+This is the stage that requires most time.
+
+Shooting at the default AI's get a little boring quickly. That is why we should add some reinforcements to make it more challenging. Usually we add about 20 AIs on many and 40 on More. _g_reinforce 1_ add many and _g_reinforce 2_ most AI.
+
+How to add AI reinforcement: 
+
+ * 1) Load game
+
+ * 2) Go to where you want your first new AI. Have yourself face same way you want the AI to face when he spawns.
+
+ * 3) Dump the AI using command /dumpcastai classname ainame
+
+Avaiblable classnames:
+{{{
+ai_soldier ai_american ai_zombie ai_warzombie ai_venom ai_loper ai_boss_helga ai_boss_heinrich ai_eliteguard ai_stimsoldier_dual ai_stimsoldier_rocket ai_stimsoldier_tesla ai_supersoldier ai_protosoldier ai_frogman ai_blackguard ai_partisan ai_civilian
+}}}
+
+_I like to leave ainame empty. Then you must fix the number manually in .ents file!_
+
+Example:
+
+{{{
+/dumpcastai ai_soldier coop_ai_soldier_1
+}}}
+
+ * 4) Go to .ents file. Give the AI skin and face. If you skip this it will load default Escape1 skins. Look at skin and head key. Check existing maps for available skins.
+
+{{{
+{
+"classname" "ai_soldier"
+"origin" "-111 -98 24"
+"ainame" "coop_ai_soldier_1"
+"angle" "-92"
+"spawnflags" "1"
+"skin" "infantryss/factory1"  //<-
+"head" "factory3"             //<-
+}
+}}}
+
+ * 5) Add script to the new AI. Open .ai file. For a default mp40 bot add this script to the bottom of the .ai file:
+
+{{{
+coop_ai_soldier_1 //NAME OF YOUR NEW AI!
+{
+    attributes
+    {
+        aim_accuracy 0.6
+        starting_health 60
+        camper 1
+    }
+
+    spawn
+    {
+        setammo ammo_grenades 0
+        setammo ammo_9mm 999
+        statetype alert
+    }
+}
+}}}
+
+ * 6) Then you must execute your guy at a desired time. Most often it happens at map_start or from some action. 
+
+We have 3 regular ways to execute it.
+
+{{{
+alertentity coop_ai_soldier_1
+}}}
+_This spawns always. Not much used._
+{{{
+#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+}}}
+_This spawns if we have /g_reinforcements set to 1 or 2
+{{{
+#if g_reinforce >= 2 alertentity coop_ai_soldier_1 #endif
+}}}
+_This spawns if we have /g_reinforcements 2
+
+Example:
+
+{{{
+player
+{
+...
+trigger action1 //Walk through the doorway
+{
+...
+#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+}
+...
+}
+}}}
+
+ * 7) Save and test.
+
+If you want more:
+
+Repeat this as many times you want, just remember to change the name. IIRC you probably can add around 200 before hitting the limit. But I don't recommend adding a lot more than 50 or you might end up laggy. 
+
+
+=== 4.2. Making single AI not respawning ===
+
+Go through all the AI scripts to check this list through. This is recommened to those AI's that:
+ * Activate a game event from the spawn or death event. 
+ * If they respawn without a gun.
+ * If he is a boss or something else special.
+_It is recommended trying to rescript these first if possible. This is the last chance fix._
+
+How to enable:
+
+ * 1) Open .ai script
+ * 2) Go to the specific AI's scriptblock
+ * 3) Add command _norespawn_ to the spawn event
+
+Example:
+{{{
+nazi1
+{
+spawn
+{
+//I am a special boy
+trigger what_ever just_because
+...
+norespawn  //<- Add this
+}
+...
+}
+}}}
+
+=== 4.3. Random respawning ===
+
+We introduced a new feature to Coop to make the respawning little more reasonable. There is a feature to define that if one AI should select randomly if it respawns or not. So one round it can respawn and next round maybe not. Chances are 1/2 that it will respawn.
+
+We controlled it in map script to select what it affects. Here is the rules we decided for standard maps:
+ * If AI respawning is unlimited then all AI's will always respawn. 
+ * If you limit the times AI can respawn to eg. 5 times _g_airespawn 5_ then all reinforcement AI's who has not norespawn command set will respawn randomly.
+ * All regular SP AI's will respawn normally.
+
+So in script:
+{{{
+#if g_airespawn >= 1  //Do not read this if AI respawning is infinite
+	wait 5
+	randomrespawn coop_ai_soldier_1
+	//coop_ai_soldier_2 has norespawn
+	randomrespawn coop_ai_soldier_3
+	randomrespawn coop_ai_soldier_4
+	randomrespawn coop_ai_soldier_5
+	randomrespawn coop_ai_soldier_6
+	randomrespawn coop_ai_soldier_7
+	randomrespawn coop_ai_soldier_8
+	randomrespawn coop_ai_soldier_9
+	randomrespawn coop_ai_soldier_10
+	wait 5  //Have wait!
+	randomrespawn coop_ai_soldier_11
+	randomrespawn coop_ai_soldier_12
+	//List goes on.
+#endif
+}}}
+
+*Normally we have around 40 reinforcements. If we put them all in list we will crash/lag the map. That is why there is _wait 5_ between every ten commands!*
+
+=== 4.4. Flag spawns ===
+
+We have a Cvar to allow us going into mode where we need to capture our spawnpoints. To enable this mode do _/g_spawnpoints 2_
+
+Currently we only have the start spawns we created earlier. So do following to add a new flag spawn. It can be repeated to create more flags. Most maps we have has 2 flags.
+
+ * 1) Run your map ingame
+ * 2) Use command /dumpflagpole to drop a flag
+
+_You must first add flag! Because the game will automatically link all spawnpoints that you drop until next /dumpflagpole command._ 
+
+_If you fail on this, you can fix the linking in .ents file. Just match targetnames of the spawns to the the target key of the flag._
+
+ * 3) Repeat /dumpcoopspawnpoint 8 times around the flag.
+
+ * 4) Close game. Open .ents file. RTCW Coop 0.9.5 creates spawn flags wrong. So you must fix them like we did in the first spawns. But this time replace 0 with 2:
+
+{{{
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "0"
+"origin" "1021 6627 216"
+"angle" "104"
+"targetname" "tobruk2"
+}
+}}}
+
+to
+
+{{{
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "1021 6627 216"
+"angle" "104"
+"targetname" "tobruk2"
+}
+}}}
+
+ * 5) Save, close ents and test!
+
+
+=== 4.5. Axis spawnpoints ===
 === 4.6. Creating loading image ===
-=== 4.7. Creating levelshot images ===
-=== 4.8. Showing up in Create server menu ===
+
+
+=== 4.7. Showing up in Create server menu ===
+=== 4.8. Create menu images ===
 
 == 5. Advanced/Extra features ==
 === 5.1. Adding new entities like extra guns/item ===
@@ -550,6 +767,8 @@ We introduced a new feature to
 == 7. Problem solving ==
 === 7.1. Bugs mapper can not fix ===
 === 7.2. Script errors ===
+
+*This usually happens after adding script_multiplayer or map_start:*
 
 If your map fails to load with a script error. Check any AI who spawn at map_start that if they have special actions, it starts after a wait. This is normal action for a mapper to do to be safe in any Q3 engine game, but apparently not all mappers know this. Eg.
 
@@ -567,7 +786,6 @@ trigger nazi1 go //I wanna go when I born
 }
 }}}
 
-_If not you will crash after adding script_multiplayer_
 
 === 7.3. Map objectives still bug ===
 
