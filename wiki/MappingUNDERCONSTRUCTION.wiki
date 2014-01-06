@@ -8,11 +8,11 @@
 
 Aim of this tutorial is to be up-to-date tutorial and list of features that can be used to get a map running for RTCW Coop from RTCW SP.
 
-This has been done in Window 7 environment. Users of other OS' must figure the correct folders.
+This has been done in Windows 7 environment. Users of other OS' must figure the correct folders.
 
 I can't be held responsible for anything. Any feedback, questions, tutorial requests or such can be pointed out on our official mod forum:
 
-www.rtcwcoop.com/forum/
+[http://www.rtcwcoop.com/forum/ Go to the forums!]
 
 Good luck and have fun from
 
@@ -112,6 +112,23 @@ Change spawnflags from 1 to 3:
  * 9) Save and exit. Reload game and test it. Use /kill and see if you can spawn in 8 different locations.
 
 Great. Now we also learned where the .ents file is located! This is all basicly we need to play the map.
+
+=== 2.5. Packing up to play with your friends ===
+
+ * 1) Create a new pk3 file called eg. mymap_coop_pk3
+
+_It is recommended to create a new pk3 for the Coop files only._
+
+ * 2) Create a folder called maps inside the pk3
+
+ * 3) Paste the .ai ; .script and .ents file inside the maps folder
+
+_You might want to add more files later on of course._
+
+ * 4) Add the original SP map and the small Coop modification pk3 to your server.
+
+ * 5) Enjoy! You are ready to play. It is not perfect, but you can shoot, AI can shoot. Yay! :)
+
 
 == 3. Making the map work properly ==
 
@@ -357,7 +374,7 @@ player
 }
 }}}
 
-=== 3.2. Make the objectives work properly ===
+=== 3.3. Make the objectives work properly ===
 
 *Accum commands does not work properly in player scriptblock!!!*
 
@@ -381,13 +398,8 @@ _If there are only few triggers, do it manually._
 
  * 4) Paste it back to the .ai script.
 
-example
 
-accum 5 abort_if_less_than 1
-TO ->
-*global*accum 5 abort_if_less_than 1
-
-Definition of player script block:
+Definition of player script block with example:
 
 {{{
 player //Starts up with this
@@ -395,6 +407,8 @@ player //Starts up with this
    spawn
    {
    ...
+
+   globalaccum 5 set 0   //Used to be accum 5 set 0  
    }
    
 
@@ -403,6 +417,8 @@ player //Starts up with this
 
   trigger endmap
   {
+
+  globalaccum 5 abort_if_less_than 1  //Used to be accum 5 abort_if_less_than 1
   ...
   }
 
@@ -443,5 +459,7 @@ player //Starts up with this
 === 7.3. Map objectives still bug ===
 
 == 8. Example map ==
+
+https://bzzwolfsp.googlecode.com/svn/wiki/mapping/christmas_map_coop_sage.pk3
 
 == 9. Last words ==
