@@ -214,13 +214,14 @@ Now we must edit these.
 === 4.2. AI reinforcements ===
 === 4.3. Axis spawnpoints ===
 === 4.4. Making single AI not respawning ===
-=== 4.5. Creating loading image
+=== 4.5. Creating loading image ===
 === 4.6. Creating levelshot images ===
 === 4.7. Showing up in Create server menu ===
 
-== 5. Advanced features ==
+== 5. Advanced/Extra features ==
 === 5.1. Adding Notebook entries ===
-=== 5.2. Adding clipboards
+=== 5.2. Adding clipboards ===
+=== 5.3. Adding location info ===
 
 == 6. List of useful console commands ==
 
