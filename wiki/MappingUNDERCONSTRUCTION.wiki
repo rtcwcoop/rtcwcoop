@@ -16,14 +16,18 @@ Good luck and have fun from
 
 -SSF-Sage
 
+#sidebar TableOfContents
+
+
+
 = Tutorial =
 
- * Introduction to RTCW Coop mapping
+ * Introduction to RTCW Coop map converting
 
  * Getting able to shoot and run
 
  * Making the map work properly
- # Player scripting
+ # Fixing 
  # Random respawning
 
  * Optional common Coop features
@@ -37,6 +41,9 @@ Good luck and have fun from
  * List of useful console commands
 
  * Problem solving
+ # Bugs mapper can not fix
+ # Script errors
+ # Map objectives still bug
 
 
 #Introduction
