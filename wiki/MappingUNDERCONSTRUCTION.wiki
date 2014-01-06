@@ -43,11 +43,13 @@ I just want to frag a couple AIs in a custom SP map with my friends!
 
 === Adding the map ===
 
-It is simple. Download the original pk3 file. Place it in your RTCW COOP installation folder inside main folder. Just like you would do it in SP.
+It is simple. Download the original pk3 file. Place it in your game installation folder inside main folder. Just like you would do it in regular RTCW.
 
 === Adding first set of spawns ===
 
-First we need a 
+Start the game. Join Allied team. Do the following:
+#Go to wanted spot
+#Type /dumpcoopspawnpoint into console, this will create first spawn
 
 
 
