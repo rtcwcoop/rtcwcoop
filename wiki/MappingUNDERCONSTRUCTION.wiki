@@ -26,6 +26,8 @@ Good luck and have fun from
 === I want custom! ===
 So you want to play a custom map in RTCW COOP mod? Fear not, it is fairly simple and fast. It will help tons if you know understand basics of map scripting. But even if you know nothing about scripting it is possible to play a custom with a bit of luck, patience, well created map and this tutorial.
 
+If you are not really good scripter, pick up a simple small map at first. Make sure it runs perfectly in SP. Select one that has *no* cutscenes. Cutscene scripting needs to be removed and skipped.
+
 === Remember respect! ===
 It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contanct and still want to proceed, it is recommended that you do not alter gameplay or original files. Also do remember to give full credit to the hard work by original author!
 
@@ -37,6 +39,14 @@ Basicly things are almost same. Same BSP files can be used. BSP file is the hear
 
 In most time all we need to do is edit the .AI file that has AI scripting in it. Then the .script file that has brush scripting. Also we need to add .ents file to add new entities, such as spawns. Rest of the file edits are mostly cosmetical.
 
+=== Folder where we store all the changing files ===
+
+This is the main folder where all screenshots you take goes. Where your config is stored. Where game creates .ents file. This folder can be used to place mapping files for easy testing. Do mind this affects all installations!
+
+In RTCW COOP 0.9.5 the folder locates in:
+
+C://Documents and settings/User/Files/RtcwCOOP/main/
+
 == Getting able to shoot and run ==
 
 I just want to frag a couple AIs in a custom SP map with my friends!
@@ -45,19 +55,80 @@ I just want to frag a couple AIs in a custom SP map with my friends!
 
 It is simple. Download the original pk3 file. Place it in your game installation folder inside main folder. Just like you would do it in regular RTCW.
 
+=== Starting map ===
+
+Load RTCW Coop. Type /coopdevmap mymapname into console. Doing this allows us to play the map in developer mode. We can use cheats. Check the list of useful commands to learn more.
+
+The map should start now. Many things don't work, but you should be able to run around. If the map don't start it has faults. Try another map, debug it or ask for help.
+
+
+=== Let the mod read map scripts ===
+
+ * 1)
+
+
 === Adding first set of spawns ===
 
-Start the game. Join Allied team. Do the following:
-#Go to wanted spot
-#Type /dumpcoopspawnpoint into console, this will create first spawn
+ * 1) Join Allied team. Go to where you want your first spawns.
+ * 2) Type /dumpcoopspawnpoint into console, this will create first spawnpoint
+ * 3) Repeat previous 8 times. We need 8 spawnpoints. 
+ * 4) Close game. 
+ * 5) Go to C://Documents and settings/User/Files/RtcwCOOP/main/maps/ folder
+ * 6) Open file mapname.ents in notepad
+ * 7) Fix the spawnflags, game create them wrong in mod version 0.9.5:
 
+{{{
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "1"
+"origin" "2159 -6951 69"
+"angle" "-83"
+}
+}}}
 
+Change spawnflags from 1 to 3:
 
+{{{
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "2159 -6951 69"
+"angle" "-83"
+}
+}}}
 
+ * 8) Do the previous to all 8 of them.
+ * 9) Save and exit. Reload game and test it. Use /kill and see if you can spawn in 8 different locations.
+
+Great. Now we also learned where the .ents file is located! This is all basicly we need to play the map.
 
 == Making the map work properly ==
+
+Just running and shooting is not enough you? You want the map to play well, be able to win a map, finish objectives, hear music? Let's continue.
+
+If we leave the scripts as they are now, it probably work somewhat when you play alone on local. But when a friend or friends join you, weird things start to happen. 
+
+=== Make the map start the scripts properly ===
+
+First we need to add a game_manager.
+
+ * 1) Open your .ents file.
+ * 2) Add the following on top of everything in the file:
+
+{{{
+{
+"classname" "script_multiplayer"
+"scriptname" "game_manager"
+}
+}}}
+
+=== Remove any cutscene scripting === 
+
+=== Make the objectives work properly ===
 === General script functionality ===
+=== Making music work properly ===
 === Random respawning ===
+
 
 == Optional common Coop features ==
 === Flag spawns ===
