@@ -1,9 +1,10 @@
 #summary Getting custom RTCW SP maps converted in RTCW Coop mod.
+
+*!!!!!!This tutorial is currently under construction!!!!!!!!* 
+
 <wiki:toc max_depth="5" />
 
 =Introduction=
-
-*!!!!!!This tutorial is currently under construction!!!!!!!!* 
 
 Aim of this tutorial is to be up-to-date tutorial and list of features that can be used to get a map running for RTCW Coop from RTCW SP.
 
@@ -21,17 +22,19 @@ Good luck and have fun from
 
 = Map Conversion Tutorial =
 
-== Introduction to RTCW Coop map converting ==
+== 1. Introduction to RTCW Coop map converting ==
 
-=== I want custom! ===
+=== 1.1. I want custom! ===
 So you want to play a custom map in RTCW COOP mod? Fear not, it is fairly simple and fast. It will help tons if you know understand basics of map scripting. But even if you know nothing about scripting it is possible to play a custom with a bit of luck, patience, well created map and this tutorial.
 
 If you are not really good scripter, pick up a simple small map at first. Make sure it runs perfectly in SP. Select one that has *no* cutscenes. Cutscene scripting needs to be removed and skipped.
 
-=== Remember respect! ===
+When you create a custom map. Remember to test it many times before releasing it. Also do test it multiple times with your friends on a dedicated server. Many bugs you will encounter only happens when there is more than 1 player on the server.
+
+=== 1.2. Remember respect! ===
 It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contanct and still want to proceed, it is recommended that you do not alter gameplay or original files. Also do remember to give full credit to the hard work by original author!
 
-=== Difference between Coop and SP ===
+=== 1.3.Difference between Coop and SP ===
 
 While you are reading this, you probably have basic understanding of the difference between Coop and SP. If not go to a server and try it out.
 
@@ -39,7 +42,7 @@ Basicly things are almost same. Same BSP files can be used. BSP file is the hear
 
 In most time all we need to do is edit the .AI file that has AI scripting in it. Then the .script file that has brush scripting. Also we need to add .ents file to add new entities, such as spawns. Rest of the file edits are mostly cosmetical.
 
-=== Folder where we store all the changing files ===
+=== 1.4. Folder where we store all the changing files ===
 
 This is the main folder where all screenshots you take goes. Where your config is stored. Where game creates .ents file. This folder can be used to place mapping files for easy testing. Do mind this affects all installations!
 
@@ -47,27 +50,35 @@ In RTCW COOP 0.9.5 the folder locates in:
 
 C://Documents and settings/User/Files/RtcwCOOP/main/
 
-== Getting able to shoot and run ==
+== 2. Getting able to shoot and run ==
 
 I just want to frag a couple AIs in a custom SP map with my friends!
 
-=== Adding the map ===
+=== 2.1. Adding the map ===
 
 It is simple. Download the original pk3 file. Place it in your game installation folder inside main folder. Just like you would do it in regular RTCW.
 
-=== Starting map ===
+=== 2.2. Starting map ===
 
 Load RTCW Coop. Type /coopdevmap mymapname into console. Doing this allows us to play the map in developer mode. We can use cheats. Check the list of useful commands to learn more.
 
 The map should start now. Many things don't work, but you should be able to run around. If the map don't start it has faults. Try another map, debug it or ask for help.
 
 
-=== Let the mod read map scripts ===
+=== 2.3. Let the mod read map scripts ===
 
- * 1)
+ * 1) Open the custom pk3 file
+ * 2) Go to folder main inside the pk3 file
+ * 3) Copy the files called mymap.ai and mymap.script
+ * 4) Paste these two files into C://Documents and settings/User/Files/RtcwCOOP/main/maps folder
+ * 5) Rename the files. You should now have mymap.coop.ai and mymap.coop.script files
+
+Now the AI should have guns, be able to run and perform.
+
+If the map has no script file, just ignore it for now. We will add one later.
 
 
-=== Adding first set of spawns ===
+=== 2.4. Adding first set of spawns ===
 
  * 1) Join Allied team. Go to where you want your first spawns.
  * 2) Type /dumpcoopspawnpoint into console, this will create first spawnpoint
@@ -102,13 +113,13 @@ Change spawnflags from 1 to 3:
 
 Great. Now we also learned where the .ents file is located! This is all basicly we need to play the map.
 
-== Making the map work properly ==
+== 3. Making the map work properly ==
 
 Just running and shooting is not enough you? You want the map to play well, be able to win a map, finish objectives, hear music? Let's continue.
 
 If we leave the scripts as they are now, it probably work somewhat when you play alone on local. But when a friend or friends join you, weird things start to happen. 
 
-=== Make the map start the scripts properly ===
+=== 3.1. Add MP script support ===
 
 First we need to add a game_manager.
 
@@ -122,35 +133,102 @@ First we need to add a game_manager.
 }
 }}}
 
-=== Remove any cutscene scripting === 
+ * 3) Close and save .ents file.
+ * 4) Open mymapname.coop.script file in notepad
 
-=== Make the objectives work properly ===
+_If the map don't have one. Copy an existing script file. Open it in notepad, empty it. And then rename it._
+
+ * 5) Add the following on top of the .script file:
+
+{{{
+game_manager
+{
+	spawn
+	{
+		trigger player map_start
+	}
+}
+}}}
+
+ * 6) Save and close .script file
+
+Idea of this is to have a special trigger that only runs when the map starts. We add the trigger in second section. Do not test now.
+
+=== 3.2. Make the map start the scripts properly ===
+
+ * 1) Open mymapname.coop.ai file and you will see something like this from our example map christmas_map:
+
+{{{
+player
+{
+   spawn
+   {
+   accum 1 set 0
+   objectivesneeded 1
+   abort_if_loadgame
+   mu_start sound/music/l_briefing_1
+   print Mission Objective: Capture the German Camp
+   }
+
+
+   playerstart
+   {
+   giveweapon weapon_knife
+   giveweapon weapon_luger
+   setammo ammo_9mm 100
+   giveweapon weapon_mp40
+   setammo ammo_grenades 3
+   setammo ammo_dynamite 1
+   selectweapon weapon_mp40
+   mu_fade 0 100
+   mu_queue sound/music/music1
+   wait 7000
+   mu_stop 0 100
+   }
+
+//and so on.......
+
+}
+}}}
+
+Now we must edit these.
+
+
+
+
+
+
+
+
+ 
+
+=== 3.2. Make the objectives work properly ===
 === General script functionality ===
+=== 3.2. Remove any cutscene scripting ===
 === Making music work properly ===
 === Random respawning ===
 
 
-== Optional common Coop features ==
-=== Flag spawns ===
-=== AI reinforcements ===
-=== Axis spawnpoints ===
-=== Making single AI not respawning ===
-=== Creating loading image
-=== Creating levelshot images ===
-=== Showing up in Create server menu ===
+== 4. Optional common Coop features ==
+=== 4.1. Flag spawns ===
+=== 4.2. AI reinforcements ===
+=== 4.3. Axis spawnpoints ===
+=== 4.4. Making single AI not respawning ===
+=== 4.5. Creating loading image
+=== 4.6. Creating levelshot images ===
+=== 4.7. Showing up in Create server menu ===
 
-== Advanced features ==
+== 5. Advanced features ==
+=== 5.1. Adding Notebook entries ===
+=== 5.2. Adding clipboards
 
-=== Adding Notebook entries ===
-=== Adding clipboards
+== 6. List of useful console commands ==
 
-== List of useful console commands ==
+== 7. Problem solving ==
+=== 7.1. Bugs mapper can not fix ===
+=== 7.2. Script errors ===
+=== 7.3. Map objectives still bug ===
 
-== Problem solving ==
-=== Bugs mapper can not fix ===
-=== Script errors ===
-=== Map objectives still bug ===
+== 8. Example map ==
 
-== Example map ==
-
-== Last words ==
+== 9. Last words ==
