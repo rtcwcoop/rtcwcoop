@@ -23,6 +23,20 @@ Good luck and have fun from
 
 == Introduction to RTCW Coop map converting ==
 
+=== I want custom! ===
+So you want to play a custom map in RTCW COOP mod? Fear not, it is fairly simple and fast. It will help tons if you know understand basics of map scripting. But even if you know nothing about scripting it is possible to play a custom with a bit of luck, patience, well created map and this tutorial.
+
+=== Remember respect! ===
+It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contanct and still want to proceed, it is recommended that you do not alter gameplay or original files. Also do remember to give full credit to the hard work by original author!
+
+=== Difference between Coop and SP ===
+
+While you are reading this, you probably have basic understanding of the difference between Coop and SP. If not go to a server and try it out.
+
+Basicly things are almost same. Same BSP files can be used. BSP file is the heart of the map. Generally SP maps and Coop maps are same, commands and file work the same. However as we are playing in SP maps in MP environment we need to have a little edits in the scripts. 
+
+In most time all we need to do is edit the .AI file that has AI scripting in it. Then the .script file that has brush scripting. Also we need to add .ents file to add new entities, such as spawns. Rest of the file edits are mostly cosmetical.
+
 == Getting able to shoot and run ==
 
 I just want to frag a couple AIs in a custom SP map with my friends!
@@ -36,8 +50,14 @@ I just want to frag a couple AIs in a custom SP map with my friends!
 === AI reinforcements ===
 === Axis spawnpoints ===
 === Making single AI not respawning ===
+=== Creating loading image
+=== Creating levelshot images ===
+=== Showing up in Create server menu ===
 
 == Advanced features ==
+
+=== Adding Notebook entries ===
+=== Adding clipboards
 
 == List of useful console commands ==
 
@@ -45,3 +65,7 @@ I just want to frag a couple AIs in a custom SP map with my friends!
 === Bugs mapper can not fix ===
 === Script errors ===
 === Map objectives still bug ===
+
+== Example map ==
+
+== Last words ==
