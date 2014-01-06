@@ -32,7 +32,7 @@ If you are not really good scripter, pick up a simple small map at first. Make s
 When you create a custom map. Remember to test it many times before releasing it. Also do test it multiple times with your friends on a dedicated server. Many bugs you will encounter only happens when there is more than 1 player on the server.
 
 === 1.2. Remember respect! ===
-It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contanct and still want to proceed, it is recommended that you do not alter gameplay or original files. Also do remember to give full credit to the hard work by original author!
+It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contact and still want to proceed, it is recommended that you do not alter gameplay or original files. Also do remember to give full credit to the hard work by original author!
 
 === 1.3.Difference between Coop and SP ===
 
@@ -365,7 +365,52 @@ Best solution would be to move all accums and objective stuff to the game_manage
 
 But I have a lazy solution for you, that I have used sometimes.. So far it have worked for me. If you want to be extra safe then look at problem solving section.
 
-Also if you for any other than objective reason have accums 
+Also if you for any other than objective reason want accums to work in player scriptblock. Follow this.
+
+*Fixing accums inside player scriptblock:*
+
+ * 1) Search the ai script with keyword globalaccum, if nothing shows up, good. If there are already globalaccum, check that the numbers don't overlap.
+
+_The number that matter in this case is the first after accum command: accum *0* set 0 proper values for this are 0-9_
+
+ * 2) Select and copy player script block into another txt file 
+
+_If there are only few triggers, do it manually._
+
+ * 3) Use replace tool to replace accum with globalaccum
+
+ * 4) Paste it back to the .ai script.
+
+example
+
+accum 5 abort_if_less_than 1
+TO ->
+*global*accum 5 abort_if_less_than 1
+
+Definition of player script block:
+
+{{{
+player //Starts up with this
+{
+   spawn
+   {
+   ...
+   }
+   
+
+//Lots of events and triggers...
+
+
+  trigger endmap
+  {
+  ...
+  }
+
+
+} //Ends up with second } in row
+}}}
+
+*!!!NOTE!!! DO NOT REPLACE ANY MORE THAN WHAT IS INSIDE PLAYER SCRIPTBLOCK!*
 
 === General script functionality ===
 === 3.2. Remove any cutscene scripting ===
