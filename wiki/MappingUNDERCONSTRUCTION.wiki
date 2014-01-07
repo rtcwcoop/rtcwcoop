@@ -455,9 +455,11 @@ RTCW Coop mod does not support cutscenes. All cam related script commands should
 
 Most of the times during a cutscene AI does some actions. Normally SP either plays the action or skips it with Esc. Coop cannot do this. So you must manually skip the cutscene script actions. Do the following.
 
- * 1) Load the map in SP game. Go to part where cutscene starts. Try pressing Esc button. This should skip the tutorial. 
+ * 1) Load the map in SP game. Go to part where cutscene starts. Try pressing Esc button. This should skip the cutscene. 
 
-_If it does, good, please continue! If not, you better know how to do some scripting. Or then post it on the forum for me to solve. The cutscene script will need to be skipped, or the cutscene script will play out while you play the game._
+_If it does, good, please continue to next stage!_ 
+
+_If Esc does not skip the cutscene, stop right here for a moment. You better know how to do some scripting. Or you can post it on the forums for others to solve. The part of the script needs to be redone to skip the cutscene, or the cutscene script will play out while you play the game._
 
  * 2) Search .ai file with a keyword _trigger camerainterrupt_
 
@@ -474,6 +476,7 @@ Example from map Escape1:
 }}}
 
  * 3) Copy the line with the trigger command
+
  * 4) Paste it to the action where the cutscene happens. Usually when the map starts:
 
 {{{
