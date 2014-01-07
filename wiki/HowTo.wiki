@@ -62,8 +62,9 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
   * cg_fancyfx 1 enables new graphical effects, currently this is only the possible greyscale stuff. This is to make sure that unsupported things on older computers don't crash the game, this cvar is off by default
 
 == g_spawnpoints ==
-  * g_spawnpoints 0 autosaves you spawnpoint every 30 seconds, if g_spawnpoint is set to 1 then you can
- save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button. Setting this cvar to 2 will result in a multiplayer style flagzone respawn
+ * g_spawnpoints 0 = autosaves you spawnpoint every 30 seconds
+ * g_spawnpoints 1 = you can save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button.
+ * g_spawnpoints 2 = will result in a multiplayer style flagzone respawn
 
 == g_maxspawnpoints ==
   * Limits the number of user droppable spawnpoints, to make the game more difficult. If you set it to zero then there is no limit at all
@@ -74,10 +75,11 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
 
 == g_airespawn ==
   * Set to -1 to give the ai's unlimited respawns
-  * Set to x to give the ai's x number of respawns
-  * Set to 0 to disable respawning ai's.
+_Reinforcements will always respawn_
+  * Set to 0 to disable ai respawning
+  * Set to x to give the ai's x number of respawns 
+_Reinforcements will respawn randomly with 1/2 chance_
   * Keep in mind that not all ai's will respawn
-  * AI reinforcements only respawn if this is set to -1
 
 == g_teleporttime ==
   * Sets the minimum time between two teleports. In the Battle gametype its fixed at 30000 (30 seconds).
