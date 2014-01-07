@@ -825,7 +825,7 @@ trigger action1 //Walk through the doorway
 *Save and test.*
 
 
-==== 4.1.4. I want more than one AI
+==== 4.1.4. I want more than one AI ====
 
 Repeat the three previous steps as many times you want, just remember to change the AIName. 
 
