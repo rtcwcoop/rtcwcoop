@@ -62,7 +62,7 @@ And for server admins, use these pk3's and run a pure server. (set sv_pure 1)
   * cg_fancyfx 1 enables new graphical effects, currently this is only the possible greyscale stuff. This is to make sure that unsupported things on older computers don't crash the game, this cvar is off by default
 
 == g_spawnpoints ==
- * g_spawnpoints 0 = autosaves you spawnpoint every 30 seconds
+ * g_spawnpoints 0 = autosaves your spawnpoint every 30 seconds
  * g_spawnpoints 1 = you can save your spawn point with the command: spawnpoint, bind x spawnpoint to assign it to  a button.
  * g_spawnpoints 2 = will result in a multiplayer style flagzone respawn
 
@@ -188,13 +188,12 @@ if you put a file in the maps folder with the name: mapname.ents then this file 
 example: escape2.ents
 {{{
 {
-"skin" "zombie/boss2"
 "classname" "ai_zombie"
-"angle" "240"
 "origin" "-1084 604 -260"
+"angle" "240"
 "ainame" "nazi1337"
-"spawnflags" "0" 
-"targetname" "nazi1337"
+"spawnflags" "1" 
+"skin" "zombie/boss2"
 "head" "escape3"
 }
 }}}
