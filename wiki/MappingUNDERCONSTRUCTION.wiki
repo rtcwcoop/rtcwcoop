@@ -1,4 +1,4 @@
-#summary Getting custom RTCW SP maps converted in RTCW Coop mod.
+#summary STEP BY STEP: Getting custom RTCW SP maps run in RTCW Coop mod.
 
 *!!!!!!This tutorial is currently under construction!!!!!!!!* 
 
@@ -131,6 +131,22 @@ Change spawnflags from 1 to 3:
  * 9) Save and exit. Reload game and test it. Use /kill and see if you can spawn in 8 different locations.
 
 Great. Now we also learned where the .ents file is located! This is all basicly we need to play the map.
+
+*Additional info:*
+
+Full list of spawnflags we have:
+{{{
+0 = disabled 
+1 = enabled 
+2 = allied and disabled           //Important
+3 = allied and enabled            //Important
+4 = axis and disabled
+5 = axis and enabled              //Important
+6 = axis and allied and disabled
+7 = axis and allied and enabled
+}}}
+
+_You probably only need to know 2, 3 and 5_
 
 === 2.5. Packing up to play with your friends ===
 
@@ -922,17 +938,165 @@ to
 
 
 === 4.5. Axis spawnpoints ===
-=== 4.6. Creating loading image ===
+
+The Coop mod now supports having maximum of Two axis players. These need spawnpoints. One for each player.
+
+They will use the spawnpoint we set only for the map start. After this they will respawn into location of a random AI close to action and kill this AI. That's why we don't use inactive axis spawnpoints atm.
+
+*Let's add 2 new axis spawnpoints:*
 
 
-=== 4.7. Showing up in Create server menu ===
-=== 4.8. Create menu images ===
+ * 1) Load game
 
-== 5. Advanced/Extra features ==
+ * 2) Use command /dumpcoopspawnpoint twice. 
+
+ * 3) Close game and open .ents file
+
+ * 4) Find the new coop_spawnpoints from the bottom
+
+ * 5) Change the "spawnflags" to "5" on both of them. 
+
+_This will tell the game these are Axis spawnpoints and active._
+
+ * 6) Check that the game did not add any targetname to these.
+
+_If it did, remove the entire line eg:
+
+"targetname" "sfm0" _
+
+*End result should look like this:*
+
+{{{
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "-726 -3163 41" 
+"angle" "0"
+}
+}}}
+
+=== 4.6. Getting map to show up in Map list or Create server menu ===
+
+Tired of starting your map with console? Let's make it available to be selected from the menus.
+
+To see your map in menus, we need to add an arena file. 
+
+==== 4.6.1. Follow these rules when you make your .arena file ====
+
+ * Custom arenas are support
+ * Never edit any existing arenas!
+ * You should have only one arena for your entire project!
+ * Include all your project maps in one arena file.
+ * Arena file can be named almost anything just make sure you don't affect any other project.
+_Good name for the arena file would be eg. myprojectname.arena_
+ * Make sure it is not named .arena.txt
+_if you are unsure how to make it, copy and edit one from Capuzzo_
+ * Add the maps in the order they are played
+_In future .arena file will be looked at to select a campaign to play. So it is important the first map is first in the list._
+
+.
+
+==== 4.6.2. This is how one map looks like in .arena file ====
+
+{{{
+{
+map			"mymapname"
+longname		"My project - My first map"
+type		"coop_battle coop_speedrun coop_normal"
+}
+}}}
+
+==== 4.6.3. Explanation of arena file syntax ====
+
+||{||Starts a map||
+||map||name_of_the_bsp||
+||longname||The Name I want in menu||
+||type||Don't touch unless said so||
+||}||Ends a map||
+
+_Q3 color codes are supported in longname!_
+
+
+==== 4.6.3. Here is an example from Capuzzo Campaign ====
+
+_Filename : capuzzo.arena_
+
+{{{
+{
+map			"city"
+longname		"^nCapuzzo 1 - The City"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"airport"
+longname		"^nCapuzzo 2 - The Airport"
+type		"coop_battle coop_speedrun coop_normal"
+}
+
+{
+map			"road"
+longname		"^nCapuzzo 3 - The Road away!"
+type		"coop_battle coop_speedrun coop_normal"
+}
+}}}
+
+==== 4.6.4. Where the arena file is located? ====
+
+Arena file has to be located in scripts folder.
+
+ * You can test it in ...files/RTCWCOOP/main/scripts
+
+ * For releasing, create a folder called scripts into your mapname_coop.pk3.
+
+
+
+=== 4.7. Creating loading image ===
+
+This is the image we get while we are loading the map. 
+
+*This image must be in power of two!* _eg. 256x128 or 64x512_
+
+ * 1) Take a pic of your map.
+ 
+ * 2) Add some effects in photo editor if you like to. Like Coop logo or map name.
+
+_Please mind that it is not nice to add your own name here, unless you are the original author of the map!_
+
+ * 3) Resize the pic into power of two. You probably want to make it 512x512 pixels.
+
+ * 4) Make the pic uncompressed default jpg format.
+
+ * 5) Save with name mymapname.jpg
+
+ * 6) Create a folder called levelshots.
+
+_For developing you can test it directly inside ...files/RTCWCoop/main/levelshots/.
+
+ * 7) When it looks right place it in your mapname_coop_pk3 inside folder levelshots.
+
+=== 4.8. Create server menu images ===
+
+These are the images you see in the menu when you select the map in Create menu server. We have 3 different images in it:
+
+ * ui_mapname.jpg
+_This is the bigger image on left_
+ * ui_mapname_s1.jpg
+_This is the smaller image on top right_
+ * ui_mapname_s2.jpg
+_This is the smaller image on bottom right_
+
+Check previous chapter. Same rules apply to these images.
+
+
+
+
+
+== 5. Extra features ==
 === 5.1. Adding new entities like extra guns/item ===
 === 5.2. Using IF commands for advantage ===
-=== 5. Adding Notebook entries ===
-=== 5. Adding clipboards ===
+=== 5. Adding Notebook text ===
+=== 5. Adding ingame letters (clipboards) ===
 === 5. Adding location info ===
 
 == 6. List of useful console commands ==
