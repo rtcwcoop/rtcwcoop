@@ -26,17 +26,21 @@ Good luck and have fun from
 
 == 1. Introduction to RTCW Coop map converting ==
 
+
 === 1.1. I want custom! ===
+
 So you want to play a custom map in RTCW COOP mod? Fear not, it is fairly simple and fast. It will help tons if you know understand basics of map scripting. But even if you know nothing about scripting/mapping it is possible to convert a custom map with a bit of luck, patience, by selecting a well created map and following this tutorial.
 
 If you are not really good scripter, pick up a simple small map at first. Make sure it runs perfectly in SP. Select one that has *no* cutscenes. Cutscene scripting needs to be removed and skipped. Not always it is easy.
 
 When you create a custom map. Remember to test it many times before releasing it. Also do test it multiple times with your friends on a dedicated server. Many bugs you will encounter *only* happen when there are more than 1 player on the server.
 
+
 === 1.2. Remember to respect ===
+
 It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contact and still want to proceed, it is recommended that you do not alter gameplay or original files of the map. _This means include original pk3 and your custom pk3._ Also do remember to give full credit to the hard work by original author!
 
-=== 1.3.Difference between Coop and SP ===
+=== 1.3. Difference between Coop and SP ===
 
 While you are reading this, you probably have basic understanding of the difference between Coop and SP. If not go to a server and try it out.
 
@@ -253,7 +257,7 @@ If the map script has basic bugs you will know it now. If the map will not start
 
 _Most probably if some spawn actions have no wait you will crash with a script error._
 
-=== 3.2. Finding out where each map start command goes to ===
+=== 3.2. Finding out where each map start script command goes to ===
 
 Now we need to look deeper into what start up commands we have and where we need to place them.
 
@@ -298,12 +302,16 @@ This trigger will hold everything we want to have executed when the map starts. 
 
  * Accums
  * Objective scripting
- * Episode/secrets
+ * Episode info
+ * Triggering map start scripts eg. make something happen
+ * Number of secrets
+ * Random respawing
+ * Anything else you want at map start
 
 
-==== 3.2.2. Looking at the example map: christmas_map ====
+==== 3.2.2. Fixing start commands in our example map ====
 
-This is our starting point:
+This is our starting point in the map christmas_map:
 
 {{{
 player
@@ -332,7 +340,7 @@ player
    mu_stop 0 100
    }
 
-   trigger map_start
+   trigger map_start     //NOTE WE ADDED THIS IN PREVIOUS CHAPTER!
    {
 
    }
@@ -478,19 +486,40 @@ _If it does not load, check that if you have a missing { or } or typos. Or go to
 
 === 3.3. Make the objectives work properly ===
 
-*Accum commands does not work properly in player scriptblock!!!*
+Best solution would be to move all accums and objective stuff to the game_manager in .script file. But this might not always be a must.
 
-Best solution would be to move all accums and objective stuff to the game_manager in .script file.
+I have a lazy solution for you, that I have used sometimes.. So far it have worked for me. If you want to be extra safe then look at problem solving section.
 
-But I have a lazy solution for you, that I have used sometimes.. So far it have worked for me. If you want to be extra safe then look at problem solving section.
+Most common reason the objectives fail to work is because of accums. The next chapter might be enough to fix the objectives in some cases.
 
-Also if you for any other than objective reason want accums to work in player scriptblock. Follow this.
+*Make sure to test all objectives with atleast 2 players.* _Also try it atleast twice in row. First you finish the objectives, then your fellow player should finish them._
 
-*Fixing accums inside player scriptblock:*
+=== 3.4. Make the accums work properly ===
+
+*Accum commands do not work properly in player scriptblock!!!*
+
+Reason for this is that multiple players share the scriptblock, but accum command is only read by the one who activated it. 
+
+The solution to this is to turn all accum commands inside player scriptblock to globalaccums. 
+
+*Repeat: Only inside player scriptblock!*
+
+Difference between accum and globalaccum:
+{{{
+accum =  Only one scriptblock or one client can see this. These work normally in any other scriptblock than player.
+
+globalaccum = All scriptblocks and clients can see this.
+
+}}}
+
+
+==== 3.4.1 Fixing accums inside player scriptblock ====
 
  * 1) Search the ai script with keyword globalaccum, if nothing shows up, good. If there are already globalaccum, check that the numbers don't overlap.
 
-_The number that matter in this case is the first after accum command: accum *0* set 0 proper values for this are 0-9_
+_The number that matter in this case is the first after accum command: 
+
+globalaccum *0* set 0 //Proper values for this are 0-9_
 
  * 2) Select and copy player script block into another txt file 
 
@@ -529,51 +558,6 @@ player //Starts up with this
 }}}
 
 *!!!NOTE!!! DO NOT REPLACE ANY MORE THAN WHAT IS INSIDE PLAYER SCRIPTBLOCK!*
-
-=== 3.4. Remove any cutscene scripting ===
-
-RTCW Coop mod does not support cutscenes. All cam related script commands should be ignored by code, but it is safer to remove them.
-
-Most of the times during a cutscene AI does some actions. Normally SP either plays the action or skips it with Esc. Coop cannot do this. So you must manually skip the cutscene script actions. Do the following.
-
- * 1) Load the map in SP game. Go to part where cutscene starts. Try pressing Esc button. This should skip the cutscene. 
-
-_If it does, good, please continue to next stage!_ 
-
-_If Esc does not skip the cutscene, stop right here for a moment. You better know how to do some scripting. Or you can post it on the forums for others to solve. The part of the script needs to be redone to skip the cutscene, or the cutscene script will play out while you play the game._
-
- * 2) Search .ai file with a keyword _trigger camerainterrupt_
-
-_This is the trigger that is executed when you press Esc_
-
-Example from map Escape1:
-
-{{{
-   trigger camerainterrupt
-   {
-   stopcam
-   trigger dummy cine1_cleanup
-   }
-}}}
-
- * 3) Copy the line with the trigger command
-
- * 4) Paste it to the action where the cutscene happens. Usually when the map starts:
-
-{{{
-   player
-   {
-   ....
-
-   trigger map_start
-   {
-   ...
-
-   trigger dummy cine1_cleanup  //Directly skip to end of the cutscene
-   }
-   ....
-   }
-}}}
 
 === 3.5. Making music work properly ===
 
@@ -624,7 +608,84 @@ mu_play: -Affects all client in both coop.script and coop.ai file
 mu_queue: -Affects all client in both coop.script and coop.ai file 
 }}}
 
-=== 3.6. Making secret areas appear correctly ===
+=== 3.6. Making secret areas appear correctly in end stats ===
+
+*If the map has no secret areas, do still read this tutorial.*
+
+The secret area code is built one player in mind. Now when we have multiple players it tend to multiple the amount. We need to do following to fix this.
+
+ * 1) Check the number of secrets. 
+
+ * 2) Go to trigger map_start:
+
+{{{
+trigger map_start
+{
+...
+}
+}}}
+
+ * 3) Add command numsecrets _amount_ somewhere in it.
+
+_If there is none, you should still type number 0._
+
+{{{
+trigger map_start
+{
+...
+numsecrets 3
+}
+}}}
+
+This only affects the number presented in the end stats. Rest of the secret area scripts should work as in SP.
+
+=== 3.7. Remove any cutscene scripting ===
+
+_If your map has no cutscenes, skip this chapter. If it has, you might need some scripting understanding or help._
+
+RTCW Coop mod does not support cutscenes. All camera script commands should be ignored by code, but it is safer to remove them.
+
+Most of the times during a cutscene AI does some actions. Normally SP either plays the cutscene or you can skip it with a press of Esc button. Coop cannot do this. So you must manually skip the cutscene script actions. Do the following.
+
+ * 1) Load the map in SP game. Go to part where cutscene starts. Try pressing Esc button. This should skip the cutscene. 
+
+_If it does, good, please continue to next stage!_ 
+
+_If Esc does not skip the cutscene, stop right here for a moment. You better know how to do some scripting. Or you can post it on the forums for others to solve. The part of the script needs to be redone to skip the cutscene, or the cutscene script will play out while you play the game._
+
+ * 2) Search .ai file with a keyword _trigger camerainterrupt_
+
+_This is the trigger that is executed when you press Esc_
+
+Example from map Escape1:
+
+{{{
+   trigger camerainterrupt
+   {
+   stopcam
+   trigger dummy cine1_cleanup
+   }
+}}}
+
+ * 3) Copy the line with the trigger command
+
+ * 4) Paste it to the action where the cutscene happens. Usually when the map starts:
+
+{{{
+   player
+   {
+   ....
+
+   trigger map_start
+   {
+   ...
+
+   trigger dummy cine1_cleanup  //Directly skip to end of the cutscene
+   }
+   ....
+   }
+}}}
+
 
 
 
@@ -645,7 +706,7 @@ This is the stage that requires most time.
 
 Shooting at the default AI's get a little boring quickly. That is why we should add some reinforcements to make it more challenging. Usually we add about 20 AIs on many and 40 on More. _g_reinforce 1_ add many and _g_reinforce 2_ most AI.
 
-How to add AI reinforcement: 
+==== 4.1.1. Adding an AI entity ====
 
  * 1) Load game
 
@@ -680,7 +741,13 @@ Example:
 }
 }}}
 
- * 5) Add script to the new AI. Open .ai file. For a default mp40 bot add this script to the bottom of the .ai file:
+==== 4.1.2. Giving our new AI basic attributes ====
+
+ * 1) Open .ai file. 
+
+ * 2) Add something like this script to the bottom of the .ai file:
+
+_This makes it a default mp40 bot. [http://www.surfacegroup.org/tutorials/rtcw/ai_kim/ Here is a SP AI tutorial for little help if you want something else.]_
 
 {{{
 coop_ai_soldier_1 //NAME OF YOUR NEW AI!
@@ -701,9 +768,13 @@ coop_ai_soldier_1 //NAME OF YOUR NEW AI!
 }
 }}}
 
- * 6) Then you must execute your guy at a desired time. Most often it happens at map_start or from some action. 
+==== 4.1.3. Making our new AI show up ingame ====
 
-We have 3 regular ways to execute it.
+The AI's inside .ents should not appear in game without separately executing them.
+
+_spawnflags = 1 would normally make AI appear at map_start, but it does not in .ents file_
+
+*We have 3 common ways to execute it:*
 
 {{{
 alertentity coop_ai_soldier_1
@@ -718,7 +789,9 @@ _This spawns if we have /g_reinforcements set to 1 or 2
 }}}
 _This spawns if we have /g_reinforcements 2
 
-Example:
+*So let's execute our AI at a desired time. Most often it happens at map_start or from some action.* 
+
+_Add the command in the stage of the map where you want him to appear. Example:_
 
 {{{
 player
@@ -733,11 +806,16 @@ trigger action1 //Walk through the doorway
 }
 }}}
 
- * 7) Save and test.
+*Save and test.*
 
-If you want more:
 
-Repeat this as many times you want, just remember to change the name. IIRC you probably can add around 200 before hitting the limit. But I don't recommend adding a lot more than 50 or you might end up laggy. 
+==== 4.1.4. I want more than one AI
+
+Repeat the three previous steps as many times you want, just remember to change the AIName. 
+
+You can add around 100 before hitting a limit. But I don't recommend adding a lot more than 50. Also try not to place more than 10-20 in one open area in the map. Otherwise the map might end up really laggy for most of us. 
+
+_40 is a good amount if you place them all over the map._
 
 
 === 4.2. Making single AI not respawning ===
