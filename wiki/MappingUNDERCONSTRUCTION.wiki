@@ -1100,6 +1100,7 @@ Check previous chapter. Same rules apply to these images.
 === 5. Adding Notebook text ===
 === 5. Adding ingame letters (clipboards) ===
 === 5. Adding location info ===
+=== 5. Adding Coop entities to your GTK Radiant 1.5.0
 
 == 6. List of useful console commands ==
 
