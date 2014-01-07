@@ -56,6 +56,8 @@ In RTCW COOP 0.9.5 the folder locates in:
 
 C://Documents and settings/User/Files/RtcwCOOP/main/
 
+_Once you are ready with the map, you must pack it into a pk3! More later._
+
 == 2. Getting able to shoot and run ==
 
 I just want to frag a couple AIs in a custom SP map with my friends!
