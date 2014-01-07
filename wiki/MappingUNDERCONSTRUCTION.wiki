@@ -529,7 +529,7 @@ mu_start sound/...
 }
 }}}
 
-Here is the more detailed info on how the _mu_ commands_ were done in Coop.
+Here is the more detailed info on how the mu_ commands were done in Coop.
 
 {{{
 mu_start: -In coop.ai file this only affects the client who called it, so you must use it in player->spawn event! This is only for map start. -If you need to start music in the middle of the map, place it in coop.script file!
