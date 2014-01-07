@@ -4,7 +4,7 @@
 
 Up to date with RTCW Coop mod version 0.9.5!
 
-<wiki:toc max_depth="5" />
+<wiki:toc max_depth="3" />
 
 =Introduction=
 
@@ -153,7 +153,14 @@ If we leave the scripts as they are now, it probably work somewhat when you play
 
 === 3.1. Adding MP script support ===
 
-First we need to add a script_multiplayer entity.
+Normally in SP the game starts from player scriptblock from spawn/playerstart events. Now problems come when a new player joins, because the spawn event gets triggered again. It will cause some objectives or other features to reset or re-run. So we need to change this behavior.
+
+
+==== 3.1.1. First we need to add a script_multiplayer entity. ====
+
+Now we will create a new entity we can use to start the round, handle objectives and any other things that might break the map if more than 1 player is on the server.
+
+*You must have one and _only one_ script_multiplayer in your map for the scripts to work properly.*
 
  * 1) Open your .ents file.
 
@@ -168,11 +175,14 @@ First we need to add a script_multiplayer entity.
 
  * 3) Close and save .ents file.
 
- * 4) Open mymapname.coop.script file in notepad
+
+==== 3.1.2. Then we create the script for the script_multiplayer entity ====
+
+ * 1) Open mymapname.coop.script file in notepad
 
 _If the map don't have one. Copy an existing script file. Open it in notepad, empty it. And then rename it._
 
- * 5) Add the following on top of the .script file:
+ * 2) Add the following on top of the .script file:
 
 {{{
 game_manager
@@ -184,40 +194,26 @@ game_manager
 }
 }}}
 
- * 6) Save and close .script file
+ * 3) Save and close .script file
 
-Idea of this is to have a special trigger that only runs when the map starts. We add the trigger in second section. Do not test now.
 
-=== 3.2. Make the map start the scripts properly ===
+==== 3.1.3. Next we need the map to start MP style ====
 
-Open mymapname.coop.ai file and you will see something like this from our example map christmas_map:
+In other words we will add that trigger map_start we just triggered.
+
+ * 1) Open mymapname.coop.ai file and it looks like this:
 
 {{{
 player
 {
    spawn
    {
-   accum 1 set 0
-   objectivesneeded 1
-   abort_if_loadgame
-   mu_start sound/music/l_briefing_1
-   print Mission Objective: Capture the German Camp
+    ...
    }
-
 
    playerstart
    {
-   giveweapon weapon_knife
-   giveweapon weapon_luger
-   setammo ammo_9mm 100
-   giveweapon weapon_mp40
-   setammo ammo_grenades 3
-   setammo ammo_dynamite 1
-   selectweapon weapon_mp40
-   mu_fade 0 100
-   mu_queue sound/music/music1
-   wait 7000
-   mu_stop 0 100
+   ....
    }
 
 //and so on.......
@@ -225,12 +221,89 @@ player
 }
 }}}
 
-Now we must edit this.
+ * 2) Add that trigger map_start we triggered from game_manager's spawn. It will look like this:
+
+{{{
+player
+{
+   spawn
+   {
+    ...
+   }
+
+   playerstart
+   {
+   ....
+   }
+
+   trigger map_start
+   {
+   //<- Add scripts here later
+   }
+
+//and so on.......
+}
+}}}
+
+trigger map_start will have all things that should only run once during the map startup. We will look closer to this in the next chapter.
+
+ * 3) *Do test now!* 
+
+If the map script has basic bugs you will know it now. If the map will not start anymore, check the Problem solving section or ask at the forums! 
+
+_Most probably if some spawn actions have no wait you will crash with a script error._
+
+=== 3.2. Finding out where each map start command goes to ===
+
+Now we need to look deeper into what start up commands we have and where we need to place them.
+
+==== 3.2.1. Short explanation ====
+
+{{{
+spawn
+{
+
+}
+}}}
+
+This event is run everytime a new player joins. We only must have following commands here:
+
+ * Giving the player ammo/items/guns or anything related to this
+_These will not affect other players.
+
+ * Add music. *MUST BE mu_start sound/...*  !!!
+
+_Otherwise the music will not start for all players. mu_start command is edited in Coop! It will not restart music for other players. Read more in music section._
+
+Anything else will be elsewhere, or the command will be executed again everytime a new player joins.
 
 
+{{{
+playerstart
+{
+
+}
+}}}
+
+*This event must be emptied for Coop mod!* However leave it empty like this or you may get an error.
+
+{{{
+trigger map_start
+{
+
+}
+}}}
+
+This trigger will hold everything we want to have executed when the map starts. But not executed again when a new player joins. Eg.
+
+ * Accums
+ * Objective scripting
+ * Episode/secrets
 
 
- * 1) Add that trigger map_start we triggered from game_manager's spawn. It will look like this:
+==== 3.2.2. Looking at the example map: christmas_map ====
+
+This is our starting point:
 
 {{{
 player
@@ -269,15 +342,23 @@ player
 }
 }}}
 
- * 2) Look at spawn event. Remove such commands as:
+ * 1) Look at spawn event. Remove if there are such commands as:
 
 {{{
+spawn
+{
+...
 suggestweapon
 abort_if_loadgame
-mu_start
+mu_start sound/...
+}
 }}}
 
- * 3) Now copy the accum, objective and such commands to trigger map_start. It should look like following now:
+_Our example map has only the two last commands_
+
+ * 2) Now copy the accum, any objective, episode and such commands to trigger map_start. It should look like this now:
+
+_If there are more commands try determing what it does. If you need it or not._
 
 {{{
 player
@@ -314,7 +395,7 @@ player
 }
 }}}
 
- * 4) Now we must empty playerstart. It no longer is supported. Leave the empty event thought or you might get an error. Only ammo and items and music should be moved to spawn event. Optional ones to the map_start. So it should look like following:
+ * 3) Now we must empty playerstart. It no longer is supported. Leave the empty event thought or you might get an error. Only ammo and items and music should be moved to spawn event. Optional ones to the map_start. So it should look like following:
 
 
 {{{
@@ -352,7 +433,7 @@ player
 }
 }}}
 
- * 5) Now rename mu_queue to mu_start and remove all other mu_ commands from spawn event. 
+ * 4) Now rename mu_queue to mu_start and remove all other mu_ commands from spawn event. 
 
 _The particular example map has different idea on music. Check music scripting section, if you want something different than this. Cosmetics.._
 
@@ -389,11 +470,11 @@ player
 //and so on.......
 
 }
+}}}
 
 *TEST YOUR MAP NOW*
 
-If it does not load, check section Problem solving -> Script errors.
-}}}
+_If it does not load, check that if you have a missing { or } or typos. Or go to Problem Solving._
 
 === 3.3. Make the objectives work properly ===
 
@@ -542,6 +623,17 @@ mu_play: -Affects all client in both coop.script and coop.ai file
 
 mu_queue: -Affects all client in both coop.script and coop.ai file 
 }}}
+
+=== 3.6. Making secret areas appear correctly ===
+
+
+
+
+
+
+
+
+
 
 == 4. Optional common Coop features ==
 
