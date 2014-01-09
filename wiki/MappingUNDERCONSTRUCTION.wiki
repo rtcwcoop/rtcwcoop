@@ -58,6 +58,40 @@ C://Documents and settings/User/Files/RtcwCOOP/main/
 
 _Once you are ready with the map, you must pack it into a pk3! More later._
 
+=== 1.5. Commands and tutorials to ease up mapping ===
+
+In Coop we can use all regular cheats from SP. To enable cheats you must start your map with /coopdevmap mapname. Some useful cheats:
+
+{{{
+/god - makes you invincible
+/notarget - makes ai not see you
+/give all - gives all guns and items
+/give ammo - gives ammo
+/give health - gives health
+/noclip - you can fly through the wall
+/r_showtris 1 or 2 - allows you to see through walls
+/aicast_debug 1 - allows you to see what .AI scripts are running
+/script_debug 1 - allows you to see what .script file commands run
+}}}
+
+*Also Coop adds a few new ones:*
+
+{{{
+/drawspawns - allows you to see all the coop spawnpoints
+/drawtriggers - shows the ingame triggers
+}}}
+
+*Protip:*
+
+/drawtrigger is specially awsome tool to figure out how the map works technically. Triggers activate most game events and execute trigger actions in .ai script. Combination of drawtriggers and aicast_debug makes it easy to figure out when to add reinforcements and such.
+
+
+*Few tutorials to help figuring out scripting:*
+
+[http://bzzwolfsp.googlecode.com/svn/wiki/mapping/scripting_definitions.htm Almost complete great list of RTCW script commands with explanations!]
+
+[http://www.surfacegroup.org/tutorials/rtcw/ai_kim/ Nice tutorial on scripting a basic AI with some actions.]
+
 == 2. Getting able to shoot and run ==
 
 I just want to frag a couple AIs in a custom SP map with my friends!
@@ -1020,6 +1054,8 @@ _Q3 color codes are supported in longname!_
 
 
 ==== 4.6.3. Here is an example from Capuzzo Campaign ====
+
+[http://bzzwolfsp.googlecode.com/svn/wiki/mapping/scripting_definitions.htm Download the example file!]
 
 _Filename : capuzzo.arena_
 
