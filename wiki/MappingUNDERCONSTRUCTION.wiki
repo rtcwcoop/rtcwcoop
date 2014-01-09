@@ -58,7 +58,86 @@ C://Documents and settings/User/Files/RtcwCOOP/main/
 
 _Once you are ready with the map, you must pack it into a pk3! More later._
 
-=== 1.5. Commands and tutorials to ease up mapping ===
+=== 1.5. Scripting in short words ===
+
+*Basic syntax of scripts*
+
+Every .AI and .SCRIPT file script has the same basic syntax:
+
+
+||name||Ainame or scriptname of entity||
+||{||Starts the entity||
+||spawn||Entity spawned||
+||{||Start spawn event||
+|| ||Command here||
+||}||End spawn||
+||trigger me||name of trigger||
+||{||Start trigger||
+|| ||Command here||
+||}||End trigger||
+||}||End entity||
+
+
+{{{
+name
+{
+	spawn
+	{
+		//I just spawned, give me command here
+	}
+
+	trigger me
+	{
+		//Something executed me, do something
+	}
+}
+}}}
+
+*Adding comments in the script:* 
+
+{{{
+//Comment here
+}}}
+
+
+*Triggering something from the spawn*
+
+Do it like this. Always add wait before you trigger something from the spawn, or you will make the map crash!
+
+{{{
+name
+{
+	spawn
+	{
+		wait 50  //If you trigger from spawn, ADD THIS!!!
+
+		trigger name me  //trigger EntityName TriggerName
+	}
+
+	trigger me
+	{
+		//Print on the console that i got executed
+		Print Hey who is calling?
+	}
+}
+}}}
+
+=== 1.6 Scripting tutorials ===
+
+*Few tutorials to help figuring out scripting:*
+
+[http://bzzwolfsp.googlecode.com/svn/wiki/mapping/scripting_definitions.zip Almost complete list of RTCW script commands with explanations]
+
+_You must download, unzip it and open it in Web browser._
+
+
+[http://www.surfacegroup.org/tutorials/rtcw/ai_kim/ Nice tutorial on scripting a basic AI with some actions]
+
+[http://rtcw.pro/en/downloads/rtcw-script-editor/ Rtcw script editor, if you are bored of notepad/notepad++ or such basic editor]
+
+=== 1.7. Helpful commands ===
+
+*Cheats*
 
 In Coop we can use all regular cheats from SP. To enable cheats you must start your map with /coopdevmap mapname. Some useful cheats:
 
@@ -86,13 +165,7 @@ In Coop we can use all regular cheats from SP. To enable cheats you must start y
 /drawtrigger is specially awsome tool to figure out how the map works technically. Triggers activate most game events and execute trigger actions in .ai script. Combination of drawtriggers and aicast_debug makes it easy to figure out when to add reinforcements and such.
 
 
-*Few tutorials to help figuring out scripting:*
-
-[http://bzzwolfsp.googlecode.com/svn/wiki/mapping/scripting_definitions.htm Almost complete great list of RTCW script commands with explanations!]
-
-[http://www.surfacegroup.org/tutorials/rtcw/ai_kim/ Nice tutorial on scripting a basic AI with some actions.]
-
-== 2. Getting able to shoot and run ==
+== 2. START: Getting able to shoot and run ==
 
 I just want to frag a couple AIs in a custom SP map with my friends!
 
@@ -315,6 +388,22 @@ Now we need to look deeper into what start up commands we have and where we need
 
 ==== 3.2.1. Short explanation ====
 
+*Regular SP*
+
+In regular SP game when player has loaded the map and is waiting on the briefing menu the spawn event gets executed. It starts menu time music and such. 
+
+When the player presses the arrow to actually start the game, playerstart event is executed. 
+
+*Coop*
+
+Spawn event is executed when the player joins a team and it is executed for every player on the server when a new player joins. We need to give the new joiner guns and start music, but don't want all other players resetting their music and guns. Commands we place in Spawn are all edited for Coop, so they only affect the new comer. 
+
+In coop we have replaced playerstart with trigger map_start, because we don't want every new player "restart" the map. All regular commands are moved into map_start. So if you want to specify objectives, trigger actions and such at map start, place it here.
+
+More detailed explanations:
+
+*spawn event*
+
 {{{
 spawn
 {
@@ -322,7 +411,7 @@ spawn
 }
 }}}
 
-This event is run everytime a new player joins. We only must have following commands here:
+spawn event will run everytime a new player joins. We must only have following commands here:
 
  * Giving the player ammo/items/guns or anything related to this
 _These will not affect other players.
@@ -333,6 +422,7 @@ _Otherwise the music will not start for all players. mu_start command is edited 
 
 Anything else will be elsewhere, or the command will be executed again everytime a new player joins.
 
+*playerstart event*
 
 {{{
 playerstart
@@ -341,7 +431,9 @@ playerstart
 }
 }}}
 
-*This event must be emptied for Coop mod!* However leave it empty like this or you may get an error.
+*playerstart event must be emptied for Coop mod!* However leave it empty like this or you may get an error.
+
+*trigger map_start*
 
 {{{
 trigger map_start
@@ -350,7 +442,7 @@ trigger map_start
 }
 }}}
 
-This trigger will hold everything we want to have executed when the map starts. But not executed again when a new player joins. Eg.
+trigger map_start will hold everything we want to have executed when the map starts. But not executed again when a new player joins. Eg.
 
  * Accums
  * Objective scripting
@@ -414,7 +506,7 @@ mu_start sound/...
 }
 }}}
 
-_Our example map has only the two last commands_
+_Our example map has only abort_if_loadgame and mu_start_
 
  * 2) Now copy the accum, any objective, episode and such commands to trigger map_start. It should look like this now:
 
@@ -1019,7 +1111,7 @@ To see your map in menus, we need to add an arena file.
 
 ==== 4.6.1. Follow these rules when you make your .arena file ====
 
- * Custom arenas are support
+ * Custom arenas are supported
  * Never edit any existing arenas!
  * You should have only one arena for your entire project!
  * Include all your project maps in one arena file.
@@ -1055,7 +1147,7 @@ _Q3 color codes are supported in longname!_
 
 ==== 4.6.3. Here is an example from Capuzzo Campaign ====
 
-[http://bzzwolfsp.googlecode.com/svn/wiki/mapping/scripting_definitions.htm Download the example file!]
+[bzzwolfsp.googlecode.com/svn/wiki/mapping/capuzzo_arena.zip Download the example file!]
 
 _Filename : capuzzo.arena_
 
@@ -1093,7 +1185,9 @@ Arena file has to be located in scripts folder.
 
 This is the image we get while we are loading the map. 
 
-*This image must be in power of two!* _eg. 256x128 or 64x512_
+*This image must be in power of two and squared!* 
+
+_eg. 256x256 or 512x512. If you don't make it squared it will not work on all video cards._
 
  * 1) Take a pic of your map.
  
@@ -1124,7 +1218,7 @@ _This is the smaller image on top right_
  * ui_mapname_s2.jpg
 _This is the smaller image on bottom right_
 
-Check previous chapter. Same rules apply to these images.
+Check previous chapter. Same basic rules apply to these images too.
 
 
 
@@ -1167,6 +1261,14 @@ trigger nazi1 go //I wanna go when I born
 
 == 8. Example map ==
 
-https://bzzwolfsp.googlecode.com/svn/wiki/mapping/christmas_map_coop_sage.pk3
+*NOTE*
+
+Our example map have the missing wait bug that I fixed in the Coop version. The friendly AI trigger actions directly from spawn without wait. You need to fix this if you intend to build it along this tutorial. Description of this bug is in Problem solving section.
+
+[https://bzzwolfsp.googlecode.com/svn/wiki/mapping/christmas_map_coop_sage.pk3 Download Coop addon file]
+
+[http://www.rtcwcoop.com/main/christmas_map.pk3 Download original map]
+
+_Note you need both of these files._
 
 == 9. Last words ==
