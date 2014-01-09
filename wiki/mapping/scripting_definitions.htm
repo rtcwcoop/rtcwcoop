@@ -1,0 +1,957 @@
+<html>
+<head>
+  <title>Return To Castle Wolfenstein - Scripting Definitions</title>
+  <link rel="stylesheet" type="text/css" href="../styles/q3rad.css">
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<div align = "center">
+  <h1><u>Return to Castle Wolfenstein</u><br>
+  Wolfenstein Scripting Definitions</h1>
+  <p>By: Gray Matter Scripting Team</p>
+  <p>Copyright © 2000 Gray Matter Interactive Studios</p>
+  <p>HTML Adaption by GtkRadiant team - Jan 20, 2002</p>
+  <hr>
+</div>
+
+<h1>AI Attributes</h1>
+<h3>running_speed 220</h3>
+<p>
+  Sets the AI's running speed. Default: 220 Range: 1 ? 300
+</p>
+
+<h3>walking_speed 90</h3>
+<p>
+  Sets the AI's walking speed. Default: 90 Range: 1 ? 300
+</p>
+
+<h3>crouching_speed 80</h3>
+<p>
+  Sets the AI's crouching-moving speed. Default: 80 Range: 1 ? 300
+</p>
+
+<h3>fov 240</h3>
+<p>
+  This sets the FIELD OF VIEW for the AI. Default: 240 Range 1 ? 360
+</p>
+
+<h3>yaw_speed 300</h3>
+<p>
+  Sets the YAW SPEED, how fast they turn around. Default: 300 Range: 1 ? 300
+</p>
+
+<h3>leader 0.0</h3>
+<p>
+  <font color="#FF0000">(Not fully functional! Use at own risk!)</font><br>
+  Changes the AI's personality/behavior. Default: 0 Range 0.0 ? 1.0
+</p>
+
+<h3>aim_skill 0.5</h3>
+<p>
+  Sets the AI's ability to shoot at specific targets. Default: 0.5 Range: 0.0 ? 1.0
+</p>
+
+<h3>aim_accuracy 0.5</h3>
+<p>
+  Sets the AI's accuracy. Default: 0.5 Range: 0.0 ? 1.0
+</p>
+
+<h3>attack_skill 0.75</h3>
+<p>
+  Sets the AI's weaponry tactics. Grenades VS. Machine Gun, etc. 
+  Default: 0.75 Range: 0.0 ? 1.0
+</p>
+
+<h3>reaction_time 0.5</h3>
+<p>
+  Sets the AI's reaction time in seconds. Default: 0.5 Range: 0.0 ? 1.0
+</p>
+
+<h3>attack_crouch 0.4</h3>
+<p>
+  Sets the AI's frequency to crouch while attacking. Default: 0.4 Range: 0.0 ? 1.0
+</p>
+
+<h3>idle_crouch 0.0</h3>
+<p>
+  Sets the AI's frequency to crouch while in idle. Default: 0.0 Range: 0.0 ? 1.0
+</p>
+
+<h3>AGGRESSION</h3>
+<p>
+  Sets the AI's aggression, good for charging it's enemies. Default: 0.5 Range: 0.0 ? 1.0
+</p>
+
+<h3>tactical 0.8</h3>
+<p>
+  Sets the AI's tactical abilities, using environment for protection. Default: 0.8 Range: 0.0 ? 1.0
+</p>
+
+<h3>camper 0.0</h3>
+<p>
+  Sets the AI's camping abilities. Default: 0.0 Range: 0.0 ? 1.0
+</p>
+
+<h3>alertness 16000</h3>
+<p>
+  Sets the AI's sight distance in pixel units. Default: 16000 Range: 0 ? 999999
+</p>
+
+<h3>starting_health 100</h3>
+<p>
+  Sets the AI's health when spawning in. Default: 100 Range: 0 ? 99999
+</p>
+
+<h3>hearing_scale 1.0</h3>
+<p>
+  Sets the AI's hearing. Default: 1.0 Range: 0.0 ? 10
+</p>
+
+<h3>inner_detection_radius 512</h3>
+<p>
+  Sets the Inner Detection Radius (IDR) for the AI in pixel units. 
+  The IDR will make the AI react to several things. Example: 
+  Bullet impacts within the IDR will affect the AI. 
+</p>
+
+<hr>
+<h2>AI Scripting Events</h2>
+<pre class="type">
+Key:
+[word/number] = Optional
+&lt;word/number&gt; = Mandatory
+</pre>
+
+<h2>Attributes</h2>
+<p>Sets the AI's behavior when they first spawn in.</p>
+
+<h3>spawn</h3>
+<p>
+  Will run all of the commands within this event upon spawning.
+</p>
+
+<h3>enemysight [ainame]</h3>
+<p>
+  This event will trigger when they see a enemy AI. If AINAME is used, 
+  then this will only trigger upon sight of the matching enemy AI.
+</p>
+
+<h3>sight [ainame]</h3>
+<p>
+  This event will trigger when they see a friendly AI. If AINAME is used, 
+  then this will only trigger upon sight of the matching friendly AI.
+</p>
+
+<h3>enemydead &lt;ainame&gt;</h3>
+<p>
+  This event will trigger when the enemy AI (with corresponding AINAME) dies.
+</p>
+
+<h3>trigger &lt;event&gt;</h3>
+<p>
+  This event will trigger when called upon, either by another script 
+  calling on this, or when going through a trigger brush.
+</p>
+
+<h3>pain &lt;threshold&gt;</h3>
+<p>
+  This event will trigger when the AI is at a certain health.
+</p>
+
+<h3>death</h3>
+<p>
+  This event will trigger once the AI dies. NOTE: All of the commands 
+  within this event must not take any think-time. For example, you cannot 
+  have a WAIT command in this event. If you do, it will crash.
+</p>
+
+<h3>activate &lt;ainame (usually player)&gt;</h3>
+<p>
+  This event will trigger when the ?PLAYER? uses/activates this AI.
+</p>
+
+<h3>enemysightcorpse [ainame]</h3>
+<p>
+  This event will trigger when the AI sees an enemy corpse.
+</p>
+
+<h3>friendlysightcorpse</h3>
+<p>
+  This event will trigger when the AI sees a friendly corpse.
+</p>
+
+<h3>avoiddanger [weapon]</h3>
+<p>
+  This event will trigger when trying to avoid a weapon.
+</p>
+
+<h3>blocked &lt;ainame (usually player)&gt;</h3>
+<p>
+  This event will trigger when the player is blocking the AI from proceeding.
+</p>
+
+<h3>statechange &lt;current state&gt; &lt;result state&gt;</h3>
+<p>
+  <ul>
+    <b>relaxed query</b>  - When the AI changes state from ?relaxed? to ?query? then this even will trigger.<br>
+    <b>relaxed alert</b>  - When the AI changes state from &quot;relaxed&quot; to &quot;alert&quot; then this even will trigger.<br>
+    <b>relaxed combat</b> - When the AI changes state from &quot;relaxed&quot; to &quot;combat&quot; then this even will trigger.<br>
+    <b>query relaxed</b>  - When the AI changes state from &quot;query&quot; to &quot;relaxed&quot; then this even will trigger.<br>
+    <b>query alert</b>    - When the AI changes state from &quot;query&quot; to &quot;alert&quot; then this even will trigger.<br>
+    <b>query combat</b>   - When the AI changes state from &quot;query&quot; to &quot;combat&quot; then this even will trigger.<br>
+    <b>alert combat</b>   - When the AI changes state from &quot;alert&quot; to &quot;combat&quot; then this even will trigger.<br>
+    <b>combat alert</b>   - When the AI changes state from &quot;combat&quot; to &quot;alert&quot; then this even will trigger.<br>
+  </ul>
+</p>
+
+<h3>bulletimpact</h3>
+<p>
+  This event will trigger when the AI detects a bullet within their IDR.
+</p>
+
+<h3>inspectbodystart [ainame]</h3>
+<p>
+  When the AI first sees a dead body this will trigger. you are able to put an ainame 
+  following the command which will only trigger when that AI is dead. You can place a 
+  ?DENY? in this even to stop the AI from inspecting the body.
+</p>
+
+<h3>inspectbodyend</h3>
+<p>
+  This will trigger when the AI reaches the dead body.
+</p>
+
+<h3>inspectsoundstart</h3>
+<p>
+  This will trigger when the AI hears a sound. He will then go and investigate that sound. 
+  You can place a ?DENY? in this event to stop the AI from inspecting the sound.
+</p>
+
+<h3>inspectsoundend</h3>
+<p>
+  This will trigger when the AI has reaches the location of the sound.
+</p>
+
+<h3>playerstart</h3>
+<p>
+  This will trigger once the player clicks on the 'next (arrow) button just after the loading.
+</p>
+
+<h3>fakedeath</h3>
+<p>
+  This is triggered when the ZOMBIE does his ?fake death.?
+</p>
+
+<h3>attacksound</h3>
+<p>
+  If used, then once the AI starts to attack the player, and make a noise, this will trigger. 
+  Able to put ?Deny? in order to prevent the AI to use generic sounds.
+</p>
+
+<h3>bulletimpactsound</h3>
+<p>
+  If you want to have the AI say something when bulletimpact is triggered, use this event, 
+  do not use ?bulletimpact.?
+</p>
+
+<h3>inspectfriendlycombatstart</h3>
+<p>
+  This is triggered when the AI sees a friendly AI in combat.
+</p>
+
+<hr>
+<h2>AI Scripting Commands</h2>
+
+<h3>gotomarker &lt;targetname&gt; [firetarget] [noattack] [nostop]</h3>
+<p>
+  Tells the AI to go to an AI_MARKER using the current &quot;MOTETYPE&quot;; 
+  FIRETARGET- Shoots at this target while moving; NOATTACK- Does not attack while moving, may 
+  be used with firetarget so the AI faces/tracks a certain target while moving. NOSTOP- increases 
+  the AI_MARKER size by 32 pixels so that it gives a nice transition from 1 marker to the next.
+</p>
+
+<h3>runtomarker &lt;targetname&gt; [firetarget] [noattack] [nostop]</h3>
+<p>
+  Tells the AI to <b>run</b> to an AI_MARKER. FIRETARGET- Shoots at this target while moving; 
+  NOATTACK- Does not attack while moving, may be used with firetarget so the AI faces/tracks a 
+  certain target while moving. NOSTOP- increases the AI_MARKER size by 32 pixels so that it gives 
+  a nice transition from 1 marker to the next.
+</p>
+
+<h3>walktomarker &lt;targetname&gt; [firetarget] [noattack] [nostop]</h3>
+<p>
+  Tells the AI to <b>walk</b> to an AI_MARKER. FIRETARGET- Shoots at this target while moving; 
+  NOATTACK- Does not attack while moving, may be used with firetarget so the AI faces/tracks a certain 
+  target while moving. NOSTOP- increases the AI_MARKER size by 32 pixels so that it gives a nice 
+  transition from 1 marker to the next.
+</p>
+
+<h3>crouchtomarker &lt;targetname&gt; [firetarget] [noattack] [nostop]</h3>
+<p>
+  Tells the AI to crouch to an AI_MARKER. FIRETARGET- Shoots at this target while moving; 
+  NOATTACK- Does not attack while moving, may be used with firetarget so the AI faces/tracks a certain 
+  target while moving. NOSTOP- increases the AI_MARKER size by 32 pixels so that it gives a nice 
+  transition from 1 marker to the next.
+</p>
+
+<h3>gotocast &lt;ainame&gt; [firetarget] [noattack]</h3>
+<p>
+  Tells the AI to go to an AI character using the current MOVETYPE. FIREATTARGET- Shoots at this 
+  target while moving; NOATTACK- Does not attack while moving, may be used with firetarget so the 
+  AI faces/tracks a certain target while moving.
+</p>
+
+<h3>runtocast &lt;ainame&gt; [firetarget] [noattack]</h3>
+<p>
+  Tells the AI to <b>run</b> to an AI character. FIREATTARGET- Shoots at this target while moving; 
+  NOATTACK- Does not attack while moving, may be used with firetarget so the AI faces/tracks a 
+  certain target while moving.
+</p>
+
+<h3>walktocast &lt;ainame&gt; [firetarget] [noattack]</h3>
+<p>
+  Tells the AI to <b>walk</b> to an AI character. FIREATTARGET- Shoots at this target while moving; 
+  NOATTACK- Does not attack while moving, may be used with firetarget so the AI faces/tracks a 
+  certain target while moving.
+</p>
+
+<h3>crouchtocast &lt;ainame&gt; [firetarget] [noattack]</h3>
+<p>
+  Tells the AI to crouch to an AI character. FIREATTARGET- Shoots at this target while moving; 
+  NOATTACK	-4- Does not attack while moving, may be used with firetarget so the AI faces/tracks 
+  a certain target while moving.
+</p>
+
+<h3>wait &lt;duration&gt; [moverange] [facetarget]</h3>
+<p>
+  Tells the AI to wait for a certain duration. MOVERANGE- Used to set the amount of mobility the 
+  AI is able to use while waiting. FACETARGET- Used to track/look at a target.
+</p>
+
+<h3>trigger &lt;ainame/scriptname&gt; &lt;event&gt;</h3>
+<p>
+  This will call/trigger an AI or Script_mover to run it's &quot;trigger &lt;event&gt;&quot;
+</p>
+
+<h3>followcast &lt;ainame&gt;</h3>
+<p>
+  This will tell the AI to follow an AI Character.
+</p>
+
+<h3>playsound &lt;soundname OR scriptname&gt;</h3>
+<p>
+  This will play a sound.wav or a script name in one of the .sounds files.
+</p>
+
+<h3>noattack &lt;duration&gt;</h3>
+<p>
+  This will tell the AI not to attack for the duration.
+</p>
+
+<h3>attack [ainame]</h3>
+<p>
+  This will tell the AI to attack an AI.
+</p>
+
+<h3>playanim &lt;animation&gt; [legs/torso/both]</h3>
+<p>
+  This will tell the AI to play a certain animation once. LEGS- Only to play the LEGS animation. 
+  TORSO- Only to play the torso animation. BOTH- Play both LEGS and TORSO.
+</p>
+
+<h3>setammo &lt;pickupname&gt; &lt;count&gt;</h3>
+<p>
+  Sets the amount of ammo given to the AI.
+</p>
+
+<h3>selectweapon &lt;pickupname&gt;</h3>
+<p>
+  Tells the AI to select a certain weapon.
+</p>
+
+<h3>giveweapon &lt;pickupname&gt;</h3>
+<p>
+  Tells the AI to give him/her-self a certain weapon.
+</p>
+
+<h3>givearmor &lt;pickupname&gt;</h3>
+<p>
+  Tells the AI to give him/her-self armor.
+</p>
+
+<h3>giveinventory &lt;pickupname&gt;</h3>
+<p>
+  Tells the AI to give him/her-self an inventory item.
+</p>
+
+<h3>takeweapon &lt;pickupname&gt;</h3>
+<p>
+  Tells the AI to get rid of a certain weapon.
+</p>
+
+<h3>movetype &lt;walk/run/crouch/default&gt;</h3>
+<p>
+  Tells the AI to either walk/run/crouch everywhere. Default=run.
+</p>
+
+<h3>alertentity &lt;targetname&gt;</h3>
+<p>
+  This will trigger/activate certain entities in the map. Usually just TARGET_RELAYS.
+</p>
+
+<h3>savegame</h3>
+<p>
+  This will save the game for the player.
+</p>
+
+<h3>fireattarget &lt;targetname&gt; [duration]</h3>
+<p>
+  This will tell the AI to fire at a specific target once. If you add a DURATION you the 
+  AI will shoot for the duration.
+</p>
+
+<h3>godmode &lt;on/off&gt;</h3>
+<p>
+  This will give the AI invincibility.
+</p>
+
+<h3>accum &lt;buffer_index&gt; &lt;command&gt; &lt;paramater&gt;</h3>
+<p>
+  Accum is used for &quot;what if&quot; statements. Accums store integers which are used
+  to trigger scripts.
+  
+  <h3>accum &lt;n&gt; inc &lt;m&gt;</h3>
+    <p>This is used to &quot;increase&quot;/add to value already stored in the accum.</p>
+  <h3>accum &lt;n&gt; abort_if_less_than &lt;m&gt;</h3>
+    <p>This is used to abort the script if the value of accum &lt;n&gt; is less than &lt;m&gt;.</p>
+  <h3>accum &lt;n&gt; abort_if_greater_than &lt;m&gt;</h3>
+    <p>This is used to abort the script if the value of accum &lt;n&gt; is greater than &lt;m&gt;.</p>
+  <h3>accum &lt;n&gt; abort_if_equal &lt;m&gt;</h3>
+    <p>This is used to abort the script if accum &lt;n&gt; is equal to &lt;m&gt;.</p>
+  <h3>accum &lt;n&gt; abort_if_not_equal &lt;m&gt;</h3>
+    <p>This is used to abort the script if accum &lt;n&gt; is not equal to &lt;m&gt;. </p>
+  <h3>accum &lt;n&gt; set &lt;m&gt;</h3>
+    <p>This is used to set the value of accum &lt;n&gt; to &lt;m&gt;.</p>
+  <h3>accum &lt;n&gt; bitset &lt;m&gt;</h3>
+    <p>This will set accum n's bitset of 0-31 to ON or 1, whichever you prefer.</p>
+  <h3>accum &lt;n&gt; bitreset &lt;m&gt;</h3>
+    <p>This will set accum n's biteset of 0-31 to OFF or 0, whichever you prefer.</p>
+  <h3>accum &lt;n&gt; abort_if_bitset &lt;m&gt;</h3>
+    <p>This will abort if the bitset is ON or 1. So, the bitset needs to be OFF or 0.</p>
+  <h3>accum &lt;n&gt; abort_if_not_bitset &lt;m&gt;</h3>
+    <p>This will abort if the bitset is OFF or 0. So, the bitset needs to be ON or 1.</p>
+  <h3>accum &lt;n&gt; random &lt;m&gt;</h3>
+    <p>This is used so that accum &lt;n&gt; will randomly choose a number.</p>
+</p>
+
+<h3>missionfailed</h3>
+<p>
+  This is used to fail the PLAYER from completing his mission objectives.
+</p>
+
+<h3>objectivemet &lt;n&gt;</h3>
+<p>
+  This is used to tell the player and update the journal that he/she has completed their objective.
+</p>
+
+<h3>objectiveneeded &lt;n&gt;</h3>
+<p>
+  This is used in the ?player? spawn to tell the player how many objectives he/she needs to complete 
+  the mission.
+</p>
+
+<h3>noaidamage &lt;on/off&gt;</h3>
+<p>
+  This tells the AI not to take damage from any other AI.
+</p>
+
+<h3>print &lt;text&gt;</h3>
+<p>
+  This will PRINT text up on the screen/console.
+</p>
+
+<h3>facetargetangles &lt;targetname&gt;</h3>
+<p>
+  This will tell the AI to match the same angle as the Target. The target's angle is determined within 
+  Radiant.
+</p>
+
+<h3>resetscript</h3>
+<p>
+  This will tell the AI to FORGET everything he is doing and everything he has done and either continue 
+  the script or go into dynamic mode.
+</p>
+
+<h3>mount &lt;targetname&gt;</h3>
+<p>
+  This will tell the AI to mount a fixed weapon. Must have a fixed weapon nearby.
+</p>
+
+<h3>unmount</h3>
+<p>
+  This will tell the AI to dismount the fixed weapon he is currently on.
+</p>
+
+<h3>savepersistant &lt;next_mapname&gt;</h3>
+<p>
+  ???
+</p>
+
+<h3>changelevel &lt;mapname&gt; [nostats] [persistant]</h3>
+<p>
+  This will change the map to the &quot;mapname.&quot; NOSTATS- This will not display the PLAYERS 
+  score/kills. PERSISTANT- This will bring all of the items 
+</p>
+
+<h3>teleport &lt;targetname&gt;</h3>
+<p>
+  This will teleport the AI to the origin of the ?targetname? instantly.
+</p>
+
+<h3>foundsecret</h3>
+<p>
+  This will increase the &quot;Found Secrets&quot; on the score board by 1.
+</p>
+
+<h3>nosight &lt;duration&gt;</h3>
+<p>
+  This will make the A.I. Blind for a duration.
+</p>
+
+<h3>sight</h3>
+<p>
+  This will make the A.I. See if the AI is already blind.
+</p>
+
+<h3>noavoid</h3>
+<p>
+  This will tell the A.I. Not to avoid anything. Including AI/Player/Script_movers.
+</p>
+
+<h3>avoid</h3>
+<p>
+  This will tell the A.I. To avoid other AI/Player/Script_movers. <i>Note: By default, this is always 
+  on unless you tell it to &quot;noavoid.&quot;</i>
+</p>
+
+<h3>attrib &lt;attribute&gt; &lt;value&gt;</h3>
+<p>
+  This will change any of the AI's attributes during a scripted event. <i>Note: STARTING_HEALTH cannot 
+  be used in this command.</i><br> See SETHEALTH for details.
+</p>
+
+<h3>denyaction (&quot;activate&quot; Event only.)</h3>
+<p>
+  This will deny the player from hitting his &quot;use/activate&quot; button on this particular AI.
+</p>
+
+<h3>headlook &lt;on/off&gt;</h3>
+<p>
+  This will turn on/off the head look for the AI. This is an ambient head motion. <i>NOTE: The AI's 
+  tactical must be set to 0.5+</i>
+</p>
+
+<h3>deny (&quot;avoiddanger&quot; event only)</h3>
+<p>
+  This will tell the AI to not avoid danger. Example, when a bazooka is fired at this AI he will 
+  not avoid the rocket.
+</p>
+
+<h3>backupscript</h3>
+<p>
+  This will backup the last script running for the AI.
+</p>
+
+<h3>restorescript</h3>
+<p>
+  This will restore the last script the AI was running. Must have backupscript before restorescript 
+  can function.
+</p>
+
+<h3>statetype &lt;alert&gt;</h3>
+<p>
+  This changes the AI's STATE. Currently, there's only ALERT.
+</p>
+
+<h3>knockback &lt;on/off&gt;</h3>
+<p>
+  This enables/disables knockback, by default, it's ON. Knockback is the ability to knock the AI 
+  backwards due to a bullet hitting them.
+</p>
+
+<h3>clearanim	</h3>
+<p>
+  This stops the current animation the AI is playing and resets them to their default animation, 
+  depending on their state.
+</p>
+
+<h3>zoom &lt;on/off&gt;</h3>
+<p>
+  This enables/disables the AI to use his binoculars. This also increases their IDR by 10 times 
+  the set amount. It also decreases their FOV by 80%.
+</p>
+
+<h3>parachute &lt;on/off&gt;</h3>
+<p>
+  This enables/disables the AI to use a PARACHUTE movetype. This will enable them to play the 
+  parachute animation and shoot at the same time. As PLAYANIM is not able to do this, yet.
+</p>
+
+<h3>cigarette &lt;on/off&gt;</h3>
+<p>
+  This enables/disables the AI to have a cigarette in his left hand or not.
+</p>
+
+<h3>sethealth &lt;n&gt;</h3>
+<p>
+  Since &quot;attrib starting_health&quot; does not work, we added this command so it does work.
+</p>
+
+<h3>notarget &lt;on/off&gt;</h3>
+<p>
+  This will enable notarget for the AI, just like notarget is for the player.
+</p>
+
+<h3>startcam &lt;camera file&gt;</h3>
+<p>
+  This is used to call a camera and have it play.
+</p>
+
+<h3>startcamblack &lt;camera file&gt;	</h3>
+<p>
+  This is used to start a camera and have it play with a fade-up from black.
+</p>
+
+<h3>stopcam</h3>
+<p>
+  This immediately stops the current camera.
+</p>
+
+<h3>cvar &lt;cvarname&gt; &lt;value&gt;</h3>
+<p>
+  This is used to set &quot;ROM&quot; cvar commands.
+</p>
+
+<h3>mu_start &lt;wav file&gt; &lt;n&gt;</h3>
+<p>
+  This is used to start the music file. The wav file is located in the main/music folder. &lt;n&gt; 
+  is the time you want to fade-up.
+</p>
+
+<h3>mu_stop &lt;n&gt;</h3>
+<p>
+  This is used to stop the music file.
+</p>
+
+<h3>mu_fade &lt;wav file&gt; &lt;n&gt;</h3>
+<p>
+  This is used to start the music file. The wav file is located in the main/music folder. &lt;n&gt; 
+  is the time you want to fade-up.
+</p>
+
+<h3>mu_queue &lt;wav file&gt;</h3>
+<p>
+  This is used to start the next sound track right as soon as the current one stops playing.
+</p>
+
+<h3>explicit_routing &lt;on/off&gt;</h3>
+<p>
+  This is used to turn on/off the AI's ability to dynamically navigate. Default, it's on.
+</p>
+
+<h3>lockplayer &lt;on/off&gt;</h3>
+<p>
+  This is used to lock the player's movement. However, the player is still able to look around.
+</p>
+
+<h3>pushaway &lt;ainame&gt;</h3>
+<p>
+  This is used to push the entity away, that is in front of the AI. Example; village1 when Kessler 
+  pushes the player out of the way, if the player tried to block him.
+</p>
+
+<h3>catchfire</h3>
+<p>
+  This will instantly catch the AI on fire. This was used to prevent a bug from happening on faster 
+  machines in crypt2, where the guy comes around the corner on fire and then dies.
+</p>
+
+<hr>
+<h2>Brush Scripting Events</h2>
+
+<h3>spawn</h3>
+<p>
+  Will run all of the commands within this event upon spawning.
+</p>
+
+<h3>trigger &lt;event&gt;</h3>
+<p>
+  Will run all of the commands within this event when called/trigger upon.
+</p>
+
+<h3>death (NOTE: Must have a &quot;health&quot; specified in entity.)</h3>
+<p>
+  Will run all of the commands within this event when this AI dies. <i>NOTE: You cannot use 
+  &quot;wait&quot;</i>
+</p>
+
+<hr>
+<h2>Brush Scripting</h2>
+
+<h3>gotomarker &lt;targetname&gt; &lt;speed&gt; [accel/deccel] [turntotarget] [wait]</h3>
+<p>
+  This will tell the SCRIPT_MOVER to move to a target, usually a Path_corner. Targetname is &quot;name&quot; 
+  of the PATH_CORNER; SPEED is used for how fast the SCRIPT_MOVER will move to the PATH_CORNER; ACCEL/DECCEL 
+  are used to accelerate/deccelerate to a PATH_CORNER. NOTE: For ACCEL, the SCRIPT_MOVER needs to start at 
+  speed of 0, and DECCEL needs to end at a speed of 0; TURNTOTARGET will face towards the targer (PATH_CORNER) 
+  depending on the angle; WAIT is used so that the script will not read ahead until the SCRIPT_MOVER has 
+  reached the TARGETNAME.
+</p>
+
+<h3>wait &lt;duration&gt;</h3>
+<p>
+  This will tell the SCRIPT_MOVER to not move for the duration.
+</p>
+
+<h3>trigger &lt;aiName/scriptName&gt; &lt;trigger&gt;</h3>
+<p>
+  This will call/trigger an AI or Script_mover to run it's &quot;trigger &lt;event&gt;&quot;
+</p>
+
+<h3>playsound &lt;soundname OR scriptname&gt; [LOOPING]</h3>
+<p>
+  This will play a sound.wav or a script name in one of the .sounds files. LOOPING will loop the sound until 
+  &quot;STOPSOUND&quot; is used.
+</p>
+
+<h3>playanim &lt;startframe&gt; &lt;endframe&gt; [looping forever/duration] [rate FPS]</h3>
+<p>
+  This will play an animation that the model has. STARTFRAME is the frame number you want to start on. ENDFRAME 
+  is the last frame number you want to play. LOOP FOREVER/DURATION is used if you want the animation to loop 
+  forever, or for a duration. RATE is used so that you can slow down the FPS.
+</p>
+
+<h3>alertentity &lt;targetname&gt;</h3>
+<p>
+  This will trigger/activate certain entities in the map. Usually just TARGET_RELAYS.
+</p>
+
+<h3>accum &lt;buffer_index&gt; &lt;command&gt; &lt;paramater&gt;</h3>
+<p>
+  Accum is used for &quot;what if&quot; statements. Accums store integers which are used to  trigger scripts.
+  <h3>accum &lt;n&gt; inc &lt;m&gt;</h3>
+    <p>This is used to &quot;increase&quot;/add to value already stored in the accum. </p>
+  <h3>accum &lt;n&gt; abort_if_less_than &lt;m&gt;</h3>
+    <p>This is used to abort the script if the value of accum &lt;n&gt; is less than &lt;m&gt;.</p>
+  <h3>accum &lt;n&gt; abort_if_greater_than &lt;m&gt;</h3>
+    <p>This is used to abort the script if the value of accum &lt;n&gt; is greater than &lt;m&gt;.</p>
+  <h3>accum &lt;n&gt; set &lt;m&gt;</h3>
+    <p>This is used to set the value of accum &lt;n&gt; to &lt;m&gt;.</p>
+  <h3>accum &lt;n&gt; bitset &lt;m&gt;</h3>
+    <p>This will set accum n's bitset of 0-31 to ON or 1, whichever you prefer.</p>
+  <h3>accum &lt;n&gt; bitreset &lt;m&gt;</h3>
+    <p>This will set accum n's biteset of 0-31 to OFF or 0, whichever you prefer.</p>
+  <h3>accum &lt;n&gt; abort_if_bitset &lt;m&gt;</h3>
+    <p>This will abort if the bitset is ON or 1. So, the bitset needs to be OFF or 0.</p>
+  <h3>accum &lt;n&gt; abort_if_not_bitset &lt;m&gt;</h3>
+    <p>This will abort if the bitset is OFF or 0. So, the bitset needs to be ON or 1.</p>
+  <h3>accum &lt;n&gt; random &lt;m&gt;</h3>
+    <p>This is used so that accum &lt;n&gt; will randomly choose a number.</p>
+</p>
+
+<h3>missionfailed</h3>
+<p>
+  This is used to fail the PLAYER from completing his mission objectives.
+</p>
+
+<h3>missionsuccess &lt;mission_level&gt;</h3>
+<p>
+  This is used to tell the PLAYER he/she has completed the mission.
+</p>
+
+<h3>print &lt;text&gt;</h3>
+<p>
+  This will PRINT text up on the screen/console.
+</p>
+
+<h3>faceangles &lt;pitch&gt; &lt;yaw&gt; &lt;roll&gt; &lt;duration/GOTOTIME&gt;</h3>
+<p>
+  This will tell the SCRIPT_MOVER to rotate. DURATION/GOTOTIME, Duration will determine how long 
+  it takes the SCRIPT_MOVER to get to the ANGLES you inputed. GOTOTIME will calculate the time it 
+  takes for the SCRIPT_MOVER to reach it's target (PATH_CORNER).
+</p>
+
+<h3>resetscript</h3>
+<p>
+  This will tell the AI to FORGET everything he is doing and everything he has done and either 
+  continue the script or go into dynamic mode.
+</p>
+
+<h3>attachtotag &lt;targetname/scriptname&gt; &lt;tagname&gt;</h3>
+<p>
+  This will attach this SCRIPT_MOVER to the TAG on another SCRIPT_MOVER. NOTE: The SCRIPT_MOVER 
+  you will attach to must havea  TAG with a TAGNAME. The modeller (Jason) will do this for you.
+</p>
+
+<h3>stopsound</h3>
+<p>
+  This will stop the sound the SCRIPT_MOVER is playing.
+</p>
+
+<h3>halt</h3>
+<p>
+  This will stop the SCRIPT_MOVER in it's tracks.
+</p>
+
+<h3>backupscript</h3>
+<p>
+  This will backup the last script running for the script_mover.
+</p>
+
+<h3>restorescript</h3>
+<p>
+  This will restore the last script the script_mover was running. Must have backupscript before 
+  restorescript can function.
+</p>
+
+<h3>sethealth &lt;n&gt;</h3>
+<p>
+  This resets the health of the script_mover to &lt;n&gt;.
+</p>
+
+<hr>
+
+<h3><u>Basic Player Scripting structure</u></h3>
+<pre class="type">
+player
+{
+  spawn
+  {
+  }
+
+  trigger &lt;event&gt;
+  {
+  }
+
+  death
+  {
+  }
+}
+</pre>
+
+<h3><u>Basic AI Scripting structure</u></h3>
+<pre class="type">
+ainame
+{
+  attributes
+  {
+  }
+
+  spawn
+  {
+  }
+
+  trigger &lt;event&gt;
+  {
+  }
+
+  pain &lt;threshold&gt;
+  {
+  }
+
+  death
+  {
+  }
+
+  enemysight
+  {
+  }
+}
+</pre>
+
+<h3><u>Basic AI Marching Loop</u></h3>
+<pre class="type">
+nazi1
+{
+  attributes
+  {
+    aim_accuracy 0.75
+    attack_crouch 0.1
+    idle_crouch 0.1
+  }
+
+  spawn
+  {
+    trigger nazi1 marchloop <i>// This will begin the Marching loop.</i>
+  }
+
+  trigger marchloop
+  {
+    walktomarker n1spot1
+    walktomarker n1spot2
+    facetargetangles n1spot2
+    wait 4000
+    walktomarker n1spot3
+    walktomarker n1spot4
+    facetargetangles n1spot4
+    wait 4000
+    trigger nazi1 marchloop <i>// Restarts the marching loop.</i>
+  }
+
+  death
+  {
+  }
+
+  enemysight
+  {
+  }
+}
+</pre>
+
+<h3><u>Basic Brush Scripting Structure</u></h3>
+<pre class="type">
+scriptname
+{
+  spawn
+  {
+  }
+
+  trigger &lt;event&gt;
+  {
+  }
+
+  death
+  {
+  }
+}
+</pre>
+
+<h3><u>Basic Brush Scripting Clock Arm Rotating.</u></h3>
+<pre class = "type">
+clockarm1
+{
+  spawn
+  {
+    trigger clockarm1 rotateloop <i>// Begins the rotate loop.</i>
+  }
+
+  trigger rotateloop
+  {
+    faceangles -90 0 0 1000
+    faceangles -180 0 0 1000
+    faceangles -270 0 0 1000
+    faceangles -360 0 0 1000
+    trigger clockarm1 rotateloop <i>// Triggers the rotate loop over again.</i>
+  }
+
+  death
+  {
+  }
+}
+</pre>
+<hr>
+
+
+</body>
+</html>
