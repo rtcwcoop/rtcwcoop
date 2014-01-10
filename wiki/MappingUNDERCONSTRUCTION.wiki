@@ -217,10 +217,10 @@ If the map has no script file, just ignore it for now. We will add one later.
 
 {{{
 {
-"classname" "coop_spawnpoint"
-"spawnflags" "1"
-"origin" "2159 -6951 69"
-"angle" "-83"
+	"classname" "coop_spawnpoint"
+	"spawnflags" "1"
+	"origin" "2159 -6951 69"
+	"angle" "-83"
 }
 }}}
 
@@ -228,10 +228,10 @@ Change spawnflags from 1 to 3:
 
 {{{
 {
-"classname" "coop_spawnpoint"
-"spawnflags" "3"
-"origin" "2159 -6951 69"
-"angle" "-83"
+	"classname" "coop_spawnpoint"
+	"spawnflags" "3"
+	"origin" "2159 -6951 69"
+	"angle" "-83"
 }
 }}}
 
@@ -297,8 +297,8 @@ Now we will create a new entity we can use to start the round, handle objectives
 
 {{{
 {
-"classname" "script_multiplayer"
-"scriptname" "game_manager"
+	"classname" "script_multiplayer"
+	"scriptname" "game_manager"
 }
 }}}
 
@@ -337,15 +337,15 @@ player
 {
    spawn
    {
-    ...
+   	....
    }
 
    playerstart
    {
-   ....
+   	....
    }
 
-//and so on.......
+	//and so on.......
 
 }
 }}}
@@ -357,17 +357,17 @@ player
 {
    spawn
    {
-    ...
+   	....
    }
 
    playerstart
    {
-   ....
+   	....
    }
 
    trigger map_start
    {
-   //<- Add scripts here later
+   	//<- Add scripts here later
    }
 
 //and so on.......
@@ -462,26 +462,26 @@ player
 {
    spawn
    {
-   accum 1 set 0
-   objectivesneeded 1
-   abort_if_loadgame
-   mu_start sound/music/l_briefing_1
-   print Mission Objective: Capture the German Camp
+   	accum 1 set 0
+   	objectivesneeded 1
+   	abort_if_loadgame
+   	mu_start sound/music/l_briefing_1
+   	print Mission Objective: Capture the German Camp
    }
 
    playerstart
    {
-   giveweapon weapon_knife
-   giveweapon weapon_luger
-   setammo ammo_9mm 100
-   giveweapon weapon_mp40
-   setammo ammo_grenades 3
-   setammo ammo_dynamite 1
-   selectweapon weapon_mp40
-   mu_fade 0 100
-   mu_queue sound/music/music1
-   wait 7000
-   mu_stop 0 100
+   	giveweapon weapon_knife
+   	giveweapon weapon_luger
+   	setammo ammo_9mm 100
+   	giveweapon weapon_mp40
+   	setammo ammo_grenades 3
+   	setammo ammo_dynamite 1
+   	selectweapon weapon_mp40
+   	mu_fade 0 100
+   	mu_queue sound/music/music1
+   	wait 7000
+   	mu_stop 0 100
    }
 
    trigger map_start     //NOTE WE ADDED THIS IN PREVIOUS CHAPTER!
@@ -499,10 +499,10 @@ player
 {{{
 spawn
 {
-...
-suggestweapon
-abort_if_loadgame
-mu_start sound/...
+	...
+	suggestweapon
+	abort_if_loadgame
+	mu_start sound/...
 }
 }}}
 
@@ -522,24 +522,24 @@ player
 
    playerstart
    {
-   giveweapon weapon_knife
-   giveweapon weapon_luger
-   setammo ammo_9mm 100
-   giveweapon weapon_mp40
-   setammo ammo_grenades 3
-   setammo ammo_dynamite 1
-   selectweapon weapon_mp40
-   mu_fade 0 100
-   mu_queue sound/music/music1
-   wait 7000
-   mu_stop 0 100
+   	giveweapon weapon_knife
+   	giveweapon weapon_luger
+   	setammo ammo_9mm 100
+	giveweapon weapon_mp40
+	setammo ammo_grenades 3
+   	setammo ammo_dynamite 1
+	selectweapon weapon_mp40
+	mu_fade 0 100
+	mu_queue sound/music/music1
+	wait 7000
+	mu_stop 0 100
    }
 
    trigger map_start
    {
-   accum 1 set 0
-   objectivesneeded 1
-   print Mission Objective: Capture the German Camp
+   	accum 1 set 0
+   	objectivesneeded 1
+   	print Mission Objective: Capture the German Camp
    }
 
 //and so on.......
@@ -555,17 +555,17 @@ player
 {
    spawn
    {
-   giveweapon weapon_knife
-   giveweapon weapon_luger
-   setammo ammo_9mm 100
-   giveweapon weapon_mp40
-   setammo ammo_grenades 3
-   setammo ammo_dynamite 1
-   selectweapon weapon_mp40
-   mu_fade 0 100
-   mu_queue sound/music/music1
-   wait 7000
-   mu_stop 0 100
+   	giveweapon weapon_knife
+   	giveweapon weapon_luger
+   	setammo ammo_9mm 100
+   	giveweapon weapon_mp40
+   	setammo ammo_grenades 3
+   	setammo ammo_dynamite 1
+   	selectweapon weapon_mp40
+   	mu_fade 0 100
+   	mu_queue sound/music/music1
+   	wait 7000
+   	mu_stop 0 100
    }
 
    playerstart
@@ -575,9 +575,9 @@ player
 
    trigger map_start
    {
-   accum 1 set 0
-   objectivesneeded 1
-   print Mission Objective: Capture the German Camp
+   	accum 1 set 0
+   	objectivesneeded 1
+   	print Mission Objective: Capture the German Camp
    }
 
 //and so on.......
@@ -596,15 +596,15 @@ player
 {
    spawn
    {
-   giveweapon weapon_knife
-   giveweapon weapon_luger
-   setammo ammo_9mm 100
-   giveweapon weapon_mp40
-   setammo ammo_grenades 3
-   setammo ammo_dynamite 1
-   selectweapon weapon_mp40
+   	giveweapon weapon_knife
+   	giveweapon weapon_luger
+   	setammo ammo_9mm 100
+   	giveweapon weapon_mp40
+   	setammo ammo_grenades 3
+   	setammo ammo_dynamite 1
+   	selectweapon weapon_mp40
 
-   mu_start sound/music/music1
+   	mu_start sound/music/music1
    }
 
    playerstart
@@ -614,9 +614,9 @@ player
 
    trigger map_start
    {
-   accum 1 set 0
-   objectivesneeded 1
-   print Mission Objective: Capture the German Camp
+   	accum 1 set 0
+   	objectivesneeded 1
+   	print Mission Objective: Capture the German Camp
    }
 
 //and so on.......
@@ -681,9 +681,9 @@ player //Starts up with this
 {
    spawn
    {
-   ...
+   	...
 
-   globalaccum 5 set 0   //Used to be accum 5 set 0  
+   	globalaccum 5 set 0   //Used to be accum 5 set 0  
    }
    
 
@@ -693,8 +693,8 @@ player //Starts up with this
   trigger endmap
   {
 
-  globalaccum 5 abort_if_less_than 1  //Used to be accum 5 abort_if_less_than 1
-  ...
+  	globalaccum 5 abort_if_less_than 1  //Used to be accum 5 abort_if_less_than 1
+  	...
   }
 
 
@@ -715,11 +715,11 @@ That's why we add mu_start in player spawn event.
 {{{
 player
 {
-spawn
-{
-...
-mu_start sound/..
-}
+	spawn
+	{
+		...
+		mu_start sound/..
+	}
 }
 }}}
 
@@ -729,13 +729,13 @@ You must restart the music in game_manager or only one player will hear it* eg:
 {{{
 game_manager
 {
-...
+	...
 
-trigger restart_stopped_music
-{
-mu_start sound/...
-}
-}
+	trigger restart_stopped_music
+	{
+		mu_start sound/...
+	}
+	}
 }}}
 
 Here is the more detailed info on how the mu_ commands were done in Coop.
@@ -765,7 +765,7 @@ The secret area code is built one player in mind. Now when we have multiple play
 {{{
 trigger map_start
 {
-...
+	...
 }
 }}}
 
@@ -776,8 +776,8 @@ _If there is none, you should still type number 0._
 {{{
 trigger map_start
 {
-...
-numsecrets 3
+	...
+	numsecrets 3
 }
 }}}
 
@@ -806,8 +806,8 @@ Example from map Escape1:
 {{{
    trigger camerainterrupt
    {
-   stopcam
-   trigger dummy cine1_cleanup
+   	stopcam
+   	trigger dummy cine1_cleanup
    }
 }}}
 
@@ -818,15 +818,15 @@ Example from map Escape1:
 {{{
    player
    {
-   ....
+   	....
 
-   trigger map_start
-   {
-   ...
+   	trigger map_start
+   	{
+   		...
 
-   trigger dummy cine1_cleanup  //Directly skip to end of the cutscene
-   }
-   ....
+   		trigger dummy cine1_cleanup  //Directly skip to end of the cutscene
+   	}
+   	....
    }
 }}}
 
@@ -875,13 +875,13 @@ Example:
 
 {{{
 {
-"classname" "ai_soldier"
-"origin" "-111 -98 24"
-"ainame" "coop_ai_soldier_1"
-"angle" "-92"
-"spawnflags" "1"
-"skin" "infantryss/factory1"  //<-
-"head" "factory3"             //<-
+	"classname" "ai_soldier"
+	"origin" "-111 -98 24"
+	"ainame" "coop_ai_soldier_1"
+	"angle" "-92"
+	"spawnflags" "1"
+	"skin" "infantryss/factory1"  //<-
+	"head" "factory3"             //<-
 }
 }}}
 
@@ -940,13 +940,13 @@ _Add the command in the stage of the map where you want him to appear. Example:_
 {{{
 player
 {
-...
-trigger action1 //Walk through the doorway
-{
-...
-#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
-}
-...
+	...
+	trigger action1 //Walk through the doorway
+	{
+		...
+		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
+	}
+	...
 }
 }}}
 
@@ -980,14 +980,14 @@ Example:
 {{{
 nazi1
 {
-spawn
-{
-//I am a special boy
-trigger what_ever just_because
-...
-norespawn  //<- Add this
-}
-...
+	spawn
+	{
+		//I am a special boy
+		trigger what_ever just_because
+		...
+		norespawn  //<- Add this
+	}
+	...
 }
 }}}
 
@@ -1042,11 +1042,11 @@ _If you fail on this, you can fix the linking in .ents file. Just match targetna
 
 {{{
 {
-"classname" "coop_spawnpoint"
-"spawnflags" "0"
-"origin" "1021 6627 216"
-"angle" "104"
-"targetname" "tobruk2"
+	"classname" "coop_spawnpoint"
+	"spawnflags" "0"
+	"origin" "1021 6627 216"
+	"angle" "104"
+	"targetname" "tobruk2"
 }
 }}}
 
@@ -1054,11 +1054,11 @@ to
 
 {{{
 {
-"classname" "coop_spawnpoint"
-"spawnflags" "2"
-"origin" "1021 6627 216"
-"angle" "104"
-"targetname" "tobruk2"
+	"classname" "coop_spawnpoint"
+	"spawnflags" "2"
+	"origin" "1021 6627 216"
+	"angle" "104"
+	"targetname" "tobruk2"
 }
 }}}
 
@@ -1096,10 +1096,10 @@ _If it did, remove the entire line eg:
 
 {{{
 {
-"classname" "coop_spawnpoint"
-"spawnflags" "5" 
-"origin" "-726 -3163 41" 
-"angle" "0"
+	"classname" "coop_spawnpoint"
+	"spawnflags" "5" 
+	"origin" "-726 -3163 41" 
+	"angle" "0"
 }
 }}}
 
@@ -1128,9 +1128,9 @@ _In future .arena file will be looked at to select a campaign to play. So it is 
 
 {{{
 {
-map			"mymapname"
-longname		"My project - My first map"
-type		"coop_battle coop_speedrun coop_normal"
+	map			"mymapname"
+	longname		"My project - My first map"
+	type		"coop_battle coop_speedrun coop_normal"
 }
 }}}
 
@@ -1153,21 +1153,21 @@ _Filename : capuzzo.arena_
 
 {{{
 {
-map			"city"
-longname		"^nCapuzzo 1 - The City"
-type		"coop_battle coop_speedrun coop_normal"
+	map			"city"
+	longname		"^nCapuzzo 1 - The City"
+	type		"coop_battle coop_speedrun coop_normal"
 }
 
 {
-map			"airport"
-longname		"^nCapuzzo 2 - The Airport"
-type		"coop_battle coop_speedrun coop_normal"
+	map			"airport"
+	longname		"^nCapuzzo 2 - The Airport"
+	type		"coop_battle coop_speedrun coop_normal"
 }
 
 {
-map			"road"
-longname		"^nCapuzzo 3 - The Road away!"
-type		"coop_battle coop_speedrun coop_normal"
+	map			"road"
+	longname		"^nCapuzzo 3 - The Road away!"
+	type		"coop_battle coop_speedrun coop_normal"
 }
 }}}
 
@@ -1246,13 +1246,13 @@ If your map fails to load with a script error. Check any AI who spawn at map_sta
 nazi1
 {
 
-spawn
-{
-//Hey I spawn at mapstart
-wait 50 //Add me or you will crash the coop map muaha
-trigger nazi1 go //I wanna go when I born
-}
-....
+	spawn
+	{
+		//Hey I spawn at mapstart
+		wait 50 //Add me or you will crash the coop map muaha
+		trigger nazi1 go //I wanna go when I born
+	}
+	....
 }
 }}}
 
