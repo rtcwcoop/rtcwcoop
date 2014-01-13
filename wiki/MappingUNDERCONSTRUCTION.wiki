@@ -1327,10 +1327,36 @@ In Escape2 we got tired with the bridge door not opening. It was built in a way 
 == 6. List of useful console commands ==
 
 == 7. Problem solving ==
-=== 7.1. Bugs mapper can not fix ===
-=== 7.2. Script errors ===
+=== 7.1. Map does not load when I start the map from shortcut ===
 
-*This usually happens after adding script_multiplayer or map_start:*
+If you load the map in 0.9.5. from a batch or a shortcut instead of typing /coopdevmap mapname. You may experience that the map does not start. And get this error when you copy the log to clipboard:
+
+{{{
+Dup connect received.  Ignored.
+----- CL_Shutdown -----: Com_Error
+Closing SDL audio device...
+SDL audio device shut down.
+RE_Shutdown( 1 )
+-----------------------
+----- Server Shutdown Server fatal crashed: VM_Call with NULL vm
+ -----
+==== ShutdownGame ====
+AAS shutdown.
+---------------------------
+----- CL_Shutdown -----: VM_Call with NULL vm
+logfile opened on Mon Jan 13 22:32:09 2014
+
+-----------------------
+}}}
+
+*Try starting the map directly from console*
+_Shortcut seems to bug me with 0.9.5._
+
+
+=== 7. Bugs mapper can not fix ===
+=== 7. Script errors ===
+
+*I cannot play after adding script_multiplayer or map_start:*
 
 If your map fails to load with a script error. Check any AI who spawn at map_start that if they have special actions, it starts after a wait. This is normal action for a mapper to do to be safe in any Q3 engine game, but apparently not all mappers know this. Eg.
 
