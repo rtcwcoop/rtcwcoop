@@ -257,7 +257,22 @@ Full list of spawnflags we have:
 
 _You probably only need to know 2, 3 and 5_
 
-=== 2.5. Packing up to play with your friends ===
+=== 2.5. Make sure you have .rcd files ===
+
+.rcd files are files that includes bot reachability data. They are created automatically by the game first time you play your map.
+
+Normally the mapper includes it into their pk3 inside maps folder, but sometimes they want to save on download size and they leave it out. Then they let every player create them theirselves.
+
+So if following files show up into your ...files/RtcwCOOP/maps folder:
+
+{{{
+mapname_b0.rcd
+mapname_b1.rcd
+}}}
+
+*Make sure to include them into your COOP addon pk3 we do in the next chapter! Otherwise it may cause problems when playing the map in your server!*
+
+=== 2.6. Packing up to play with your friends ===
 
  * 1) Create a new pk3 file called eg. mymap_coop_pk3
 
@@ -268,6 +283,8 @@ _It is recommended to create a new pk3 for the Coop files only._
  * 3) Paste the .ai ; .script and .ents file inside the maps folder
 
 _You might want to add more files later on of course._
+
+_If your maps folder include mapname_b0.rcd and mapname_b1.rcd files, include them too (check previous chapter)!!!_
 
  * 4) Add the original SP map and the small Coop modification pk3 to your server.
 
@@ -801,14 +818,14 @@ _If Esc does not skip the cutscene, stop right here for a moment. You better kno
 
 _This is the trigger that is executed when you press Esc_
 
-Example from map Escape1:
+*Example from map Escape1:*
 
 {{{
-   trigger camerainterrupt
-   {
-   	stopcam
-   	trigger dummy cine1_cleanup
-   }
+trigger camerainterrupt
+{
+	stopcam
+	trigger dummy cine1_cleanup
+}
 }}}
 
  * 3) Copy the line with the trigger command
@@ -816,18 +833,18 @@ Example from map Escape1:
  * 4) Paste it to the action where the cutscene happens. Usually when the map starts:
 
 {{{
-   player
-   {
-   	....
+player
+{
+	....
 
-   	trigger map_start
-   	{
-   		...
+	trigger map_start
+	{
+		...
 
-   		trigger dummy cine1_cleanup  //Directly skip to end of the cutscene
-   	}
-   	....
-   }
+		trigger dummy cine1_cleanup  //Directly skip to end of the cutscene
+	}
+	....
+}
 }}}
 
 
@@ -1230,7 +1247,7 @@ Check previous chapter. Same basic rules apply to these images too.
 === 5. Adding Notebook text ===
 === 5. Adding ingame letters (clipboards) ===
 === 5. Adding location info ===
-=== 5. Adding Coop entities to your GTK Radiant 1.5.0
+=== 5. Adding Coop entities to your GTK Radiant 1.5.0 ===
 
 == 6. List of useful console commands ==
 
