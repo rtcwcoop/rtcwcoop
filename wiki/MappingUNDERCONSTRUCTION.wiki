@@ -158,6 +158,7 @@ In Coop we can use all regular cheats from SP. To enable cheats you must start y
 {{{
 /drawspawns - allows you to see all the coop spawnpoints
 /drawtriggers - shows the ingame triggers
+/dumploc <location name> - Add location info. We have not used this so far.
 }}}
 
 *Protip:*
@@ -1239,22 +1240,40 @@ _This is the smaller image on bottom right_
 
 Check previous chapter. Same basic rules apply to these images too.
 
+=== 4.9. Adding location info ===
+
+This was overlooked in current Coop version. The tools exists but nobody had the strength to go through all the locations in all maps to name them and add location info. But the tools should work.
+
+This adds your location in the 2d. Eg. in the team chat your mates see where you are in the map. Into your console:
+
+{{{
+/dumploc <location name>
+}}}
+
+_Writes the target_location entity with location name to your .ents file_
 
 
 
 
 == 5. Extra tools/features ==
+
+There are things we will not probably need most of the time. But there are more things that allows us to do what we want rather than what we are allowed to.
+
 === 5.1. Adding new entities like extra guns/item ===
 === 5.2. Using IF commands for advantage ===
 === 5. Adding Notebook text ===
 === 5. Adding ingame letters (clipboards) ===
-=== 5. Adding location info ===
 === 5. Random stuff ===
 g_random
 other random things.
 === 5. Removing an entity ===
 === 5. Copying a brushmodel ===
-=== 5. Additional solution for dynamitable objects ===
+=== 5. Make dyno objectives out of existing stuff ===
+
+In Escape2 we got tired with the bridge door not opening. It was built in a way we did not trust back then. Also we thought it might be cool to be able to blow it up with a dyno.
+
+-insert tutorial
+
 === 5. Adding Coop entities to your GTK Radiant 1.5.0 ===
 
 == 6. List of useful console commands ==
