@@ -145,7 +145,7 @@ This cvar controls the amount of enemies. Values are 0, 1 or 2. The higher the n
 ==dumploc==
  dumploc <location name>
 
- writes the target_location entity data to a .loc file in the main folder, copy the text to the .ents file to use the target_location in the game
+ Writes the target_location entity with location name to your .ents file
 
 ==playerstart==
  Use this if you are stuck at the loading screen. 
