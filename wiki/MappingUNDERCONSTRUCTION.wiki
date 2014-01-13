@@ -177,6 +177,8 @@ It is simple. Download the original pk3 file. Place it in your game installation
 
 Load RTCW Coop. Type /coopdevmap mymapname into console. Doing this allows us to play the map in developer mode. We can use cheats. Check the list of useful commands to learn more.
 
+*ATTENTION! TEST THE MAP! IT MUST LOAD! IF IT DOES NOT, THE MAP HAS FAULT OR IS INCOMPATIBLE! FIX IT OR DITCH IT! DO NO WASTE TIME ON COOP STUFF BEFORE IT RUNS!*
+
 The map should start now. Many things don't work, but you should be able to run around. If the map don't start it has faults. Try another map, debug it or ask for help.
 
 
