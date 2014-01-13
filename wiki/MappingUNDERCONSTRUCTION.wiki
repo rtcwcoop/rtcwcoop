@@ -1244,23 +1244,71 @@ Check previous chapter. Same basic rules apply to these images too.
 
 This was overlooked in current Coop version. The tools exists but nobody had the strength to go through all the locations in all maps to name them and add location info. But the tools should work.
 
-This adds your location in the 2d. Eg. in the team chat your mates see where you are in the map. Into your console:
+This feature adds your location info in the 2d view. For example your mates see where you are in the map when you use team chat. 
 
+Type into your console:
 {{{
 /dumploc <location name>
 }}}
 
 _Writes the target_location entity with location name to your .ents file_
 
+=== 4.x. Adding new entities like extra ammo/guns/item ===
+
+This is for advanced users.
+
+ * You can add any game-time entities, that you normally add in map editor, by .ents file. It does not matter if it is target_x, ammo_x, props_x and many other entity. 
+
+_I don't go further listing entities but all that are loaded during game and not during map compiling process can be added. Map compiling is the process of turning map to bsp file. Original mapper compiled the map._
+
+ * You can use all regular "keys" and "values" you see in your .map file.
+
+ * You can add new models
+
+ * You cannot add new brushes atm. :(
+
+ * You can duplicate an existing brushmodel from a script_mover, func_explosive or such entity. See more in Extra section.
+
+_For example in tram number two I added a new tram model but duplicated the clips from the original tram._
+
+*How to add a new entity*
+
+ * 1) Use /dumpcoopspawnpoint 
+
+_or any other dump command or do it manually. This gives you the origin (location) easily_
+
+ * 2) Open .ents file
+
+ * 3) Change "classname" "entity"
+
+_entity is the entity classname, eg. target_kill_
+
+ * 4) Edit/Remove/Add any commands you wish
+
+_Look at GtkRadiant what each does_
+
+*You can use If commands to add these if eg. spawn reinforcement is used. See more in IF chapter*
+
+*Example, how to add a health pack:*
+
+{{{
+{
+"classname" "item_health_large"
+"origin" "1919 441 24"
+"angle" "90"
+}
+}}}
 
 
 
 == 5. Extra tools/features ==
 
-There are things we will not probably need most of the time. But there are more things that allows us to do what we want rather than what we are allowed to.
+Here are things we will not probably need, but that allows us to do many things we want but normally can't. Note this is for advanced mappers. If you have not done your homework, you probably will not even miss these.
 
-=== 5.1. Adding new entities like extra guns/item ===
-=== 5.2. Using IF commands for advantage ===
+_Following things are not fully explained, thinking required. :)_
+ 
+
+=== 5.1. Using IF commands for advantage ===
 === 5. Adding Notebook text ===
 === 5. Adding ingame letters (clipboards) ===
 === 5. Random stuff ===
