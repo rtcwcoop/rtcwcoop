@@ -1243,14 +1243,18 @@ Check previous chapter. Same basic rules apply to these images too.
 
 
 
-== 5. Extra tools ==
+== 5. Extra tools/features ==
 === 5.1. Adding new entities like extra guns/item ===
 === 5.2. Using IF commands for advantage ===
 === 5. Adding Notebook text ===
 === 5. Adding ingame letters (clipboards) ===
 === 5. Adding location info ===
+=== 5. Random stuff ===
+g_random
+other random things.
 === 5. Removing an entity ===
 === 5. Copying a brushmodel ===
+=== 5. Additional solution for dynamitable objects ===
 === 5. Adding Coop entities to your GTK Radiant 1.5.0 ===
 
 == 6. List of useful console commands ==
