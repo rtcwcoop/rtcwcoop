@@ -134,9 +134,9 @@ wait 100
 
 		alertentity fem1
 		trigger fem1 getup
-		alertentity spirit1
-		alertentity spirit2
-		alertentity spirit3
+		//alertentity spirit1
+		//alertentity spirit2
+		//alertentity spirit3
 
 //Previously cine, IF YOU WANT SUPER/PROTO, USE THESE 3!!!
 //OTHERS WILL KILL HEINRICH AND ZOMBIES
