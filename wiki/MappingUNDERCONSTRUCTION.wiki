@@ -1327,7 +1327,11 @@ In Escape2 we got tired with the bridge door not opening. It was built in a way 
 == 6. List of useful console commands ==
 
 == 7. Problem solving ==
-=== 7.1. Map does not load when I start the map from shortcut ===
+=== 7.1. Map does not finish ===
+
+Try going to game_manager from end trigger and then execute a different trigger in player script block.
+
+=== 7.2. Map does not load when I start the map from shortcut ===
 
 If you load the map in 0.9.5. from a batch or a shortcut instead of typing /coopdevmap mapname. You may experience that the map does not start. And get this error when you copy the log to clipboard:
 
