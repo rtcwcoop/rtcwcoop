@@ -54,7 +54,7 @@ This is the main folder where all screenshots you take goes. Where your config i
 
 In RTCW COOP 0.9.5 the folder locates in:
 
-C://Documents and settings/User/Files/RtcwCOOP/main/
+C://Documents and settings/User/documents/RtcwCOOP/main/
 
 _Once you are ready with the map, you must pack it into a pk3! More later._
 
@@ -191,7 +191,7 @@ The map should start now. Many things don't work, but you should be able to run 
 
  * 3) Copy the files called mymap.ai and mymap.script
 
- * 4) Paste these two files into C://Documents and settings/User/Files/RtcwCOOP/main/maps folder
+ * 4) Paste these two files into C://Documents and settings/User/documents/RtcwCOOP/main/maps folder
 
 _Most likely you don't have maps folder yet. Just add it like any other folder._
 
@@ -212,7 +212,7 @@ If the map has no script file, just ignore it for now. We will add one later.
  
  * 4) Close game. 
 
- * 5) Go to C://Documents and settings/User/Files/RtcwCOOP/main/maps/ folder
+ * 5) Go to C://Documents and settings/User/documents/RtcwCOOP/main/maps/ folder
 
  * 6) Open file mapname.ents in notepad
 
@@ -266,7 +266,7 @@ _You probably only need to know 2, 3 and 5_
 
 Normally the mapper includes it into their pk3 inside maps folder, but sometimes they want to save on download size and they leave it out. Then they let every player create them theirselves.
 
-So if following files show up into your ...files/RtcwCOOP/maps folder:
+So if following files show up into your ...documents/RtcwCOOP/maps folder:
 
 {{{
 mapname_b0.rcd
@@ -1195,7 +1195,7 @@ _Filename : capuzzo.arena_
 
 Arena file has to be located in scripts folder.
 
- * You can test it in ...files/RTCWCOOP/main/scripts
+ * You can test it in ...documents/RTCWCOOP/main/scripts
 
  * For releasing, create a folder called scripts into your mapname_coop.pk3.
 
@@ -1223,7 +1223,7 @@ _Please mind that it is not nice to add your own name here, unless you are the o
 
  * 6) Create a folder called levelshots.
 
-_For developing you can test it directly inside ...files/RTCWCoop/main/levelshots/.
+_For developing you can test it directly inside ...documents/RTCWCoop/main/levelshots/.
 
  * 7) When it looks right place it in your mapname_coop_pk3 inside folder levelshots.
 
