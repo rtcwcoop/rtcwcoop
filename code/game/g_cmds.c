@@ -1104,10 +1104,10 @@ void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 		}
 
 		// NERVE - SMF
-		if ( team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING && !force ) {
+		/*if ( team != ent->client->sess.sessionTeam && g_gamestate.integer == GS_PLAYING && !force ) {
 			trap_SendServerCommand( clientNum, "cp \"You cannot switch during a match.\nplease wait until the round ends.\n\"" );
 			return;	// ignore the request
-		}
+		}*/
 
 	} else {
 		// force them to spectators if there aren't any spots free
