@@ -203,7 +203,7 @@ wait 100
 		//Ficker
 //Maybe should use nostats, to code a system for this...
 //Runs 3 times, proceeds and crashes...
-		changelevel escape1 //250 //nostats //persistent crashes
+		changelevel campaign_end //escape1 //250 //nostats //persistent crashes
 	}
 }
 
