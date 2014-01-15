@@ -42,14 +42,14 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 	gclient_t   *cl;
 	gentity_t *tmpent;
 	int numSorted;
-	int scoreFlags;
-
+#ifndef MONEY
+	int scoreFlags = 0;
+#endif
 	int counter = 0;
 
 	// send the latest information on all clients
 	string[0] = 0;
 	stringlength = 0;
-	scoreFlags = 0;
 
 	// don't send more than 32 scores (FIXME?)
 	numSorted = level.numConnectedClients;
