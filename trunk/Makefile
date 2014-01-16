@@ -133,7 +133,7 @@ ifndef SERVERBIN
 endif
 
 ifndef BASEGAME
-BASEGAME=main
+BASEGAME=coopmain
 endif
 
 ifndef BASEGAME_CFLAGS
@@ -2568,21 +2568,21 @@ $(B)/$(BASEGAME)/qcommon/%.asm: $(CMDIR)/%.c $(Q3LCC)
 	$(DO_Q3LCC)
 
 # Added
-$(B)/main/cgame/q_math.o: $(CMDIR)/q_math.c
+$(B)/coopmain/cgame/q_math.o: $(CMDIR)/q_math.c
 	$(DO_CGAME_CC)
-$(B)/main/cgame/q_shared.o: $(CMDIR)/q_shared.c
+$(B)/coopmain/cgame/q_shared.o: $(CMDIR)/q_shared.c
 	$(DO_CGAME_CC)
 
 # Added
-$(B)/main/game/q_math.o: $(CMDIR)/q_math.c
+$(B)/coopmain/game/q_math.o: $(CMDIR)/q_math.c
 	$(DO_GAME_CC)
-$(B)/main/game/q_shared.o: $(CMDIR)/q_shared.c
+$(B)/coopmain/game/q_shared.o: $(CMDIR)/q_shared.c
 	$(DO_GAME_CC)
 
 # Added
-$(B)/main/ui/q_math.o: $(CMDIR)/q_math.c
+$(B)/coopmain/ui/q_math.o: $(CMDIR)/q_math.c
 	$(DO_UI_CC)
-$(B)/main/ui/q_shared.o: $(CMDIR)/q_shared.c
+$(B)/coopmain/ui/q_shared.o: $(CMDIR)/q_shared.c
 	$(DO_UI_CC)
 
 #############################################################################
