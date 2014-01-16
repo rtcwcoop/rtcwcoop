@@ -34,7 +34,7 @@ DEDBIN=rtcwcoopded.${ARCH}
 PKGINFO=APPLCOOP
 ICNS=misc/rtcwcoop.icns
 DESTDIR=build/release-darwin-${BUILDARCH}
-BASEDIR=main
+BASEDIR=coopmain
 
 BIN_OBJ="
 	build/release-darwin-${BUILDARCH}/rtcwcoop.${BUILDARCH}

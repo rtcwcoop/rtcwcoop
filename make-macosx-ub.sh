@@ -6,7 +6,7 @@ DEDBIN=rtcwcoopded.ub
 PKGINFO=APPLCOOP
 ICNS=misc/rtcwcoop.icns
 DESTDIR=build/release-darwin-ub
-BASEDIR=main
+BASEDIR=coopmain
 
 BIN_OBJ="
 	build/release-darwin-x86_64/rtcwcoop.x86_64
