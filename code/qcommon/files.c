@@ -783,7 +783,7 @@ fileHandle_t FS_SV_FOpenFileWrite( const char *filename ) {
 		Com_Printf( "FS_SV_FOpenFileWrite: %s\n", ospath );
 	}
 
-	FS_CheckFilenameIsMutable( ospath, __func__ );
+//	FS_CheckFilenameIsMutable( ospath, __func__ );
 
 	if( FS_CreatePath( ospath ) ) {
 		return 0;
@@ -995,7 +995,7 @@ fileHandle_t FS_FOpenFileWrite( const char *filename ) {
 		Com_Printf( "FS_FOpenFileWrite: %s\n", ospath );
 	}
 
-	FS_CheckFilenameIsMutable( ospath, __func__ );
+//	FS_CheckFilenameIsMutable( ospath, __func__ );
 
 	if ( FS_CreatePath( ospath ) ) {
 		return 0;
