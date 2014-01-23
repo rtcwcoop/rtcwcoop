@@ -2625,21 +2625,12 @@ endif
 
 ifneq ($(BUILD_GAME_SO),0)
   ifneq ($(BUILD_BASEGAME),0)
-	ifeq ($(PLATFORM),mingw32)
-	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(BASEGAME)/cgame_coop_$(SHLIBNAME) \
-					$(COPYDIR)/$(BASEGAME)/.
-	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(BASEGAME)/qagame_coop_$(SHLIBNAME) \
-					$(COPYDIR)/$(BASEGAME)/.
-	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(BASEGAME)/ui_coop_$(SHLIBNAME) \
-					$(COPYDIR)/$(BASEGAME)/.
-	else
 	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(BASEGAME)/cgame.coop.$(SHLIBNAME) \
                                         $(COPYDIR)/$(BASEGAME)/.
 	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(BASEGAME)/qagame.coop.$(SHLIBNAME) \
                                         $(COPYDIR)/$(BASEGAME)/.
 	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(BASEGAME)/ui.coop.$(SHLIBNAME) \
                                         $(COPYDIR)/$(BASEGAME)/.
-	endif
   endif
 endif
 
