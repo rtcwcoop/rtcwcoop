@@ -296,7 +296,7 @@ _If your maps folder include mapname_b0.rcd and mapname_b1.rcd files, include th
 
 == 3. Making the map work properly ==
 
-Just running and shooting is not enough you? You want the map to play well, be able to win a map, finish objectives, hear music? Let's continue.
+Just running and shooting is not enough for you? You want the map to play well, be able to win a map, finish objectives, hear music? Let's continue.
 
 If we leave the scripts as they are now, it probably work somewhat when you play alone on local. But when a friend or friends join you, weird things start to happen. 
 
