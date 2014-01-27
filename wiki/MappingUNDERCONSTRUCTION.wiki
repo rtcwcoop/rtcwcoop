@@ -1279,6 +1279,10 @@ Check previous chapter. Same basic rules apply to these images too.
 
 ==== 4.9.1. Flag location ====
 
+*!!!!! DO NOT USE THIS IN 0.9.5 !!!!!!*
+
+*Using this will break the spawning system currently.*
+
 It is possible to give each flag an individual name that is printed if you capture the flag.
 
 Naming your flag is handy and simple. Add this in your ents file and edit it:
