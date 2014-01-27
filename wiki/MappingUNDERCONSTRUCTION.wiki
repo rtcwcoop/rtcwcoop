@@ -434,7 +434,9 @@ spawn
 spawn event will run everytime a new player joins. We must only have following commands here:
 
  * Giving the player ammo/items/guns or anything related to this
-_These will not affect other players.
+_These will not affect other players._
+
+_If your map has not any weapon script, but it gets weapons in SP, you must add them manually. There is a section that mention more of this. Every Coop map should have weapons added to it separately._
 
  * Add music. *MUST BE mu_start sound/...*  !!!
 
@@ -723,7 +725,40 @@ player //Starts up with this
 
 *!!!NOTE!!! DO NOT REPLACE ANY MORE THAN WHAT IS INSIDE PLAYER SCRIPTBLOCK!*
 
-=== 3.5. Making music work properly ===
+=== 3.5. Adding weapons ===
+
+Unless you edit the first map of the custom campaign you probably want to add weapons. In SP the game remembers the weapons from previous map. In Coop we add weapons manually in every map to ensure players nevers spawn without guns.
+
+How we did it. Start the campaign in SP. Play the first map. When you start the second map, check what weapons and how much ammo you have, write it down and then later apply it to your Coop scripts. And so on.
+
+Add those weapons from previous maps or what ever you wish the players will have.
+
+Example on adding weapons:
+
+{{{
+player
+{
+   spawn
+   {	
+   	giveweapon weapon_knife
+   	giveweapon weapon_luger
+   	setammo ammo_9mm 100
+	giveweapon weapon_mp40
+	setammo ammo_grenades 3
+   	setammo ammo_dynamite 1
+
+   	//.... more scripts here
+   }
+
+   //.... more scripts here
+}
+}}}
+
+_You probably know this already._
+
+
+
+=== 3.6. Making music work properly ===
 
 Coding music from SP to MP world is not simple. Here is the quick approach we have.
 
@@ -772,7 +807,7 @@ mu_play: -Affects all client in both coop.script and coop.ai file
 mu_queue: -Affects all client in both coop.script and coop.ai file 
 }}}
 
-=== 3.6. Making secret areas appear correctly in end stats ===
+=== 3.7. Making secret areas appear correctly in end stats ===
 
 *If the map has no secret areas, do still read this tutorial.*
 
@@ -803,7 +838,7 @@ trigger map_start
 
 This only affects the number presented in the end stats. Rest of the secret area scripts should work as in SP.
 
-=== 3.7. Remove any cutscene scripting ===
+=== 3.8. Remove any cutscene scripting ===
 
 _If your map has no cutscenes, skip this chapter. If it has, you might need some scripting understanding or help._
 
