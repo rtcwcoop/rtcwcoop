@@ -1277,6 +1277,28 @@ Check previous chapter. Same basic rules apply to these images too.
 
 === 4.9. Adding location info ===
 
+==== 4.9.1. Flag location ====
+
+It is possible to give each flag an individual name that is printed if you capture the flag.
+
+Naming your flag is handy and simple. Add this in your ents file and edit it:
+
+{{{
+{
+"classname" "target_location"
+"message" "courtyard"
+"targetname" "courtyard_spawns"
+}
+}}}
+
+Targetname should be same as your coop_spawnpoints have.
+
+Message is the name of the spawn.
+
+_Adding this would print "player has secured the courtyard flagzone" if a flagpole with "courtyard_spawns" is captured._
+
+==== 4.9.2. Player locations =====
+
 This was overlooked in current Coop version. The tools exists but nobody had the strength to go through all the locations in all maps to name them and add location info. But the tools should work.
 
 This feature adds your location info in the 2d view. For example your mates see where you are in the map when you use team chat. 
