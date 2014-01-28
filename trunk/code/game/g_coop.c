@@ -660,7 +660,7 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 		} else if ( other->client->sess.sessionTeam == TEAM_RED ) {
 			// now enable the spawnpoints where targetname == NULL
 			while ( 1 ) {
-				ent = G_Find( ent, FOFS( targetname ), self->target );
+				ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint" );
 
 				if ( !ent ) {
 					break;
