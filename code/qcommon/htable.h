@@ -26,12 +26,13 @@ below.
 
 ===========================================================================
 */
+#ifdef USE_IRC
 
 // Hash table interface
 #ifndef __H_HASHTABLE
 #define __H_HASHTABLE
 
-#include "../qcommon/q_shared.h"
+#include "q_shared.h"
 #include "qcommon.h"
 
 /*=============================================*
@@ -182,3 +183,5 @@ void HT_Apply(
     );
 
 #endif // __H_HASHTABLE
+
+#endif // USE_IRC
