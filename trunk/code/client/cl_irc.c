@@ -1,4 +1,3 @@
-#ifdef USE_IRC
 /*
 ===========================================================================
 
@@ -26,14 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // cl_irc.c  -- irc client
 
-#ifndef HAVE_CONFIG_H
-// #include "config.h"
-#endif
+#ifdef USE_IRC
 
 #include "client.h"
 #include "../qcommon/htable.h"
 
-#ifdef WIN32
+#if defined _WIN32 || _WIN64
 # include <winsock.h>
 # include <process.h>
 typedef SOCKET irc_socket_t;
@@ -228,7 +225,6 @@ static hashtable_t IRC_CTCPHandlers;
 struct irc_user_t
 {
 	char nick[16];
-	int nicklen;
 	int nickattempts;
 	char username[16];
 	char email[100];
@@ -939,7 +935,7 @@ static void IRC_DumpMessage( void )
 IRC_HandleError
 ==================
 */
-#ifdef WIN32
+#if defined _WIN32 || _WIN64 
 static void IRC_HandleError(void)
 {
 	switch (WSAGetLastError())
@@ -1023,7 +1019,7 @@ static void IRC_HandleError(void)
 
 	WSASetLastError(0);
 }
-#elif defined __linux__ || defined MACOS_X || defined __FreeBSD__
+#else
 static void IRC_HandleError(void)
 {
 	Com_Printf("IRC socket connection error: %s\n", strerror(errno));
@@ -1089,7 +1085,7 @@ static __attribute__((format(printf, 1, 2))) int IRC_Send(const char *format, ..
  * on timeout and FATAL on error.
  */
 
-#ifdef WIN32
+#if defined _WIN32 || _WIN64
 # define SELECT_ARG 0
 # define SELECT_CHECK (rv == -1 && WSAGetLastError() == WSAEINTR)
 #else // defined __linux__ || defined __FreeBSD__ || defined MACOS_X
@@ -1143,7 +1139,7 @@ static void IRC_Sleep(int seconds)
 	assert(seconds > 0);
 	for (i = 0 ; i < seconds * IRC_TIMEOUTS_PER_SEC && !IRC_QuitRequested ; i++)
 	{
-#ifdef WIN32
+#if defined _WIN32 || _WIN64
 		Sleep(IRC_TIMEOUT_MS);
 #else // defined __linux__
 		usleep(IRC_TIMEOUT_US);
@@ -1484,13 +1480,14 @@ IRCH_FatalError
 
 Some fatal error was received, the IRC thread must die.
 ==================
-*/
+
 static int IRCH_FatalError( void )
 {
 	IRC_Display(IRC_MakeEvent(QUIT, 1), "", "fatal error");
 	IRC_Send("QUIT :Something went wrong\n");
 	return IRC_CMD_RETRY;
 }
+*/
 
 /*
 ==================
@@ -1504,6 +1501,8 @@ not have been received anyway.
 #define RANDOM_NUMBER_CHAR ('0' + rand() % 10)
 static int IRCH_NickError( void )
 {
+	int nicklen = strlen(IRC_User.nick);
+
 	if (IRC_ThreadStatus == IRC_THREAD_SETNICK)
 	{
 		if (++IRC_User.nickattempts == 4)
@@ -1512,15 +1511,15 @@ static int IRCH_NickError( void )
 			return IRC_CMD_FATAL;
 		}
 
-		if (IRC_User.nicklen < 15)
+		if (nicklen < 15)
 		{
-			IRC_User.nick[IRC_User.nicklen++] = RANDOM_NUMBER_CHAR;
+			IRC_User.nick[nicklen++] = RANDOM_NUMBER_CHAR;
 		}
 		else
 		{
 			int i;
 
-			for (i = IRC_User.nicklen - 3 ; i < IRC_User.nicklen ; i++)
+			for (i = nicklen - 3 ; i < nicklen ; i++)
 			{
 				IRC_User.nick[i] = RANDOM_NUMBER_CHAR;
 			}
@@ -2074,9 +2073,11 @@ char *IRC_GetName(const char *name)
 		}
 
 		c = name[i++];
-		if ((j == 0 && !(IS_ALPHA(c) || IS_SPECL(c))) || (j > 0 && !IS_CLEAN(c)))
+
+		// First letter in nickname cannot be a special char
+		if (k == 0 && (!IS_ALPHA(c) || IS_SPECL(c)))
 		{
-			c = '_';
+			continue;
 		}
 
 		if (!(IS_CLEAN(c)))
@@ -2100,6 +2101,8 @@ static qboolean IRC_InitialiseUser(const char *name)
 {
 	char *source;
 
+	// Strip color chars for the player's name, and remove special
+	// characters
 	if (cl_IRC_override_nickname->integer)
 	{
 		source = IRC_GetName(cl_IRC_nickname->string);
@@ -2109,12 +2112,7 @@ static qboolean IRC_InitialiseUser(const char *name)
 		source = IRC_GetName(name);
 	}
 
-	// Strip color chars for the player's name, and remove special
-	// characters
-	IRC_User.nicklen      = 0;
 	IRC_User.nickattempts = 1;
-
-	IRC_User.nicklen = strlen(source);
 
 	Q_strncpyz(IRC_User.nick, source, sizeof(IRC_User.nick));
 
@@ -2127,7 +2125,7 @@ static qboolean IRC_InitialiseUser(const char *name)
 
 	free(source);
 
-	return (IRC_User.nicklen > 0);
+	return (strlen(IRC_User.nick) > 0);
 }
 
 /*
@@ -2403,7 +2401,8 @@ static void IRC_Thread( void )
 	IRC_AddHandler("NICK", &IRCH_Nick);                         // Nick change
 	IRC_AddHandler("001", &IRCH_Connected);                     // Connection established
 	IRC_AddHandler("404", &IRCH_Banned);                        // Banned (when sending message)
-	IRC_AddHandler("432", &IRCH_FatalError);                    // Erroneous nick name
+	IRC_AddHandler("432", &IRCH_NickError);                     // Erroneous nick name
+	IRC_AddHandler("468", &IRCH_NickError);                     // Erroneous nick name
 	IRC_AddHandler("433", &IRCH_NickError);                     // Nick name in use
 	IRC_AddHandler("474", &IRCH_Banned);                        // Banned (when joining)
 
@@ -2429,7 +2428,7 @@ static void IRC_Thread( void )
  * Note different prototypes for IRC_SystemThreadProc() and completely
  * different IRC_StartThread()/IRC_WaitThread() implementations.
  */
-#ifdef WIN32
+#if defined _WIN32 || _WIN64
 
 /****** THREAD HANDLING - WINDOWS VARIANT ******/
 
