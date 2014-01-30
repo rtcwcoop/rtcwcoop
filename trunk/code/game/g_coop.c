@@ -615,6 +615,8 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 		// so we first have to disable all of them, and then enable the ones we are targetting
 		// we also have to get the other flags down
 
+		ent = NULL;
+
 		// disable all the spawnpoints
 		while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint" ) ) != NULL ) {
 			if ( !ent ) {
@@ -626,6 +628,8 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 				ent->spawnflags &= ~SPAWNPOINT_ENABLED;
 			}
 		}
+
+		ent = NULL;
 
 		// now disable all the other flags
 		while ( ( ent = G_Find( ent, FOFS( classname ), "coop_spawnpoint_trigger" ) ) != NULL ) {
@@ -639,6 +643,8 @@ void spawnpoint_trigger_touch( gentity_t *self, gentity_t *other, trace_t *trace
 
 			ent->s.frame = WCP_ANIM_NOFLAG;
 		}
+
+		ent = NULL;
 
 		if ( other->client->sess.sessionTeam == TEAM_BLUE ) {
 			// now enable the spawnpoints where targetname == coop_spawnpoint_trigger->target
