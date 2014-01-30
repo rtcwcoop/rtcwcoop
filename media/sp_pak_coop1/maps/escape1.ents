@@ -394,7 +394,7 @@
 {
 "classname" "target_location"
 "message" "upper bunker"
-"targetname" "flag2"
+"targetname" "escape10"
 }
 {
 "classname" "coop_spawnpoint"
