@@ -1,7 +1,5 @@
 #summary STEP BY STEP: Getting custom RTCW SP maps run in RTCW Coop mod.
 
-*!!!!!!This tutorial is currently under construction!!!!!!!!* 
-
 Up to date with RTCW Coop mod version 0.9.5!
 
 <wiki:toc max_depth="3" />
@@ -151,6 +149,7 @@ In Coop we can use all regular cheats from SP. To enable cheats you must start y
 /r_showtris 1 or 2 - allows you to see through walls
 /aicast_debug 1 - allows you to see what .AI scripts are running
 /script_debug 1 - allows you to see what .script file commands run
+/where - tells your cordinates
 }}}
 
 *Also Coop adds a few new ones:*
