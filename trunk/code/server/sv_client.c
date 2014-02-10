@@ -1115,7 +1115,7 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg)
 			if(cl->download)
 				FS_FCloseFile(cl->download);
 			
-			return 0;
+			return 1;
 		}
 
 		// prevent duplicate download notifications
