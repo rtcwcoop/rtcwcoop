@@ -1561,6 +1561,8 @@ typedef struct {
 	qboolean seamlessCubeMap;
 
 	GLenum packedNormalDataType;
+
+	qboolean floatLightmap;
 } glRefConfig_t;
 
 typedef struct {
