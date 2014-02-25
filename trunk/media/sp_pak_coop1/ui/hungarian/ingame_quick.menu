@@ -123,9 +123,10 @@ menuDef {
 			
 		itemDef {
 			name quick
-			type ITEM_TYPE_YESNO
+			type ITEM_TYPE_MULTI
 			text "Teljes Képernyõ:"
 			cvar "r_fullscreen"
+			cvarFloatList		{ "Nem" 0 "Igen" 1 }
 			rect -30 95 220 12
 			textfont UI_FONT_NORMAL
 			textalign ITEM_ALIGN_RIGHT

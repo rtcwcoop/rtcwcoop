@@ -96,9 +96,10 @@ itemDef {
 	itemDef {
    		name graphics
 		group grpSystem
-      	type ITEM_TYPE_YESNO
+      	type ITEM_TYPE_MULTI
 		text "Fullscreen:"
 		cvar "r_fullscreen"
+		cvarFloatList		{ "No" 0 "Yes" 1 }
 		rect 82 70 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
