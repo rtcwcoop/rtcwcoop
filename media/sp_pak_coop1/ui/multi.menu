@@ -392,10 +392,11 @@ itemDef {
 			group			grpJoin
 			style			0	
 			textstyle		6
-			type			ITEM_TYPE_YESNO
+			type			ITEM_TYPE_MULTI
 			text			"View Empty:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
+			cvarFloatList		{ "No" 0 "Yes" 1 }
 			rect			310 178 100 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0

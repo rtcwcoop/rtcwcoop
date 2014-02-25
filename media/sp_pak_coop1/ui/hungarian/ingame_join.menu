@@ -275,10 +275,11 @@ menuDef {
 			group			grpJoin
 			style			0	
 			textstyle		6
-			type			ITEM_TYPE_YESNO
+			type			ITEM_TYPE_MULTI
 			text			"Üresek listázása:"
 			textfont		UI_FONT_NORMAL
 			cvar			"ui_browserShowEmpty"
+			cvarFloatList		{ "Nem" 0 "Igen" 1 }
 			rect			290 80 100 15
 			textalign		ITEM_ALIGN_LEFT
 			textalignx		0

@@ -198,9 +198,10 @@ itemDef {
 	itemDef {
 		name look
 		group grpControls
-		type ITEM_TYPE_YESNO
+		type ITEM_TYPE_MULTI
 		text "Fordított Egér:  "
 		cvar "ui_mousePitch"
+		cvarFloatList		{ "Nem" 0 "Igen" 1 }
 		rect 82 120 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
@@ -216,9 +217,10 @@ itemDef {
 	itemDef {
 		name look
 		group grpControls
-		type ITEM_TYPE_YESNO
+		type ITEM_TYPE_MULTI
 		text "Egérsimítás:  "
 		cvar "m_filter"
+		cvarFloatList		{ "Nem" 0 "Igen" 1 }
 		rect 82 135 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
@@ -334,9 +336,10 @@ itemDef {
 	itemDef {
 		name move
 		group grpControls
-		type ITEM_TYPE_YESNO
+		type ITEM_TYPE_MULTI
 		text "Állandó Futás:  "
 		cvar "cl_run"
+		cvarFloatList		{ "Nem" 0 "Igen" 1 }
 		rect 82 30 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142 
@@ -930,9 +933,10 @@ itemDef {
 	itemDef {
 		name misc
 		group grpControls
-		type ITEM_TYPE_YESNO
+		type ITEM_TYPE_MULTI
 		text "Automata felvét:  "
 		cvar "cg_autoactivate"
+		cvarFloatList		{ "Nem" 0 "Igen" 1 }
 		rect 82 60 290 12
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 142
