@@ -391,11 +391,7 @@
 "model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
 "target" "flag2"
 }
-{
-"classname" "target_location"
-"message" "upper bunker"
-"targetname" "escape10"
-}
+
 {
 "classname" "coop_spawnpoint"
 "spawnflags" "2"
