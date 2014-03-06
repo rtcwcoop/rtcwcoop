@@ -72,11 +72,11 @@ Save it and simply run the file. If window pops up asking you if you wish to add
 If you set a single port and it's 27960 then make sure you don't have any instances of COOP running and run the server first, before you run the game.
 
 == Additional ==
-What this tutorial doesn't cover are additional parameters you can pass through startup line..there's basically anything game has + few extra. Ones you may be interested are _net_ip_ and _net_port_. This parameters are used if you want to force your game to always use a specific port but in that case you need to add your internet IP to net_ip variable and port you wish to use to your net_port variable. 
+What this tutorial doesn't cover are additional parameters you can pass through startup line..there's basically anything game offers + few extra. Ones you may be interested are _net_ip_ and _net_port_. This parameters are used if you want to force your game to always use a specific port but in that case you need to add your actual (WAN/Internet) IP to net_ip variable and port you wish to use to your net_port variable. 
 
 To give you a basic example, let's say your IP is 100.100.100.100 and you wish to run the game on a port 27999..you would simply add to startup line at the end of this the following;
 
-_+net_ip 100.100.100.100 +net_port 27888_
+_+net_ip 100.100.100.100 +net_port 27999_
 
 That's about it. Just note following;
   * If you're on a dynamic IP you will have to adjust net_ip when your IP changes,
