@@ -1077,6 +1077,7 @@ void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 	} else if ( !Q_stricmp( s, "spectator" ) || !Q_stricmp( s, "s" ) ) {
 		team = TEAM_SPECTATOR;
 		specState = SPECTATOR_FREE;
+#if 0
 	} else if ( g_gametype.integer != GT_COOP_BATTLE ) {
 		int counts[TEAM_NUM_TEAMS];
 		int numAxis = 1;
@@ -1108,7 +1109,7 @@ void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 			trap_SendServerCommand( clientNum, "cp \"You cannot switch during a match.\nplease wait until the round ends.\n\"" );
 			return;	// ignore the request
 		}*/
-
+#endif
 	} else {
 		// force them to spectators if there aren't any spots free
 		team = TEAM_FREE;
