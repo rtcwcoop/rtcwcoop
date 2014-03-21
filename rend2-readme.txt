@@ -1,7 +1,7 @@
 Rend2
 <insert ascii art here>
 
-Rend2 is an alternate renderer for RTCW Coop.  It aims to implement modern
+Rend2 is an alternate renderer for rtcwcoop.  It aims to implement modern
 features and technologies into the id tech 3 engine, but without sacrificing
 compatibility with existing RTCW mods.
 
@@ -29,7 +29,7 @@ compatibility with existing RTCW mods.
 
 For *nix:
 
-1. This should be identical to installing RTCW Coop.  Check their README for more
+1. This should be identical to installing rtcwcoop.  Check their README for more
    details.
 
    
