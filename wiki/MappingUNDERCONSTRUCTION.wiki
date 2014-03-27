@@ -419,7 +419,7 @@ Spawn event is executed when the player joins a team and it is executed for ever
 
 In coop we have replaced playerstart with trigger map_start, because we don't want every new player "restart" the map. All regular commands are moved into map_start. So if you want to specify objectives, trigger actions and such at map start, place it here.
 
-More detailed explanations:
+*More detailed explanations:*
 
 *spawn event*
 
