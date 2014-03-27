@@ -917,6 +917,7 @@ Avaiblable classnames:
 ai_soldier ai_american ai_zombie ai_warzombie ai_venom ai_loper ai_boss_helga ai_boss_heinrich ai_eliteguard ai_stimsoldier_dual ai_stimsoldier_rocket ai_stimsoldier_tesla ai_supersoldier ai_protosoldier ai_frogman ai_blackguard ai_partisan ai_civilian
 }}}
 
+
 _I like to leave ainame empty. Then you must fix the number manually in .ents file!_
 
 Example:
@@ -947,9 +948,12 @@ _Always use spawnflags = 1 for reinforcements_
 
  * 1) Open .ai file. 
 
- * 2) Add something like this script to the bottom of the .ai file:
+ * 2) Add an entity script to the bottom of the .ai file. Every AI class should have little different script (Soldier, Venom, Zombie...).
 
-_This makes it a default mp40 bot. [http://www.surfacegroup.org/tutorials/rtcw/ai_kim/ Here is a SP AI tutorial for little help if you want something else.]_
+ * 3) Example with regular soldier. If you add another type of enemy, check existing Coop map for script examples.
+
+
+_This makes it a default mp40 guy. [http://www.surfacegroup.org/tutorials/rtcw/ai_kim/ Here is a SP AI tutorial for little help if you want something else.]_
 
 {{{
 coop_ai_soldier_1 //NAME OF YOUR NEW AI!
@@ -963,12 +967,14 @@ coop_ai_soldier_1 //NAME OF YOUR NEW AI!
 
     spawn
     {
-        setammo ammo_grenades 0
-        setammo ammo_9mm 999
+        setammo ammo_grenades 0  //Take away grenades
+        setammo ammo_9mm 999     //Give him 999 bullets for 9mm
         statetype alert
     }
 }
 }}}
+
+_AI_soldier gets mp40 given by default, so all we need to do is to give him ammo. Each AI class have it's own default gun they get, but not much ammo._
 
 ==== 4.1.3. Making our new AI show up ingame ====
 
