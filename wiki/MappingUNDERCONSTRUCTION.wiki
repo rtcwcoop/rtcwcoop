@@ -939,6 +939,10 @@ Example:
 }
 }}}
 
+
+_Always use spawnflags = 1 for reinforcements_
+
+
 ==== 4.1.2. Giving our new AI basic attributes ====
 
  * 1) Open .ai file. 
@@ -970,9 +974,7 @@ coop_ai_soldier_1 //NAME OF YOUR NEW AI!
 
 The AI's inside .ents should not appear in game without separately executing them.
 
-_spawnflags = 1 would normally make AI appear at map_start, but it does not in .ents file_
-
-*We have 3 common ways to execute it:*
+*We have 3 common commands to execute it:*
 
 {{{
 alertentity coop_ai_soldier_1
@@ -987,7 +989,13 @@ _This spawns if we have /g_reinforcements set to 1 or 2
 }}}
 _This spawns if we have /g_reinforcements 2
 
-*So let's execute our AI at a desired time. Most often it happens at map_start or from some action.* 
+*Where to put the command that spawns our AI*
+
+So let's execute our AI at a desired time. Most often it happens at map_start or from some action.
+
+Let's start out by opening our .AI script file. Search with the keyword alertentity, to figure out the triggers used for spawning the default AI.
+
+
 
 _Add the command in the stage of the map where you want him to appear. Example:_
 
@@ -998,11 +1006,16 @@ player
 	trigger action1 //Walk through the doorway
 	{
 		...
+		alertentity nazi1 //This is the first default nazi
+		...
+
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_1 #endif
 	}
 	...
 }
 }}}
+
+_This will spawn coop_ai_soldier_1 if g_reinforce is 1 or 2. The AI will spawn same time with nazi1 when action1 is executed.
 
 *Save and test.*
 
