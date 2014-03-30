@@ -366,7 +366,6 @@ player
 
 	//and so on.......
 
-}
 }}}
 
  * 2) Add that trigger map_start we triggered from game_manager's spawn. It will look like this:
@@ -390,7 +389,6 @@ player
    }
 
 //and so on.......
-}
 }}}
 
 trigger map_start will have all things that should only run once during the map startup. We will look closer to this in the next chapter.
@@ -512,7 +510,6 @@ player
 
 //and so on.......
 
-}
 }}}
 
  * 1) Look at spawn event. Remove if there are such commands as:
@@ -565,7 +562,6 @@ player
 
 //and so on.......
 
-}
 }}}
 
  * 3) Now we must empty playerstart. It no longer is supported. Leave the empty event thought or you might get an error. Only ammo and items and music should be moved to spawn event. Optional ones to the map_start. So it should look like following:
@@ -602,8 +598,6 @@ player
    }
 
 //and so on.......
-
-}
 }}}
 
  * 4) Now rename mu_queue to mu_start and remove all other mu_ commands from spawn event. 
@@ -642,7 +636,6 @@ player
 
 //and so on.......
 
-}
 }}}
 
 *TEST YOUR MAP NOW*
