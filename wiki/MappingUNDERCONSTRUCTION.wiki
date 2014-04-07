@@ -1383,11 +1383,13 @@ _Following things are not fully explained, thinking required. :)_
 === 5.1. Adding Notebook text ===
 
 Underconstruction!!!
-In Coop we have introduced map spefic notebook menu script. In RTCW we had to create our own mod* and edit notebok.menu file. Now we create a new menu file called mapname_notebook.menu.
 
-_*In SP we created a mod by addingn our project into a new folder, eg. Main/capuzzo. In Coop we have created it so we do not have to edit any files, but we can create our new files that will not interfare with the Coop mod. That is why we can add our pk3 directly into main/ folder_
 
-So example from Capuzzo. I have customised my notebook, but you will probably find it ok. If not recreate it from the default notebook.menu. Do following:
+In Coop we have introduced map spefic notebook menu script. In RTCW we had to create our own mod and edit notebok.menu file. Now we create a new menu file called mapname_notebook.menu.
+
+_In SP we created a mod by adding our project into a new folder, eg. Main/capuzzo. In Coop we have created it so we do not have to edit any files, but we can create our new files that will not interfare with the Coop mod. That is why we can add our pk3 directly into main/ folder_
+
+So example from Capuzzo. I have customised my notebook, but you will probably find it ok. If not recreate it from the default notebook.menu. Generally it is quite the same. Do following:
 
  1) Download my example file notebook_example.zip
 
@@ -1400,6 +1402,8 @@ _Ignore scripts folder for now_
  4) Search with keyword city and replace each with yourmapname
 
  5) Edit the yourmapname_p1.text to contain what you want in your page1 of notebook. Repeat with _p2.
+
+_You can take reference from the original notebook texts if it had in SP._
 
  6) Edit the m_yourmapname.tga file to your liking in your favorite photo editor.. Keep the original size and format. Remember alpha channel for nicer effect. I have added some handwriting memo in it. It can be photo/map/empty or anything.
 
