@@ -1414,7 +1414,7 @@ _Ignore scripts folder for now_
 
  * 4) Search with keyword city and replace each with yourmapname
 
- * 5) Edit the yourmapname_p1.text to contain what you want in your page1 of notebook. Repeat with _p2.
+ * 5) Edit the yourmapname_p1.text to contain what you want in your page1 of notebook. Repeat with yourmapname_p2.
 
 _You can take reference from the original notebook texts if it had in SP._
 
@@ -1426,7 +1426,34 @@ _You can take reference from the original notebook texts if it had in SP._
 
 *Test each map. Finish each objective and make sure the green objective finished check markers hit the right spot. Fine tune text file if needed.*
 
-=== 5.2. Adding ingame letters (clipboards) ===
+=== 5.2. Making ingame letters work (clipboards) ===
+
+If you want to add a totally new letter. It is probably possible to add from .ents file. But you have to learn to add clipboards first.
+
+This tutorial helps you make existing one work.
+
+Just like with the notebook, we can not replace existing clipboard.menu. We will create a new file called yourmapname_clipboard.menu.
+
+ * 1) Download my clipboard_example.zip. Make sure the folder remain when you unzip.
+
+ * 2) Rename the menu file from city to yourmapname.
+
+ * 3) Open yourmapname_clipboard.menu in text editor.
+
+ * 4) Open text folder in the original map pk3.
+
+ * 5) Find the letter text. It is something like
+
+{{{
+cl_myletter.txt
+}}}
+
+ * 6) Replace cl_city with cl_myletter inside the new menu file
+
+ Test! 
+
+_If it does not work. Check the cl_name in the clipboard.menu supplied with the map and check if the cl_name is not same as the text file name. Edit the new menu to match the original cl_name. Cl_name is loaded by the map entity, so you can not alter it._
+
 
 === 5.1. Using IF commands for advantage ===
 === 5. Random stuff ===
