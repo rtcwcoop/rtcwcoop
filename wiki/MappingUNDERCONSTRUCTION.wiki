@@ -36,7 +36,7 @@ When you create a custom map. Remember to test it many times before releasing it
 
 === 1.2. Remember to respect ===
 
-It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contact and still want to proceed, it is recommended that you do not alter gameplay or original files of the map. _This means include original pk3 and your custom pk3._ Also do remember to give full credit to the hard work by original author!
+It is recommended and friendly that you contact the original author of the map. If you can't contact the author, it is on your own risk. If you don't get contact and still want to proceed, it is recommended that you do not alter gameplay, looks or atmosphere too much. Also do remember to give full credit to the hard work by original author!
 
 === 1.3. Difference between Coop and SP ===
 
@@ -274,11 +274,22 @@ mapname_b1.rcd
 
 *Make sure to include them into your COOP addon pk3 we do in the next chapter! Otherwise it may cause problems when playing the map in your server!*
 
-=== 2.6. Packing up to play with your friends ===
+=== 2.6. Make sure the map do not interfare with COOP MOD ==
 
- * 1) Create a new pk3 file called eg. mymap_coop_pk3
+ * Rename the original pk3 to have a_ prefix in front of it. 
 
-_It is recommended to create a new pk3 for the Coop files only._
+a_mymap.pk3
+
+_This causes the pk3 load before any mod files and not replace any similar files._ 
+
+ 
+=== 2.7. Packing up to play with your friends ===
+
+
+ * 1) Create a new pk3 file called a_mymap_coop_pk3
+
+_It is recommended to create a new pk3 for the new/edited files only. Then it is faster to download new versions of your map modification._
+
 
  * 2) Create a folder called maps inside the pk3
 
@@ -288,7 +299,7 @@ _You might want to add more files later on of course._
 
 _If your maps folder include mapname_b0.rcd and mapname_b1.rcd files, include them too (check previous chapter)!!!_
 
- * 4) Add the original SP map and the small Coop modification pk3 to your server.
+ * 4) Add the renamed SP map and the small Coop modification pk3 to your server.
 
  * 5) Enjoy! You are ready to play. It is not perfect, but you can shoot, AI can shoot. Yay! :)
 
@@ -1391,25 +1402,25 @@ _In SP we created a mod by adding our project into a new folder, eg. Main/capuzz
 
 So example from Capuzzo. I have customised my notebook, but you will probably find it ok. If not recreate it from the default notebook.menu. Generally it is quite the same. Do following:
 
- 1) Download my example file notebook_example.zip
+ * 1) Download my example file notebook_example.zip
 
- 2) Unzip it to your mapping main folder. Make sure the files go to UI, scripts and text folders as they were in the Zip file. Rename each filename from city to yourmapname. 
+ * 2) Unzip it to your mapping main folder. Make sure the files go to UI, scripts and text folders as they were in the Zip file. Rename each filename from city to yourmapname. 
 
 _Ignore scripts folder for now_
 
- 3) Open yourmapname_notebook.menu with Notepad or your favorite text editor
+ * 3) Open yourmapname_notebook.menu with Notepad or your favorite text editor
 
- 4) Search with keyword city and replace each with yourmapname
+ * 4) Search with keyword city and replace each with yourmapname
 
- 5) Edit the yourmapname_p1.text to contain what you want in your page1 of notebook. Repeat with _p2.
+ * 5) Edit the yourmapname_p1.text to contain what you want in your page1 of notebook. Repeat with _p2.
 
 _You can take reference from the original notebook texts if it had in SP._
 
- 6) Edit the m_yourmapname.tga file to your liking in your favorite photo editor.. Keep the original size and format. Remember alpha channel for nicer effect. I have added some handwriting memo in it. It can be photo/map/empty or anything.
+ * 6) Edit the m_yourmapname.tga file to your liking in your favorite photo editor.. Keep the original size and format. Remember alpha channel for nicer effect. I have added some handwriting memo in it. It can be photo/map/empty or anything.
 
- 7) Repeat this to each map.
+ * 7) Repeat this to each map.
 
- 8) Open ui_capuzzo.shader located in scripts folder with eg. Notepad. Rename it to ui_myproject.shader. Edit each name to match your .tga. Each map should have own .tga listed in this one shader file.
+ * 8) Open ui_capuzzo.shader located in scripts folder with eg. Notepad. Rename it to ui_myproject.shader. Edit each name to match your .tga. Each map should have own .tga listed in this one shader file.
 
 *Test each map. Finish each objective and make sure the green objective finished check markers hit the right spot. Fine tune text file if needed.*
 
