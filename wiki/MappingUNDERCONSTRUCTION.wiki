@@ -276,9 +276,11 @@ mapname_b1.rcd
 
 === 2.6. Make sure the map do not interfare with COOP MOD ==
 
- * Rename the original pk3 to have a_ prefix in front of it. 
+ * Rename the original pk3 to have "a" prefix in front of it. Like this: 
 
+{{{
 a_mymap.pk3
+}}}
 
 _This causes the pk3 load before any mod files and not replace any similar files._ 
 
