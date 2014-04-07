@@ -1380,9 +1380,38 @@ Here are things we will not probably need, but that allows us to do many things 
 _Following things are not fully explained, thinking required. :)_
  
 
+=== 5.1. Adding Notebook text ===
+
+Underconstruction!!!
+In Coop we have introduced map spefic notebook menu script. In RTCW we had to create our own mod* and edit notebok.menu file. Now we create a new menu file called mapname_notebook.menu.
+
+_*In SP we created a mod by addingn our project into a new folder, eg. Main/capuzzo. In Coop we have created it so we do not have to edit any files, but we can create our new files that will not interfare with the Coop mod. That is why we can add our pk3 directly into main/ folder_
+
+So example from Capuzzo. I have customised my notebook, but you will probably find it ok. If not recreate it from the default notebook.menu. Do following:
+
+ 1) Download my example file notebook_example.zip
+
+ 2) Unzip it to your mapping main folder. Make sure the files go to UI, scripts and text folders as they were in the Zip file. Rename each filename from city to yourmapname. 
+
+_Ignore scripts folder for now_
+
+ 3) Open yourmapname_notebook.menu with Notepad or your favorite text editor
+
+ 4) Search with keyword city and replace each with yourmapname
+
+ 5) Edit the yourmapname_p1.text to contain what you want in your page1 of notebook. Repeat with _p2.
+
+ 6) Edit the m_yourmapname.tga file to your liking in your favorite photo editor.. Keep the original size and format. Remember alpha channel for nicer effect. I have added some handwriting memo in it. It can be photo/map/empty or anything.
+
+ 7) Repeat this to each map.
+
+ 8) Open ui_capuzzo.shader located in scripts folder with eg. Notepad. Rename it to ui_myproject.shader. Edit each name to match your .tga. Each map should have own .tga listed in this one shader file.
+
+*Test each map. Finish each objective and make sure the green objective finished check markers hit the right spot. Fine tune text file if needed.*
+
+=== 5.2. Adding ingame letters (clipboards) ===
+
 === 5.1. Using IF commands for advantage ===
-=== 5. Adding Notebook text ===
-=== 5. Adding ingame letters (clipboards) ===
 === 5. Random stuff ===
 g_random
 other random things.
