@@ -1398,13 +1398,19 @@ _Following things are not fully explained, thinking required. :)_
 Underconstruction!!!
 
 
-In Coop we have introduced map spefic notebook menu script. In RTCW we had to create our own mod and edit notebok.menu file. Now we create a new menu file called mapname_notebook.menu.
+In RTCW SP we had to create our own mod folder ( eg. main/capuzzo/ ) and edit the menu files. In Coop we have introduced map spefic notebook menu script. Now we can create a new menu file called mapname_notebook.menu.
 
-_In SP we created a mod by adding our project into a new folder, eg. Main/capuzzo. In Coop we have created it so we do not have to edit any files, but we can create our new files that will not interfare with the Coop mod. That is why we can add our pk3 directly into main/ folder_
+This way we don't need to have use a mod folder. The pk3 can be placed in main and we will not ruin the COOP mod notebook menus.
 
-So example from Capuzzo. I have customised my notebook, but you will probably find it ok. If not recreate it from the default notebook.menu. Generally it is quite the same. Do following:
 
- * 1) Download my example file notebook_example.zip
+*So example from Capuzzo.* I have customised my notebook, but you will probably find it ok. It is changed to simple 2 page system instead of 4. 
+
+
+_Check it from Capuzzo, if you are not happy, you can copy & rename a map from the default notebook.menu._ 
+
+Do following:
+
+ * 1) Download my example file [http://bzzwolfsp.googlecode.com/svn/wiki/mapping/notebook_example.zip notebook_example.zip]
 
  * 2) Unzip it to your mapping main folder. Make sure the files go to UI, scripts and text folders as they were in the Zip file. Rename each filename from city to yourmapname. 
 
@@ -1412,7 +1418,61 @@ _Ignore scripts folder for now_
 
  * 3) Open yourmapname_notebook.menu with Notepad or your favorite text editor
 
- * 4) Search with keyword city and replace each with yourmapname
+ * 4) Search with keyword city and replace each with yourmapname. Affected section will look like this:
+
+{{{
+////////////////////////////////////////////
+////////////////// yourmapname ////////////
+//////////////////////////////////////////
+
+	itemDef {
+		name page1a
+		group page1
+		cvarTest "mapname"
+		showcvar { "yourmapname" }	// added current map rev
+		rect 60 60 240 380
+		textfile "text/EnglishUSA/yourmapname_p1.txt"
+		textfont UI_FONT_HANDWRITING
+		textscale .2
+		forecolor .1 .1 .1 .7
+		visible 1
+		autowrapped
+		decoration
+	}
+
+	itemDef {
+		name page1b
+		group page1
+		rect 345 70 230 380
+		cvarTest "mapname"
+		showcvar { "yourmapname" }	// added current map rev
+		textfile "text/EnglishUSA/yourmapname_p2.txt"
+		textfont UI_FONT_HANDWRITING
+		textscale .2
+		forecolor .1 .1 .1 .7
+		visible 1
+		autowrapped
+		decoration
+	}
+
+
+itemDef {
+	name page1b
+	group page1
+	style WINDOW_STYLE_SHADER
+	background "m_yourmapname"
+	cvarTest "mapname"
+	showcvar { "yourmapname" }	// added current map rev
+	rect 345 180 230 280
+	textalign 1
+	textalignx 32
+	textaligny 30
+	forecolor 1 1 1 .7
+	backcolor .3 .3 .3 1
+	visible 1
+}
+
+}}}
 
  * 5) Edit the yourmapname_p1.text to contain what you want in your page1 of notebook. Repeat with yourmapname_p2.
 
@@ -1422,37 +1482,90 @@ _You can take reference from the original notebook texts if it had in SP._
 
  * 7) Repeat this to each map.
 
- * 8) Open ui_capuzzo.shader located in scripts folder with eg. Notepad. Rename it to ui_myproject.shader. Edit each name to match your .tga. Each map should have own .tga listed in this one shader file.
+ * 8) Open ui_capuzzo.shader located in scripts folder with eg. Notepad. Rename it to ui_myproject.shader. Edit each name to match your maps. Each map should have own .tga listed in this one shader file.
 
-*Test each map. Finish each objective and make sure the green objective finished check markers hit the right spot. Fine tune text file if needed.*
+_My example shader has 3 maps; city, airport and road._
+
+*Test each map. Finish each objective and make sure the green objective finished check markers hit the right spot. Fine tune text or menu file if needed.*
 
 === 5.2. Making ingame letters work (clipboards) ===
 
 If you want to add a totally new letter. It is probably possible to add from .ents file. But you have to learn to add clipboards first.
 
-This tutorial helps you make existing one work.
+This tutorial only helps you make existing one work.
 
 Just like with the notebook, we can not replace existing clipboard.menu. We will create a new file called yourmapname_clipboard.menu.
 
- * 1) Download my clipboard_example.zip. Make sure the folder remain when you unzip.
+ * 1) Download my [http://bzzwolfsp.googlecode.com/svn/wiki/mapping/clipboard_example.zip clipboard_example.zip]  
 
- * 2) Rename the menu file from city to yourmapname.
+_Make sure the folders remain when you unzip._
 
- * 3) Open yourmapname_clipboard.menu in text editor.
+ * 2) Open UI folder
+
+ * 3) Rename the menu file from city to yourmapname.
 
  * 4) Open text folder in the original map pk3.
 
- * 5) Find the letter text. It is something like
+ * 5) Find out what is the letter name. Open the letter text file in the map pk3. It is something like
 
 {{{
-cl_myletter.txt
+/text/englishusa/cl_myletter.txt
 }}}
 
- * 6) Replace cl_city with cl_myletter inside the new menu file
+_One map can have multiple letters, so the cl_names are not tied to a map. I just used cl_city as a letter name for simplicity._
+
+
+ * 6) Open yourmapname_clipboard.menu in text editor.
+
+ * 7) Search with keyword city. Replace each with myletter. It will look like this:
+
+{{{
+
+////////////////////////////////    cl_myletter /////////////////////////////////// 
+
+
+
+itemDef {
+	group clip_myletter
+	name clip_myletter
+	rect 0 0 320 440
+	style 3
+	background "document1.tga"
+	visible 0
+	decoration
+	}
+
+itemDef {
+	name clip_myletter
+	rect 18 78 280 322
+	group clip_myletter
+	textfile "text/EnglishUSA/cl_myletter.txt"
+	textscale .18
+	forecolor .1 .1 .1 .9
+	visible 0
+	decoration
+	autowrapped
+	}
+
+itemDef {
+	name clip_myletter
+	rect 18 78 280 322
+	group clip_myletter
+	textfile "text/EnglishUSA/cl_myletter.txt"
+	textscale .18
+	forecolor .1 .1 .1 .6
+	visible 0
+	decoration
+	autowrapped
+	}
+}
+}}}
+
+ * 8) If your map has more than 1 clipboard, just copy paste the affected part above, then just replace myletter with the other letter name.
+
+
 
  Test! 
-
-_If it does not work. Check the cl_name in the clipboard.menu supplied with the map and check if the cl_name is not same as the text file name. Edit the new menu to match the original cl_name. Cl_name is loaded by the map entity, so you can not alter it._
 
 
 === 5.1. Using IF commands for advantage ===
