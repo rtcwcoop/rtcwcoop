@@ -1557,10 +1557,6 @@ typedef struct {
 	qboolean framebufferMultisample;
 	qboolean framebufferBlit;
 
-	qboolean textureSrgb;
-	qboolean framebufferSrgb;
-	qboolean textureSrgbDecode;
-
 	qboolean depthClamp;
 	qboolean seamlessCubeMap;
 
@@ -1998,7 +1994,10 @@ extern  cvar_t  *r_forceAutoExposureMax;
 
 extern  cvar_t  *r_cameraExposure;
 
-extern  cvar_t  *r_srgb;
+extern  cvar_t  *r_materialGamma;
+extern  cvar_t  *r_lightGamma;
+extern  cvar_t  *r_framebufferGamma;
+extern  cvar_t  *r_tonemapGamma;
 
 extern  cvar_t  *r_depthPrepass;
 extern  cvar_t  *r_ssao;
