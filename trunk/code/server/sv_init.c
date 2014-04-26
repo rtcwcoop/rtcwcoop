@@ -660,6 +660,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 #endif
 	FS_Restart( sv.checksumFeed );
 
+	// Load map config if present
+	Cbuf_ExecuteText(EXEC_NOW, va( "exec mapcfgs/%s.cfg\n", server ) );
+
 	CM_LoadMap( va( "maps/%s.bsp", server ), qfalse, &checksum );
 
 	// set serverinfo visible name
