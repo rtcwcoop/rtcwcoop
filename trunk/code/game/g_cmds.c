@@ -3091,6 +3091,9 @@ void Cmd_DropAmmo_f( gentity_t *ent ) {
 		ammo_in_clip = ammoTable[weapon].maxclip;
 	}
 
+	if( ammo_for_weapon == 0 )
+		return;
+
 	item = BG_FindItemForAmmo( ammo_for_weapon );
 	VectorCopy( client->ps.viewangles, angles );
 
