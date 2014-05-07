@@ -3071,7 +3071,7 @@ target = (used for end map) distance check from this entity to enable spawning i
 delay = (end map) wait in seconds this long after player steps outside, before spawning spirits
 */
 void FuncBatsReached( gentity_t *self ) {
-	if ( !self->active ) {
+	if ( self->active == 2 ) {
 		self->nextthink = -1;
 		self->think = 0;
 		return;
@@ -3080,7 +3080,7 @@ void FuncBatsReached( gentity_t *self ) {
 	Reached_Train( self );
 
 	if ( !self->nextTrain || !self->nextTrain->target ) {
-		self->active = qfalse;   // remove the bats at next point
+		self->active = 2;   // remove the bats at next point
 		return;
 	}
 
@@ -3137,7 +3137,7 @@ void BatMoveThink( gentity_t *bat ) {
 			}
 		}
 */
-	} else if ( !owner->active || !owner->inuse ) {
+	} else if ( owner->active == 2 || !owner->inuse ) {
 		// owner has finished
 		G_FreeEntity( bat );
 		return;
