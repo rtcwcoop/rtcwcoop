@@ -769,7 +769,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 		// if a dedicated pure server we need to touch the cgame because it could be in a
 		// seperate pk3 file and the client will need to load the latest cgame
 		// we want the server to reference the mp_bin pk3 that the client is expected to load from
-		SV_TouchCGameDLL();
+		if ( com_dedicated->integer ) {
+			SV_TouchCGameDLL();
+		}
 	} else {
 		Cvar_Set( "sv_paks", "" );
 		Cvar_Set( "sv_pakNames", "" );
