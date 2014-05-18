@@ -522,7 +522,7 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	int i;
 	int checksum;
 	qboolean isBot;
-	char systemInfo[MAX_INFO_STRING];
+	char systemInfo[16384];
 	const char  *p;
 
 	// Ridah, enforce maxclients in single player, so there is enough room for AI characters
@@ -589,14 +589,6 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// clear collision map data		// (SA) NOTE: TODO: used in missionpack
 	CM_ClearMap();
 
-	// wipe the entire per-level structure
-	SV_ClearServer();
-
-	// allocate empty config strings
-	for ( i = 0 ; i < MAX_CONFIGSTRINGS ; i++ ) {
-		sv.configstrings[i] = CopyString( "" );
-	}
-
 	// init client structures and svs.numSnapshotEntities
 	if ( !Cvar_VariableValue( "sv_running" ) ) {
 		SV_Startup();
@@ -630,6 +622,14 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 		if (svs.clients[i].state >= CS_CONNECTED) {
 			svs.clients[i].oldServerTime = sv.time;
 		}
+	}
+
+	// wipe the entire per-level structure
+	SV_ClearServer();
+
+	// allocate empty config strings
+	for ( i = 0 ; i < MAX_CONFIGSTRINGS ; i++ ) {
+		sv.configstrings[i] = CopyString( "" );
 	}
 
 	// Ridah
@@ -765,6 +765,11 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 		}
 		p = FS_LoadedPakNames();
 		Cvar_Set( "sv_pakNames", p );
+
+		// if a dedicated pure server we need to touch the cgame because it could be in a
+		// seperate pk3 file and the client will need to load the latest cgame
+		// we want the server to reference the mp_bin pk3 that the client is expected to load from
+		SV_TouchCGameDLL();
 	} else {
 		Cvar_Set( "sv_paks", "" );
 		Cvar_Set( "sv_pakNames", "" );
@@ -772,10 +777,6 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// the server sends these to the clients so they can figure
 	// out which pk3s should be auto-downloaded
 	// NOTE: we consider the referencedPaks as 'required for operation'
-
-	// we want the server to reference the mp_bin pk3 that the client is expected to load from
-	SV_TouchCGameDLL();
-
 	p = FS_ReferencedPakChecksums();
 	Cvar_Set( "sv_referencedPaks", p );
 	p = FS_ReferencedPakNames();
