@@ -153,10 +153,11 @@ void Cmd_Score_f( gentity_t *ent ) {
 CheatsOk
 ==================
 */
+qboolean CheatsOk( gentity_t *ent ) {
 #ifdef _DEBUG
 	return qtrue;
 #endif
-qboolean    CheatsOk( gentity_t *ent ) {
+
 	if ( !g_cheats.integer ) {
 		trap_SendServerCommand( ent-g_entities, "print \"Cheats are not enabled on this server.\n\"");
 		return qfalse;
