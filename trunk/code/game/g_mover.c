@@ -3079,6 +3079,10 @@ void FuncBatsReached( gentity_t *self ) {
 
 	Reached_Train( self );
 
+	// disable this to debug path
+	self->r.svFlags |= SVF_NOCLIENT;
+	self->r.contents = 0;
+
 	if ( !self->nextTrain || !self->nextTrain->target ) {
 		self->active = 2;   // remove the bats at next point
 		return;
@@ -3195,10 +3199,6 @@ void FuncBatsActivate( gentity_t *self, gentity_t * other, gentity_t * activator
 		FuncBatsReached( self );
 		self->reached = FuncBatsReached;
 		self->blocked = 0;
-
-		// disable this to debug path
-		self->r.svFlags |= SVF_NOCLIENT;
-		self->r.contents = 0;
 
 		self->use = FuncBatsActivate;   // make sure this stays the same
 
