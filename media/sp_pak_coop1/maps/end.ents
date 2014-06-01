@@ -605,7 +605,7 @@
 #if g_reinforce >= 2
 {
 "classname" "ammo_cell"
-"origin" "-956 545 24"
+"origin" "1922 370 40"
 "angle" "-89"
 }
 #endif
