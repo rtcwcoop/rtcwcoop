@@ -134,13 +134,16 @@ wait 100
 
 		alertentity fem1
 		trigger fem1 getup
+
+		//Spawn spirits
 		alertentity spirit1
 		alertentity spirit2
 		alertentity spirit3
 
+
 //Previously cine, IF YOU WANT SUPER/PROTO, USE THESE 3!!!
 //OTHERS WILL KILL HEINRICH AND ZOMBIES
-//#if g_reinforce >= 1 alertentity dark1 #endif
+#if g_reinforce >= 1 alertentity dark1 #endif
 #if g_reinforce >= 1 alertentity dark2 #endif
 #if g_reinforce >= 2 alertentity dark3 #endif
 
@@ -237,13 +240,13 @@ dark1
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 
  	enemysight
 	{
-		gotocast player
-		attack player
+//		gotocast player
+//		attack player
 		resetscript
 	}
 }
@@ -268,13 +271,13 @@ dark2
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 
  	enemysight
 	{
-		gotocast player
-		attack player
+//		gotocast player
+//		attack player
 		resetscript
 	}
 }
@@ -299,13 +302,13 @@ dark3
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 
  	enemysight
 	{
-		gotocast player
-		attack player
+//		gotocast player
+//		attack player
 		resetscript
 	}
 }
@@ -330,7 +333,7 @@ dark4
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 
 	trigger talk1
@@ -340,8 +343,8 @@ dark4
 
  	enemysight
 	{
-		gotocast player
-		attack player
+//		gotocast player
+//		attack player
 		resetscript
 	}
 
@@ -371,13 +374,13 @@ dark5
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 
  	enemysight
 	{
-		gotocast player
-		attack player
+//		gotocast player
+//		attack player
 		resetscript
 	}
 
@@ -412,7 +415,7 @@ dark6
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 
 	trigger talk1
@@ -427,8 +430,8 @@ dark6
 
  	enemysight
 	{
-		gotocast player
-		attack player
+//		gotocast player
+//		attack player
 		resetscript
 	}
 
@@ -458,7 +461,7 @@ fem1
 		
 	enemysight
 	{
-		attack player
+//		attack player
 		resetscript
 	}
 }
@@ -487,7 +490,7 @@ heinrich
 		noavoid off
 		takeweapon monsterattack2
 		trigger heinrich still
-		attack player
+//		attack player
 	}
 
 	trigger sight_on 
@@ -594,7 +597,7 @@ heinrich
 		sight
 //		giveweapon monsterattack3
 		runtomarker hspot1
-		gotocast player
+//		gotocast player
 	}
 
 	trigger warzombiedead
@@ -609,7 +612,7 @@ heinrich
  	enemysight
 	{
 		resetscript
-		attack player
+//		attack player
 	}
 
 	death
@@ -1058,7 +1061,7 @@ coop_ai_warzombie_71
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1082,7 +1085,7 @@ coop_ai_warzombie_72
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1106,7 +1109,7 @@ coop_ai_warzombie_73
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1130,7 +1133,7 @@ coop_ai_warzombie_74
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1154,7 +1157,7 @@ coop_ai_warzombie_75
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1178,7 +1181,7 @@ coop_ai_warzombie_76
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1202,7 +1205,7 @@ coop_ai_warzombie_77
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1226,7 +1229,7 @@ coop_ai_warzombie_78
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1250,7 +1253,7 @@ coop_ai_warzombie_79
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1274,7 +1277,7 @@ coop_ai_warzombie_80
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1298,7 +1301,7 @@ coop_ai_warzombie_81
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1322,7 +1325,7 @@ coop_ai_warzombie_82
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1346,7 +1349,7 @@ coop_ai_warzombie_83
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1370,7 +1373,7 @@ coop_ai_warzombie_84
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }
 
@@ -1394,6 +1397,6 @@ coop_ai_warzombie_85
 		statetype alert
 		knockback off
 //		playanim asleep both forever
-		attack player
+//		attack player
 	}
 }

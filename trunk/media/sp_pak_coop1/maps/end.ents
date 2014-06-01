@@ -463,6 +463,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -472,6 +473,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -481,6 +483,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -490,6 +493,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -499,6 +503,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -508,6 +513,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -517,6 +523,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -526,6 +533,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -535,6 +543,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -544,6 +553,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -553,6 +563,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -562,6 +573,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -571,6 +583,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -580,6 +593,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 {
 "classname" "ai_warzombie"
@@ -589,6 +603,7 @@
 "spawnflags" "1"
 "skin" "warrior/crypt3"
 "head" "crypt3"
+"aiteam" "4"
 }
 #if g_reinforce >= 1 
 {
