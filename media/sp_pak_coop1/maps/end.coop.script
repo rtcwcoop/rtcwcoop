@@ -59,6 +59,16 @@ counter1
 //		alertentity dark6	
 
 	}
+
+	trigger kill_spirits
+	{
+		wait 3800
+		alertentity kill_spirit1
+		wait 1700
+		alertentity kill_spirit2
+		wait 2600
+		alertentity kill_spirit3
+	}
 }
 
 lift1

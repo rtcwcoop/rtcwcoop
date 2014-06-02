@@ -695,3 +695,46 @@
 //
 //End respawning guns
 //
+//REMOVE SPIRITS:
+//
+//
+{
+"classname" "target_relay"
+"target" "x668"
+"origin" "128 0 0"
+"targetname" "kill_spirit1"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "t668"
+"targetname" "x668"
+}
+
+{
+"classname" "target_relay"
+"target" "x679"
+"origin" "128 0 0"
+"targetname" "kill_spirit2"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "t679"
+"targetname" "x679"
+}
+
+{
+"classname" "target_relay"
+"target" "x680"
+"origin" "128 0 0"
+"targetname" "kill_spirit3"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "t680"
+"targetname" "x680"
+}
+
+

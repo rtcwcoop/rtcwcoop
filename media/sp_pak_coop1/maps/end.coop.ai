@@ -140,6 +140,7 @@ wait 100
 		alertentity spirit2
 		alertentity spirit3
 
+		trigger counter1 kill_spirits
 
 //Previously cine, IF YOU WANT SUPER/PROTO, USE THESE 3!!!
 //OTHERS WILL KILL HEINRICH AND ZOMBIES
