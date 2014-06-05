@@ -215,6 +215,28 @@ itemDef {
 
 itemDef {
 		name win1
+		group grpGMIcredit
+		rect 120 196 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 209 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
 		group grpgmicredit
 		style 0 
 		rect 310 89 280 200
@@ -251,7 +273,7 @@ itemDef {
 itemDef {
 		name GMIcredit
 		group grpGMIcredit
-		rect 0 202 300 20
+		rect 0 228 300 20
 		style 1
 		textalign 1
 		textalignx 320
@@ -268,7 +290,7 @@ itemDef {
 itemDef {
 		name win1
 		group grpGMIcredit
-		rect 140 215 360 10
+		rect 120 241 400 10
 		style WINDOW_STYLE_FILLED
 		backcolor 1 1 1 .1
 		forecolor 1 1 1 1
@@ -279,7 +301,7 @@ itemDef {
 itemDef {
 		name GMIcredit
 		group grpGMIcredit
-		rect 0 215 300 20
+		rect 0 241 300 20
 		style 1
 		textalign 1
 		textalignx 320
@@ -287,7 +309,7 @@ itemDef {
 		textstyle 6
 		textscale .2
 		textalign ITEM_ALIGN_CENTER
-		text "ronboy, ioquake3, etpro, TitaN655, hirko, {SSF}Sage"
+		text "ronboy, TitaN655, hirko (for the levelshots), clan {WeB} (for the testing)"
 		forecolor 1 1 1 1
 		decoration 
 		visible 0
@@ -296,7 +318,7 @@ itemDef {
 itemDef {
 		name win1
 		group grpGMIcredit
-		rect 140 228 360 10
+		rect 120 254 400 10
 		style WINDOW_STYLE_FILLED
 		backcolor 1 1 1 .1
 		forecolor 1 1 1 1
@@ -307,7 +329,7 @@ itemDef {
 itemDef {
 		name GMIcredit
 		group grpGMIcredit
-		rect 0 228 300 20
+		rect 0 254 300 20
 		style 1
 		textalign 1
 		textalignx 320
@@ -315,7 +337,7 @@ itemDef {
 		textstyle 6
 		textscale .2
 		textalign ITEM_ALIGN_CENTER
-		text "MAN-AT-ARMS, clan boozze, crytiqal (for the master server)"
+		text "clan boozze, crytiqal (for the initial master server), etpro, ioquake3"
 		forecolor 1 1 1 1
 		decoration 
 		visible 0
@@ -324,7 +346,7 @@ itemDef {
 itemDef {
 		name GMIcredit
 		group grpGMIcredit
-		rect 0 254 300 20
+		rect 0 267 300 20
 		style 1
 		textalign 1
 		textalignx 320
@@ -339,34 +361,6 @@ itemDef {
 	}
 
 
-itemDef {
-		name win1
-		group grpGMIcredit
-		rect 160 267 320 10
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .1
-		forecolor 1 1 1 1
-		visible 0 
-		decoration
-	}
-	
-itemDef {
-		name GMIcredit
-		group grpGMIcredit
-		rect 0 267 300 20
-		style 1
-		textalign 1
-		textalignx 320
-		textaligny 10
-		textstyle 6
-		textscale .2
-		textalign ITEM_ALIGN_CENTER
-		text "Michael Tsarouhas, Melissa Lauten, Will Doe,"
-		forecolor 1 1 1 1
-		decoration 
-		visible 0
-	}
-	
 itemDef {
 		name win1
 		group grpGMIcredit
@@ -389,24 +383,7 @@ itemDef {
 		textstyle 6
 		textscale .2
 		textalign ITEM_ALIGN_CENTER
-		text "Robert Sloman, Madinah Wilson (for the character voices)"
-		forecolor 1 1 1 1
-		decoration 
-		visible 0
-	}
-	
-itemDef {
-		name GMIcredit
-		group grpGMIcredit
-		rect 0 306 300 20
-		style 1
-		textalign 1
-		textalignx 320
-		textaligny 10
-		textstyle 6
-		textscale .2
-		textalign ITEM_ALIGN_CENTER
-		text "...and of course many-many thank"
+		text "Michael Tsarouhas, Melissa Lauten, Will Doe,"
 		forecolor 1 1 1 1
 		decoration 
 		visible 0
@@ -415,12 +392,29 @@ itemDef {
 itemDef {
 		name win1
 		group grpGMIcredit
-		rect 180 319 280 10
+		rect 160 293 320 10
 		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .15
+		backcolor 1 1 1 .1
 		forecolor 1 1 1 1
 		visible 0 
 		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 293 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "Robert Sloman, Madinah Wilson (for the character voices)"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
 	}
 	
 itemDef {
@@ -434,12 +428,12 @@ itemDef {
 		textstyle 6
 		textscale .2
 		textalign ITEM_ALIGN_CENTER
-		text "our girlfriends/wives/children"
+		text "...and of course many-many thanks"
 		forecolor 1 1 1 1
 		decoration 
 		visible 0
 	}
-
+	
 itemDef {
 		name win1
 		group grpGMIcredit
@@ -462,6 +456,34 @@ itemDef {
 		textstyle 6
 		textscale .2
 		textalign ITEM_ALIGN_CENTER
+		text "to our girlfriends/wives/children"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 180 345 280 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .15
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 345 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
 		text "(for their unlimited patience with us)"
 		forecolor 1 1 1 1
 		decoration 
@@ -472,7 +494,7 @@ itemDef {
 		name win1
 		group grpgmicredit
 		style 0 
-		rect 0 370 500 200
+		rect 0 383 500 200
 		textfile "text/EnglishUSA/credits_message.txt"
 		textfont UI_FONT_SMALL
 		textstyle 6
@@ -488,43 +510,21 @@ itemDef {
 	}
 
 itemDef {
-		name GMIcredit
-		group grpGMIcredit
-		rect 0 410 300 20
-		style 1
-		textalign 1
-		textalignx 320
-		textaligny 10
-		textstyle 6
-		textscale .25
-		textalign ITEM_ALIGN_CENTER
-		text "THANKS FOR PLAYING!"
-		forecolor 1 1 1 1
-		decoration 
-		visible 0
-	}	
-	
-itemDef {
-		name exitbttn
-		group grpidcredit
-		rect 255 430 130 26
-		type 1
-		text "Click to Exit"
-	//	style WINDOW_STYLE_FILLED
-	//	background "ui/assets/button_back.tga"
-		textalign 1   	
-		textscale .2
-		textalignx 65
-		textaligny 20
-      	visible 0
-		decoration
-		backcolor .37 .1 .1 1
-		forecolor 1 1 1 .9
-		action { play "sound/misc/nomenu.wav" }
-		mouseEnter { setitemcolor exitbttn backcolor .1 .37 .1 1 }
-      	mouseExit { setitemcolor exitbttn backcolor .37 .1 .1 1 }	
-	}
-
+        name GMIcredit
+        group grpGMIcredit
+        rect 0 418 300 20
+        style 1
+        textalign 1
+        textalignx 320 
+        textaligny 10
+        textstyle 6
+        textscale .25 
+        textalign ITEM_ALIGN_CENTER
+        text "THANK YOU, COME AGAIN"
+        forecolor 1 1 1 1 
+        decoration 
+        visible 0
+    } 
 
 itemDef {
 		name back
