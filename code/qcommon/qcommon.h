@@ -286,7 +286,7 @@ The server you attempted to join is running an incompatible version of the game.
 You or the server may be running older versions of the game. Press the auto-update\
  button if it appears on the Main Menu screen."
 
-#define	PROTOCOL_VERSION	12
+#define	PROTOCOL_VERSION	13
 #define PROTOCOL_LEGACY_VERSION	12
 //#define	PROTOCOL_VERSION	43	// (SA) bump this up
 
