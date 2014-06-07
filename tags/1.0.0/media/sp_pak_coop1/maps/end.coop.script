@@ -1,0 +1,172 @@
+//Cleaned for COOP by -SSF-Sage on 28.1.2013
+//
+// First Room  Chad and jeremy...
+// 10/03/00
+//
+// // DO NOT EDIT WITHOUT SPEAKING TO CHAD.  I DON'T CARE WHO YOU ARE.
+//
+
+// I hope Chad doesn't see this!
+
+// :) Maybe he will...
+game_manager
+{
+	spawn
+	{
+		accum 0 set 0 // objectives
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger endmap
+	{
+		//Don't run more than once (bug)
+
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+
+		wait 15000
+
+		trigger player changelevel
+	}
+}
+
+counter1
+{
+	spawn
+	{
+	}
+
+	trigger cine1_cleanup
+	{
+		alertentity killps1
+		alertentity killknights
+		alertentity killzombie1
+
+		alertentity heinrich	//Can spawn now; nosight...
+
+		trigger lift1 up4	
+
+
+//COOP! Moved to player action1, real start, so they won't come after you too early....
+//		alertentity fem1
+//		trigger fem1 getup
+//		alertentity spirit1
+//		alertentity spirit2
+//		alertentity spirit3
+//		alertentity dark4
+//		alertentity dark5
+//		alertentity dark6	
+
+	}
+
+	trigger kill_spirits
+	{
+		wait 3800
+		alertentity kill_spirit1
+		wait 1700
+		alertentity kill_spirit2
+		wait 2600
+		alertentity kill_spirit3
+	}
+}
+
+lift1
+{
+	spawn
+	{
+		wait 5
+		gotomarker liftspot2 50000 wait
+	}
+
+	trigger up4			// THIS IS WHEN CINE IS OVER AND LIFT WOULD RAISE TO TOP IF THE SCENE WAS INTER...UPTED
+	{
+		resetscript
+		gotomarker liftspot2 50000 wait
+		gotomarker liftspot1 50000 wait
+		//trigger heinrich sight_on  //COOP
+	}
+
+	trigger talk1
+	{
+		playsound end_earth_rumble
+	}
+
+	trigger talk2
+	{
+		playsound sound/scenaric/crypt2/pillar_raise_loop.wav looping
+	}
+
+	trigger talk2_stop
+	{
+		stopsound
+	}
+}
+
+
+pillar1
+{
+
+	spawn
+	{
+	}
+
+	trigger swing
+	{
+		faceangles 0 0 1 700
+		faceangles 0 1 2 800
+		wait 5
+		faceangles 0 -1 1 700
+		faceangles 0 0 0 650
+		faceangles 0 0 -1 700
+		faceangles 0 0 -2 800
+		wait 5
+		faceangles 0 0 -1 700
+		faceangles 0 0 0 650
+		trigger pillar1 swing
+	}
+		
+	pain 450
+	{
+		wait 5
+		trigger pillar1 fall
+	}
+
+	trigger fall
+	{
+		alertentity killrope
+		gotomarker p1spot1 1000 accel wait
+		alertentity effect1
+		alertentity rocksfall
+		
+	}
+}
+
+rope1
+{
+	spawn
+	{
+	
+	}
+
+	trigger swing
+	{
+		faceangles 0 0 1 700
+		faceangles 0 1 2 800
+		wait 5
+		faceangles 0 -1 1 700
+		faceangles 0 0 0 650
+		faceangles 0 0 -1 700
+		faceangles 0 0 -2 800
+		wait 5
+		faceangles 0 0 -1 700
+		faceangles 0 0 0 650
+		trigger rope1 swing
+	}
+
+	pain 490
+	{
+		wait 5
+		trigger pillar1 fall
+	}
+}

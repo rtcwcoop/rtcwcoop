@@ -1,0 +1,568 @@
+#include "ui/menudef.h"
+
+{
+\\ QUIT CREDIT \\
+
+  menuDef {
+    	name "quitCredit"
+    	visible 0
+    	fullscreen 1
+    	rect 0 0 640 480
+    	focusColor 1 .67 0 1
+    	style 1
+    	border 1
+		onEsc { uiScript "quit" }
+		onOpen { setitemcolor fadebox backcolor 0 0 0 1 ; 
+		fadeout fadebox ; 
+		show grpgmicredit }
+
+////////////////////////////// maxx ///////////////////
+
+//////////////// new wolf
+
+itemDef {
+      	name menu_select					// menu_select
+      	style WINDOW_STYLE_SHADER
+      	rect 0 0 640 480
+     	background "menu_select"
+      	visible 1
+		decoration
+    	}
+
+itemDef {
+		name band2					// band2
+		style WINDOW_STYLE_SHADER
+		rect 360 20 128 640
+    	background "band2"
+     	visible 1
+		decoration
+}
+
+
+itemDef {
+      	name bands					// bands
+      	style WINDOW_STYLE_SHADER
+      	rect 0 -480 640 1024
+     	background "bands"
+      	visible 1
+		decoration
+    	}
+
+
+itemDef {
+		name BLACKGRAD					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name BLACKGRAD2					// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 420 640 -128
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+
+
+itemDef {
+		name FLAME					// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name WOLFFLAMELOGO					// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+itemDef {
+		name gold_line					// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+
+	itemDef {
+		name WOLFICONBACK					// WOLFICONBACK
+		style WINDOW_STYLE_SHADER
+		rect 140 200 360 190
+		background "WOLFICONBACK"
+		visible 1
+		decoration
+		}
+
+
+
+////////////////// added ///////////////
+
+
+itemDef {
+      	name demo_only
+      	style WINDOW_STYLE_EMPTY
+		rect 0 0 640 480
+		type 1
+		textfont UI_FONT_NORMAL
+      	visible 1 
+		action { play "sound/misc/nomenu.wav" ; 
+		close quitCredit ;
+		uiScript "quit"  }
+    	}
+
+    
+
+
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 114 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "DEVELOPED BY:"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 128 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "RTCW.COOP.TEAM"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+
+
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 144 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 157 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 170 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 183 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 196 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 209 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+
+itemDef {
+		name win1
+		group grpgmicredit
+		style 0 
+		rect 310 89 280 200
+		textfile "text/EnglishUSA/credits_coop1.txt"
+		textfont UI_FONT_SMALL
+		textalign ITEM_ALIGN_RIGHT
+      	textalignx 0
+		textstyle 6
+		textscale .2
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+itemDef {
+		name win1
+		group grpgmicredit
+		style 0 
+		rect 330 89 280 200
+		textfile "text/EnglishUSA/credits_coop2.txt"
+		textfont UI_FONT_SMALL
+		textstyle 6
+		textscale .2
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 228 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "special thanks to"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 241 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 241 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "ronboy, TitaN655, hirko (for the levelshots), clan {WeB} (for the testing)"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+	
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 120 254 400 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 254 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "clan boozze, crytiqal (for the initial master server), etpro, ioquake3"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}	
+
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 267 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "as well as"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 160 280 320 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 280 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "Michael Tsarouhas, Melissa Lauten, Will Doe,"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+	
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 160 293 320 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .1
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 293 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "Robert Sloman, Madinah Wilson (for the character voices)"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 319 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "...and of course many-many thanks"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+	
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 180 332 280 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .15
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 332 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "to our girlfriends/wives/children"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+
+itemDef {
+		name win1
+		group grpGMIcredit
+		rect 180 345 280 10
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .15
+		forecolor 1 1 1 1
+		visible 0 
+		decoration
+	}
+	
+itemDef {
+		name GMIcredit
+		group grpGMIcredit
+		rect 0 345 300 20
+		style 1
+		textalign 1
+		textalignx 320
+		textaligny 10
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+		text "(for their unlimited patience with us)"
+		forecolor 1 1 1 1
+		decoration 
+		visible 0
+	}
+
+itemDef {
+		name win1
+		group grpgmicredit
+		style 0 
+		rect 0 383 500 200
+		textfile "text/EnglishUSA/credits_message.txt"
+		textfont UI_FONT_SMALL
+		textstyle 6
+		textscale .2
+		textalign ITEM_ALIGN_CENTER
+      	textaligny 0
+      	textalignx 320
+		forecolor .9 .9 .9 1
+		visible MENU_TRUE
+		autowrapped
+		decoration
+		visible 0
+	}
+
+itemDef {
+        name GMIcredit
+        group grpGMIcredit
+        rect 0 418 300 20
+        style 1
+        textalign 1
+        textalignx 320 
+        textaligny 10
+        textstyle 6
+        textscale .25 
+        textalign ITEM_ALIGN_CENTER
+        text "THANK YOU, COME AGAIN"
+        forecolor 1 1 1 1 
+        decoration 
+        visible 0
+    } 
+
+itemDef {
+		name back
+		text "BACK"
+		type 1
+		textfont UI_FONT_NORMAL
+		style 0	
+		textstyle 6
+		rect 30 450 40 14 
+		textalign 0
+		textscale .23		
+		textalignx 6
+		textaligny 12
+		forecolor .9 .9 .9 .9
+		visible 1 
+		action { close quitcredit ; open main }
+		mouseEnter { hide back ; show back_alt }
+		}
+
+itemDef {
+		name back_alt
+		text "BACK"
+		type 1
+		textfont UI_FONT_NORMAL
+		style 0	
+		textstyle 6
+		rect 30 450 40 14 
+		textalign 0
+		textscale .23		
+		textalignx 6
+		textaligny 12
+		forecolor .6 .6 .6 .6
+		visible 1 
+		type ITEM_TYPE_BUTTON
+		action { close quitcredit ; open main }
+		mouseExit { hide back_alt ; show back }
+		}
+
+}
+
+}

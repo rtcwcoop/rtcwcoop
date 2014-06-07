@@ -1,0 +1,740 @@
+
+{
+"classname" "script_multiplayer"
+"scriptname" "game_manager"
+}
+
+// AXIS SPAWNPOINTS (flags: 0 = disabled; 1 enabled; 2 = allied and disabled; 3 = allied and enabled; 4 = axis and disabled; 5 = axis and enabled; 6 = axis and allied and disabled; 7 = axis and allied and enabled)
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "-765 -3485 80" 
+"angle" "51"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "5" 
+"origin" "-726 -3163 41" 
+"angle" "77"
+}
+
+// SPAWNPOINTS
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "32 -4480 312"
+"angle" "90"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-29 -4480 312"
+"angle" "90"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "93 -4480 312"
+"angle" "90"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "93 -4421 312"
+"angle" "90"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "25 -4416 312"
+"angle" "90"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-45 -4416 312"
+"angle" "90"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-56 -4372 312"
+"angle" "90"
+}
+
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "16 -4372 312"
+"angle" "90"
+}
+
+// REINFORCES 
+
+{
+"classname" "ai_soldier"
+"origin" "160 -3675 312"
+"ainame" "coop_ai_soldier_7"
+"angle" "-171"
+"spawnflags" "1"
+"skin" "infantryss/dig1"
+"head" "dig1"
+}
+{
+"classname" "ai_soldier"
+"origin" "206 -3629 312"
+"ainame" "coop_ai_soldier_8"
+"angle" "-157"
+"spawnflags" "1"
+"skin" "infantryss/dig1"
+"head" "dig2"
+}
+{
+"classname" "ai_venom"
+"origin" "258 -3563 312"
+"ainame" "coop_ai_venom_9"
+"angle" "-157"
+"spawnflags" "1"
+"skin" "venom/factory1"
+"head" "factory1"
+}
+{
+"classname" "ai_soldier"
+"origin" "250 -3473 312"
+"ainame" "coop_ai_soldier_10"
+"angle" "-96"
+"spawnflags" "1"
+"skin" "infantryss/dig1"
+"head" "dig3"
+}
+{
+"classname" "ai_soldier"
+"origin" "256 -3412 312"
+"ainame" "coop_ai_soldier_11"
+"angle" "-96"
+"spawnflags" "1"
+"skin" "infantryss/dig1"
+"head" "dig1"
+}
+{
+"classname" "ai_soldier"
+"origin" "104 -3287 312"
+"ainame" "coop_ai_soldier_12"
+"angle" "-162"
+"spawnflags" "1"
+"skin" "infantryss/dig1"
+"head" "dig2"
+}
+{
+"classname" "ai_venom"
+"origin" "-280 -3481 312"
+"ainame" "coop_ai_venom_13"
+"angle" "-21"
+"spawnflags" "1"
+"skin" "venom/factory1"
+"head" "factory1"
+}
+{
+"classname" "ai_soldier"
+"origin" "-245 -3409 312"
+"ainame" "coop_ai_soldier_14"
+"angle" "-35"
+"spawnflags" "1"
+"skin" "infantryss/dig1"
+"head" "dig3"
+}
+
+{
+"classname" "ai_blackguard"
+"origin" "-913 -3668 313"
+"ainame" "coop_ai_blackguard_15"
+"angle" "25"
+"spawnflags" "1"
+"skin" "blackguard/castle1"
+"head" "castle1"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-958 -3550 312"
+"ainame" "coop_ai_blackguard_16"
+"angle" "8"
+"spawnflags" "1"
+"skin" "blackguard/castle1"
+"head" "castle2"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-936 -3434 312"
+"ainame" "coop_ai_blackguard_17"
+"angle" "-1"
+"spawnflags" "1"
+"skin" "blackguard/castle1"
+"head" "castle3"
+}
+{
+"classname" "ai_blackguard"
+"origin" "-917 -3278 312"
+"ainame" "coop_ai_blackguard_18"
+"angle" "-17"
+"spawnflags" "1"
+"skin" "blackguard/castle1"
+"head" "castle4"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-710 -2204 56"
+"ainame" "coop_ai_eliteguard_19"
+"angle" "-94"
+"spawnflags" "1"
+"skin" "eliteguard/church1"
+"head" "church1"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-590 -2213 56"
+"ainame" "coop_ai_eliteguard_20"
+"angle" "-105"
+"spawnflags" "1"
+"skin" "eliteguard/church1"
+"head" "church2"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-604 -2458 56"
+"ainame" "coop_ai_eliteguard_21"
+"angle" "-105"
+"spawnflags" "1"
+"skin" "eliteguard/church2"
+"head" "church3"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-611 -2596 56"
+"ainame" "coop_ai_eliteguard_22"
+"angle" "-105"
+"spawnflags" "1"
+"skin" "eliteguard/church2"
+"head" "church1"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-718 -2567 56"
+"ainame" "coop_ai_eliteguard_23"
+"angle" "-89"
+"spawnflags" "1"
+"skin" "eliteguard/castle1"
+"head" "castle2"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-880 -2567 56"
+"ainame" "coop_ai_eliteguard_24"
+"angle" "-76"
+"spawnflags" "1"
+"skin" "eliteguard/castle1"
+"head" "castle3"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-785 -2388 56"
+"ainame" "coop_ai_eliteguard_25"
+"angle" "-88"
+"spawnflags" "1"
+"skin" "eliteguard/castle2"
+"head" "castle1"
+}
+{
+"classname" "ai_eliteguard"
+"origin" "-997 -2480 56"
+"ainame" "coop_ai_eliteguard_26"
+"angle" "-64"
+"spawnflags" "1"
+"skin" "eliteguard/castle2"
+"head" "castle2"
+}
+
+{
+"classname" "target_relay"
+"target" "x71"
+"origin" "0 0 0"
+"targetname" "kill_71"
+}
+{
+"classname" "target_kill"
+"origin" "0 32 0"
+"target" "coop_ai_warzombie_71"
+"targetname" "x71"
+}
+
+{
+"classname" "target_relay"
+"target" "x72"
+"origin" "32 0 0"
+"targetname" "kill_72"
+}
+{
+"classname" "target_kill"
+"origin" "32 32 0"
+"target" "coop_ai_warzombie_72"
+"targetname" "x72"
+}
+
+{
+"classname" "target_relay"
+"target" "x73"
+"origin" "64 0 0"
+"targetname" "kill_73"
+}
+{
+"classname" "target_kill"
+"origin" "64 32 0"
+"target" "coop_ai_warzombie_73"
+"targetname" "x73"
+}
+
+{
+"classname" "target_relay"
+"target" "x74"
+"origin" "96 0 0"
+"targetname" "kill_74"
+}
+{
+"classname" "target_kill"
+"origin" "96 32 0"
+"target" "coop_ai_warzombie_74"
+"targetname" "x74"
+}
+
+{
+"classname" "target_relay"
+"target" "x75"
+"origin" "128 0 0"
+"targetname" "kill_75"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "coop_ai_warzombie_75"
+"targetname" "x75"
+}
+
+{
+"classname" "target_relay"
+"target" "x76"
+"origin" "160 0 0"
+"targetname" "kill_76"
+}
+{
+"classname" "target_kill"
+"origin" "160 32 0"
+"target" "coop_ai_warzombie_76"
+"targetname" "x76"
+}
+
+{
+"classname" "target_relay"
+"target" "x77"
+"origin" "192 0 0"
+"targetname" "kill_77"
+}
+{
+"classname" "target_kill"
+"origin" "192 32 0"
+"target" "coop_ai_warzombie_77"
+"targetname" "x77"
+}
+
+{
+"classname" "target_relay"
+"target" "x78"
+"origin" "224 0 0"
+"targetname" "kill_78"
+}
+{
+"classname" "target_kill"
+"origin" "224 32 0"
+"target" "coop_ai_warzombie_78"
+"targetname" "x78"
+}
+
+{
+"classname" "target_relay"
+"target" "x79"
+"origin" "256 0 0"
+"targetname" "kill_79"
+}
+{
+"classname" "target_kill"
+"origin" "256 32 0"
+"target" "coop_ai_warzombie_79"
+"targetname" "x79"
+}
+
+{
+"classname" "target_relay"
+"target" "x80"
+"origin" "288 0 0"
+"targetname" "kill_80"
+}
+{
+"classname" "target_kill"
+"origin" "288 32 0"
+"target" "coop_ai_warzombie_80"
+"targetname" "x80"
+}
+
+{
+"classname" "target_relay"
+"target" "x81"
+"origin" "320 0 0"
+"targetname" "kill_81"
+}
+{
+"classname" "target_kill"
+"origin" "320 32 0"
+"target" "coop_ai_warzombie_81"
+"targetname" "x81"
+}
+
+{
+"classname" "target_relay"
+"target" "x82"
+"origin" "380 0 0"
+"targetname" "kill_82"
+}
+{
+"classname" "target_kill"
+"origin" "380 32 0"
+"target" "coop_ai_warzombie_82"
+"targetname" "x82"
+}
+
+{
+"classname" "target_relay"
+"target" "x83"
+"origin" "412 0 0"
+"targetname" "kill_83"
+}
+{
+"classname" "target_kill"
+"origin" "412 32 0"
+"target" "coop_ai_warzombie_83"
+"targetname" "x83"
+}
+
+{
+"classname" "target_relay"
+"target" "x84"
+"origin" "442 0 0"
+"targetname" "kill_84"
+}
+{
+"classname" "target_kill"
+"origin" "442 32 0"
+"target" "coop_ai_warzombie_84"
+"targetname" "x84"
+}
+
+{
+"classname" "target_relay"
+"target" "x85"
+"origin" "482 0 0"
+"targetname" "kill_85"
+}
+{
+"classname" "target_kill"
+"origin" "482 32 0"
+"target" "coop_ai_warzombie_85"
+"targetname" "x85"
+}
+{
+"classname" "ai_warzombie"
+"origin" "70 477 60"
+"ainame" "coop_ai_warzombie_71"
+"angle" "5"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "1320 794 60"
+"ainame" "coop_ai_warzombie_72"
+"angle" "-142"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "932 -365 60"
+"ainame" "coop_ai_warzombie_73"
+"angle" "-117"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "135 -434 60"
+"ainame" "coop_ai_warzombie_74"
+"angle" "169"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "-38 956 60"
+"ainame" "coop_ai_warzombie_75"
+"angle" "-30"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "758 1076 60"
+"ainame" "coop_ai_warzombie_76"
+"angle" "-38"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "1196 -57 60"
+"ainame" "coop_ai_warzombie_77"
+"angle" "-121"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "204 -362 60"
+"ainame" "coop_ai_warzombie_78"
+"angle" "174"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "0 787 60"
+"ainame" "coop_ai_warzombie_79"
+"angle" "92"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "250 1304 60"
+"ainame" "coop_ai_warzombie_80"
+"angle" "3"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "909 1052 94"
+"ainame" "coop_ai_warzombie_81"
+"angle" "-2"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "1137 297 60"
+"ainame" "coop_ai_warzombie_82"
+"angle" "-65"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "734 -306 60"
+"ainame" "coop_ai_warzombie_83"
+"angle" "-137"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "220 -354 60"
+"ainame" "coop_ai_warzombie_84"
+"angle" "168"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+{
+"classname" "ai_warzombie"
+"origin" "-144 215 60"
+"ainame" "coop_ai_warzombie_85"
+"angle" "112"
+"spawnflags" "1"
+"skin" "warrior/crypt3"
+"head" "crypt3"
+"aiteam" "4"
+}
+#if g_reinforce >= 1 
+{
+"classname" "weapon_panzerfaust"
+"origin" "-870 271 88"
+"angle" "74"
+}
+#endif
+{
+"classname" "ammo_cell"
+"origin" "-986 545 24"
+"angle" "-89"
+}
+#if g_reinforce >= 2
+{
+"classname" "ammo_cell"
+"origin" "1922 370 40"
+"angle" "-89"
+}
+#endif
+{
+"classname" "ammo_fuel"
+"origin" "-933 157 88"
+"angle" "-89"
+}
+#if g_reinforce >= 1
+{
+"classname" "item_health_large"
+"origin" "-997 173 29"
+"angle" "-4"
+}
+#endif
+{
+"classname" "weapon_panzerfaust"
+"origin" "545 1803 24"
+"angle" "-93"
+}
+#if g_reinforce >= 2
+{
+"classname" "item_health_large"
+"origin" "642 1832 24"
+"angle" "-93"
+}
+#endif
+{
+"classname" "ammo_grenades"
+"origin" "-786 365 24"
+"angle" "179"
+}
+#if g_reinforce >= 1 
+{
+"classname" "ammo_fuel"
+"origin" "1938 523 24"
+"angle" "89"
+}
+#endif
+{
+"classname" "item_health_large"
+"origin" "1919 441 24"
+"angle" "89"
+}
+
+//
+//Respawning guns if AI respawn is used
+//
+#if g_airespawn != 0
+{
+"classname" "weapon_mp40"
+"origin" "171 -3530 376"
+"angle" "-3"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_luger"
+"origin" "-1026 -2928 40"
+"angle" "9"
+"spawnflags" "8"
+"wait" "10"
+}
+{
+"classname" "weapon_mp40"
+"origin" "592 -1191 24"
+"angle" "169"
+"spawnflags" "8"
+"wait" "10"
+}
+#endif
+//
+//End respawning guns
+//
+//REMOVE SPIRITS:
+//
+//
+{
+"classname" "target_relay"
+"target" "x668"
+"origin" "128 0 0"
+"targetname" "kill_spirit1"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "t668"
+"targetname" "x668"
+}
+
+{
+"classname" "target_relay"
+"target" "x679"
+"origin" "128 0 0"
+"targetname" "kill_spirit2"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "t679"
+"targetname" "x679"
+}
+
+{
+"classname" "target_relay"
+"target" "x680"
+"origin" "128 0 0"
+"targetname" "kill_spirit3"
+}
+{
+"classname" "target_kill"
+"origin" "128 32 0"
+"target" "t680"
+"targetname" "x680"
+}
+
+

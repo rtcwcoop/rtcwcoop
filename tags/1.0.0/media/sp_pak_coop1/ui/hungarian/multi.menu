@@ -1,0 +1,859 @@
+#include "ui/menudef.h"
+
+#define ORIGIN_WINDOW1		136 -15
+#define ORIGIN_WINDOW2		136 15
+#define HELP_ORIGIN			0 5
+
+{
+// MAIN WINDOW
+
+  menuDef {
+    	name "multi_menu"
+    	visible 0
+    	fullscreen 1
+    	rect 186 0 454 480	
+		focusColor .9 .9 .9 1
+    	style 1
+    	border 1
+		soundloop ""
+      	style WINDOW_STYLE_FILLED
+		forecolor 0 0 0 0
+		backcolor 0 0 0 0
+
+	onOpen {
+		setitemcolor fadebox backcolor 0 0 0 1 ; 
+		fadeout fadebox ;
+		hide back_alt ;
+		show back ;
+		show grpJoin ;
+		hide grpmessage
+	}
+
+	onEsc {
+		close multi_menu ;
+		open main
+	}
+
+// Start of Menu Background
+
+itemDef {
+      	name menu_select					// menu_select
+      	style WINDOW_STYLE_SHADER
+      	rect 0 0 640 480
+     	background "menu_select"
+      	visible 1
+		decoration
+    	}
+itemDef {
+		name band2							// band2
+		style WINDOW_STYLE_SHADER
+		rect 360 20 128 640
+    	background "band2"
+     	visible 1
+		decoration
+}
+itemDef {
+      	name bands							// bands
+      	style WINDOW_STYLE_SHADER
+      	rect 0 -480 640 1024
+     	background "bands"
+      	visible 1
+		decoration
+    	}
+itemDef {
+		name BLACKGRAD						// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+itemDef {
+		name BLACKGRAD2						// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 420 640 -128
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+itemDef {
+		name FLAME							// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+itemDef {
+		name WOLFFLAMELOGO					// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+itemDef {
+		name gold_line						// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+itemDef {
+		name gold_line						// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+	itemDef {
+		name WOLFICONBACK					// WOLFICONBACK
+		style WINDOW_STYLE_SHADER
+		rect 140 200 360 190
+		background "WOLFICONBACK"
+		visible 1
+		decoration
+		}
+// End of Menu Background
+
+// Start of Upper Menu
+
+	itemDef {
+		name			Join_Server
+		text			"CSATLAKOZÁS"
+		textfont		UI_FONT_NORMAL
+		textalign		ITEM_ALIGN_CENTER
+		textalignx		0
+		textaligny		14
+		textscale		.25
+		rect			320 90 100 14
+		style			0
+		textstyle		6
+		forecolor		.9 .9 .9 .9
+		visible			1
+		decoration
+		}
+
+// End of Upper Menu
+
+// Start of Join Server Section
+
+//////// START OF PASTE
+
+	// Start of Join Server Border
+
+	itemDef 
+		{
+		name window
+		group grpJoin
+		rect 20 115 600 300	
+		style WINDOW_STYLE_FILLED
+		border 1
+		bordercolor .5 .5 .5 .5
+		forecolor 1 1 1 1
+		backcolor 0 0 0 .5
+		visible 1
+		decoration
+		}
+
+	// End of Join Server Border	
+	
+	//  1ST COLUMN  //
+	
+	
+		itemDef {
+			name			refreshSource
+			group			grpJoin
+			text			"Get New List"			
+			text			"Újralistázás "
+			type			ITEM_TYPE_BUTTON
+			textscale		.25
+			style			WINDOW_STYLE_FILLED	
+			//background	"ui_mp/assets/button_red.tga"
+			border			1
+			bordercolor		.5 .5 .5 .5
+			rect			30 145 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			textfont		UI_FONT_NORMAL
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1 
+			
+			mouseEnter		{ setitemcolor refreshSource backcolor .1 .2 .37 1 }
+			mouseExit		{ setitemcolor refreshSource backcolor .3 .5 .2 .3 }
+			action			{ play "sound/misc/nomenu.wav" ; 
+							uiScript RefreshServers ;
+							uiScript RefreshFilter }								
+			}
+
+
+		itemDef {
+			name			refreshFilter
+			group			grpJoin
+			text			"Adatfrissítés"
+			textscale		.25
+			style			WINDOW_STYLE_FILLED
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_BUTTON
+			border			1
+			bordercolor		.5 .5 .5 .5
+			rect			30 170 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			backcolor		.3 .5 .2 .3 
+			forecolor		1 1 1 1
+			visible			1 
+			mouseEnter		{ setitemcolor refreshFilter backcolor .1 .2 .37 1 }
+			mouseExit		{ setitemcolor refreshFilter backcolor .3 .5 .2 .3 }	  	  
+			action			{ play "sound/misc/nomenu.wav" ; 
+							uiScript RefreshFilter }	  	  
+			}
+
+
+		itemDef {
+			name			serverinfo
+			text			"Szerverinfók"
+			group			grpJoin
+			type			ITEM_TYPE_BUTTON
+			textfont		UI_FONT_NORMAL
+			textscale		.25
+			style			WINDOW_STYLE_FILLED
+			border			1
+			bordercolor		.5 .5 .5 .5
+			rect			30 195 105 15
+			textalign		1
+			textalignx		52		// center
+			textaligny		11
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1
+
+			action {
+				play		"sound/misc/kcaction.wav" ; 
+				setcvar		ui_serverBrowser 1 ; // 1: from server browser
+				open		serverinfo_popmenu
+			}
+
+			mouseEnter		{ setitemcolor serverinfo backcolor .1 .2 .37 1 }
+			mouseExit		{ setitemcolor serverinfo backcolor .3 .5 .2 .3 }	 
+				}
+
+
+
+	//  2ND COLUMN  //
+
+		itemDef {
+			name			window_limbo_name
+			group			grpJoin
+			visible			1
+			rect			160 145 130 15
+			textstyle		6			
+			forecolor		1 1 1 1
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		16
+			maxpaintchars	16
+			text			"Név:"
+			cvar			"name"
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
+	
+		itemDef {
+			name			gametypefield
+			group			grpJoin
+			style			0	
+			textfont		UI_FONT_NORMAL
+			ownerdraw		UI_NETSOURCE
+			rect			160 170 130 15 
+			textstyle		6
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25   
+			forecolor		1 1 1 1
+			visible 		1			
+			action			{ play "sound/misc/kcaction.wav" }
+			}
+
+		itemDef {
+			name			passwordEntry
+			group			grpJoin
+			style			0
+			textstyle		6
+			text			"Jelszó:"
+			type			ITEM_TYPE_EDITFIELD
+			maxChars		16
+			maxpaintchars	8
+			cvar			"password"
+			textfont		UI_FONT_NORMAL
+			rect			160 195 130 15
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25
+			forecolor		1 1 1 1
+			visible			1
+
+			action {
+				play "sound/misc/kcaction.wav" ; 
+				open password_popmenu
+			}
+			mouseEnter		{ setitemcolor password backcolor .1 .2 .37 1 }
+			mouseExit		{ setitemcolor password backcolor .3 .5 .2 .3 }
+			}
+
+	//  3TD COLUMN  //
+
+
+		itemDef {
+			name			window_limbo_model
+			group			grpJoin
+			visible			1
+			rect			310 145 150 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			textstyle		6
+			maxChars		16
+			maxpaintchars	16
+			text			"Modell:"
+			cvar			"skin"
+			cvarFloatList	{ "amcsi katona" 1 "néger katona" 2 "európai katona" 3 }
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
+			
+		itemDef {
+			name			gametypefield
+			group			grpJoin
+			style			0	
+			textstyle		6
+			text			"Játéktípus:"
+			ownerdraw		UI_JOINGAMETYPE
+			textfont		UI_FONT_NORMAL
+			rect			310 170 100 15
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25    
+			forecolor		1 1 1 1
+			visible			1
+			
+			action			{ play "sound/misc/kcaction.wav" }
+			}
+
+		itemDef {
+			name			nameEntry
+			group			grpJoin
+			style			0	
+			textstyle		6
+			type			ITEM_TYPE_MULTI
+			text			"Üresek listázása:"
+			textfont		UI_FONT_NORMAL
+			cvar			"ui_browserShowEmpty"
+			cvarFloatList		{ "Nem" 0 "Igen" 1 }
+			rect			310 195 100 15
+			textalign		ITEM_ALIGN_LEFT
+			textalignx		0
+			textaligny		14
+			textscale		.25 		 
+			forecolor		1 1 1 1
+			visible			1
+			
+			action {
+				play		"sound/misc/nomenu.wav" ;
+							uiScript RefreshFilter }
+			
+			}
+
+		
+	//  MAP PREVIEW  //
+
+		itemDef {
+			name mappreview
+			group grpJoin
+			ownerdraw UI_NETMAPPREVIEW
+			rect 467 120 148 111
+			visible 1 
+			}
+
+		itemDef {
+			name mappreview
+			group grpJoin
+			style WINDOW_STYLE_FILLED	
+			rect 466 119 149 112
+			border 1
+			bordercolor .5 .5 .5 .5
+			visible 1 
+			}
+		
+//  SERVER BROWSER LINES  //
+		
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 251 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 281 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 311 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 341 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 371 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 21 401 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+
+	//	SERVER BROWSER COLUMNS	//
+
+	
+		itemDef {
+			name serverColumn
+			group grpJoin
+			rect 20 250 161 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			//bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name mapColumn
+			group grpJoin
+			rect 180 250 181 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name respawnColumn
+			group grpJoin
+			rect 360 250 81 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name reinforceColumn
+			group grpJoin
+			rect 440 250 81 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name skillColumn
+			group grpJoin
+			rect 520 250 48 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name pingColumn
+			group grpJoin
+			rect 567 250 36 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+			
+		itemDef {
+			name serverlist
+			group grpJoin
+			rect 20 250 600 165
+			type ITEM_TYPE_LISTBOX
+			style WINDOW_STYLE_FILLED
+			elementwidth 120
+			elementheight 15
+			textfont	UI_FONT_NORMAL
+			border 1
+			bordercolor .5 .5 .5 .5
+			textalign 1
+			textalignx 0
+			textaligny 11
+			textscale .25	
+			elementtype LISTBOX_TEXT
+			feeder FEEDER_SERVERS
+			forecolor 1 1 1 1
+			backcolor .5 .5 .5 .2
+			outlinecolor .7 .7 .0 .25
+			visible 1
+			// 	numcols     xpos	xwitdth   textlen
+			columns 6 	    0		40			30 
+							160		30			36
+							365		20		    20	
+							430		20			20
+							498		20			20
+							547		40			20
+			doubleClick { uiScript JoinServer }
+			}
+
+	//	SERVER BROWSER - COLUMN TITLES	//
+
+		itemDef {
+			name server
+			group grpJoin
+			text "Szervernév"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5
+			rect 20 235 161 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 80		// center
+			textaligny 11
+			forecolor 1 1 1 1
+			backcolor .3 .5 .2 .3
+			visible 1
+			decoration
+			}
+
+		itemDef {
+			name map
+			group grpJoin
+			type ITEM_TYPE_BUTTON
+			text "Játékosok, Pálya, Játéktípus"
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED	
+			rect 180 235 181 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 90		// center
+			textaligny 11
+			border 1
+			bordercolor .5 .5 .5 .5
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration  	  
+			}
+			
+		itemDef {
+			name Respawn 
+			group grpJoin
+			text "AI Feléledés"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 360 235 81 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 40		// center
+			textaligny 11
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
+			}
+
+		itemDef {
+			name Reinforce 
+			group grpJoin
+			text "AI Létszám"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 440 235 81 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 40		// center
+			textaligny 11
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
+			}
+			
+		itemDef {
+			name Skill
+			group grpJoin
+			text "Nehézs."
+			textfont	UI_FONT_NORMAL
+			textscale .25
+			type ITEM_TYPE_BUTTON
+			style WINDOW_STYLE_FILLED	
+			rect 520 235 48 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 24		// center
+			textaligny 11
+			border 1	
+			bordercolor .5 .5 .5 .5
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration	  	  
+			}
+
+		itemDef {
+			name Ping
+			group grpJoin
+			text "Ping"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 567 235 53 15
+			textalign 1
+			textalignx 18		// center
+			textaligny 10
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
+			}
+
+
+// End of Join Server Section
+
+//////// END OF PASTE
+
+// Start of BACK and CONNECT Button
+
+
+		itemDef {
+			name gotobar
+			style 2
+			rect 0 445 640 20 
+			textscale 0.4
+			textalign 0		// center
+			textalignx 60        	// x alignment point for text
+			textaligny 21        
+			style 2
+			border 4
+			bordercolor 0.5 0.5 0.5 0.0
+			bordersize 2
+			backcolor 0.5 0.5 .5 0.0
+			visible 1 
+			mouseEnter { setcolor backcolor .5 0.5 0.5 .5 }
+			mouseExit { setcolor backcolor .5 .5 .5 .0 }
+			decoration 
+			}
+
+		itemDef {
+			name back
+			text "FÕMENÜ"
+			type 1
+			style 0	
+			textstyle 6
+			rect 30 450 90 14 
+			textalign 0
+			textfont UI_FONT_NORMAL
+			textscale .255		
+			textalignx 6
+			textaligny 12
+			forecolor .9 .9 .9 .9
+			visible 1
+			action {
+			close multi_menu ;
+			open main }
+
+			mouseEnter { 
+			hide back ;
+			show back_alt
+			}
+			}
+
+		itemDef {
+			name back_alt
+			text "FÕMENÜ"
+			type 1
+			style 0	
+			textstyle 6
+			rect 30 450 90 14 
+			textalign 0
+			textfont UI_FONT_NORMAL
+			textscale .255	
+			textalignx 6
+			textaligny 12
+			forecolor .6 .6 .6 .6
+			visible 1 
+			type ITEM_TYPE_BUTTON
+			action {
+			hide grpControls ;
+			close multi_menu ;
+			open main }
+	  
+			mouseExit {
+			hide back_alt ;
+			show back
+			}	  
+			}
+
+
+		itemDef {
+			name connect
+			text "CSATLAKOZÁS"
+			group grpJoin
+			type 1
+			textfont	UI_FONT_NORMAL
+			style 0	
+			textstyle 6
+			rect 505 450 70 14 
+			textalign 0
+			textscale .25		
+			textalignx 5
+			textaligny 12
+			forecolor .9 .9 .9 .9
+			visible 1
+			//border 1
+			//bordercolor 1 1 1 1
+			
+			
+			mouseEnter {
+			hide connect ;
+			show connect_alt
+			}
+
+			action {
+			close multi_menu ;
+			uiScript JoinServer
+			}	
+			}
+
+		itemDef {
+			name connect_alt
+			text "CSATLAKOZÁS"
+			group grpJoin
+			type 1
+			style 0	
+			textstyle 6
+			rect 505 450 70 14 
+			textalign 0
+			textfont	UI_FONT_NORMAL
+			textscale .25		
+			textalignx 5
+			textaligny 12
+			forecolor .6 .6 .6 .6
+			visible 1 
+			type ITEM_TYPE_BUTTON
+			//border 1
+			//bordercolor 1 1 1 1
+
+			mouseExit {
+				hide connect_alt ;
+				show connect
+			}
+
+			action {
+				hide grpControls ;
+				close multi_menu ;
+				uiScript JoinServer
+			}  	  
+			}
+
+// End of BACK and CONNECT Buttons
+
+//	MESSAGES
+
+
+itemDef {
+      	name fadebox
+      	style WINDOW_STYLE_FILLED
+ 	background "ui_mp/assets/fadebox.tga"
+	forecolor 0 0 0 1
+	backcolor 0 0 0 1
+	rect 0 0 640 480
+      	visible 1 
+	decoration
+    	}
+
+		
+	// Messages of Join Server
+
+}
+}
