@@ -2152,7 +2152,7 @@ CL_ParseBinding
 Execute the commands in the bind string
 ===================
 */
-void CL_ParseBinding( int key, qboolean down, unsigned time )
+void CL_ParseBinding( int key, qboolean down, unsigned time, qboolean forceAll )
 {
 	char buf[ MAX_STRING_CHARS ], *p = buf, *end;
 	qboolean allCommands, allowUpCmds;
@@ -2164,7 +2164,7 @@ void CL_ParseBinding( int key, qboolean down, unsigned time )
 	Q_strncpyz( buf, keys[key].binding, sizeof( buf ) );
 
 	// run all bind commands if console, ui, etc aren't reading keys
-	allCommands = ( Key_GetCatcher( ) == 0 );
+	allCommands = forceAll || ( Key_GetCatcher( ) == 0 );
 
 	// allow button up commands if in game even if key catcher is set
 	allowUpCmds = ( clc.state != CA_DISCONNECTED );
@@ -2212,6 +2212,7 @@ Called by CL_KeyEvent to handle a keypress
 void CL_KeyDownEvent( int key, unsigned time )
 {
 	char    *kb;
+	qboolean bypassMenu = qfalse;       // NERVE - SMF
 	int activeMenu = 0;
 	keys[key].down = qtrue;
 	keys[key].repeats++;
@@ -2309,8 +2310,19 @@ void CL_KeyDownEvent( int key, unsigned time )
 		return;
 	}
 
+	// NERVE - SMF - if we just want to pass it along to game
+	if ( cl_bypassMouseInput && cl_bypassMouseInput->integer && !( Key_GetCatcher( ) & KEYCATCH_CONSOLE ) ) {    //DAJ BUG in dedicated cl_missionStats don't exist
+		if ( ( key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3 ) ) {
+			if ( cl_bypassMouseInput->integer == 1 ) {
+				bypassMenu = qtrue;
+			}
+		} else if ( !UI_checkKeyExec( key ) ) {
+			bypassMenu = qtrue;
+		}
+	}
+
 	// send the bound action
-	CL_ParseBinding( key, qtrue, time );
+	CL_ParseBinding( key, qtrue, time, bypassMenu );
 
 	// distribute the key down event to the apropriate handler
 	if ( Key_GetCatcher( ) & KEYCATCH_CONSOLE ) {
@@ -2380,7 +2392,7 @@ void CL_KeyUpEvent( int key, unsigned time )
 	// console mode and menu mode, to keep the character from continuing
 	// an action started before a mode switch.
 	//
-	CL_ParseBinding( key, qfalse, time );
+	CL_ParseBinding( key, qfalse, time, qfalse );
 
 	if ( Key_GetCatcher( ) & KEYCATCH_UI && uivm ) {
 		VM_Call( uivm, UI_KEY_EVENT, key, qfalse );
@@ -2471,8 +2483,8 @@ Key_SetCatcher
 */
 void Key_SetCatcher( int catcher ) {
 	// If the catcher state is changing, clear all key states
-	if( catcher != keyCatchers )
-		Key_ClearStates( );
+//	if( catcher != keyCatchers )
+//		Key_ClearStates( );
 
 	keyCatchers = catcher;
 }
