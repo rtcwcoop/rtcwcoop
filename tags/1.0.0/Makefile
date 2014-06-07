@@ -116,7 +116,7 @@ endif
 export CROSS_COMPILING
 
 ifndef VERSION
-VERSION=0.9.9
+VERSION=1.0.0
 endif
 
 ifndef CLIENTBIN
@@ -188,7 +188,7 @@ ifndef USE_CURL_DLOPEN
 endif
 
 ifndef USE_CODEC_VORBIS
-USE_CODEC_VORBIS=0
+USE_CODEC_VORBIS=1
 endif
 
 ifndef USE_CODEC_OPUS
@@ -248,11 +248,11 @@ USE_BLOOM=1
 endif
 
 ifndef USE_ADMIN
-USE_ADMIN=0
+USE_ADMIN=1
 endif
 
 ifndef USE_MONEY
-USE_MONEY=0
+USE_MONEY=1
 endif
 
 ifndef USE_LOCALISATION
@@ -327,23 +327,6 @@ ifneq ($(BUILD_CLIENT),0)
       SDL_LIBS=$(shell sdl2-config --libs)
     endif
   endif
-endif
-
-# Add svn version info
-USE_SVN=
-ifeq ($(wildcard .svn),.svn)
-  SVN_REV=$(shell LANG=C svnversion .)
-  ifneq ($(SVN_REV),)
-    VERSION:=$(VERSION)_SVN$(SVN_REV)
-    USE_SVN=1
-  endif
-else
-ifeq ($(wildcard .git/svn/.metadata),.git/svn/.metadata)
-  SVN_REV=$(shell LANG=C git svn info | awk '$$1 == "Revision:" {print $$2; exit 0}')
-  ifneq ($(SVN_REV),)
-    VERSION:=$(VERSION)_SVN$(SVN_REV)
-  endif
-endif
 endif
 
 
@@ -2566,13 +2549,6 @@ $(B)/ded/q_math.o: $(CMDIR)/q_math.c
 	$(DO_CC)
 $(B)/ded/q_shared.o: $(CMDIR)/q_shared.c
 	$(DO_CC)
-
-# Extra dependencies to ensure the SVN version is incorporated
-ifeq ($(USE_SVN),1)
-  $(B)/client/cl_console.o : .svn/entries
-  $(B)/client/common.o : .svn/entries
-  $(B)/ded/common.o : .svn/entries
-endif
 
 
 #############################################################################

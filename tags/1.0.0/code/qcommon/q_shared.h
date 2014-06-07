@@ -67,15 +67,15 @@ If you have questions concerning this license or the applicable additional terms
 #endif
 
 #ifndef PRODUCT_VERSION
-  #define PRODUCT_VERSION "0.9.9"
+  #define PRODUCT_VERSION "1.0.0"
 #endif
 
 #define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION
 
-#define RTCWCOOP_VERSION_NUMBER "0.9.9"
-#define RTCWCOOP_VERSION_DIGIT_1 0
-#define RTCWCOOP_VERSION_DIGIT_2 9
-#define RTCWCOOP_VERSION_DIGIT_3 9
+#define RTCWCOOP_VERSION_NUMBER "1.0.0"
+#define RTCWCOOP_VERSION_DIGIT_1 1
+#define RTCWCOOP_VERSION_DIGIT_2 0
+#define RTCWCOOP_VERSION_DIGIT_3 0
 
 #define MAX_COOP_CLIENTS 8
 
