@@ -950,6 +950,8 @@ void CL_ParseVoip ( msg_t *msg, qboolean ignoreData ) {
 	if (decio != NULL) { fwrite(decoded+written, clc.speexFrameSize*2, 1, decio); fflush(decio); }
 	#endif
 
+	written += numSamples;
+
 	Com_DPrintf("VoIP: playback %d bytes, %d samples, %d frames\n",
 			written * 2, written, frames);
 
