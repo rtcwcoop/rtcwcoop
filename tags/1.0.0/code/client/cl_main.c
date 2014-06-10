@@ -2953,25 +2953,23 @@ void CL_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 	}
 
 	if ( !Q_stricmp( c, "getlatestversionResponse" ) ) {
-		int a, b, c;
+        int latestversion;
+        int currentversion;
+
+        if (Cmd_Argc() <= 4 ) {
+            return;
+        }
+
+        latestversion = atoi(va("%s %s %s", Cmd_Argv( 2 ), Cmd_Argv( 3 ), Cmd_Argv( 4 )));
+        currentversion = atoi(va("%d %d %d", RTCWCOOP_VERSION_DIGIT_1, RTCWCOOP_VERSION_DIGIT_2, RTCWCOOP_VERSION_DIGIT_3));
+
 		Cvar_Set( "ui_latestversion", Cmd_Argv( 1 ) );
 
-		a = atoi( Cmd_Argv( 2 ) );
-		b = atoi( Cmd_Argv( 3 ) );
-		c = atoi( Cmd_Argv( 4 ) );
 
-		if ( RTCWCOOP_VERSION_DIGIT_1 < a ) {
+        if (latestversion > currentversion) {
 			Cvar_Set( "ui_newversionavailable", "1" );
 			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
-		} else if ( RTCWCOOP_VERSION_DIGIT_2 < b ) {
-			Cvar_Set( "ui_newversionavailable", "1" );
-			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
-		} else if ( RTCWCOOP_VERSION_DIGIT_3 < c ) {
-			Cvar_Set( "ui_newversionavailable", "1" );
-			Com_Printf( "Latest version is: ^2%s^7 and you are running: ^1%s^7\n", Cmd_Argv( 1 ), RTCWCOOP_VERSION_NUMBER );
-		} else {
-			Com_Printf( "Your RTCWCOOP version is up to date\n" );
-		}
+        }
 
 		return;
 	}
