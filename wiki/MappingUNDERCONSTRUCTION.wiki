@@ -14,7 +14,7 @@ If this tutorial seems to be too wide and big for you, check at this very [http:
 
 This has been done in Windows 7 environment. Users of other OS' must figure the correct folders. 
 
-I can't be held responsible for anything. Any feedback, mistakes, questions, problems, tutorial requests or such can be pointed out on our [http://www.rtcwcoop.com/forum/ official mod forum].
+I can't be held responsible for anything. Any feedback, mistakes, questions, problems or such can be pointed out on our [http://www.rtcwcoop.com/forum/ official mod forum].
 
 Good luck and have fun from
 
@@ -46,7 +46,10 @@ While you are reading this, you probably have basic understanding of the differe
 
 Basicly things are almost same. Same BSP files can be used. BSP file is the heart of the map. Generally SP maps and Coop maps are same, commands and file work the same. However as we are playing in SP maps in MP environment we need to have a little edits in the scripts. 
 
+
 In most time all we need to do is edit the .AI file that has AI scripting in it. Then the .script file that has brush scripting. Also we need to add .ents file to add new entities, such as spawns. Rest of the file edits are mostly cosmetical.
+
+In a coop game, the following attributes are ignored: aim_accuracy, aim_skill, attack_skill and health these are set based on the value of g_gameskill.
 
 In Coop 1.0.0. we added the coopmain folder. So now we have two separate folders: main/ and coopmain/. You should put all the original RTCW files into main/ folder, and all the new coop files into coopmain/
 
@@ -1600,11 +1603,11 @@ etc. ??
 Syntax:
 
 {{{
-#if CVAR statement value #endif
+#if CVAR statement value command #endif
 }}}
 Eg.
 {{{
-#if g_reinforce == 0 #endif
+#if g_reinforce == 0 alertentity dead_nazies #endif
 }}}
 
 Couple examples:
@@ -1719,7 +1722,7 @@ Example:
 
 _It will set globalaccum 0 to a value of either 0 and 1. You can have more random values than 2._
 
- * Add this to a desired trigger*
+ * Add this to a desired trigger
 
 {{{
 	trigger player random_start_a
@@ -1755,7 +1758,7 @@ _Yes it is a HUUUUGE mess. But the entities are listed with normal syntax!_
 
  * 2) Search with the classname, eg. func_explosive
 
- * 3) Find the number of the entity. Let's say it is *23.
+ * 3) Find the number of the entity. Let's say it is 23.
 
  * 4) Place this into a desired script trigger in .ai or .script file:
 
@@ -1775,7 +1778,7 @@ Here we have an example how I cloned the tram model succesfully. Original proble
 
 _Check previous chapter_
 
- * 2) Let's say it is *29. Copy the following to your .ents file.
+ * 2) Let's say it is 29. Copy the following to your .ents file.
 
 
 {{{
@@ -1848,7 +1851,7 @@ Here is what we did in escape2:
 
 _This will not create a flagpole model. It will make invisible hacked trigger._
 
-_This is the trigger you add dyno to_
+_This is the trigger you plant dyno to_
 
 
  * 2) Create a fake func_explosive:
@@ -1871,10 +1874,11 @@ _Change "type" from "none" to "debug" to tweak the location!_
 
 
 
- * 3) Find the entity number from BSP. *23 it is now.
+ * 3) Find the entity number from BSP. 23 it is now.
 
- * 4) Use removeentity to remove the wished entity.
+ * 4) Use removeentity to remove the actual visibile entity.
 
+{{{
 bridge_door //bridge steel door
 {
         spawn
@@ -1886,6 +1890,9 @@ bridge_door //bridge steel door
 		removeentity *23
         }   
 }
+}}}
+
+_If it has targetname, there are easier methods to remove it!_
  
 === 5.8. Adding Coop entities to your GTK Radiant 1.5.0 ===
 
@@ -1933,7 +1940,7 @@ Before releasing, you must make sure you test A LOT. Test it with your friends. 
 
 Try this:
 
- * 1) Remove changelevel from trigger endmap
+ * 1) Remove changelevel from trigger endmap in player scriptblock. Then add following
 
 {{{
 trigger endmap
@@ -1942,7 +1949,7 @@ trigger endmap
 }
 }}}
 
- * 2) Add trigger check_exit
+ * 2) Add trigger check_exit into game_manager
 
 {{{
 trigger checkexit
@@ -1951,7 +1958,7 @@ trigger checkexit
 }
 }}}
 
- * 3) Add trigger exitlevel with changelevel
+ * 3) Add trigger exitlevel with changelevel into player scriptblock
 
 {{{
 trigger exitlevel
@@ -1986,9 +1993,28 @@ nazi1
 
 === 6.3. Map objectives still bug ===
 
-=== 6.2. Bugs mapper can not fix ===
+You have added globalaccum? Thought of everything you can? Well you can always try this.
 
-There are some bugs 
+Move all the objective and game actions to game_manager. All the game triggers point to player scriptblock, but you can just forward them to game_manager. 
+
+Example:
+
+ * 1) Copy content of trigger action1 into game_manager
+
+ * 2) Then make the one in player script block to point to game_manager
+
+{{{
+trigger action1
+{
+	trigger game_manager action1
+}
+}}}
+
+Be careful when you do this! Make sure you don't break any trigger paths and commands or such.
+
+=== 6.4. Bugs mapper can not fix ===
+
+There are some bugs mapper cannot do anything about. I have tried to eliminate most of them, but there is a good chance something will appear. If you have something in your mind, please report it on our official forum.
 
 == 7. Example map ==
 
@@ -2003,3 +2029,8 @@ Our example map have the missing wait bug that I fixed in the Coop version. The 
 _Note you need both of these files._
 
 == 8. Last words ==
+
+Writing this tutorial has taken me a lot of time. But it will be worth it if you make a map for this great mod. If you make a map, please do not keep it to yourself, but release it on our forums for others to enjoy.
+
+[http://www.rtcwcoop.com/forum/viewtopic.php?id=147 Here is a link to a thread to show off.]
+
