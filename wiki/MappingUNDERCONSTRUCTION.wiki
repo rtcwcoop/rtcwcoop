@@ -1578,19 +1578,318 @@ itemDef {
  Test! 
 
 
-=== 5.1. Using IF commands for advantage ===
-=== 5. Random stuff ===
-g_random
-other random things.
-=== 5. Removing an entity ===
-=== 5. Copying a brushmodel ===
-=== 5. Make dyno objectives out of existing stuff ===
+=== 5.3. Using IF commands for advantage ===
+
+The .ents, .ai and .script file support #if #else and #endif for cvar conditions.
+
+ * Most usual cvars should work.
+
+ * Following statements are supported
+
+Fretn!
+
+||==||||Equal to||
+||<=||||Less than||
+||>=||||More than||
+||!=||||Not equal to||
+
+etc. ??
+
+ * You can have many scripts per #if command. Just place #endif where you want.
+
+Syntax:
+
+{{{
+#if CVAR statement value #endif
+}}}
+Eg.
+{{{
+#if g_reinforce == 0 #endif
+}}}
+
+Couple examples:
+
+*Adding extra guns if g_reinforce is 1 OR more.*
+
+ * Add this into .ents file:
+
+{{{
+#if g_reinforce >= 1
+{
+"classname" "ammo_9mm"
+"origin" "-8284 -15338 122"
+"angle" "86"
+}
+{
+"classname" "ammo_792mm"
+"origin" "-9017 -13647 128"
+"angle" "34"
+}
+{
+"classname" "ammo_9mm_large"
+"origin" "-3723 -10829 66"
+"angle" "-90"
+}
+#endif
+}}}
+
+*Trigger something if ai respawn is unlimited*
+
+ * Add this into the desired script trigger
+
+{{{
+ #if g_airespawn == -1 
+ trigger game_manager break_freee
+ #endif
+}}}
+
+*Alertentity something if flag spawn mode is active*
+
+
+ * Add this into the desired script trigger
+
+{{{
+ #if g_spawnpoints == 2 alertentity parachute_box #endif
+}}}
+
+I guess you got the point now. :)
+
+
+=== 5.4. Random stuff ===
+
+*g_random*
+
+We have added a command called g_random. It will select a value between 1-10 randomly each round. You can use it to add easy random stuff.
+
+Example script from escape2.ents. Here we select a random location for dynomite:
+
+{{{
+{
+"classname" "ammo_dynamite"
+#if g_random == 1
+"origin" "1368 813 -140"
+#endif
+#if g_random == 2
+"origin" "1709 2221 -199"
+#endif
+#if g_random == 3
+"origin" "978 1661 -135"
+#endif
+#if g_random == 4
+"origin" "626 244 -199"
+#endif
+#if g_random == 5
+"origin" "1858 3757 -199"
+#endif
+#if g_random == 6
+"origin" "2151 3451 -103"
+#endif
+#if g_random == 7
+"origin" "1960 2802 -195"
+#endif
+#if g_random == 8
+"origin" "2157 2626 -199"
+#endif
+#if g_random == 9
+"origin" "1154 2466 -199"
+#endif
+#if g_random == 10
+"origin" "690 1741 -55"
+#endif
+"angle" "90"
+"spawnflags" "8"
+"wait" "3"
+}
+}}}
+
+_This follows the same general rules as stated in previous chapter._
+
+*Regular random accum*
+
+We have had this since the days of RTCW. For some reason it is not really used, but I have taken it to use in Capuzzo. 
+
+Don't bother continuing if you don't understand scripting:
+
+Example:
+
+ * Place this inside trigger map_start
+{{{
+	globalaccum 0 random 2
+}}}
+
+_It will set globalaccum 0 to a value of either 0 and 1. You can have more random values than 2._
+
+ * Add this to a desired trigger*
+
+{{{
+	trigger player random_start_a
+	wait 5
+	trigger player random_start_b
+}}}
+
+ * Add these into player scriptblock:
+
+{{{
+trigger random_start_a
+{
+	globalaccum 0 abort_if_not_equal 0
+	//ADD COMMAND HERE
+}
+
+trigger random_start_b
+{
+	globalaccum 0 abort_if_not_equal 1
+	//ADD COMMAND HERE
+}
+}}}
+
+_Usually I use this to teleport the AI to another location._
+
+=== 5.5. Removing a brush entity without targetname ===
+
+We have added a command to remove an entity that normally would not be possible. For this you need to do following:
+
+ * 1) Open the BSP file with eg. notepad
+
+_Yes it is a HUUUUGE mess. But the entities are listed with normal syntax!_
+
+ * 2) Search with the classname, eg. func_explosive
+
+ * 3) Find the number of the entity. Let's say it is *23.
+
+ * 4) Place this into a desired script trigger in .ai or .script file:
+
+{{{
+	removeentity *23
+}}}
+
+=== 5.6. Copying a brushmodel ===
+
+For very advanced users.
+
+We have a possibility to "clone" the brushes of an entity. There is a possiblity it will bug in some methods. It may turn invisible or you may walk through it. Test it. Use your own senses to adapt this idea.
+
+Here we have an example how I cloned the tram model succesfully. Original problem was that some players would see through it with other methods. 
+
+ * 1) Find out the entity number from the BSP.
+
+_Check previous chapter_
+
+ * 2) Let's say it is *29. Copy the following to your .ents file.
+
+
+{{{
+{
+"classname" "script_mover"
+"origin" "-2492 -284 -160"
+"spawnflags" "2"
+"model" "*29" //THIS IS CLIP BRUSHES OF THE 29
+"model2" "models/mapobjects/coop_tram/tram_fake_tag.md3"
+"scriptname" "tramcar_coop"
+}
+}}}
+
+Let's look closer to this.
+
+"model" key has the brushmodel. These turn into invisible solid brushes, because I have "model2" key.
+
+"model2" key has a new fake md3 model I created in 3d software. It contains only a tag file.
+
+ * 3) Add the new model tram_fake_tag.md3 into models
+
+ * 4) Add the visible model:
+
+{{{
+{
+"classname" "misc_gamemodel"
+"origin" "-2492 -284 -160"
+"model" "models/mapobjects/coop_tram/tramcar_coop.md3"
+"scriptname" "tramcar_coop_model"
+"targetname" "tramcar_coop_model"
+}
+}}}
+
+ * 5) Add the new model tramcar_coop.md3 into models
+
+ * 6) Attach the visible model to the clips:
+
+{{{
+tramcar_coop_model
+{
+	spawn
+	{
+		wait 100
+		attachtotag tramcar_coop tag_tram
+	}
+}
+}}}
+
+Done.
+
+=== 5.7. Make dyno objectives out of existing stuff ===
 
 In Escape2 we got tired with the bridge door not opening. It was built in a way we did not trust back then. Also we thought it might be cool to be able to blow it up with a dyno.
 
--insert tutorial
+Here is what we did in escape2:
 
+ * 1) Go to the location and add this with proper origin:
+
+{{{
+{
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"origin" "626 835 152"
+"spawnflags" "1"
+"classname" "trigger_objective_info"
+"track" "the Bridge defense door"
+"score" "10"
+"target" "doortarget"
+}
+}}}
+
+_This will not create a flagpole model. It will make invisible hacked trigger._
+
+_This is the trigger you add dyno to_
+
+
+ * 2) Create a fake func_explosive:
+
+{{{
+{
+"health" "100"
+"scriptname" "bridge_door"
+"origin" "728 855 162"
+"classname" "func_explosive"
+"spawnflags" "68"
+"targetname" "doortarget"
+"mass" "400" 
+"type" "none"
+"dmg" "75"
+}
+}}}
+
+_Change "type" from "none" to "debug" to tweak the location!_
+
+
+
+ * 3) Find the entity number from BSP. *23 it is now.
+
+ * 4) Use removeentity to remove the wished entity.
+
+bridge_door //bridge steel door
+{
+        spawn
+        {   
+        }   
+
+        death
+        {   
+		removeentity *23
+        }   
+}
+ 
 === 5. Adding Coop entities to your GTK Radiant 1.5.0 ===
+
+
 
 == 6. List of useful console commands ==
 
