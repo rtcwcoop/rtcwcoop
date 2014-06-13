@@ -1,6 +1,6 @@
 #summary STEP BY STEP: Getting custom RTCW SP maps run in RTCW Coop mod.
 
-Up to date with RTCW Coop mod version 0.9.5!
+Up to date with RTCW Coop mod version 1.0.0!
 
 <wiki:toc max_depth="3" />
 
@@ -46,13 +46,17 @@ Basicly things are almost same. Same BSP files can be used. BSP file is the hear
 
 In most time all we need to do is edit the .AI file that has AI scripting in it. Then the .script file that has brush scripting. Also we need to add .ents file to add new entities, such as spawns. Rest of the file edits are mostly cosmetical.
 
-=== 1.4. Folder where we store all the changing files ===
+In Coop 1.0.0. we added the coopmain folder. So now we have two separate folders: main/ and coopmain/. You should put all the original RTCW files into main/ folder, and all the new coop files into coopmain/
 
-This is the main folder where all screenshots you take goes. Where your config is stored. Where game creates .ents file. This folder can be used to place mapping files for easy testing. Do mind this affects all installations!
+_With this update you can copy your RTCWCoop mod into your old RTCW game if you want to. Handy if you are running low on HD memory. Most of us will probably want to do it the old way with standalone._
 
-In RTCW COOP 0.9.5 the folder locates in:
+=== 1.4. Folder where we store all the edited files ===
 
-C://Documents and settings/User/documents/RtcwCOOP/main/
+This is the coopmain folder where all screenshots you take goes. Where your config is stored. Where game creates .ents file. This folder can be used to place mapping files for easy testing. Do mind this affects all installations!
+
+In RTCW COOP 1.0.0 the folder locates in:
+
+C://Documents and settings/User/documents/RtcwCOOP/coopmain/
 
 _Once you are ready with the map, you must pack it into a pk3! More later._
 
@@ -190,7 +194,7 @@ The map should start now. Many things don't work, but you should be able to run 
 
  * 3) Copy the files called mymap.ai and mymap.script
 
- * 4) Paste these two files into C://Documents and settings/User/documents/RtcwCOOP/main/maps folder
+ * 4) Paste these two files into C://Documents and settings/User/documents/RtcwCOOP/coopmain/maps folder
 
 _Most likely you don't have maps folder yet. Just add it like any other folder._
 
@@ -211,7 +215,7 @@ If the map has no script file, just ignore it for now. We will add one later.
  
  * 4) Close game. 
 
- * 5) Go to C://Documents and settings/User/documents/RtcwCOOP/main/maps/ folder
+ * 5) Go to C://Documents and settings/User/documents/RtcwCOOP/coopmain/maps/ folder
 
  * 6) Open file mapname.ents in notepad
 
@@ -265,7 +269,7 @@ _You probably only need to know 2, 3 and 5_
 
 Normally the mapper includes it into their pk3 inside maps folder, but sometimes they want to save on download size and they leave it out. Then they let every player create them theirselves.
 
-So if following files show up into your ...documents/RtcwCOOP/maps folder:
+So if following files show up into your ...documents/RtcwCOOP/coopmain/maps folder:
 
 {{{
 mapname_b0.rcd
@@ -301,7 +305,7 @@ _These are useless for now. Content in these must be redone, if needed. We will 
 Move pk3 from:
 main/project/
 To:
-main/
+coopmain/
 }}}
 
  * 4) Now the map will interfare with COOP mod. Check the original game that you have not altered anything. If you have, go through your pk3 and remove such content!
@@ -324,7 +328,7 @@ _You might want to add more files later on of course._
 
 _If your maps folder include mapname_b0.rcd and mapname_b1.rcd files, include them too (check previous chapter)!!!_
 
- * 4) Add the renamed SP map and the small Coop modification pk3 to your server.
+ * 4) Add the renamed SP map and the small Coop modification pk3 into the coopmain folder of your server.
 
  * 5) Enjoy! You are ready to play. It is not perfect, but you can shoot, AI can shoot. Yay! :)
 
@@ -1249,7 +1253,7 @@ _Q3 color codes are supported in longname!_
 
 ==== 4.6.3. Here is an example from Capuzzo Campaign ====
 
-[bzzwolfsp.googlecode.com/svn/wiki/mapping/capuzzo_arena.zip Download the example file!]
+[http://bzzwolfsp.googlecode.com/svn/wiki/mapping/capuzzo_arena.zip Download the example file!]
 
 _Filename : capuzzo.arena_
 
@@ -1277,7 +1281,7 @@ _Filename : capuzzo.arena_
 
 Arena file has to be located in scripts folder.
 
- * You can test it in ...documents/RTCWCOOP/main/scripts
+ * You can test it in ...documents/RTCWCOOP/coopmain/scripts
 
  * For releasing, create a folder called scripts into your mapname_coop.pk3.
 
@@ -1305,7 +1309,7 @@ _Please mind that it is not nice to add your own name here, unless you are the o
 
  * 6) Create a folder called levelshots.
 
-_For developing you can test it directly inside ...documents/RTCWCoop/main/levelshots/.
+_For developing you can test it directly inside ...documents/RTCWCoop/coopmain/levelshots/.
 
  * 7) When it looks right place it in your mapname_coop_pk3 inside folder levelshots.
 
@@ -1326,9 +1330,7 @@ Check previous chapter. Same basic rules apply to these images too.
 
 ==== 4.9.1. Flag location ====
 
-*!!!!! DO NOT USE THIS IN 0.9.5 !!!!!!*
-
-*Using this will break the spawning system currently.*
+*Test this! I am not sure if this got fixed for 1.0.0 but this may cause spawning at wrong flag.*
 
 It is possible to give each flag an individual name that is printed if you capture the flag.
 
@@ -1608,31 +1610,6 @@ In Escape2 we got tired with the bridge door not opening. It was built in a way 
 === 7.1. Map does not finish ===
 
 Try going to game_manager from end trigger and then execute a different trigger in player script block.
-
-=== 7.2. Map does not load when I start the map from shortcut ===
-
-If you load the map in 0.9.5. from a batch or a shortcut instead of typing /coopdevmap mapname. You may experience that the map does not start. And get this error when you copy the log to clipboard:
-
-{{{
-Dup connect received.  Ignored.
------ CL_Shutdown -----: Com_Error
-Closing SDL audio device...
-SDL audio device shut down.
-RE_Shutdown( 1 )
------------------------
------ Server Shutdown Server fatal crashed: VM_Call with NULL vm
- -----
-==== ShutdownGame ====
-AAS shutdown.
----------------------------
------ CL_Shutdown -----: VM_Call with NULL vm
-logfile opened on Mon Jan 13 22:32:09 2014
-
------------------------
-}}}
-
-*Try starting the map directly from console*
-_Shortcut seems to bug me with 0.9.5._
 
 
 === 7. Bugs mapper can not fix ===
