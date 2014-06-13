@@ -2,6 +2,8 @@
 
 Up to date with RTCW Coop mod version 1.0.0!
 
+We have made custom maps scene more appealing after 0.9.5! We have HTTP downloads and Campaign system so playing your map is now easier!
+
 <wiki:toc max_depth="3" />
 
 =Introduction=
@@ -1213,7 +1215,12 @@ _If it did, remove the entire line eg:
 
 Tired of starting your map with console? Let's make it available to be selected from the menus.
 
-To see your map in menus, we need to add an arena file. 
+To see your map in menus, we need to add an arena file.
+
+*Once you add the arena file, any server that has your project in their coopmain will automatically add your maps to their rotation.*
+
+So after standard maps are finished, it will automatically start playing the custom ones. And once all the custom projects are played, it will go back to standard maps and so on.
+
 
 ==== 4.6.1. Follow these rules when you make your .arena file ====
 
@@ -1226,7 +1233,7 @@ _Good name for the arena file would be eg. myprojectname.arena_
  * Make sure it is not named .arena.txt
 _if you are unsure how to make it, copy and edit one from Capuzzo_
  * Add the maps in the order they are played
-_In future .arena file will be looked at to select a campaign to play. So it is important the first map is first in the list._
+ * Maps in your arena will automatically load after standard maps
 
 .
 
