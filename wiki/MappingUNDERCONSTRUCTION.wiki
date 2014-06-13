@@ -1887,20 +1887,83 @@ bridge_door //bridge steel door
         }   
 }
  
-=== 5. Adding Coop entities to your GTK Radiant 1.5.0 ===
+=== 5.8. Adding Coop entities to your GTK Radiant 1.5.0 ===
+
+If you want to add Coop entities straight from your map editor. Add this to wolf_entities.def, located in your GTK-folder/wolf.game/
+
+
+{{{
+/*QUAKED coop_spawnpoint (0 0 1) (-18 -18 -24) (18 18 48) startactive
+Potential spawning position for COOP. Target with coop_spawnpoint_trigger or tick the box startactive to activate the spawn.
+
+"targetname"            If targeted by coop_spawnpoint_trigger
+"angle"                 Facing direction
+
+*/
+
+/*QUAKED coop_spawnpoint_trigger (.5 .5 .5) ?
+Captureable flag. Target it to coop_spawnpoint.
+
+"target"                        Target it to coop_spawnpoint
+"model"                 Add model ( models/multiplayer/flagpole/flagpole_reinforce.md3 )
+"angle"                 Facing direction
+
+*/
+
+/*QUAKED target_location (.5 .5 .5) (-8 -8 -8) (8 8 8) ?
+Works only on MP or COOP
+"targetname"            Can be linked to coop_spawn_trigger to activate with a new spawnpoint.
+"message"               Name of the location
+"count"                 Set 0-7 for color.
+0:white 1:red 2:green 3:yellow 4:blue 5:cyan 6:magenta 7:white
+
+
+*/
+}}}
+
+_Thought I must admit I found it more useful to add through the game, due to automatic key values._
 
 
 
-== 6. List of useful console commands ==
+== 6. Problem solving ==
 
-== 7. Problem solving ==
-=== 7.1. Map does not finish ===
+Before releasing, you must make sure you test A LOT. Test it with your friends. On a dedicated server. Make each player finish the objectives on their turn. Most of the bugs will not happen while testing alone on a local server.
 
-Try going to game_manager from end trigger and then execute a different trigger in player script block.
+=== 6.1. Map does not finish ===
+
+Try this:
+
+ * 1) Remove changelevel from trigger endmap
+
+{{{
+trigger endmap
+{
+	trigger game_manager check_exit
+}
+}}}
+
+ * 2) Add trigger check_exit
+
+{{{
+trigger checkexit
+{
+	trigger player exitlevel
+}
+}}}
+
+ * 3) Add trigger exitlevel with changelevel
+
+{{{
+trigger exitlevel
+{
+	changelevel tram persistent
+}
+}}}
+
+This will make the end process check through game_manager before going directly to end. Very useful for adding a check for finishing objectives etc.
 
 
-=== 7. Bugs mapper can not fix ===
-=== 7. Script errors ===
+=== 6.2. Script errors ===
 
 *I cannot play after adding script_multiplayer or map_start:*
 
@@ -1921,9 +1984,13 @@ nazi1
 }}}
 
 
-=== 7.3. Map objectives still bug ===
+=== 6.3. Map objectives still bug ===
 
-== 8. Example map ==
+=== 6.2. Bugs mapper can not fix ===
+
+There are some bugs 
+
+== 7. Example map ==
 
 *NOTE*
 
@@ -1935,4 +2002,4 @@ Our example map have the missing wait bug that I fixed in the Coop version. The 
 
 _Note you need both of these files._
 
-== 9. Last words ==
+== 8. Last words ==
