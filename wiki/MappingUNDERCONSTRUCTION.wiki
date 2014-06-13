@@ -175,7 +175,7 @@ I just want to frag a couple AIs in a custom SP map with my friends!
 
 === 2.1. Adding the map ===
 
-It is simple. Download the original pk3 file. Place it in your game installation folder inside main folder. Just like you would do it in regular RTCW.
+It is simple. Download the original pk3 file. Place it in your game installation folder inside coopmain folder. Just like you are used to.
 
 === 2.2. Starting map ===
 
@@ -190,7 +190,7 @@ The map should start now. Many things don't work, but you should be able to run 
 
  * 1) Open the custom pk3 file
 
- * 2) Go to folder main inside the pk3 file
+ * 2) Go to folder maps inside the pk3 file
 
  * 3) Copy the files called mymap.ai and mymap.script
 
@@ -1422,7 +1422,7 @@ _Following things are not fully explained, thinking required. :)_
 
 In RTCW SP we had to create our own mod folder ( eg. main/capuzzo/ ) and edit the menu files. In Coop we have introduced map spefic notebook menu script. Now we can create a new menu file called mapname_notebook.menu.
 
-This way we don't need to have use a mod folder. The pk3 can be placed in main and we will not ruin the COOP mod notebook menus.
+This way we don't need to have use a mod folder. The pk3 can be placed in coopmain and we will not ruin the COOP mod notebook menus.
 
 
 *So example from Capuzzo.* I have customised and cleaned my notebook, but you will probably find it ok. It is changed to simple 2 page system instead of 4. 
@@ -1434,7 +1434,7 @@ Do following:
 
  * 1) Download my example file [http://bzzwolfsp.googlecode.com/svn/wiki/mapping/notebook_example.zip notebook_example.zip]
 
- * 2) Unzip it to your mapping main folder. Make sure the files go to UI, scripts and text folders as they were in the Zip file. Rename each filename from city to yourmapname. 
+ * 2) Unzip it to your mapping coopmain folder. Make sure the files go to UI, scripts and text folders as they were in the Zip file. Rename each filename from city to yourmapname. 
 
 _Ignore scripts folder for now_
 
