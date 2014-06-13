@@ -215,24 +215,17 @@ If the map has no script file, just ignore it for now. We will add one later.
 
  * 3) Repeat previous 8 times. We need 8 spawnpoints.
  
- * 4) Close game. 
+ * 4) Close game to save it. 
 
- * 5) Go to C://Documents and settings/User/documents/RtcwCOOP/coopmain/maps/ folder
+ * 5) Reload game and test it. Use /kill and see if you can spawn in 8 different locations.
 
- * 6) Open file mapname.ents in notepad
+*Something went wrong? I have to remove one!*
 
- * 7) Fix the spawnflags, game create them wrong in mod version 0.9.5:
+ * 1) Go to C://Documents and settings/User/documents/RtcwCOOP/coopmain/maps/ folder
 
-{{{
-{
-	"classname" "coop_spawnpoint"
-	"spawnflags" "1"
-	"origin" "2159 -6951 69"
-	"angle" "-83"
-}
-}}}
+ * 2) Open file mapname.ents in notepad
 
-Change spawnflags from 1 to 3:
+ * 3) Look for the entity:
 
 {{{
 {
@@ -243,9 +236,10 @@ Change spawnflags from 1 to 3:
 }
 }}}
 
- * 8) Do the previous to all 8 of them.
+_These entities are listed in the order you added them._
 
- * 9) Save and exit. Reload game and test it. Use /kill and see if you can spawn in 8 different locations.
+_You can also check the location by reading the "origin" key. Go to your location ingame and use command /where and select the one closest._
+
 
 Great. Now we also learned where the .ents file is located! This is all basicly we need to play the map.
 
@@ -1140,40 +1134,27 @@ Currently we only have the start spawns we created earlier. So do following to a
  * 1) Run your map ingame
  * 2) Use command /dumpflagpole to drop a flag
 
+_Before doing this you must have the first spawns added. Otherwise you must fix them manually._
+
 _You must first add flag! Because the game will automatically link all spawnpoints that you drop until next /dumpflagpole command._ 
 
 _If you fail on this, you can fix the linking in .ents file. Just match targetnames of the spawns to the the target key of the flag._
 
  * 3) Repeat /dumpcoopspawnpoint 8 times around the flag.
 
- * 4) Close game. Open .ents file. RTCW Coop 0.9.5 creates spawn flags wrong. So you must fix them like we did in the first spawns. But this time replace 0 with 2:
+ * 4) Close game to save.
 
-{{{
-{
-	"classname" "coop_spawnpoint"
-	"spawnflags" "0"
-	"origin" "1021 6627 216"
-	"angle" "104"
-	"targetname" "tobruk2"
-}
-}}}
+ * 5) Reload game and test!
 
-to
-
-{{{
-{
-	"classname" "coop_spawnpoint"
-	"spawnflags" "2"
-	"origin" "1021 6627 216"
-	"angle" "104"
-	"targetname" "tobruk2"
-}
-}}}
-
- * 5) Save, close ents and test!
+_If something went wrong, check section 2.4._
 
 
 === 4.5. Axis spawnpoints ===
+
+!!!!!!!!!ATTENTION!!!!!!!!
+*WE HAVE DISABLED AXIS PLAYER IN 1.0.0.*
+
+_We plan to put it back later. But for now it had way too many bugs. I recommend adding these spawnpoints anyway for future. It will not do any harm._
 
 The Coop mod now supports having maximum of Two axis players. These need spawnpoints. One for each player.
 
