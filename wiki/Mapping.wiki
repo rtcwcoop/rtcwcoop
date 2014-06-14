@@ -31,9 +31,9 @@ Good luck and have fun from
 
 So you want to play a custom map in RTCW COOP mod? Fear not, it is fairly simple and fast. It will help tons if you know understand basics of map scripting. But even if you know nothing about scripting/mapping it is possible to convert a custom map with a bit of luck, patience, by selecting a well created map and following this tutorial.
 
-If you are not really good scripter, pick up a simple small map at first. Make sure it runs perfectly in SP. Select one that has *no* cutscenes. Cutscene scripting needs to be removed and skipped. Not always it is easy.
+If you are not really good scripter, pick up a simple small map at first. Make sure it runs perfectly in SP. Select one that has *no* cutscenes. Cutscene scripting needs to be removed and skipped. It's not always easy.
 
-When you create a custom map. Remember to test it many times before releasing it. Also do test it multiple times with your friends on a dedicated server. Many bugs you will encounter *only* happen when there are more than 1 player on the server.
+When you create a custom map. Remember to test it many times before releasing it. Also do test it multiple times with your friends on a dedicated server. Many bugs you will encounter *only* happen when there is more than 1 player on the server.
 
 
 === 1.2. Remember to respect ===
@@ -44,16 +44,16 @@ It is recommended and friendly that you contact the original author of the map. 
 
 While you are reading this, you probably have basic understanding of the difference between Coop and SP. If not go to a server and try it out.
 
-Basicly things are almost same. Same BSP files can be used. BSP file is the heart of the map. Generally SP maps and Coop maps are same, commands and file work the same. However as we are playing in SP maps in MP environment we need to have a little edits in the scripts. 
+Basicly things are almost same. Same BSP files can be used. BSP file is the heart of the map. Generally SP maps and Coop maps are same, commands and file work the same. However as we are playing in SP maps in MP environment we need to make some modifications to the scripts. 
 
 
-In most time all we need to do is edit the .AI file that has AI scripting in it. Then the .script file that has brush scripting. Also we need to add .ents file to add new entities, such as spawns. Rest of the file edits are mostly cosmetical.
+Most of the time all we need to do is edit the .AI file that has the AI scripting in it. Then the .script file that has the brush scripting. Also we need to add .ents file to add new entities, such as spawnpoins. Most of the other file edits are mostly cosmetical.
 
 In a coop game, the following attributes are ignored: aim_accuracy, aim_skill, attack_skill and health these are set based on the value of g_gameskill.
 
 In Coop 1.0.0. we added the coopmain folder. So now we have two separate folders: main/ and coopmain/. You should put all the original RTCW files into main/ folder, and all the new coop files into coopmain/
 
-_With this update you can copy your RTCWCoop mod into your old RTCW game if you want to. Handy if you are running low on HD memory. Most of us will probably want to do it the old way with standalone._
+_With this update you can copy your RTCWCoop mod into your old RTCW game if you want to. Handy when you are running low on HD storage. Most of us will probably want to do it the old way with a standalone installation._
 
 === 1.4. Folder where we store all the edited files ===
 
@@ -2033,4 +2033,3 @@ _Note you need both of these files._
 Writing this tutorial has taken me a lot of time. But it will be worth it if you make a map for this great mod. If you make a map, please do not keep it to yourself, but release it on our forums for others to enjoy.
 
 [http://www.rtcwcoop.com/forum/viewtopic.php?id=147 Here is a link to a thread to show off.]
-
