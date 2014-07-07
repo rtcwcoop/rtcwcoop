@@ -339,7 +339,7 @@ void Svcmd_RemoveIP_f( void ) {
 /*
  Xian - Clears out the entire list maxlives enforcement banlist
 */
-void ClearMaxLivesGUID() {
+void ClearMaxLivesGUID( void ) {
 	int i;
 
 	for ( i = 0 ; i < numMaxLivesFilters ; i++ ) {

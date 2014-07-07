@@ -1049,6 +1049,13 @@ qboolean G_IsClientInTeamState( gentity_t *entity, playerTeamStateState_t state 
 // g_svcmds.c
 //
 qboolean    ConsoleCommand( void );
+#ifndef _ADMINS
+void G_ProcessIPBans( void );
+qboolean G_FilterPacket( char *from );
+qboolean G_FilterMaxLivesPacket( char *from );
+void AddMaxLivesGUID( char *str );
+void ClearMaxLivesGUID( void );
+#endif
 
 //
 // g_weapon.c
@@ -1177,6 +1184,7 @@ void Props_Chair_Skyboxtouch( gentity_t *ent );
 
 #include "g_team.h" // teamplay specific stuff
 
+#ifdef _ADMINS
 //
 // g_files.c
 //
@@ -1184,7 +1192,7 @@ void TEMPBAN_CLIENT( gentity_t *ent, const int minsbanned );
 void clean_tempbans( void );
 extern char *TempBannedMessage;
 int checkBanned( char *data, char * password );
-
+#endif
 
 extern level_locals_t level;
 extern gentity_t g_entities[MAX_GENTITIES];

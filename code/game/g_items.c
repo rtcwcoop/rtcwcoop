@@ -763,62 +763,6 @@ void Touch_Item( gentity_t *entity, gentity_t *activator, trace_t *trace ) {
 LaunchItem
 
 Spawns an item and tosses it forward
-================
-*/
-#if 0
-gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity ) {
-	gentity_t   *dropped;
-
-	dropped = G_Spawn();
-
-	dropped->s.eType = ET_ITEM;
-	dropped->s.modelindex = item - bg_itemlist; // store item number in modelindex
-//	dropped->s.modelindex2 = 1; // This is non-zero is it's a dropped item	//----(SA)	commented out since I'm using modelindex2 for model indexing now
-	dropped->s.otherEntityNum2 = 1;     // DHM - Nerve :: this is taking modelindex2's place for signaling a dropped item
-
-	dropped->classname = item->classname;
-	dropped->item = item;
-//	VectorSet (dropped->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, -ITEM_RADIUS);
-//	VectorSet (dropped->r.maxs, ITEM_RADIUS, ITEM_RADIUS, ITEM_RADIUS);
-	VectorSet( dropped->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, 0 );            //----(SA)	so items sit on the ground
-	VectorSet( dropped->r.maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS );  //----(SA)	so items sit on the ground
-	dropped->r.contents = CONTENTS_TRIGGER | CONTENTS_ITEM;
-
-	dropped->touch = Touch_Item_Auto;
-
-	G_SetOrigin( dropped, origin );
-	dropped->s.pos.trType = TR_GRAVITY;
-	dropped->s.pos.trTime = level.time;
-	VectorCopy( velocity, dropped->s.pos.trDelta );
-
-	dropped->s.eFlags |= EF_BOUNCE_HALF;
-
-	// (SA) TODO: FIXME: don't do this right now.  bug needs to be found.
-//	if(item->giType == IT_WEAPON)
-//		dropped->s.eFlags |= EF_SPINNING;	// spin the weapon as it flies from the dead player.  it will stop when it hits the ground
-
-	// note: nextthink is set to 0 for SP and coop games where npc's do not respawn. see TossClientItems
-	if ( item->giType == IT_TEAM ) { // Special case for CTF flags
-		dropped->think = Team_DroppedFlagThink;
-		dropped->nextthink = level.time + 30000;
-	} else { // auto-remove after 30 seconds
-		dropped->think = G_FreeEntity;
-		dropped->nextthink = level.time + 30000;
-	}
-
-	dropped->flags = FL_DROPPED_ITEM;
-
-	trap_LinkEntity( dropped );
-
-	return dropped;
-}
-#endif
-
-/*
-================
-LaunchItem
-
-Spawns an item and tosses it forward
 Porting this from MP since I don't want to break SP code...
 ================
 */
