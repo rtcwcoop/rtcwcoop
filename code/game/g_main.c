@@ -2790,8 +2790,10 @@ void CheckCvars( void ) {
 		lastMod = g_password.modificationCount;
 		if ( *g_password.string && Q_stricmp( g_password.string, "none" ) ) {
 			trap_Cvar_Set( "g_needpass", "1" );
+			trap_Cvar_Set( "g_usePassword", "1" );
 		} else {
 			trap_Cvar_Set( "g_needpass", "0" );
+			trap_Cvar_Set( "g_usePassword", "0" );
 		}
 	}
 }
