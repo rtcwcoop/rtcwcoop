@@ -1049,11 +1049,13 @@ void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 	spectatorState_t specState;
 	int specClient;
 
+#ifdef _ADMINS
 	// No joining if team is locked
 	if ( g_gamelocked.integer ) {
 		trap_SendServerCommand( ent - g_entities, va( "cp \"You can't join because game is locked^1!\n\"2" ) );
 		return;
 	}
+#endif
 
 	//
 	// see what change is requested

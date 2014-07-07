@@ -145,6 +145,7 @@ vmCvar_t g_spawnpoints;
 // et sdk antilag
 vmCvar_t g_antilag;
 
+#ifdef _ADMINS
 vmCvar_t a1_pass;           // Level 1 admin
 vmCvar_t a2_pass;           // Level 2 admin
 vmCvar_t a3_pass;           // Level 3 admin
@@ -157,15 +158,18 @@ vmCvar_t a3_cmds;           // Level 3 admin commands
 vmCvar_t a3_allowAll;       // Allows level 3 to execute all admin commands + anyother that's set in a3_cmds -> In this case, use a3_cmds for server specific cvars like g_allowVote that would otherwise require rcon etc..
 vmCvar_t adm_help;          // If enabled users can use !list_cmds to get list of commands for their level..
 vmCvar_t g_gamelocked;      // Controls if Admin locked the game so players can't join
-vmCvar_t sv_hostname;       // So it's more accesible
 vmCvar_t g_extendedLog;     // Logs various admin actions in a seperate logs
+#endif
+
+// General
+vmCvar_t sv_hostname;       // So it's more accesible
 vmCvar_t g_votesPerUser;    // How many votes can user call each game
 vmCvar_t g_bannedMSG;       // Used to point banned users to desired forum..
 vmCvar_t g_usePassword;     // Toggles between private & public with ban bypass ability server
-// General
 vmCvar_t g_shove;           // Enable - Disable shove
 vmCvar_t g_shoveAmount;     // How far one is pushed
 vmCvar_t g_throwKnives;     // 0 = disabled, anything else is the value of knives player gets, alt -1 = unlimited.
+
 // Motds
 vmCvar_t g_showMOTD;        // Enable MOTD's (message of the day)
 vmCvar_t motdNum;           // With which motd it starts..
@@ -247,7 +251,6 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_headshotMaxDist, "g_headshotMaxDist", "1024", CVAR_CHEAT, 0, qfalse},    //----(SA)	added
 
-
 	{ &g_motd, "g_motd", "", 0, 0, qfalse },
 	{ &g_blood, "com_blood", "1", 0, 0, qfalse },
 
@@ -272,7 +275,6 @@ cvarTable_t gameCvarTable[] = {
 	{ &pmove_fixed, "pmove_fixed", "0", CVAR_SYSTEMINFO, 0, qfalse},
 	{ &pmove_msec, "pmove_msec", "8", CVAR_SYSTEMINFO, 0, qfalse},
 
-
 	{&g_mg42arc, "g_mg42arc", "0", CVAR_TEMP, 0, qfalse},
 
 	{&g_totalPlayTime, "g_totalPlayTime", "0", CVAR_ROM, 0, qfalse},
@@ -283,6 +285,7 @@ cvarTable_t gameCvarTable[] = {
 	{&g_scriptName, "g_scriptName", "", CVAR_ROM, 0, qfalse},
 	{&ai_scriptName, "ai_scriptName", "", CVAR_ROM, 0, qfalse},
 
+#ifdef _ADMINS
 	{ &a1_pass, "a1_pass", "none", CVAR_ARCHIVE, 0, qfalse },
 	{ &a2_pass, "a2_pass", "none", CVAR_ARCHIVE, 0, qfalse },
 	{ &a3_pass, "a3_pass", "none", CVAR_ARCHIVE, 0, qfalse },
@@ -295,14 +298,16 @@ cvarTable_t gameCvarTable[] = {
 	{ &a3_allowAll, "a3_allowAll", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &adm_help, "adm_help", "1", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_gamelocked, "g_gamelocked", "0", CVAR_ROM, 0, qfalse },
-	{ &sv_hostname, "sv_hostname", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_extendedLog, "g_extendedLog", "0", CVAR_ARCHIVE, 0, qfalse },
+#endif
+	{ &sv_hostname, "sv_hostname", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_bannedMSG, "g_bannedMSG", "You are ^jBanned ^7from this server!", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_usePassword, "g_usePassword", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_shove, "g_shove", "0", CVAR_ARCHIVE, 0, qtrue},
 	{ &g_shoveAmount, "g_shoveAmount", "0.8", CVAR_ARCHIVE, 0, qtrue}, // Don't give to much...
 	{ &g_throwKnives, "g_throwKnives", "0", CVAR_ARCHIVE, 0, qtrue },
+
 	{ &g_showMOTD, "g_showMOTD", "0",CVAR_ARCHIVE, 0, qfalse },
 	{ &g_motd1, "g_motd1", "", 0, 0, qfalse},
 	{ &g_motd2, "g_motd2", "", 0, 0, qfalse},
