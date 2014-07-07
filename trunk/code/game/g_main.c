@@ -1304,6 +1304,17 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	// is used in the scripting to randomize entity locations, and more
 	trap_Cvar_Set( "g_random", va( "%d", r ) );
 
+#ifndef _ADMINS
+	// Xian enforcemaxlives stuff
+	/*
+	we need to clear the list even if enforce maxlives is not active
+	in cas ethe g_maxlives was changed, and a map_restart happened
+	*/
+	ClearMaxLivesGUID();
+
+	G_ProcessIPBans();
+#endif
+
 	G_InitMemory();
 	// NERVE - SMF - intialize gamestate
 	if ( g_gamestate.integer == GS_INITIALIZE ) {
