@@ -2599,7 +2599,7 @@ static void CG_DrawWarmup( void ) {
 	//if ( sec == 0 && !cg_announcer.integer) {
 	//        s = va( "^2FIGHT!");
 	//} else {
-	s = va( "(WARMUP) Game starts in: ^2%i", sec + 1 );
+	s = va( "(WARMUP) Game starts in: %i", sec + 1 );
 	// countDownAnnouncer(sec); // Needs fixing / FIXME
 	//}
 
