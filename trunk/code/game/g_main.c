@@ -108,6 +108,7 @@ vmCvar_t g_allowVote;
 
 vmCvar_t g_needpass;
 vmCvar_t g_weaponTeamRespawn;
+vmCvar_t g_doWarmup;
 vmCvar_t g_teamAutoJoin;
 vmCvar_t g_teamForceBalance;
 vmCvar_t g_listEntity;
@@ -227,6 +228,8 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_friendlyFire, "g_friendlyFire", "1", CVAR_ARCHIVE, 0, qtrue  },
 
 	{ &g_warmup, "g_warmup", "20", CVAR_ARCHIVE, 0, qtrue  },
+	{ &g_doWarmup, "g_doWarmup", "0", CVAR_ARCHIVE, 0, qtrue  },
+
 	{ &g_logfile, "g_log", "games.log", CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_logfileSync, "g_logsync", "0", CVAR_ARCHIVE, 0, qfalse  },
 
@@ -2613,7 +2616,7 @@ void CheckGameState( void ) {
 
 	// check warmup latch
 	if ( current_gs == GS_WARMUP ) {
-		if ( g_warmup.integer <= 0 ) {
+		if ( g_warmup.integer <= 0 || !g_doWarmup.integer ) {
 			trap_Cvar_Set( "gamestate", va( "%i", GS_PLAYING ) );
 		} else {
 			int delay = g_warmup.integer + 1;
