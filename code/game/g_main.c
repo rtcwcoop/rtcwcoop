@@ -105,6 +105,7 @@ vmCvar_t g_blood;
 vmCvar_t g_podiumDist;
 vmCvar_t g_podiumDrop;
 vmCvar_t g_allowVote;
+vmCvar_t g_spawnInvul;
 
 vmCvar_t g_needpass;
 vmCvar_t g_weaponTeamRespawn;
@@ -261,6 +262,9 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_podiumDrop, "g_podiumDrop", "70", 0, 0, qfalse },
 
 	{ &g_allowVote, "g_allowVote", "1", 0, 0, qfalse },
+
+	{ &g_spawnInvul, "g_spawnInvul", "5", CVAR_ARCHIVE, 0, qtrue  },
+
 	{ &g_listEntity, "g_listEntity", "0", 0, 0, qfalse },
 
 	{ &g_testPain, "g_testPain", "0", CVAR_CHEAT, 0, qfalse },
