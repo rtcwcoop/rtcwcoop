@@ -4014,12 +4014,21 @@ static void FS_CheckMPPaks( void )
 	if(!com_standalone->integer && (foundPak & 0x3f) != 0x3f)
 	{
 		char errorText[MAX_STRING_CHARS] = "";
+		char missingPaks[MAX_STRING_CHARS] = "";
+		int i = 0;
 
 		if((foundPak & 0x3f) != 0x3f)
 		{
+
+			for (i=0;i<NUM_MP_PAKS;i++) {
+				if (!(foundPak & (1<<i))) {
+					Q_strcat(missingPaks, sizeof(missingPaks), va("mp_pak%d.pk3 ", i));
+				}
+			}
+
 			Q_strcat(errorText, sizeof(errorText),
-				"Point Release files are missing. Please "
-				"re-install the 1.41 point release. ");
+				va("Point Release files are missing: %s. Please "
+				"re-install the 1.41 point release. ", missingPaks));
 		}
 
 		Q_strcat(errorText, sizeof(errorText),
@@ -4125,12 +4134,20 @@ static void FS_CheckSPPaks( void )
 	if(!com_standalone->integer && (foundPak & 0x07) != 0x07)
 	{
 		char errorText[MAX_STRING_CHARS] = "";
+		char missingPaks[MAX_STRING_CHARS] = "";
+		int i = 0;
 
 		if((foundPak & 0x07) != 0x07)
 		{
+			for (i=0;i<NUM_SP_PAKS;i++) {
+				if (!(foundPak & (1<<i))) {
+					Q_strcat(missingPaks, sizeof(missingPaks), va("sp_pak%d.pk3 ", i+1)); 
+				}    
+			} 
+
 			Q_strcat(errorText, sizeof(errorText),
-					"Point Release files are missing. Please "
-					"re-install the 1.41 point release. ");
+					va("Point Release files are missing: %s . Please "
+					"re-install the 1.41 point release. ", missingPaks));
 		}
 
 		Q_strcat(errorText, sizeof(errorText),
