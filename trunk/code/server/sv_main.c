@@ -900,7 +900,9 @@ void SVC_Info( netadr_t from ) {
 						//va( "%i", sv_maxclients->integer - sv_privateClients->integer - aicount) );
 	Info_SetValueForKey( infostring, "gametype", va( "%i", sv_gametype->integer ) );
 	Info_SetValueForKey( infostring, "pure", va( "%i", sv_pure->integer ) );
-	Info_SetValueForKey( infostring, "g_needpass", va( "%d", Cvar_VariableIntegerValue( "g_needpass" ) ) );
+	// fretn - we merged g_needpass and g_usePassword, I will not change the infostring g_needpass variable
+	// name, so I don't break serverbrowsers
+	Info_SetValueForKey( infostring, "g_needpass", va( "%d", Cvar_VariableIntegerValue( "g_usePassword" ) ) );
 
 #ifdef USE_VOIP
 	if (sv_voipProtocol->string && *sv_voipProtocol->string) {

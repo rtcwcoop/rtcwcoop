@@ -1886,10 +1886,21 @@ static void UI_DrawPlayerModel( rectDef_t *rect ) {
 }
 
 static void UI_DrawNetSource( rectDef_t *rect, int font, float scale, vec4_t color, int textStyle ) {
+	char masteraddress[1024];
+	char command[1024];
+
 	if ( ui_netSource.integer < 0 || ui_netSource.integer > numNetSources /*uiInfo.numGameTypes*/ ) {        // NERVE - SMF - possible bug
 		ui_netSource.integer = 0;
 	}
-	Text_Paint( rect->x, rect->y, font, scale, color, va( "Source: %s", netSources[ui_netSource.integer] ), 0, 0, textStyle );
+
+	// fretn - print master server hostname instead of Internet1, Internet2, its confusing
+	if (ui_netSource.integer != 0) {
+		sprintf(command, "sv_master%d", ui_netSource.integer);
+		trap_Cvar_VariableStringBuffer(command, masteraddress, sizeof(masteraddress));
+		Text_Paint( rect->x, rect->y, font, scale, color, va( "Source: %s", masteraddress ), 0, 0, textStyle );
+	} else {
+		Text_Paint( rect->x, rect->y, font, scale, color, va( "Source: %s", netSources[ui_netSource.integer] ), 0, 0, textStyle );
+	}
 }
 
 static void UI_DrawSmallCreateMapPreview( rectDef_t *rect, float scale, vec4_t color, int number ) {
@@ -2300,7 +2311,17 @@ static int UI_OwnerDrawWidth( int ownerDraw, int font, float scale ) {
 		if (ui_netSource.integer < 0 || ui_netSource.integer > numNetSources) {
 			ui_netSource.integer = 0;
 		}
-		s = va( "Source: %s", netSources[ui_netSource.integer] );
+		// fretn - print master server hostname instead of Internet1, Internet2, its confusing
+		if (ui_netSource.integer != 0) { 
+			char command[1024];
+			char masteraddress[1024];
+
+			sprintf(command, "sv_master%d", ui_netSource.integer);
+			trap_Cvar_VariableStringBuffer(command, masteraddress, sizeof(masteraddress));
+			s = va( "Source: %s", masteraddress );
+		} else {
+			s = va( "Source: %s", netSources[ui_netSource.integer] );
+		} 
 		break;
 	case UI_NETFILTER:
 		if ( ui_serverFilterType.integer < 0 || ui_serverFilterType.integer > numServerFilters ) {
