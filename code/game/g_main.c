@@ -107,7 +107,6 @@ vmCvar_t g_podiumDrop;
 vmCvar_t g_allowVote;
 vmCvar_t g_spawnInvul;
 
-vmCvar_t g_needpass;
 vmCvar_t g_weaponTeamRespawn;
 vmCvar_t g_doWarmup;
 vmCvar_t g_teamAutoJoin;
@@ -2831,10 +2830,8 @@ void CheckCvars( void ) {
 	if ( g_password.modificationCount != lastMod ) {
 		lastMod = g_password.modificationCount;
 		if ( *g_password.string && Q_stricmp( g_password.string, "none" ) ) {
-			trap_Cvar_Set( "g_needpass", "1" );
 			trap_Cvar_Set( "g_usePassword", "1" );
 		} else {
-			trap_Cvar_Set( "g_needpass", "0" );
 			trap_Cvar_Set( "g_usePassword", "0" );
 		}
 	}
