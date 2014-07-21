@@ -1234,6 +1234,7 @@ extern vmCvar_t g_fraglimit;
 extern vmCvar_t g_timelimit;
 extern vmCvar_t g_friendlyFire;
 extern vmCvar_t g_password;
+extern vmCvar_t g_needpass;
 extern vmCvar_t g_gravity;
 extern vmCvar_t g_speed;
 extern vmCvar_t g_knockback;
@@ -1292,6 +1293,7 @@ extern vmCvar_t g_playerStart;      //----(SA)	added
 // et sdk antilag
 extern vmCvar_t g_antilag;
 
+#ifdef _ADMINS
 extern vmCvar_t a1_pass;
 extern vmCvar_t a2_pass;
 extern vmCvar_t a3_pass;
@@ -1304,24 +1306,25 @@ extern vmCvar_t a3_cmds;
 extern vmCvar_t a3_allowAll;
 extern vmCvar_t adm_help;
 extern vmCvar_t g_gamelocked;
-extern vmCvar_t sv_hostname;
 extern vmCvar_t g_extendedLog;
+#endif
+
+extern vmCvar_t sv_hostname;
 extern vmCvar_t g_votesPerUser;
 extern vmCvar_t g_bannedMSG;
-extern vmCvar_t g_needpass;
 extern vmCvar_t g_shove;
 extern vmCvar_t g_shoveAmount;
 extern vmCvar_t g_throwKnives;
+
 extern vmCvar_t g_showMOTD;
+extern vmCvar_t motdNum;
+extern vmCvar_t g_motdTime;
 extern vmCvar_t g_motd1;
 extern vmCvar_t g_motd2;
 extern vmCvar_t g_motd3;
 extern vmCvar_t g_motd4;
 extern vmCvar_t g_motd5;
 extern vmCvar_t g_motd6;
-extern vmCvar_t g_motdTime;
-extern vmCvar_t motdNum;
-
 
 void	trap_Print( const char *text );
 void	trap_Error( const char *text ) __attribute__((noreturn));

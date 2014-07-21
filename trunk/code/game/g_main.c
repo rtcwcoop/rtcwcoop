@@ -78,6 +78,7 @@ vmCvar_t g_fraglimit;
 vmCvar_t g_timelimit;
 vmCvar_t g_friendlyFire;
 vmCvar_t g_password;
+vmCvar_t g_needpass;
 vmCvar_t g_maxclients;
 vmCvar_t g_maxGameClients;
 vmCvar_t g_dedicated;
@@ -166,7 +167,6 @@ vmCvar_t g_extendedLog;     // Logs various admin actions in a seperate logs
 vmCvar_t sv_hostname;       // So it's more accesible
 vmCvar_t g_votesPerUser;    // How many votes can user call each game
 vmCvar_t g_bannedMSG;       // Used to point banned users to desired forum..
-vmCvar_t g_needpass;     // Toggles between private & public with ban bypass ability server
 vmCvar_t g_shove;           // Enable - Disable shove
 vmCvar_t g_shoveAmount;     // How far one is pushed
 vmCvar_t g_throwKnives;     // 0 = disabled, anything else is the value of knives player gets, alt -1 = unlimited.
@@ -174,13 +174,13 @@ vmCvar_t g_throwKnives;     // 0 = disabled, anything else is the value of knive
 // Motds
 vmCvar_t g_showMOTD;        // Enable MOTD's (message of the day)
 vmCvar_t motdNum;           // With which motd it starts..
+vmCvar_t g_motdTime;        // Time between each message
 vmCvar_t g_motd1;           // MESSAGE 1
 vmCvar_t g_motd2;           // MESSAGE 2
 vmCvar_t g_motd3;           // MESSAGE 3
 vmCvar_t g_motd4;           // MESSAGE 4
 vmCvar_t g_motd5;           // MESSAGE 5
 vmCvar_t g_motd6;           // MESSAGE 6
-vmCvar_t g_motdTime;        // Time between each message
 
 cvarTable_t gameCvarTable[] = {
 	// don't override the cheat state set by the system
