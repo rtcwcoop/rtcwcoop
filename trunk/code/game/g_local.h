@@ -1308,7 +1308,7 @@ extern vmCvar_t sv_hostname;
 extern vmCvar_t g_extendedLog;
 extern vmCvar_t g_votesPerUser;
 extern vmCvar_t g_bannedMSG;
-extern vmCvar_t g_usePassword;
+extern vmCvar_t g_needpass;
 extern vmCvar_t g_shove;
 extern vmCvar_t g_shoveAmount;
 extern vmCvar_t g_throwKnives;

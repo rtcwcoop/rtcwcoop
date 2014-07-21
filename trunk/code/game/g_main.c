@@ -166,7 +166,7 @@ vmCvar_t g_extendedLog;     // Logs various admin actions in a seperate logs
 vmCvar_t sv_hostname;       // So it's more accesible
 vmCvar_t g_votesPerUser;    // How many votes can user call each game
 vmCvar_t g_bannedMSG;       // Used to point banned users to desired forum..
-vmCvar_t g_usePassword;     // Toggles between private & public with ban bypass ability server
+vmCvar_t g_needpass;     // Toggles between private & public with ban bypass ability server
 vmCvar_t g_shove;           // Enable - Disable shove
 vmCvar_t g_shoveAmount;     // How far one is pushed
 vmCvar_t g_throwKnives;     // 0 = disabled, anything else is the value of knives player gets, alt -1 = unlimited.
@@ -309,7 +309,7 @@ cvarTable_t gameCvarTable[] = {
 	{ &sv_hostname, "sv_hostname", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_votesPerUser, "g_votesPerUser", "1", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_bannedMSG, "g_bannedMSG", "You are ^jBanned ^7from this server!", CVAR_ARCHIVE, 0, qfalse },
-	{ &g_usePassword, "g_usePassword", "0", CVAR_ARCHIVE, 0, qfalse },
+	{ &g_needpass, "g_needpass", "0", CVAR_ARCHIVE, 0, qfalse },
 	{ &g_shove, "g_shove", "0", CVAR_ARCHIVE, 0, qtrue},
 	{ &g_shoveAmount, "g_shoveAmount", "0.8", CVAR_ARCHIVE, 0, qtrue}, // Don't give to much...
 	{ &g_throwKnives, "g_throwKnives", "0", CVAR_ARCHIVE, 0, qtrue },
@@ -2830,9 +2830,9 @@ void CheckCvars( void ) {
 	if ( g_password.modificationCount != lastMod ) {
 		lastMod = g_password.modificationCount;
 		if ( *g_password.string && Q_stricmp( g_password.string, "none" ) ) {
-			trap_Cvar_Set( "g_usePassword", "1" );
+			trap_Cvar_Set( "g_needpass", "1" );
 		} else {
-			trap_Cvar_Set( "g_usePassword", "0" );
+			trap_Cvar_Set( "g_needpass", "0" );
 		}
 	}
 }

@@ -1573,7 +1573,7 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 		}
 
 		// Only bother with this is we want to run it as private..
-		if ( g_usePassword.integer ) {
+		if ( g_needpass.integer ) {
 			value = Info_ValueForKey( userinfo, "password" );
 			if ( g_password.string[0] && Q_stricmp( g_password.string, "none" ) &&
 					strcmp( g_password.string, value ) != 0 ) {
