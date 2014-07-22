@@ -196,30 +196,11 @@ menuDef {
 			textaligny		14
 			}
 	
-		itemDef {
-			name			gametypefield
-			group			grpJoin
-			style			0	
-			textfont		UI_FONT_NORMAL
-			ownerdraw		UI_NETSOURCE
-			rect			140 58 130 15 
-			textstyle		6
-			textalign		ITEM_ALIGN_LEFT		
-			textalignx		0     
-			textaligny		14
-			textscale		.25   
-			forecolor		1 1 1 1
-			visible 		1
-			
-			action			{ play "sound/misc/kcaction.wav" }
-			}
-
-
 			itemDef {
 			name			passwordEntry
 			group			grpJoin
 			visible			1
-			rect			140 78 270 15
+			rect			140 58 270 15
 			textstyle		6			
 			forecolor		1 1 1 1
 			outlinecolor	1 1 0 .5
@@ -235,6 +216,26 @@ menuDef {
 			textalignx		0
 			textaligny		14
 			}
+
+		itemDef {
+			name			gametypefield
+			group			grpJoin
+			style			0	
+			textfont		UI_FONT_NORMAL
+			ownerdraw		UI_NETSOURCE
+			rect			140 78 130 15 
+			textstyle		6
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25   
+			forecolor		1 1 1 1
+			visible 		1
+			
+			action			{ play "sound/misc/kcaction.wav" }
+			}
+
+
 
 
 	//  3RD COLUMN  //
