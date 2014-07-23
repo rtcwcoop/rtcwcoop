@@ -50,8 +50,6 @@ If you have questions concerning this license or the applicable additional terms
   #define HOMEPATH_NAME_MACOSX		HOMEPATH_NAME_WIN
   #define GAMENAME_FOR_MASTER		"foobar"	// must NOT contain whitespace
 //  #define LEGACY_PROTOCOL	// You probably don't need this for your standalone game
-// Heartbeat for dpmaster protocol. You shouldn't change this unless you know what you're doing
-  #define HEARTBEAT_FOR_MASTER		"DarkPlaces"
 #else
   #define PRODUCT_NAME			"RTCWCoop"
   #define BASEGAME			"main"
@@ -63,9 +61,11 @@ If you have questions concerning this license or the applicable additional terms
   #define HOMEPATH_NAME_MACOSX		"rtcwcoop"
   #define GAMENAME_FOR_MASTER		"wolfcoop"
   #define LEGACY_PROTOCOL
-  #define HEARTBEAT_GAME  "WolfensteinCoop-1"
-  #define HEARTBEAT_DEAD  "WolfFlatlineCoop-1"
 #endif
+
+// Heartbeat for dpmaster protocol. You shouldn't change this unless you know what you're doing
+#define HEARTBEAT_FOR_MASTER		"WolfensteinCoop-1"
+#define FLATLINE_FOR_MASTER		"WolfFlatlineCoop-1"
 
 #ifndef PRODUCT_VERSION
   #define PRODUCT_VERSION "1.0.1"

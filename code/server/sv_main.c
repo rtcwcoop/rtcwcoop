@@ -440,19 +440,11 @@ Informs all masters that this server is going down
 void SV_MasterShutdown( void ) {
 	// send a heartbeat right now
 	svs.nextHeartbeatTime = -9999;
-#ifdef STANDALONE
-	SV_MasterHeartbeat(HEARTBEAT_FOR_MASTER);
-#else
-	SV_MasterHeartbeat(HEARTBEAT_DEAD);
-#endif
+	SV_MasterHeartbeat(FLATLINE_FOR_MASTER);
 
 	// send it again to minimize chance of drops
 	svs.nextHeartbeatTime = -9999;
-#ifdef STANDALONE
-	SV_MasterHeartbeat(HEARTBEAT_FOR_MASTER);
-#else
-	SV_MasterHeartbeat(HEARTBEAT_DEAD);
-#endif
+	SV_MasterHeartbeat(FLATLINE_FOR_MASTER);
 
 	// when the master tries to poll the server, it won't respond, so
 	// it will be removed from the list
@@ -1515,11 +1507,7 @@ void SV_Frame( int msec ) {
 	SV_SendClientMessages();
 
 	// send a heartbeat to the master if needed
-#ifdef STANDALONE
 	SV_MasterHeartbeat(HEARTBEAT_FOR_MASTER);
-#else
-	SV_MasterHeartbeat(HEARTBEAT_GAME);
-#endif
 }
 
 /*
