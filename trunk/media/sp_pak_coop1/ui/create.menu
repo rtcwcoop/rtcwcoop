@@ -432,6 +432,28 @@ itemDef {
 					mouseenter		{ show message_download }
 					mouseexit		{ hide message_download }
 					}
+
+					itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Pure Server:  "
+					cvar			"sv_pure"
+					cvarFloatList	{ "Off" 0 "On" 1 }
+					rect			295 235 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_pure }
+					mouseexit		{ hide message_pure }
+					}
 					
 					
 				itemDef {
@@ -443,7 +465,7 @@ itemDef {
 					textalignx		145
 					textaligny		14
 					textscale		.25
-					rect			294 240 290 20	
+					rect			294 255 290 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
 					bordercolor		.5 .5 .5 .5
@@ -462,7 +484,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			294 265 70 26
+					rect			294 280 70 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -491,7 +513,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			367 265 70 26
+					rect			367 280 70 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -520,7 +542,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			440 265 70 26
+					rect			440 280 70 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -549,7 +571,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					textscale		.25
 					style			WINDOW_STYLE_FILLED
-					rect			513 265 71 26
+					rect			513 280 71 26
 					textalign		1
 					textalignx		35
 					textaligny		17
@@ -579,7 +601,7 @@ itemDef {
 					textalignx		145
 					textaligny		14
 					textscale		.25
-					rect			294 300 290 20	
+					rect			294 315 290 20	
 					style			WINDOW_STYLE_FILLED
 					border			1
 					bordercolor		.5 .5 .5 .5
@@ -597,7 +619,7 @@ itemDef {
 					text			"Friendly Fire:  "
 					cvar			"g_friendlyFire"
 					cvarFloatList	{ "Off" 0 "On" 1 "On + Health Penalty" 2 }
-					rect			295 325 290 12
+					rect			295 340 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -618,7 +640,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Number of Lives:  "
 					cvar			"g_maxlives"
-					rect			295 340 290 12
+					rect			295 355 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -642,7 +664,7 @@ itemDef {
 					text			"Shared Lives:  "
 					cvar			"g_sharedlives"
 					cvarFloatList	{ "yes (no bonus life!)" 1 "no" 0 }
-					rect			295 355 290 12
+					rect			295 370 290 12
 				//	origin			ORIGIN_WINDOW2
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -668,7 +690,7 @@ itemDef {
 					text			"Respawn by:  "
 					cvar			"g_spawnpoints"
 					cvarFloatList	{ "Autosaves (/30 secs.)" 0 "Manual Saves" 1 "FlagZones" 2 }
-					rect			295 370 290 12
+					rect			295 385 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -689,7 +711,7 @@ itemDef {
 					textfont		UI_FONT_NORMAL
 					text			"Manual Saves / map:  "
 					cvar			"g_maxspawnpoints"
-					rect			295 385 290 12
+					rect			295 400 290 12
 				//	origin			ORIGIN_WINDOW1
 					style			WINDOW_STYLE_FILLED
 					textalign		ITEM_ALIGN_RIGHT
@@ -1288,6 +1310,23 @@ itemDef {
 				textaligny 25
 				textscale .25
 				text "Allow downloading files from the server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_pure
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Only allow use of pk3 files that are on server"
 				forecolor 1 1 1 1
 				decoration 
 				visible 0
