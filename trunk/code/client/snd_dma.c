@@ -711,12 +711,6 @@ static void S_Base_MainStartSound( vec3_t origin, int entityNum, int entchannel,
 				continue;
 			}
 
-			// RF, let client voice sounds be overwritten
-			if ( entityNum < MAX_CLIENTS && s_channels[i].entchannel != CHAN_AUTO && s_channels[i].entchannel != CHAN_WEAPON ) {
-				S_ChannelFree( &s_channels[i] );
-				continue;
-			}
-
 			// cutoff sounds that expect to be overwritten
 			if ( s_channels[i].flags & SND_OKTOCUT ) {
 				S_ChannelFree( &s_channels[i] );
