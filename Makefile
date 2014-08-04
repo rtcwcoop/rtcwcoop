@@ -2748,6 +2748,7 @@ toolsclean2:
 
 distclean: clean toolsclean
 	@rm -rf $(BUILD_DIR)
+	@rm -f media/bin.pk3 media/sp_pak_coop1.pk3
 
 dist:
 	rm -rf $(CLIENTBIN)-$(VERSION)
