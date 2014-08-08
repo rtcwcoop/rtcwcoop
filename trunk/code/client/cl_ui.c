@@ -1159,25 +1159,9 @@ CL_InitUI
 
 void CL_InitUI( void ) {
 	int v;
-	vmInterpret_t interpret;
 
 	// load the dll or bytecode
-	interpret = Cvar_VariableValue("vm_ui");
-	if(cl_connectedToPureServer)
-	{
-		// if sv_pure is set we only allow qvms to be loaded
-		if(interpret != VMI_COMPILED && interpret != VMI_BYTECODE)
-			interpret = VMI_COMPILED;
-	}
-
-//----(SA)	always dll
-
-#ifdef WOLF_SP_DEMO
-	uivm = VM_Create( "ui", CL_UISystemCalls, VMI_NATIVE );
-#else
 	uivm = VM_Create( "ui", CL_UISystemCalls, Cvar_VariableValue( "vm_ui" ) );
-#endif
-
 	if ( !uivm ) {
 		Com_Error( ERR_FATAL, "VM_Create on UI failed" );
 	}
