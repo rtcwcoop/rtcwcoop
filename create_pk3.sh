@@ -2,6 +2,16 @@
 PAKFILE=sp_pak_coop1.pk3
 BINFILE=bin.pk3
 
+echo "Creating directories"
+
+if [ "`uname`" = "Darwin" ]; then
+        mkdir -p ~/Documents/rtcwcoop/coopmain/
+fi
+
+if [ "`uname`" = "Linux" ]; then
+        mkdir -p ~/.wolf/coopmain
+fi
+
 echo "Creating " $PAKFILE
 
 cd media/sp_pak_coop1
