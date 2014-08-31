@@ -511,6 +511,10 @@ RespawnItem
 ===============
 */
 void RespawnItem( gentity_t *ent ) {
+	if (!ent) {
+		return;
+	}
+
 	// randomly select from teamed entities
 	if ( ent->team ) {
 		gentity_t   *master;
