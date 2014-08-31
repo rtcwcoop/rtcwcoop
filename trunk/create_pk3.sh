@@ -1,41 +1,37 @@
 #!/bin/bash
-
-if [ "$1" = "release" ]; then
-        TARGET="release"
-else
-        TARGET="debug"
-fi
-
 PAKFILE=sp_pak_coop1.pk3
-ORIGINALFOLDER=$(pwd)
+BINFILE=bin.pk3
+
+echo "Creating " $PAKFILE
 
 cd media/sp_pak_coop1
 
-#zip -r $PAKFILE models/players/coop/* models/movespeeds/* maps/* scripts/* ui/* ./* levelshots/*
-zip -r $PAKFILE ./ -x "*.svn*"
+zip -qur $PAKFILE ./ -x "*.svn*"
 
-#if [ "`uname`" = "Darwin" ]; then
-        #cp $PAKFILE ~/Documents/rtcwcoop/coopmain/
-#fi
+if [ "`uname`" = "Darwin" ]; then
+        cp $PAKFILE ~/Documents/rtcwcoop/coopmain/
+fi
+
 if [ "`uname`" = "Linux" ]; then
         cp $PAKFILE ~/.wolf/coopmain
 fi
 
-
 mv $PAKFILE ../
 
-echo "Creating bin.pk3"
+echo "Creating " $BINFILE
 
 if [ "`uname`" = "Darwin" ]; then
-        cd "../../build/$TARGET-darwin-x86/coopmain/"
-        zip -r bin.pk3 *.dylib
-        cp bin.pk3 ~/Documents/rtcwcoop/coopmain/
-        mv bin.pk3 ../../../media/
-fi
-if [ "`uname`" = "Linux" ]; then
-        cd "../../build/$TARGET-linux-x86/coopmain/"
-        zip -r bin.pk3 *.so
-        cp bin.pk3 ~/.wolf/coopmain/
-        mv bin.pk3 ../../../media/
+        cd "../../build"
+	for i in $(find . -type f -name "*.coop.*.dylib" ! -name "*qagame*"); do zip -qurj $BINFILE $i; done
+        cp $BINFILE ~/Documents/rtcwcoop/coopmain/
+        mv $BINFILE ../media/
 fi
 
+if [ "`uname`" = "Linux" ]; then
+        cd "../../build"
+	for i in $(find . -type f -name "*.coop.*.so" ! -name "*qagame*"); do zip -qurj $BINFILE $i; done
+        cp $BINFILE ~/.wolf/coopmain/
+        mv $BINFILE ../media/
+fi
+
+echo "Done"
