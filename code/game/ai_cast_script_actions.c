@@ -593,7 +593,7 @@ qboolean AICast_ScriptAction_Wait( cast_state_t *cs, char *params ) {
 				if ( Q_stricmp( token, "player" ) ) {
 					G_Error( "AI Scripting: wait cannot find targetname \"%s\"\n", token );
 				} else {
-					G_Error( "AI Scripting: wait cannot find targetname \"%s\"\n", token );
+					G_Printf( "AI Scripting: wait cannot find targetname \"%s\"\n", token );
 					return qfalse;
 				}
 			}
