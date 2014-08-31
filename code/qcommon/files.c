@@ -3645,20 +3645,23 @@ static void FS_Startup( const char *gameName )
 	// add search path elements in reverse priority order
 	if ( fs_basepath->string[0] ) {
 		FS_AddGameDirectory( fs_basepath->string, gameName, qtrue );
+		FS_AddGameDirectory( fs_basepath->string, COOP_BASEGAME, qtrue );
 	}
-	// fs_homepath is somewhat particular to *nix systems, only add if relevant
 
 #ifdef MACOS_X
 	fs_apppath = Cvar_Get ("fs_apppath", Sys_DefaultAppPath(), CVAR_INIT|CVAR_PROTECTED );
 	// Make MacOSX also include the base path included with the .app bundle
-	if (fs_apppath->string[0])
+	if (fs_apppath->string[0]) {
 		FS_AddGameDirectory(fs_apppath->string, gameName, qtrue);
+		FS_AddGameDirectory(fs_apppath->string, COOP_BASEGAME, qtrue);
+	}
 #endif
 
 	// NOTE: same filtering below for mods and basegame
 	if (fs_homepath->string[0] && Q_stricmp(fs_homepath->string,fs_basepath->string)) {
 		FS_CreatePath ( fs_homepath->string );
 		FS_AddGameDirectory( fs_homepath->string, gameName, qfalse );
+		FS_AddGameDirectory( fs_homepath->string, COOP_BASEGAME, qfalse );
 	}
 
 	// check for additional base game so mods can be based upon other mods
@@ -3680,16 +3683,6 @@ static void FS_Startup( const char *gameName )
 			FS_AddGameDirectory( fs_homepath->string, fs_gamedirvar->string, qfalse );
 		}
 	}
-
-	// fretn
-	if ( fs_basepath->string[0] ) {
-		FS_AddGameDirectory( fs_basepath->string, COOP_BASEGAME, qtrue );
-	}
-	if ( fs_homepath->string[0] && Q_stricmp( fs_homepath->string,fs_basepath->string ) ) {
-		FS_AddGameDirectory( fs_homepath->string, COOP_BASEGAME, qfalse );
-	}
-	
-	// -fretn
 
 #ifndef STANDALONE
 	if(!com_standalone->integer)
