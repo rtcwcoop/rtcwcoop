@@ -590,7 +590,12 @@ qboolean AICast_ScriptAction_Wait( cast_state_t *cs, char *params ) {
 		if ( !ent ) {
 			ent = AICast_FindEntityForName( facetarget );
 			if ( !ent ) {
-				G_Error( "AI Scripting: wait cannot find targetname \"%s\"\n", token );
+				if ( Q_stricmp( token, "player" ) ) {
+					G_Error( "AI Scripting: wait cannot find targetname \"%s\"\n", token );
+				} else {
+					G_Error( "AI Scripting: wait cannot find targetname \"%s\"\n", token );
+					return qfalse;
+				}
 			}
 		}
 		// set the view angle manually
