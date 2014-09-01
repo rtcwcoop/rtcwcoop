@@ -496,7 +496,7 @@ trace_t *CheckMeleeAttack( gentity_t *ent, float dist, qboolean isTest ) {
 	}
 
 	if ( ent->client->noclip ) {
-		return qfalse;
+		return NULL;
 	}
 
 	traceEnt = &g_entities[ tr.entityNum ];
