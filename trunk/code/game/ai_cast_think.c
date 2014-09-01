@@ -855,6 +855,11 @@ void AICast_StartFrame( int time ) {
 		}
 	}
 
+	// if no playing coop clients, don't think
+	if ( level.numPlayingCoopClients == 0 ) {
+		return;
+	}
+
 	trap_Cvar_Update( &aicast_debug );
 	trap_Cvar_Update( &aicast_debugname );
 	trap_Cvar_Update( &aicast_scripts );
