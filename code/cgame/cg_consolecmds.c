@@ -670,6 +670,34 @@ static void CG_DisableDebugLines_f( void ) {
 	CG_ClearWorldText();
 }
 
+/*
+===================
+L0 - OSPx port
+
++vstr
+===================
+*/
+void CG_vstrDown_f(void) {
+	if (trap_Argc() == 5) {
+		trap_SendConsoleCommand(va("vstr %s;", CG_Argv(1)));
+	}
+	else { CG_Printf("[cgnotify]^3Usage: ^7+vstr [down_vstr] [up_vstr]\n"); }
+}
+
+/*
+===================
+L0 - OSPx port
+
+-vstr
+===================
+*/
+void CG_vstrUp_f(void) {
+	if (trap_Argc() == 5) {
+		trap_SendConsoleCommand(va("vstr %s;", CG_Argv(2)));
+	}
+	else { CG_Printf("[cgnotify]^3Usage: ^7+vstr [down_vstr] [up_vstr]\n"); }
+}
+
 typedef struct {
 	char    *cmd;
 	void ( *function )( void );
@@ -727,8 +755,13 @@ static consoleCommand_t commands[] = {
 #ifdef MONEY
 	{ "quickbuy", CG_QuickBuy_f },
 #endif
-	{ "nodebuglines", CG_DisableDebugLines_f }
+	{ "nodebuglines", CG_DisableDebugLines_f },	
 	// -NERVE - SMF
+
+	// Coop 
+	{ "+vstr", CG_vstrDown_f },
+	{ "-vstr", CG_vstrUp_f }
+	// ~Coop
 };
 
 
