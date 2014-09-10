@@ -1799,6 +1799,7 @@ void CalculateRanks( void ) {
 					level.numPlayingClients++;
 					if ( !( g_entities[i].r.svFlags & SVF_BOT ) ) {
 						level.numVotingClients++;
+						level.numPlayingCoopClients++;
 
 						if ( !( g_entities[i].r.svFlags & SVF_CASTAI ) && g_gametype.integer == GT_COOP_BATTLE && !level.intermissiontime ) {
 							// TODO:
@@ -1830,7 +1831,6 @@ void CalculateRanks( void ) {
 								//G_Printf("%f: %f %f %d\n", score, dg, dr, time);
 							}
 #endif
-							level.numPlayingCoopClients++;
 						}
 
 						if ( g_gametype.integer == GT_COOP && g_maxlives.integer && !g_sharedlives.integer ) { // every 1000 points, bonus life !
