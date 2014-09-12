@@ -108,7 +108,11 @@ If you have questions concerning this license or the applicable additional terms
 {"vectoyaw", (byte *)vectoyaw},
 {"ProjectPointOntoVector", (byte *)ProjectPointOntoVector},
 {"GetPerpendicularViewVector", (byte *)GetPerpendicularViewVector},
+
+#ifndef Q3_VM
 {"Q_acos", (byte *)Q_acos},
+#endif
+
 {"Q_isnan", (byte *)Q_isnan},
 {"PerpendicularVector", (byte *)PerpendicularVector},
 {"AngleVectors", (byte *)AngleVectors},
@@ -567,8 +571,12 @@ If you have questions concerning this license or the applicable additional terms
 {"trap_Endgame", (byte *)trap_Endgame},
 {"trap_Error", (byte *)trap_Error},
 {"trap_Print", (byte *)trap_Print},
+
+#ifndef Q3_VM
 {"PASSFLOAT", (byte *)PASSFLOAT},
 {"dllEntry", (byte *)dllEntry},
+#endif
+
 {"ConsoleCommand", (byte *)ConsoleCommand},
 {"Svcmd_Ignore_f", (byte *)Svcmd_Ignore_f},
 {"Svcmd_Unignore_f", (byte *)Svcmd_Unignore_f},
