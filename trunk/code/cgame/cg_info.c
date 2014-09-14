@@ -251,7 +251,7 @@ void CG_DrawExitStats( void ) {
 		CG_Text_Paint( statsItems[i].labelX, y, 2, 0.3, color2, va( "%s:", CG_translateString( statsItems[i].label ) ), 0, 0, statsItems[i].labelFlags );
 #endif
 	}
-	token = COM_Parse( &mstats );
+	COM_Parse( &mstats );
 
 	ci = &cgs.clientinfo[cg.scores[cg.destroyer].client];
 	CG_Text_Paint( 214, y + 28, 2, 0.3, statsItems[0].formatColor, "Destructor", 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE );

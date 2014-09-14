@@ -5832,13 +5832,16 @@ void CL_LoadTransTable( const char *fileName ) {
 
 		// set offset if we have one
 		if ( !Q_stricmp( "offset", token ) ) {
-			token = COM_Parse( &text_p );
-			t->x_offset = atof( token );
+			if ( t )
+			{
+				token = COM_Parse( &text_p );
+				t->x_offset = atof( token );
 
-			token = COM_Parse( &text_p );
-			t->y_offset = atof( token );
+				token = COM_Parse( &text_p );
+				t->y_offset = atof( token );
 
-			token = COM_Parse( &text_p );
+				token = COM_Parse( &text_p );
+			}
 		}
 
 		if ( Q_stricmp( "}", token ) ) {

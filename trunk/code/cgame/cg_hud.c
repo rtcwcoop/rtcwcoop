@@ -501,8 +501,6 @@ static void CG_DrawPlayerHead( rectDef_t *rect, qboolean draw2D ) {
 			cg.headEndYaw = 180 + 20 * cos( crandom() * M_PI );
 			cg.headEndPitch = 5 * cos( crandom() * M_PI );
 		}
-
-		size = rect->w * 1.25;
 	}
 
 	// if the server was frozen for a while we may have a bad head start time

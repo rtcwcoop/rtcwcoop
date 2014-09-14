@@ -40,46 +40,31 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 	int stringlength;
 	int i, j;
 	gclient_t   *cl;
-	gentity_t *tmpent;
 	int numSorted;
 #ifndef MONEY
 	int scoreFlags = 0;
 #endif
-	int counter = 0;
 
 	// send the latest information on all clients
 	string[0] = 0;
 	stringlength = 0;
 
-	// don't send more than 32 scores (FIXME?)
-	numSorted = level.numConnectedClients;
-	//if ( numSorted > 32 ) {
-	//	numSorted = 32;
-	//}
-
-	/*
-        for ( i = 0; i < g_maxclients.integer; i++ )
-                player = &g_entities[i];
-                if ( !player->inuse )
-	*/
+	// don't send more than 32 scores
+	numSorted = level.numPlayingCoopClients;
+	if ( numSorted > 8 ) {
+		numSorted = 8;
+	}
 
 	for ( i = 0 ; i < numSorted ; i++ ) {
 		int ping;
-		int respawnsLeft;
+		//int respawnsLeft;
 
 		cl = &level.clients[level.sortedClients[i]];
 
-		// coop, don't send the score of the AI
-		//if ( (g_entities[level.sortedClients[i]].r.svFlags & SVF_CASTAI) )
-		tmpent = &g_entities[level.sortedClients[i]];
-		if ( ( tmpent->r.svFlags & SVF_CASTAI ) ) {
-			continue;
-		}
-
-		respawnsLeft = cl->ps.persistant[PERS_RESPAWNS_LEFT];
-		if ( respawnsLeft == 0 && ( ( cl->ps.pm_flags & PMF_LIMBO ) || ( level.intermissiontime && g_entities[level.sortedClients[i]].health <= 0 ) ) ) {
-			respawnsLeft = -2;
-		}
+		//respawnsLeft = cl->ps.persistant[PERS_RESPAWNS_LEFT];
+		//if ( respawnsLeft == 0 && ( ( cl->ps.pm_flags & PMF_LIMBO ) || ( level.intermissiontime && g_entities[level.sortedClients[i]].health <= 0 ) ) ) {
+		//	respawnsLeft = -2;
+		//}
 
 		if ( cl->pers.connected == CON_CONNECTING ) {
 			ping = -1;
@@ -102,12 +87,9 @@ void DeathmatchScoreboardMessage( gentity_t *ent ) {
 
 		strcpy( string + stringlength, entry );
 		stringlength += j;
-
-		counter++;
 	}
 
-	//G_Printf("VERZONDEN: %s", va( "scores %i %i %i%s\n", counter, level.teamScores[TEAM_RED], level.teamScores[TEAM_BLUE], string ) );
-	trap_SendServerCommand( ent - g_entities, va( "scores %i %i %i%s", counter,
+	trap_SendServerCommand( ent - g_entities, va( "scores %i %i %i%s", i,
 					level.teamScores[TEAM_RED], level.teamScores[TEAM_BLUE],
 					string ) );
 }
@@ -1714,13 +1696,11 @@ void G_Voice( gentity_t *ent, gentity_t *target, int mode, const char *id, qbool
 		return;
 	}
 
-	/*
 	if ( g_voiceChatsAllowed.integer ) {
 	        ent->voiceChatSquelch += ( 34000 / g_voiceChatsAllowed.integer );
 	} else {
 	        return;
-	}*/
-	ent->voiceChatSquelch += ( 34000 / 4 );
+	}
 	// dhm
 
 	if ( target ) {

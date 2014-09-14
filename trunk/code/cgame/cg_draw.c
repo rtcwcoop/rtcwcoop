@@ -800,7 +800,7 @@ static void CG_DrawUpperRight(stereoFrame_t stereoFrame) {
 		y = CG_DrawFPS( y );
 	}
 	if ( cg_drawTimer.integer ) {
-		y = CG_DrawTimer( y );
+		CG_DrawTimer( y );
 	}
 // (SA) disabling drawattacker for the time being
 //	if ( cg_drawAttacker.integer ) {
@@ -985,8 +985,6 @@ static void CG_DrawNotify( void ) {
 				w = len;
 			}
 		}
-		w *= TINYCHAR_WIDTH;
-		w += TINYCHAR_WIDTH * 2;
 
 		if ( maxCharsBeforeOverlay <= 0 ) {
 			maxCharsBeforeOverlay = 80;
@@ -2803,8 +2801,6 @@ CG_DrawFlashLightning
 =================
 */
 static void CG_DrawFlashLightning( void ) {
-	//vec4_t		col={1,1,1,1}; // TTimo: unused
-	float alpha;
 	centity_t *cent;
 	qhandle_t shader;
 
@@ -2822,20 +2818,13 @@ static void CG_DrawFlashLightning( void ) {
 		return;
 	}
 
-	alpha = 1.0 - (float)( cg.time - cent->pe.teslaDamagedTime ) / LIGHTNING_FLASH_TIME;
-	if ( alpha > 0 ) {
-		if ( alpha >= 1.0 ) {
-			alpha = 1.0;
-		}
-
-		if ( ( cg.time / 50 ) % ( 2 + ( cg.time % 2 ) ) == 0 ) {
-			shader = cgs.media.viewTeslaAltDamageEffectShader;
-		} else {
-			shader = cgs.media.viewTeslaDamageEffectShader;
-		}
-
-		CG_DrawPic( -10, -10, 650, 490, shader );
+	if ( ( cg.time / 50 ) % ( 2 + ( cg.time % 2 ) ) == 0 ) {
+		shader = cgs.media.viewTeslaAltDamageEffectShader;
+	} else {
+		shader = cgs.media.viewTeslaDamageEffectShader;
 	}
+
+	CG_DrawPic( -10, -10, 650, 490, shader );
 }
 
 
@@ -2936,8 +2925,6 @@ static void CG_DrawObjectiveInfo( void ) {
 		if ( x1 + w > x2 ) {
 			x2 = x1 + w;
 		}
-
-		x = OID_LEFT;
 
 		y += cg.oidPrintCharWidth * 1.5;
 

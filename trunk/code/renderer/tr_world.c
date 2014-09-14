@@ -473,8 +473,8 @@ static void R_RecursiveWorldNode( mnode_t *node, int planeBits, int dlightBits )
 		// determine which dlights are needed
 		newDlights[0] = 0;
 		newDlights[1] = 0;
-/*
-//		if ( dlightBits )
+
+		if ( dlightBits )
 		{
 			int	i;
 
@@ -482,7 +482,7 @@ static void R_RecursiveWorldNode( mnode_t *node, int planeBits, int dlightBits )
 				dlight_t	*dl;
 				float		dist;
 
-//				if ( dlightBits & ( 1 << i ) ) {
+				if ( dlightBits & ( 1 << i ) ) {
 					dl = &tr.refdef.dlights[i];
 					dist = DotProduct( dl->origin, node->plane->normal ) - node->plane->dist;
 
@@ -492,10 +492,10 @@ static void R_RecursiveWorldNode( mnode_t *node, int planeBits, int dlightBits )
 					if ( dist < dl->radius ) {
 						newDlights[1] |= ( 1 << i );
 					}
-//				}
+				}
 			}
 		}
-*/
+
 		// recurse down the children, front side first
 		R_RecursiveWorldNode( node->children[0], planeBits, newDlights[0] );
 
@@ -546,7 +546,6 @@ static void R_RecursiveWorldNode( mnode_t *node, int planeBits, int dlightBits )
 			mark++;
 		}
 	}
-
 }
 
 
