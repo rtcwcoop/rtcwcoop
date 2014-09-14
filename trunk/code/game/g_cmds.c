@@ -2288,20 +2288,18 @@ Cmd_StartCamera_f
 =================
 */
 void Cmd_StartCamera_f( gentity_t *ent ) {
+#ifdef INGAME_CUTSCENES
 	g_camEnt->r.svFlags |= SVF_PORTAL;
 	g_camEnt->r.svFlags &= ~SVF_NOCLIENT;
 	ent->client->cameraPortal = g_camEnt;
 	ent->client->ps.eFlags |= EF_VIEWING_CAMERA;
 	ent->s.eFlags |= EF_VIEWING_CAMERA;
 
-#ifdef INGAME_CUTSCENES
 	if ( g_skipcutscenes.integer && g_gametype.integer != GT_SINGLE_PLAYER ) {
-#else
-	// the cutscenes are broken, byebye
-	//    if ( g_gametype.integer != GT_SINGLE_PLAYER ) {
-#endif
 		AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
-	//   }
+#else
+		AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
+#endif
 
 // (SA) trying this in client to avoid 1 frame of player drawing
 //	ent->client->ps.eFlags |= EF_NODRAW;
@@ -2314,11 +2312,8 @@ Cmd_StopCamera_f
 =================
 */
 void Cmd_StopCamera_f( gentity_t *ent ) {
+#ifdef INGAME_CUTSCENES
 	gentity_t *sp;
-
-#ifndef INGAME_CUTSCENES
-	return;
-#endif
 
 	if ( ent->client->cameraPortal ) {
 		// send a script event
@@ -2343,6 +2338,9 @@ void Cmd_StopCamera_f( gentity_t *ent ) {
 			}
 		}
 	}
+#else
+	return;
+#endif
 }
 
 /*

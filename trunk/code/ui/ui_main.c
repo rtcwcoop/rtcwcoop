@@ -1895,7 +1895,7 @@ static void UI_DrawNetSource( rectDef_t *rect, int font, float scale, vec4_t col
 
 	// fretn - print master server hostname instead of Internet1, Internet2, its confusing
 	if (ui_netSource.integer != 0) {
-		sprintf(command, "sv_master%d", ui_netSource.integer);
+		Com_sprintf(command, sizeof(command), "sv_master%d", ui_netSource.integer);
 		trap_Cvar_VariableStringBuffer(command, masteraddress, sizeof(masteraddress));
 		Text_Paint( rect->x, rect->y, font, scale, color, va( "Source: %s", masteraddress ), 0, 0, textStyle );
 	} else {
@@ -1905,7 +1905,7 @@ static void UI_DrawNetSource( rectDef_t *rect, int font, float scale, vec4_t col
 
 static void UI_DrawSmallCreateMapPreview( rectDef_t *rect, float scale, vec4_t color, int number ) {
 
-	if ( uiInfo.mapList[ui_currentNetMap.integer].mapLoadName > 0 ) {
+	if ( uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) {
 		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( va( "levelshots/ui_%s_s%d", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName, number ) ) );
 	} else {
 		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( "menu/art/unknownmap" ) );
@@ -1914,7 +1914,7 @@ static void UI_DrawSmallCreateMapPreview( rectDef_t *rect, float scale, vec4_t c
 
 static void UI_DrawCreateMapPreview( rectDef_t *rect, float scale, vec4_t color ) {
 
-	if ( uiInfo.mapList[ui_currentNetMap.integer].mapLoadName > 0 ) {
+	if ( uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) {
 		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( va( "levelshots/ui_%s", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) ) );
 	} else {
 		UI_DrawHandlePic( rect->x, rect->y, rect->w, rect->h, trap_R_RegisterShaderNoMip( "menu/art/unknownmap" ) );
@@ -2316,7 +2316,7 @@ static int UI_OwnerDrawWidth( int ownerDraw, int font, float scale ) {
 			char command[1024];
 			char masteraddress[1024];
 
-			sprintf(command, "sv_master%d", ui_netSource.integer);
+			Com_sprintf(command, sizeof(command), "sv_master%d", ui_netSource.integer);
 			trap_Cvar_VariableStringBuffer(command, masteraddress, sizeof(masteraddress));
 			s = va( "Source: %s", masteraddress );
 		} else {
@@ -5859,7 +5859,6 @@ static const char *UI_FeederItemText( float feederID, int index, int column, qha
 				} else {
 					return va( "%s - %s", clientBuff, Info_ValueForKey( info, "mapname" ) );
 				}
-				return Info_ValueForKey( info, "mapname" );
 			case SORT_PING:
 				if ( ping <= 0 ) {
 					return "...";

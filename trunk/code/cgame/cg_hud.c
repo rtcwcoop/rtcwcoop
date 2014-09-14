@@ -891,7 +891,6 @@ static void CG_DrawGameStatus( rectDef_t *rect, int font, float scale, vec4_t co
 }
 
 static const char *CG_GameTypeString( void ) {
-
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		return "Single Player";
 	} else if ( cgs.gametype == GT_COOP ) {
@@ -903,8 +902,6 @@ static const char *CG_GameTypeString( void ) {
 	} else {
 		return "";
 	}
-
-	return "";
 }
 
 int CG_OwnerDrawWidth( int ownerDraw, int font, float scale ) {

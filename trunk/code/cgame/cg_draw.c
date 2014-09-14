@@ -3664,7 +3664,7 @@ void CG_DrawOnScreenText( void ) {
 			fontInfo_t *font = &cgDC.Assets.bigFont;
 
 			Q_strncpyz( temp,worldtext->text,1024 );
-			tok = strtok( temp,tokens );
+			tok = (const char *)strtok( temp,tokens );
 			while ( tok )
 			{
 				const int width = CG_Text_Width_Ext( tok,fTxtScale,0, font );
@@ -3682,7 +3682,7 @@ void CG_DrawOnScreenText( void ) {
 					font );
 
 				heightOffset += height * 1.5;
-				tok = strtok( NULL,tokens );
+				tok = (const char *)strtok( NULL,tokens );
 			}
 		}
 
