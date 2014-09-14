@@ -62,6 +62,16 @@ If 0, then only addresses matching the list will be allowed.  This lets you easi
 ==============================================================================
 */
 
+#define MAX_IPFILTERS   1024
+
+typedef struct ipGUID_s
+{
+	char compare[33];
+} ipGUID_t;
+
+static ipGUID_t ipMaxLivesFilters[MAX_IPFILTERS];
+static int numMaxLivesFilters = 0;
+
 #ifndef _ADMINS
 typedef struct ipFilter_s
 {
@@ -69,17 +79,8 @@ typedef struct ipFilter_s
 	unsigned compare;
 } ipFilter_t;
 
-typedef struct ipGUID_s
-{
-	char compare[33];
-} ipGUID_t;
-
-#define MAX_IPFILTERS   1024
-
 static ipFilter_t ipFilters[MAX_IPFILTERS];
-static ipGUID_t ipMaxLivesFilters[MAX_IPFILTERS];
 static int numIPFilters;
-static int numMaxLivesFilters = 0;
 
 /*
 =================
@@ -171,16 +172,6 @@ static void UpdateIPBans( void ) {
 	trap_Cvar_Set( "g_banIPs", iplist_final );
 }
 
-void PrintMaxLivesGUID( void ) {
-	int i;
-
-	for ( i = 0 ; i < numMaxLivesFilters ; i++ )
-	{
-		G_LogPrintf( "%i. %s\n", i, ipMaxLivesFilters[i].compare );
-	}
-	G_LogPrintf( "--- End of list\n" );
-}
-
 /*
 =================
 G_FilterPacket
@@ -217,21 +208,6 @@ qboolean G_FilterPacket( char *from ) {
 }
 
 /*
- Check to see if the user is trying to sneak back in with g_enforcemaxlives enabled
-*/
-qboolean G_FilterMaxLivesPacket( char *from ) {
-	int i;
-
-	for ( i = 0 ; i < numMaxLivesFilters ; i++ )
-	{
-		if ( !Q_stricmp( ipMaxLivesFilters[i].compare, from ) ) {
-			return 1;
-		}
-	}
-	return 0;
-}
-
-/*
 =================
 AddIP
 =================
@@ -256,22 +232,6 @@ static void AddIP( char *str ) {
 	}
 
 	UpdateIPBans();
-}
-
-/*
-=================
-AddMaxLivesGUID
-Xian - with g_enforcemaxlives enabled, this adds a client GUID to a list
-that prevents them from quitting a disconnecting
-=================
-*/
-void AddMaxLivesGUID( char *str ) {
-	if ( numMaxLivesFilters == MAX_IPFILTERS ) {
-		G_Printf( "MaxLives GUID filter list is full\n" );
-		return;
-	}
-	Q_strncpyz( ipMaxLivesFilters[numMaxLivesFilters].compare, str, 33 );
-	numMaxLivesFilters++;
 }
 
 /*
@@ -354,18 +314,6 @@ void Svcmd_RemoveIP_f( void ) {
 	G_Printf( "Didn't find %s.\n", str );
 }
 
-/*
- Xian - Clears out the entire list maxlives enforcement banlist
-*/
-void ClearMaxLivesGUID( void ) {
-	int i;
-
-	for ( i = 0 ; i < numMaxLivesFilters ; i++ ) {
-		ipMaxLivesFilters[i].compare[0] = '\0';
-	}
-	numMaxLivesFilters = 0;
-}
-
 #else
 
 /*
@@ -410,6 +358,59 @@ void Svcmd_tempban_f( void ) {
 }
 
 #endif // _ADMINS
+
+void PrintMaxLivesGUID( void ) {
+	int i;
+
+	for ( i = 0 ; i < numMaxLivesFilters ; i++ )
+	{
+		G_LogPrintf( "%i. %s\n", i, ipMaxLivesFilters[i].compare );
+	}
+	G_LogPrintf( "--- End of list\n" );
+}
+
+/*
+ Check to see if the user is trying to sneak back in with g_enforcemaxlives enabled
+*/
+qboolean G_FilterMaxLivesPacket( char *from ) {
+	int i;
+
+	for ( i = 0 ; i < numMaxLivesFilters ; i++ )
+	{
+		if ( !Q_stricmp( ipMaxLivesFilters[i].compare, from ) ) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+/*
+=================
+AddMaxLivesGUID
+Xian - with g_enforcemaxlives enabled, this adds a client GUID to a list
+that prevents them from quitting a disconnecting
+=================
+*/
+void AddMaxLivesGUID( char *str ) {
+	if ( numMaxLivesFilters == MAX_IPFILTERS ) {
+		G_Printf( "MaxLives GUID filter list is full\n" );
+		return;
+	}
+	Q_strncpyz( ipMaxLivesFilters[numMaxLivesFilters].compare, str, 33 );
+	numMaxLivesFilters++;
+}
+
+/*
+ Xian - Clears out the entire list maxlives enforcement banlist
+*/
+void ClearMaxLivesGUID( void ) {
+	int i;
+
+	for ( i = 0 ; i < numMaxLivesFilters ; i++ ) {
+		ipMaxLivesFilters[i].compare[0] = '\0';
+	}
+	numMaxLivesFilters = 0;
+}
 
 /*
 ===================
@@ -727,12 +728,12 @@ qboolean    ConsoleCommand( void ) {
 		trap_SendConsoleCommand( EXEC_INSERT, "g_banIPs\n" );
 		return qtrue;
 	}
+#endif
 
 	if ( Q_stricmp( cmd, "listmaxlivesip" ) == 0 ) {
 		PrintMaxLivesGUID();
 		return qtrue;
 	}
-#endif
 
 #ifdef _ADMINS
 	// Tempban
