@@ -2560,12 +2560,6 @@ $(B)/client/%.o: $(SYSDIR)/%.rc
 $(B)/splines/%.o: $(SPLDIR)/%.cpp
 	$(DO_SPLINE_CXX)
 
-# Added
-$(B)/client/q_math.o: $(CMDIR)/q_math.c
-	$(DO_CC)
-$(B)/client/q_shared.o: $(CMDIR)/q_shared.c
-	$(DO_CC)
-
 $(B)/renderer/%.o: $(CMDIR)/%.c
 	$(DO_REF_CC)
 
@@ -2622,11 +2616,6 @@ $(B)/ded/%.o: $(SYSDIR)/%.rc
 $(B)/ded/%.o: $(NDIR)/%.c
 	$(DO_DED_CC)
 
-# Added
-$(B)/ded/q_math.o: $(CMDIR)/q_math.c
-	$(DO_CC)
-$(B)/ded/q_shared.o: $(CMDIR)/q_shared.c
-	$(DO_CC)
 
 # Extra dependencies to ensure the SVN version is incorporated
 ifeq ($(USE_SVN),1)
