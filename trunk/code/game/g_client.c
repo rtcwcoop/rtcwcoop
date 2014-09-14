@@ -1569,16 +1569,18 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 	if ( G_FilterPacket( value ) ) {
 		return "You are banned from this server.";
 	}
-
-	// Xian - check for max lives enforcement ban
-	if ( g_enforcemaxlives.integer && ( g_maxlives.integer > 0 ) ) {
-		value = Info_ValueForKey( userinfo, "cl_guid" );
-		if ( G_FilterMaxLivesPacket( value ) ) {
-			return "Max Lives Enforcement Temp Ban";
-		}
-	}
-	// End Xian
 #endif
+
+	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
+		// Xian - check for max lives enforcement ban
+		if ( g_enforcemaxlives.integer && ( g_maxlives.integer > 0 ) ) {
+			value = Info_ValueForKey( userinfo, "cl_guid" );
+			if ( G_FilterMaxLivesPacket( value ) ) {
+				return "Max Lives Enforcement Temp Ban";
+			}
+		}
+		// End Xian
+	}
 
 	// we don't check password for bots and local client
 	// NOTE: local client <-> "ip" "localhost"
@@ -1760,20 +1762,18 @@ void ClientBegin( int clientNum ) {
 		}
 	}
 
-	//G_LogPrintf( "ClientBegin: %i\n", clientNum );
-
-#ifndef _ADMINS
-	// Xian - Check for maxlives enforcement
-	if ( g_enforcemaxlives.integer == 1 && ( g_maxlives.integer > 0 ) ) {
-		char *value;
-		char userinfo[MAX_INFO_STRING];
-		trap_GetUserinfo( clientNum, userinfo, sizeof( userinfo ) );
-		value = Info_ValueForKey( userinfo, "cl_guid" );
-		G_LogPrintf( "EnforceMaxLives-GUID: %s\n", value );
-		AddMaxLivesGUID( value );
+	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
+		// Xian - Check for maxlives enforcement
+		if ( g_enforcemaxlives.integer == 1 && ( g_maxlives.integer > 0 ) ) {
+			char *value;
+			char userinfo[MAX_INFO_STRING];
+			trap_GetUserinfo( clientNum, userinfo, sizeof( userinfo ) );
+			value = Info_ValueForKey( userinfo, "cl_guid" );
+			G_LogPrintf( "EnforceMaxLives-GUID: %s\n", value );
+			AddMaxLivesGUID( value );
+		}
+		// End Xian
 	}
-	// End Xian
-#endif
 
 	// count current clients and rank for scoreboard
 	CalculateRanks();

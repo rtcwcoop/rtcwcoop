@@ -1052,10 +1052,11 @@ qboolean    ConsoleCommand( void );
 #ifndef _ADMINS
 void G_ProcessIPBans( void );
 qboolean G_FilterPacket( char *from );
+#endif
+
 qboolean G_FilterMaxLivesPacket( char *from );
 void AddMaxLivesGUID( char *str );
 void ClearMaxLivesGUID( void );
-#endif
 
 //
 // g_weapon.c
@@ -1207,9 +1208,7 @@ extern vmCvar_t g_skipcutscenes;
 #endif
 extern vmCvar_t g_maxspawnpoints;
 extern vmCvar_t g_maxlives;
-#ifndef _ADMINS
 extern vmCvar_t g_enforcemaxlives;
-#endif
 extern vmCvar_t g_voiceChatsAllowed;
 extern vmCvar_t g_airespawn;
 extern vmCvar_t g_sharedlives;

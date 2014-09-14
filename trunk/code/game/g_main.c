@@ -59,9 +59,7 @@ vmCvar_t g_skipcutscenes;
 #endif
 vmCvar_t g_maxspawnpoints;
 vmCvar_t g_maxlives;
-#ifndef _ADMINS
 vmCvar_t g_enforcemaxlives;
-#endif
 vmCvar_t g_voiceChatsAllowed;
 vmCvar_t g_airespawn;
 vmCvar_t g_sharedlives;
@@ -210,9 +208,7 @@ cvarTable_t gameCvarTable[] = {
 #endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
-#ifndef _ADMINS
 	{ &g_enforcemaxlives, "g_enforcemaxlives", "1", CVAR_ARCHIVE, 0, qtrue},
-#endif
 	{ &g_voiceChatsAllowed, "g_voiceChatsAllowed", "4", CVAR_ARCHIVE, 0, qfalse},
 	{ &g_airespawn, "g_airespawn", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
 	{ &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
@@ -1319,7 +1315,6 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	// is used in the scripting to randomize entity locations, and more
 	trap_Cvar_Set( "g_random", va( "%d", r ) );
 
-#ifndef _ADMINS
 	// Xian enforcemaxlives stuff
 	/*
 	we need to clear the list even if enforce maxlives is not active
@@ -1332,6 +1327,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 		G_Printf( "EnforceMaxLives-Cleared GUID List\n" );
 	}
 
+#ifndef _ADMINS
 	G_ProcessIPBans();
 #endif
 
