@@ -442,7 +442,7 @@ void Shaker_think( gentity_t *ent ) {
 
 		// NERVE - SMF - client side camera shake
 		bounceamt = min( 1.0f, 1.0f - ( len / radius ) );
-		sprintf( cmd, "shake %.4f", bounceamt );           //DAJ
+		Com_sprintf( cmd, sizeof(cmd), "shake %.4f", bounceamt );   //DAJ
 		trap_SendServerCommand( player->s.clientNum, cmd );
 	}
 }

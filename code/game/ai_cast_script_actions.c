@@ -3206,34 +3206,39 @@ qboolean ScriptStartCam( cast_state_t *cs, char *params, qboolean black ) {
 }
 
 qboolean AICast_ScriptAction_StartCam( cast_state_t *cs, char *params ) {
-#ifndef INGAME_CUTSCENES
-	return qtrue;
-#endif
+#ifdef INGAME_CUTSCENES
 	return ScriptStartCam( cs, params, qfalse );
-}
-qboolean AICast_ScriptAction_StartCamBlack( cast_state_t *cs, char *params ) {
-#ifndef INGAME_CUTSCENES
+#else
 	return qtrue;
 #endif
+}
+
+qboolean AICast_ScriptAction_StartCamBlack( cast_state_t *cs, char *params ) {
+#ifdef INGAME_CUTSCENES
 	return ScriptStartCam( cs, params, qtrue );
+#else
+	return qtrue;
+#endif
 }
 
 
 //----(SA)	added
 qboolean AICast_ScriptAction_StopCamBlack( cast_state_t *cs, char *params ) {
-#ifndef INGAME_CUTSCENES
-	return qtrue;
-#endif
+#ifdef INGAME_CUTSCENES
 	trap_SendServerCommand( cs->entityNum, "stopCamblack" );
 	return qtrue;
+#else
+	return qtrue;
+#endif
 }
 
 qboolean AICast_ScriptAction_StopCam( cast_state_t *cs, char *params ) {
-#ifndef INGAME_CUTSCENES
-	return qtrue;
-#endif
+#ifdef INGAME_CUTSCENES
 	trap_SendServerCommand( cs->entityNum, "stopCam" );
 	return qtrue;
+#else
+	return qtrue;
+#endif
 }
 //----(SA)	end
 

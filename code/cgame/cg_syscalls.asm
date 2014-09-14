@@ -126,6 +126,12 @@ equ trap_UI_Popup				-123
 equ trap_UI_ClosePopup			-124
 equ trap_UI_LimboChat			-125
 equ trap_GetModelInfo			-126
+equ trap_R_GetTextureId			-127
+equ trap_R_RenderToTexture		-128
+equ strtok				-129
+equ trap_R_DrawRotatedPic		-130
+equ free				-131
+equ calloc				-132
 
 ; New in iortcw
 equ trap_Alloc					-901

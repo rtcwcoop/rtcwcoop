@@ -1296,10 +1296,6 @@ extern void trap_Cvar_Reset( const char *var_name );
 void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	int i;
 	int fps;
-	int r;
-
-	srand( time( NULL ) );
-	r = ( rand() % 10 ) + 1;
 
 	//if ( trap_Cvar_VariableIntegerValue( "g_gametype" ) != GT_SINGLE_PLAYER ) {
 	G_Printf( "------- Game Initialization -------\n" );
@@ -1310,10 +1306,6 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	srand( randomSeed );
 
 	G_RegisterCvars();
-
-	// g_random is a value from 1 - 10 (1 and 10 included)
-	// is used in the scripting to randomize entity locations, and more
-	trap_Cvar_Set( "g_random", va( "%d", r ) );
 
 	// Xian enforcemaxlives stuff
 	/*
@@ -1332,6 +1324,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 #endif
 
 	G_InitMemory();
+
 	// NERVE - SMF - intialize gamestate
 	if ( g_gamestate.integer == GS_INITIALIZE ) {
 		//if ( g_noTeamSwitching.integer ) {
@@ -1777,7 +1770,8 @@ void CalculateRanks( void ) {
 	int rank;
 	int score;
 	int newScore;
-	gclient_t   *cl;
+	gclient_t *cl;
+	
 
 #ifndef MONEY
 	int time = ( level.time - level.startTime ) / 1000;
@@ -1857,14 +1851,13 @@ void CalculateRanks( void ) {
 							int value = level.clients[i].ps.persistant[PERS_SCORE];
 							int mod = value % 1000;
 							int rounded = value - mod;
+							int j;
+							gentity_t *tmpent;
 
 							if ( level.clients[i].sess.lastBonusLifeScore < rounded ) { // yes we scored a bonus life
 								level.clients[i].sess.lastBonusLifeScore = rounded;
 
-								gentity_t *tmpent;
-								int i;
-
-								for ( i = 0; i < level.maxclients; i++ ) {
+								for ( j = 0; j < level.maxclients; j++ ) {
 									tmpent = &g_entities[i];
 									if ( tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 ) {
 										tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT]++;

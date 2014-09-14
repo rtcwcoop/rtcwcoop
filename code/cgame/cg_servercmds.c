@@ -1396,16 +1396,21 @@ static void CG_ServerCommand( void ) {
 	}
 
 	if ( !strcmp( cmd, "startCam" ) ) {
+#ifdef INGAME_CUTSCENES
 		CG_StartCamera( CG_Argv( 1 ), atoi( CG_Argv( 2 ) ) );
 		return;
+#else
+		return;
+#endif
 	}
 
 	if ( !strcmp( cmd, "stopCam" ) ) {
-#ifndef INGAME_CUTSCENES
-		return;
-#endif
+#ifdef INGAME_CUTSCENES
 		CG_StopCamera();
 		return;
+#else
+		return;
+#endif
 	}
 
 	if ( !strcmp( cmd, "mvspd" ) ) {
