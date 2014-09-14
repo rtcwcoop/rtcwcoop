@@ -535,8 +535,8 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 	int event, eventParm;
 	gclient_t   *client;
 	int damage;
-	int stunTime;           //----(SA)	added
-	float fallSoundMul;
+	int stunTime = 0;		//----(SA)	added
+	float fallSoundMul = 1.0f;
 //	vec3_t		origin, angles;
 //	qboolean	fired;
 //	gitem_t		*item;
@@ -567,9 +567,6 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 				break;
 			}
 
-			stunTime = 0;   //----(SA)	added
-			fallSoundMul = 1.0f;    // default to normal range
-
 //----(SA)	FIXME: TODO:  hmm, going through here adding surfaceparms it seems that the value for ent->client->ps.pm_time was weird.  (1000 for all but dmg_25 which has 250?)
 			if ( event == EV_FALL_NDIE ) {
 				damage = 9999;
@@ -595,7 +592,7 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 				stunTime = 0;
 			}
 
-			if ( stunTime ) {
+			if ( ent->client && stunTime ) {
 				ent->client->ps.pm_time = stunTime;
 				ent->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
 				VectorClear( ent->client->ps.velocity );
@@ -670,11 +667,11 @@ void ClientEvents( gentity_t *ent, int oldEventSequence ) {
 		default:
 			if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 				// RF, handle footstep sounds
-				if ( ent->client->ps.pm_flags & PMF_DUCKED ) { // no when crouching
+				if ( ent->client && ( ent->client->ps.pm_flags & PMF_DUCKED ) ) { // no when crouching
 					break;
 				}
 
-				if ( ent->client->pers.cmd.buttons & BUTTON_WALKING ) {
+				if ( ent->client && ( ent->client->pers.cmd.buttons & BUTTON_WALKING ) ) {
 					break;
 				}
 
@@ -1511,7 +1508,6 @@ void SpectatorClientEndFrame( gentity_t *ent ) {
 		}
 
 		if ( ( g_maxlives.integer > 0 ) && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
-			do_respawn = 0;
 			// if no lives left, should go to limbo ?
 			limbo( ent, qtrue );
 			return;

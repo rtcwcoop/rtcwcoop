@@ -4238,7 +4238,7 @@ void WM_ActivateLimboChat( void ) {
 	menuDef_t *menu;
 	itemDef_t *itemdef;
 
-	menu = Menu_GetFocused();
+	Menu_GetFocused();
 	menu = Menus_ActivateByName( "wm_limboChat", qtrue );
 
 	if ( !menu || g_editItem ) {
@@ -5070,13 +5070,11 @@ UI_BuildServerDisplayList
 static void UI_BuildServerDisplayList( int force ) {
 	//int i, count, clients, maxClients, ping, game, len, visible, friendlyFire, tourney, maxlives, punkbuster, antilag;
 	int maxlives;
-	int i, count, clients, maxClients, ping, game, len, visible;
+	int i, count, clients, maxClients, ping, game = 0, len, visible;
 	char info[MAX_STRING_CHARS];
 	//qboolean startRefresh = qtrue;// TTimo: unused
 	static int numinvisible;
 	int	lanSource;
-
-	game = 0;       // NERVE - SMF - shut up compiler warning
 
 	if ( !( force || uiInfo.uiDC.realTime > uiInfo.serverStatus.nextDisplayRefresh ) ) {
 		return;

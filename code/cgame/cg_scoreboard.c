@@ -355,7 +355,6 @@ qboolean CG_DrawScoreboard( void ) {
 	if ( cg.showScores || cg.predictedPlayerState.pm_type == PM_DEAD ||
 		 cg.predictedPlayerState.pm_type == PM_INTERMISSION ) {
 		fade = 1.0;
-		fadeColor = colorWhite;
 	} else {
 		fadeColor = CG_FadeColor( cg.scoreFadeTime, FADE_TIME );
 

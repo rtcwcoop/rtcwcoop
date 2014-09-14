@@ -1344,7 +1344,7 @@ void ClientUserinfoChanged( int clientNum ) {
 
 #ifdef _ADMINS 
 	// save IP FIXME IPV6
-	if ( s[0] != 0 ) {
+	if ( s && ( s[0] != 0 ) ) {
 		SaveIP( client, s );
 	}
 #endif
@@ -1563,10 +1563,27 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 
 	trap_GetUserinfo( clientNum, userinfo, sizeof( userinfo ) );
 
+#ifndef _ADMINS
 	// check to see if they are on the banned IP list
 	value = Info_ValueForKey( userinfo, "ip" );
-	if ( !( ent->r.svFlags & SVF_CASTAI ) && ( strcmp( Info_ValueForKey( userinfo, "ip" ), "localhost" ) != 0 ) ) {
+	if ( G_FilterPacket( value ) ) {
+		return "You are banned from this server.";
+	}
 
+	// Xian - check for max lives enforcement ban
+	if ( g_enforcemaxlives.integer && ( g_maxlives.integer > 0 ) ) {
+		value = Info_ValueForKey( userinfo, "cl_guid" );
+		if ( G_FilterMaxLivesPacket( value ) ) {
+			return "Max Lives Enforcement Temp Ban";
+		}
+	}
+	// End Xian
+#endif
+
+	// we don't check password for bots and local client
+	// NOTE: local client <-> "ip" "localhost"
+	// this means this client is not running in our current process
+	if ( !( ent->r.svFlags & SVF_CASTAI ) && ( strcmp( Info_ValueForKey( userinfo, "ip" ), "localhost" ) != 0 ) ) {
 		// Low level IP spoof
 		if ( strcmp( Info_ValueForKey( userinfo, "ip" ), "" ) == 0 ) {
 			return "^1IP spoof detected^7 - you cannot enter.";
@@ -1742,7 +1759,21 @@ void ClientBegin( int clientNum ) {
 			trap_SendServerCommand( -1, va( "print \"[cgnotify]%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
 		}
 	}
+
 	//G_LogPrintf( "ClientBegin: %i\n", clientNum );
+
+#ifndef _ADMINS
+	// Xian - Check for maxlives enforcement
+	if ( g_enforcemaxlives.integer == 1 && ( g_maxlives.integer > 0 ) ) {
+		char *value;
+		char userinfo[MAX_INFO_STRING];
+		trap_GetUserinfo( clientNum, userinfo, sizeof( userinfo ) );
+		value = Info_ValueForKey( userinfo, "cl_guid" );
+		G_LogPrintf( "EnforceMaxLives-GUID: %s\n", value );
+		AddMaxLivesGUID( value );
+	}
+	// End Xian
+#endif
 
 	// count current clients and rank for scoreboard
 	CalculateRanks();
@@ -2405,7 +2436,7 @@ void G_RetrieveMoveSpeedsFromClient( int entnum, char *text ) {
 
 	// if it doesn't exist, write the file and continue;
 	G_Printf( "Writing movespeeds to: %s\n", filename );
-	len = trap_FS_FOpenFile( filename, &f, FS_WRITE );
+	trap_FS_FOpenFile( filename, &f, FS_WRITE );
 	trap_FS_Write( text, strlen( text ), f );
 	trap_FS_FCloseFile( f );
 

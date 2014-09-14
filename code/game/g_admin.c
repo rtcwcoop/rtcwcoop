@@ -1488,7 +1488,7 @@ void cmd_getstatus( gentity_t *ent ) {
 			// player is connected && not a AI (bot)
 			if ( g_entities[j].client->pers.connected == CON_CONNECTED ) {
 
-				char *team, *slot, *ip, *tag, *sortTag, *extra;
+				char *team, *slot, *ip, *tag, *sortTag = "", *extra;
 				char n1[MAX_NETNAME];
 				char n2[MAX_NETNAME];
 
@@ -1498,7 +1498,6 @@ void cmd_getstatus( gentity_t *ent ) {
 				n2[10] = 0;
 
 				// Sort it :C
-				sortTag = "";
 				slot = va( "%3d", j );
 				team = ( g_entities[j].client->sess.sessionTeam == TEAM_SPECTATOR ) ? "^2SPEC^7" : "COOP";
 				ip = ( ent->client->sess.admin == ADM_NONE ) ?
@@ -1528,13 +1527,7 @@ void cmd_getstatus( gentity_t *ent ) {
 
 				// Print it now
 				trap_SendServerCommand( ent - g_entities, va( "print \"%-4s : %s : %-10s : ^2%-15s ^7: %-15s \"",
-															  slot,
-															  team,
-															  n2,
-															  ip,
-															  tag
-															  ) );
-
+								slot, team, n2, ip, tag ) );
 				trap_SendServerCommand( ent - g_entities, va( "print \"\n\"" ) );
 			}
 		}

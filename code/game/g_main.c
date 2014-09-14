@@ -59,6 +59,10 @@ vmCvar_t g_skipcutscenes;
 #endif
 vmCvar_t g_maxspawnpoints;
 vmCvar_t g_maxlives;
+#ifndef _ADMINS
+vmCvar_t g_enforcemaxlives;
+#endif
+vmCvar_t g_voiceChatsAllowed;
 vmCvar_t g_airespawn;
 vmCvar_t g_sharedlives;
 vmCvar_t g_limbotime;
@@ -206,6 +210,10 @@ cvarTable_t gameCvarTable[] = {
 #endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
+#ifndef _ADMINS
+	{ &g_enforcemaxlives, "g_enforcemaxlives", "1", CVAR_ARCHIVE, 0, qtrue},
+#endif
+	{ &g_voiceChatsAllowed, "g_voiceChatsAllowed", "4", CVAR_ARCHIVE, 0, qfalse},
 	{ &g_airespawn, "g_airespawn", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
 	{ &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
@@ -235,6 +243,7 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_password, "g_password", "", CVAR_USERINFO, 0, qfalse  },
 	{ &g_banIPs, "g_banIPs", "", CVAR_ARCHIVE, 0, qfalse  },
+	{ &g_filterBan, "g_filterBan", "1", CVAR_ARCHIVE, 0, qfalse  },
 
 	{ &g_dedicated, "dedicated", "0", 0, 0, qfalse  },
 
@@ -1317,6 +1326,11 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	in cas ethe g_maxlives was changed, and a map_restart happened
 	*/
 	ClearMaxLivesGUID();
+
+	// just for verbosity
+	if ( g_enforcemaxlives.integer && ( g_maxlives.integer > 0 ) ) {
+		G_Printf( "EnforceMaxLives-Cleared GUID List\n" );
+	}
 
 	G_ProcessIPBans();
 #endif

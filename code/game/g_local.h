@@ -1207,6 +1207,10 @@ extern vmCvar_t g_skipcutscenes;
 #endif
 extern vmCvar_t g_maxspawnpoints;
 extern vmCvar_t g_maxlives;
+#ifndef _ADMINS
+extern vmCvar_t g_enforcemaxlives;
+#endif
+extern vmCvar_t g_voiceChatsAllowed;
 extern vmCvar_t g_airespawn;
 extern vmCvar_t g_sharedlives;
 extern vmCvar_t g_limbotime;

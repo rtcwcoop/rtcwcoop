@@ -1506,7 +1506,6 @@ void RB_StageIteratorLightmappedMultitexture( void );
 
 void RB_AddQuadStamp( vec3_t origin, vec3_t left, vec3_t up, byte *color );
 void RB_AddQuadStampExt( vec3_t origin, vec3_t left, vec3_t up, byte *color, float s1, float t1, float s2, float t2 );
-void RB_AddQuadStampFadingCornersExt( vec3_t origin, vec3_t left, vec3_t up, byte *color, float s1, float t1, float s2, float t2 );
 
 void RB_ShowImages( void );
 
@@ -1975,6 +1974,5 @@ extern int drawskyboxportal;
 // Ridah, virtual memory
 void *R_Hunk_Begin( void );
 void R_Hunk_End( void );
-void R_FreeImageBuffer( void );
 
 #endif //TR_LOCAL_H (THIS MUST BE LAST!!)
