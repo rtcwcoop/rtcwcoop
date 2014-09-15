@@ -560,9 +560,9 @@ qboolean CL_GetLimboString( int index, char *buf );         // NERVE - SMF
 
 #ifdef LOCALISATION
 // NERVE - SMF - localization
-void CL_InitTranslation();
-void CL_SaveTransTable();
-void CL_ReloadTranslation();
+void CL_InitTranslation( void );
+void CL_SaveTransTable( const char *fileName, qboolean newOnly );
+void CL_ReloadTranslation( void );
 void CL_TranslateString( const char *string, char *dest_buffer );
 const char* CL_TranslateStringBuf( const char *string ); // TTimo
 // -NERVE - SMF
