@@ -578,7 +578,7 @@ extern Q_EXPORT void dllEntry ( intptr_t ( QDECL * syscallptr ) ( intptr_t arg ,
 #endif
 
 extern qboolean ConsoleCommand ( void ) ;
-extern void Svcmd_Ignore_f ( ) ;
+extern void Svcmd_Ignore_f ( void ) ;
 extern void Svcmd_Unignore_f ( void ) ;
 extern void Svcmd_PollPrint_f ( void ) ;
 extern void Svcmd_ForceTeam_f ( void ) ;

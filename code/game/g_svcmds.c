@@ -606,7 +606,7 @@ Ignore
 ============
 */
 
-void Svcmd_Ignore_f() {
+void Svcmd_Ignore_f( void ) {
 	int clientNum;
 	char buf[5];
 

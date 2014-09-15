@@ -417,7 +417,7 @@ void SV_RemoveOperatorCommands( void );
 
 void SV_MasterShutdown( void );
 
-void SV_MasterGameCompleteStatus();     // NERVE - SMF
+void SV_MasterGameCompleteStatus( void );     // NERVE - SMF
 
 int SV_RateMsec(client_t *client);
 
