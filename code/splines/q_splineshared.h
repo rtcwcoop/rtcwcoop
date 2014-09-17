@@ -50,27 +50,37 @@ If you have questions concerning this license or the applicable additional terms
   #define HOMEPATH_NAME_MACOSX		HOMEPATH_NAME_WIN
   #define GAMENAME_FOR_MASTER		"foobar"	// must NOT contain whitespace
 //  #define LEGACY_PROTOCOL	// You probably don't need this for your standalone game
-// Heartbeat for dpmaster protocol. You shouldn't change this unless you know what you're doing
-  #define HEARTBEAT_FOR_MASTER		"DarkPlaces"
 #else
-  #define PRODUCT_NAME			"iortcw"
+  #define PRODUCT_NAME			"RTCWCoop"
   #define BASEGAME			"main"
-  #define CLIENT_WINDOW_TITLE     	"Return To Castle Wolfenstein"
-  #define CLIENT_WINDOW_MIN_TITLE 	"iowolfsp"
-  #define HOMEPATH_NAME_UNIX		".iortcw"
-  #define HOMEPATH_NAME_WIN		"RTCW"
-  #define HOMEPATH_NAME_MACOSX		HOMEPATH_NAME_WIN
-  #define GAMENAME_FOR_MASTER		"wolfmp"
-  #define LEGACY_PROTOCOL
-  #define HEARTBEAT_GAME  "Wolfenstein-1"
-  #define HEARTBEAT_DEAD  "WolfFlatline-1"
+  #define COOP_BASEGAME			"coopmain"
+  #define CLIENT_WINDOW_TITLE     	"Return To Castle Wolfenstein Coop"
+  #define CLIENT_WINDOW_MIN_TITLE 	"RTCWCoop"
+  #define HOMEPATH_NAME_UNIX		".wolf"
+  #define HOMEPATH_NAME_WIN		"RTCWCoop"
+  #define HOMEPATH_NAME_MACOSX		"rtcwcoop"
+  #define GAMENAME_FOR_MASTER		"wolfcoop"
+//  #define LEGACY_PROTOCOL
 #endif
 
+// Heartbeat for dpmaster protocol. You shouldn't change this unless you know what you're doing
+#define HEARTBEAT_FOR_MASTER		"WolfensteinCoop-1"
+#define FLATLINE_FOR_MASTER		"WolfFlatlineCoop-1"
+
 #ifndef PRODUCT_VERSION
-  #define PRODUCT_VERSION "1.42"
+  #define PRODUCT_VERSION "1.0.1"
 #endif
 
 #define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION
+
+#define RTCWCOOP_VERSION_NUMBER "1.0.1"
+#define RTCWCOOP_VERSION_DIGIT_1 1
+#define RTCWCOOP_VERSION_DIGIT_2 0
+#define RTCWCOOP_VERSION_DIGIT_3 1
+
+#define MAX_COOP_CLIENTS 8
+
+#define MAX_MAPS 128
 
 #define MAX_TEAMNAME		32
 #define NEW_ANIMS
