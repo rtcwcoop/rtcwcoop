@@ -60,7 +60,7 @@ If you have questions concerning this license or the applicable additional terms
   #define HOMEPATH_NAME_WIN		"RTCWCoop"
   #define HOMEPATH_NAME_MACOSX		"rtcwcoop"
   #define GAMENAME_FOR_MASTER		"wolfcoop"
-  #define LEGACY_PROTOCOL
+//  #define LEGACY_PROTOCOL
 #endif
 
 // Heartbeat for dpmaster protocol. You shouldn't change this unless you know what you're doing
