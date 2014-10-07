@@ -2016,6 +2016,37 @@ Be careful when you do this! Make sure you don't break any trigger paths and com
 
 There are some bugs mapper cannot do anything about. I have tried to eliminate most of them, but there is a good chance something will appear. If you have something in your mind, please report it on our official forum.
 
+=== 6.5. Players spawn inside each other or die at respawn ===
+
+This means there is something wrong with your coop_spawnpoint entities. There is 3 usual reasons for this.
+
+ * 1 ) You have not added any coop_spawnpoints. Check section 2.4.
+
+_If you have added coop_spawnpoints, let's continue_
+
+ * 2 ) If it happens at start, you have used wrong spawnflags at start spawn. At map start the right spawnflags for the coop_spawnpoints is 3.
+
+{{{
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "3"
+"origin" "-39 -9905 24"
+"angle" "-35"
+}
+}}}
+
+ * 3 ) If it happens after capturing a flag, you have used wrong spawnflags at a flag spawn. For a flag spawnpoint, the correct spawnflags for the coop_spawnpoints is 2.
+
+{{{
+{
+"classname" "coop_spawnpoint"
+"spawnflags" "2"
+"origin" "1642 -4912 28"
+"angle" "-97"
+"targetname" "myflagspawn"
+}
+}}}
+
 == 7. Example map ==
 
 *NOTE*
