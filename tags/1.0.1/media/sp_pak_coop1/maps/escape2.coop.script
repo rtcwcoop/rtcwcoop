@@ -1,0 +1,409 @@
+//Cleaned for COOP by -SSF-Sage on 29.1.2013
+//
+//Brush Scripting
+//Map: Escape #2
+//Last edited by: Dan
+//
+
+game_manager
+{
+	spawn
+	{
+//		accum 0 set 0 // objectives
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+//Don't check, map breaks if you bypass the door
+//		accum 0 abort_if_not_bitset 1
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+//		accum 0 bitset 1
+
+		// remove the left door
+		removeentity *23
+	}
+}
+
+bridge_door //bridge steel door
+{
+        spawn
+        {   
+        }   
+
+        death
+        {   
+		trigger game_manager objective1
+        }   
+}
+
+dialog
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitset 1
+		accum 0 bitset 2
+	}
+
+	trigger firstroom
+	{
+		wait 500
+		trigger nazi2 goingon
+		wait 5000
+		trigger nazi1 doubled
+		wait 4500
+		trigger nazi2 badcase
+		wait 7000
+		trigger nazi1 iknow
+		wait 8000
+		trigger nazi2 understand
+		wait 5500
+		trigger nazi1 polish
+		wait 6000
+		trigger nazi1 timetogo
+		trigger nazi2 timetogo
+	}		
+
+	trigger stovechat
+	{
+		trigger nazi3 wiegates
+		wait 1500
+		trigger nazi1 hey
+		wait 2000
+		trigger alarm radiotune
+	}
+
+	trigger wineroom
+	{
+		wait 100
+		trigger nazi10 sigh
+		wait 800
+		trigger nazi11 what
+		wait 1000
+		trigger nazi10 explain
+		wait 6400
+		trigger nazi11 heard
+		wait 10000
+		trigger nazi10 bottle
+		wait 3500
+		trigger nazi11 kidding
+		wait 1000
+		trigger nazi10 moveon
+		trigger nazi11 moveon
+	}
+		
+	trigger goldrush
+	{
+		resetscript
+		wait 1000
+		trigger nazi23 protect
+		wait 4000
+		trigger nazi23 movefools
+	}
+
+	trigger bridgedoor
+	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2
+		trigger nazi27 unlock
+		wait 600
+		trigger player playaction1 // calls alarm music
+		//alertentity openbridgedoor
+	}
+
+	trigger cleardialog
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		resetscript
+	}
+
+	trigger cleardialog2
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+		resetscript
+	}
+}
+
+spawner
+{
+	spawn
+	{
+		accum 0 bitset 0 // insure fire once
+		accum 0 bitset 1 // insure fire once
+		accum 0 bitset 2 // insure fire once
+		accum 0 bitset 3 // insure fire once
+		accum 0 bitset 4 // insure fire once
+		accum 0 bitset 5 // insure fire once
+		accum 0 bitset 6 // barracks once
+		accum 1 set 0 // 1 = alarm on atleast once
+		accum 2 set 0 // 0 = alarm currently off  1 = alarm currently on
+	}
+
+	trigger spawnnazi3
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		alertentity nazi3
+	}
+
+	trigger alarmspawn
+	{
+		accum 1 set 1
+	}
+
+	trigger spawnnazi567
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1
+		alertentity nazi5
+		alertentity nazi6
+		alertentity nazi7
+		accum 1 abort_if_not_equal 0
+		trigger nazi5 calm5
+		trigger nazi6 calm6
+		trigger nazi7 calm7
+	}
+
+	trigger spawnnazi89
+	{
+		accum 0 abort_if_not_bitset 2
+		accum 0 bitreset 2
+		alertentity nazi8
+		alertentity nazi9
+		accum 1 abort_if_not_equal 1
+		wait 100
+		trigger nazi8 alarm8
+		trigger nazi9 alarm9
+	}
+
+
+	trigger spawnnazi13
+	{
+//		accum 0 abort_if_not_bitset 3
+//		accum 0 bitreset 3
+		alertentity nazi13
+		alertentity enterkeep
+//		wait 5
+//		accum 2 abort_if_not_equal 1
+		trigger nazi13 alarmon
+	}
+
+	trigger lowerroom
+	{
+		accum 0 abort_if_not_bitset 4
+		accum 0 bitreset 4
+		alertentity nazi14
+		wait 2000
+		alertentity nazi16
+		alertentity nazi17
+		alertentity nazi18
+		trigger player playaction1 // calls alarm music
+		trigger nazi14 ambush14
+		trigger dummy wait8
+	}
+
+	trigger cells
+	{
+		accum 0 abort_if_not_bitset 5
+		accum 0 bitreset 5
+		alertentity nazi19
+		alertentity nazi20
+		alertentity nazi21
+		alertentity nazi22
+	}
+
+	trigger barracks
+	{
+		accum 0 abort_if_not_bitset 6
+		accum 0 bitreset 6
+
+		wait 2000
+		alertentity nazi26
+		alertentity nazi29
+		alertentity nazi30
+		wait 1000
+		alertentity nazi33
+		alertentity nazi34
+	}
+
+	trigger alarmoff
+	{
+		accum 2 set 0
+	}
+
+	trigger alarmon
+	{
+		accum 2 set 1
+	}
+}
+
+dummy
+{
+	spawn
+	{
+		accum 0 bitset 0 // bitset = off   bitreset = on
+	}
+
+	trigger toggle
+	{
+		trigger dummy on_to_off
+		wait 5
+		trigger dummy off_to_on
+	}
+
+	trigger on_to_off
+	{
+		accum 0 abort_if_bitset 0
+		wait 100
+		accum 0 bitset 0
+		trigger spawner alarmoff
+	}
+
+	trigger off_to_on
+	{
+		accum 0 abort_if_not_bitset 0
+		wait 100
+		accum 0 bitreset 0
+		trigger spawner alarmon
+	}
+
+	trigger wait8
+	{
+		wait 8000
+		trigger spawner cells
+	} 
+}
+
+alarm
+{
+	spawn
+	{
+		accum 0 bitset 0
+		accum 0 bitreset 1 // starts off
+		accum 0 bitset 2 // special alarm
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger radiotune
+	{
+		accum 0 abort_if_not_bitset 0 // not if alarm has been set
+		accum 0 abort_if_not_bitset 1
+		accum 0 bitreset 1 // only allow radiotune to be played once
+		trigger officer2 radiostuff
+	}
+
+	trigger officer2in
+	{
+		accum 0 bitset 1 // now can call radiotune
+	}
+
+	trigger on
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+
+		trigger player playaction1 // calls alarm music
+		trigger officer2 alarm2
+		trigger nazi5 alarm5
+		trigger nazi6 alarm6
+		trigger nazi7 alarm7
+	}
+
+	trigger deaths_zone1
+	{
+		accum 1 inc 1
+		accum 1 abort_if_less_than 9
+		trigger player playmission1 // calls mission music
+		accum 1 abort_if_less_than 10
+		alertentity waketriggers
+		accum 1 set 1
+	}
+
+	trigger deaths_zone2
+	{
+		accum 2 inc 1
+		accum 2 abort_if_less_than 8
+		trigger player playmission1 // calls mission music
+		alertentity opennextarea
+		accum 2 set 1
+	}
+
+	trigger deaths_zone3
+	{
+		accum 3 inc 1
+		accum 3 abort_if_less_than 4
+		trigger player playmission1 // calls mission music
+		accum 3 set 1
+	}
+}
+
+locker1
+{
+	spawn
+	{
+		accum 0 set 0 //  0 = closed  1 = open
+	}
+
+	trigger toggle
+	{
+		trigger locker1 open
+		wait 5
+		trigger locker1 close
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		playsound sound/movers/doors/door8_open.wav
+		faceangles 0 85 0 700
+	}
+
+	trigger close
+	{
+		accum 0 abort_if_not_equal 1
+		accum 0 set 0
+		playsound sound/movers/doors/door8_open.wav
+		faceangles 0 0 0 700
+	}
+}
+
+locker2
+{
+	spawn
+	{
+		accum 0 set 0 //  0 = closed  1 = open
+	}
+
+	trigger toggle
+	{
+		trigger locker2 open
+		wait 5
+		trigger locker2 close
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_not_equal 0
+		accum 0 set 1
+		playsound sound/movers/doors/door8_open.wav
+		faceangles 0 85 0 700
+	}
+
+	trigger close
+	{
+		accum 0 abort_if_not_equal 1
+		accum 0 set 0
+		playsound sound/movers/doors/door8_open.wav
+		faceangles 0 0 0 700
+	}
+}

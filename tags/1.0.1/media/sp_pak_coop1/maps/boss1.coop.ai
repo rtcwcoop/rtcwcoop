@@ -1,0 +1,930 @@
+//Cleaned for COOP by -SSF-Sage on 15.1.2013
+//
+//AI Scripting
+//Map: Boss 1 map
+//Last edited by: Dan
+//
+
+player
+{
+	spawn
+	{
+		// Weapons
+		giveweapon weapon_knife
+		giveweapon weapon_luger
+		setclip weapon_luger 8
+		giveweapon weapon_mp40
+		setclip weapon_mp40 32
+		giveweapon weapon_thompson
+		setclip weapon_thompson 30
+		giveweapon weapon_sten
+		setclip weapon_sten 32
+		giveweapon weapon_mauserrifle
+		giveweapon weapon_sniperscope
+		setclip weapon_mauserrifle 10
+
+		// Ammo
+		setammo ammo_9mm 144
+		setammo ammo_45cal 98
+		setammo ammo_792mm 35
+		setammo ammo_grenades 5
+
+		// Items
+		giveinventory key_binocs
+		selectweapon weapon_sten
+
+		mu_start sound/music/c_atmos
+
+	}
+
+	playerstart
+	{
+	}
+
+
+	trigger map_start
+	{
+		//If something breaks at late player joining, move it here
+
+		cvar g_episode 1
+
+		globalaccum 0 bitset 0
+		globalaccum 0 bitset 1
+		globalaccum 0 bitset 2 // spawn helga once
+		globalaccum 1 set 0
+		globalaccum 2 set 0
+		
+		objectivesneeded 2
+		numsecrets 0
+
+		//Removes all the cutscene stuff
+		trigger counter1 cine1_cleanup
+
+//----------------------------------------
+//Make AI reinforcements not respawn
+//----------------------------------------
+		#if g_airespawn >= 1
+		wait 5
+		randomrespawn coop_ai_zombie_1
+		randomrespawn coop_ai_zombie_2
+		randomrespawn coop_ai_zombie_3
+		randomrespawn coop_ai_zombie_4
+		randomrespawn coop_ai_zombie_5
+		randomrespawn coop_ai_zombie_6
+		randomrespawn coop_ai_zombie_7
+		randomrespawn coop_ai_zombie_8
+		randomrespawn coop_ai_zombie_9
+		randomrespawn coop_ai_zombie_10
+		wait 5
+		randomrespawn coop_ai_zombie_11
+		randomrespawn coop_ai_zombie_12
+		randomrespawn coop_ai_zombie_13
+		randomrespawn coop_ai_zombie_14
+		randomrespawn coop_ai_zombie_15
+		randomrespawn coop_ai_zombie_16
+		#endif
+//----------------------------------------
+	}
+
+	trigger action1
+	{
+		//accum 1 set 1
+	}
+
+	trigger action2
+	{		
+		trigger game_manager gibhelga
+	}
+
+	trigger enterbattle
+	{
+		globalaccum 0 abort_if_not_bitset 1
+		globalaccum 0 bitreset 1
+		
+		trigger game_manager enterbattle
+	}
+
+	trigger exitbattle
+	{
+		globalaccum 0 abort_if_bitset 1
+		globalaccum 0 bitset 1
+		
+		trigger game_manager exitbattle
+	}
+
+	trigger phitcorner1 // player has touched corner 1, check for spawning zombies
+	{
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
+		trigger counter2 corner1
+		
+		trigger game_manager spawnhelga
+	}
+
+	trigger phitcorner2 // player has touched corner 1, check for spawning zombies
+	{
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
+		trigger counter2 corner2
+	}
+
+	trigger phitcorner3 // player has touched corner 1, check for spawning zombies
+	{
+		globalaccum 0 abort_if_not_bitset 0
+		globalaccum 0 bitreset 0
+		trigger counter2 corner3
+	}
+
+	trigger spawned_zombie
+	{
+		trigger game_manager spawned_zombie
+	}
+
+	trigger killed_zombie
+	{
+		trigger game_manager killed_zombie
+	}
+
+	trigger ztrigger1_hit
+	{
+		trigger game_manager ztrigger1_hit
+	}
+
+	trigger ztrigger2_hit
+	{
+		trigger game_manager ztrigger2_hit
+	}
+
+	trigger ztrigger3_hit
+	{
+		trigger game_manager ztrigger3_hit
+	}
+
+	trigger ztrigger4_hit
+	{
+		trigger game_manager ztrigger4_hit
+	}
+
+	trigger ztrigger5_hit
+	{
+		trigger game_manager ztrigger5_hit
+	}
+
+	trigger ztrigger6_hit
+	{
+		trigger game_manager ztrigger6_hit
+	}
+
+	trigger ztrigger7_hit
+	{
+		trigger game_manager ztrigger7_hit
+	}
+
+	trigger ztrigger8_hit
+	{
+		trigger game_manager ztrigger8_hit
+	}
+
+	trigger got_objective2
+	{
+		objectivemet 2	// mission objective complete
+		trigger game_manager objective2
+	}
+
+	trigger endmap
+	{
+		trigger game_manager checkexit
+	}
+
+	trigger endmap2
+	{
+		changelevel forest persistent
+	}
+
+}
+
+//-----------------------------------------------------
+// Game begins, cutscene removed
+//-----------------------------------------------------
+zombie1
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave1			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie1"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+zombie2
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave2			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie2"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+zombie3
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave3			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie3"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+zombie4
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave4			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie4"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+zombie5
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave5			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie5"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+zombie6
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave6			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie6"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+zombie7
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave7			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie7"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+zombie8
+{
+	attributes
+	{
+		starting_health 90
+		aggression 1.0
+		fov 360
+	}
+	
+	spawn
+	{
+		trigger player spawned_zombie
+		alertentity zgrave8			// break the cover
+		nosight 10000
+		playanim revive both
+		gotocast player
+		sight
+	}
+
+	enemysight player
+	{
+		resetscript		// resume normal combat now
+	}
+
+	death
+	{
+		//print "killed zombie8"
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+helga_zombie	// reincarnation of helga
+{
+	attributes
+	{
+		pain_threshold_scale 50
+		starting_health 1500
+		aggression 1.0
+		fov 360
+	}
+
+	spawn
+	{
+		accum 0 set 0 // 1 = helga has broken gate
+		accum 1 set 0 // 1 = fired fakedeath
+		accum 2 set 0 // 1 = gate blown
+		statetype alert
+		knockback off
+		godmode on
+		nosight 999999
+		wait 100
+		runtomarker helga1 nostop
+		runtomarker helga2 nostop
+		//alertentity closedoor		// cs: its left closed because the cinematic sequence is buggy
+		runtomarker helga3 nostop
+		runtomarker helga4 nostop
+		runtomarker helga5 nostop
+		godmode off
+		runtomarker helga6
+		trigger game_manager blowfence
+		playanim attack3 both
+		trigger player phitcorner1	// simulate hitting a corner to force some zombie out of their coffins
+		runtomarker helga7
+		attrib pain_threshold_scale 10
+		sight
+		accum 0 set 1
+		gotocast player
+	}
+
+	enemysight
+	{
+		resetscript
+	}
+
+	blocked player
+	{
+		deny
+		pushaway player
+	}
+
+	trigger unhide1
+	{
+		accum 0 abort_if_not_equal 1
+		sight
+		resetscript
+	}
+
+	trigger hide1
+	{
+		accum 0 abort_if_not_equal 1
+//		nosight 20000
+		runtomarker hidden1
+		wait 5 1
+		facetargetangles hidden1
+//		sight
+		wait forever 1
+	}		
+
+	death
+	{
+		//print "killed helga"
+		objectivemet 1
+		trigger game_manager objective1
+		trigger counter1 killed_total
+		trigger game_manager blowfence
+	}
+}
+
+coop_ai_zombie_1 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_2 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_3 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_4 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_5 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_6
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_10 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_11
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_12 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_13 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_14 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_15 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 75
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}
+
+coop_ai_zombie_16 		//
+{
+	attributes
+	{
+		fov 240
+		starting_health 200
+		hearing_scale 1.0
+		alertness 4000
+	}
+
+	spawn
+	{
+		noaidamage on
+		nosight 70000
+		godmode on
+		knockback off
+		playanim off_hole both
+		sight
+		godmode off
+		resetscript
+		attack player
+	}
+
+	death
+	{
+		trigger player killed_zombie
+		trigger counter1 killed_total
+	}
+}

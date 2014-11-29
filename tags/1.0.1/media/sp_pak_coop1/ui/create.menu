@@ -1,0 +1,1337 @@
+#include "ui/menudef.h"
+
+#define ORIGIN_WINDOW1		136 -15
+#define ORIGIN_WINDOW2		136 15
+#define HELP_ORIGIN			0 5
+
+{
+// MAIN WINDOW
+
+  menuDef {
+    	name "create_menu"
+    	visible 0
+    	fullscreen 1
+    	rect 186 0 454 480	
+		focusColor .9 .9 .9 1
+    	style 1
+    	border 1
+		soundloop ""
+      	style WINDOW_STYLE_FILLED
+		forecolor 0 0 0 0
+		backcolor 0 0 0 0
+
+	onOpen {
+		setitemcolor fadebox backcolor 0 0 0 1 ; 
+		fadeout fadebox ;
+		hide back_alt ;
+		show back ;
+		show grpCreate ;
+		hide grpmessage ;
+		setitemcolor easy backcolor .7 .7 .0 .25 ;
+		uiScript skilleasy
+	}
+
+	onEsc {
+		close create_menu ;
+		open main
+	}
+
+// Start of Menu Background
+
+itemDef {
+      	name menu_select					// menu_select
+      	style WINDOW_STYLE_SHADER
+      	rect 0 0 640 480
+     	background "menu_select"
+      	visible 1
+		decoration
+    	}
+itemDef {
+		name band2							// band2
+		style WINDOW_STYLE_SHADER
+		rect 360 20 128 640
+    	background "band2"
+     	visible 1
+		decoration
+}
+itemDef {
+      	name bands							// bands
+      	style WINDOW_STYLE_SHADER
+      	rect 0 -480 640 1024
+     	background "bands"
+      	visible 1
+		decoration
+    	}
+itemDef {
+		name BLACKGRAD						// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 -4 640 132
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+itemDef {
+		name BLACKGRAD2						// BLACKGRAD
+		style WINDOW_STYLE_SHADER
+		rect 0 420 640 -128
+		background "BLACKGRAD"
+		visible 1
+		decoration
+		}
+itemDef {
+		name FLAME							// FLAME
+		style WINDOW_STYLE_SHADER
+		rect 210 20 220 67
+		background "fLAME"
+		visible 1
+		decoration
+		}
+itemDef {
+		name WOLFFLAMELOGO					// WOLFFLAMELOGO
+		style WINDOW_STYLE_SHADER
+		rect 200 -5 240 120
+		background "WOLFFLAMELOGO"
+		visible 1
+		decoration
+		}
+itemDef {
+		name gold_line						// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 0 76 226 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+itemDef {
+		name gold_line						// gold_line
+		style WINDOW_STYLE_SHADER
+		rect 414 76 230 10
+		background "gold_line"
+		visible 1
+		decoration
+		}
+	itemDef {
+		name WOLFICONBACK					// WOLFICONBACK
+		style WINDOW_STYLE_SHADER
+		rect 140 200 360 190
+		background "WOLFICONBACK"
+		visible 1
+		decoration
+		}
+// End of Menu Background
+
+// Start of Upper Menu
+
+	itemDef {
+		name			create_server
+		text			"PLEASE DON'T FORGET TO OPEN THIS PORT ON YOUR ROUTER: 27960 [TCP/UDP]"
+		textfont		UI_FONT_NORMAL
+		textalign		ITEM_ALIGN_CENTER
+		textalignx		0
+		textaligny		14
+		textscale		.2
+		rect			320 90 100 14
+		style			0
+		textstyle		6
+		forecolor		.63 .47 .25 1
+		visible			1
+		decoration
+		}
+		
+// End of Upper Menu
+
+// Start of Create Server
+
+			// Start of Create Server Border
+
+				itemDef 
+					{
+					name			window
+					group			grpCreate
+					rect			20 115 600 300	
+					style			WINDOW_STYLE_FILLED
+					border 			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		0 0 0 .5
+					visible			1
+					decoration
+					}
+			
+			// End of Create Server Border
+			
+			// Map selection
+				
+				// Start of bottom left map selection border image
+
+					itemDef {
+					name			window
+					group			grpCreate
+					text			"Map Selection"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		115
+					textaligny		14
+					textscale		.25
+					rect			28 120 230 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}
+					
+	//  MAP PREVIEW  //
+
+				itemDef {
+					name				mappreview
+					group				grpCreate
+					ownerdraw		        UI_CREATEMAPPREVIEW	
+					rect				29 146 151 114
+					visible				1 
+					}
+				
+				itemDef {
+					name				mappreview
+					group				grpCreate
+					style				WINDOW_STYLE_FILLED	
+					rect				28 145 152 115
+					border				1
+					bordercolor			.5 .5 .5 .5
+					visible				1 
+					}
+				
+						itemDef {
+							name			mappreview
+							group			grpCreate
+							ownerdraw		UI_CREATEMAPPREVIEW_SMALL1
+							rect			186 146 72 54
+							visible			1 
+							}
+							
+						itemDef {
+							name			mappreview
+							group			grpCreate
+							style			WINDOW_STYLE_FILLED	
+							rect			185 145 73 55
+							border			1
+							bordercolor		.5 .5 .5 .5
+							visible			1 
+							}
+
+						itemDef {
+							name			mappreview
+							group			grpCreate
+							ownerdraw		UI_CREATEMAPPREVIEW_SMALL2
+							rect			186 206 72 54
+							visible			1 
+							}
+							
+						itemDef {
+							name			mappreview
+							group			grpCreate
+							style			WINDOW_STYLE_FILLED	
+							rect			185 205 73 55
+							border			1
+							bordercolor		.5 .5 .5 .5
+							visible			1 
+							}
+
+				 itemDef {
+					name			maplist
+					group			grpCreate
+					rect			28 266 230 144
+					type			ITEM_TYPE_LISTBOX
+					style			WINDOW_STYLE_FILLED
+					elementwidth	240
+					elementheight	15
+					textfont		UI_FONT_NORMAL
+					textscale		.23
+					elementtype		LISTBOX_TEXT
+					feeder			FEEDER_ALLMAPS
+					textstyle		6
+				//	textalign		3
+					textaligny		0
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		0 0 0 0
+					outlinecolor	.7 .7 .0 .25
+					visible			1
+					columns			1 2 190 35
+					mouseEnter {
+						fadein message_arena ;		
+						}
+					mouseExit {
+						fadeout message_arena ; 
+						setitemcolor maplist bordercolor .5 .5 .5 .5 } 
+					}
+
+	
+				// End of bottom left map selection border image
+					
+			// Settings
+			
+				itemDef {
+					name			window
+					group			grpCreate
+					text			"Server Options"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 120 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}
+
+				itemDef {
+					name			expert
+					group			grpCreate
+					textfont		UI_FONT_NORMAL
+					type			ITEM_TYPE_EDITFIELD
+					text			"Host Name:  "
+					cvar			"sv_hostname"
+					maxChars		16
+					maxPaintChars	16
+					rect			295 145 290 12
+			//		origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1 
+					mouseenter		{ show message_hostname }
+					mouseexit		{ hide message_hostname }
+					}
+
+					
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Dedicated:  "
+					// syntax for this is cvar name followed by a semicolan separated list of choices first choice equals 0
+					// dedicated is a special cvar in that as soon as it is set, the game goes to console only so the ui catches this one specifically
+					cvar			"ui_dedicated"
+					cvarFloatList		{ "Non-dedicated" 0 "yes, on LAN" 1 "yes, over Internet" 2 }
+					rect			295 160 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145	
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_dedicated }
+					mouseexit		{ hide message_dedicated }
+					}
+
+
+				itemDef {
+					name			expert
+					group			grpCreate
+					type			4
+					text			"Password:  "
+					textfont		UI_FONT_NORMAL
+					cvar			"g_password"
+					rect			295 175 290 12
+				//	origin			ORIGIN_WINDOW2
+					maxchars		12
+					maxpaintchars	12
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_password_create }
+					mouseexit		{ hide message_password_create } 
+					}		
+					
+				itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Gametype:  "
+					//cvar			"g_GameType"
+					ownerdraw		UI_NETGAMETYPE
+					rect			295 190 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145	
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1 
+					mouseenter		{ show message_game_type }
+					mouseexit		{ hide message_game_type }
+					}
+
+
+				itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_NUMERICFIELD
+					textfont		UI_FONT_NORMAL
+					text			"Max Players (1-8):  "
+					cvar			"sv_maxcoopclients"
+					maxchars		1
+					maxPaintChars	1
+					rect			295 205 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1 
+					mouseenter		{ show message_maximum_players }
+					mouseexit		{ hide message_maximum_players }
+					}
+					
+					itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Server Downloads:  "
+					cvar			"sv_allowDownload"
+					cvarFloatList	{ "Off" 0 "On" 1 }
+					rect			295 220 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_download }
+					mouseexit		{ hide message_download }
+					}
+
+					itemDef {
+					name			expert
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Pure Server:  "
+					cvar			"sv_pure"
+					cvarFloatList	{ "Off" 0 "On" 1 }
+					rect			295 235 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_pure }
+					mouseexit		{ hide message_pure }
+					}
+					
+					
+				itemDef {
+					name			window
+					group			grpCreate
+					text			"Skill Option"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 255 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}					
+
+				itemDef
+					{
+					name			easy
+					text			"Easy"
+					group			grpCreate
+					type			1
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					style			WINDOW_STYLE_FILLED
+					rect			294 280 70 26
+					textalign		1
+					textalignx		35
+					textaligny		17
+					forecolor		1 1 1 1
+					backcolor		.1 .1 .1 .1 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5 
+					mouseenter		{ show message_skilleasy }
+					mouseexit		{ hide message_skilleasy }
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .7 .7 .0 .25 ;
+									setitemcolor norm backcolor .1 .1 .1 .1 ;
+									setitemcolor hard backcolor .1 .1 .1 .1 ;
+									setitemcolor nightmare backcolor .1 .1 .1 .1 ;
+									uiScript skilleasy }
+					}
+				
+				itemDef
+					{
+					name			norm
+					text			"Normal"
+					group			grpCreate
+					type			1
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					style			WINDOW_STYLE_FILLED
+					rect			367 280 70 26
+					textalign		1
+					textalignx		35
+					textaligny		17
+					forecolor		1 1 1 1
+					backcolor		.1 .1 .1 .1 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5
+					mouseenter		{ show message_skillnormal }
+					mouseexit		{ hide message_skillnormal }
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .1 .1 .1 .1 ;
+									setitemcolor norm backcolor .7 .7 .0 .25 ;
+									setitemcolor hard backcolor .1 .1 .1 .1 ;
+									setitemcolor nightmare backcolor .1 .1 .1 .1 ;
+									uiScript skillnormal }	
+					}
+				
+				itemDef
+					{
+					name			hard
+					text			"Hard"
+					group			grpCreate
+					type			1
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					style			WINDOW_STYLE_FILLED
+					rect			440 280 70 26
+					textalign		1
+					textalignx		35
+					textaligny		17
+					forecolor		1 1 1 1
+					backcolor		.1 .1 .1 .1 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5 
+					mouseenter		{ show message_skillhard }
+					mouseexit		{ hide message_skillhard }
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .1 .1 .1 .1 ;
+									setitemcolor norm backcolor .1 .1 .1 .1 ;
+									setitemcolor hard backcolor .7 .7 .0 .25 ;
+									setitemcolor nightmare backcolor .1 .1 .1 .1 ;
+									uiScript skillhard }
+					}
+				
+				itemDef
+					{
+					name			nightmare
+					text			"Nightmare!"
+					group			grpCreate
+					type			1
+					textfont		UI_FONT_NORMAL
+					textscale		.25
+					style			WINDOW_STYLE_FILLED
+					rect			513 280 71 26
+					textalign		1
+					textalignx		35
+					textaligny		17
+					forecolor		1 1 1 1
+					backcolor		.1 .1 .1 .2 
+					visible			1
+					border			1
+					bordercolor		.5 .5 .5 .5 
+					mouseenter		{ show message_skillnightmare }
+					mouseexit		{ hide message_skillnightmare }
+					
+					action {		play "sound/misc/nomenu.wav" ;
+									setitemcolor easy backcolor .1 .1 .1 .1 ;
+									setitemcolor norm backcolor .1 .1 .1 .1 ;
+									setitemcolor hard backcolor .1 .1 .1 .1 ;
+									setitemcolor nightmare backcolor .7 .7 .0 .25 ;
+									uiScript skillnightmare } 	
+					}
+					
+					
+				itemDef {
+					name			window
+					group			grpCreate
+					text			"Player Options"
+					textfont		UI_FONT_NORMAL
+					textalign		ITEM_ALIGN_CENTER
+					textalignx		145
+					textaligny		14
+					textscale		.25
+					rect			294 315 290 20	
+					style			WINDOW_STYLE_FILLED
+					border			1
+					bordercolor		.5 .5 .5 .5
+					forecolor		1 1 1 1
+					backcolor		.3 0.5 0.2 .25
+					visible			1
+					decoration
+					}	
+					
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Friendly Fire:  "
+					cvar			"g_friendlyFire"
+					cvarFloatList	{ "Off" 0 "On" 1 "On + Health Penalty" 2 }
+					rect			295 340 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07       
+					forecolor		1 1 1 1
+					visible			1
+					mouseenter		{ show message_friendly_fire }
+					mouseexit		{ hide message_friendly_fire }
+					}
+
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_NUMERICFIELD
+					textfont		UI_FONT_NORMAL
+					text			"Number of Lives:  "
+					cvar			"g_maxlives"
+					rect			295 355 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		2
+					maxPaintChars	2
+					mouseenter		{ show message_max_lives }
+					mouseexit		{ hide message_max_lives }
+					}
+
+				itemDef {
+					name			normal
+					group			grpCreate
+					type			ITEM_TYPE_MULTI	
+					textfont		UI_FONT_NORMAL
+					text			"Shared Lives:  "
+					cvar			"g_sharedlives"
+					cvarFloatList	{ "yes (no bonus life!)" 1 "no" 0 }
+					rect			295 370 290 12
+				//	origin			ORIGIN_WINDOW2
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07 		  
+					forecolor		1 1 1 1
+					visible			1
+					
+					cvarTest		"g_maxlives"
+					hidecvar		{ "0" }
+					
+					mouseenter		{ show message_commonlives }
+					mouseexit		{ hide message_commonlives }
+					}	
+					
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_MULTI
+					textfont		UI_FONT_NORMAL
+					text			"Respawn by:  "
+					cvar			"g_spawnpoints"
+					cvarFloatList	{ "Autosaves (/30 secs.)" 0 "Manual Saves" 1 "FlagZones" 2 }
+					rect			295 385 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0		
+					mouseenter		{ show message_spawnpoints }
+					mouseexit		{ hide message_spawnpoints }
+					}
+
+				itemDef {
+					name			window
+					group			grpCreate
+					type			ITEM_TYPE_NUMERICFIELD
+					textfont		UI_FONT_NORMAL
+					text			"Manual Saves / map:  "
+					cvar			"g_maxspawnpoints"
+					rect			295 400 290 12
+				//	origin			ORIGIN_WINDOW1
+					style			WINDOW_STYLE_FILLED
+					textalign		ITEM_ALIGN_RIGHT
+					textalignx		145
+					textaligny		10
+					textscale		.25
+					
+					cvarTest		"g_spawnpoints"
+					showcvar		{ "1" }
+					
+					backcolor		1 1 1 .07
+					forecolor		1 1 1 1
+					visible			0
+					maxchars		2
+					maxPaintChars	2					
+					mouseenter		{ show message_maxspawnpoints }
+					mouseexit		{ hide message_maxspawnpoints }
+					}					
+
+					
+				itemDef {
+					name				start
+					group				grpCreate
+					text				"START SERVER"
+					type				1
+					textfont			UI_FONT_NORMAL
+					style				0	
+					textstyle			6
+					rect				510 450 120 14 
+					textalign			0
+					textscale			.25		
+					textalignx			5
+					textaligny			12
+					forecolor			.9 .9 .9 .9
+					visible				1
+					//border			1
+					//bordercolor		1 1 1 1
+					mouseEnter {
+						show message_start ;
+						show start_alt ;
+						hide start }
+					action {
+						close create_menu ;
+						uiScript StartServer
+					}	
+					}
+
+				itemDef {
+					name				start_alt
+					group				grpCreate
+					textfont			UI_FONT_NORMAL
+					text				"START SERVER"
+					type				1
+					style				0	
+					textstyle			6
+					rect				510 450 120 14 
+					textalign			0
+					textscale			.25		
+					textalignx			5
+					textaligny			12
+					forecolor			.6 .6 .6 .6
+					visible				1 
+					type				ITEM_TYPE_BUTTON
+					//border 1
+					//bordercolor 1 1 1 1
+					mouseExit {
+						hide message_start ;
+						hide start_alt ;
+						show start }
+					action {
+						close create_menu ;
+						uiScript StartServer
+					}  	  
+					}
+
+// End of Create Server
+
+// Start of BACK Button
+
+
+		itemDef {
+			name gotobar
+			style 2
+			rect 0 445 640 20 
+			textscale 0.4
+			textalign 0		// center
+			textalignx 60        	// x alignment point for text
+			 // use it to offset left/right text from the edge 
+			 // or to center the text on a different point
+			textaligny 21        
+			style 2
+			border 4
+			bordercolor 0.5 0.5 0.5 0.0
+			bordersize 2
+			backcolor 0.5 0.5 .5 0.0
+			visible 1 
+			mouseEnter { setcolor backcolor .5 0.5 0.5 .5 }
+			mouseExit { setcolor backcolor .5 .5 .5 .0 }
+			decoration 
+			}
+
+		itemDef {
+			name back
+			text "MAIN MENU"
+			type 1
+			style 0	
+			textstyle 6
+			rect 30 450 90 14 
+			textalign 0
+			textfont UI_FONT_NORMAL
+			textscale .255		
+			textalignx 6
+			textaligny 12
+			forecolor .9 .9 .9 .9
+			visible 1
+			action {
+			close create_menu ;
+			open main }
+
+			mouseEnter { 
+			hide back ;
+			show back_alt ;
+			show message_back
+			}
+			}
+
+		itemDef {
+			name back_alt
+			text "MAIN MENU"
+			type 1
+			style 0	
+			textstyle 6
+			rect 30 450 90 14 
+			textalign 0
+			textfont UI_FONT_NORMAL
+			textscale .255	
+			textalignx 6
+			textaligny 12
+			forecolor .6 .6 .6 .6
+			visible 1 
+			type ITEM_TYPE_BUTTON
+			action {
+			hide grpControls ;
+			close create_menu ;
+			open main }
+	  
+			mouseExit {
+			hide back_alt ;
+			show back ;
+			hide message_back }	  
+			}
+
+// End of BACK Button
+
+//	MESSAGES
+
+
+itemDef {
+	name message_nowork
+	group grpmessage
+	style 0 
+	rect 320 437 128 30
+	textalign 1
+	textstyle 1
+	textalignx 0
+	textaligny 25
+	textfont UI_FONT_NORMAL
+	textscale .255
+	text "Selection Isn't Implemented"
+	forecolor 1 1 1 1
+	decoration 
+	visible 0
+	}
+
+itemDef {
+      	name fadebox
+      	style WINDOW_STYLE_FILLED
+ 	background "ui_mp/assets/fadebox.tga"
+	forecolor 0 0 0 1
+	backcolor 0 0 0 1
+	rect 0 0 640 480
+      	visible 1 
+	decoration
+    	}
+
+		
+	// Messages of Create Server
+			
+			itemDef {
+				name message_gametype
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textfont	UI_FONT_NORMAL
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Set GameType"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_skill
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Select a Skill Level"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+			
+			itemDef {
+				name message_arena
+				textfont	UI_FONT_NORMAL
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Choose Your Map"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_clan
+				group grpmessage
+				textfont	UI_FONT_NORMAL
+				style 0 
+				rect 320 437 128 30
+			//	origin HELP_ORIGIN
+				textalign 1
+				textstyle 1
+				textalignx 0
+				textaligny 25
+				textscale .25
+				text "Click to toggle through clan list"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_friendly_fire
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "What Happens if You Shoot Your Friends?"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_dedicated
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "If set to Internet, Server is Broadcast over the Internet"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_hostname
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Name of the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_maximum_players
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "How Many Players can join the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_game_type
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Select the Game Mode for the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_require_password
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Only Those With the Proper Password Can Connect"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_password_create
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Set the Password Needed to Connect to the Server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+								
+			itemDef {
+				name message_max_lives
+				group grpmessage
+				style 0 
+				rect 320 437 128 30
+				textalign 1
+				textfont	UI_FONT_NORMAL
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Number of Deployments. 0 = unlimited"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_start
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Start your Server!"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+				
+			itemDef {
+				name message_cutscenes
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Do you want to watch the ingame cutscenes?"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_commonlives
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Yes: The Lives will be Shared Between the Team Members"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_spawnpoints
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Choose a Respawn-system for your team!"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+			
+			itemDef {
+				name message_maxspawnpoints
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Number of Droppable Spawnpoints on each map [ 0 = unlimited ]"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+		
+			itemDef {
+				name message_airespawn
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Do you want the AI to respawn after they die?"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+                                }
+
+			itemDef {
+				name message_reinforce
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "With how many enemies do you want to meet?"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_skilleasy
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Original enemies with Easy skill"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_skillnormal
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "More enemies with Normal skill"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+
+			itemDef {
+				name message_skillhard
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Maximum enemies with Hard skill"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+
+			itemDef {
+				name message_skillnightmare
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Maximum enemies with Hard skill, enemy Respawns!"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+				
+				
+			itemDef {
+				name message_download
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Allow downloading files from the server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+			itemDef {
+				name message_pure
+				group grpmessage
+				style 0 
+				textfont	UI_FONT_NORMAL
+				rect 320 437 128 30
+				textalign 1
+				textalignx 0
+				textstyle 1
+				textaligny 25
+				textscale .25
+				text "Only allow use of pk3 files that are on server"
+				forecolor 1 1 1 1
+				decoration 
+				visible 0
+				}
+
+
+}
+}

@@ -1,0 +1,410 @@
+#include "ui/menudef.h"
+
+// green text from MK mockup	- (61 64 36)	= (.24 .25 .14) (too light, using +0.1 (.34 .35 .24))
+// orange text from MK mockup	- (161 121 65)	= (.63 .47 .25)
+// white text from MK mockup	- (161 150 145)	= (.63 .59 .57)
+
+{
+	assetGlobalDef {
+	
+		font "fonts/font" 16						// font
+		handwritingFont "fonts/handfont" 17			// font (pt size needs to be diff than the others)
+
+		//	font "fonts/impact.ttf" 16				// font
+		smallFont "fonts/smallfont" 12				// font
+		bigFont "fonts/bigFont" 24					// font
+
+		cursor "ui/assets/3_cursor3"				// cursor	
+		gradientBar "ui/assets/gradientbar2.tga"	// gradient bar
+
+		fadeClamp 1.0								// sets the fadeup alpha
+		fadeCycle 1									// how often fade happens in milliseconds
+		fadeAmount 0.1								// amount to adjust alpha per cycle
+
+		shadowX  5									// x amount for shadow offset
+		shadowY  5									// y amount for shadow offset
+		shadowColor 0.1 0.1 0.1 0.25				// shadow color
+
+	}
+
+
+// STAMINA BAR	//
+
+	menuDef {
+    	name "Stamina"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+		style WINDOW_STYLE_EMPTY
+		border 1
+		bordersize 1
+		bordercolor .34 .35 .24 1
+    	rect 10 400 10 70
+
+		itemDef {
+			name "stambar"
+			decoration
+			visible MENU_TRUE
+			rect 0 0 8 68
+			ownerdraw CG_STAMINA
+			addColorRangerel 0.00 0.25	1 0.1 0.1 0.5	// 0-25%
+			addColorRangerel 0.25 0.50	.63 .47 .25 0.5	// 25%-50%
+			addColorRangerel 0.50 1.00	0.1 1 0.1 0.5	// 25-100%
+		}
+	}
+
+//	PLAYER STATUS	//
+
+	menuDef {
+    	name "Status"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+    	rect 40 438 372 32
+
+	// ARMOR VALUE
+		itemDef {
+ 			name "a"
+			rect 0 -48 32 32
+			textalignx 10
+			textaligny 0
+			visible MENU_TRUE
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			decoration
+			textscale .42
+			//forecolor .63 .47 .25 .5	// orange
+			ownerdraw CG_PLAYER_ARMOR_VALUE
+			addColorRange 76 100 .63 .47 .25 1
+			addColorRange 51 75 .63 .47 .25 .75
+			addColorRange 26 50 .63 .47 .25 .5
+			addColorRange 1 25 .63 .47 .25 .25
+			addColorRange 0 0 .63 .47 .25 0
+		}
+
+	// ARMOR TEXT
+		itemDef {
+ 			name "a"
+			text "PANCEL"
+			type 1
+			rect 4 -4 32 32
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			textalignx 10
+			textaligny 0
+			textfont UI_FONT_NORMAL
+			textscale .15
+			forecolor .63 .59 .57 1	// grey
+			backcolor .4 .4 .4 .6 
+			visible 1
+			decoration
+		}
+		
+	// HEALTH VALUE
+		itemDef {
+ 			name "a"
+			rect 0 -12 32 32
+			textalignx 10
+			textaligny 0
+			visible MENU_TRUE
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			decoration
+			textscale .42
+			forecolor 1 1 1 1
+			ownerdraw CG_PLAYER_HEALTH
+			addColorRange 10 999 .63 .47 .25 1	// orange
+			addColorRange -999 10 1 0 0 1	// hurting
+		}
+		
+	// HEALTH TEXT
+		itemDef {
+ 			name "a"
+			text "EGESZSEG"
+			type 1
+			rect 4 32 32 32
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			textalignx 10
+			textaligny 0
+			textfont UI_FONT_NORMAL
+			textscale .15
+			forecolor .63 .59 .57 1	// grey
+			backcolor .4 .4 .4 .6 
+			visible 1
+			decoration
+		}
+
+		
+	// SCORE VALUE
+		itemDef {
+ 			name "a"
+			rect 60 -12 32 32
+			visible MENU_TRUE
+			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
+			decoration
+			textscale .42
+			forecolor .63 .59 .57 1	// grey
+			ownerdraw CG_PLAYER_SCORE
+		}
+		
+	// SCORE TEXT
+		itemDef {
+ 			name "a"
+			text "PONT"
+			type 1
+			rect 64 32 32 32
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			textalignx 10
+			textaligny 0
+			textfont UI_FONT_NORMAL
+			textscale .15
+			forecolor .63 .59 .57 1	// grey
+			backcolor .4 .4 .4 .6 
+			visible 1
+			decoration
+		}
+		
+	// LIVES VALUE
+		itemDef {
+ 			name "a"
+			rect 120 -12 32 32
+			visible MENU_TRUE
+			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
+			decoration
+			textscale .42
+			forecolor .63 .47 .25 1	// orange
+			ownerdraw CG_PLAYER_LIVES
+			addColorRange 1 999 .63 .47 .25 1	// orange
+			addColorRange 0 0 1 0 0 1			// red
+			
+			cvarTest		"cg_maxlives"
+			hidecvar		{ "0" }
+		}
+		
+	// LIVES TEXT
+		itemDef {
+ 			name "a"
+			text "ELET"
+			type 1
+			rect 124 32 32 32
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			textalignx 10
+			textaligny 0
+			textfont UI_FONT_NORMAL
+			textscale .15
+			forecolor .63 .59 .57 1	// grey
+			backcolor .4 .4 .4 .6 
+			visible 1
+			decoration
+			
+			cvarTest		"cg_maxlives"
+			hidecvar		{ "0" }
+            }
+
+	// SAVES VALUE
+		itemDef {
+ 			name "a"
+			rect 415 -12 32 32
+			visible MENU_TRUE
+			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
+			decoration
+			textscale .42
+			forecolor .63 .59 .57 1	// grey
+			ownerdraw CG_PLAYER_SPAWNPOINTS
+			
+			cvarTest "cg_maxspawnpoints"
+			hidecvar { "0" }
+            }
+
+	// SAVES TEXT
+		itemDef {
+ 			name "a"
+			text "MENTES"
+			type 1
+			rect 419 32 32 32
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			textalignx 10
+			textaligny 0
+			textfont UI_FONT_NORMAL
+			textscale .15
+			forecolor .63 .59 .57 1	// grey
+			backcolor .4 .4 .4 .6 
+			visible 1
+			decoration
+
+			cvarTest "cg_maxspawnpoints"
+			hidecvar { "0" }
+            }
+		}
+		
+
+//	CURSOR HINTS (LIKE HAND...ETC.)	//
+	menuDef {
+    	name "Cursorhints"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+    	rect 296 336 48 48
+
+		itemDef {
+			name "chRect"
+			decoration
+			visible MENU_TRUE
+			rect 0 0 48 48
+			ownerdraw CG_CURSORHINT
+		}
+	}
+
+        // COMPASS
+        menuDef {
+                name "Compass"
+                fullScreen MENU_FALSE
+                visible MENU_TRUE
+    	        rect 510 410 114 65
+                itemDef {
+                        name "compassicon"
+                        visible MENU_TRUE
+                        decoration
+                        ownerdraw CG_PLAYER_COMPASS
+			rect 40 0 80 15		// horizontal version
+			align HUD_HORIZONTAL
+                }
+        }
+
+/*
+//	NOTEBOOK notification
+	menuDef {
+    	name "yougotmail"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+  		rect 614 462 24 15
+
+		itemDef {
+			name "chRect"
+			decoration
+			visible MENU_TRUE
+			rect 0 0 24 15
+			ownerdraw CG_NEWMESSAGE
+		}
+	}
+*/
+
+	menuDef {
+    	name "stability"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+    	rect 50 208 10 64	// bar anchored in center, fills up/down
+
+		itemDef {
+			name "stabRect"
+			decoration
+			visible MENU_TRUE
+
+			addColorRange	0 128	.24 .4 .14 1
+			addColorRange	128 255	.24 .14 .4 1
+
+			rect 0 0 5 64
+			ownerdraw CG_PLAYER_WEAPON_STABILITY
+		}
+	}
+
+
+//	AMMO	//
+	menuDef {
+    	name "Ammo"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+    	rect 510 410 114 65
+
+		// heat indicator	
+		itemDef {
+			name "heat"
+			decoration
+			visible MENU_TRUE
+			rect 40 0 80 15		// horizontal version
+			align HUD_HORIZONTAL
+			ownerdraw CG_PLAYER_WEAPON_HEAT
+		}
+
+		// ammo icon
+		itemDef {
+			name "a"
+			rect 40 15 80 40		// taking into account 'wide' weapon icons (wide weaps fill box, narrow weaps are currently left-justified)
+			visible MENU_TRUE
+			decoration
+			align ITEM_ALIGN_CENTER
+			ownerdraw CG_PLAYER_WEAPON_ICON2D
+		}
+
+		// ammo value
+		itemDef {
+ 			name "amtex"
+			ownerdraw CG_PLAYER_AMMO_VALUE
+			ownerdrawflag CG_SHOW_NOT_V_BINOC
+			rect 90 3 34 0		// taking into account 'wide' weapon icons
+			visible MENU_TRUE
+			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
+			decoration
+			textscale .42
+			forecolor .63 .59 .57 1
+			addColorRangerel 0.0	0.1		1 0 0 1		// alert!
+			addColorRangerel 0.1	0.4		1 1 0 1		// warning!
+		}
+		
+		// clip count value
+		itemDef {
+ 			name "cliptex"
+			rect 5 16 32 32
+			textalignx 10
+			textaligny 0
+			visible MENU_TRUE
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			decoration
+			ownerdraw CG_PLAYER_AMMOCLIP_VALUE
+			ownerdrawflag CG_SHOW_NOT_V_BINOC
+			textscale .42
+			forecolor .63 .59 .57 1
+			addColorRangerel 0.0	0.1		1 0 0  1		// alert!
+			addColorRangerel 0.1	0.4		1 1 0 1			// warning!
+		}
+
+		
+		// clip text
+		itemDef {
+ 			name "a"
+			text "A TARBAN"
+			type 1
+			rect 9 60 32 32
+			textstyle 6
+			textalign ITEM_ALIGN_CENTER
+			textalignx 10
+			textaligny 0
+			textfont UI_FONT_NORMAL
+			textscale .15
+			forecolor .63 .59 .57 1	// grey
+			backcolor .4 .4 .4 .6 
+			visible 1
+			decoration
+		}
+		
+}
+
+	//	HOLDABLE	//
+	menuDef {
+    	name "Holdables"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+  		rect 600 340 24 48
+	
+		itemDef {
+			name "w_holdable"
+			rect 0 0 36 36
+			visible MENU_TRUE
+			decoration
+			ownerdraw CG_PLAYER_HOLDABLE
+		}
+	}
+
+}

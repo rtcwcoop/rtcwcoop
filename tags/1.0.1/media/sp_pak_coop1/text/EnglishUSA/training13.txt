@@ -1,0 +1,21 @@
+Exercise 13: The M1911A1 pistol
+
+This exercise will teach you how to effectively aim, fire and reload your standard issue M1911A1 pistol.
+
+Instructions:
+
+If you have not already done so, move towards the left side of the shooter's bench in front of you and pick up the M1911A1 pistol (key default 2). If you have 'auto pick-up' selected in your options menu you will automatically grab the firearm and place it into your inventory. If you have this option disabled in your options menu, you will need to point at the weapon and press your 'activate' key to pick it up.
+
+Once you have the weapon in your hand, move to the right side of the bench and pick up the ammunition.
+
+Aim your pistol down range at the moving targets. When the crosshair is centered on a target press your 'attack' key. If you have successfully hit the target it will fall backward. 
+
+The OSA M1911A1 pistol holds 8 rounds. When your clip is empty you will instinctively reload the weapon. If you would like to reload the weapon before this occurs, press your 'reload' key.
+ 
+If you pick up a second M1911A1 pistol you may chose to twin carry both of the sidearms. To accomplish this, press your 'secondary fire' key. When doing so, you may fire both weapons simultaneously. To switch back to single carry mode, press the 'secondary fire' key once again.  
+
+When you are comfortable firing the M1911A1 pistol move to the next station.
+
+Time Limit: None
+
+

@@ -1,0 +1,153 @@
+//Cleaned for COOP by -SSF-Sage on 7.2.2013
+//
+//Brush Scripting
+//Map: SWF (Secret Weapons Facility)
+//Last edited by: Dan
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+}
+
+elevator
+{
+	spawn
+	{
+		accum 1 bitreset 0	// Used to compensate for the "func_door" triggering the script twice, once when it begins to open, and once when it fully opens.
+	}
+
+	trigger end_cutscene
+	{
+		accum 1 abort_if_bitset 0
+		accum 1 bitset 0
+		trigger lab6 look_at_bj1
+//		alertentity fake_bj
+//		trigger player camend2
+//		wait 750
+//		trigger player camend1
+//		wait 1000
+//		trigger lab6 talk1
+//		wait 2000
+//		trigger fake_bj reload
+		wait 1400
+		trigger lab6 talk2
+		wait 100
+		trigger lab6 look_at_bj2
+		wait 4000
+		trigger player endnow
+	}
+}
+
+counterweight
+{
+}
+
+crane1
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger spawnaction
+	{
+		accum 0 random 3
+		wait 5
+		trigger crane1 eventa
+		wait 5
+		trigger crane1 eventb
+ 		wait 5
+		trigger crane1 eventc
+	}
+ 
+	trigger eventa
+	{
+		accum 0 abort_if_not_equal 0
+		alertentity nazi17
+	}
+
+	trigger eventb
+	{
+		accum 0 abort_if_not_equal 1
+		alertentity nazi16
+	}
+
+	trigger eventc
+	{
+		accum 0 abort_if_not_equal 2
+		alertentity nazi16
+		alertentity nazi17
+	}
+}
+
+propeller
+{
+	spawn
+	{
+		wait 5000
+		faceangles 16 -2 0 100
+	}
+}
+
+waterwheel
+{
+	spawn
+	{
+		accum 0 bitset 0
+	}
+
+	trigger raise
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		playsound sound/scenaric/assault/metal_crank1.wav looping forever
+		faceangles 0 0 -90 500
+		faceangles 0 0 -180 500
+		faceangles 0 0 -270 500
+		faceangles 0 0 0 500
+		stopsound
+	}
+
+}
+
+submarine
+{
+	spawn
+	{
+
+	}
+
+	trigger leaving
+	{
+		alertentity opensubdoor
+		gotomarker subspot1 20 wait
+		gotomarker subspot2 20 wait
+		gotomarker subspot3 20 wait
+		gotomarker subspot4 30 wait
+		alertentity opensubdoor 
+	}
+}

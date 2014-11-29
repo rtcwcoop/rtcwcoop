@@ -1,0 +1,632 @@
+#include "ui/menudef.h"
+
+
+{
+
+\\ SETUP MENU \\
+
+menuDef {
+
+		name "ingame_join"
+		visible 0
+		fullscreen 0
+		outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+		rect 20 115 605 335
+		focusColor 1 .75 0 1
+		style 1
+		border 1
+
+		onOpen {
+				//setCvar cg_draw2D "0";
+				show grpJoin ; }
+		onClose { setCvar cg_draw2D "1" }
+		onEsc { setCvar cg_draw2D "1" }
+
+//////// START OF PASTE
+
+	// Start of Join Server Border
+
+	itemDef 
+		{
+		name window
+		group grpJoin
+		rect 0 0 600 300	
+		style WINDOW_STYLE_FILLED
+		border 1
+		bordercolor .5 .5 .5 .5
+		forecolor 1 1 1 1
+		backcolor 0 0 0 .5
+		visible 1
+		decoration
+		}
+
+	// End of Join Server Border	
+	
+	//  1ST COLUMN  //
+	
+	
+		itemDef {
+			name			refreshSource
+			group			grpJoin
+			text			"Get New List"
+			type			ITEM_TYPE_BUTTON
+			textscale		.28
+			style			WINDOW_STYLE_FILLED	
+			//background	"ui_mp/assets/button_red.tga"
+			border			1
+			bordercolor		.5 .5 .5 .5
+			rect			10 21 105 20
+			textalign		1
+			textalignx		52		// center
+			textaligny		14
+			textfont		UI_FONT_NORMAL
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1 
+			
+			mouseEnter		{ show message_refreshSOurce ; setitemcolor refreshSource backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_refreshSource ; setitemcolor refreshSource backcolor .3 .5 .2 .3 }
+			action			{ play "sound/misc/nomenu.wav" ; 
+							uiScript RefreshServers ;
+							uiScript RefreshFilter }								
+			}
+
+
+		itemDef {
+			name			refreshFilter
+			group			grpJoin
+			text			"Refresh List"
+			textscale		.28
+			style			WINDOW_STYLE_FILLED
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_BUTTON
+			border			1
+			bordercolor		.5 .5 .5 .5
+			rect			10 46 105 20
+			textalign		1
+			textalignx		52		// center
+			textaligny		14
+			backcolor		.3 .5 .2 .3 
+			forecolor		1 1 1 1
+			visible			1 
+			mouseEnter		{ show message_refreshFilter ; setitemcolor refreshFilter backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_refreshFilter ; setitemcolor refreshFilter backcolor .3 .5 .2 .3 }	  	  
+			action			{ play "sound/misc/nomenu.wav" ; 
+							uiScript RefreshFilter }	  	  
+			}
+
+
+		itemDef {
+			name			serverinfo
+			text			"Server Info"
+			group			grpJoin
+			type			ITEM_TYPE_BUTTON
+			textfont		UI_FONT_NORMAL
+			textscale		.28
+			style			WINDOW_STYLE_FILLED
+			border			1
+			bordercolor		.5 .5 .5 .5
+			rect			10 71 105 20
+			textalign		1
+			textalignx		52		// center
+			textaligny		14
+			backcolor		.3 .5 .2 .3
+			forecolor		1 1 1 1
+			visible			1
+
+			action {
+				play		"sound/misc/kcaction.wav" ; 
+				setcvar		ui_serverBrowser 1 ; // 1: from server browser
+				open		ingame_serverinfo_popmenu
+			}
+
+			mouseEnter		{ show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 }
+			mouseExit		{ hide message_serverinfo ; setitemcolor serverinfo backcolor .3 .5 .2 .3 }	 
+				}
+
+
+		itemDef {
+			name connect
+			text "CONNECT"
+			group grpJoin
+			border 1
+			bordercolor .5 .5 .5 .5
+			type ITEM_TYPE_BUTTON
+			style WINDOW_STYLE_FILLED
+			textstyle 6
+			rect			250 315 100 15
+			textfont        UI_FONT_NORMAL
+			textscale .25    
+			textalign ITEM_ALIGN_CENTER
+			textalignx 50
+			textaligny 11
+			forecolor 1 1 1 1
+			visible 1 
+			backcolor .3 .5 .2 .3
+			type ITEM_TYPE_BUTTON
+
+			action {
+					uiScript JoinServer
+			}    
+		}
+
+	//  2ND COLUMN  //
+
+		itemDef {
+			name			window_limbo_name
+			group			grpJoin
+			visible			1
+			rect			140 18 130 15
+			textstyle		6			
+			forecolor		1 1 1 1
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		16
+			maxpaintchars	16
+			text			"Name:"
+			cvar			"name"
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
+      itemDef {
+			name			download
+			group			grpJoin
+			visible			1
+			rect			140 38 130 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			textstyle		6
+			maxChars		16
+			maxpaintchars	16
+			text			"Downloads:"
+			cvar			"cl_allowDownload"
+			cvarFloatList	{ "No" 0 "Yes" 1 }
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+	
+			itemDef {
+			name			passwordEntry
+			group			grpJoin
+			visible			1
+			rect			140 58 270 15
+			textstyle		6			
+			forecolor		1 1 1 1
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_EDITFIELD
+			style			0
+			maxChars		32
+			maxpaintchars	32
+			text			"Password:"
+			cvar			"password"
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
+		itemDef {
+			name			gametypefield
+			group			grpJoin
+			style			0	
+			textfont		UI_FONT_NORMAL
+			ownerdraw		UI_NETSOURCE
+			rect			140 78 130 15 
+			textstyle		6
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25   
+			forecolor		1 1 1 1
+			visible 		1
+			
+			action			{ play "sound/misc/kcaction.wav" }
+			}
+
+
+
+
+	//  3RD COLUMN  //
+
+
+		itemDef {
+			name			window_limbo_model
+			group			grpJoin
+			visible			1
+			rect			290 18 150 15		
+			forecolor		1 1 1 1
+			backcolor		0 0 0 0
+			outlinecolor	1 1 0 .5
+			textfont		UI_FONT_NORMAL
+			type			ITEM_TYPE_MULTI
+			style			0
+			textstyle		6
+			maxChars		16
+			maxpaintchars	16
+			text			"Model:"
+			cvar			"skin"
+			cvarFloatList	{ "Yankee Soldier" 1 "Afro Soldier" 2 "Euro Soldier" 3 }
+			textscale		.25
+			textalign		ITEM_ALIGN_LEFT	
+			textalignx		0
+			textaligny		14
+			}
+
+			
+		itemDef {
+			name			gametypefield
+			group			grpJoin
+			style			0	
+			textstyle		6
+
+			text			"Gametype:"
+			ownerdraw		UI_JOINGAMETYPE
+			textfont		UI_FONT_NORMAL
+			rect			290 38 100 15
+			textalign		ITEM_ALIGN_LEFT		
+			textalignx		0     
+			textaligny		14
+			textscale		.25    
+			forecolor		1 1 1 1
+			visible			1
+			
+			action			{ play "sound/misc/kcaction.wav" }
+			}
+
+		itemDef {
+			name			nameEntry
+			group			grpJoin
+			style			0	
+			textstyle		6
+			type			ITEM_TYPE_MULTI
+			text			"View Empty:"
+			textfont		UI_FONT_NORMAL
+			cvar			"ui_browserShowEmpty"
+			cvarFloatList		{ "No" 0 "Yes" 1 }
+			rect			290 58 100 15
+			textalign		ITEM_ALIGN_LEFT
+			textalignx		0
+			textaligny		14
+			textscale		.25 		 
+			forecolor		1 1 1 1
+			visible			1
+			
+			action {
+				play		"sound/misc/nomenu.wav" ;
+							uiScript RefreshFilter }
+			}
+
+		
+	//  MAP PREVIEW  //			
+
+		itemDef {
+			name mappreview
+			group grpJoin
+			ownerdraw UI_NETMAPPREVIEW
+			rect 447 5 148 111
+			visible 1 
+			}
+
+		itemDef {
+			name mappreview
+			group grpJoin
+			style WINDOW_STYLE_FILLED	
+			rect 446 4 149 112
+			border 1
+			bordercolor .5 .5 .5 .5
+			visible 1 
+			}
+		
+//  SERVER BROWSER LINES  //
+		
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 1 136 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 1 166 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 1 196 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 1 226 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 1 256 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+		itemDef {
+			name horizontalseparators
+			group grpJoin
+			rect 1 286 581 15
+			style WINDOW_STYLE_FILLED
+			border 0
+			backcolor .5 .5 .5 .1
+			visible 1
+			decoration
+		  }
+
+	//	SERVER BROWSER COLUMNS	//
+
+	
+		itemDef {
+			name serverColumn
+			group grpJoin
+			rect 0 135 161 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			//bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name mapColumn
+			group grpJoin
+			rect 160 135 181 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name respawnColumn
+			group grpJoin
+			rect 340 135 81 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name reinforceColumn
+			group grpJoin
+			rect 420 135 81 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name skillColumn
+			group grpJoin
+			rect 500 135 48 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+		itemDef {
+			name pingColumn
+			group grpJoin
+			rect 547 135 36 165
+			style WINDOW_STYLE_FILLED
+			border 1
+			backcolor 0 0 0 0
+			bordersize 1
+			bordercolor .5 .5 .5 .5
+			visible 1
+			decoration
+			}
+			
+		 itemDef {
+			name serverlist
+			group grpJoin
+			rect 0 135 600 165
+			type ITEM_TYPE_LISTBOX
+			style WINDOW_STYLE_FILLED
+			elementwidth 120
+			elementheight 15
+			textfont	UI_FONT_NORMAL
+			border 1
+			bordercolor .5 .5 .5 .5
+			textalign 1
+			textalignx 0
+			textaligny 11
+			textscale .25	
+			elementtype LISTBOX_TEXT
+			feeder FEEDER_SERVERS
+			forecolor 1 1 1 1
+			backcolor .5 .5 .5 .2
+			outlinecolor .7 .7 .0 .25
+			visible 1
+			// 	numcols     xpos	xwitdth   textlen
+			columns 6 	    0		40			30
+							160		30			36
+							365		20		    20	
+							430		20			20
+							498		20			20
+							547		40			20
+			doubleClick { uiScript JoinServer }
+			}
+
+	//	SERVER BROWSER - COLUMN TITLES	//
+
+		itemDef {
+			name server
+			group grpJoin
+			text "Server Name"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5
+			rect 0 120 161 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 80		// center
+			textaligny 11
+			forecolor 1 1 1 1
+			backcolor .3 .5 .2 .3
+			visible 1
+			decoration
+			}
+
+		itemDef {
+			name map
+			group grpJoin
+			type ITEM_TYPE_BUTTON
+			text "Players, Map, Gametype"
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED	
+			rect 160 120 181 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 90		// center
+			textaligny 11
+			border 1
+			bordercolor .5 .5 .5 .5
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration  	  
+			}
+			
+		itemDef {
+			name Respawn 
+			group grpJoin
+			text "AI Respawn"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 340 120 81 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 40		// center
+			textaligny 11
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
+			}
+
+		itemDef {
+			name Reinforce 
+			group grpJoin
+			text "AI Reinforce"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 420 120 81 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 40		// center
+			textaligny 11
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
+			}
+			
+		itemDef {
+			name Skill
+			group grpJoin
+			text "Skill"
+			textfont	UI_FONT_NORMAL
+			textscale .25
+			type ITEM_TYPE_BUTTON
+			style WINDOW_STYLE_FILLED	
+			rect 500 120 48 15
+			textalign		ITEM_ALIGN_CENTER
+			textalignx 24		// center
+			textaligny 11
+			border 1	
+			bordercolor .5 .5 .5 .5
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration	  	  
+			}
+
+		itemDef {
+			name Ping
+			group grpJoin
+			text "Ping"
+			type ITEM_TYPE_BUTTON
+			textscale .25
+			textfont	UI_FONT_NORMAL
+			style WINDOW_STYLE_FILLED
+			border 1
+			bordercolor .5 .5 .5 .5	
+			rect 547 120 53 15
+			textalign 1
+			textalignx 18		// center
+			textaligny 10
+			backcolor .3 .5 .2 .3
+			forecolor 1 1 1 1
+			visible 1
+			decoration
+			}
+
+
+// End of Join Server Section
+
+//////// END OF PASTE
+
+}
+
+}

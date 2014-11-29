@@ -1,0 +1,797 @@
+//Cleaned for COOP by -SSF-Sage on 18.2.2013
+//
+//Brush scripting
+//Map Village2_1117
+//10/09/01
+//last edited by jeremy
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+		accum 0 bitreset 3
+		accum 0 bitreset 4
+		accum 0 bitreset 5
+		accum 0 bitreset 6
+		accum 0 bitreset 7
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		accum 0 abort_if_not_bitset 3
+		accum 0 abort_if_not_bitset 4
+		accum 0 abort_if_not_bitset 5
+		accum 0 abort_if_not_bitset 6
+		accum 0 abort_if_not_bitset 7
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+	
+	trigger objective3
+	{
+		accum 0 bitset 3
+	}
+	
+	trigger objective4
+	{
+		accum 0 bitset 4
+	}
+	
+	trigger objective5
+	{
+		accum 0 bitset 5
+	}
+	
+	trigger objective6
+	{
+		accum 0 bitset 6
+	}
+	
+	trigger objective7
+	{
+		accum 0 bitset 7
+	}	
+}
+
+checker1
+{
+	spawn
+	{
+		accum 0 bitreset 0		//going to replace 0 set 0
+		accum 0 bitreset 1
+		accum 0 bitreset 4
+		accum 0 bitreset 15
+		accum 0 bitreset 26
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0
+		accum 4 set 0
+		accum 5 set 0
+		accum 6 set 0
+		accum 7 set 0	
+	}
+	
+	trigger alarm_xxx
+	{
+//		trigger player alarm1_destroyed
+//		trigger player alarm2_destroyed
+		trigger player alarms_destroyed
+	}
+	
+	trigger alarm_yyy
+	{
+		wait 1000
+		alertentity alarm_nazi13x
+		alertentity nazi16x
+	}
+
+	trigger alarm_music
+	{
+		mu_start sound/music/m_assault 500
+	}
+
+	trigger sight_check_in
+	{
+		accum 4 inc 1
+	}
+
+	trigger sight_check_out
+	{
+		accum 4 inc -1
+	}
+
+	trigger sight_in_music
+	{
+//		trigger checker1 sight_in_music_part1
+//		wait 5
+//		trigger checker1 sight_in_music_part2
+	}
+
+	trigger sight_in_music_part1
+	{
+	}
+
+	trigger sight_in_music_part2
+	{
+	}
+
+	trigger sight_out_music
+	{
+	}
+
+	trigger first_area_alive		
+	{
+	}
+
+	trigger first_area_move_out		// IF ANY NAZI FINDS A DEAD BODY HE THEN CHECKS OTHER GUYS...
+	{
+		accum 0 bitset 23
+	}
+
+	trigger alarm1_destroyed
+	{
+		accum 0 bitset 26
+	}
+
+	trigger check_alarm1
+	{
+//		accum 0 abort_if_bitset 26
+	}
+
+	trigger alarm2_destroyed
+	{
+		accum 0 bitset 24
+	}
+
+	trigger check_alarm2
+	{
+//		accum 0 abort_if_bitset 24
+	}
+
+	trigger Print_objectives
+	{
+		//print Alright now you must get to the Chateau.
+		//wait 2000
+		//print Without being seen.
+		//wait 2000
+	}
+
+	trigger nazi1_alive			// nazi tells checker1 he is alive
+	{
+//		accum 0 set 1
+		accum 0 bitreset 0
+	}
+
+	trigger nazi1_dead			// Nazi tells checker1 he is dead
+	{
+//		accum 0 set 0
+		accum 0 bitset 0
+	}
+
+	trigger nazi2_alive			// nazi tells checker1 he is alive
+	{
+//		accum 1 set 1
+		accum 0 bitreset 1
+	}
+
+	trigger nazi2_dead			// Nazi tells checker1 he is dead
+	{
+//		accum 1 set 0 
+		accum 0 bitset 1
+	}
+
+	trigger if_nazi2_alive			// this will cycle between two possible choices...
+	{
+		wait 5
+		trigger checker1 nazi1_response1
+		wait 5
+		trigger checker1 nazi1_response2
+	}
+
+	trigger nazi1_response1
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		wait 5		
+		trigger nazi2 talk1	
+
+	// this now has nazi2 respond with a comment...			
+	}
+
+	trigger nazi1_response2
+	{
+		wait 5
+		accum 1 abort_if_not_equal 0
+		resetscript
+		wait 5
+		trigger nazi1 go_nazi2_check	// This will have nazi1 go and check out nazi2's area
+	}
+
+	trigger nazi4_anim_and_sound1
+	{
+		trigger nazi4 anim_loop1
+		wait 5
+		trigger nazi4 sound1
+		wait 6000
+		trigger nazi4 go2
+	}
+
+	trigger nazi4_anim_and_sound2
+	{
+		trigger nazi4 anim_loop2
+		wait 5
+		trigger nazi4 sound2
+		wait 6400
+		trigger nazi4 go2
+	}
+
+	trigger nazi4_anim_and_sound3
+	{
+		trigger nazi4 anim_loop1
+		wait 5
+		trigger nazi4 sound3
+		wait 6500
+		trigger nazi4 go2
+	}
+
+
+	trigger officer2_alive			// This is so that the nazi can tell if his player has been shot...
+	{
+		accum 0 bitreset 4
+	}
+
+	trigger officer2_dead 			//  This is that the he doesn't say anything...
+	{
+		accum 0 bitset 4
+	}
+
+	trigger officer2_response
+	{
+		accum 0 abort_if_equal 1
+		wait 5 
+		print My record player!!
+		accum 0 set 0 
+	}
+
+	trigger sniper1_alive			// this has sniper check in and say he is alive...
+	{
+//		accum 4 set 1
+	}
+	
+	trigger sniper1_dead			// this has sniper check in and say he is dead...
+	{
+//		accum 4 set 0
+	}
+
+	trigger check_sniper1			// nazi checks this to see what to do...
+	{
+		trigger checker1 alive_sniper_response1
+		trigger checker1 alive_sniper_response2
+
+	}
+
+	trigger check_sniper1_response1			// this will be his response if the sniper is alive	.
+	{
+		accum 4 abort_if_not_equal 1
+		resetscript
+		//todo
+		trigger nazi5 response_sniper_alive
+	}
+
+	trigger check_sniper_response2			// this will be his response if the sniper is dead
+	{
+		accum 4 abort_if_not_equal 0
+		resetscript
+		//todo	
+		trigger nazi5 response_sniper_dead	
+	}
+
+//------Hotel conversation-------
+
+
+	trigger hotel_conversation
+	{
+		trigger nazi6 conversation1		// ah this is some tasty sory broton..
+		wait 4300
+		trigger nazi7 conversation1
+		wait 2700
+		trigger nazi6 conversation2
+		wait 1700
+		trigger nazi7 conversation2
+		wait 3200
+		trigger nazi6 conversation3
+		wait 2800				
+	}
+
+//------------end----------------
+
+	trigger all_run_for_bj				// to do
+	{
+		trigger nazi1 run_for_bj
+		trigger nazi2 run_for_bj
+		trigger officer1 run_for_bj
+		trigger officer2 run_for_bj
+		trigger officer3 run_for_bj
+		trigger officer4 run_for_bj
+		trigger officer5 run_for_bj
+		trigger nazi4 run_for_bj
+		trigger nazi5 run_for_bj
+		trigger nazi6 run_for_bj
+		trigger nazi7 run_for_bj
+		trigger nazi8 run_for_bj
+		trigger nazi9 run_for_bj
+		trigger alarm_nazi11 run_for_bj
+		trigger alarm_nazi12 run_for_bj
+		trigger alarm_nazi13 run_for_bj
+		trigger nazi14 run_for_bj
+		trigger nazi15 run_for_bj
+		trigger nazi16 run_for_bj			
+	}
+
+	trigger alarm_on				// This is set up so that people don't run normal scripts...
+	{
+		accum 7 set 1
+	}
+
+	trigger alarm_on_response1			// This will trigger each character to go after bj... for all ai
+	{
+		trigger checker1 moonlight		
+		wait 5
+		trigger checker1 run_for_bj1
+	}
+
+	trigger moonlight
+	{
+		accum 7 abort_if_not_equal 0
+		resetscript
+		wait 5
+		trigger officer4 moonlight
+	}
+
+	trigger run_for_bj1
+	{
+		accum 7 abort_if_not_equal 1
+		resetscript
+		wait 5
+		trigger officer4 run_for_bj
+	}
+
+//	trigger nazi1_wait_loop
+//	{
+//		wait 5300
+//		trigger nazi1 random_sound
+//		wait 2600
+//		trigger nazi1 random_sound
+//		wait 8300
+//		trigger nazi1 random_sound
+//		wait 2500
+//		trigger nazi1 random_sound
+//		trigger checker1 nazi1_wait_loop
+//	}
+
+//  Checker for nazi9
+
+	trigger alarm_on_response2			// Nazi9		
+	{
+		trigger checker1 wine_talk		
+		wait 500
+		trigger checker1 run_for_bj2
+	}
+
+	trigger wine_talk
+	{
+		accum 7 abort_if_not_equal 0
+		resetscript
+		wait 5
+		trigger nazi9 go1
+	}
+
+	trigger run_for_bj12
+	{
+		accum 7 abort_if_not_equal 1
+		resetscript
+		wait 5
+		trigger nazi9 run_for_bj
+	}
+
+// Checker for off duty...
+
+	trigger alarm_on_response3			// Off duty nazi checks here...		
+	{
+		wait 5 
+		trigger checker1 enterhouse		
+		wait 5
+		trigger checker1 run_for_bj3
+		wait 5
+	}
+
+	trigger enter_house
+	{
+		accum 7 abort_if_not_equal 0
+		resetscript
+		trigger nazi11_offduty enter_house
+	}
+
+	trigger nazi10_dead
+	{
+		accum 0 bitset 17
+	}
+
+	trigger nazi11_offduty_choose
+	{
+		trigger checker1 nazi11_offduty_choose1  
+		wait 500
+		trigger checker1 nazi11_offduty_choose2  
+	}
+
+	trigger nazi11_offduty_choose1 
+	{
+		accum 0 abort_if_not_bitset 17
+		trigger checker1 nazi11_offduty_choose1
+	}
+
+	trigger nazi11_offduty_choose2 
+	{
+		accum 0 abort_if_bitset 17
+		trigger checker1 nazi11_offduty_choose2
+	}
+
+	trigger run_for_bj13
+	{
+		accum 7 abort_if_not_equal 1
+		resetscript
+		trigger nazi11_offduty run_for_bj
+	}
+
+// checker for player hitting alarm..
+
+	trigger player_hits_alarm
+	{
+		alertentity sound_alarm
+		trigger player alarm_on_mission_fail
+		wait 3000
+		trigger checker1 alarm_on
+		//missionfailed
+		//print MISSION FAILED!!!
+	}
+
+	trigger nazi6_cant_talk				// Check in so nazi6 cannot talk...
+	{
+		accum 0 bitset 15
+	}
+
+	trigger can_nazi6_talk
+	{
+		trigger checker1 nazi6_talk
+		wait 5
+		trigger checker1 nazi6_notallk
+	}
+
+	trigger nazi6_talk
+	{
+		accum 0 abort_if_bitset 15
+		resetscript
+		wait 5
+//		print Checker1 debug
+		trigger nazi6 talk1
+	}
+
+	trigger nazi6_notalk
+	{
+		accum 0 abort_if_not_bitset 15 
+		resetscript
+		wait 5
+		trigger nazi6 no_talk
+	}
+
+	//  Sound loops using counter
+
+	trigger mmm_loop
+	{
+		accum 1 random 3
+		wait 5
+		trigger officer1 mmm1
+		wait 5
+		trigger officer1 mmm2
+		wait 5
+		trigger officer1 mmm3
+	}
+
+	trigger mmm1
+	{
+		accum 1 abort_if_not_equal 0
+		resetscript
+		wait 1000
+		trigger officer1 mmm1 
+	}
+
+	trigger mmm2
+	{
+		accum 1 abort_if_not_equal 1
+		resetscript
+		wait 4000
+		trigger officer1 mmm2		
+	}
+
+	trigger mmm3
+	{
+		accum 1 abort_if_not_equal 2
+		resetscript
+		wait 6000
+		trigger officer1 mmm3	
+	}
+
+	trigger start_talk_with_inge
+	{
+		playsound hoch_come_my_dear
+	}
+
+	trigger otto_yell_checkin
+	{
+		accum 2 inc 1
+	}
+}
+
+wall1
+{
+	spawn
+	{
+		accum 0 bitreset 0
+		accum 0 bitreset 1
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0
+		wait 1000
+		gotomarker wall1a 20 wait
+	}
+
+	trigger start
+	{
+		accum 0 abort_if_bitset 1
+		accum 0 bitset 1
+		trigger player secret4
+		playsound sound/movers/doors/door6_open.wav looping
+		gotomarker wall1b 40 wait
+		gotomarker wall1c 20 wait
+		stopsound
+	}
+}
+
+wall2
+{
+	spawn
+	{
+		wait 1000
+		gotomarker wall2a 20 wait
+	}
+
+	trigger start
+	{
+		playsound sound/movers/doors/door6_open.wav looping
+		gotomarker wall2b 40 wait
+		gotomarker wall2c 20 wait
+		stopsound
+	}
+}
+
+sign1
+{
+	spawn
+	{
+//		trigger sign1 swingloop
+	}
+
+	trigger swingloop
+	{
+		wait 300
+		playsound sound/world/squeaky_sign.wav looping
+		faceangles 2 0 0 125
+		faceangles 4 0 0 150
+		faceangles 6 0 0 175
+		faceangles 8 0 0 200
+		faceangles 10 0 0 250
+		faceangles 8 0 0 200
+		faceangles 6 0 0 175
+		faceangles 4 0 0 150
+		faceangles 2 0 0 125
+		faceangles 0 0 0 100
+		faceangles -2 0 0 125
+		faceangles -4 0 0 150
+		faceangles -6 0 0 175
+		faceangles -8 0 0 200
+		faceangles -10 0 0 250
+		faceangles -8 0 0 200
+		faceangles -6 0 0 175
+		faceangles -4 0 0 150
+		faceangles -2 0 0 125
+		faceangles 0 0 0 100
+		trigger sign1 swingloop
+	}
+
+	death
+	{
+		stopsound
+//		alertentity sign1_break
+	}
+}
+
+sign2
+{
+	spawn
+	{
+		wait 1100
+//		trigger sign2 swingloop
+	}
+
+	trigger swingloop
+	{
+		playsound sound/world/squeaky_sign.wav looping
+		faceangles 2 0 0 125
+		faceangles 4 0 0 150
+		faceangles 6 0 0 175
+		faceangles 8 0 0 200
+		faceangles 10 0 0 250
+		faceangles 8 0 0 200
+		faceangles 6 0 0 175
+		faceangles 4 0 0 150
+		faceangles 2 0 0 125
+		faceangles 0 0 0 100
+		faceangles -2 0 0 125
+		faceangles -4 0 0 150
+		faceangles -6 0 0 175
+		faceangles -8 0 0 200
+		faceangles -10 0 0 250
+		faceangles -8 0 0 200
+		faceangles -6 0 0 175
+		faceangles -4 0 0 150
+		faceangles -2 0 0 125
+		faceangles 0 0 0 100
+		trigger sign2 swingloop
+	}
+
+	death
+	{
+		stopsound
+//		alertentity sign2_break
+	}
+}
+
+sign3
+{
+	spawn
+	{
+//		trigger sign3 swingloop
+	}
+
+	trigger swingloop
+	{
+		playsound sound/world/squeaky_sign.wav looping
+		faceangles 2 0 0 125
+		faceangles 4 0 0 150
+		faceangles 6 0 0 175
+		faceangles 8 0 0 200
+		faceangles 10 0 0 250
+		faceangles 8 0 0 200
+		faceangles 6 0 0 175
+		faceangles 4 0 0 150
+		faceangles 2 0 0 125
+		faceangles 0 0 0 100
+		faceangles -2 0 0 125
+		faceangles -4 0 0 150
+		faceangles -6 0 0 175
+		faceangles -8 0 0 200
+		faceangles -10 0 0 250
+		faceangles -8 0 0 200
+		faceangles -6 0 0 175
+		faceangles -4 0 0 150
+		faceangles -2 0 0 125
+		faceangles 0 0 0 100
+		trigger sign3 swingloop
+	}
+
+	death
+	{
+		stopsound
+//		alertentity sign3_break
+	}
+}
+
+sign4
+{
+	spawn
+	{
+//		trigger sign4 swingloop
+	}
+
+	trigger swingloop
+	{
+		playsound sound/world/squeaky_sign.wav looping
+		faceangles 2 0 0 125
+		faceangles 4 0 0 150
+		faceangles 6 0 0 175
+		faceangles 8 0 0 200
+		faceangles 10 0 0 250
+		faceangles 8 0 0 200
+		faceangles 6 0 0 175
+		faceangles 4 0 0 150
+		faceangles 2 0 0 125
+		faceangles 0 0 0 100
+		faceangles -2 0 0 125
+		faceangles -4 0 0 150
+		faceangles -6 0 0 175
+		faceangles -8 0 0 200
+		faceangles -10 0 0 250
+		faceangles -8 0 0 200
+		faceangles -6 0 0 175
+		faceangles -4 0 0 150
+		faceangles -2 0 0 125
+		faceangles 0 0 0 100
+		trigger sign4 swingloop
+	}
+
+	death
+	{
+		stopsound
+//		alertentity sign4_break
+	}
+}
+
+car1
+{
+	spawn
+	{
+		trigger car1 drive_relaxed
+	}
+
+	trigger drive_relaxed
+	{
+		faceangles 0 90 0 5
+		gotomarker c1spot1 100 wait
+		gotomarker c1spot2 100 wait
+		gotomarker c1spot3 100 wait
+		gotomarker c1spot4 100 wait
+		//gotomarker c1spot5 100
+		//gotomarker c1spot6 100
+		trigger car1 drive_relaxed
+	}
+}
+
+staff_bwheels
+{
+	spawn
+	{
+		attachtotag car1 staff_bwheels
+	}
+
+	trigger 
+	{
+	}	
+}
+
+front_right_wheel
+{
+	spawn
+	{
+		attachtotag car1 front_right_wheel
+	}
+
+	trigger
+	{
+	}
+}

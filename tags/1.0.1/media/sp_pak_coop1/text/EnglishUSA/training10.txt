@@ -1,0 +1,13 @@
+Exercise 10: Running Long Jump
+
+This exercise will teach you how to clear greater distances while running at full stride.
+
+Instructions:
+
+Clear the following obstacles without landing in the sand. To accomplish this, press your 'run' key while moving forward. When you reach the obstacle press your 'jump' key while continuing to run.
+
+If you have chosen 'auto run' in your control settings you will simply need to jump at the beginning of each obstacle.  
+
+Once you have successfully mastered the run and jump, proceed to the next station.
+
+Time Limit: None

@@ -1,0 +1,139 @@
+// Assault sounds
+// This file is meant mostly for level defind sounds.
+//
+// channels: local, announcer, body, voice, weapon, item, auto (default)
+// toggles: streaming, looping (only works for streaming sounds), global
+
+ass_jet_idle
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/assault/jet_idle.wav
+}
+
+ass_jet_takeoff
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/assault/jet_takeoff.wav
+}
+
+ass_switch
+{
+	streaming
+	auto
+	sound sound/scenaric/assault/switch.wav
+}
+
+ass_fuel
+{
+	auto
+	sound sound/scenaric/assault/fuel.wav
+}
+
+ass_fueltank1
+{
+	auto
+	sound sound/scenaric/assault/fueltank1.wav
+}
+
+ass_fueltank2
+{
+	auto
+	sound sound/scenaric/assault/fueltank2.wav
+}
+
+ass_fuelmotor1
+{
+	auto
+	sound sound/scenaric/assault/fuelmotor1.wav
+}
+
+ass_jet2_flyby
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/assault/rocket_plane_flyby1.wav
+}
+
+ass_truck_loop
+{
+	sound sound/scenaric/assault/truck_fast_loop1.wav
+}
+
+ass_sign_fall
+{
+	sound sound/scenaric/assault/metal_sign_fall1.wav
+}
+
+ass_table_fall
+{
+	sound sound/scenaric/assault/metal_table_fall1.wav
+}
+
+ass_jet_explode1
+{
+	sound sound/scenaric/assault/jetexplosion.wav
+}
+
+ass_bell_loop
+{
+	streaming
+	//global
+	auto
+	sound sound/scenaric/assault/fire_alarm_loop1.wav
+}
+
+ass_bell_end
+{
+	streaming
+	//global
+	auto
+	sound sound/scenaric/assault/fire_alarm_end1.wav
+}
+
+ass_mech_1
+{
+	streaming
+	voice
+	sound sound/scenaric/assault/mech_1.wav	
+}
+
+ass_mech_7
+{
+	streaming
+	voice
+	sound sound/scenaric/assault/mech_7.wav	
+}
+
+ass_mech_8
+{
+	streaming
+	voice
+	sound sound/scenaric/assault/mech_8.wav	
+}
+
+ass_mech_9
+{
+	streaming
+	voice
+	sound sound/scenaric/assault/mech_9.wav	
+}
+
+ass_mech_10
+{
+	streaming
+	voice
+	sound sound/scenaric/assault/mech_10.wav	
+}
+
+ass_cargo_flyby
+{
+	streaming
+	global
+	auto
+	sound sound/scenaric/assault/cargo_flyby.wav	
+}

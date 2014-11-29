@@ -1,0 +1,193 @@
+#include "ui/menudef.h"
+
+#define GLOBAL_TEXTSCALE1	0.25
+
+{
+\\ PASSWORD POPUP MENU \\
+
+menuDef {
+	name				"ingame_serverinfo_popmenu"
+	visible 			0
+	fullscreen			0
+	rect				120 70 350 300
+	focusColor			1 .75 0 1
+	style				1
+	border				1
+	popup
+  modal
+	onClose				{ }
+	onOpen				{ uiScript ServerStatus }
+	onESC				{ close ingame_serverinfo_popmenu
+						open	ingame_join 
+						}
+
+	itemDef
+	{
+		name			window
+		group			grpControlbutton
+		rect			0 40 350 325
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.5 .5 .5 .5
+		forecolor		1 1 1 1
+		backcolor		.1 .1 .1 1
+		visible			1
+		decoration
+	}
+
+	itemDef 
+	{
+		name			window2
+		group			grpControlbutton
+		rect			2 42 346 20 
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.1 .1 .1 .2
+		forecolor		1 1 1 1
+		backcolor		.3 0.5 0.2 0.5
+		visible			1
+		decoration
+	}
+
+	itemDef {
+		name			window_title
+		text			"Server Info"
+		style			0
+		decoration
+		textscale		.3
+		rect			1 44 210 20
+		textalign		1
+		textalignx		180
+		textaligny		16
+		forecolor		1 1 1 1
+		visible			1
+		textfont		UI_FONT_NORMAL
+	}
+
+	itemDef {
+		name			serverinfo
+		rect			20 70 310 230
+		type			ITEM_TYPE_LISTBOX
+		style			WINDOW_STYLE_FILLED
+		elementwidth	120
+		elementheight	16
+		textfont		UI_FONT_NORMAL
+		textscale		.25
+		backcolor		0 0 0 1
+		border			1
+		bordersize		1
+		bordercolor		.5 .5 .5 1
+		elementtype		LISTBOX_TEXT
+		feeder			FEEDER_SERVERSTATUS
+		notselectable
+		visible			1
+		columns			4	2 40 20
+							40 40 10
+							90 40 10
+							135 40 20
+	 	}
+
+  itemDef {
+    name      serverURL
+    text      "Go to server URL"
+    type      ITEM_TYPE_BUTTON
+    textfont  UI_FONT_NORMAL
+	textscale		GLOBAL_TEXTSCALE1
+    style     WINDOW_STYLE_FILLED
+    border    1
+    bordercolor .1 .1 .1 .25
+    rect 40 310 115 15
+    textalign 1
+		textalignx		57 // center
+		textaligny		11
+		backcolor		.3 .5 .2 .3
+		forecolor		1 1 1 1
+		visible			0
+
+    action {    
+      uiScript openServerURL
+      open url_disclaimer_popmenu
+    }
+
+		mouseEnter		{ setitemcolor serverURL backcolor .1 .2 .37 1 }
+		mouseExit		{ setitemcolor serverURL backcolor .3 .5 .2 .3 }
+  }
+
+  itemDef {
+    name      modURL
+    text      "Go to mod URL"
+    type      ITEM_TYPE_BUTTON
+    textfont  UI_FONT_NORMAL
+	textscale		GLOBAL_TEXTSCALE1
+    style     WINDOW_STYLE_FILLED
+    border    2
+    bordercolor .1 .1 .1 .25
+    rect 175 310 125 15
+    textalign 1
+		textalignx		63 // center
+		textaligny		11
+		backcolor		.3 .5 .2 .3
+		forecolor		1 1 1 1
+		visible			0
+    
+    action {    
+      uiScript openModURL
+      open url_disclaimer_popmenu
+    }
+
+		mouseEnter		{ setitemcolor modURL backcolor .1 .2 .37 1 }
+		mouseExit		{ setitemcolor modURL backcolor .3 .5 .2 .3 }
+  }
+
+	itemDef {
+		name			yes
+		text			"Exit"
+		type			ITEM_TYPE_BUTTON
+		textfont		UI_FONT_NORMAL
+		textscale		GLOBAL_TEXTSCALE1
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.1 .1 .1 .25
+		rect			60 335 100 15
+		textalign		1
+		textalignx		51		// center
+		textaligny		11
+		backcolor		.3 .5 .2 .3
+		forecolor		1 1 1 1
+		visible			1
+
+		action {
+			close	ingame_serverinfo_popmenu
+			open	ingame_join 
+		}
+
+		mouseEnter		{ setitemcolor yes backcolor .1 .2 .37 1 }
+		mouseExit		{ setitemcolor yes backcolor .3 .5 .2 .3 }
+	}
+
+	itemDef {
+		name			refresh
+		text			"Refresh"
+		type			ITEM_TYPE_BUTTON
+		textfont		UI_FONT_NORMAL
+		textscale		GLOBAL_TEXTSCALE1
+		style			WINDOW_STYLE_FILLED
+		border			1
+		bordercolor		.1 .1 .1 .25
+		rect			170 335 100 15
+		textalign		1
+		textalignx		51		// center
+		textaligny		11
+		backcolor		.3 .5 .2 .3
+		forecolor		1 1 1 1
+		visible			1
+
+		action {
+			uiScript	ServerStatus
+		}
+
+		mouseEnter		{ setitemcolor refresh backcolor .1 .2 .37 1 }
+		mouseExit		{ setitemcolor refresh backcolor .3 .5 .2 .3 }
+	}
+}
+}

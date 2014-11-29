@@ -1,0 +1,111 @@
+//
+//Brush Scripting
+//Map: Factory
+//Last edited by: Dan
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+		accum 0 bitreset 2
+
+		trigger player map_start	//Prevents late players affecting the game
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		accum 0 abort_if_not_bitset 2
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+	
+	trigger objective2
+	{
+		accum 0 bitset 2
+	}
+}
+
+spawner
+{
+	spawn
+	{
+		accum 0 bitset 0
+	}
+
+	trigger detonate
+	{
+		accum 0 abort_if_not_bitset 0
+		accum 0 bitreset 0
+		alertentity mortarshot
+		wait 500
+		alertentity black5
+		alertentity black6
+	}
+
+}
+
+dialog
+{
+	trigger thebomb
+	{
+	trigger dummy1 disarm1a
+	wait 2500
+	trigger dummy2 disarm2a
+	wait 8000
+	trigger dummy1 disarm1b
+	wait 2800
+	trigger spawner detonate
+	}
+}
+
+ladder
+{
+	spawn
+	{
+		wait 100
+		gotomarker ladderspot1 50
+	}
+
+	trigger movedown
+	{
+		gotomarker ladderspot2 100
+	}
+}
+
+lever
+{
+	spawn
+	{
+		wait 100
+		gotomarker leverspot1 50
+	}
+
+	trigger ladderdrop
+	{
+		wait 5000
+		gotomarker leverspot2 50
+		trigger ladder movedown
+		trigger black13 climbladder
+	}
+}
+
+landedbomb
+{
+	spawn
+	{
+		wait 100
+		faceangles 40 20 0 100
+	}
+
+	death
+	{
+		trigger spawner detonate
+	}
+}

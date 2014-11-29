@@ -1,0 +1,167 @@
+//Cleaned for COOP by -SSF-Sage on 19.1.2013
+//
+//Chad's first scripting attempt.  :)
+//First Room
+// 
+// DO NOT EDIT WITHOUT SPEAKING TO CHAD.  I DON'T CARE WHO YOU ARE.
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 0 bitreset 1
+	
+		trigger player map_start	//Prevents late players affecting the game
+	}
+	
+	trigger checkexit
+	{
+		accum 0 abort_if_not_bitset 1
+		trigger player exitlevel
+	}
+	
+	trigger objective1
+	{
+		accum 0 bitset 1
+	}
+}
+
+counter1
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+	
+	 trigger room1
+	{
+		accum 0 inc 1
+		accum 0 abort_if_not_equal 4
+		wait 6000
+		mu_play sound\music\s_longout
+		alertentity chop1
+		wait 2000
+		alertentity chop1
+		wait 2000
+		alertentity chop1
+		alertentity warrior1
+		wait 500
+		alertentity warrior2
+		wait 500
+		alertentity warrior3
+		alertentity zombie4
+		wait 2000
+		mu_stop
+		mu_start sound/music/c_chant
+		alertentity chop1
+		alertentity bust1
+	}
+
+	trigger room2
+	{
+		trigger zombie4 getup
+		mu_play sound\music\s_bighits
+		wait 6000
+		mu_stop
+		mu_start sound/music/c_chant
+	}
+}
+
+counter2
+{
+}
+
+head
+{
+	spawn
+	{
+		wait 500
+	}
+
+	trigger roll1
+	{
+		gotomarker h1spot1 100
+		playsound sound\working\bullethitflesh1.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot2 100
+		faceangles 270 0 0 gototime
+		gotomarker h1spot3 100
+		playsound sound\working\bullethitflesh2.wav
+		faceangles 360 0 0 gototime
+		gotomarker h1spot4 110
+		faceangles 90 0 0 gototime
+		gotomarker h1spot5 110
+		playsound sound\working\bullethitflesh3.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot6 110
+		faceangles 270 0 0 gototime
+		gotomarker h1spot7 110
+		playsound sound\working\bullethitflesh3.wav
+		faceangles 360 0 0 gototime
+		gotomarker h1spot8 120
+		faceangles 90 0 0 gototime
+		gotomarker h1spot9 120
+		playsound sound\working\bullethitflesh2.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot10 120
+		faceangles 270 0 0 gototime
+		gotomarker h1spot11 120
+		playsound sound\working\bullethitflesh2.wav
+		faceangles 360 0 0 gototime
+		gotomarker h1spot12 120
+		faceangles 90 0 0 gototime
+		gotomarker h1spot13 120
+		playsound sound\working\bullethitflesh1.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot14 130
+		faceangles 270 0 0 gototime
+		gotomarker h1spot15 130
+		playsound sound\working\bullethitflesh1.wav
+		faceangles 360 0 0 gototime
+		gotomarker h1spot16 130
+		faceangles 90 0 0 gototime
+		trigger head roll2
+	}
+
+	trigger roll2
+	{
+		gotomarker h1spot17 140
+		playsound sound\working\bullethitflesh2.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot18 140
+		faceangles 270 0 0 gototime
+		gotomarker h1spot19 140
+		playsound sound\working\bullethitflesh3.wav
+		faceangles 360 0 0 gototime
+		gotomarker h1spot20 140
+		faceangles 90 0 0 gototime
+		gotomarker h1spot21 140
+		playsound sound\working\bullethitflesh2.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot22 140
+		faceangles 270 0 0 gototime
+		gotomarker h1spot23 140
+		playsound sound\working\bullethitflesh3.wav
+		faceangles 360 0 0 gototime
+		gotomarker h1spot24 140
+		faceangles 90 0 0 gototime
+		gotomarker h1spot25 150
+		playsound sound\working\bullethitflesh2.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot26 150
+		faceangles 270 0 0 gototime
+		gotomarker h1spot27 150
+		playsound sound\working\bullethitflesh1.wav
+		faceangles 360 0 0 gototime
+		gotomarker h1spot28 100
+		faceangles 90 0 0 gototime
+		gotomarker h1spot29 150
+		playsound sound\working\bullethitflesh1.wav
+		faceangles 180 0 0 gototime
+		gotomarker h1spot30 150
+		faceangles 270 0 0 gototime
+		gotomarker h1spot31 150 deccel
+		faceangles 0 0 0 gototime
+	}
+}

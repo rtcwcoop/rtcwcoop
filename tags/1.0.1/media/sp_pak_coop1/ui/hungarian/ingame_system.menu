@@ -1,0 +1,287 @@
+#include "ui/menudef.h"
+
+{
+\\ SYSTEM MENU \\
+
+menuDef {
+    	name "ingame_system"
+    	visible 0
+    	fullscreen 0
+		outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
+		rect 100 125 443 340
+    	focusColor 1 .75 0 1
+    	style 1
+    	border 1
+
+		onopen { hide grpsystem ; hide grpapplysystem ; show graphics ; show driver ; show graphicsapply ; show soundapply }
+
+
+itemDef {
+	name window
+	group ingamebox
+	rect 0 2 443 300
+	style WINDOW_STYLE_FILLED
+	border 1
+	bordercolor .5 .5 .5 .5
+	forecolor 1 1 1 1
+	backcolor 0 0 0 .5
+	visible 1
+	decoration
+}
+
+
+//////// START OF PASTE
+
+itemDef {
+	name graphics
+	group grpSystembutton
+	text "Képernyõbeállítások"
+	textfont UI_FONT_NORMAL
+	textalign ITEM_ALIGN_CENTER
+	textalignx 145
+	textaligny 14
+	textscale .25
+	rect 82 15 290 20
+	style WINDOW_STYLE_FILLED
+	border			1
+	bordercolor		.5 .5 .5 .5
+	forecolor		1 1 1 1
+	backcolor		.3 0.5 0.2 .25
+	visible			1
+	decoration
+	}
+
+	itemDef {
+   		name graphics
+		group grpSystem
+   		type ITEM_TYPE_MULTI	
+		text "Felbontás:"
+		cvar "r_mode"
+		cvarFloatList { "Automata" -2 "Egyedi" -1 "320x240" 0 "400x300" 1 "512x384" 2 "640x480" 3 "800x600" 4 "960x720" 5 "1024x768" 6 "1152x864" 7 "1280x1024" 8 "1600x1200" 9 "2048x1536" 10 "856x480 (wide)" 11 "1920x1200 (wide)" 12 }
+		rect 82 40 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .22 
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07       
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+	}
+
+	itemDef {
+  		name graphics
+		group grpSystem
+      	type ITEM_TYPE_SLIDER
+		text "Világosság:"
+		cvarfloat "r_gamma" 1 0.5 2
+ 		rect 82 55 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142 
+      	textaligny 10
+		textscale .22 
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07       
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+    }
+	
+	itemDef {
+   		name graphics
+		group grpSystem
+      	type ITEM_TYPE_MULTI
+		text "Teljes Képernyõ:"
+		cvar "r_fullscreen"
+		cvarFloatList		{ "Nem" 0 "Igen" 1 }
+		rect 82 70 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .22
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07        
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+	}
+	
+	itemDef {
+   		name graphics
+		group grpSystem
+   		type ITEM_TYPE_MULTI
+		text "Színmélység:"
+		cvar "r_colorbits"
+		cvarFloatList { "Asztali Alapért." 0 "16 bites" 16 "32 bites" 32 }
+		rect 82 85 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .22 
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07      
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom ; uiScript update "r_colorbits" }
+	}
+
+	itemDef {
+		name graphics
+		group grpSystem
+		type ITEM_TYPE_MULTI
+		text "Textúra-Színmélység:"
+		cvar "r_texturebits"
+		cvarFloatList { "Alapért." 0 "16 bites" 16 "32 bites" 32 }
+		rect 82 100 290 12
+      	textalign ITEM_ALIGN_RIGHT
+      	textalignx 142
+      	textaligny 10
+		textscale .22
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07       
+      	forecolor 1 1 1 1
+      	visible 0 
+		action { uiScript glCustom }
+    }
+
+	itemDef {
+		name graphicsapply
+		text "Jóváhagyás"
+		type 1	
+		textscale .2
+		style WINDOW_STYLE_FILLED
+		group grpsystem
+		rect 177 115 100 20
+		textalign 1
+		textalignx 50
+		textaligny 14
+		forecolor 1 1 1 1
+		backcolor .1 .1 .1 .1 
+		visible 1
+		border 1
+		bordercolor .5 .5 .5 .5
+		action { play "sound/misc/kcaction.wav" ; 
+		open vid_restart_popmenu ; hide graphics ; hide driver ; hide graphicsapply ; hide soundapply }
+		mouseEnter { setitemcolor graphicsapply backcolor .3 .5 .2 .25 }
+      	mouseExit { setitemcolor graphicsapply backcolor .1 .1 .1 .1 }
+	}		
+	
+	
+itemDef {
+	name graphics
+	group grpSystembutton
+	text "Hangbeállítások"
+	textfont UI_FONT_NORMAL
+	textalign ITEM_ALIGN_CENTER
+	textalignx 145
+	textaligny 14
+	textscale .25
+	rect 82 145 290 20
+	style WINDOW_STYLE_FILLED
+	border			1
+	bordercolor		.5 .5 .5 .5
+	forecolor		1 1 1 1
+	backcolor		.3 0.5 0.2 .25
+	visible			1
+	decoration
+	}
+	
+	itemDef {
+		name graphics
+		group grpSystem
+		type ITEM_TYPE_SLIDER
+		text "Hangerõ:"
+		cvarfloat "s_volume" 0.7 0 1
+		rect 82 170 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .22    
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07   
+		forecolor 1 1 1 1
+		visible 0 
+    }
+	
+	itemDef {
+		name graphics
+		group grpSystem
+		type ITEM_TYPE_SLIDER
+		text "Zene Hangerõ:"
+		cvarfloat "s_musicvolume" 0.25 0 1
+		rect 82 185 290 12
+		textalign ITEM_ALIGN_RIGHT
+		textalignx 142
+		textaligny 10
+		textscale .22  
+		style WINDOW_STYLE_FILLED
+		backcolor 1 1 1 .07     
+		forecolor 1 1 1 1
+		visible 0 
+    }
+
+	itemDef {
+		name soundapply
+		text "Jóváhagyás"
+		type 1	
+		textscale .2
+		style WINDOW_STYLE_FILLED
+		group grpsystem
+		rect 177 200 100 20
+		textalign 1
+		textalignx 50
+		textaligny 14
+		forecolor 1 1 1 1
+		backcolor .1 .1 .1 .1 
+		visible 1
+		border 1
+		bordercolor .5 .5 .5 .5
+		action { play "sound/misc/kcaction.wav" ; 
+		open snd_restart_popmenu ; hide graphics ; hide driver ; hide graphicsapply ; hide soundapply }
+		mouseEnter { setitemcolor soundapply backcolor .3 .5 .2 .25 }
+      	mouseExit { setitemcolor soundapply backcolor .1 .1 .1 .1 }
+	}	
+	
+	
+itemDef {
+	name graphics
+	group grpSystembutton
+	text "Képernyõillesztõ-infók"
+	textfont UI_FONT_NORMAL
+	textalign ITEM_ALIGN_CENTER
+	textalignx 145
+	textaligny 14
+	textscale .25
+	rect 82 230 290 20
+	style WINDOW_STYLE_FILLED
+	border			1
+	bordercolor		.5 .5 .5 .5
+	forecolor		1 1 1 1
+	backcolor		.3 0.5 0.2 .25
+	visible			1
+	decoration
+	}
+
+itemDef {
+		name driver
+		group grpSystem
+		rect 160 250 400 30	
+		ownerdraw UI_GLINFO
+		textalign 0
+		textalignx 0
+		textaligny 14
+		textscale .15
+		forecolor 1 1 1 1
+		visible 0
+		decoration
+		style 1
+	}
+
+	
+//////// END OF PASTE
+
+}
+
+}
+

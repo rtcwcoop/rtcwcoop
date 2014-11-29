@@ -1,0 +1,8 @@
+Operational Specifics:
+
+The GP-VG MK2 Venom Gun is electrically operated and utilizes a locking-breech system with six barrels and six bolts. The barrels rotate counter clockwise and fire in turn when they reach the 12' o-clock position. The breech mechanism features a rotating bolt head with two locking surfaces (similar to MG34 GPMG).
+
+The bolt subassembly features a helical tang on the bolt head which mates with a helical groove on bolt body. Rotation into the battery is clockwise with the bolt rotating around the firing pin holding entire bolt assembly together.
+
+The bolt head itself locks into recesses in the rotor (the main structural component of the gun) while the barrel interfaces with the front of the rotor. A roller on top of the bolt subassembly, moving in an elliptical cam path in the receiver housing, drives the bolt forward. 
+
