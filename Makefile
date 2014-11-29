@@ -116,7 +116,7 @@ endif
 export CROSS_COMPILING
 
 ifndef VERSION
-VERSION=1.0.2
+VERSION=1.0.1
 endif
 
 ifndef CLIENTBIN
@@ -244,11 +244,11 @@ DEBUG_CFLAGS=-g -O0 -ggdb3
 endif
 
 ifndef USE_SVN
-USE_SVN=1
+USE_SVN=0
 endif
 
 ifndef USE_ANTIWALLHACK
-USE_ANTIWALLHACK=0
+USE_ANTIWALLHACK=1
 endif
 
 ifndef USE_BLOOM
@@ -256,11 +256,11 @@ USE_BLOOM=1
 endif
 
 ifndef USE_ADMIN
-USE_ADMIN=0
+USE_ADMIN=1
 endif
 
 ifndef USE_MONEY
-USE_MONEY=0
+USE_MONEY=1
 endif
 
 ifndef USE_LOCALISATION
