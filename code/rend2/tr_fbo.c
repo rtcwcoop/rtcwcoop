@@ -447,7 +447,6 @@ void FBO_Init(void)
 	if (tr.renderFbo)
 	{
 		FBO_Bind(tr.renderFbo);
-		qglClearColor( 1, 0, 0.5, 1 );
 		qglClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		FBO_Bind(NULL);
 	}
@@ -654,9 +653,6 @@ void R_FBOList_f(void)
 	ri.Printf(PRINT_ALL, " %i FBOs\n", tr.numFBOs);
 }
 
-// FIXME
-extern void RB_SetGL2D (void);
-
 void FBO_BlitFromTexture(struct image_s *src, ivec4_t inSrcBox, vec2_t inSrcTexScale, FBO_t *dst, ivec4_t inDstBox, struct shaderProgram_s *shaderProgram, vec4_t inColor, int blend)
 {
 	ivec4_t dstBox, srcBox;
@@ -749,7 +745,7 @@ void FBO_BlitFromTexture(struct image_s *src, ivec4_t inSrcBox, vec2_t inSrcTexS
 
 	Mat4Ortho(0, width, height, 0, 0, 1, projection);
 
-	qglDisable( GL_CULL_FACE );
+	GL_Cull( CT_TWO_SIDED );
 
 	GL_BindToTMU(src, TB_COLORMAP);
 

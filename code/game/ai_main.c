@@ -132,7 +132,8 @@ void BotAI_Trace( bsp_trace_t *bsptrace, vec3_t start, vec3_t mins, vec3_t maxs,
 	VectorCopy( trace.plane.normal, bsptrace->plane.normal );
 	bsptrace->plane.signbits = trace.plane.signbits;
 	bsptrace->plane.type = trace.plane.type;
-	bsptrace->surface.value = trace.surfaceFlags;
+	bsptrace->surface.value = 0;
+	bsptrace->surface.flags = trace.surfaceFlags;
 	bsptrace->ent = trace.entityNum;
 	bsptrace->exp_dist = 0;
 	bsptrace->sidenum = 0;
@@ -360,7 +361,7 @@ void BotChangeViewAngles( bot_state_t *bs, float thinktime ) {
 	}
 	maxchange *= thinktime;
 	for ( i = 0; i < 2; i++ ) {
-		diff = abs( AngleDifference( bs->viewangles[i], bs->ideal_viewangles[i] ) );
+		diff = fabs( AngleDifference( bs->viewangles[i], bs->ideal_viewangles[i] ) );
 		anglespeed = diff * factor;
 		if ( anglespeed > maxchange ) {
 			anglespeed = maxchange;
@@ -449,7 +450,7 @@ void BotInputToUserCommand( bot_input_t *bi, usercmd_t *ucmd, int delta_angles[3
 	//set the view independent movement
 	f = DotProduct(forward, bi->dir);
 	r = DotProduct(right, bi->dir);
-	u = abs(forward[2]) * bi->dir[2];
+	u = fabs(forward[2]) * bi->dir[2];
 	m = fabs(f);
 
 	if (fabs(r) > m) {

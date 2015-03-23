@@ -49,7 +49,8 @@ frame.
 
 static float frontlerp, backlerp;
 static float torsoFrontlerp, torsoBacklerp;
-static int             *triangles, *boneRefs, *pIndexes;
+static int             *triangles, *boneRefs;
+static glIndex_t *pIndexes;
 static int indexes;
 static int baseIndex, baseVertex, oldIndexes;
 static int numVerts;
@@ -1123,18 +1124,13 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 
 	tess.numVertexes += render_count;
 
-	pIndexes = (int*)&tess.indexes[baseIndex];
+	pIndexes = (glIndex_t *)&tess.indexes[baseIndex];
 
 //DBG_SHOWTIME
 
 	if ( render_count == surface->numVerts ) {
-		memcpy( pIndexes, triangles, sizeof( triangles[0] ) * indexes );
-		if ( baseVertex ) {
-			int *indexesEnd;
-			for ( indexesEnd = pIndexes + indexes ; pIndexes < indexesEnd ; pIndexes++ ) {
-				*pIndexes += baseVertex;
-			}
-		}
+		for ( j = 0; j < indexes; j++ )
+			pIndexes[j] = triangles[j] + baseVertex;
 		tess.numIndexes += indexes;
 	} else
 	{
@@ -1197,7 +1193,7 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 		}
 		LocalMatrixTransformVector( v->normal, bones[v->weights[0].boneIndex].matrix, newNormal );
 		
-		*tempNormal = R_VboPackNormal(newNormal);
+		R_VaoPackNormal((byte *)tempNormal, newNormal);
 
 		tess.texCoords[baseVertex + j][0][0] = v->texCoords[0];
 		tess.texCoords[baseVertex + j][0][1] = v->texCoords[1];
@@ -1253,7 +1249,7 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 			qglBegin( GL_LINES );
 			qglColor3f( .0,.0,.8 );
 
-			pIndexes = (int*)&tess.indexes[oldIndexes];
+			pIndexes = (glIndex_t *)&tess.indexes[oldIndexes];
 			for ( j = 0; j < render_indexes / 3; j++, pIndexes += 3 ) {
 				qglVertex3fv( tempVert + 4 * pIndexes[0] );
 				qglVertex3fv( tempVert + 4 * pIndexes[1] );
@@ -1685,7 +1681,7 @@ void RB_MDRSurfaceAnim( mdrSurface_t *surface )
 	oldFrame = (mdrFrame_t *)((byte *)header + header->ofsFrames +
 		backEnd.currentEntity->e.oldframe * frameSize );
 
-	RB_CheckOverflow( surface->numVerts, surface->numTriangles );
+	RB_CheckOverflow( surface->numVerts, surface->numTriangles * 3 );
 
 	triangles	= (int *) ((byte *)surface + surface->ofsTriangles);
 	indexes		= surface->numTriangles * 3;
@@ -1747,7 +1743,7 @@ void RB_MDRSurfaceAnim( mdrSurface_t *surface )
 		tess.xyz[baseVertex + j][1] = tempVert[1];
 		tess.xyz[baseVertex + j][2] = tempVert[2];
 
-		tess.normal[baseVertex + j] = R_VboPackNormal(tempNormal);
+		R_VaoPackNormal((byte *)&tess.normal[baseVertex + j], tempNormal);
 
 		tess.texCoords[baseVertex + j][0][0] = v->texCoords[0];
 		tess.texCoords[baseVertex + j][0][1] = v->texCoords[1];

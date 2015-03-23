@@ -1225,10 +1225,10 @@ qboolean G_ScriptAction_StopSound( gentity_t *ent, char *params ) {
 ===================
 G_ScriptAction_StartCam
 
-  syntax: startcam <camera filename>
+  syntax: startcam<black> <camera filename>
 ===================
 */
-qboolean G_ScriptAction_StartCam( gentity_t *ent, char *params ) {
+qboolean G_ScriptStartCam( gentity_t *ent, char *params, qboolean black ) {
 	char *pString, *token;
 
 	pString = params;
@@ -1244,6 +1244,13 @@ qboolean G_ScriptAction_StartCam( gentity_t *ent, char *params ) {
 	trap_SendServerCommand( -1, va( "startCam %s", token ) );
 
 	return qtrue;
+}
+
+qboolean G_ScriptAction_StartCam( gentity_t *ent, char *params ) {
+	return G_ScriptStartCam( ent, params, qfalse );
+}
+qboolean G_ScriptAction_StartCamBlack( gentity_t *ent, char *params ) {
+	return G_ScriptStartCam( ent, params, qtrue );
 }
 
 /*

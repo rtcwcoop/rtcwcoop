@@ -87,7 +87,7 @@ int CG_Text_Width( const char *text, int font, float scale, int limit ) {
 				s += 2;
 				continue;
 			} else {
-				glyph = &fnt->glyphs[(int)*s];
+				glyph = &fnt->glyphs[*s & 255];
 				out += glyph->xSkip;
 				s++;
 				count++;
@@ -132,7 +132,7 @@ int CG_Text_Height( const char *text, int font, float scale, int limit ) {
 				s += 2;
 				continue;
 			} else {
-				glyph = &fnt->glyphs[(int)*s];
+				glyph = &fnt->glyphs[*s & 255];
 				if ( max < glyph->height ) {
 					max = glyph->height;
 				}
@@ -187,7 +187,7 @@ void CG_Text_Paint( float x, float y, int font, float scale, vec4_t color, const
 		}
 		count = 0;
 		while ( s && *s && count < len ) {
-			glyph = &fnt->glyphs[(int)*s];
+			glyph = &fnt->glyphs[*s & 255];
 			//int yadj = Assets.textFont.glyphs[text[i]].bottom + Assets.textFont.glyphs[text[i]].top;
 			//float yadj = scale * (Assets.textFont.glyphs[text[i]].imageHeight - Assets.textFont.glyphs[text[i]].height);
 			if ( Q_IsColorString( s ) ) {

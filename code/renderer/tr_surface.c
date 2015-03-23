@@ -317,11 +317,7 @@ static void RB_SurfaceBeam( void ) {
 	int i;
 	vec3_t perpvec;
 	vec3_t direction, normalized_direction;
-#ifdef VCMODS_OPENGLES
-	vec3_t points[NUM_BEAM_SEGS*2];
-#else
 	vec3_t start_points[NUM_BEAM_SEGS], end_points[NUM_BEAM_SEGS];
-#endif
 	vec3_t oldorigin, origin;
 
 	e = &backEnd.currentEntity->e;
@@ -348,29 +344,36 @@ static void RB_SurfaceBeam( void ) {
 
 	for ( i = 0; i < NUM_BEAM_SEGS ; i++ )
 	{
-#ifdef VCMODS_OPENGLES
-		RotatePointAroundVector( points[i*2], normalized_direction, perpvec, (360.0/NUM_BEAM_SEGS)*i );
-//		VectorAdd( start_points[i], origin, start_points[i] );
-		VectorAdd( points[i*2], direction, points[i*2+1] );
-#else
 		RotatePointAroundVector( start_points[i], normalized_direction, perpvec, ( 360.0 / NUM_BEAM_SEGS ) * i );
 //		VectorAdd( start_points[i], origin, start_points[i] );
 		VectorAdd( start_points[i], direction, end_points[i] );
-#endif
 	}
 
 	GL_Bind( tr.whiteImage );
 
 	GL_State( GLS_SRCBLEND_ONE | GLS_DSTBLEND_ONE );
 
-#ifdef VCMODS_OPENGLES
-	qglColor4f( 1.0f, 0.0f, 0.0f, 1.0f );
-
-	qglVertexPointer( 3, GL_FLOAT, 0, points );
-	qglDrawArrays( GL_TRIANGLE_STRIP, 0, NUM_BEAM_SEGS*2);
-#else
 	qglColor3f( 1, 0, 0 );
 
+#ifdef USE_OPENGLES
+	GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
+	GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
+	if (glcol)
+		qglDisableClientState(GL_COLOR_ARRAY);
+	if (text)
+		qglDisableClientState( GL_TEXTURE_COORD_ARRAY );
+	GLfloat vtx[NUM_BEAM_SEGS*6+6];
+	for ( i = 0; i <= NUM_BEAM_SEGS; i++ ) {
+		memcpy(vtx+i*6, start_points[ i % NUM_BEAM_SEGS], sizeof(GLfloat)*3);
+		memcpy(vtx+i*6+3, end_points[ i % NUM_BEAM_SEGS], sizeof(GLfloat)*3);
+	}
+	qglVertexPointer (3, GL_FLOAT, 0, vtx);
+	qglDrawArrays(GL_TRIANGLE_STRIP, 0, NUM_BEAM_SEGS*2+2);
+	if (glcol)
+		qglEnableClientState(GL_COLOR_ARRAY);
+	if (text)
+		qglEnableClientState( GL_TEXTURE_COORD_ARRAY );
+#else
 	qglBegin( GL_TRIANGLE_STRIP );
 	for ( i = 0; i <= NUM_BEAM_SEGS; i++ ) {
 		qglVertex3fv( start_points[ i % NUM_BEAM_SEGS] );
@@ -1170,12 +1173,8 @@ RB_SurfaceFace
 */
 void RB_SurfaceFace( srfSurfaceFace_t *surf ) {
 	int i;
-#ifdef VCMODS_OPENGLES
-	unsigned int *indices;
+	unsigned	*indices;
 	glIndex_t	*tessIndexes;
-#else
-	unsigned    *indices, *tessIndexes;
-#endif
 	float       *v;
 	float       *normal;
 	int ndx;
@@ -1426,24 +1425,39 @@ Draws x/y/z lines from the origin for orientation debugging
 ===================
 */
 static void RB_SurfaceAxis( void ) {
-#ifdef VCMODS_OPENGLES
-	byte colors[3][4] = { {255,0,0,255},{0,255,0,255},{0,0,255,255}};
-	vec3_t verts[6] = {
-		{0.0f, 0.0f, 0.0f}, {16.0f, 0.0f, 0.0f},
-		{0.0f, 0.0f, 0.0f}, {0.0f, 16.0f, 0.0f},
-		{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 16.0f}
-	};
-	glIndex_t indicies[6] = {0, 1, 0, 2, 0, 3};
-#endif
 	GL_Bind( tr.whiteImage );
 	GL_State( GLS_DEFAULT );
 	qglLineWidth( 3 );
-#ifdef VCMODS_OPENGLES
-	qglEnableClientState( GL_COLOR_ARRAY );
-	qglColorPointer( 4, GL_UNSIGNED_BYTE, 0, colors );
-	qglVertexPointer( 3, GL_FLOAT, 0, verts );
-
-	qglDrawElements( GL_LINES, 6, GL_INDEX_TYPE, indicies );
+#ifdef USE_OPENGLES
+	GLfloat col[] = {
+	  1,0,0, 1,
+	  1,0,0, 1,
+	  0,1,0, 1,
+	  0,1,0, 1,
+	  0,0,1, 1,
+	  0,0,1, 1
+	 };
+	 GLfloat vtx[] = {
+	  0,0,0,
+	  16,0,0,
+	  0,0,0,
+	  0,16,0,
+	  0,0,0,
+	  0,0,16
+	 };
+	GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
+	GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
+	if (text)
+		qglDisableClientState( GL_TEXTURE_COORD_ARRAY );
+	if (!glcol)
+		qglEnableClientState( GL_COLOR_ARRAY);
+	qglColorPointer( 4, GL_UNSIGNED_BYTE, 0, col );
+	qglVertexPointer (3, GL_FLOAT, 0, vtx);
+	qglDrawArrays(GL_LINES, 0, 6);
+	if (text)
+		qglEnableClientState( GL_TEXTURE_COORD_ARRAY );
+	if (!glcol)
+		qglDisableClientState( GL_COLOR_ARRAY);
 #else
 	qglBegin( GL_LINES );
 	qglColor3f( 1,0,0 );
@@ -1504,16 +1518,6 @@ static void RB_SurfaceFlare( srfFlare_t *surf ) {
 		RB_AddFlare(surf, tess.fogNum, surf->origin, surf->color, 1.0f, surf->normal, 0, qtrue);
 }
 
-static void RB_SurfaceDisplayList( srfDisplayList_t *surf ) {
-#ifdef VCMODS_OPENGLES
-   assert(0);
-#else
-	// all apropriate state must be set in RB_BeginSurface
-	// this isn't implemented yet...
-	qglCallList( surf->listNum );
-#endif
-}
-
 static void RB_SurfaceSkip( void *surf ) {
 }
 
@@ -1528,9 +1532,8 @@ void( *rb_surfaceTable[SF_NUM_SURFACE_TYPES] ) ( void * ) = {
 	( void( * ) ( void* ) )RB_SurfaceMesh,         // SF_MD3,
 	( void( * ) ( void* ) )RB_SurfaceCMesh,        // SF_MDC,
 	( void( * ) ( void* ) )RB_SurfaceAnim,         // SF_MDS,
-	( void( * ) ( void* ) )RB_MDRSurfaceAnim,	// SF_MDR,
-	( void( * ) ( void* ) )RB_IQMSurfaceAnim,	// SF_IQM,
+	( void( * ) ( void* ) )RB_MDRSurfaceAnim,      // SF_MDR,
+	( void( * ) ( void* ) )RB_IQMSurfaceAnim,      // SF_IQM,
 	( void( * ) ( void* ) )RB_SurfaceFlare,        // SF_FLARE,
-	( void( * ) ( void* ) )RB_SurfaceEntity,       // SF_ENTITY
-	( void( * ) ( void* ) )RB_SurfaceDisplayList   // SF_DISPLAY_LIST
+	( void( * ) ( void* ) )RB_SurfaceEntity        // SF_ENTITY
 };

@@ -204,7 +204,7 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_teleporttime, "g_teleporttime", "300000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse  },   // 5 minutes by default
 #ifdef INGAME_CUTSCENES
-	{ &g_skipcutscenes, "g_skipcutscenes", "1", CVAR_ARCHIVE, 0, qtrue  },
+	{ &g_skipcutscenes, "g_skipcutscenes", "0", CVAR_ARCHIVE, 0, qtrue  },
 #endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
@@ -1493,6 +1493,8 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	}
 
 	G_RemapTeamShaders();
+
+	trap_SetConfigstring( CS_INTERMISSION, "" );
 
 	// fretn
 	G_LoadArenas();

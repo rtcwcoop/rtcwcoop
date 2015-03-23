@@ -38,7 +38,14 @@ If you have questions concerning this license or the applicable additional terms
 #include "qgl.h"
 #include "iqm.h"
 
-#ifdef VCMODS_OPENGLES
+#ifdef USE_OPENGLES
+#ifdef USE_LOCAL_HEADERS
+#	include "GLES/glext.h"
+#else
+#	include <GLES/glext.h>
+#endif
+#define GL_RGBA4				0x8056
+#define GL_RGB5					0x8050
 #define GL_INDEX_TYPE		GL_UNSIGNED_SHORT
 typedef unsigned short glIndex_t;
 #else
@@ -586,7 +593,6 @@ typedef enum {
 	SF_IQM,
 	SF_FLARE,
 	SF_ENTITY,              // beams, rails, lightning, etc that can be determined by entity
-	SF_DISPLAY_LIST,
 
 	SF_NUM_SURFACE_TYPES,
 	SF_MAX = 0xffffffff         // ensures that sizeof( surfaceType_t ) == sizeof( int )
@@ -612,11 +618,6 @@ typedef struct srfPoly_s {
 	polyVert_t      *verts;
 } srfPoly_t;
 
-typedef struct srfDisplayList_s {
-	surfaceType_t surfaceType;
-	int listNum;
-} srfDisplayList_t;
-
 
 typedef struct srfFlare_s {
 	surfaceType_t surfaceType;
@@ -624,6 +625,7 @@ typedef struct srfFlare_s {
 	vec3_t normal;
 	vec3_t color;
 } srfFlare_t;
+
 
 typedef struct srfGridMesh_s {
 	surfaceType_t surfaceType;
@@ -650,7 +652,6 @@ typedef struct srfGridMesh_s {
 	float           *heightLodError;
 	drawVert_t verts[1];            // variable sized
 } srfGridMesh_t;
-
 
 
 #define VERTEXSIZE  8
@@ -1075,8 +1076,6 @@ typedef struct {
 
 	int numImages;
 	image_t                 *images[MAX_DRAWIMAGES];
-	// Ridah
-	int numCacheImages;
 
 	// shader indexes from other modules will be looked up in tr.shaders[]
 	// shader indexes from drawsurfs will be looked up in sortedShaders[]
@@ -1187,14 +1186,15 @@ extern cvar_t   *r_ext_compressed_textures;     // these control use of specific
 extern cvar_t   *r_ext_multitexture;
 extern cvar_t   *r_ext_compiled_vertex_array;
 extern cvar_t   *r_ext_texture_env_add;
+extern cvar_t   *r_ext_texture_filter_anisotropic;
+extern cvar_t	*r_ext_max_anisotropy;
+
 //----(SA)	added
 extern cvar_t   *r_ext_ATI_pntriangles;
 extern cvar_t   *r_ati_truform_tess;
 extern cvar_t   *r_ati_truform_pointmode;   //----(SA)
 extern cvar_t   *r_ati_truform_normalmode;  //----(SA)
 extern cvar_t   *r_ati_fsaa_samples;        //DAJ
-extern cvar_t   *r_ext_texture_filter_anisotropic;
-extern cvar_t	*r_ext_max_anisotropy;
 extern cvar_t   *r_ext_NV_fog_dist;
 extern cvar_t   *r_nv_fogdist_mode;
 //----(SA)	end

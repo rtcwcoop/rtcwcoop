@@ -317,7 +317,6 @@ typedef struct {
 	int ATINormalMode;                          // for truform support
 	int ATIPointMode;                           // for truform support
 
-
 	int vidWidth, vidHeight;
 	// aspect is the screen's physical width / height, which may be different
 	// than scrWidth / scrHeight if the pixels are non-square

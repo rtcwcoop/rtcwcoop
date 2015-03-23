@@ -193,13 +193,19 @@ static const unsigned int mppak_checksums[] = {
 };
 
 static const unsigned int sppak_checksums[] = {
-#ifdef BUILD_FRENCH
-	2183777857u,
-#else
 	2837138611u,
-#endif
 	3033901371u,
-	483593179u
+	483593179u,
+	// sp_pak4.pk3 from GOTY edition
+//	4131017020u
+};
+
+static const unsigned int fr_sppak_checksums[] = {
+	2183777857u,
+	3033901371u,
+	483593179u,
+	// sp_pak4.pk3 from GOTY edition
+//	4131017020u
 };
 
 // if this is defined, the executable positively won't work with any paks other
@@ -4011,7 +4017,7 @@ static void FS_CheckSPPaks( void )
 				&& strlen(pakBasename) == 7 && !Q_stricmpn( pakBasename, "sp_pak", 6 )
 				&& pakBasename[6] >= '1' && pakBasename[6] <= '1' + NUM_SP_PAKS - 1)
 		{
-			if( curpack->checksum != sppak_checksums[pakBasename[6]-'1'] )
+			if( curpack->checksum != sppak_checksums[pakBasename[6]-'1'] && curpack->checksum != fr_sppak_checksums[pakBasename[6]-'1'] )
 			{
 				if(pakBasename[6] == '1')
 				{

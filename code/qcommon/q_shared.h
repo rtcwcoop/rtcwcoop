@@ -68,7 +68,7 @@ If you have questions concerning this license or the applicable additional terms
 #define FLATLINE_FOR_MASTER		"WolfFlatlineCoop-1"
 
 #ifndef PRODUCT_VERSION
-  #define PRODUCT_VERSION "1.0.1"
+  #define PRODUCT_VERSION "1.0.2"
 #endif
 
 #define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION
@@ -174,11 +174,6 @@ typedef int intptr_t;
 #include <time.h>
 #include <ctype.h>
 #include <limits.h>
-
-#ifdef VCMODS_REPLACETRIG
-#define sin(f) sinf(f)
-#define cos(f) cosf(f)
-#endif
 
 #ifdef _MSC_VER
   #include <io.h>

@@ -743,16 +743,22 @@ void Fade( int *flags, float *f, float clamp, int *nextTime, int offsetTime, qbo
 void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle ) {
 	//float bordersize = 0;
 	vec4_t color = {0};
-	rectDef_t fillRect = w->rect;
+	rectDef_t fillRect;
+
+	if ( w == NULL ) {
+		return;
+	}
 
 	if ( debugMode ) {
 		color[0] = color[1] = color[2] = color[3] = 1;
 		DC->drawRect( w->rect.x, w->rect.y, w->rect.w, w->rect.h, 1, color );
 	}
 
-	if ( w == NULL || ( w->style == 0 && w->border == 0 ) ) {
+	if ( w->style == 0 && w->border == 0 ) {
 		return;
 	}
+
+	fillRect = w->rect;
 
 	if ( w->border != 0 ) {
 		fillRect.x += w->borderSize;
@@ -1412,10 +1418,10 @@ void Menu_TransitionItemByName( menuDef_t *menu, const char *p, rectDef_t rectFr
 			item->window.offsetTime = time;
 			memcpy( &item->window.rectClient, &rectFrom, sizeof( rectDef_t ) );
 			memcpy( &item->window.rectEffects, &rectTo, sizeof( rectDef_t ) );
-			item->window.rectEffects2.x = abs( rectTo.x - rectFrom.x ) / amt;
-			item->window.rectEffects2.y = abs( rectTo.y - rectFrom.y ) / amt;
-			item->window.rectEffects2.w = abs( rectTo.w - rectFrom.w ) / amt;
-			item->window.rectEffects2.h = abs( rectTo.h - rectFrom.h ) / amt;
+			item->window.rectEffects2.x = fabs( rectTo.x - rectFrom.x ) / amt;
+			item->window.rectEffects2.y = fabs( rectTo.y - rectFrom.y ) / amt;
+			item->window.rectEffects2.w = fabs( rectTo.w - rectFrom.w ) / amt;
+			item->window.rectEffects2.h = fabs( rectTo.h - rectFrom.h ) / amt;
 			Item_UpdatePosition( item );
 		}
 	}

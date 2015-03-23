@@ -513,14 +513,16 @@ void Sys_ErrorDialog( const char *error )
 #endif
 
 	// Make sure the write path for the crashlog exists...
-	if( !Sys_Mkdir( homepath ) )
+
+	if(!Sys_Mkdir(homepath))
 	{
-		Com_Printf( "ERROR: couldn't create path '%s' for crash log.\n", homepath );
+		Com_Printf("ERROR: couldn't create path '%s' for crash log.\n", homepath);
+		return;
 	}
 
-	if( !Sys_Mkdir( dirpath ) )
+	if(!Sys_Mkdir(dirpath))
 	{
-		Com_Printf( "ERROR: couldn't create path '%s' for crash log.\n", dirpath );
+		Com_Printf("ERROR: couldn't create path '%s' for crash log.\n", dirpath);
 		return;
 	}
 
@@ -813,6 +815,8 @@ void Sys_PlatformInit( void )
 	signal( SIGTRAP, Sys_SigHandler );
 	signal( SIGIOT, Sys_SigHandler );
 	signal( SIGBUS, Sys_SigHandler );
+
+	Sys_SetFloatEnv();
 
 	stdinIsATTY = isatty( STDIN_FILENO ) &&
 		!( term && ( !strcmp( term, "raw" ) || !strcmp( term, "dumb" ) ) );

@@ -36,7 +36,7 @@ ifndef BUILD_BASEGAME
   BUILD_BASEGAME =
 endif
 ifndef BUILD_RENDERER_REND2
-  BUILD_RENDERER_REND2 = 
+  BUILD_RENDERER_REND2 =
 endif
 ifndef BUILD_ARCHIVE
   BUILD_ARCHIVE = 0
@@ -51,6 +51,10 @@ endif
 #
 #############################################################################
 -include Makefile.local
+
+ifeq ($(COMPILE_PLATFORM),cygwin)
+  PLATFORM=mingw32
+endif
 
 ifndef PLATFORM
 PLATFORM=$(COMPILE_PLATFORM)
@@ -243,10 +247,6 @@ ifndef DEBUG_CFLAGS
 DEBUG_CFLAGS=-g -O0 -ggdb3
 endif
 
-ifndef USE_SVN
-USE_SVN=1
-endif
-
 ifndef USE_ANTIWALLHACK
 USE_ANTIWALLHACK=0
 endif
@@ -271,8 +271,8 @@ ifndef USE_OPENGLES
 USE_OPENGLES=0
 endif
 
-ifndef BUILD_FRENCH
-BUILD_FRENCH=0
+ifndef RASPBERRY_PI
+RASPBERRY_PI=0
 endif
 
 ifndef USE_IRC
@@ -290,7 +290,6 @@ RDIR=$(MOUNT_DIR)/renderer
 R2DIR=$(MOUNT_DIR)/rend2
 CMDIR=$(MOUNT_DIR)/qcommon
 SDLDIR=$(MOUNT_DIR)/sdl
-ESDIR=$(MOUNT_DIR)/es
 ASMDIR=$(MOUNT_DIR)/asm
 SYSDIR=$(MOUNT_DIR)/sys
 GDIR=$(MOUNT_DIR)/game
@@ -341,25 +340,15 @@ ifneq ($(BUILD_CLIENT),0)
   endif
 endif
 
-# Add svn version info
-ifeq ($(USE_SVN),1)
-  ifeq ($(wildcard .svn),.svn)
-    SVN_REV=$(shell LANG=C svnversion .)
-    ifneq ($(SVN_REV),)
-      VERSION:=$(VERSION)_SVN$(SVN_REV)
-    endif
-  else
-  ifeq ($(wildcard ../.svn),../.svn)
-    SVN_REV=$(shell LANG=C svnversion .)
-    ifneq ($(SVN_REV),)
-      VERSION:=$(VERSION)_SVN$(SVN_REV)
-    endif
-  else
-    USE_SVN=0
-  endif
+# Add git version info
+USE_GIT=
+ifeq ($(wildcard .git),.git)
+  GIT_REV=$(shell git show -s --pretty=format:%h-%ad --date=short)
+  ifneq ($(GIT_REV),)
+    VERSION:=$(VERSION)_GIT_$(GIT_REV)
+    USE_GIT=1
   endif
 endif
-
 
 #############################################################################
 # SETUP AND BUILD -- LINUX
@@ -395,14 +384,20 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu"))
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM = -O3 -fomit-frame-pointer -funroll-loops \
-      -falign-functions=2 -fstrength-reduce
+    OPTIMIZEVM = -O3 -fomit-frame-pointer -funroll-loops
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
   else
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM = -O3 -march=i586 -fomit-frame-pointer \
-      -funroll-loops -falign-functions=2 -fstrength-reduce
+    OPTIMIZEVM = -O3 -march=i586 -fomit-frame-pointer -funroll-loops
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED=true
   else
@@ -435,13 +430,24 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu"))
   LIBS=-ldl -lm
 
   ifeq ($(USE_OPENGLES),1)
-    CLIENT_LIBS=-lSDL2
-    RENDERER_LIBS =-lSDL2 -lvchostif -lvcfiled_check -lbcm_host -lkhrn_static -lvchiq_arm -lopenmaxil -lEGL -lGLESv2 -lvcos
-    SERVER_LIBS=-lbcm_host -lvchiq_arm -lvcos
+    ifeq ($(RASPBERRY_PI),1)
+      BUILD_RENDERER_REND2 = 0
+      BASE_CFLAGS += -DUSE_OPENGLES
+      LDFLAGS += -L/opt/vc/lib
+      CLIENT_LIBS = $(SDL_LIBS) -lbcm_host
+      RENDERER_LIBS = $(SDL_LIBS) -lEGL -lGLESv1_CM -lbcm_host
+      SERVER_LIBS = -lbcm_host
+    else
+      BUILD_RENDERER_REND2 = 0
+      BASE_CFLAGS += -DUSE_OPENGLES
+      CLIENT_LIBS = $(SDL_LIBS)
+      RENDERER_LIBS = $(SDL_LIBS) -lEGL -lGLESv1_CM
+      SERVER_LIBS =
+    endif
   else
-    CLIENT_LIBS=$(SDL_LIBS)
+    CLIENT_LIBS = $(SDL_LIBS)
     RENDERER_LIBS = $(SDL_LIBS) -lGL
-    SERVER_LIBS=
+    SERVER_LIBS =
   endif
 
   ifeq ($(USE_OPENAL),1)
@@ -640,15 +646,21 @@ ifeq ($(PLATFORM),mingw32)
   endif
 
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM = -O3 -fno-omit-frame-pointer \
-      -funroll-loops -falign-functions=2 -fstrength-reduce
+    OPTIMIZEVM = -O3 -fno-omit-frame-pointer -funroll-loops
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
     FILE_ARCH=x64
   endif
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM = -O3 -march=i586 -fno-omit-frame-pointer \
-      -funroll-loops -falign-functions=2 -fstrength-reduce
+    OPTIMIZEVM = -O3 -march=i586 -fno-omit-frame-pointer -funroll-loops
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
   endif
@@ -665,10 +677,11 @@ ifeq ($(PLATFORM),mingw32)
 
   ifeq ($(COMPILE_PLATFORM),cygwin)
     TOOLS_BINEXT=.exe
+    TOOLS_CC=$(CC)
   endif
 
   LIBS= -lws2_32 -lwinmm -lpsapi
-  # clang 3.4 doesn't support this
+  # clang 3.5 doesn't support this
   ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
     CLIENT_LDFLAGS += -mwindows -static-libgcc -static-libstdc++
   endif
@@ -802,14 +815,20 @@ ifeq ($(PLATFORM),openbsd)
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM = -O3 -fomit-frame-pointer -funroll-loops \
-      -falign-functions=2 -fstrength-reduce
+    OPTIMIZEVM = -O3 -fomit-frame-pointer -funroll-loops
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
   else
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM = -O3 -march=i586 -fomit-frame-pointer \
-      -funroll-loops -falign-functions=2 -fstrength-reduce
+    OPTIMIZEVM = -O3 -march=i586 -fomit-frame-pointer -funroll-loops
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED=true
   else
@@ -940,14 +959,19 @@ ifeq ($(PLATFORM),sunos)
   OPTIMIZEVM = -O3 -funroll-loops
 
   ifeq ($(ARCH),sparc)
-    OPTIMIZEVM += -O3 \
-      -fstrength-reduce -falign-functions=2 \
-      -mtune=ultrasparc3 -mv8plus -mno-faster-structs
+    OPTIMIZEVM += -O3 -mtune=ultrasparc3 -mv8plus -mno-faster-structs
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     HAVE_VM_COMPILED=true
   else
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM += -march=i586 -fomit-frame-pointer \
-      -falign-functions=2 -fstrength-reduce
+    OPTIMIZEVM += -march=i586 -fomit-frame-pointer
+    # clang 3.5 doesn't support this
+    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
+      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
+    endif
     HAVE_VM_COMPILED=true
     BASE_CFLAGS += -m32
     CLIENT_CFLAGS += -I/usr/X11/include/NVIDIA
@@ -1195,10 +1219,6 @@ endif
 
 ifeq ($(USE_BLOOM),1)
   CLIENT_CFLAGS += -DUSE_BLOOM
-endif
-
-ifeq ($(BUILD_FRENCH),1)
-  CLIENT_CFLAGS += -DBUILD_FRENCH
 endif
 
 ifeq ($(USE_IRC),1)
@@ -1451,11 +1471,7 @@ makedirs:
 
 ifndef TOOLS_CC
   # A compiler which probably produces native binaries
-  ifeq ($(COMPILE_PLATFORM),cygwin)
-  TOOLS_CC = $(CC)
-  else
   TOOLS_CC = gcc
-  endif
 endif
 
 TOOLS_OPTIMIZE = -g -Wall -fno-strict-aliasing
@@ -1839,14 +1855,8 @@ ifeq ($(USE_BLOOM),1)
   Q3ROBJ += $(B)/renderer/tr_bloom.o 
 endif
 
-ifeq ($(USE_OPENGLES),1)
-  Q3ROBJ += $(B)/renderer/es_gamma.o 
-  Q3ROBJ += $(B)/renderer/es_glimp.o
-  Q3ROBJ += $(B)/renderer/etc1encode.o
-else
   Q3ROBJ += $(B)/renderer/sdl_gamma.o
   Q3ROBJ += $(B)/renderer/sdl_glimp.o
-endif
 
 ifneq ($(USE_RENDERER_DLOPEN), 0)
   Q3ROBJ += \
@@ -2576,9 +2586,6 @@ $(B)/renderer/%.o: $(JPDIR)/%.c
 $(B)/renderer/%.o: $(RDIR)/%.c
 	$(DO_REF_CC)
 
-$(B)/renderer/%.o: $(ESDIR)/%.c
-	$(DO_CC)
-
 $(B)/rend2/glsl/%.c: $(R2DIR)/glsl/%.glsl
 	$(DO_REF_STR)
 
@@ -2620,21 +2627,12 @@ $(B)/ded/%.o: $(SYSDIR)/%.rc
 $(B)/ded/%.o: $(NDIR)/%.c
 	$(DO_DED_CC)
 
-# Extra dependencies to ensure the SVN version is incorporated
-ifeq ($(USE_SVN),1)
-  ifeq ($(wildcard .svn),.svn)
-    $(B)/client/cl_console.o : .svn/entries
-    $(B)/client/common.o : .svn/entries
-    $(B)/ded/common.o : .svn/entries
-  else
-  ifeq ($(wildcard ../.svn),../.svn)
-    $(B)/client/cl_console.o : ../.svn/entries
-    $(B)/client/common.o : ../.svn/entries
-    $(B)/ded/common.o : ../.svn/entries
-  endif
-  endif
+# Extra dependencies to ensure the git version is incorporated
+ifeq ($(USE_GIT),1)
+  $(B)/client/cl_console.o : .git/index
+  $(B)/client/common.o : .git/index
+  $(B)/ded/common.o : .git/index
 endif
-
 
 #############################################################################
 ## GAME MODULE RULES
@@ -2789,10 +2787,7 @@ distclean: clean toolsclean
 	@rm -f media/bin.pk3 media/sp_pak_coop1.pk3
 
 dist:
-	rm -rf $(CLIENTBIN)-$(VERSION)
-	svn export . $(CLIENTBIN)-$(VERSION)
-	tar --owner=root --group=root --force-local -cjf $(CLIENTBIN)-$(VERSION).tar.bz2 $(CLIENTBIN)-$(VERSION)
-	rm -rf $(CLIENTBIN)-$(VERSION)
+	git archive --format zip --output $(CLIENTBIN)-$(VERSION).zip HEAD
 
 #############################################################################
 # DEPENDENCIES
