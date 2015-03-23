@@ -1761,7 +1761,9 @@ const void  *RB_RenderToTexture( const void *data ) {
 	GL_Bind( cmd->image );
 	qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR );
 	qglTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR );
+#ifndef USE_OPENGLES
 	qglTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE );
+#endif
 
 	if ( r_greyscale->integer == 2 ) {
 		qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_LUMINANCE, cmd->x, cmd->y, cmd->w, cmd->h, 0 );

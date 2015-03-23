@@ -597,7 +597,7 @@ extern void     (APIENTRY * qglGetActiveAttribARB) (GLhandleARB programObj, GLui
 extern          GLint(APIENTRY * qglGetAttribLocationARB) (GLhandleARB programObj, const GLcharARB * name);
 
 // GL_ARB_texture_compression
-extern void (APIENTRY * qglCompressedTexImage3DARB)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height,
+extern void (APIENTRY * qglCompressedTexImage3DARB)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, 
 	GLsizei depth, GLint border, GLsizei imageSize, const GLvoid *data);
 extern void (APIENTRY * qglCompressedTexImage2DARB)(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height,
 	GLint border, GLsizei imageSize, const GLvoid *data);
@@ -607,7 +607,7 @@ extern void (APIENTRY * qglCompressedTexSubImage3DARB)(GLenum target, GLint leve
 	GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid *data);
 extern void (APIENTRY * qglCompressedTexSubImage2DARB)(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width,
 	GLsizei height, GLenum format, GLsizei imageSize, const GLvoid *data);
-extern void (APIENTRY * qglCompressedTexSubImage1DARB)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format,
+extern void (APIENTRY * qglCompressedTexSubImage1DARB)(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, 
 	GLsizei imageSize, const GLvoid *data);
 extern void (APIENTRY * qglGetCompressedTexImageARB)(GLenum target, GLint lod,
 	GLvoid *img);
@@ -909,3 +909,4 @@ extern GLXContext	(APIENTRY * qglXCreateContextAttribsARB) (Display *dpy, GLXFBC
 #endif // USE_OPENGLES
 
 #endif // __QGL_H__
+
