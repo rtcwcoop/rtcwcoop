@@ -1866,7 +1866,7 @@ void CalculateRanks( void ) {
 								level.clients[i].sess.lastBonusLifeScore = rounded;
 
 								for ( j = 0; j < level.maxclients; j++ ) {
-									tmpent = &g_entities[i];
+									tmpent = &g_entities[j];
 									if ( tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT] > 0 ) {
 										tmpent->client->ps.persistant[PERS_RESPAWNS_LEFT]++;
 										trap_SendServerCommand( tmpent->client->ps.clientNum, "bonuslife" );
