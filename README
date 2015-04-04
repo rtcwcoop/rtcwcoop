@@ -9,6 +9,7 @@
 
 The intent of this project is to provide a baseline RTCW which may be used
 for further development and fun. 
+Rtcwcoop is based on iortcw, so everything in this readme applies to iortcw and rtcwcoop.
 Some of the major features currently implemented are:
 
   * SDL backend
