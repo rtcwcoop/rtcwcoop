@@ -1856,6 +1856,9 @@ void CalculateRanks( void ) {
 								trap_SendServerCommand( level.clients[i].ps.clientNum, "bonuslife" );
 							}
 						} else if ( g_gametype.integer == GT_COOP && g_maxlives.integer && g_sharedlives.integer ) { // every 1000 points, bonus life !
+// the ui states that when g_sharedlives is set 1 there are no bonus lifes. Which makes sense, sharedlives exists to make the game more difficult
+// if we give a bonus life everytime someone scored 1000 points there would be plenty of lives
+/*
 							int value = level.clients[i].ps.persistant[PERS_SCORE];
 							int mod = value % 1000;
 							int rounded = value - mod;
@@ -1873,6 +1876,7 @@ void CalculateRanks( void ) {
 									}    
 								}    
 							}
+*/
 						}
 
 						if ( g_gametype.integer == GT_COOP && !g_maxlives.integer ) { // every 10000 points, a panzerfaust
