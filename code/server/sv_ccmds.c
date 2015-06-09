@@ -1744,10 +1744,15 @@ void SV_AddOperatorCommands( void ) {
 	Cmd_AddCommand( "sectorlist", SV_SectorList_f );
 	Cmd_AddCommand( "spmap", SV_Map_f );
 	Cmd_SetCommandCompletionFunc( "spmap", SV_CompleteMapName );
+	Cmd_AddCommand( "map", SV_Map_f );
+	Cmd_SetCommandCompletionFunc( "map", SV_CompleteMapName );
 	Cmd_AddCommand( "coopmap", SV_Map_f );
 	Cmd_SetCommandCompletionFunc( "coopmap", SV_CompleteMapName );
 	Cmd_AddCommand( "coopdevmap", SV_Map_f );
 	Cmd_SetCommandCompletionFunc( "coopdevmap", SV_CompleteMapName );
+	Cmd_AddCommand( "devmap", SV_Map_f );
+	Cmd_SetCommandCompletionFunc( "devmap", SV_CompleteMapName );
+	
 	Cmd_AddCommand( "gameCompleteStatus", SV_GameCompleteStatus_f );      // NERVE - SMF
 #ifndef WOLF_SP_DEMO
 	Cmd_AddCommand( "spdevmap", SV_Map_f );
