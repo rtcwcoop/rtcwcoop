@@ -948,9 +948,15 @@ void ClientThink_real( gentity_t *ent ) {
 							if ( client->ps.weapon == weapon ) {
 								client->ps.weapon = 0;
 							}
-							ent2->count = client->ps.ammoclip[BG_FindClipForWeapon( weapon )];
-							ent2->item->quantity = client->ps.ammoclip[BG_FindClipForWeapon( weapon )];
-							client->ps.ammoclip[BG_FindClipForWeapon( weapon )] = 0;
+							//ent2->count = client->ps.ammoclip[BG_FindClipForWeapon( weapon )];
+							//ent2->item->quantity = client->ps.ammoclip[BG_FindClipForWeapon( weapon )];
+							//client->ps.ammoclip[BG_FindClipForWeapon( weapon )] = 0;
+
+							// fretn
+							// we only drop the weapon, not the ammo
+							// else this is exploitable: see Pickup_Weapon in g_items.c
+							ent2->count = 0;
+							ent2->item->quantity = -1;
 						}
 					}
 				}

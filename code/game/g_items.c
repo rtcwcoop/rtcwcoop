@@ -381,7 +381,9 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 //----(SA) modified
 //			quantity = ent->item->quantity;
 //			quantity = (random() * (ent->item->quantity - 1)) + 1;	// giving 1-<item default count>
-			quantity = ( random() * ( ammoTable[weapon].maxclip - 4 ) ) + 4;    // giving 4-<item default count>
+			if (ent->item->quantity != -1) { // fretn
+				quantity = ( random() * ( ammoTable[weapon].maxclip - 4 ) ) + 4;    // giving 4-<item default count>
+			}
 
 		}
 
