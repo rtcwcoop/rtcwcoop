@@ -2940,20 +2940,22 @@ void CG_AddViewWeapon( playerState_t *ps ) {
 		gunoff[1] = cg_gun_y.value;
 		gunoff[2] = cg_gun_z.value;
 
-		if ( ps->weapon == WP_LUGER ) {
-			gunoff[2] += 4.0;
-		}
-
-		// example for other weapons
-
-		if ( ps->weapon == WP_SILENCER ) {
-			gunoff[2] += 4.0;
-		}
-
-		if ( ps->weapon == WP_PANZERFAUST ) {
-			gunoff[0] += 1.0;
-			gunoff[1] += 1.0;
-			gunoff[2] += 0.0;
+		if ( !cg_fixedAspect.integer ) {
+			if ( ps->weapon == WP_LUGER ) {
+				gunoff[2] += 4.0;
+			}
+	
+			// example for other weapons
+	
+			if ( ps->weapon == WP_SILENCER ) {
+				gunoff[2] += 4.0;
+			}
+	
+			if ( ps->weapon == WP_PANZERFAUST ) {
+				gunoff[0] += 1.0;
+				gunoff[1] += 1.0;
+				gunoff[2] += 0.0;
+			}
 		}
 
 //----(SA)	removed
