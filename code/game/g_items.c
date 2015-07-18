@@ -359,7 +359,7 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 
 
 int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
-	int quantity;
+	int quantity = 0;
 	qboolean alreadyHave = qfalse;
 	int weapon;
 
