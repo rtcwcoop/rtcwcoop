@@ -2904,7 +2904,7 @@ void R_CreateBuiltinImages( void ) {
 	{
 		for( x = 0; x < MAX_DLIGHTS; x++)
 		{
-			tr.shadowCubemaps[x] = R_CreateImage(va("*shadowcubemap%i", x), (byte *)data, DEFAULT_SIZE, DEFAULT_SIZE, IMGTYPE_COLORALPHA, IMGFLAG_CLAMPTOEDGE | IMGFLAG_CUBEMAP, 0);
+			tr.shadowCubemaps[x] = R_CreateImage(va("*shadowcubemap%i", x), NULL, PSHADOW_MAP_SIZE, PSHADOW_MAP_SIZE, IMGTYPE_COLORALPHA, IMGFLAG_CLAMPTOEDGE | IMGFLAG_CUBEMAP, 0);
 		}
 	}
 
@@ -3399,7 +3399,7 @@ qhandle_t RE_RegisterSkin( const char *name ) {
 		skin->numSurfaces   = 0;
 		skin->numModels     = 0;    //----(SA) added
 		skin->numSurfaces = 1;
-		skin->surfaces[0] = ri.Hunk_Alloc( sizeof( skin->surfaces[0] ), h_low );
+		skin->surfaces[0] = ri.Hunk_Alloc( sizeof( *skin->surfaces[0] ), h_low );
 		skin->surfaces[0]->shader = R_FindShader( name, LIGHTMAP_NONE, qtrue );
 		return hSkin;
 	}
@@ -3512,7 +3512,7 @@ void    R_InitSkins( void ) {
 	skin = tr.skins[0] = ri.Hunk_Alloc( sizeof( skin_t ), h_low );
 	Q_strncpyz( skin->name, "<default skin>", sizeof( skin->name )  );
 	skin->numSurfaces = 1;
-	skin->surfaces[0] = ri.Hunk_Alloc( sizeof( *skin->surfaces ), h_low );
+	skin->surfaces[0] = ri.Hunk_Alloc( sizeof( *skin->surfaces[0] ), h_low );
 	skin->surfaces[0]->shader = tr.defaultShader;
 }
 

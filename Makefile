@@ -6,7 +6,7 @@
 
 COMPILE_PLATFORM=$(shell uname|sed -e s/_.*//|tr '[:upper:]' '[:lower:]'|sed -e 's/\//_/g')
 
-COMPILE_ARCH=$(shell uname -m | sed -e s/i.86/i386/)
+COMPILE_ARCH=$(shell uname -m | sed -e s/i.86/i386/ | sed -e 's/^arm.*/arm/')
 
 ifeq ($(COMPILE_PLATFORM),sunos)
   # Solaris uname and GNU uname differ
@@ -61,6 +61,13 @@ PLATFORM=$(COMPILE_PLATFORM)
 endif
 export PLATFORM
 
+ifeq ($(PLATFORM),mingw32)
+  MINGW=1
+endif
+ifeq ($(PLATFORM),mingw64)
+  MINGW=1
+endif
+
 ifeq ($(COMPILE_ARCH),i386)
   COMPILE_ARCH=x86
 endif
@@ -98,7 +105,7 @@ export ARCH
 # For historical compatibility reasons on non-windows
 # platform output files use i386 instead of x86
 ifeq ($(ARCH),x86)
-  ifneq ($(PLATFORM),mingw32)
+  ifndef MINGW
     FILE_ARCH=i386
   endif
 endif
@@ -124,7 +131,7 @@ VERSION=1.0.2
 endif
 
 ifndef CLIENTBIN
- ifeq ($(PLATFORM),mingw32) 
+  ifdef MINGW
     CLIENTBIN=RTCWCoop
   else
     CLIENTBIN=rtcwcoop
@@ -132,7 +139,7 @@ ifndef CLIENTBIN
 endif
 
 ifndef SERVERBIN
-  ifeq ($(PLATFORM),mingw32)
+  ifdef MINGW
     SERVERBIN=RTCWCoopDED
   else
     SERVERBIN=rtcwcoopded
@@ -184,7 +191,7 @@ USE_CURL=1
 endif
 
 ifndef USE_CURL_DLOPEN
-  ifeq ($(PLATFORM),mingw32)
+  ifdef MINGW
     USE_CURL_DLOPEN=0
   else
     USE_CURL_DLOPEN=1
@@ -233,6 +240,10 @@ endif
 
 ifndef USE_INTERNAL_JPEG
 USE_INTERNAL_JPEG=$(USE_INTERNAL_LIBS)
+endif
+
+ifndef USE_INTERNAL_FREETYPE
+USE_INTERNAL_FREETYPE=$(USE_INTERNAL_LIBS)
 endif
 
 ifndef USE_LOCAL_HEADERS
@@ -303,6 +314,7 @@ VORBISDIR=$(MOUNT_DIR)/libvorbis-1.3.4
 OPUSDIR=$(MOUNT_DIR)/opus-1.1
 OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.6
 ZDIR=$(MOUNT_DIR)/zlib
+FTDIR=$(MOUNT_DIR)/freetype-2.5.5
 SPLDIR=$(MOUNT_DIR)/splines
 Q3ASMDIR=$(MOUNT_DIR)/tools/asm
 LBURGDIR=$(MOUNT_DIR)/tools/lcc/lburg
@@ -325,7 +337,6 @@ ifneq ($(BUILD_CLIENT),0)
     OPENAL_LIBS ?= $(shell pkg-config --silence-errors --libs openal)
     SDL_CFLAGS ?= $(shell pkg-config --silence-errors --cflags sdl2|sed 's/-Dmain=SDL_main//')
     SDL_LIBS ?= $(shell pkg-config --silence-errors --libs sdl2)
-    FREETYPE_CFLAGS ?= $(shell pkg-config --silence-errors --cflags freetype2)
   else
     # assume they're in the system default paths (no -I or -L needed)
     CURL_LIBS ?= -lcurl
@@ -350,54 +361,37 @@ ifeq ($(wildcard .git),.git)
   endif
 endif
 
+
 #############################################################################
 # SETUP AND BUILD -- LINUX
 #############################################################################
 
 ## Defaults
-LIB=lib
-
 INSTALL=install
 MKDIR=mkdir
 EXTRA_FILES=
 CLIENT_EXTRA_FILES=
 
-ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu"))
+ifneq (,$(findstring "$(COMPILE_PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu"))
+  TOOLS_CFLAGS += -DARCH_STRING=\"$(COMPILE_ARCH)\"
+endif
 
-  ifeq ($(ARCH),x86_64)
-    LIB=lib64
-  else
-  ifeq ($(ARCH),ppc64)
-    LIB=lib64
-  else
-  ifeq ($(ARCH),s390x)
-    LIB=lib64
-  endif
-  endif
-  endif
+ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu"))
 
   BASE_CFLAGS = -Wall -fno-strict-aliasing \
-    -pipe -DUSE_ICON
+    -pipe -DUSE_ICON -DARCH_STRING=\\\"$(FILE_ARCH)\\\"
   CLIENT_CFLAGS += $(SDL_CFLAGS)
 
-  OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
+  OPTIMIZEVM = -O3
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM = -O3 -fomit-frame-pointer -funroll-loops
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
+    OPTIMIZEVM = -O3
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
   else
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM = -O3 -march=i586 -fomit-frame-pointer -funroll-loops
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
+    OPTIMIZEVM = -O3 -march=i586
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED=true
   else
@@ -535,7 +529,12 @@ ifeq ($(PLATFORM),darwin)
 
   ifeq ($(USE_OPENAL),1)
     ifneq ($(USE_OPENAL_DLOPEN),1)
-      CLIENT_LIBS += -framework OpenAL
+      ifneq ($(USE_INTERNAL_LIBS),1)
+        CLIENT_CFLAGS += $(OPENAL_CFLAGS)
+        CLIENT_LIBS += $(THREAD_LIBS) $(OPENAL_LIBS)
+      else
+        CLIENT_LIBS += -framework OpenAL
+      endif
     endif
   endif
 
@@ -550,16 +549,25 @@ ifeq ($(PLATFORM),darwin)
 
   ifeq ($(USE_LOCAL_HEADERS),1)
     BASE_CFLAGS += -I$(SDLHDIR)/include
+  else
+    BASE_CFLAGS += $(SDL_CFLAGS)
   endif
 
   # We copy sdlmain before ranlib'ing it so that subversion doesn't think
   #  the file has been modified by each build.
-  LIBSDLMAIN=$(B)/libSDL2main.a
-  LIBSDLMAINSRC=$(LIBSDIR)/macosx/libSDL2main.a
-  CLIENT_LIBS += -framework IOKit \
-    $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib
-  RENDERER_LIBS += -framework OpenGL $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib
-  CLIENT_EXTRA_FILES += $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib $(LIBSDIR)/macosx/libopenal.dylib
+  ifeq ($(USE_INTERNAL_LIBS),1)
+    LIBSDLMAIN=$(B)/libSDL2main.a
+    LIBSDLMAINSRC=$(LIBSDIR)/macosx/libSDL2main.a
+    CLIENT_LIBS += -framework IOKit $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib
+    RENDERER_LIBS += -framework OpenGL $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib
+  else
+    CLIENT_LIBS += -framework IOKit $(SDL_LIBS)
+    RENDERER_LIBS += -framework OpenGL $(SDL_LIBS)
+  endif
+
+  ifeq ($(USE_INTERNAL_LIBS),1)
+    CLIENT_EXTRA_FILES += $(LIBSDIR)/macosx/libSDL2-2.0.0.dylib $(LIBSDIR)/macosx/libopenal.dylib
+  endif
 
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
@@ -576,7 +584,7 @@ else # ifeq darwin
 # SETUP AND BUILD -- MINGW32
 #############################################################################
 
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
 
   ifeq ($(CROSS_COMPILING),1)
     # If CC is already set to something generic, we probably want to use
@@ -593,7 +601,7 @@ ifeq ($(PLATFORM),mingw32)
       MINGW_PREFIXES=amd64-mingw32msvc x86_64-w64-mingw32
     endif
     ifeq ($(ARCH),x86)
-      MINGW_PREFIXES=i586-mingw32msvc i686-w64-mingw32
+      MINGW_PREFIXES=i586-mingw32msvc i686-w64-mingw32 i686-pc-mingw32
     endif
 
     ifndef CC
@@ -646,21 +654,13 @@ ifeq ($(PLATFORM),mingw32)
   endif
 
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM = -O3 -fno-omit-frame-pointer -funroll-loops
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
+    OPTIMIZEVM = -O3
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
     FILE_ARCH=x64
   endif
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM = -O3 -march=i586 -fno-omit-frame-pointer -funroll-loops
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
+    OPTIMIZEVM = -O3 -march=i586
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
   endif
@@ -689,7 +689,9 @@ ifeq ($(PLATFORM),mingw32)
   RENDERER_LIBS = -lgdi32 -lole32 -lopengl32
 
   ifeq ($(USE_FREETYPE),1)
-    FREETYPE_CFLAGS = -Ifreetype2
+    ifneq ($(USE_INTERNAL_FREETYPE),1)
+      FREETYPE_CFLAGS = -Ifreetype2
+    endif
   endif
 
   ifeq ($(USE_CURL),1)
@@ -743,7 +745,7 @@ ifeq ($(PLATFORM),mingw32)
     SDLDLL=SDL2.dll
   endif
 
-else # ifeq mingw32
+else # ifdef MINGW
 
 #############################################################################
 # SETUP AND BUILD -- FREEBSD
@@ -758,7 +760,7 @@ ifeq ($(PLATFORM),freebsd)
   CLIENT_CFLAGS += $(SDL_CFLAGS)
   HAVE_VM_COMPILED = true
 
-  OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
+  OPTIMIZEVM = -O3
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
   SHLIBEXT=so
@@ -811,24 +813,16 @@ ifeq ($(PLATFORM),openbsd)
     -pipe -DUSE_ICON -DMAP_ANONYMOUS=MAP_ANON
   CLIENT_CFLAGS += $(SDL_CFLAGS)
 
-  OPTIMIZEVM = -O3 -funroll-loops -fomit-frame-pointer
+  OPTIMIZEVM = -O3
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
 
   ifeq ($(ARCH),x86_64)
-    OPTIMIZEVM = -O3 -fomit-frame-pointer -funroll-loops
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
+    OPTIMIZEVM = -O3
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED = true
   else
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM = -O3 -march=i586 -fomit-frame-pointer -funroll-loops
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
+    OPTIMIZEVM = -O3 -march=i586
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
     HAVE_VM_COMPILED=true
   else
@@ -912,6 +906,7 @@ else # ifeq netbsd
 #############################################################################
 
 ifeq ($(PLATFORM),irix64)
+  LIB=lib
 
   ARCH=mips
 
@@ -956,22 +951,14 @@ ifeq ($(PLATFORM),sunos)
     -pipe -DUSE_ICON
   CLIENT_CFLAGS += $(SDL_CFLAGS)
 
-  OPTIMIZEVM = -O3 -funroll-loops
+  OPTIMIZEVM = -O3
 
   ifeq ($(ARCH),sparc)
     OPTIMIZEVM += -O3 -mtune=ultrasparc3 -mv8plus -mno-faster-structs
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
     HAVE_VM_COMPILED=true
   else
   ifeq ($(ARCH),x86)
-    OPTIMIZEVM += -march=i586 -fomit-frame-pointer
-    # clang 3.5 doesn't support this
-    ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-      OPTIMIZEVM += -falign-functions=2 -fstrength-reduce
-    endif
+    OPTIMIZEVM += -march=i586
     HAVE_VM_COMPILED=true
     BASE_CFLAGS += -m32
     CLIENT_CFLAGS += -I/usr/X11/include/NVIDIA
@@ -1007,7 +994,7 @@ else # ifeq sunos
 
 endif #Linux
 endif #darwin
-endif #mingw32
+endif #MINGW
 endif #FreeBSD
 endif #OpenBSD
 endif #NetBSD
@@ -1057,7 +1044,7 @@ endif
 
 ifneq ($(BUILD_GAME_SO),0)
   ifneq ($(BUILD_BASEGAME),0)
-   ifeq ($(PLATFORM),mingw32)
+   ifdef MINGW
     TARGETS += \
 	$(B)/$(BASEGAME)/cgame_coop_$(SHLIBNAME) \
 	$(B)/$(BASEGAME)/qagame_coop_$(SHLIBNAME) \
@@ -1164,19 +1151,21 @@ ifeq ($(USE_INTERNAL_JPEG),1)
   BASE_CFLAGS += -DUSE_INTERNAL_JPEG
   BASE_CFLAGS += -I$(JPDIR)
 else
-  # libjpeg doesn't have pkg-config yet, but let users override with
-  # "make JPEG_CFLAGS=-I/opt/jpeg/include JPEG_LIBS='-L/opt/jpeg/lib -ljpeg'"
-  # if they need to
-  JPEG_CFLAGS ?=
-  JPEG_LIBS ?= -ljpeg
+  # IJG libjpeg doesn't have pkg-config, but libjpeg-turbo uses libjpeg.pc;
+  # we fall back to hard-coded answers if libjpeg.pc is unavailable
+  JPEG_CFLAGS ?= $(shell pkg-config --silence-errors --cflags libjpeg || true)
+  JPEG_LIBS ?= $(shell pkg-config --silence-errors --libs libjpeg || echo -ljpeg)
   BASE_CFLAGS += $(JPEG_CFLAGS)
   RENDERER_LIBS += $(JPEG_LIBS)
 endif
 
 ifeq ($(USE_FREETYPE),1)
-  FREETYPE_CFLAGS ?= $(shell pkg-config --silence-errors --cflags freetype2 || true)
-  FREETYPE_LIBS ?= $(shell pkg-config --silence-errors --libs freetype2 || echo -lfreetype)
-
+  ifeq ($(USE_INTERNAL_FREETYPE),1)
+    FREETYPE_CFLAGS += -I$(FTDIR)/include -DFT2_BUILD_LIBRARY
+  else
+    FREETYPE_CFLAGS ?= $(shell pkg-config --silence-errors --cflags freetype2 || true)
+    FREETYPE_LIBS ?= $(shell pkg-config --silence-errors --libs freetype2 || echo -lfreetype)
+  endif
   BASE_CFLAGS += -DBUILD_FREETYPE $(FREETYPE_CFLAGS)
   RENDERER_LIBS += $(FREETYPE_LIBS)
 endif
@@ -1396,7 +1385,7 @@ targets: makedirs
 	@echo "  COMPILE_ARCH: $(COMPILE_ARCH)"
 	@echo "  CC: $(CC)"
 	@echo "  CXX: $(CXX)"
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
 	@echo "  WINDRES: $(WINDRES)"
 endif
 	@echo ""
@@ -1741,7 +1730,7 @@ ifeq ($(USE_IRC),1)
     $(B)/client/cl_irc.o
 endif
 
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
   Q3OBJ += \
     $(B)/client/con_passive.o
 else
@@ -1762,11 +1751,11 @@ Q3R2OBJ = \
   $(B)/rend2/tr_font.o \
   $(B)/rend2/tr_glsl.o \
   $(B)/rend2/tr_image.o \
-  $(B)/rend2/tr_image_png.o \
-  $(B)/rend2/tr_image_jpg.o \
   $(B)/rend2/tr_image_bmp.o \
-  $(B)/rend2/tr_image_tga.o \
+  $(B)/rend2/tr_image_jpg.o \
   $(B)/rend2/tr_image_pcx.o \
+  $(B)/rend2/tr_image_png.o \
+  $(B)/rend2/tr_image_tga.o \
   $(B)/rend2/tr_init.o \
   $(B)/rend2/tr_light.o \
   $(B)/rend2/tr_main.o \
@@ -1829,11 +1818,11 @@ Q3ROBJ = \
   $(B)/renderer/tr_flares.o \
   $(B)/renderer/tr_font.o \
   $(B)/renderer/tr_image.o \
-  $(B)/renderer/tr_image_png.o \
-  $(B)/renderer/tr_image_jpg.o \
   $(B)/renderer/tr_image_bmp.o \
-  $(B)/renderer/tr_image_tga.o \
+  $(B)/renderer/tr_image_jpg.o \
   $(B)/renderer/tr_image_pcx.o \
+  $(B)/renderer/tr_image_png.o \
+  $(B)/renderer/tr_image_tga.o \
   $(B)/renderer/tr_init.o \
   $(B)/renderer/tr_light.o \
   $(B)/renderer/tr_main.o \
@@ -1920,6 +1909,54 @@ ifneq ($(USE_INTERNAL_JPEG),0)
     $(B)/renderer/jquant1.o \
     $(B)/renderer/jquant2.o \
     $(B)/renderer/jutils.o
+endif
+
+ifeq ($(USE_FREETYPE),1)
+ifneq ($(USE_INTERNAL_FREETYPE),0)
+  FTOBJ += \
+    $(B)/renderer/ftsystem.o \
+    $(B)/renderer/ftdebug.o \
+    $(B)/renderer/ftinit.o \
+    $(B)/renderer/ftbase.o \
+    $(B)/renderer/ftbbox.o \
+    $(B)/renderer/ftbdf.o \
+    $(B)/renderer/ftbitmap.o \
+    $(B)/renderer/ftcid.o \
+    $(B)/renderer/ftfstype.o \
+    $(B)/renderer/ftgasp.o \
+    $(B)/renderer/ftglyph.o \
+    $(B)/renderer/ftgxval.o \
+    $(B)/renderer/ftlcdfil.o \
+    $(B)/renderer/ftmm.o \
+    $(B)/renderer/ftotval.o \
+    $(B)/renderer/ftpatent.o \
+    $(B)/renderer/ftpfr.o \
+    $(B)/renderer/ftstroke.o \
+    $(B)/renderer/ftsynth.o \
+    $(B)/renderer/fttype1.o \
+    $(B)/renderer/ftwinfnt.o \
+    $(B)/renderer/ftxf86.o \
+    $(B)/renderer/truetype.o \
+    $(B)/renderer/type1.o \
+    $(B)/renderer/cff.o \
+    $(B)/renderer/type1cid.o \
+    $(B)/renderer/pfr.o \
+    $(B)/renderer/type42.o \
+    $(B)/renderer/winfnt.o \
+    $(B)/renderer/pcf.o \
+    $(B)/renderer/bdf.o \
+    $(B)/renderer/sfnt.o \
+    $(B)/renderer/autofit.o \
+    $(B)/renderer/pshinter.o \
+    $(B)/renderer/raster.o \
+    $(B)/renderer/smooth.o \
+    $(B)/renderer/ftcache.o \
+    $(B)/renderer/ftgzip.o \
+    $(B)/renderer/ftlzw.o \
+    $(B)/renderer/ftbzip2.o \
+    $(B)/renderer/psaux.o \
+    $(B)/renderer/psnames.o
+endif
 endif
 
 ifeq ($(ARCH),x86)
@@ -2082,7 +2119,7 @@ Q3OBJ += \
   $(B)/client/internal.o \
   $(B)/client/opusfile.o \
   $(B)/client/stream.o
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
 Q3OBJ += \
   $(B)/client/wincerts.o
 endif
@@ -2147,7 +2184,7 @@ ifeq ($(HAVE_VM_COMPILED),true)
   endif
 endif
 
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
   Q3OBJ += \
     $(B)/client/win_resource.o \
     $(B)/client/sys_win32.o
@@ -2173,26 +2210,26 @@ $(B)/$(CLIENTBIN)$(FULLBINEXT): $(Q3OBJ) $(LIBSDLMAIN)
 		-o $@ $(Q3OBJ) \
 		$(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS)
 
-$(B)/renderer_coop_opengl1_$(SHLIBNAME): $(Q3ROBJ) $(JPGOBJ)
+$(B)/renderer_coop_opengl1_$(SHLIBNAME): $(Q3ROBJ) $(JPGOBJ) $(FTOBJ)
 	$(echo_cmd) "LD $@"
-	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(Q3ROBJ) $(JPGOBJ) \
+	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(Q3ROBJ) $(JPGOBJ) $(FTOBJ) \
 		$(THREAD_LIBS) $(LIBSDLMAIN) $(RENDERER_LIBS) $(LIBS)
 
-$(B)/renderer_coop_rend2_$(SHLIBNAME): $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ)
+$(B)/renderer_coop_rend2_$(SHLIBNAME): $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ)
 	$(echo_cmd) "LD $@"
-	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) \
+	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ) \
 		$(THREAD_LIBS) $(LIBSDLMAIN) $(RENDERER_LIBS) $(LIBS)
 else
-$(B)/$(CLIENTBIN)$(FULLBINEXT): $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) $(LIBSDLMAIN)
+$(B)/$(CLIENTBIN)$(FULLBINEXT): $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) $(FTOBJ) $(LIBSDLMAIN)
 	$(echo_cmd) "LD $@"
 	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) \
-		-o $@ $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) \
+		-o $@ $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) $(FTOBJ) \
 		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
 
-$(B)/$(CLIENTBIN)_rend2$(FULLBINEXT): $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(LIBSDLMAIN)
+$(B)/$(CLIENTBIN)_rend2$(FULLBINEXT): $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ) $(LIBSDLMAIN)
 	$(echo_cmd) "LD $@"
 	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) \
-		-o $@ $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) \
+		-o $@ $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ) \
 		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
 endif
 
@@ -2321,7 +2358,7 @@ ifeq ($(HAVE_VM_COMPILED),true)
   endif
 endif
 
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
   Q3DOBJ += \
     $(B)/ded/win_resource.o \
     $(B)/ded/sys_win32.o \
@@ -2385,7 +2422,7 @@ Q3CGOBJ_ = \
 Q3CGOBJ = $(Q3CGOBJ_) $(B)/$(BASEGAME)/cgame/cg_syscalls.o
 Q3CGVMOBJ = $(Q3CGOBJ_:%.o=%.asm)
 
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
 $(B)/$(BASEGAME)/cgame_coop_$(SHLIBNAME): $(Q3CGOBJ)
 	$(echo_cmd) "LD $@"
 	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(Q3CGOBJ)
@@ -2464,7 +2501,7 @@ Q3GOBJ_ = \
 Q3GOBJ = $(Q3GOBJ_) $(B)/$(BASEGAME)/game/g_syscalls.o
 Q3GVMOBJ = $(Q3GOBJ_:%.o=%.asm)
 
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
 $(B)/$(BASEGAME)/qagame_coop_$(SHLIBNAME): $(Q3GOBJ)
 	$(echo_cmd) "LD $@"
 	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(Q3GOBJ)
@@ -2498,7 +2535,7 @@ Q3UIOBJ_ = \
 Q3UIOBJ = $(Q3UIOBJ_) $(B)/$(BASEGAME)/ui/ui_syscalls.o
 Q3UIVMOBJ = $(Q3UIOBJ_:%.o=%.asm)
 
-ifeq ($(PLATFORM),mingw32)
+ifdef MINGW
 $(B)/$(BASEGAME)/ui_coop_$(SHLIBNAME): $(Q3UIOBJ)
 	$(echo_cmd) "LD $@"
 	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(Q3UIOBJ)
@@ -2595,6 +2632,77 @@ $(B)/rend2/glsl/%.o: $(B)/rend2/glsl/%.c
 $(B)/rend2/%.o: $(R2DIR)/%.c
 	$(DO_REF_CC)
 
+$(B)/renderer/%.o: $(FTDIR)/src/autofit/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/base/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/bdf/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/bzip2/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/cache/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/cff/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/cid/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/gxvalid/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/gzip/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/lzw/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/otvalid/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/pcf/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/pfr/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/psaux/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/pshinter/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/psnames/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/raster/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/sfnt/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/smooth/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/tools/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/truetype/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/type1/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/type42/%.c
+	$(DO_REF_CC)
+
+$(B)/renderer/%.o: $(FTDIR)/src/winfonts/%.c
+	$(DO_REF_CC)
 
 $(B)/ded/%.o: $(ASMDIR)/%.s
 	$(DO_AS)
@@ -2633,6 +2741,7 @@ ifeq ($(USE_GIT),1)
   $(B)/client/common.o : .git/index
   $(B)/ded/common.o : .git/index
 endif
+
 
 #############################################################################
 ## GAME MODULE RULES
@@ -2708,7 +2817,7 @@ $(B)/$(BASEGAME)/ui/q_shared.asm: $(CMDIR)/q_shared.c $(Q3LCC)
 # MISC
 #############################################################################
 
-OBJ = $(Q3OBJ) $(Q3ROBJ) $(Q3R2OBJ) $(Q3DOBJ) $(JPGOBJ) \
+OBJ = $(Q3OBJ) $(Q3ROBJ) $(Q3R2OBJ) $(Q3DOBJ) $(JPGOBJ) $(FTOBJ) \
   $(Q3GOBJ) $(Q3CGOBJ) $(Q3UIOBJ) \
   $(Q3GVMOBJ) $(Q3CGVMOBJ) $(Q3UIVMOBJ) 
 TOOLSOBJ = $(LBURGOBJ) $(Q3CPPOBJ) $(Q3RCCOBJ) $(Q3LCCOBJ) $(Q3ASMOBJ)
