@@ -2560,11 +2560,6 @@ void CL_OW_IRCSetup(void)
 	cl_IRC_nickname           = Cvar_Get("cl_IRC_nickname", "", CVAR_ARCHIVE);
 	cl_IRC_kick_rejoin        = Cvar_Get("cl_IRC_kick_rejoin", "0", CVAR_ARCHIVE);
 	cl_IRC_reconnect_delay    = Cvar_Get("cl_IRC_reconnect_delay", "100", CVAR_ARCHIVE);
-
-	if (cl_IRC_connect_at_startup->value)
-	{
-		CL_OW_InitIRC();
-	}
 }
 
 /*

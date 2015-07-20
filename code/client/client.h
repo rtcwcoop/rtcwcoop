@@ -509,6 +509,18 @@ extern	cvar_t	*cl_voip;
 #define VOIP_MAX_PACKET_SAMPLES		( VOIP_MAX_FRAME_SAMPLES * VOIP_MAX_PACKET_FRAMES )
 #endif
 
+#ifdef USE_IRC
+/* IRC control cvars */
+extern cvar_t *cl_IRC_connect_at_startup;
+extern cvar_t *cl_IRC_server;
+extern cvar_t *cl_IRC_channel;
+extern cvar_t *cl_IRC_port;
+extern cvar_t *cl_IRC_override_nickname;
+extern cvar_t *cl_IRC_nickname;
+extern cvar_t *cl_IRC_kick_rejoin;
+extern cvar_t *cl_IRC_reconnect_delay;
+#endif
+
 extern cvar_t  *cl_missionStats;
 extern cvar_t  *cl_waitForFire;
 

@@ -1839,6 +1839,13 @@ void CL_Connect_f( void ) {
 
 	// server connection string
 	Cvar_Set( "cl_currentServerAddress", server );
+
+#ifdef USE_IRC
+	if (cl_IRC_connect_at_startup->value)
+	{
+		CL_OW_InitIRC();
+	}
+#endif
 }
 
 #define MAX_RCON_MESSAGE 1024
