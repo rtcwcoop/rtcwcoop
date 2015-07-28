@@ -2170,7 +2170,7 @@ void ClientSpawn( gentity_t *ent ) {
 //			client->ps.weaponstate = WEAPON_READY;
 
 			// fire the targets of the spawn point
-			if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+			if ( g_gametype.integer < GT_SINGLE_PLAYER ) {
 				G_UseTargets( spawnPoint, ent );
 			}
 			// select the highest weapon number available, after any spawn given items have fired
