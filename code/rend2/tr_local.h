@@ -59,13 +59,13 @@ typedef unsigned int glIndex_t;
 #define MAX_VAOS      4096
 
 #define MAX_CALC_PSHADOWS    64
-#define MAX_DRAWN_PSHADOWS    16 // do not increase past 32, because bit flags are used on surfaces
+#define MAX_DRAWN_PSHADOWS    32 // do not increase past 32, because bit flags are used on surfaces
 #define PSHADOW_MAP_SIZE      512
 #define CUBE_MAP_MIPS      7
 #define CUBE_MAP_SIZE      (1 << CUBE_MAP_MIPS)
  
 #define USE_VERT_TANGENT_SPACE
-
+#define USE_OVERBRIGHT
 
 // a trRefEntity_t has all the information passed in by
 // the client game, as well as some locally derived info
@@ -558,6 +558,12 @@ static ID_INLINE qboolean ShaderRequiresCPUDeforms(const shader_t * shader)
 
 	return qfalse;
 }
+
+typedef struct cubemap_s {
+	vec3_t origin;
+	float parallaxRadius;
+	image_t *image;
+} cubemap_t;
 
 typedef struct corona_s {
 	vec3_t origin;
@@ -1517,7 +1523,7 @@ typedef enum {
 
 typedef enum {
 	TCR_NONE = 0x0000,
-	TCR_LATC = 0x0001,
+	TCR_RGTC = 0x0001,
 	TCR_BPTC = 0x0002,
 } textureCompressionRef_t;
 
@@ -1541,7 +1547,9 @@ typedef struct {
 	qboolean textureFloat;
 	qboolean halfFloatPixel;
 	qboolean packedDepthStencil;
+	qboolean arbTextureCompression;
 	textureCompressionRef_t textureCompression;
+	qboolean swizzleNormalmap;
 	
 	qboolean framebufferMultisample;
 	qboolean framebufferBlit;
@@ -1706,8 +1714,7 @@ typedef struct {
 	int		                fatLightmapStep;
 
 	int                     numCubemaps;
-	vec3_t                  *cubemapOrigins;
-	image_t                 **cubemaps;
+	cubemap_t               *cubemaps;
 
 	trRefEntity_t           *currentEntity;
 	trRefEntity_t worldEntity;                  // point currentEntity at this when rendering world
@@ -1940,6 +1947,7 @@ extern cvar_t  *r_offsetUnits;
 
 extern cvar_t  *r_fullbright;                   // avoid lightmap pass
 extern cvar_t  *r_lightmap;                     // render lightmaps only
+extern cvar_t  *r_cgenVertexLit;		// Use CGEN_VERTEX_LIT and CGEN_EXACT_VERTEX_LIT instead of CGEN_VERTEX and CGEN_EXACT_VERTEX
 extern cvar_t  *r_vertexLight;                  // vertex lighting mode for better performance
 extern cvar_t  *r_uiFullScreen;                 // ui is running fullscreen
 
@@ -2001,8 +2009,8 @@ extern  cvar_t  *r_specularMapping;
 extern  cvar_t  *r_deluxeMapping;
 extern  cvar_t  *r_parallaxMapping;
 extern  cvar_t  *r_cubeMapping;
-extern  cvar_t  *r_deluxeSpecular;
 extern  cvar_t  *r_specularIsMetallic;
+extern  cvar_t  *r_glossIsRoughness;
 extern  cvar_t  *r_baseNormalX;
 extern  cvar_t  *r_baseNormalY;
 extern  cvar_t  *r_baseParallax;

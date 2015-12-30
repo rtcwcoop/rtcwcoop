@@ -48,7 +48,7 @@ itemDef {
       	visible 1
 		decoration
     	}
-/*
+
 	itemDef {
 		name testmodel_aflag1
 		type ITEM_TYPE_MODEL
@@ -62,7 +62,6 @@ itemDef {
 		visible 1
 		decoration
 		}
-*/	
 
 	itemDef {
 		name testmodel_nflag1

@@ -416,6 +416,8 @@ static void DrawMultitextured( shaderCommands_t *input, int stage ) {
 		R_FogOn();
 	} else if ( tess.shader->noFog && !pStage->isFogged ) {
 		R_FogOff(); // turn it back off
+	} else if ( backEnd.projection2D ) {
+		R_FogOff();
 	} else {    // make sure it's on
 		R_FogOn();
 	}
@@ -1395,6 +1397,8 @@ static void RB_IterateStagesGeneric( shaderCommands_t *input ) {
 				R_FogOn();
 			} else if ( tess.shader->noFog && !pStage->isFogged ) {
 				R_FogOff(); // turn it back off
+			} else if ( backEnd.projection2D ) {
+				R_FogOff();
 			} else {    // make sure it's on
 				R_FogOn();
 			}

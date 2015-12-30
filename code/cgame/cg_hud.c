@@ -46,6 +46,10 @@ static void CG_DrawPlayerArmorValue( rectDef_t *rect, int font, float scale, vec
 
 	value = ps->stats[STAT_ARMOR];
 
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_LEFT, PLACE_BOTTOM);
+	}
+
 	if ( shader ) {
 		trap_R_SetColor( color );
 		CG_DrawPic( rect->x, rect->y, rect->w, rect->h, shader );
@@ -103,6 +107,10 @@ static void CG_DrawPlayerWeaponIcon( rectDef_t *rect, qboolean drawHighlighted, 
 
 	if ( !cg_drawIcons.integer ) {
 		return;
+	}
+
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_RIGHT, PLACE_BOTTOM);
 	}
 
 	// DHM - Nerve :: special case for WP_CLASS_SPECIAL
@@ -256,6 +264,10 @@ static void CG_DrawCursorhint( rectDef_t *rect ) {
 
 	icon = cgs.media.hintShaders[cg.cursorHintIcon];
 
+	if ( cg_fixedAspect.integer ) {
+		CG_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+	}
+
 	switch ( cg.cursorHintIcon ) {
 	case HINT_NONE:
 	case HINT_FORCENONE:
@@ -405,6 +417,10 @@ static void CG_DrawPlayerAmmoValue( rectDef_t *rect, int font, float scale, vec4
 		return;
 	}
 
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_RIGHT, PLACE_BOTTOM);
+	}
+
 	switch ( weap ) {      // some weapons don't draw ammo count text
 	//case WP_KNIFE:
 	case WP_CLASS_SPECIAL:              // DHM - Nerve
@@ -455,7 +471,8 @@ static void CG_DrawPlayerAmmoValue( rectDef_t *rect, int font, float scale, vec4
 		} else {
 			Com_sprintf( num, sizeof( num ), "%i", value );
 			value = CG_Text_Width( num, font, scale, 0 );
-			CG_Text_Paint( rect->x + ( rect->w - value ) / 2, rect->y + rect->h, font, scale, color, num, 0, 0, textStyle );
+			// Moved this up a little so it's not on top of the weapon heat bar
+			CG_Text_Paint( rect->x + ( rect->w - value ) / 2, - 15 + rect->y + rect->h, font, scale, color, num, 0, 0, textStyle );
 
 //			if(special) {	// draw '0' for akimbo guns
 			if ( value2 || ( special && type == 1 ) ) {
@@ -553,6 +570,10 @@ static void CG_DrawHoldableItem( rectDef_t *rect, int font, float scale, qboolea
 		return;
 	}
 
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_RIGHT, PLACE_CENTER);
+	}
+
 	value   = cg.predictedPlayerState.holdable[cg.holdableSelect];
 
 	if ( value ) {
@@ -642,6 +663,10 @@ static void CG_DrawPlayerHealth( rectDef_t *rect, int font, float scale, vec4_t 
 	ps = &cg.snap->ps;
 
 	value = ps->stats[STAT_HEALTH];
+
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_LEFT, PLACE_BOTTOM);
+	}
 
 	if ( shader ) {
 		trap_R_SetColor( color );
@@ -1156,6 +1181,10 @@ static void CG_DrawWeapHeat( rectDef_t *rect, int align ) {
 		return;
 	}
 
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_RIGHT, PLACE_BOTTOM);
+	}
+
 	if ( align != HUD_HORIZONTAL ) {
 		flags |= 4;   // BAR_VERT
 
@@ -1179,6 +1208,10 @@ static void CG_DrawFatigue( rectDef_t *rect, vec4_t color, int align ) {
 	//	vec4_t	color = {0, 1, 0, 1}, color2 = {1, 0, 0, 1};
 	vec4_t colorBonus = {1, 1, 0, 0.45f};   // yellow (a little more solid for the 'bonus' stamina)
 	int flags = 0;
+
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_LEFT, PLACE_BOTTOM);
+	}
 
 	if ( align != HUD_HORIZONTAL ) {
 		flags |= 4;   // BAR_VERT
@@ -1260,6 +1293,10 @@ static void CG_DrawCompass( void ) {
 
 	if ( cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
 		return;
+	}
+
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_CENTER, PLACE_BOTTOM);
 	}
 
 	angle = ( cg.snap->ps.viewangles[YAW] + 180.f ) / 360.f - ( 0.25 / 2.f );

@@ -96,7 +96,6 @@ static qboolean Menu_OverActiveItem( menuDef_t *menu, float x, float y );
 static char memoryPool[MEM_POOL_SIZE];
 static int allocPoint, outOfMemory;
 
-
 // these are expected to be translated by the strings.txt file
 translateString_t translateStrings[] = {
 	{"end_time"},                //	"Time"
@@ -152,6 +151,81 @@ translateString_t translateStrings[] = {
 	{"years"},                   //
 	{"or"}                       //
 };
+
+vmCvar_t ui_fixedAspect;
+
+static screenPlacement_e ui_horizontalPlacement = PLACE_CENTER;
+static screenPlacement_e ui_verticalPlacement = PLACE_CENTER;
+static screenPlacement_e ui_lastHorizontalPlacement = PLACE_CENTER;
+static screenPlacement_e ui_lastVerticalPlacement = PLACE_CENTER;
+
+/*
+================
+UI_SetScreenPlacement
+================
+*/
+void UI_SetScreenPlacement(screenPlacement_e hpos, screenPlacement_e vpos)
+{
+	ui_lastHorizontalPlacement = ui_horizontalPlacement;
+	ui_lastVerticalPlacement = ui_verticalPlacement;
+
+	ui_horizontalPlacement = hpos;
+	ui_verticalPlacement = vpos;
+}
+
+/*
+================
+UI_AdjustFrom640
+
+Adjusted for resolution and screen aspect ratio
+================
+*/
+void UI_AdjustFrom640( float *x, float *y, float *w, float *h ) {
+	// expect valid pointers
+#if 0
+	*x = *x * DC->scale + DC->bias;
+	*y *= DC->scale;
+	*w *= DC->scale;
+	*h *= DC->scale;
+#endif
+	if ( ui_fixedAspect.integer ) {
+		if (ui_horizontalPlacement == PLACE_STRETCH) {
+			// scale for screen sizes (not aspect correct in wide screen)
+			*w *= DC->xscaleStretch;
+			*x *= DC->xscaleStretch;
+		} else {
+			// scale for screen sizes
+			*w *= DC->xscale;
+			*x *= DC->xscale;
+
+			if (ui_horizontalPlacement == PLACE_CENTER) {
+				*x += DC->xBias;
+			} else if (ui_horizontalPlacement == PLACE_RIGHT) {
+				*x += DC->xBias*2;
+			}
+		}
+
+		if (ui_verticalPlacement == PLACE_STRETCH) {
+			*h *= DC->yscaleStretch;
+			*y *= DC->yscaleStretch;
+		} else {
+			*h *= DC->yscale;
+			*y *= DC->yscale;
+
+			if (ui_verticalPlacement == PLACE_CENTER) {
+				*y += DC->yBias;
+			} else if (ui_verticalPlacement == PLACE_BOTTOM) {
+				*y += DC->yBias*2;
+			}
+		}
+	} else {
+		*x *= DC->xscale;
+		*y *= DC->yscale;
+		*w *= DC->xscale;
+		*h *= DC->yscale;
+	}
+}
+
 
 //----(SA)	added
 /*
@@ -738,8 +812,6 @@ void Fade( int *flags, float *f, float clamp, int *nextTime, int offsetTime, qbo
 	}
 }
 
-
-
 void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle ) {
 	//float bordersize = 0;
 	vec4_t color = {0};
@@ -767,6 +839,34 @@ void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle
 		fillRect.h -= w->borderSize + 1;
 	}
 
+	// Make menus letterboxed if aspect is < 4:3
+	if ( ui_fixedAspect.integer ) {
+		if ( DC->glconfig.vidWidth * 480.0 < DC->glconfig.vidHeight * 640.0 ) {
+			vec4_t col = {0, 0, 0, 1};
+			float lb = 0.5 * ( ( DC->glconfig.vidHeight - ( DC->yscale * 480.0 ) ) / DC->yscale );
+
+			UI_SetScreenPlacement(PLACE_LEFT, PLACE_BOTTOM);
+			DC->fillRect( 0, 480 - lb, 640, lb + 1, col );
+			UI_SetScreenPlacement(PLACE_LEFT, PLACE_TOP);
+			DC->fillRect( 0, 0, 640, lb + 1, col );
+			UI_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+		}
+	}
+
+	// Make menus pillarboxed if using 4:3 UI
+	if ( ui_fixedAspect.integer == 1 ) {
+		if ( DC->glconfig.vidWidth * 480.0 > DC->glconfig.vidHeight * 640.0 ) {
+			vec4_t col = {0, 0, 0, 1};
+			float pillar = 0.5 * ( ( DC->glconfig.vidWidth - ( DC->xscale * 640.0 ) ) / DC->xscale );
+
+			UI_SetScreenPlacement(PLACE_LEFT, PLACE_CENTER);
+			DC->fillRect( 0, 0, pillar + 1, 480, col );
+			UI_SetScreenPlacement(PLACE_RIGHT, PLACE_CENTER);
+			DC->fillRect( 640 - pillar, 0, pillar + 1, 480, col );
+			UI_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+		}
+	}
+
 	if ( w->style == WINDOW_STYLE_FILLED ) {
 		// box, but possible a shader that needs filled
 		if ( w->background ) {
@@ -784,8 +884,36 @@ void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle
 		if ( w->flags & WINDOW_FORECOLORSET ) {
 			DC->setColor( w->foreColor );
 		}
-		DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
-		DC->setColor( NULL );
+		if ( ui_fixedAspect.integer == 2 ) {
+			if ( DC->glconfig.vidWidth * 480 > DC->glconfig.vidHeight * 640 ) {
+				// HACK ... widen menu without stretching items and models
+				if ( !Q_stricmpn( w->name, "BLACKGRAD", 9 ) ) {
+					UI_SetScreenPlacement(PLACE_STRETCH, PLACE_STRETCH);
+					DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
+					DC->setColor( NULL );
+				} else if ( !Q_stricmpn( w->name, "gold_line", 9 ) ) {
+					UI_SetScreenPlacement(PLACE_STRETCH, PLACE_STRETCH);
+					DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
+					DC->setColor( NULL );
+				} else if ( !Q_stricmpn( w->name, "band", 4 ) ) {
+					UI_SetScreenPlacement(PLACE_STRETCH, PLACE_STRETCH);
+					DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
+					DC->setColor( NULL );
+				} else {
+					UI_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+					DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
+					DC->setColor( NULL );
+				}
+			} else {
+				UI_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+				DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
+				DC->setColor( NULL );
+			}
+			UI_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+		} else {
+			DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
+			DC->setColor( NULL );
+		}
 	} else if ( w->style == WINDOW_STYLE_TEAMCOLOR ) {
 		if ( DC->getTeamColor ) {
 			DC->getTeamColor( &color );
@@ -3944,14 +4072,19 @@ qboolean Item_Bind_HandleKey( itemDef_t *item, int key, qboolean down ) {
 	return qtrue;
 }
 
-
-
 void AdjustFrom640( float *x, float *y, float *w, float *h ) {
 	//*x = *x * DC->scale + DC->bias;
-	*x *= DC->xscale;
-	*y *= DC->yscale;
-	*w *= DC->xscale;
-	*h *= DC->yscale;
+	if ( ui_fixedAspect.integer ) {
+		*w *= DC->xscale;
+		*x = *x * DC->xscale + DC->xBias;
+		*h *= DC->yscale;
+		*y = *y * DC->yscale + DC->yBias;
+	} else {
+		*x *= DC->xscale;
+		*y *= DC->yscale;
+		*w *= DC->xscale;
+		*h *= DC->yscale;
+	}
 }
 
 void Item_Model_Paint( itemDef_t *item ) {
@@ -5792,31 +5925,7 @@ Hacks to fix issues with menu scripts
 ===============
 */
 static void Item_ApplyHacks( itemDef_t *item ) {
-
-       // Fix length of favorite address in createfavorite.menu
-       if ( item->type == ITEM_TYPE_EDITFIELD && item->cvar && !Q_stricmp( item->cvar, "ui_favoriteAddress" ) ) {
-               editFieldDef_t *editField = (editFieldDef_t *)item->typeData;
-
-               // enough to hold an IPv6 address plus null
-               if ( editField->maxChars < 48 ) {
-                       Com_Printf( "Extended create favorite address edit field length to hold an IPv6 address\n" );
-                       editField->maxChars = 48;
-               }
-       }
-
-	if ( item->type == ITEM_TYPE_EDITFIELD && item->cvar && ( !Q_stricmp( item->cvar, "ui_Name" ) || !Q_stricmp( item->cvar, "ui_findplayer" ) ) ) {
-		editFieldDef_t *editField = (editFieldDef_t *)item->typeData;
-
-		// enough to hold a full player name
-		if ( editField->maxChars < MAX_NAME_LENGTH ) {
-			if ( editField->maxPaintChars > editField->maxChars ) {
-				editField->maxPaintChars = editField->maxChars;
-			}
-
-			Com_Printf( "Extended player name field using cvar %s to %d characters\n", item->cvar, MAX_NAME_LENGTH );
-			editField->maxChars = MAX_NAME_LENGTH;
-		}
-	}
+	// Stub - Not used in SP
 }
 
 /*

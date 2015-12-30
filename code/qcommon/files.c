@@ -38,7 +38,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "q_shared.h"
 #include "qcommon.h"
-#include "unzip.h"
+#include "../zlib-1.2.8/unzip.h"
 
 /*
 =============================================================================
@@ -192,20 +192,44 @@ static const unsigned int mppak_checksums[] = {
 	2149774797u
 };
 
-static const unsigned int sppak_checksums[] = {
+static const unsigned int en_sppak_checksums[] = {
 	2837138611u,
 	3033901371u,
 	483593179u,
 	// sp_pak4.pk3 from GOTY edition
-//	4131017020u
+	4131017020u
 };
 
 static const unsigned int fr_sppak_checksums[] = {
 	2183777857u,
 	3033901371u,
-	483593179u,
+	839012592u,
 	// sp_pak4.pk3 from GOTY edition
-//	4131017020u
+	4131017020u
+};
+
+static const unsigned int gm_sppak_checksums[] = {
+	3078133571u,
+	285968110u,
+	2694180987u,
+	// sp_pak4.pk3 from GOTY edition
+	4131017020u
+};
+
+static const unsigned int it_sppak_checksums[] = {
+	3826630960u,
+	3033901371u,
+	652965486u,
+	// sp_pak4.pk3 from GOTY edition
+	4131017020u
+};
+
+static const unsigned int sp_sppak_checksums[] = {
+	652879493u,
+	3033901371u,
+	1162920123u,
+	// sp_pak4.pk3 from GOTY edition
+	4131017020u
 };
 
 // if this is defined, the executable positively won't work with any paks other
@@ -262,6 +286,10 @@ static cvar_t      *fs_homepath;
 #ifdef MACOS_X
 // Also search the .app bundle for .pk3 files
 static  cvar_t          *fs_apppath;
+#endif
+
+#ifndef STANDALONE
+static	cvar_t		*fs_steampath;
 #endif
 
 static cvar_t      *fs_basepath;
@@ -866,6 +894,23 @@ long FS_SV_FOpenFileRead(const char *filename, fileHandle_t *fp)
 			fsh[f].handleFiles.file.o = Sys_FOpen( ospath, "rb" );
 			fsh[f].handleSync = qfalse;
 		}
+
+#ifndef STANDALONE
+		// Check fs_steampath too
+		if (!fsh[f].handleFiles.file.o && fs_steampath->string[0])
+		{
+			ospath = FS_BuildOSPath( fs_steampath->string, filename, "" );
+			ospath[strlen(ospath)-1] = '\0';
+
+			if ( fs_debug->integer )
+			{
+				Com_Printf( "FS_SV_FOpenFileRead (fs_steampath): %s\n", ospath );
+			}
+
+			fsh[f].handleFiles.file.o = Sys_FOpen( ospath, "rb" );
+			fsh[f].handleSync = qfalse;
+		}
+#endif
 
 		if ( !fsh[f].handleFiles.file.o )
 		{
@@ -2836,6 +2881,10 @@ int	FS_GetModList( char *listbuf, int bufsize ) {
 	int dummy;
 	char **pFiles0 = NULL;
 	char **pFiles1 = NULL;
+#ifndef STANDALONE
+	char **pFiles2 = NULL;
+	char **pFiles3 = NULL;
+#endif
 	qboolean bDrop = qfalse;
 
 	*listbuf = 0;
@@ -2843,9 +2892,18 @@ int	FS_GetModList( char *listbuf, int bufsize ) {
 
 	pFiles0 = Sys_ListFiles( fs_homepath->string, NULL, NULL, &dummy, qtrue );
 	pFiles1 = Sys_ListFiles( fs_basepath->string, NULL, NULL, &dummy, qtrue );
+#ifndef STANDALONE
+	pFiles2 = Sys_ListFiles( fs_steampath->string, NULL, NULL, &dummy, qtrue );
+#endif
 	// we searched for mods in the three paths
 	// it is likely that we have duplicate names now, which we will cleanup below
+#ifndef STANDALONE
+	pFiles3 = Sys_ConcatenateFileLists( pFiles0, pFiles1 );
+	pFiles = Sys_ConcatenateFileLists( pFiles2, pFiles3 );
+#else
 	pFiles = Sys_ConcatenateFileLists( pFiles0, pFiles1 );
+#endif
+
 	nPotential = Sys_CountFileList(pFiles);
 
 	for ( i = 0 ; i < nPotential ; i++ ) {
@@ -2886,6 +2944,17 @@ int	FS_GetModList( char *listbuf, int bufsize ) {
 				pPaks = Sys_ListFiles( path, ".pk3", NULL, &nPaks, qfalse );
 				Sys_FreeFileList( pPaks );
 			}
+
+#ifndef STANDALONE
+			/* try on steam path */
+			if ( nPaks <= 0 )
+			{
+				path = FS_BuildOSPath( fs_steampath->string, name, "" );
+				nPaks = 0;
+				pPaks = Sys_ListFiles( path, ".pk3", NULL, &nPaks, qfalse );
+				Sys_FreeFileList( pPaks );
+			}
+#endif
 
 			if (nPaks > 0) {
 				nLen = strlen(name) + 1;
@@ -3654,6 +3723,12 @@ static void FS_Startup( const char *gameName )
 	fs_gamedirvar = Cvar_Get( "fs_game", "", CVAR_INIT | CVAR_SYSTEMINFO );
 
 	// add search path elements in reverse priority order
+#ifndef STANDALONE
+	fs_steampath = Cvar_Get ("fs_steampath", Sys_SteamPath(), CVAR_INIT|CVAR_PROTECTED );
+	if (fs_steampath->string[0]) {
+		FS_AddGameDirectory( fs_steampath->string, gameName, qtrue );
+	}
+#endif
 	if ( fs_basepath->string[0] ) {
 		FS_AddGameDirectory( fs_basepath->string, gameName, qtrue );
 		FS_AddGameDirectory( fs_basepath->string, COOP_BASEGAME, qtrue );
@@ -3677,6 +3752,11 @@ static void FS_Startup( const char *gameName )
 
 	// check for additional base game so mods can be based upon other mods
 	if ( fs_basegame->string[0] && Q_stricmp( fs_basegame->string, gameName ) ) {
+#ifndef STANDALONE
+		if ( fs_steampath->string[0] ) {
+			FS_AddGameDirectory( fs_steampath->string, fs_basegame->string, qtrue );
+		}
+#endif
 		if ( fs_basepath->string[0] ) {
 			FS_AddGameDirectory( fs_basepath->string, fs_basegame->string, qtrue );
 		}
@@ -3687,6 +3767,11 @@ static void FS_Startup( const char *gameName )
 
 	// check for additional game folder for mods
 	if ( fs_gamedirvar->string[0] && Q_stricmp( fs_gamedirvar->string, gameName ) ) {
+#ifndef STANDALONE
+		if ( fs_steampath->string[0] ) {
+			FS_AddGameDirectory( fs_steampath->string, fs_gamedirvar->string, qtrue );
+		}
+#endif
 		if ( fs_basepath->string[0] ) {
 			FS_AddGameDirectory( fs_basepath->string, fs_gamedirvar->string, qtrue );
 		}
@@ -3735,138 +3820,6 @@ static void FS_Startup( const char *gameName )
 }
 
 #ifndef STANDALONE
-/*
-===================
-FS_CheckPak0
-
-Check whether any of the original id pak files is present,
-and start up in standalone mode, if there are none and a
-different com_basegame was set.
-Note: If you're building a game that doesn't depend on the
-RTCW media pak0.pk3, you'll want to remove this by defining
-STANDALONE in q_shared.h
-===================
-*/
-static void FS_CheckPak0( void )
-{
-	searchpath_t	*path;
-	pack_t		*curpack;
-	qboolean founddemo = qfalse;
-	unsigned int foundPak = 0;
-
-	for( path = fs_searchpaths; path; path = path->next )
-	{
-		const char* pakBasename = path->pack->pakBasename;
-
-		if(!path->pack)
-			continue;
-
-		curpack = path->pack;
-
-		if(!Q_stricmpn( curpack->pakGamename, "demomain", MAX_OSPATH )
-				&& !Q_stricmpn( pakBasename, "pak0", MAX_OSPATH ))
-		{
-			if(curpack->checksum == DEMO_PAK0_CHECKSUM)
-				founddemo = qtrue;
-		}
-
-		else if(!Q_stricmpn( curpack->pakGamename, BASEGAME, MAX_OSPATH )
-				&& strlen(pakBasename) == 4 && !Q_stricmpn( pakBasename, "pak", 3 )
-				&& pakBasename[3] >= '0' && pakBasename[3] <= '0' + NUM_ID_PAKS - 1)
-		{
-			if( curpack->checksum != pak_checksums[pakBasename[3]-'0'] )
-			{
-				if(pakBasename[3] == '0')
-				{
-					Com_Printf("\n\n"
-							"**************************************************\n"
-							"WARNING: " BASEGAME "/pak0.pk3 is present but its checksum (%u)\n"
-							"is not correct. Please re-copy pak0.pk3 from your\n"
-							"legitimate RTCW CDROM.\n"
-							"**************************************************\n\n\n",
-							curpack->checksum );
-				}
-				else
-				{
-					Com_Printf("\n\n"
-							"**************************************************\n"
-							"WARNING: " BASEGAME "/pak%d.pk3 is present but its checksum (%u)\n"
-							"is not correct. Please re-install the point release\n"
-							"**************************************************\n\n\n",
-							pakBasename[3]-'0', curpack->checksum );
-				}
-			}
-
-			foundPak |= 1<<(pakBasename[3]-'0');
-		}
-		else
-		{
-			int index;
-
-			// Finally check whether this pak's checksum is listed because the user tried
-			// to trick us by renaming the file, and set foundPak's highest bit to indicate this case.
-
-			for(index = 0; index < ARRAY_LEN(pak_checksums); index++)
-			{
-				if(curpack->checksum == pak_checksums[index])
-				{
-					Com_Printf("\n\n"
-							"**************************************************\n"
-							"WARNING: %s is renamed pak file %s%cpak%d.pk3\n"
-							"Running in standalone mode won't work\n"
-							"Please rename, or remove this file\n"
-							"**************************************************\n\n\n",
-							curpack->pakFilename, BASEGAME, PATH_SEP, index);
-
-
-					foundPak |= 0x80000000;
-				}
-			}
-		}
-	}
-
-	if(!foundPak && Q_stricmp(com_basegame->string, BASEGAME))
-	{
-		Cvar_Set("com_standalone", "1");
-	}
-	else
-		Cvar_Set("com_standalone", "0");
-
-	if(!com_standalone->integer)
-	{
-		if(!(foundPak & 0x01))
-		{
-			if(founddemo)
-			{
-				Com_Printf( "\n\n"
-						"**************************************************\n"
-						"WARNING: It looks like you're using pak0.pk3\n"
-						"from the demo. This may work fine, but it is not\n"
-						"guaranteed or supported.\n"
-						"**************************************************\n\n\n" );
-
-				foundPak |= 0x01;
-			}
-		}
-	}
-
-
-	if(!com_standalone->integer && (foundPak & 0x01) != 0x01)
-	{
-		char errorText[MAX_STRING_CHARS] = "";
-
-		if((foundPak & 0x01) != 0x01)
-		{
-			Q_strcat(errorText, sizeof(errorText),
-					"\"pak0.pk3\" is missing. Please copy it "
-					"from your legitimate RTCW CDROM. ");
-		}
-
-		Com_Error(ERR_FATAL, "%s", errorText);
-	}
-
-}
-
 /*
 ===================
 FS_CheckMPPaks
@@ -3966,27 +3919,21 @@ static void FS_CheckMPPaks( void )
 
 		if((foundPak & 0x3f) != 0x3f)
 		{
-
-			for (i=0;i<NUM_MP_PAKS;i++) {
-				if (!(foundPak & (1<<i))) {
-					Q_strcat(missingPaks, sizeof(missingPaks), va("mp_pak%d.pk3 ", i));
+			for( i = 0; i < NUM_MP_PAKS; i++ ) {
+				if ( !( foundPak & ( 1 << i ) ) ) {
+					Q_strcat( missingPaks, sizeof( missingPaks ), va( "mp_pak%d.pk3 ", i ) );
 				}
 			}
 
-			Q_strcat(errorText, sizeof(errorText),
-				va("Point Release files are missing: %s. Please "
-				"re-install the 1.41 point release. ", missingPaks));
+			Q_strcat( errorText, sizeof( errorText ),
+				va( "\n\nPoint Release files are missing: %s \n"
+				"Please re-install the 1.41 point release.\n\n", missingPaks ) );
 		}
-
-		Q_strcat(errorText, sizeof(errorText),
-			va("Also check that your iortcw executable is in "
-			"the correct place and that every file "
-			"in the \"%s\" directory is present and readable", BASEGAME));
 
 		Com_Error(ERR_FATAL, "%s", errorText);
 	}
-	
 }
+
 
 /*
 ===================
@@ -4019,26 +3966,30 @@ static void FS_CheckSPPaks( void )
 				&& strlen(pakBasename) == 7 && !Q_stricmpn( pakBasename, "sp_pak", 6 )
 				&& pakBasename[6] >= '1' && pakBasename[6] <= '1' + NUM_SP_PAKS - 1)
 		{
-			if( curpack->checksum != sppak_checksums[pakBasename[6]-'1'] && curpack->checksum != fr_sppak_checksums[pakBasename[6]-'1'] )
+			if( curpack->checksum != en_sppak_checksums[pakBasename[6]-'1'] &&
+				curpack->checksum != fr_sppak_checksums[pakBasename[6]-'1'] &&
+				curpack->checksum != gm_sppak_checksums[pakBasename[6]-'1'] &&
+				curpack->checksum != it_sppak_checksums[pakBasename[6]-'1'] &&
+				curpack->checksum != sp_sppak_checksums[pakBasename[6]-'1'] )
 			{
 				if(pakBasename[6] == '1')
 				{
 					Com_Printf("\n\n"
-							"**************************************************\n"
-							"WARNING: " BASEGAME "/sp_pak1.pk3 is present but its checksum (%u)\n"
-							"is not correct. Please re-copy sp_pak1.pk3 from your\n"
-							"legitimate RTCW CDROM.\n"
-							"**************************************************\n\n\n",
-							curpack->checksum );
+						"**************************************************\n"
+						"WARNING: " BASEGAME "/sp_pak1.pk3 is present but its checksum (%u)\n"
+						"is not correct. Please re-copy sp_pak1.pk3 from your\n"
+						"legitimate RTCW CDROM.\n"
+						"**************************************************\n\n\n",
+						curpack->checksum );
 				}
 				else
 				{
 					Com_Printf("\n\n"
-							"**************************************************\n"
-							"WARNING: " BASEGAME "/sp_pak%d.pk3 is present but its checksum (%u)\n"
-							"is not correct. Please re-install the point release\n"
-							"**************************************************\n\n\n",
-							pakBasename[6]-'0', curpack->checksum );
+						"**************************************************\n"
+						"WARNING: " BASEGAME "/sp_pak%d.pk3 is present but its checksum (%u)\n"
+						"is not correct. Please re-install the point release\n"
+						"**************************************************\n\n\n",
+						pakBasename[6]-'0', curpack->checksum );
 				}
 			}
 
@@ -4051,17 +4002,21 @@ static void FS_CheckSPPaks( void )
 			// Finally check whether this pak's checksum is listed because the user tried
 			// to trick us by renaming the file, and set foundPak's highest bit to indicate this case.
 
-			for(index = 0; index < ARRAY_LEN(sppak_checksums); index++)
+			for(index = 0; index < ARRAY_LEN( en_sppak_checksums ); index++)
 			{
-				if(curpack->checksum == sppak_checksums[index])
+				if( curpack->checksum == en_sppak_checksums[index] ||
+					curpack->checksum == fr_sppak_checksums[index] ||
+					curpack->checksum == gm_sppak_checksums[index] ||
+					curpack->checksum == it_sppak_checksums[index] ||
+					curpack->checksum == sp_sppak_checksums[index] )
 				{
 					Com_Printf("\n\n"
-							"**************************************************\n"
-							"WARNING: %s is renamed pak file %s%csp_pak%d.pk3\n"
-							"Running in standalone mode won't work\n"
-							"Please rename, or remove this file\n"
-							"**************************************************\n\n\n",
-							curpack->pakFilename, BASEGAME, PATH_SEP, index);
+						"**************************************************\n"
+						"WARNING: %s is renamed pak file %s%csp_pak%d.pk3\n"
+						"Running in standalone mode won't work\n"
+						"Please rename, or remove this file\n"
+						"**************************************************\n\n\n",
+						curpack->pakFilename, BASEGAME, PATH_SEP, index + 1 );
 
 
 					foundPak |= 0x80000000;
@@ -4078,32 +4033,174 @@ static void FS_CheckSPPaks( void )
 		Cvar_Set("com_standalone", "0");
 
 
-	if(!com_standalone->integer && (foundPak & 0x07) != 0x07)
+	if(!com_standalone->integer && (foundPak & 0xf) != 0xf)
 	{
 		char errorText[MAX_STRING_CHARS] = "";
 		char missingPaks[MAX_STRING_CHARS] = "";
 		int i = 0;
 
-		if((foundPak & 0x07) != 0x07)
+		if((foundPak & 0xf) != 0xf)
 		{
-			for (i=0;i<NUM_SP_PAKS;i++) {
-				if (!(foundPak & (1<<i))) {
-					Q_strcat(missingPaks, sizeof(missingPaks), va("sp_pak%d.pk3 ", i+1)); 
-				}    
-			} 
+			for( i = 0; i < NUM_SP_PAKS; i++ ) {
+				if ( !( foundPak & ( 1 << i ) ) ) {
+					Q_strcat( missingPaks, sizeof( missingPaks ), va( "sp_pak%d.pk3 ", i + 1 ) );
+				}
+			}
 
-			Q_strcat(errorText, sizeof(errorText),
-					va("Point Release files are missing: %s . Please "
-					"re-install the 1.41 point release. ", missingPaks));
+			Q_strcat( errorText, sizeof( errorText ),
+				va( "\n\nPoint Release files are missing: %s \n"
+				"Please re-install the 1.41 point release.\n\n", missingPaks ) );
 		}
-
-		Q_strcat(errorText, sizeof(errorText),
-				va("Also check that your iortcw executable is in "
-					"the correct place and that every file "
-					"in the \"%s\" directory is present and readable", BASEGAME));
 
 		Com_Error(ERR_FATAL, "%s", errorText);
 	}
+}
+
+
+/*
+===================
+FS_CheckPak0
+
+Check whether any of the original id pak files is present,
+and start up in standalone mode, if there are none and a
+different com_basegame was set.
+Note: If you're building a game that doesn't depend on the
+RTCW media pak0.pk3, you'll want to remove this by defining
+STANDALONE in q_shared.h
+===================
+*/
+static void FS_CheckPak0( void )
+{
+	searchpath_t	*path;
+	pack_t		*curpack;
+	qboolean founddemo = qfalse;
+	unsigned int foundPak = 0;
+
+	for( path = fs_searchpaths; path; path = path->next )
+	{
+		const char* pakBasename = path->pack->pakBasename;
+
+		if(!path->pack)
+			continue;
+
+		curpack = path->pack;
+
+		if(!Q_stricmpn( curpack->pakGamename, "demomain", MAX_OSPATH )
+			&& !Q_stricmpn( pakBasename, "pak0", MAX_OSPATH ))
+		{
+			if(curpack->checksum == DEMO_PAK0_CHECKSUM)
+				founddemo = qtrue;
+		}
+
+		else if(!Q_stricmpn( curpack->pakGamename, BASEGAME, MAX_OSPATH )
+				&& strlen(pakBasename) == 4 && !Q_stricmpn( pakBasename, "pak", 3 )
+				&& pakBasename[3] >= '0' && pakBasename[3] <= '0' + NUM_ID_PAKS - 1)
+		{
+			if( curpack->checksum != pak_checksums[pakBasename[3]-'0'] )
+			{
+				if(pakBasename[3] == '0')
+				{
+					Com_Printf("\n\n"
+						"**************************************************\n"
+						"WARNING: " BASEGAME "/pak0.pk3 is present but its checksum (%u)\n"
+						"is not correct. Please re-copy pak0.pk3 from your\n"
+						"legitimate RTCW CDROM.\n"
+						"**************************************************\n\n\n",
+						curpack->checksum );
+
+					Com_Error(ERR_FATAL, NULL);
+				}
+				/*
+				else
+				{
+					Com_Printf("\n\n"
+							"**************************************************\n"
+							"WARNING: " BASEGAME "/pak%d.pk3 is present but its checksum (%u)\n"
+							"is not correct. Please re-install the point release\n"
+							"**************************************************\n\n\n",
+							pakBasename[3]-'0', curpack->checksum );
+				}
+				*/
+			}
+
+			foundPak |= 1<<(pakBasename[3]-'0');
+		}
+		else
+		{
+			int index;
+
+			// Finally check whether this pak's checksum is listed because the user tried
+			// to trick us by renaming the file, and set foundPak's highest bit to indicate this case.
+
+			for(index = 0; index < ARRAY_LEN(pak_checksums); index++)
+			{
+				if(curpack->checksum == pak_checksums[index])
+				{
+					Com_Printf("\n\n"
+						"**************************************************\n"
+						"WARNING: %s is renamed pak file %s%cpak%d.pk3\n"
+						"Running in standalone mode won't work\n"
+						"Please rename, or remove this file\n"
+						"**************************************************\n\n\n",
+						curpack->pakFilename, BASEGAME, PATH_SEP, index);
+
+
+					foundPak |= 0x80000000;
+				}
+			}
+		}
+	}
+
+	if(!foundPak && Q_stricmp(com_basegame->string, BASEGAME))
+	{
+		Cvar_Set("com_standalone", "1");
+	}
+	else
+		Cvar_Set("com_standalone", "0");
+
+	if(!com_standalone->integer)
+	{
+		if(!(foundPak & 0x01))
+		{
+			if(founddemo)
+			{
+				Com_Printf( "\n\n"
+					"**************************************************\n"
+					"WARNING: It looks like you're using pak0.pk3\n"
+					"from the demo. This may work fine, but it is not\n"
+					"guaranteed or supported.\n"
+					"**************************************************\n\n\n" );
+
+				foundPak |= 0x01;
+			}
+		}
+	}
+
+
+	if(!com_standalone->integer && (foundPak & 0x01) != 0x01)
+	{
+		char errorText[MAX_STRING_CHARS] = "";
+
+		if((foundPak & 0x01) != 0x01)
+		{
+			Q_strcat(errorText, sizeof(errorText),
+				"\n\n\"pak0.pk3\" is missing. Please copy it\n"
+				"from your legitimate RTCW CDROM.\n\n");
+		}
+
+		Q_strcat(errorText, sizeof(errorText),
+			va("Also check that your iortcw executable is in\n"
+				"the correct place and that every file\n"
+				"in the \"%s\" directory is present and readable.\n\n", BASEGAME));
+
+		Com_Error(ERR_FATAL, "%s", errorText);
+	}
+
+	if(!founddemo) {
+		FS_CheckMPPaks();
+		FS_CheckSPPaks();
+	}
+
 }
 #endif
 
@@ -4451,8 +4548,6 @@ void FS_InitFilesystem( void ) {
 
 #ifndef STANDALONE
 	FS_CheckPak0( );
-	FS_CheckMPPaks( );
-	FS_CheckSPPaks( );
 #endif
 
 	// if we can't find default.cfg, assume that the paths are
@@ -4488,7 +4583,6 @@ void FS_Restart( int checksumFeed ) {
 
 #ifndef STANDALONE
 	FS_CheckPak0( );
-	FS_CheckSPPaks( );
 #endif
 
 	// if we can't find default.cfg, assume that the paths are

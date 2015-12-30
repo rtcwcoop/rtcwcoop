@@ -661,9 +661,9 @@ issues.
 #define FS_CGAME_REF    0x04
 // #define FS_QAGAME_REF   0x08
 // number of id paks that will never be autodownloaded from baseq3
-#define NUM_ID_PAKS    10
+#define NUM_ID_PAKS	1
 #define NUM_MP_PAKS	6
-#define NUM_SP_PAKS	3
+#define NUM_SP_PAKS	4
 
 #define MAX_FILE_HANDLES    64
 
@@ -1201,6 +1201,10 @@ FILE	*Sys_Mkfifo( const char *ospath );
 char    *Sys_Cwd( void );
 char    *Sys_DefaultBasePath( void );
 char    *Sys_DefaultInstallPath( void );
+
+#ifndef STANDALONE
+char    *Sys_SteamPath(void);
+#endif
 
 #ifdef MACOS_X
 char    *Sys_DefaultAppPath(void);

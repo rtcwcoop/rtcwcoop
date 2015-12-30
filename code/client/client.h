@@ -42,7 +42,13 @@ If you have questions concerning this license or the applicable additional terms
 #endif /* USE_CURL */
 
 #ifdef USE_VOIP
-#include <opus.h>
+#ifdef USE_LOCAL_HEADERS
+  #include "../opus-1.1/include/opus.h"
+  #include "../opusfile-0.6/include/opusfile.h"
+#else
+  #include <opus/opus.h>
+  #include <opus/opusfile.h>
+#endif
 #endif
 
 // file full of random crap that gets used to create cl_guid
@@ -431,6 +437,8 @@ extern cvar_t  *cl_timeNudge;
 extern cvar_t  *cl_showTimeDelta;
 extern cvar_t  *cl_freezeDemo;
 extern cvar_t  *cl_consoleKeys;
+
+extern cvar_t  *cl_showPing;
 
 extern cvar_t  *cl_yawspeed;
 extern cvar_t  *cl_pitchspeed;

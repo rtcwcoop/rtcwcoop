@@ -930,17 +930,23 @@ static qboolean ParseStage( shaderStage_t *stage, char **text ) {
 
 			exponent = atof( token );
 
-			// Change shininess to gloss
-			// FIXME: assumes max exponent of 8192 and min of 1, must change here if altered in lightall_fp.glsl
-			exponent = CLAMP(exponent, 1.0, 8192.0);
-
-			stage->specularScale[3] = log(exponent) / log(8192.0);
+			if (r_glossIsRoughness->integer)
+				stage->specularScale[3] = powf(2.0f / (exponent + 2.0), 0.25);
+			else
+			{
+				// Change shininess to gloss
+				// Assumes max exponent of 8190 and min of 0, must change here if altered in lightall_fp.glsl
+				exponent = CLAMP(exponent, 0.0f, 8190.0f);
+				stage->specularScale[3] = (log2f(exponent + 2.0f) - 1.0f) / 12.0f;
+			}
 		}
 		//
 		// gloss <value>
 		//
 		else if (!Q_stricmp(token, "gloss"))
 		{
+			float gloss;
+
 			token = COM_ParseExt(text, qfalse);
 			if ( token[0] == 0 )
 			{
@@ -948,7 +954,38 @@ static qboolean ParseStage( shaderStage_t *stage, char **text ) {
 				continue;
 			}
 
-			stage->specularScale[3] = atof( token );
+			gloss = atof(token);
+
+			if (r_glossIsRoughness->integer)
+				stage->specularScale[3] = exp2f(-3.0f * gloss);
+			else
+				stage->specularScale[3] = gloss;
+		}
+		//
+		// roughness <value>
+		//
+		else if (!Q_stricmp(token, "roughness"))
+		{
+			float roughness;
+
+			token = COM_ParseExt(text, qfalse);
+			if (token[0] == 0)
+			{
+				ri.Printf(PRINT_WARNING, "WARNING: missing parameter for roughness in shader '%s'\n", shader.name);
+				continue;
+			}
+
+			roughness = atof(token);
+
+			if (r_glossIsRoughness->integer)
+				stage->specularScale[3] = roughness;
+			else
+			{
+				if (roughness >= 0.125)
+					stage->specularScale[3] = log2f(1.0f / roughness) / 3.0f;
+				else
+					stage->specularScale[3] = 1.0f;
+			}
 		}
 		//
 		// parallaxDepth <value>
@@ -1079,12 +1116,20 @@ static qboolean ParseStage( shaderStage_t *stage, char **text ) {
 			} else if ( !Q_stricmp( token, "oneMinusEntity" ) )    {
 				stage->rgbGen = CGEN_ONE_MINUS_ENTITY;
 			} else if ( !Q_stricmp( token, "vertex" ) )    {
-				stage->rgbGen = CGEN_VERTEX;
+				if ( r_cgenVertexLit->integer ) {
+					stage->rgbGen = CGEN_VERTEX_LIT;
+				} else {
+					stage->rgbGen = CGEN_VERTEX;
+				}
 				if ( stage->alphaGen == 0 ) {
 					stage->alphaGen = AGEN_VERTEX;
 				}
 			} else if ( !Q_stricmp( token, "exactVertex" ) )    {
-				stage->rgbGen = CGEN_EXACT_VERTEX;
+				if ( r_cgenVertexLit->integer ) {
+					stage->rgbGen = CGEN_EXACT_VERTEX_LIT;
+				} else {
+					stage->rgbGen = CGEN_EXACT_VERTEX;
+				}
 			} else if ( !Q_stricmp( token, "vertexLit" ) )	{
 				stage->rgbGen = CGEN_VERTEX_LIT;
 				if ( stage->alphaGen == 0 )
@@ -2301,11 +2346,32 @@ static void CollapseStagesToLightall(shaderStage_t *diffuse,
 
 	if (r_specularMapping->integer)
 	{
+		image_t *diffuseImg;
 		if (specular)
 		{
 			//ri.Printf(PRINT_ALL, ", specularmap %s", specular->bundle[0].image[0]->imgName);
 			diffuse->bundle[TB_SPECULARMAP] = specular->bundle[0];
 			VectorCopy4(specular->specularScale, diffuse->specularScale);
+		}
+		else if ((lightmap || useLightVector || useLightVertex) && (diffuseImg = diffuse->bundle[TB_DIFFUSEMAP].image[0]))
+		{
+			char specularName[MAX_QPATH];
+			image_t *specularImg;
+			imgFlags_t specularFlags = (diffuseImg->flags & ~(IMGFLAG_GENNORMALMAP | IMGFLAG_SRGB)) | IMGFLAG_NOLIGHTSCALE;
+
+			COM_StripExtension(diffuseImg->imgName, specularName, MAX_QPATH);
+			Q_strcat(specularName, MAX_QPATH, "_s");
+
+			specularImg = R_FindImageFile(specularName, IMGTYPE_COLORALPHA, specularFlags);
+
+			if (specularImg)
+			{
+				diffuse->bundle[TB_SPECULARMAP] = diffuse->bundle[0];
+				diffuse->bundle[TB_SPECULARMAP].numImageAnimations = 0;
+				diffuse->bundle[TB_SPECULARMAP].image[0] = specularImg;
+
+				VectorSet4(diffuse->specularScale, 1.0f, 1.0f, 1.0f, 1.0f);
+			}
 		}
 	}
 

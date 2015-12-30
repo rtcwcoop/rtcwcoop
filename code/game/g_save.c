@@ -882,10 +882,11 @@ void ReadEntity( fileHandle_t f, gentity_t *ent, int size ) {
 			}
 		}
 
+/*
 		// set up current episode (for notebook de-briefing tabs)
 		trap_Cvar_Register( &cvar, "g_episode", "0", CVAR_ROM );
 		trap_Cvar_Set( "g_episode", va( "%d", ent->missionLevel ) );
-
+*/
 	}
 
 }
@@ -1266,8 +1267,6 @@ qboolean G_SaveGame( char *username ) {
 		G_SaveWriteError();
 	}
 
-
-
 	// write out the entity structures
 	i = sizeof( gentity_t );
 	if ( !G_SaveWrite( &i, sizeof( i ), f ) ) {
@@ -1332,7 +1331,6 @@ qboolean G_SaveGame( char *username ) {
 		G_SaveWriteError();
 	}
 
-
 	trap_FS_FCloseFile( f );
 
 	// check the byte count
@@ -1373,6 +1371,7 @@ G_LoadGame
 */
 void G_LoadGame( char *filename ) {
 	char mapname[MAX_QPATH];
+	char mapstr[MAX_QPATH];
 	fileHandle_t f;
 	int i, leveltime, size, last;
 	gentity_t   *ent;
@@ -1380,6 +1379,7 @@ void G_LoadGame( char *filename ) {
 	cast_state_t    *cs;
 	qtime_t tm;
 	qboolean serverEntityUpdate = qfalse;
+	vmCvar_t episode;
 
 	if ( g_gametype.integer != GT_SINGLE_PLAYER ) {    // don't allow loads in MP
 		return;
@@ -1418,6 +1418,7 @@ void G_LoadGame( char *filename ) {
 
 	// read the mapname (this is only used in the sever exe, so just discard it)
 	trap_FS_Read( mapname, MAX_QPATH, f );
+	Com_sprintf( mapstr, MAX_QPATH, "%s", mapname );
 
 	// read the level time
 	trap_FS_Read( &i, sizeof( i ), f );
@@ -1434,6 +1435,7 @@ void G_LoadGame( char *filename ) {
 	// read the 'episode'
 	if ( ver >= 13 ) {
 		trap_FS_Read( &i, sizeof( i ), f );
+		trap_Cvar_Register( &episode, "g_episode", "0", CVAR_ROM );
 		trap_Cvar_Set( "g_episode", va( "%i", i ) );
 	}
 //----(SA)	end
@@ -1495,7 +1497,6 @@ void G_LoadGame( char *filename ) {
 				}
 				trap_Cvar_Set( "r_savegameFogColor", infoString );
 			}
-
 			trap_SetConfigstring( CS_FOGVARS, infoString );
 		}
 //----(SA)	end
@@ -1510,96 +1511,97 @@ void G_LoadGame( char *filename ) {
 		}
 	}
 
-
-
-
 	// reset all AAS blocking entities
 	trap_AAS_SetAASBlockingEntity( vec3_origin, vec3_origin, -1 );
 
-	// read the entity structures
-	trap_FS_Read( &i, sizeof( i ), f );
-	size = i;
-	last = 0;
-	while ( 1 )
-	{
+	// Don't read in this stuff for mid-game cutscenes
+	if ( !( !Q_stricmpn( mapstr, "cutscene6", 9 ) || !Q_stricmpn( mapstr, "cutscene9", 9 ) || !Q_stricmpn( mapstr, "cutscene11", 10 ) || !Q_stricmpn( mapstr, "cutscene14", 10 ) ) ) {
+		// read the entity structures
 		trap_FS_Read( &i, sizeof( i ), f );
-		if ( i < 0 ) {
-			break;
-		}
-		if ( i >= MAX_GENTITIES ) {
-			trap_FS_FCloseFile( f );
-			G_Error( "G_LoadGame: entitynum out of range (%i, MAX = %i)\n", i, MAX_GENTITIES );
-		}
-		if ( i >= level.num_entities ) {  // notify server
-			level.num_entities = i;
-			serverEntityUpdate = qtrue;
-		}
-		ent = &g_entities[i];
-		ReadEntity( f, ent, size );
-		// free all entities that we skipped
-		for ( ; last < i; last++ ) {
-			if ( g_entities[last].inuse && i != ENTITYNUM_WORLD ) {
-				if ( last < MAX_CLIENTS ) {
-					trap_DropClient( last, "" );
-				} else {
-					G_FreeEntity( &g_entities[last] );
+		size = i;
+		last = 0;
+		while ( 1 )
+		{
+			trap_FS_Read( &i, sizeof( i ), f );
+			if ( i < 0 ) {
+				break;
+			}
+			if ( i >= MAX_GENTITIES ) {
+				trap_FS_FCloseFile( f );
+				G_Error( "G_LoadGame: entitynum out of range (%i, MAX = %i)\n", i, MAX_GENTITIES );
+			}
+			if ( i >= level.num_entities ) {  // notify server
+				level.num_entities = i;
+				serverEntityUpdate = qtrue;
+			}
+			ent = &g_entities[i];
+			ReadEntity( f, ent, size );
+			// free all entities that we skipped
+			for ( ; last < i; last++ ) {
+				if ( g_entities[last].inuse && i != ENTITYNUM_WORLD ) {
+					if ( last < MAX_CLIENTS ) {
+						trap_DropClient( last, "" );
+					} else {
+						G_FreeEntity( &g_entities[last] );
+					}
 				}
 			}
+			last = i + 1;
 		}
-		last = i + 1;
-	}
 
-	// clear all remaining entities
-	for ( ent = &g_entities[last] ; last < MAX_GENTITIES ; last++, ent++ ) {
-		memset( ent, 0, sizeof( *ent ) );
-		ent->classname = "freed";
-		ent->freetime = level.time;
-		ent->inuse = qfalse;
-	}
+		// clear all remaining entities
+		for ( ent = &g_entities[last] ; last < MAX_GENTITIES ; last++, ent++ ) {
+			memset( ent, 0, sizeof( *ent ) );
+			ent->classname = "freed";
+			ent->freetime = level.time;
+			ent->inuse = qfalse;
+		}
 
-	// read the client structures
-	trap_FS_Read( &i, sizeof( i ), f );
-	size = i;
-	while ( 1 )
-	{
+		// read the client structures
 		trap_FS_Read( &i, sizeof( i ), f );
-		if ( i < 0 ) {
-			break;
+		size = i;
+		while ( 1 )
+		{
+			trap_FS_Read( &i, sizeof( i ), f );
+			if ( i < 0 ) {
+				break;
+			}
+			if ( i > MAX_CLIENTS ) {
+				trap_FS_FCloseFile( f );
+				G_Error( "G_LoadGame: clientnum out of range\n" );
+			}
+			cl = &level.clients[i];
+			if ( cl->pers.connected == CON_DISCONNECTED ) {
+				trap_FS_FCloseFile( f );
+				G_Error( "G_LoadGame: client mis-match in savegame" );
+			}
+			ReadClient( f, cl, size );
 		}
-		if ( i > MAX_CLIENTS ) {
-			trap_FS_FCloseFile( f );
-			G_Error( "G_LoadGame: clientnum out of range\n" );
-		}
-		cl = &level.clients[i];
-		if ( cl->pers.connected == CON_DISCONNECTED ) {
-			trap_FS_FCloseFile( f );
-			G_Error( "G_LoadGame: client mis-match in savegame" );
-		}
-		ReadClient( f, cl, size );
-	}
 
-	// read the cast_state structures
-	trap_FS_Read( &i, sizeof( i ), f );
-	size = i;
-	while ( 1 )
-	{
+		// read the cast_state structures
 		trap_FS_Read( &i, sizeof( i ), f );
-		if ( i < 0 ) {
-			break;
+		size = i;
+		while ( 1 )
+		{
+			trap_FS_Read( &i, sizeof( i ), f );
+			if ( i < 0 ) {
+				break;
+			}
+			if ( i > MAX_CLIENTS ) {
+				trap_FS_FCloseFile( f );
+				G_Error( "G_LoadGame: clientnum out of range\n" );
+			}
+			cs = &caststates[i];
+			ReadCastState( f, cs, size );
 		}
-		if ( i > MAX_CLIENTS ) {
-			trap_FS_FCloseFile( f );
-			G_Error( "G_LoadGame: clientnum out of range\n" );
-		}
-		cs = &caststates[i];
-		ReadCastState( f, cs, size );
-	}
 
-	// inform server of entity count if it has increased
-	if ( serverEntityUpdate ) {
-		// let the server system know that there are more entities
-		trap_LocateGameData( level.gentities, level.num_entities, sizeof( gentity_t ),
-							 &level.clients[0].ps, sizeof( level.clients[0] ) );
+		// inform server of entity count if it has increased
+		if ( serverEntityUpdate ) {
+			// let the server system know that there are more entities
+			trap_LocateGameData( level.gentities, level.num_entities, sizeof( gentity_t ),
+								 &level.clients[0].ps, sizeof( level.clients[0] ) );
+		}
+
 	}
 
 //----(SA)	moved these up in ver 15
@@ -1618,7 +1620,6 @@ void G_LoadGame( char *filename ) {
 					trap_SetConfigstring( CS_MUSIC_QUEUE, musicString );
 				}
 			}
-
 		}
 
 		if ( ver > 13 ) {
@@ -1630,10 +1631,7 @@ void G_LoadGame( char *filename ) {
 			aicast_skillscale = (float)i / (float)GSKILL_MAX;
 		}
 	}
-
 //----(SA)	end moved
-
-
 
 	trap_FS_FCloseFile( f );
 

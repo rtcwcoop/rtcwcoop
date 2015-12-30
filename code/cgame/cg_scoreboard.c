@@ -331,7 +331,11 @@ qboolean CG_DrawScoreboard( void ) {
 	float   *fadeColor;
 	char    *s;
 
-	// don't draw amuthing if the menu or console is up
+	if ( cg_fixedAspect.integer ) {
+		CG_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+	}
+
+	// don't draw anything if the menu or console is up
 	if ( cg_paused.integer ) {
 		cg.deferredPlayerLoading = 0;
 		return qfalse;

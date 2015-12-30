@@ -8,6 +8,8 @@ COMPILE_PLATFORM=$(shell uname|sed -e s/_.*//|tr '[:upper:]' '[:lower:]'|sed -e 
 
 COMPILE_ARCH=$(shell uname -m | sed -e s/i.86/i386/ | sed -e 's/^arm.*/arm/')
 
+ARM_VER_CHECK=$(shell uname -m)
+
 ifeq ($(COMPILE_PLATFORM),sunos)
   # Solaris uname and GNU uname differ
   COMPILE_ARCH=$(shell uname -p | sed -e s/i.86/i386/)
@@ -215,7 +217,7 @@ USE_VOIP=1
 endif
 
 ifndef USE_FREETYPE
-USE_FREETYPE=0
+USE_FREETYPE=1
 endif
 
 ifndef USE_INTERNAL_LIBS
@@ -313,7 +315,7 @@ OGGDIR=$(MOUNT_DIR)/libogg-1.3.2
 VORBISDIR=$(MOUNT_DIR)/libvorbis-1.3.4
 OPUSDIR=$(MOUNT_DIR)/opus-1.1
 OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.6
-ZDIR=$(MOUNT_DIR)/zlib
+ZDIR=$(MOUNT_DIR)/zlib-1.2.8
 FTDIR=$(MOUNT_DIR)/freetype-2.5.5
 SPLDIR=$(MOUNT_DIR)/splines
 Q3ASMDIR=$(MOUNT_DIR)/tools/asm
@@ -388,32 +390,29 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu")
   ifeq ($(ARCH),x86_64)
     OPTIMIZEVM = -O3
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
-    HAVE_VM_COMPILED = true
-  else
+  endif
   ifeq ($(ARCH),x86)
     OPTIMIZEVM = -O3 -march=i586
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
-    HAVE_VM_COMPILED=true
-  else
+  endif
   ifeq ($(ARCH),ppc)
     BASE_CFLAGS += -maltivec
-    HAVE_VM_COMPILED=true
   endif
   ifeq ($(ARCH),ppc64)
     BASE_CFLAGS += -maltivec
-    HAVE_VM_COMPILED=true
   endif
   ifeq ($(ARCH),sparc)
     OPTIMIZE += -mtune=ultrasparc3 -mv8plus
     OPTIMIZEVM += -mtune=ultrasparc3 -mv8plus
-    HAVE_VM_COMPILED=true
+  endif
+  ifeq ($(ARCH),sparc64)
+    OPTIMIZE += -mtune=ultrasparc3 -mv8plus
+    OPTIMIZEVM += -mtune=ultrasparc3 -mv8plus
   endif
   ifeq ($(ARCH),alpha)
     # According to http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=410555
     # -ffast-math will cause the client to die with SIGFPE on Alpha
     OPTIMIZE = $(OPTIMIZEVM)
-  endif
-  endif
   endif
 
   SHLIBEXT=so
@@ -422,6 +421,23 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu")
 
   THREAD_LIBS=-lpthread
   LIBS=-ldl -lm
+
+  ifeq ($(USE_LOCAL_HEADERS),1)
+    CLIENT_CFLAGS += -I$(SDLHDIR)/include
+  endif
+
+  ifeq ($(USE_INTERNAL_LIBS),1)
+    ifeq ($(CROSS_COMPILING),1)
+      ifeq ($(ARCH),x86)
+      SDL_LIBS = $(LIBSDIR)/linux32/libSDL2main.a \
+                 $(LIBSDIR)/linux32/libSDL2.so
+      endif
+      ifeq ($(ARCH),x86_64)
+      SDL_LIBS = $(LIBSDIR)/linux64/libSDL2main.a \
+                 $(LIBSDIR)/linux64/libSDL2.so
+      endif
+    endif
+  endif
 
   ifeq ($(USE_OPENGLES),1)
     ifeq ($(RASPBERRY_PI),1)
@@ -439,8 +455,9 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu")
       SERVER_LIBS =
     endif
   else
-    CLIENT_LIBS = $(SDL_LIBS)
-    RENDERER_LIBS = $(SDL_LIBS) -lGL
+    CLIENT_CFLAGS += $(SDL_CFLAGS)
+    CLIENT_LIBS += $(SDL_LIBS)
+    RENDERER_LIBS += $(SDL_LIBS) -lGL
     SERVER_LIBS =
   endif
 
@@ -461,14 +478,6 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu")
     CLIENT_LIBS += -lrt
   endif
 
-  ifeq ($(ARCH),x86)
-    # linux32 make ...
-    BASE_CFLAGS += -m32
-  else
-  ifeq ($(ARCH),ppc64)
-    BASE_CFLAGS += -m64
-  endif
-  endif
 else # ifeq Linux
 
 #############################################################################
@@ -476,7 +485,6 @@ else # ifeq Linux
 #############################################################################
 
 ifeq ($(PLATFORM),darwin)
-  HAVE_VM_COMPILED=true
   LIBS = -framework Cocoa
   CLIENT_LIBS=
   RENDERER_LIBS=
@@ -496,7 +504,7 @@ ifeq ($(PLATFORM),darwin)
     OPTIMIZEVM += -march=prescott -mfpmath=sse
     # x86 vm will crash without -mstackrealign since MMX instructions will be
     # used no matter what and they corrupt the frame pointer in VM calls
-    BASE_CFLAGS += -arch i386 -m32 -mstackrealign
+    BASE_CFLAGS += -arch i386 -mstackrealign
   endif
   ifeq ($(ARCH),x86_64)
     OPTIMIZEVM += -arch x86_64 -mfpmath=sse
@@ -548,9 +556,9 @@ ifeq ($(PLATFORM),darwin)
   BASE_CFLAGS += -D_THREAD_SAFE=1
 
   ifeq ($(USE_LOCAL_HEADERS),1)
-    BASE_CFLAGS += -I$(SDLHDIR)/include
+    CLIENT_CFLAGS += -I$(SDLHDIR)/include
   else
-    BASE_CFLAGS += $(SDL_CFLAGS)
+    CLIENT_CFLAGS += $(SDL_CFLAGS)
   endif
 
   # We copy sdlmain before ranlib'ing it so that subversion doesn't think
@@ -656,13 +664,11 @@ ifdef MINGW
   ifeq ($(ARCH),x86_64)
     OPTIMIZEVM = -O3
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
-    HAVE_VM_COMPILED = true
     FILE_ARCH=x64
   endif
   ifeq ($(ARCH),x86)
     OPTIMIZEVM = -O3 -march=i586
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
-    HAVE_VM_COMPILED = true
   endif
 
   SHLIBEXT=dll
@@ -710,31 +716,28 @@ ifdef MINGW
     endif
   endif
 
-  ifeq ($(ARCH),x86)
-    # build 32bit
-    BASE_CFLAGS += -m32
-  else
-    BASE_CFLAGS += -m64
-  endif
-
   # libmingw32 must be linked before libSDLmain
   CLIENT_LIBS += -lmingw32
   RENDERER_LIBS += -lmingw32
 
   ifeq ($(USE_LOCAL_HEADERS),1)
     CLIENT_CFLAGS += -I$(SDLHDIR)/include
+  endif
+
+  ifeq ($(USE_INTERNAL_LIBS),1)
     ifeq ($(ARCH),x86)
     CLIENT_LIBS += $(LIBSDIR)/win32/libSDL2main.a \
-                      $(LIBSDIR)/win32/libSDL2.dll.a
+                   $(LIBSDIR)/win32/libSDL2.dll.a
     RENDERER_LIBS += $(LIBSDIR)/win32/libSDL2main.a \
-                      $(LIBSDIR)/win32/libSDL2.dll.a
+                     $(LIBSDIR)/win32/libSDL2.dll.a
     SDLDLL=SDL2.dll
     CLIENT_EXTRA_FILES += $(LIBSDIR)/win32/SDL2.dll $(LIBSDIR)/win32/OpenAL32.dll
-    else
+    endif
+    ifeq ($(ARCH),x86_64)
     CLIENT_LIBS += $(LIBSDIR)/win64/libSDL264main.a \
-                      $(LIBSDIR)/win64/libSDL264.dll.a
+                   $(LIBSDIR)/win64/libSDL264.dll.a
     RENDERER_LIBS += $(LIBSDIR)/win64/libSDL264main.a \
-                      $(LIBSDIR)/win64/libSDL264.dll.a
+                     $(LIBSDIR)/win64/libSDL264.dll.a
     SDLDLL=SDL264.dll
     CLIENT_EXTRA_FILES += $(LIBSDIR)/win64/SDL264.dll $(LIBSDIR)/win64/OpenAL64.dll
     endif
@@ -758,7 +761,6 @@ ifeq ($(PLATFORM),freebsd)
     -Wall -fno-strict-aliasing \
     -DUSE_ICON -DMAP_ANONYMOUS=MAP_ANON
   CLIENT_CFLAGS += $(SDL_CFLAGS)
-  HAVE_VM_COMPILED = true
 
   OPTIMIZEVM = -O3
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
@@ -790,17 +792,6 @@ ifeq ($(PLATFORM),freebsd)
     endif
   endif
 
-  # cross-compiling tweaks
-  ifeq ($(ARCH),x86)
-    ifeq ($(CROSS_COMPILING),1)
-      BASE_CFLAGS += -m32
-    endif
-  endif
-  ifeq ($(ARCH),x86_64)
-    ifeq ($(CROSS_COMPILING),1)
-      BASE_CFLAGS += -m64
-    endif
-  endif
 else # ifeq freebsd
 
 #############################################################################
@@ -819,32 +810,29 @@ ifeq ($(PLATFORM),openbsd)
   ifeq ($(ARCH),x86_64)
     OPTIMIZEVM = -O3
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
-    HAVE_VM_COMPILED = true
-  else
+  endif
   ifeq ($(ARCH),x86)
     OPTIMIZEVM = -O3 -march=i586
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
-    HAVE_VM_COMPILED=true
-  else
+  endif
   ifeq ($(ARCH),ppc)
     BASE_CFLAGS += -maltivec
-    HAVE_VM_COMPILED=true
   endif
   ifeq ($(ARCH),ppc64)
     BASE_CFLAGS += -maltivec
-    HAVE_VM_COMPILED=true
+  endif
+  ifeq ($(ARCH),sparc)
+    OPTIMIZE += -mtune=ultrasparc3 -mv8plus
+    OPTIMIZEVM += -mtune=ultrasparc3 -mv8plus
   endif
   ifeq ($(ARCH),sparc64)
     OPTIMIZE += -mtune=ultrasparc3 -mv8plus
     OPTIMIZEVM += -mtune=ultrasparc3 -mv8plus
-    HAVE_VM_COMPILED=true
   endif
   ifeq ($(ARCH),alpha)
     # According to http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=410555
     # -ffast-math will cause the client to die with SIGFPE on Alpha
     OPTIMIZE = $(OPTIMIZEVM)
-  endif
-  endif
   endif
 
   ifeq ($(USE_CURL),1)
@@ -893,10 +881,6 @@ ifeq ($(PLATFORM),netbsd)
   THREAD_LIBS=-lpthread
 
   BASE_CFLAGS = -Wall -fno-strict-aliasing
-
-  ifeq ($(ARCH),x86)
-    HAVE_VM_COMPILED=true
-  endif
 
   BUILD_CLIENT = 0
 else # ifeq netbsd
@@ -955,15 +939,11 @@ ifeq ($(PLATFORM),sunos)
 
   ifeq ($(ARCH),sparc)
     OPTIMIZEVM += -O3 -mtune=ultrasparc3 -mv8plus -mno-faster-structs
-    HAVE_VM_COMPILED=true
-  else
+  endif
   ifeq ($(ARCH),x86)
     OPTIMIZEVM += -march=i586
-    HAVE_VM_COMPILED=true
-    BASE_CFLAGS += -m32
     CLIENT_CFLAGS += -I/usr/X11/include/NVIDIA
     CLIENT_LDFLAGS += -L/usr/X11/lib/NVIDIA -R/usr/X11/lib/NVIDIA
-  endif
   endif
 
   OPTIMIZE = $(OPTIMIZEVM) -ffast-math
@@ -985,7 +965,7 @@ else # ifeq sunos
 #############################################################################
 # SETUP AND BUILD -- GENERIC
 #############################################################################
-  BASE_CFLAGS=
+  BASE_CFLAGS =
   OPTIMIZE = -O3
 
   SHLIBEXT=so
@@ -1005,8 +985,43 @@ ifndef CC
   CC=gcc
 endif
 
+ifndef CXX
+  CC=g++
+endif
+
 ifndef RANLIB
   RANLIB=ranlib
+endif
+
+ifeq ($(ARCH),x86)
+  BASE_CFLAGS += -m32
+endif
+ifeq ($(ARCH),x86_64)
+  BASE_CFLAGS += -m64
+endif
+ifeq ($(ARCH),ppc)
+  BASE_CFLAGS += -m32
+endif
+ifeq ($(ARCH),ppc64)
+  BASE_CFLAGS += -m64
+endif
+ifeq ($(ARCH),sparc)
+  BASE_CFLAGS += -m32
+endif
+ifeq ($(ARCH),sparc64)
+  BASE_CFLAGS += -m64
+endif
+
+ifndef HAVE_VM_COMPILED
+  HAVE_VM_COMPILED=false
+endif
+
+ifneq ($(findstring $(ARCH),x86 x86_64 ppc ppc64 sparc sparc64),)
+  HAVE_VM_COMPILED=true
+endif
+
+ifeq ($(ARM_VER_CHECK),armv7l)
+  HAVE_VM_COMPILED=true
 endif
 
 ifneq ($(HAVE_VM_COMPILED),true)
@@ -1331,7 +1346,7 @@ release:
 	  CLIENT_CFLAGS="$(CLIENT_CFLAGS)" SERVER_CFLAGS="$(SERVER_CFLAGS)" V=$(V)
 
 ifneq ($(call bin_path, tput),)
-  TERM_COLUMNS=$(shell echo $$((`tput cols`-4)))
+  TERM_COLUMNS=$(shell if c=`tput cols`; then echo $$(($$c-4)); else echo 76; fi)
 else
   TERM_COLUMNS=76
 endif
@@ -1361,7 +1376,7 @@ endif
 
 NAKED_TARGETS=$(shell echo $(TARGETS) | sed -e "s!$(B)/!!g")
 
-print_list=@for i in $(1); \
+print_list=-@for i in $(1); \
      do \
              echo "    $$i"; \
      done
@@ -1383,6 +1398,7 @@ targets: makedirs
 	@echo "  VERSION: $(VERSION)"
 	@echo "  COMPILE_PLATFORM: $(COMPILE_PLATFORM)"
 	@echo "  COMPILE_ARCH: $(COMPILE_ARCH)"
+	@echo "  HAVE_VM_COMPILED: $(HAVE_VM_COMPILED)"
 	@echo "  CC: $(CC)"
 	@echo "  CXX: $(CXX)"
 ifdef MINGW
@@ -2173,14 +2189,16 @@ endif
 
 ifeq ($(HAVE_VM_COMPILED),true)
   ifneq ($(findstring $(ARCH),x86 x86_64),)
-    Q3OBJ += \
-      $(B)/client/vm_x86.o
+    Q3OBJ += $(B)/client/vm_x86.o
   endif
   ifneq ($(findstring $(ARCH),ppc ppc64),)
     Q3OBJ += $(B)/client/vm_powerpc.o $(B)/client/vm_powerpc_asm.o
   endif
-  ifeq ($(ARCH),sparc)
+  ifneq ($(findstring $(ARCH),sparc sparc64),)
     Q3OBJ += $(B)/client/vm_sparc.o
+  endif
+  ifeq ($(ARM_VER_CHECK),armv7l)
+    Q3OBJ += $(B)/client/vm_armv7l.o
   endif
 endif
 
@@ -2347,14 +2365,16 @@ endif
 
 ifeq ($(HAVE_VM_COMPILED),true)
   ifneq ($(findstring $(ARCH),x86 x86_64),)
-    Q3DOBJ += \
-      $(B)/ded/vm_x86.o
+    Q3DOBJ += $(B)/ded/vm_x86.o
   endif
   ifneq ($(findstring $(ARCH),ppc ppc64),)
     Q3DOBJ += $(B)/ded/vm_powerpc.o $(B)/ded/vm_powerpc_asm.o
   endif
-  ifeq ($(ARCH),sparc)
+  ifneq ($(findstring $(ARCH),sparc sparc64),)
     Q3DOBJ += $(B)/ded/vm_sparc.o
+  endif
+  ifeq ($(ARM_VER_CHECK),armv7l)
+    Q3DOBJ += $(B)/ded/vm_armv7l.o
   endif
 endif
 

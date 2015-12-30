@@ -166,8 +166,8 @@ cvar_t  *r_specularMapping;
 cvar_t  *r_deluxeMapping;
 cvar_t  *r_parallaxMapping;
 cvar_t  *r_cubeMapping;
-cvar_t  *r_deluxeSpecular;
 cvar_t  *r_specularIsMetallic;
+cvar_t  *r_glossIsRoughness;
 cvar_t  *r_baseNormalX;
 cvar_t  *r_baseNormalY;
 cvar_t  *r_baseParallax;
@@ -206,6 +206,7 @@ cvar_t  *r_ext_multisample;
 cvar_t  *r_drawBuffer;
 cvar_t  *r_glIgnoreWicked3D;
 cvar_t  *r_lightmap;
+cvar_t  *r_cgenVertexLit;
 cvar_t  *r_vertexLight;
 cvar_t  *r_uiFullScreen;
 cvar_t  *r_shadows;
@@ -1349,13 +1350,13 @@ void R_Register( void ) {
 	r_deluxeMapping = ri.Cvar_Get( "r_deluxeMapping", "1", CVAR_ARCHIVE | CVAR_LATCH );
 	r_parallaxMapping = ri.Cvar_Get( "r_parallaxMapping", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_cubeMapping = ri.Cvar_Get( "r_cubeMapping", "0", CVAR_ARCHIVE | CVAR_LATCH );
-	r_deluxeSpecular = ri.Cvar_Get( "r_deluxeSpecular", "0.3", CVAR_ARCHIVE | CVAR_LATCH );
 	r_specularIsMetallic = ri.Cvar_Get( "r_specularIsMetallic", "0", CVAR_ARCHIVE | CVAR_LATCH );
+	r_glossIsRoughness = ri.Cvar_Get("r_glossIsRoughness", "0", CVAR_ARCHIVE | CVAR_LATCH);
 	r_baseNormalX = ri.Cvar_Get( "r_baseNormalX", "1.0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_baseNormalY = ri.Cvar_Get( "r_baseNormalY", "1.0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_baseParallax = ri.Cvar_Get( "r_baseParallax", "0.05", CVAR_ARCHIVE | CVAR_LATCH );
 	r_baseSpecular = ri.Cvar_Get( "r_baseSpecular", "0.04", CVAR_ARCHIVE | CVAR_LATCH );
-	r_baseGloss = ri.Cvar_Get( "r_baseGloss", "0.3", CVAR_ARCHIVE | CVAR_LATCH );
+	r_baseGloss = ri.Cvar_Get( "r_baseGloss", "0.1", CVAR_ARCHIVE | CVAR_LATCH );
 	r_dlightMode = ri.Cvar_Get( "r_dlightMode", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_pshadowDist = ri.Cvar_Get( "r_pshadowDist", "128", CVAR_ARCHIVE );
 	r_mergeLightmaps = ri.Cvar_Get( "r_mergeLightmaps", "1", CVAR_ARCHIVE | CVAR_LATCH );
@@ -1456,6 +1457,8 @@ void R_Register( void ) {
 	r_drawworld = ri.Cvar_Get( "r_drawworld", "1", CVAR_CHEAT );
 	r_lightmap = ri.Cvar_Get( "r_lightmap", "0", CVAR_CHEAT );
 	r_portalOnly = ri.Cvar_Get( "r_portalOnly", "0", CVAR_CHEAT );
+
+	r_cgenVertexLit = ri.Cvar_Get( "r_cgenVertexLit", "0", CVAR_ARCHIVE | CVAR_LATCH );
 
 	r_flareSize = ri.Cvar_Get( "r_flareSize", "40", CVAR_CHEAT );
 	r_flareFade = ri.Cvar_Get( "r_flareFade", "5", CVAR_CHEAT );

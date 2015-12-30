@@ -117,7 +117,7 @@ static void R_BindAnimatedImageToTMU( textureBundle_t *bundle, int tmu ) {
 
 	if ( bundle->numImageAnimations <= 1 ) {
 		if ( bundle->isLightmap && ( backEnd.refdef.rdflags & RDF_SNOOPERVIEW ) ) {
-			GL_BindToTMU( tr.whiteImage, 0 );
+			GL_BindToTMU( tr.whiteImage, tmu );
 		} else {
 			GL_BindToTMU( bundle->image[0], tmu);
 		}
@@ -135,7 +135,7 @@ static void R_BindAnimatedImageToTMU( textureBundle_t *bundle, int tmu ) {
 	index %= bundle->numImageAnimations;
 
 	if ( bundle->isLightmap && ( backEnd.refdef.rdflags & RDF_SNOOPERVIEW ) ) {
-		GL_BindToTMU( tr.whiteImage, 0 );
+		GL_BindToTMU( tr.whiteImage, tmu );
 	} else {
 		GL_BindToTMU( bundle->image[ index ], tmu );
 	}
@@ -479,9 +479,21 @@ static void ProjectDlightTexture( void ) {
 
 static void ComputeShaderColors( shaderStage_t *pStage, vec4_t baseColor, vec4_t vertColor, int blend )
 {
+	qboolean isBlend = ((blend & GLS_SRCBLEND_BITS) == GLS_SRCBLEND_DST_COLOR)
+		|| ((blend & GLS_SRCBLEND_BITS) == GLS_SRCBLEND_ONE_MINUS_DST_COLOR)
+		|| ((blend & GLS_DSTBLEND_BITS) == GLS_DSTBLEND_SRC_COLOR)
+		|| ((blend & GLS_DSTBLEND_BITS) == GLS_DSTBLEND_ONE_MINUS_SRC_COLOR);
+
+#if defined(USE_OVERBRIGHT)
+	float exactLight = 1.0f;
+#else
+	qboolean isWorldDraw = !(backEnd.refdef.rdflags & RDF_NOWORLDMODEL);
+	float exactLight = (isBlend || !isWorldDraw) ? 1.0f : (float)(1 << r_mapOverBrightBits->integer);
+#endif
+
 	baseColor[0] = 
 	baseColor[1] =
-	baseColor[2] =
+	baseColor[2] = exactLight;
 	baseColor[3] = 1.0f;
 
 	vertColor[0] =
@@ -508,7 +520,7 @@ static void ComputeShaderColors( shaderStage_t *pStage, vec4_t baseColor, vec4_t
 
 			vertColor[0] =
 			vertColor[1] =
-			vertColor[2] = 
+			vertColor[2] = exactLight;
 			vertColor[3] = 1.0f;
 			break;
 		case CGEN_CONST:
@@ -644,11 +656,7 @@ static void ComputeShaderColors( shaderStage_t *pStage, vec4_t baseColor, vec4_t
 	}
 
 	// multiply color by overbrightbits if this isn't a blend
-	if (tr.overbrightBits 
-	 && !((blend & GLS_SRCBLEND_BITS) == GLS_SRCBLEND_DST_COLOR)
-	 && !((blend & GLS_SRCBLEND_BITS) == GLS_SRCBLEND_ONE_MINUS_DST_COLOR)
-	 && !((blend & GLS_DSTBLEND_BITS) == GLS_DSTBLEND_SRC_COLOR)
-	 && !((blend & GLS_DSTBLEND_BITS) == GLS_DSTBLEND_ONE_MINUS_SRC_COLOR))
+	if (tr.overbrightBits && !isBlend)
 	{
 		float scale = 1 << tr.overbrightBits;
 
@@ -1387,13 +1395,62 @@ static void RB_IterateStagesGeneric( shaderCommands_t *input )
 			GLSL_SetUniformFloat(sp, UNIFORM_FOGEYET, eyeT);
 		}
 
-		GL_State( pStage->stateBits );
-
 		{
 			vec4_t baseColor;
 			vec4_t vertColor;
+			int fadeStart, fadeEnd;
 
 			ComputeShaderColors(pStage, baseColor, vertColor, pStage->stateBits);
+
+			//----(SA)	fading model stuff
+			if ( backEnd.currentEntity )
+			{
+				fadeStart = backEnd.currentEntity->e.fadeStartTime;
+			}
+			else
+			{
+				fadeStart = 0;
+			}
+
+			if ( fadeStart )
+			{
+				fadeEnd = backEnd.currentEntity->e.fadeEndTime;
+
+				if ( fadeStart > tr.refdef.time )
+				{
+					// has not started to fade yet
+					GL_State( pStage->stateBits );
+				}
+				else
+				{
+					unsigned int tempState;
+					float alphaval;
+
+					if ( fadeEnd < tr.refdef.time )
+					{
+						// entity faded out completely
+						continue;
+					}
+
+					alphaval = (float)( fadeEnd - tr.refdef.time ) / (float)( fadeEnd - fadeStart );
+
+					tempState = pStage->stateBits;
+					// remove the current blend, and don't write to Z buffer
+					tempState &= ~( GLS_SRCBLEND_BITS | GLS_DSTBLEND_BITS | GLS_DEPTHMASK_TRUE );
+					// set the blend to src_alpha, dst_one_minus_src_alpha
+					tempState |= ( GLS_SRCBLEND_SRC_ALPHA | GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA );
+					GL_State( tempState );
+					GL_Cull( CT_FRONT_SIDED );
+					// modulate the alpha component of each vertex in the render list
+					baseColor[3] *= alphaval;
+					vertColor[3] *= alphaval;
+				}
+			}
+			else
+			{
+				GL_State( pStage->stateBits );
+			}
+			//----(SA)	end
 
 			if ((backEnd.refdef.colorScale != 1.0f) && !(backEnd.refdef.rdflags & RDF_NOWORLDMODEL))
 			{
@@ -1616,15 +1673,14 @@ static void RB_IterateStagesGeneric( shaderCommands_t *input )
 		if (!(tr.viewParms.flags & VPF_NOCUBEMAPS) && input->cubemapIndex && r_cubeMapping->integer)
 		{
 			vec4_t vec;
+			cubemap_t *cubemap = &tr.cubemaps[input->cubemapIndex - 1];
 
-			GL_BindToTMU( tr.cubemaps[input->cubemapIndex - 1], TB_CUBEMAP);
+			GL_BindToTMU( cubemap->image, TB_CUBEMAP);
 
-			vec[0] = tr.cubemapOrigins[input->cubemapIndex - 1][0] - backEnd.viewParms.or.origin[0];
-			vec[1] = tr.cubemapOrigins[input->cubemapIndex - 1][1] - backEnd.viewParms.or.origin[1];
-			vec[2] = tr.cubemapOrigins[input->cubemapIndex - 1][2] - backEnd.viewParms.or.origin[2];
+			VectorSubtract(cubemap->origin, backEnd.viewParms.or.origin, vec);
 			vec[3] = 1.0f;
 
-			VectorScale4(vec, 1.0f / 1000.0f, vec);
+			VectorScale4(vec, 1.0f / cubemap->parallaxRadius, vec);
 
 			GLSL_SetUniformVec4(sp, UNIFORM_CUBEMAPINFO, vec);
 		}
