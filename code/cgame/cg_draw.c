@@ -1432,6 +1432,10 @@ static void CG_DrawNotify( void ) {
 	char var[MAX_TOKEN_CHARS];
 	float notifytime = 1.0f;
 
+	if ( cg_fixedAspect.integer == 2 ) {
+		CG_SetScreenPlacement(PLACE_LEFT,PLACE_TOP);
+	}
+
 	trap_Cvar_VariableStringBuffer( "con_notifytime", var, sizeof( var ) );
 	notifytime = atof( var ) * 1000;
 
@@ -1480,6 +1484,10 @@ static void CG_DrawNotify( void ) {
 							  cgs.notifyMsgs[i % chatHeight], hcolor, qfalse, qfalse,
 							  TINYCHAR_WIDTH, TINYCHAR_HEIGHT, maxCharsBeforeOverlay );
 		}
+	}
+
+	if ( cg_fixedAspect.integer ) {
+		CG_SetScreenPlacement(PLACE_CENTER,PLACE_CENTER);
 	}
 }
 

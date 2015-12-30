@@ -401,9 +401,6 @@ void SCR_ShowPing( void ) {
 	if (!cl_showPing->integer)
 		return;
 
-	if ( Cvar_VariableIntegerValue( "ui_limboMode" ) )
-		return;
-
 	ping = cl.snap.ping;
 
 	Com_sprintf( string, sizeof( string ), "ping: %i", ping );
