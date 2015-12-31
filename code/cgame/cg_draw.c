@@ -2834,7 +2834,7 @@ static void CG_DrawCoopCrosshairNames( void ) {
 	c[1] = c[2] = barFrac;
 	c[3] = 0.25 + barFrac * 0.5 * color[3];
 
-	CG_FilledBar( 320 - w / 2, 190, w, 10, c, NULL, NULL, barFrac, 16 );
+	CG_FilledBar( 241, 190, 158, 10, c, NULL, NULL, barFrac, 16 );
 
 
 	// armor bar
@@ -2851,7 +2851,7 @@ static void CG_DrawCoopCrosshairNames( void ) {
 		c[1] = c[2] = barFrac;
 		c[3] = 0.25 + barFrac * 0.5 * color[3];
 
-		CG_FilledBar( 320 - w / 2, 205, w, 10, c, NULL, NULL, barFrac, 16 );
+		CG_FilledBar( 241, 205, 158, 10, c, NULL, NULL, barFrac, 16 );
 	}
 
 	trap_R_SetColor( NULL );
