@@ -472,7 +472,11 @@ static void CG_DrawPlayerAmmoValue( rectDef_t *rect, int font, float scale, vec4
 			Com_sprintf( num, sizeof( num ), "%i", value );
 			value = CG_Text_Width( num, font, scale, 0 );
 			// Moved this up a little so it's not on top of the weapon heat bar
-			CG_Text_Paint( rect->x + ( rect->w - value ) / 2, - 15 + rect->y + rect->h, font, scale, color, num, 0, 0, textStyle );
+			if ( type == 0 ) {
+				CG_Text_Paint( rect->x + ( rect->w - value ) / 2, - 15 + rect->y + rect->h, font, scale, color, num, 0, 0, textStyle );
+			} else {
+				CG_Text_Paint( rect->x + ( rect->w - value ) / 2, rect->y + rect->h, font, scale, color, num, 0, 0, textStyle );
+			}
 
 //			if(special) {	// draw '0' for akimbo guns
 			if ( value2 || ( special && type == 1 ) ) {
