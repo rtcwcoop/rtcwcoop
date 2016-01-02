@@ -3450,7 +3450,7 @@ qboolean FS_idPak(char *pak, char *base, int numPaks)
 			break;
 		}
 		// Don't download the coop paks either
-		if ( !FS_FilenameCompare( pak, va( "%s/sp_pak_coop%d",base,i ) ) ) {
+		if ( !FS_FilenameCompare( pak, va( "%s/sp_pak_coop%d",base,i + 1 ) ) ) {
 			break;
 		}
 // jpw
