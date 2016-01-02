@@ -1031,6 +1031,10 @@ void SV_Init (void)
 #ifdef GS
 	Cvar_Get( "gamestate", "-1", CVAR_WOLFINFO | CVAR_ROM );
 #endif
+
+	// ATVI Tracker Wolfenstein Misc #273
+	Cvar_Get( "g_voteFlags", "255", CVAR_ARCHIVE | CVAR_SERVERINFO );
+
 	// ATVI Tracker Wolfenstein Misc #263
 	Cvar_Get( "g_antilag", "0", CVAR_ARCHIVE | CVAR_SERVERINFO );
 

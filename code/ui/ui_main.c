@@ -4508,6 +4508,43 @@ static void UI_Update( const char *name ) {
 
 }
 
+/*
+==============
+UI_UpdateVoteFlags
+NOTE TTimo: VOTEFLAGS_RESTART for map_restart vote is present and can be used, but doesn't have any UI binding
+==============
+*/
+static void UI_UpdateVoteFlags( qboolean open ) {
+	int flags;
+	if ( open ) {
+		flags = trap_Cvar_VariableValue( "g_voteFlags" );
+		trap_Cvar_SetValue( "ui_voteRestart", flags & VOTEFLAGS_RESTART );
+		trap_Cvar_SetValue( "ui_voteSkill", flags & VOTEFLAGS_SKILL );
+		trap_Cvar_SetValue( "ui_voteReinforce", flags & VOTEFLAGS_REINFORCE );
+		trap_Cvar_SetValue( "ui_voteNextMap", flags & VOTEFLAGS_NEXTMAP );
+		trap_Cvar_SetValue( "ui_voteFreeze", flags & VOTEFLAGS_FREEZE );
+		trap_Cvar_SetValue( "ui_voteType", flags & VOTEFLAGS_TYPE );
+		trap_Cvar_SetValue( "ui_voteKick", flags & VOTEFLAGS_KICK );
+		trap_Cvar_SetValue( "ui_voteMap", flags & VOTEFLAGS_MAP );
+	} else {
+		flags = 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteRestart" ) ? VOTEFLAGS_RESTART : 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteSkill" ) ? VOTEFLAGS_SKILL : 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteReinforce" ) ? VOTEFLAGS_REINFORCE : 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteNextMap" ) ? VOTEFLAGS_NEXTMAP : 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteFreeze" ) ? VOTEFLAGS_FREEZE : 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteType" ) ? VOTEFLAGS_TYPE : 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteKick" ) ? VOTEFLAGS_KICK : 0;
+		flags |= trap_Cvar_VariableValue( "ui_voteMap" ) ? VOTEFLAGS_MAP : 0;
+		trap_Cvar_SetValue( "g_voteFlags", flags );
+		// maintain consistency, if we turned one option back on, set the global on
+		if ( flags != 0 ) {
+			trap_Cvar_SetValue( "g_allowVote", 1 );
+		} else {
+			trap_Cvar_SetValue( "g_allowVote", 0 );
+		}
+	}
+}
 
 /*
 ==============
@@ -5050,6 +5087,31 @@ static void UI_RunMenuScript( char **args ) {
 			// -NERVE - SMF
 		} else if ( Q_stricmp( name, "setrecommended" ) == 0 ) {
 			trap_Cmd_ExecuteText( EXEC_APPEND, "setRecommended 1\n" );
+		} else if ( Q_stricmp( name, "update_voteFlags" ) == 0 ) {
+			// update g_voteFlags according to g_allowVote value change
+			if ( trap_Cvar_VariableValue( "g_allowVote" ) != 0 ) {
+				trap_Cvar_SetValue( "g_voteFlags", 255 );
+			} else {
+				trap_Cvar_SetValue( "g_voteFlags", 0 );
+			}
+			UI_UpdateVoteFlags( qtrue );
+		} else if ( Q_stricmp( name, "voteFlags" ) == 0 ) {
+			// createserver.menu, settings allowed / not allowed votes
+			if ( String_Parse( args, &name ) ) {
+				if ( Q_stricmp( name, "open" ) == 0 ) {
+					UI_UpdateVoteFlags( qtrue );
+				} else {
+					UI_UpdateVoteFlags( qfalse );
+				}
+			}
+		} else if ( Q_stricmp( name, "clientCheckVote" ) == 0 ) {
+			int flags;
+			flags = trap_Cvar_VariableValue( "cg_ui_voteFlags" );
+			if ( ( flags | VOTEFLAGS_RESTART ) == VOTEFLAGS_RESTART ) {
+				trap_Cvar_SetValue( "cg_ui_novote", 1 );
+			} else {
+				trap_Cvar_SetValue( "cg_ui_novote", 0 );
+			}
 		} else {
 			Com_Printf( "unknown UI script %s\n", name );
 		}
@@ -7518,6 +7580,9 @@ vmCvar_t ui_prevClass;
 vmCvar_t ui_prevWeapon;
 
 vmCvar_t ui_limboMode;
+
+vmCvar_t ui_friendlyFire;
+vmCvar_t ui_allowVote;
 // -NERVE - SMF
 
 cvarTable_t cvarTable[] = {
@@ -7545,6 +7610,10 @@ cvarTable_t cvarTable[] = {
 	{ &ui_spAwards, "g_spAwards", "", CVAR_ARCHIVE },
 	{ &ui_spVideos, "g_spVideos", "", CVAR_ARCHIVE },
 	{ &ui_spSkill, "g_spSkill", "2", CVAR_ARCHIVE | CVAR_LATCH },
+
+	// NERVE - SMF
+	{ &ui_friendlyFire, "g_friendlyFire", "1", CVAR_ARCHIVE },
+	{ &ui_allowVote, "g_allowVote", "1", CVAR_ARCHIVE },
 
 	{ &ui_spSelection, "ui_spSelection", "", CVAR_ROM },
 	{ &ui_master, "ui_master", "0", CVAR_ARCHIVE },

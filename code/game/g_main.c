@@ -108,6 +108,7 @@ vmCvar_t g_blood;
 vmCvar_t g_podiumDist;
 vmCvar_t g_podiumDrop;
 vmCvar_t g_allowVote;
+vmCvar_t g_voteFlags;
 vmCvar_t g_spawnInvul;
 
 vmCvar_t g_weaponTeamRespawn;
@@ -266,6 +267,7 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_podiumDrop, "g_podiumDrop", "70", 0, 0, qfalse },
 
 	{ &g_allowVote, "g_allowVote", "1", 0, 0, qfalse },
+	{ &g_voteFlags, "g_voteFlags", "255", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
 
 	{ &g_spawnInvul, "g_spawnInvul", "5", CVAR_ARCHIVE, 0, qtrue  },
 
@@ -1037,6 +1039,13 @@ void G_RegisterCvars( void ) {
 	// maxspawnpoints
 	if ( g_spawnpoints.integer != 1 ) {
 		trap_Cvar_Set( "g_maxspawnpoints", "0" );
+	}
+
+	// allowvote
+	if ( g_allowVote.integer == 0 ) {
+		trap_Cvar_Set( "g_voteFlags", "0" );
+	} else if ( g_voteFlags.integer == 0 ) {
+		trap_Cvar_Set( "g_allowVote", "0" );
 	}
 
 	bg_pmove_gameskill_integer = g_gameskill.integer;

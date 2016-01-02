@@ -208,6 +208,9 @@ void CG_ParseServerinfo( void ) {
 	if ( !cgs.localServer ) {
 		trap_Cvar_Set( "gamestate", va( "%i", cgs.gamestate ) );
 	}
+
+	// TTimo - make this available for ingame_callvote
+	trap_Cvar_Set( "cg_ui_voteFlags", Info_ValueForKey( info, "g_voteFlags" ) );
 }
 
 

@@ -1838,6 +1838,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	char arg1[MAX_STRING_TOKENS];
 	char arg2[MAX_STRING_TOKENS];
 	char cleanName[64];
+	int mask = 0;
 
 	// Ignored players..
 	if ( ent->client->sess.ignored ) {
@@ -1850,7 +1851,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		return;
 	}
 
-	if ( !g_allowVote.integer ) {
+	if ( !g_allowVote.integer || !g_voteFlags.integer ) {
 		trap_SendServerCommand( ent - g_entities, "print \"Voting not allowed here.\n\"" );
 		return;
 	}
@@ -1887,12 +1888,17 @@ void Cmd_CallVote_f( gentity_t *ent ) {
  	}
 
 	if ( !Q_stricmp( arg1, "map_restart" ) ) {
-	} else if ( !Q_stricmp( arg1, "map" ) ) {
-	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
-	} else if ( !Q_stricmp( arg1, "kick" ) ) {
+		mask = VOTEFLAGS_RESTART;
 	} else if ( !Q_stricmp( arg1, "nextmap" ) ) {
-	// not wrapping this in _ADMIN flag as there's no need to 
+		mask = VOTEFLAGS_NEXTMAP;
+	} else if ( !Q_stricmp( arg1, "map" ) ) {
+		mask = VOTEFLAGS_MAP;
+	} else if ( !Q_stricmp( arg1, "g_gametype" ) ) {
+		mask = VOTEFLAGS_TYPE;
+	} else if ( !Q_stricmp( arg1, "kick" ) ) {
+		mask = VOTEFLAGS_KICK;
 	} else if ( !Q_stricmp( arg1, "clientkick" ) ) {
+		mask = VOTEFLAGS_KICK;
 	} else if ( !Q_stricmp( arg1, "?" ) ) {
 	// Once admins get a part of the project this will be dumped in
 #ifdef _ADMINS
@@ -1901,8 +1907,11 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 #endif
 	// Enhancements - view.php?id=54
 	} else if ( !Q_stricmp( arg1, "g_gameskill" ) ) {
+		mask = VOTEFLAGS_SKILL;
 	} else if ( !Q_stricmp( arg1, "g_reinforce" ) ) {
+		mask = VOTEFLAGS_REINFORCE;
 	} else if ( !Q_stricmp( arg1, "g_freeze" ) ) {
+		mask = VOTEFLAGS_FREEZE;
 	} else {
 #ifdef _ADMINS
 		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick, clientkick, ignore, unignore, ? <question>, nextmap, g_gameskill, g_reinforce, g_freeze\"" );
@@ -1910,6 +1919,17 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		trap_SendServerCommand( ent - g_entities, "print \"Invalid vote string.\nFollowing are valid: map_restart, map, g_gametype, kick, clientkick, ? <question>, nextmap, g_gameskill, g_reinforce, g_freeze\"" );
 #endif
 		return;
+	}
+
+	if ( !( g_voteFlags.integer & mask ) ) {
+		trap_SendServerCommand( ent - g_entities, va( "print \"Voting for %s disabled on this server\n\"", arg1 ) );
+		return;
+	}
+
+	// if there is still a vote to be executed
+	if ( level.voteExecuteTime ) {
+		level.voteExecuteTime = 0;
+		trap_SendConsoleCommand( EXEC_APPEND, va( "%s\n", level.voteString ) );
 	}
 
 	if ( !Q_stricmp( arg1, "nextmap" ) ) {

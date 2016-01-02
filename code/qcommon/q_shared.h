@@ -1835,4 +1835,13 @@ typedef enum {
 	GS_RESET
 } gamestate_t;
 
+#define VOTEFLAGS_RESTART	( 1 << 0 )
+#define VOTEFLAGS_SKILL		( 1 << 1 )
+#define VOTEFLAGS_REINFORCE	( 1 << 2 )
+#define VOTEFLAGS_NEXTMAP	( 1 << 3 )
+#define VOTEFLAGS_FREEZE	( 1 << 4 )
+#define VOTEFLAGS_TYPE		( 1 << 5 )
+#define VOTEFLAGS_KICK		( 1 << 6 )
+#define VOTEFLAGS_MAP		( 1 << 7 )
+
 #endif  // __Q_SHARED_H
