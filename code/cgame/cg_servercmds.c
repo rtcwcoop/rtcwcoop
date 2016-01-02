@@ -1376,6 +1376,67 @@ static void CG_RemoveChatEscapeChar( char *text ) {
 
 /*
 =================
+CG_LocalizeServerCommand
+
+NERVE - SMF - localize string sent from server
+
+- localization is ON by default.
+- use [lof] in string to turn OFF
+- use [lon] in string to turn back ON
+=================
+*/
+const char* CG_LocalizeServerCommand( const char *buf ) {
+	static char token[MAX_TOKEN_CHARS];
+	char temp[MAX_TOKEN_CHARS];
+	qboolean togloc = qtrue;
+	const char *s;
+	int i, prev;
+
+	memset( token, 0, sizeof( token ) );
+	s = buf;
+	prev = 0;
+
+	for ( i = 0; *s; i++, s++ ) {
+		// TTimo:
+		// line was: if ( *s == '[' && !Q_strncmp( s, "[lon]", 5 ) || !Q_strncmp( s, "[lof]", 5 ) ) {
+		// || prevails on &&, gcc warning was 'suggest parentheses around && within ||'
+		// modified to the correct behaviour
+		if ( *s == '[' && ( !Q_strncmp( s, "[lon]", 5 ) || !Q_strncmp( s, "[lof]", 5 ) ) ) {
+
+			if ( togloc ) {
+				memset( temp, 0, sizeof( temp ) );
+				strncpy( temp, buf + prev, i - prev );
+				strcat( token, CG_TranslateString( temp ) );
+			} else {
+				strncat( token, buf + prev, i - prev );
+			}
+
+			if ( s[3] == 'n' ) {
+				togloc = qtrue;
+			} else {
+				togloc = qfalse;
+			}
+
+			i += 5;
+			s += 5;
+			prev = i;
+		}
+	}
+
+	if ( togloc ) {
+		memset( temp, 0, sizeof( temp ) );
+		strncpy( temp, buf + prev, i - prev );
+		strcat( token, CG_TranslateString( temp ) );
+	} else {
+		strncat( token, buf + prev, i - prev );
+	}
+
+	return token;
+}
+// -NERVE - SMF
+
+/*
+=================
 CG_ServerCommand
 
 The string has been tokenized and can be retrieved with
@@ -1433,7 +1494,21 @@ static void CG_ServerCommand( void ) {
 	}
 
 	if ( !strcmp( cmd, "cp" ) ) {
-		CG_CenterPrint( CG_Argv( 1 ), SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH );
+		// NERVE - SMF
+		int args = trap_Argc();
+		char *s;
+
+		if ( args >= 3 ) {
+			s = CG_TranslateString( CG_Argv( 1 ) );
+
+			if ( args == 4 ) {
+				s = va( "%s%s", CG_Argv( 3 ), s );
+			}
+
+			CG_PriorityCenterPrint( s, SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH, atoi( CG_Argv( 2 ) ) );
+		} else {
+			CG_CenterPrint( CG_LocalizeServerCommand( CG_Argv( 1 ) ), SCREEN_HEIGHT - ( SCREEN_HEIGHT * 0.25 ), SMALLCHAR_WIDTH );  //----(SA)	modified
+		}
 		return;
 	}
 
@@ -1448,55 +1523,45 @@ static void CG_ServerCommand( void ) {
 	}
 
 	if ( !strcmp( cmd, "print" ) ) {
-		CG_Printf( "%s", CG_Argv( 1 ) );
+		CG_Printf( "[cgnotify]%s", CG_LocalizeServerCommand( CG_Argv( 1 ) ) );
 		return;
 	}
 
 	if ( !strcmp( cmd, "chat" ) ) {
-	/*
-		if ( !cg_teamChatsOnly.integer ) {
-		trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
-		Q_strncpyz( text, CG_Argv( 1 ), MAX_SAY_TEXT );
-		CG_RemoveChatEscapeChar( text );
-		CG_Printf( "%s\n", text );
-	}
-	return;
-	*/
 		const char *s;
 
 		if ( cg_teamChatsOnly.integer ) {
 			return;
- 		}
+		}
 
-		s = CG_Argv( 1 );
+		if ( atoi( CG_Argv( 2 ) ) ) {
+			s = CG_LocalizeServerCommand( CG_Argv( 1 ) );
+		} else {
+			s = CG_Argv( 1 );
+		}
 
 		trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
 		Q_strncpyz( text, s, MAX_SAY_TEXT );
 		CG_RemoveChatEscapeChar( text );
-		CG_AddToTeamChat( text );         // JPW NERVE
-		CG_Printf( "[skipnotify]%s\n", text );         // JPW NERVE		}
+		CG_AddToTeamChat( text ); // JPW NERVE
+		CG_Printf( "[skipnotify]%s\n", text ); // JPW NERVE
 		return;
 	}
 
 	if ( !strcmp( cmd, "tchat" ) ) {
-		/*
-		trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
-		Q_strncpyz( text, CG_Argv( 1 ), MAX_SAY_TEXT );
-		CG_RemoveChatEscapeChar( text );
-		CG_AddToTeamChat( text );
-		CG_Printf( "%s\n", text );
-		return;
-		*/
-
 		const char *s;
 
-		s = CG_Argv( 1 );
+		if ( atoi( CG_Argv( 2 ) ) ) {
+			s = CG_LocalizeServerCommand( CG_Argv( 1 ) );
+		} else {
+			s = CG_Argv( 1 );
+		}
 
 		trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
 		Q_strncpyz( text, s, MAX_SAY_TEXT );
 		CG_RemoveChatEscapeChar( text );
 		CG_AddToTeamChat( text );
-		CG_Printf( "[skipnotify]%s\n", text );         // JPW NERVE
+		CG_Printf( "[skipnotify]%s\n", text ); // JPW NERVE
 		return;
 	}
 
@@ -1505,9 +1570,8 @@ static void CG_ServerCommand( void ) {
 		trap_S_StartLocalSound( cgs.media.talkSound, CHAN_LOCAL_SOUND );
 		Q_strncpyz( text, CG_Argv( 1 ), MAX_SAY_TEXT );
 		CG_RemoveChatEscapeChar( text );
-//		CG_AddToLimboChat( text );
 		trap_UI_LimboChat( text );
-		CG_Printf( "%s\n", text );
+		CG_Printf( "[skipnotify]%s\n", text ); // JPW NERVE
 		return;
 	}
 	// -NERVE - SMF

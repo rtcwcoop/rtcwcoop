@@ -861,6 +861,7 @@ typedef struct {
 	int centerPrintY;
 	char centerPrint[1024];
 	int centerPrintLines;
+	int centerPrintPriority;                    // NERVE - SMF
 
 	// fade in/out
 	int fadeTime;
@@ -1967,6 +1968,7 @@ extern char teamChat2[256];
 void CG_AddLagometerFrameInfo( void );
 void CG_AddLagometerSnapshotInfo( snapshot_t *snap );
 void CG_CenterPrint( const char *str, int y, int charWidth );
+void CG_PriorityCenterPrint( const char *str, int y, int charWidth, int priority );     // NERVE - SMF
 void CG_ObjectivePrint( const char *str, int charWidth, int team );     // NERVE - SMF
 void CG_DrawHead( float x, float y, float w, float h, int clientNum, vec3_t headAngles );
 void CG_DrawActive( stereoFrame_t stereoView );

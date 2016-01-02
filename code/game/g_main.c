@@ -2711,13 +2711,13 @@ void CheckVote( void ) {
 	} else {
 		if ( level.voteYes > level.numVotingClients / 2 ) {
 			// execute the command, then remove the vote
-			trap_SendServerCommand( -1, "print \"[cgnotify]Vote passed.\n\"" );
+			trap_SendServerCommand( -1, "print \"Vote passed.\n\"" );
 			level.voteExecuteTime = level.time + 3000;
 			// Add a sound
 			APS( "sound/scenaric/votes/votePass.wav" );
 		} else if ( level.voteNo >= level.numVotingClients / 2 ) {
 			// same behavior as a timeout
-			trap_SendServerCommand( -1, "print \"[cgnotify]Vote failed.\n\"" );
+			trap_SendServerCommand( -1, "print \"Vote failed.\n\"" );
 			// Add a sound
 			APS( "sound/scenaric/votes/voteFail.wav" );
 		} else {
@@ -3073,7 +3073,7 @@ void G_RunFrame( int levelTime ) {
 						VectorCopy( ent->client->ps.origin, ent->client->coopSpawnPointOrigin );
 						VectorCopy( ent->client->ps.viewangles, ent->client->coopSpawnPointAngles );
 						ent->client->hasCoopSpawn = qtrue;
-						trap_SendServerCommand( i, va( "print \"[skipnotify]Saved current position as the next spawnpoint\n\"" ) );
+						trap_SendServerCommand( i, va( "print \"Saved current position as the next spawnpoint\n\"" ) );
 					}
 				}
 			}

@@ -2062,7 +2062,7 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 		Com_sprintf( level.voteString, sizeof( level.voteString ), "%s %s", arg1, arg2 );
 	}
 
-	trap_SendServerCommand( -1, va( "print \"[cgnotify]%s ^7called a vote.\n\"", ent->client->pers.netname ) );
+	trap_SendServerCommand( -1, va( "print \"%s ^7called a vote.\n\"", ent->client->pers.netname ) );
 	//  Add a sound
 	APS( "sound/scenaric/votes/voteCall.wav" );
 

@@ -174,7 +174,7 @@ static void CG_Obituary( entityState_t *ent ) {
 			}
 
 			if ( cg_obituaries.integer == 2 ) {
-				CG_CenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6 );
+				CG_PriorityCenterPrint( s, SCREEN_HEIGHT * 0.75, BIGCHAR_WIDTH * 0.6, 1 );
 			}
 			return;
 		} else {

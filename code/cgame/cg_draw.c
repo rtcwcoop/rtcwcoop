@@ -1861,6 +1861,12 @@ void CG_CenterPrint( const char *str, int y, int charWidth ) {
 	char   *s;
 	int i, len;                         // NERVE - SMF
 	qboolean neednewline = qfalse;      // NERVE - SMF
+	int priority = 0;
+
+	// NERVE - SMF - don't draw if this print message is less important
+	if ( cg.centerPrintTime && priority < cg.centerPrintPriority ) {
+		return;
+	}
 
 //----(SA)	added translation lookup
 #ifdef LOCALISATION
@@ -1869,6 +1875,8 @@ void CG_CenterPrint( const char *str, int y, int charWidth ) {
 	Q_strncpyz( (char *)cg.centerPrint, CG_translateString( (char*)str ), sizeof( cg.centerPrint ) );
 #endif
 //----(SA)	end
+
+	cg.centerPrintPriority = priority;  // NERVE - SMF
 
 	// NERVE - SMF - turn spaces into newlines, if we've run over the linewidth
 	len = strlen( (char *)cg.centerPrint );
@@ -1904,6 +1912,64 @@ void CG_CenterPrint( const char *str, int y, int charWidth ) {
 	}
 }
 
+// NERVE - SMF
+/*
+==============
+CG_PriorityCenterPrint
+
+Called for important messages that should stay in the center of the screen
+for a few moments
+==============
+*/
+void CG_PriorityCenterPrint( const char *str, int y, int charWidth, int priority ) {
+	char    *s;
+	int i, len;                         // NERVE - SMF
+	qboolean neednewline = qfalse;      // NERVE - SMF
+
+	// NERVE - SMF - don't draw if this print message is less important
+	if ( cg.centerPrintTime && priority < cg.centerPrintPriority ) {
+		return;
+	}
+
+//----(SA)	added translation lookup
+#ifdef LOCALISATION
+	Q_strncpyz( (char *)cg.centerPrint, CG_TranslateString( (char*)str ), sizeof( cg.centerPrint ) );
+#else
+	Q_strncpyz( (char *)cg.centerPrint, CG_translateString( (char*)str ), sizeof( cg.centerPrint ) );
+#endif
+//----(SA)	end
+	cg.centerPrintPriority = priority;  // NERVE - SMF
+
+	// NERVE - SMF - turn spaces into newlines, if we've run over the linewidth
+	len = strlen( cg.centerPrint );
+	for ( i = 0; i < len; i++ ) {
+
+		// NOTE: subtract a few chars here so long words still get displayed properly
+		if ( i % ( CP_LINEWIDTH - 20 ) == 0 && i > 0 ) {
+			neednewline = qtrue;
+		}
+		if ( cg.centerPrint[i] == ' ' && neednewline ) {
+			cg.centerPrint[i] = '\n';
+			neednewline = qfalse;
+		}
+	}
+	// -NERVE - SMF
+
+	cg.centerPrintTime = cg.time + 2000;
+	cg.centerPrintY = y;
+	cg.centerPrintCharWidth = charWidth;
+
+	// count the number of lines for centering
+	cg.centerPrintLines = 1;
+	s = cg.centerPrint;
+	while ( *s ) {
+		if ( *s == '\n' ) {
+			cg.centerPrintLines++;
+		}
+		s++;
+	}
+}
+// -NERVE - SMF
 
 /*
 ===================
@@ -1923,6 +1989,7 @@ static void CG_DrawCenterString( void ) {
 	color = CG_FadeColor( cg.centerPrintTime, 1000 * cg_centertime.value );
 	if ( !color ) {
 		cg.centerPrintTime = 0;
+		cg.centerPrintPriority = 0;
 		return;
 	}
 

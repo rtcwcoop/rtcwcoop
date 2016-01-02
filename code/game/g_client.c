@@ -1758,7 +1758,7 @@ void ClientBegin( int clientNum ) {
 	if ( client->sess.sessionTeam != TEAM_SPECTATOR ) {
 		if ( !( ent->r.svFlags & SVF_CASTAI ) && !( client->pers.localClient ) ) {
 			// done.
-			trap_SendServerCommand( -1, va( "print \"[cgnotify]%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
+			trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
 		}
 	}
 
