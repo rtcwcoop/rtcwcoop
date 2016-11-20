@@ -1443,7 +1443,6 @@ long FS_FOpenFileReadDir(const char *filename, searchpath_t *search, fileHandle_
 						   !FS_IsExt(filename, ".bot", len) &&
 						   !FS_IsExt(filename, ".arena", len) &&
 						   !FS_IsExt(filename, ".menu", len) &&
-//						   Q_stricmp(filename, "vm/qagame.coop.qvm") != 0 && // Commented out for now
 						   !strstr(filename, "levelshots"))
 						{
 							pak->referenced |= FS_GENERAL_REF;
@@ -1461,6 +1460,14 @@ long FS_FOpenFileReadDir(const char *filename, searchpath_t *search, fileHandle_
 
 					if(strstr(filename, "ui.coop.qvm"))
 						pak->referenced |= FS_UI_REF;
+
+					// Don't allow the multiplayer maps to be loaded
+					if ( Q_stricmp( filename + len - 4, ".bsp" ) == 0 &&
+						!Q_stricmpn( filename + 5, "mp_", 3 ) ) {
+
+						*file = 0;
+						return -1;
+					}
 
 					if(uniqueFILE)
 					{
