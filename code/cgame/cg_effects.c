@@ -1341,7 +1341,6 @@ void CG_Spotlight( centity_t *cent, float *color, vec3_t realstart, vec3_t light
 	vec4_t colorNorm;       // normalized color vector
 	refEntity_t ent;
 	vec3_t angles;
-//	float deadFrac = 0;
 
 	VectorCopy( realstart, start );
 
@@ -1454,16 +1453,7 @@ void CG_Spotlight( centity_t *cent, float *color, vec3_t realstart, vec3_t light
 
 
 	if ( cent->currentState.frame == 1 ) {    // dead
-#if 0
-		deadFrac = (float)( cg.time - cent->currentState.time2 ) / 5000.0f;
-
-		// no fade out, just off
-//		if(deadFrac > 1)
 		return;
-
-		startAlpha *= ( 1.0f - deadFrac );
-		endAlpha *= ( 1.0f - deadFrac );
-#endif
 	}
 
 

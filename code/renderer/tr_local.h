@@ -27,7 +27,6 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 
-
 #ifndef TR_LOCAL_H
 #define TR_LOCAL_H
 
@@ -71,7 +70,6 @@ typedef struct {
 	qboolean lightingCalculated;
 	vec3_t lightDir;            // normalized direction towards light
 	vec3_t ambientLight;        // color normalized to 0-255
-	int ambientLightInt;            // 32 bit rgba packed
 	vec3_t directedLight;
 	float brightness;
 } trRefEntity_t;

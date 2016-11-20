@@ -58,7 +58,11 @@ If you have questions concerning this license or the applicable additional terms
   #define COOP_BASEGAME			"coopmain"
   #define CLIENT_WINDOW_TITLE     	"Return To Castle Wolfenstein Coop"
   #define CLIENT_WINDOW_MIN_TITLE 	"RTCWCoop"
+#ifdef USE_XDG
+  #define HOMEPATH_NAME_UNIX		"rtcwcoop"
+#else
   #define HOMEPATH_NAME_UNIX		".wolf"
+#endif
   #define HOMEPATH_NAME_WIN		"RTCWCoop"
   #define STEAMPATH_NAME		"Return To Castle Wolfenstein"
   #define STEAMPATH_APPID		"9010"
@@ -73,6 +77,10 @@ If you have questions concerning this license or the applicable additional terms
 
 #ifndef PRODUCT_VERSION
   #define PRODUCT_VERSION "1.0.2"
+#endif
+
+#ifndef PRODUCT_DATE
+#  define PRODUCT_DATE __DATE__
 #endif
 
 #define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION
@@ -897,7 +905,7 @@ typedef struct pc_token_s
 
 void    COM_MatchToken( char**buf_p, char *match );
 
-void SkipBracedSection( char **program );
+qboolean SkipBracedSection( char **program, int depth );
 void SkipRestOfLine( char **data );
 
 void Parse1DMatrix( char **buf_p, int x, float *m );

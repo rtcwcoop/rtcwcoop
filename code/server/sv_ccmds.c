@@ -297,7 +297,7 @@ static void SV_Map_f( void ) {
 	}
 
 
-	// save the map name here cause on a map restart we reload the q3config.cfg
+	// save the map name here cause on a map restart we reload the wolfconfig_server.cfg
 	// and thus nuke the arguments of the map command
 	Q_strncpyz( mapname, map, sizeof( mapname ) );
 
@@ -801,6 +801,7 @@ static void SV_KickNum_f( void ) {
 }
 
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
 // these functions require the auth server which of course is not available anymore for stand-alone games.
 
 /*
@@ -912,6 +913,7 @@ static void SV_BanNum_f( void ) {
 		Com_Printf( "%s was banned from coming back\n", cl->name );
 	}
 }
+#endif
 #endif
 
 /*
@@ -1688,16 +1690,6 @@ static void SV_KillServer_f( void ) {
 	SV_Shutdown( "killserver" );
 }
 
-/*
-=================
-SV_GameCompleteStatus_f
-
-NERVE - SMF
-=================
-*/
-void SV_GameCompleteStatus_f( void ) {
-	SV_MasterGameCompleteStatus();
-}
 
 //===========================================================
 
@@ -1728,11 +1720,13 @@ void SV_AddOperatorCommands( void ) {
 	Cmd_AddCommand( "heartbeat", SV_Heartbeat_f );
 	Cmd_AddCommand( "kick", SV_Kick_f );
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
 	if(!com_standalone->integer)
 	{
 		Cmd_AddCommand ("banUser", SV_Ban_f);
 		Cmd_AddCommand ("banClient", SV_BanNum_f);
 	}
+#endif
 #endif
 	Cmd_AddCommand ("kickbots", SV_KickBots_f);
 	Cmd_AddCommand ("kickall", SV_KickAll_f);
@@ -1755,7 +1749,6 @@ void SV_AddOperatorCommands( void ) {
 	Cmd_AddCommand( "devmap", SV_Map_f );
 	Cmd_SetCommandCompletionFunc( "devmap", SV_CompleteMapName );
 	
-	Cmd_AddCommand( "gameCompleteStatus", SV_GameCompleteStatus_f );      // NERVE - SMF
 #ifndef WOLF_SP_DEMO
 	Cmd_AddCommand( "spdevmap", SV_Map_f );
 	Cmd_SetCommandCompletionFunc( "spdevmap", SV_CompleteMapName );

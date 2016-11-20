@@ -1563,7 +1563,7 @@ qboolean AICast_ScriptAction_TakeWeapon( cast_state_t *cs, char *params ) {
 
 	}
 
-	if ( !g_entities[cs->entityNum].client->ps.weapons ) {
+	if ( !( g_entities[cs->entityNum].client->ps.weapons[0] ) && !( g_entities[cs->entityNum].client->ps.weapons[1] ) ) {
 		if ( cs->bs ) {
 			cs->weaponNum = WP_NONE;
 		} else {
@@ -2878,9 +2878,6 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 			Q_strncpyz( level.nextMap, newstr, sizeof( level.nextMap ) );
 		}
 	}
-
-	//send gameCompleteStatus message to master servers
-	trap_SendConsoleCommand( EXEC_APPEND, "gameCompleteStatus\n" );
 
 	return qtrue;
 }

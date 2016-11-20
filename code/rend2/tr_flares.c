@@ -342,19 +342,48 @@ RB_TestFlare
 ==================
 */
 void RB_TestFlare( flare_t *f ) {
-	qboolean visible;
-	float fade;
+	float			depth;
+	qboolean		visible;
+	float			fade;
+	float			screenZ;
+	FBO_t           *oldFbo;
 
 	backEnd.pc.c_flareTests++;
 
+	// doing a readpixels is as good as doing a glFinish(), so
+	// don't bother with another sync
+	glState.finishCalled = qfalse;
+
+	// if we're doing multisample rendering, read from the correct FBO
+	oldFbo = glState.currentFBO;
+	if (tr.msaaResolveFbo)
+	{
+		FBO_Bind(tr.msaaResolveFbo);
+	}
+
+	// read back the z buffer contents
+	qglReadPixels( f->windowX, f->windowY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth );
+
+	// if we're doing multisample rendering, switch to the old FBO
+	if (tr.msaaResolveFbo)
+	{
+		FBO_Bind(oldFbo);
+	}
+
+	screenZ = backEnd.viewParms.projectionMatrix[14] / 
+		( ( 2*depth - 1 ) * backEnd.viewParms.projectionMatrix[11] - backEnd.viewParms.projectionMatrix[10] );
+
 	visible = (qboolean)( f->flags & 1 );
+
+	if ( -f->eyeZ - -screenZ  > 24 )
+		visible = qfalse;
 
 	if ( visible ) {
 		if ( !f->visible ) {
 			f->visible = qtrue;
 			f->fadeTime = backEnd.refdef.time - 1;
 		}
-		fade = ( ( backEnd.refdef.time - f->fadeTime ) / 1000.0f ) * r_flareFade->value;
+		fade = ( ( backEnd.refdef.time - f->fadeTime ) /1000.0f ) * r_flareFade->value;
 	} else {
 		if ( f->visible ) {
 			f->visible = qfalse;
@@ -438,9 +467,9 @@ void RB_RenderFlare( flare_t *f ) {
 			return;
 	}
 
-	iColor[0] = color[0] * fogFactors[0];
-	iColor[1] = color[1] * fogFactors[1];
-	iColor[2] = color[2] * fogFactors[2];
+	iColor[0] = color[0] * fogFactors[0] * 257;
+	iColor[1] = color[1] * fogFactors[1] * 257;
+	iColor[2] = color[2] * fogFactors[2] * 257;
 
 	if ( f->flags & 2 ) {  // spotlight flare
 		RB_BeginSurface( tr.spotFlareShader, f->fogNum, 0 );
@@ -453,44 +482,44 @@ void RB_RenderFlare( flare_t *f ) {
 	tess.xyz[tess.numVertexes][1] = f->windowY - size;
 	tess.texCoords[tess.numVertexes][0][0] = 0;
 	tess.texCoords[tess.numVertexes][0][1] = 0;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			//rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.xyz[tess.numVertexes][0] = f->windowX - size;
 	tess.xyz[tess.numVertexes][1] = f->windowY + size;
 	tess.texCoords[tess.numVertexes][0][0] = 0;
 	tess.texCoords[tess.numVertexes][0][1] = 1;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			// rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.xyz[tess.numVertexes][0] = f->windowX + size;
 	tess.xyz[tess.numVertexes][1] = f->windowY + size;
 	tess.texCoords[tess.numVertexes][0][0] = 1;
 	tess.texCoords[tess.numVertexes][0][1] = 1;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			// rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.xyz[tess.numVertexes][0] = f->windowX + size;
 	tess.xyz[tess.numVertexes][1] = f->windowY - size;
 	tess.texCoords[tess.numVertexes][0][0] = 1;
 	tess.texCoords[tess.numVertexes][0][1] = 0;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			// rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.indexes[tess.numIndexes++] = 0;

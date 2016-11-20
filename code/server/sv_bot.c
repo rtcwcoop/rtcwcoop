@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "../botlib/botlib.h"
 #include "../botlib/botai.h"
 
-#ifdef MACOS_X
+#ifdef __APPLE__
 #include <stdarg.h>
 #endif
 

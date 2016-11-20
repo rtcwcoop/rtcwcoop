@@ -56,7 +56,11 @@ If you have questions concerning this license or the applicable additional terms
   #define COOP_BASEGAME			"coopmain"
   #define CLIENT_WINDOW_TITLE     	"Return To Castle Wolfenstein Coop"
   #define CLIENT_WINDOW_MIN_TITLE 	"RTCWCoop"
+#ifdef USE_XDG
+  #define HOMEPATH_NAME_UNIX		"rtcwcoop"
+#else
   #define HOMEPATH_NAME_UNIX		".wolf"
+#endif
   #define HOMEPATH_NAME_WIN		"RTCWCoop"
   #define HOMEPATH_NAME_MACOSX		"rtcwcoop"
   #define GAMENAME_FOR_MASTER		"wolfcoop"

@@ -283,7 +283,7 @@ static char fs_gamedir[MAX_OSPATH];         // this will be a single file name w
 static cvar_t      *fs_debug;
 static cvar_t      *fs_homepath;
 
-#ifdef MACOS_X
+#ifdef __APPLE__
 // Also search the .app bundle for .pk3 files
 static  cvar_t          *fs_apppath;
 #endif
@@ -343,6 +343,8 @@ static char     *fs_serverReferencedPakNames[MAX_SEARCH_PATHS];     // pk3 names
 
 // last valid game folder used
 char lastValidBase[MAX_OSPATH];
+char lastValidComBaseGame[MAX_OSPATH];
+char lastValidFsBaseGame[MAX_OSPATH];
 char lastValidGame[MAX_OSPATH];
 
 #ifdef FS_MISSING
@@ -2863,6 +2865,33 @@ static char** Sys_ConcatenateFileLists( char **list0, char **list1 )
 
 /*
 ================
+FS_GetModDescription
+================
+*/
+void FS_GetModDescription( const char *modDir, char *description, int descriptionLen ) {
+	fileHandle_t	descHandle;
+	char			descPath[MAX_QPATH];
+	int				nDescLen;
+	FILE			*file;
+
+	Com_sprintf( descPath, sizeof ( descPath ), "%s/description.txt", modDir );
+	nDescLen = FS_SV_FOpenFileRead( descPath, &descHandle );
+
+	if ( nDescLen > 0 && descHandle ) {
+		file = FS_FileForHandle(descHandle);
+		Com_Memset( description, 0, descriptionLen );
+		nDescLen = fread(description, 1, descriptionLen, file);
+		if (nDescLen >= 0) {
+			description[nDescLen] = '\0';
+		}
+		FS_FCloseFile(descHandle);
+	} else {
+		Q_strncpyz( description, modDir, descriptionLen );
+	}
+}
+
+/*
+================
 FS_GetModList
 
 Returns a list of mod directory names
@@ -2875,8 +2904,7 @@ int	FS_GetModList( char *listbuf, int bufsize ) {
 	char **pFiles = NULL;
 	char **pPaks = NULL;
 	char *name, *path;
-	char descPath[MAX_OSPATH];
-	fileHandle_t descHandle;
+	char description[MAX_OSPATH];
 
 	int dummy;
 	char **pFiles0 = NULL;
@@ -2960,28 +2988,13 @@ int	FS_GetModList( char *listbuf, int bufsize ) {
 				nLen = strlen(name) + 1;
 				// nLen is the length of the mod path
 				// we need to see if there is a description available
-				descPath[0] = '\0';
-				strcpy(descPath, name);
-				strcat(descPath, "/description.txt");
-				nDescLen = FS_SV_FOpenFileRead( descPath, &descHandle );
-				if ( nDescLen > 0 && descHandle) {
-					FILE *file;
-					file = FS_FileForHandle(descHandle);
-					Com_Memset( descPath, 0, sizeof( descPath ) );
-					nDescLen = fread(descPath, 1, 48, file);
-					if (nDescLen >= 0) {
-						descPath[nDescLen] = '\0';
-					}
-					FS_FCloseFile(descHandle);
-				} else {
-					strcpy(descPath, name);
-				}
-				nDescLen = strlen(descPath) + 1;
+				FS_GetModDescription( name, description, sizeof( description ) );
+				nDescLen = strlen(description) + 1;
 
 				if (nTotal + nLen + 1 + nDescLen + 1 < bufsize) {
 					strcpy(listbuf, name);
 					listbuf += nLen;
-					strcpy(listbuf, descPath);
+					strcpy(listbuf, description);
 					listbuf += nDescLen;
 					nTotal += nLen + nDescLen;
 					nMods++;
@@ -3734,7 +3747,7 @@ static void FS_Startup( const char *gameName )
 		FS_AddGameDirectory( fs_basepath->string, COOP_BASEGAME, qtrue );
 	}
 
-#ifdef MACOS_X
+#ifdef __APPLE__
 	fs_apppath = Cvar_Get ("fs_apppath", Sys_DefaultAppPath(), CVAR_INIT|CVAR_PROTECTED );
 	// Make MacOSX also include the base path included with the .app bundle
 	if (fs_apppath->string[0]) {
@@ -4547,7 +4560,9 @@ void FS_InitFilesystem( void ) {
 	FS_Startup(com_basegame->string);
 
 #ifndef STANDALONE
+#ifndef UPDATE_SERVER
 	FS_CheckPak0( );
+#endif
 #endif
 
 	// if we can't find default.cfg, assume that the paths are
@@ -4558,6 +4573,8 @@ void FS_InitFilesystem( void ) {
 	}
 
 	Q_strncpyz( lastValidBase, fs_basepath->string, sizeof( lastValidBase ) );
+	Q_strncpyz( lastValidComBaseGame, com_basegame->string, sizeof( lastValidComBaseGame ) );
+	Q_strncpyz( lastValidFsBaseGame, fs_basegame->string, sizeof( lastValidFsBaseGame ) );
 	Q_strncpyz( lastValidGame, fs_gamedirvar->string, sizeof( lastValidGame ) );
 }
 
@@ -4568,6 +4585,7 @@ FS_Restart
 ================
 */
 void FS_Restart( int checksumFeed ) {
+	const char *lastGameDir;
 
 	// free anything we currently have loaded
 	FS_Shutdown( qfalse );
@@ -4594,8 +4612,12 @@ void FS_Restart( int checksumFeed ) {
 		if ( lastValidBase[0] ) {
 			FS_PureServerSetLoadedPaks( "", "" );
 			Cvar_Set( "fs_basepath", lastValidBase );
-			Cvar_Set("fs_game", lastValidGame);
+			Cvar_Set( "com_basegame", lastValidComBaseGame );
+			Cvar_Set( "fs_basegame", lastValidFsBaseGame );
+			Cvar_Set( "fs_game", lastValidGame );
 			lastValidBase[0] = '\0';
+			lastValidComBaseGame[0] = '\0';
+			lastValidFsBaseGame[0] = '\0';
 			lastValidGame[0] = '\0';
 			FS_Restart( checksumFeed );
 			Com_Error( ERR_DROP, "Invalid game folder" );
@@ -4604,7 +4626,12 @@ void FS_Restart( int checksumFeed ) {
 		Com_Error( ERR_FATAL, "Couldn't load default.cfg" );
 	}
 
-	if ( Q_stricmp( fs_gamedirvar->string, lastValidGame ) ) {
+	lastGameDir = ( lastValidGame[0] ) ? lastValidGame : lastValidComBaseGame;
+
+	if ( Q_stricmp( FS_GetCurrentGameDir(), lastGameDir ) ) {
+		Sys_RemovePIDFile( lastGameDir );
+		Sys_InitPIDFile( FS_GetCurrentGameDir() );
+
 		// skip the wolfconfig.cfg if "safe" is on the command line
 		if ( !Com_SafeMode() ) {
 			Cbuf_AddText ("exec " Q3CONFIG_CFG "\n");
@@ -4612,6 +4639,8 @@ void FS_Restart( int checksumFeed ) {
 	}
 
 	Q_strncpyz( lastValidBase, fs_basepath->string, sizeof( lastValidBase ) );
+	Q_strncpyz( lastValidComBaseGame, com_basegame->string, sizeof( lastValidComBaseGame ) );
+	Q_strncpyz( lastValidFsBaseGame, fs_basegame->string, sizeof( lastValidFsBaseGame ) );
 	Q_strncpyz( lastValidGame, fs_gamedirvar->string, sizeof( lastValidGame ) );
 
 }

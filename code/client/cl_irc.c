@@ -1088,7 +1088,7 @@ static __attribute__((format(printf, 1, 2))) int IRC_Send(const char *format, ..
 #if defined _WIN32 || _WIN64
 # define SELECT_ARG 0
 # define SELECT_CHECK (rv == -1 && WSAGetLastError() == WSAEINTR)
-#else // defined __linux__ || defined __FreeBSD__ || defined MACOS_X
+#else // defined __linux__ || defined __FreeBSD__ || defined __APPLE__
 # define SELECT_ARG (IRC_Socket + 1)
 # define SELECT_CHECK (rv == -1 && errno == EINTR)
 #endif
@@ -2486,7 +2486,7 @@ static void IRC_WaitThread( void )
 	}
 }
 
-#else // defined __linux__ || defined MACOS_X || defined __FreeBSD__
+#else // defined __linux__ || defined __APPLE__ || defined __FreeBSD__
 
 /****** THREAD HANDLING - UNIX VARIANT ******/
 

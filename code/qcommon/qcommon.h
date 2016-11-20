@@ -308,6 +308,7 @@ extern int demo_protocols[];
 #endif
 
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
   #ifndef AUTHORIZE_SERVER_NAME
     #define	AUTHORIZE_SERVER_NAME	"localhost"
   #endif
@@ -315,10 +316,13 @@ extern int demo_protocols[];
     #define	PORT_AUTHORIZE		27952
   #endif
 #endif
+#endif
+
+//#define AUTOUPDATE_SERVER_NAME	"foobar"
 
 // TTimo: allow override for easy dev/testing..
 // see cons -- update_server=myhost
-#if !defined( AUTOUPDATE_SERVER_NAME )
+#if !defined AUTOUPDATE_SERVER_NAME && !defined STANDALONE
   #define AUTOUPDATE_SERVER1_NAME   "au2rtcw1.activision.com"            // DHM - Nerve
   #define AUTOUPDATE_SERVER2_NAME   "au2rtcw2.activision.com"            // DHM - Nerve
   #define AUTOUPDATE_SERVER3_NAME   "au2rtcw3.activision.com"            // DHM - Nerve
@@ -709,6 +713,8 @@ int		FS_LoadStack( void );
 
 int     FS_GetFileList(  const char *path, const char *extension, char *listbuf, int bufsize );
 int     FS_GetModList(  char *listbuf, int bufsize );
+
+void	FS_GetModDescription( const char *modDir, char *description, int descriptionLen );
 
 fileHandle_t    FS_FOpenFileWrite( const char *qpath );
 fileHandle_t	FS_FOpenFileAppend( const char *filename );
@@ -1206,7 +1212,7 @@ char    *Sys_DefaultInstallPath( void );
 char    *Sys_SteamPath(void);
 #endif
 
-#ifdef MACOS_X
+#ifdef __APPLE__
 char    *Sys_DefaultAppPath(void);
 #endif
 
@@ -1242,7 +1248,8 @@ typedef enum
 
 dialogResult_t Sys_Dialog( dialogType_t type, const char *message, const char *title );
 
-qboolean Sys_WritePIDFile( void );
+void Sys_RemovePIDFile( const char *gamedir );
+void Sys_InitPIDFile( const char *gamedir );
 
 void Sys_StartProcess( char *cmdline, qboolean doexit );            // NERVE - SMF
 // TTimo

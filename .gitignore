@@ -3,6 +3,7 @@ media/*.pk3
 Makefile.local
 *.swp
 *tags
+*~
 
 # OS X
 ####################

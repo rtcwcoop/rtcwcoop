@@ -358,6 +358,8 @@ extern cvar_t  *sv_allowAnonymous;
 extern cvar_t  *sv_lanForceRate;
 extern cvar_t  *sv_onlyVisibleClients;
 
+extern cvar_t *sv_forceNameUniq;
+
 extern cvar_t  *sv_banFile;
 
 extern	serverBan_t serverBans[SERVER_MAXBANS];
@@ -416,8 +418,6 @@ void SV_AddOperatorCommands( void );
 void SV_RemoveOperatorCommands( void );
 
 void SV_MasterShutdown( void );
-
-void SV_MasterGameCompleteStatus( void );     // NERVE - SMF
 
 int SV_RateMsec(client_t *client);
 

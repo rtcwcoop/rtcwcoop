@@ -44,6 +44,7 @@ cvar_t *s_alDevice;
 cvar_t *s_alInputDevice;
 cvar_t *s_alAvailableDevices;
 cvar_t *s_alAvailableInputDevices;
+cvar_t *s_alTalkAnims;
 
 static qboolean enumeration_ext = qfalse;
 static qboolean enumeration_all_ext = qfalse;
@@ -584,7 +585,7 @@ typedef struct src_s
 	int			flags;			// flags from StartSoundEx
 } src_t;
 
-#ifdef MACOS_X
+#ifdef __APPLE__
 	#define MAX_SRC 128
 #else
 	#define MAX_SRC 256
@@ -785,6 +786,7 @@ void S_AL_SrcShutdown( void )
 	}
 
 	memset(srcList, 0, sizeof(srcList));
+	memset( s_entityTalkAmplitude, 0, sizeof( s_entityTalkAmplitude ) );
 
 	alSourcesInitialised = qfalse;
 }
@@ -1111,15 +1113,6 @@ srcHandle_t S_AL_SrcAlloc( sfxHandle_t sfx, alSrcPriority_t priority, int entnum
 				continue;
 			}
 
-			// re-use channel if applicable
-			if ( curSource->sfx == sfx && !cutDuplicateSound ) {
-				cutDuplicateSound = qtrue;
-				S_AL_SrcKill(i);
-				if (empty == -1)
-					empty = i;
-				continue;
-			}
-
 			// cutoff sounds that expect to be overwritten
 			if ( curSource->flags & SND_OKTOCUT ) {
 				S_AL_SrcKill(i);
@@ -1136,6 +1129,15 @@ srcHandle_t S_AL_SrcAlloc( sfxHandle_t sfx, alSrcPriority_t priority, int entnum
 						empty = i;
 					continue;
 				}
+			}
+
+			// re-use channel if applicable
+			if ( curSource->channel != -1 && curSource->channel != CHAN_AUTO && curSource->sfx == sfx && !cutDuplicateSound ) {
+				cutDuplicateSound = qtrue;
+				S_AL_SrcKill(i);
+				if (empty == -1)
+					empty = i;
+				continue;
 			}
 		}
 	}
@@ -1312,6 +1314,15 @@ static void S_AL_MainStartSound( vec3_t origin, int entnum, int entchannel, sfxH
 	{
 		// We're getting tight on sources and source is not within hearing distance so don't add it
 		return;
+	}
+
+	// Talk anims default to ZERO amplitude
+	if ( entchannel == CHAN_VOICE )
+		memset( s_entityTalkAmplitude, 0, sizeof( s_entityTalkAmplitude ) );
+
+	if ( entnum < MAX_CLIENTS && entchannel == CHAN_VOICE )
+	{
+		s_entityTalkAmplitude[entnum] = (unsigned char)(s_alTalkAnims->integer);
 	}
 
 	// Try to grab a source
@@ -2346,7 +2357,7 @@ static cvar_t *s_alCapture;
 
 #ifdef _WIN32
 #define ALDRIVER_DEFAULT "OpenAL32.dll"
-#elif defined(MACOS_X)
+#elif defined(__APPLE__)
 #define ALDRIVER_DEFAULT "libopenal.dylib"
 #elif defined(__OpenBSD__)
 #define ALDRIVER_DEFAULT "libopenal.so"
@@ -2571,7 +2582,7 @@ static void S_AL_SoundInfo(void)
 #ifdef USE_VOIP
 	if(capture_ext)
 	{
-#ifdef MACOS_X
+#ifdef __APPLE__
 		Com_Printf("  Input Device:   %s\n", qalcGetString(alCaptureDevice, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER));
 #else
 		Com_Printf("  Input Device:   %s\n", qalcGetString(alCaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER));
@@ -2656,6 +2667,7 @@ qboolean S_AL_Init( soundInterface_t *si )
 	s_alMaxDistance = Cvar_Get("s_alMaxDistance", "1024", CVAR_ARCHIVE);
 	s_alRolloff = Cvar_Get( "s_alRolloff", "1.3", CVAR_ARCHIVE);
 	s_alGraceDistance = Cvar_Get("s_alGraceDistance", "512", CVAR_ARCHIVE);
+	s_alTalkAnims = Cvar_Get("s_alTalkAnims", "160", CVAR_ARCHIVE);
 
 	s_alDriver = Cvar_Get( "s_alDriver", ALDRIVER_DEFAULT, CVAR_ARCHIVE | CVAR_LATCH );
 
@@ -2667,7 +2679,7 @@ qboolean S_AL_Init( soundInterface_t *si )
  	{
 #if defined(_WIN32)
 		if( !Q_stricmp( s_alDriver->string, ALDRIVER_DEFAULT ) && !QAL_Init( "OpenAL64.dll" ) ) {
-#elif defined(MACOS_X)
+#elif defined ( __APPLE__ )
 		if( !Q_stricmp( s_alDriver->string, ALDRIVER_DEFAULT ) && !QAL_Init( "/System/Library/Frameworks/OpenAL.framework/OpenAL" ) ) {
 #else
 		if( !Q_stricmp( s_alDriver->string, ALDRIVER_DEFAULT ) || !QAL_Init( ALDRIVER_DEFAULT ) ) {
@@ -2795,7 +2807,7 @@ qboolean S_AL_Init( soundInterface_t *si )
 #endif
 	else
 	{
-#ifdef MACOS_X
+#ifdef __APPLE__
 		// !!! FIXME: Apple has a 1.1-compliant OpenAL, which includes
 		// !!! FIXME:  capture support, but they don't list it in the
 		// !!! FIXME:  extension string. We need to check the version string,

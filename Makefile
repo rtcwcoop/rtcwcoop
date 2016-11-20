@@ -4,19 +4,13 @@
 # GNU Make required
 #
 
-COMPILE_PLATFORM=$(shell uname|sed -e s/_.*//|tr '[:upper:]' '[:lower:]'|sed -e 's/\//_/g')
-
-COMPILE_ARCH=$(shell uname -m | sed -e s/i.86/i386/ | sed -e 's/^arm.*/arm/')
-
+COMPILE_PLATFORM=$(shell uname | sed -e 's/_.*//' | tr '[:upper:]' '[:lower:]' | sed -e 's/\//_/g')
+COMPILE_ARCH=$(shell uname -m | sed -e 's/i.86/x86/' | sed -e 's/^arm.*/arm/')
 ARM_VER_CHECK=$(shell uname -m)
 
 ifeq ($(COMPILE_PLATFORM),sunos)
   # Solaris uname and GNU uname differ
-  COMPILE_ARCH=$(shell uname -p | sed -e s/i.86/i386/)
-endif
-ifeq ($(COMPILE_PLATFORM),darwin)
-  # Apple does some things a little differently...
-  COMPILE_ARCH=$(shell uname -p | sed -e s/i.86/i386/)
+  COMPILE_ARCH=$(shell uname -p | sed -e 's/i.86/x86/')
 endif
 
 ifndef BUILD_STANDALONE
@@ -27,6 +21,9 @@ ifndef BUILD_CLIENT
 endif
 ifndef BUILD_SERVER
   BUILD_SERVER     =
+endif
+ifndef BUILD_UPDATE_SERVER
+  BUILD_UPDATE_SERVER     = 0
 endif
 ifndef BUILD_GAME_SO
   BUILD_GAME_SO    =
@@ -256,6 +253,14 @@ ifndef USE_RENDERER_DLOPEN
 USE_RENDERER_DLOPEN=1
 endif
 
+ifndef USE_XDG
+USE_XDG=0
+endif
+
+ifndef USE_YACC
+USE_YACC=0
+endif
+
 ifndef DEBUG_CFLAGS
 DEBUG_CFLAGS=-g -O0 -ggdb3
 endif
@@ -292,6 +297,10 @@ ifndef USE_IRC
 USE_IRC=1
 endif
 
+ifndef USE_AUTHORIZE_SERVER
+USE_AUTHORIZE_SERVER=0
+endif
+
 
 #############################################################################
 
@@ -312,11 +321,11 @@ NDIR=$(MOUNT_DIR)/null
 UIDIR=$(MOUNT_DIR)/ui
 JPDIR=$(MOUNT_DIR)/jpeg-8c
 OGGDIR=$(MOUNT_DIR)/libogg-1.3.2
-VORBISDIR=$(MOUNT_DIR)/libvorbis-1.3.4
-OPUSDIR=$(MOUNT_DIR)/opus-1.1
-OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.6
+VORBISDIR=$(MOUNT_DIR)/libvorbis-1.3.5
+OPUSDIR=$(MOUNT_DIR)/opus-1.1.2
+OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.7
 ZDIR=$(MOUNT_DIR)/zlib-1.2.8
-FTDIR=$(MOUNT_DIR)/freetype-2.5.5
+FTDIR=$(MOUNT_DIR)/freetype-2.6.4
 SPLDIR=$(MOUNT_DIR)/splines
 Q3ASMDIR=$(MOUNT_DIR)/tools/asm
 LBURGDIR=$(MOUNT_DIR)/tools/lcc/lburg
@@ -430,11 +439,11 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu")
     ifeq ($(CROSS_COMPILING),1)
       ifeq ($(ARCH),x86)
       SDL_LIBS = $(LIBSDIR)/linux32/libSDL2main.a \
-                 $(LIBSDIR)/linux32/libSDL2.so
+                 $(LIBSDIR)/linux32/libSDL2-2.0.so.0.4.0
       endif
       ifeq ($(ARCH),x86_64)
       SDL_LIBS = $(LIBSDIR)/linux64/libSDL2main.a \
-                 $(LIBSDIR)/linux64/libSDL2.so
+                 $(LIBSDIR)/linux64/libSDL2-2.0.so.0.4.0
       endif
     endif
   endif
@@ -529,11 +538,9 @@ ifeq ($(PLATFORM),darwin)
         $(error Architecture $(ARCH) is not supported when cross compiling)
       endif
     endif
-  else
-    TOOLS_CFLAGS += -DMACOS_X
   endif
 
-  BASE_CFLAGS += -fno-strict-aliasing -DMACOS_X -fno-common -pipe
+  BASE_CFLAGS += -fno-strict-aliasing -fno-common -pipe
 
   ifeq ($(USE_OPENAL),1)
     ifneq ($(USE_OPENAL_DLOPEN),1)
@@ -606,25 +613,25 @@ ifdef MINGW
 
     # We need to figure out the correct gcc and windres
     ifeq ($(ARCH),x86_64)
-      MINGW_PREFIXES=amd64-mingw32msvc x86_64-w64-mingw32
+      MINGW_PREFIXES=x86_64-w64-mingw32 amd64-mingw32msvc
     endif
     ifeq ($(ARCH),x86)
-      MINGW_PREFIXES=i586-mingw32msvc i686-w64-mingw32 i686-pc-mingw32
+      MINGW_PREFIXES=i686-w64-mingw32 i586-mingw32msvc i686-pc-mingw32
     endif
 
     ifndef CC
-      CC=$(strip $(foreach MINGW_PREFIX, $(MINGW_PREFIXES), \
-         $(call bin_path, $(MINGW_PREFIX)-gcc)))
+      CC=$(firstword $(strip $(foreach MINGW_PREFIX, $(MINGW_PREFIXES), \
+         $(call bin_path, $(MINGW_PREFIX)-gcc))))
     endif
 
     ifndef CXX
-      CXX=$(strip $(foreach MINGW_PREFIX, $(MINGW_PREFIXES), \
-         $(call bin_path, $(MINGW_PREFIX)-g++)))
+      CXX=$(firstword $(strip $(foreach MINGW_PREFIX, $(MINGW_PREFIXES), \
+         $(call bin_path, $(MINGW_PREFIX)-g++))))
     endif
 
     ifndef WINDRES
-      WINDRES=$(strip $(foreach MINGW_PREFIX, $(MINGW_PREFIXES), \
-         $(call bin_path, $(MINGW_PREFIX)-windres)))
+      WINDRES=$(firstword $(strip $(foreach MINGW_PREFIX, $(MINGW_PREFIXES), \
+         $(call bin_path, $(MINGW_PREFIX)-windres))))
     endif
   else
     # Some MinGW installations define CC to cc, but don't actually provide cc,
@@ -634,7 +641,7 @@ ifdef MINGW
     endif
 
     ifndef CXX
-      CC=g++
+      CXX=g++
     endif
 
     ifndef WINDRES
@@ -689,7 +696,7 @@ ifdef MINGW
   LIBS= -lws2_32 -lwinmm -lpsapi
   # clang 3.5 doesn't support this
   ifneq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-    CLIENT_LDFLAGS += -mwindows -static-libgcc -static-libstdc++
+    CLIENT_LDFLAGS += -mwindows -static -static-libgcc -static-libstdc++
   endif
   CLIENT_LIBS = -lgdi32 -lole32
   RENDERER_LIBS = -lgdi32 -lole32 -lopengl32
@@ -751,54 +758,10 @@ ifdef MINGW
 else # ifdef MINGW
 
 #############################################################################
-# SETUP AND BUILD -- FREEBSD
+# SETUP AND BUILD -- *BSD (is dying)
 #############################################################################
 
-ifeq ($(PLATFORM),freebsd)
-
-  # flags
-  BASE_CFLAGS = $(shell env MACHINE_ARCH=$(ARCH) make -f /dev/null -VCFLAGS) \
-    -Wall -fno-strict-aliasing \
-    -DUSE_ICON -DMAP_ANONYMOUS=MAP_ANON
-  CLIENT_CFLAGS += $(SDL_CFLAGS)
-
-  OPTIMIZEVM = -O3
-  OPTIMIZE = $(OPTIMIZEVM) -ffast-math
-
-  SHLIBEXT=so
-  SHLIBCFLAGS=-fPIC
-  SHLIBLDFLAGS=-shared $(LDFLAGS)
-
-  THREAD_LIBS=-lpthread
-  # don't need -ldl (FreeBSD)
-  LIBS=-lm
-
-  CLIENT_LIBS =
-
-  CLIENT_LIBS += $(SDL_LIBS)
-  RENDERER_LIBS = $(SDL_LIBS) -lGL
-
-  # optional features/libraries
-  ifeq ($(USE_OPENAL),1)
-    ifeq ($(USE_OPENAL_DLOPEN),1)
-      CLIENT_LIBS += $(THREAD_LIBS) $(OPENAL_LIBS)
-    endif
-  endif
-
-  ifeq ($(USE_CURL),1)
-    CLIENT_CFLAGS += $(CURL_CFLAGS)
-    ifeq ($(USE_CURL_DLOPEN),1)
-      CLIENT_LIBS += $(CURL_LIBS)
-    endif
-  endif
-
-else # ifeq freebsd
-
-#############################################################################
-# SETUP AND BUILD -- OPENBSD
-#############################################################################
-
-ifeq ($(PLATFORM),openbsd)
+ifneq (,$(findstring "$(PLATFORM)", "freebsd" "openbsd" "netbsd"))
 
   BASE_CFLAGS = -Wall -fno-strict-aliasing \
     -pipe -DUSE_ICON -DMAP_ANONYMOUS=MAP_ANON
@@ -810,6 +773,7 @@ ifeq ($(PLATFORM),openbsd)
   ifeq ($(ARCH),x86_64)
     OPTIMIZEVM = -O3
     OPTIMIZE = $(OPTIMIZEVM) -ffast-math
+    FILE_ARCH = amd64
   endif
   ifeq ($(ARCH),x86)
     OPTIMIZEVM = -O3 -march=i586
@@ -840,9 +804,6 @@ ifeq ($(PLATFORM),openbsd)
     USE_CURL_DLOPEN=0
   endif
 
-  # no shm_open on OpenBSD
-  USE_MUMBLE=0
-
   SHLIBEXT=so
   SHLIBCFLAGS=-fPIC
   SHLIBLDFLAGS=-shared $(LDFLAGS)
@@ -866,24 +827,7 @@ ifeq ($(PLATFORM),openbsd)
       CLIENT_LIBS += $(CURL_LIBS)
     endif
   endif
-else # ifeq openbsd
-
-#############################################################################
-# SETUP AND BUILD -- NETBSD
-#############################################################################
-
-ifeq ($(PLATFORM),netbsd)
-
-  LIBS=-lm
-  SHLIBEXT=so
-  SHLIBCFLAGS=-fPIC
-  SHLIBLDFLAGS=-shared $(LDFLAGS)
-  THREAD_LIBS=-lpthread
-
-  BASE_CFLAGS = -Wall -fno-strict-aliasing
-
-  BUILD_CLIENT = 0
-else # ifeq netbsd
+else # ifeq *BSD
 
 #############################################################################
 # SETUP AND BUILD -- IRIX
@@ -975,9 +919,7 @@ else # ifeq sunos
 endif #Linux
 endif #darwin
 endif #MINGW
-endif #FreeBSD
-endif #OpenBSD
-endif #NetBSD
+endif #*BSD
 endif #IRIX
 endif #SunOS
 
@@ -986,7 +928,7 @@ ifndef CC
 endif
 
 ifndef CXX
-  CC=g++
+  CXX=g++
 endif
 
 ifndef RANLIB
@@ -1041,6 +983,10 @@ endif
 
 ifneq ($(BUILD_SERVER),0)
   TARGETS += $(B)/$(SERVERBIN)$(FULLBINEXT)
+endif
+
+ifneq ($(BUILD_UPDATE_SERVER),0)
+  SERVER_CFLAGS += -DUPDATE_SERVER
 endif
 
 ifneq ($(BUILD_CLIENT),0)
@@ -1109,7 +1055,7 @@ endif
 
 ifeq ($(NEED_OPUS),1)
   ifeq ($(USE_INTERNAL_OPUS),1)
-      OPUS_CFLAGS = -DOPUS_BUILD -DHAVE_LRINTF -DFLOATING_POINT -DUSE_ALLOCA \
+      OPUS_CFLAGS = -DOPUS_BUILD -DHAVE_LRINTF -DFLOAT_APPROX -DUSE_ALLOCA \
       -I$(OPUSDIR)/include -I$(OPUSDIR)/celt -I$(OPUSDIR)/silk \
       -I$(OPUSDIR)/silk/float -I$(OPUSFILEDIR)/include
   else
@@ -1147,6 +1093,11 @@ endif
 
 ifeq ($(USE_RENDERER_DLOPEN),1)
   CLIENT_CFLAGS += -DUSE_RENDERER_DLOPEN
+endif
+
+ifeq ($(USE_XDG),1)
+  CLIENT_CFLAGS += -DUSE_XDG
+  SERVER_CFLAGS += -DUSE_XDG
 endif
 
 ifeq ($(USE_MUMBLE),1)
@@ -1205,6 +1156,10 @@ ifeq ($(BUILD_STANDALONE),1)
   BASE_CFLAGS += -DSTANDALONE
 endif
 
+ifeq ($(USE_AUTHORIZE_SERVER),1)
+  BASE_CFLAGS += -DUSE_AUTHORIZE_SERVER
+endif
+
 ifeq ($(GENERATE_DEPENDENCIES),1)
   DEPEND_CFLAGS = -MMD
 else
@@ -1242,6 +1197,11 @@ endif
 ifeq ($(USE_LOCALISATION),1)
   CLIENT_CFLAGS += -DLOCALISATION
   CFLAGS += -DLOCALISATION
+endif
+
+# https://reproducible-builds.org/specs/source-date-epoch/
+ifdef SOURCE_DATE_EPOCH
+  BASE_CFLAGS += -DPRODUCT_DATE=\\\"$(shell date --date="@$$SOURCE_DATE_EPOCH" "+%b %_d %Y" | sed -e 's/ /\\\ /'g)\\\"
 endif
 
 BASE_CFLAGS += -DPRODUCT_VERSION=\\\"$(VERSION)\\\"
@@ -1479,6 +1439,10 @@ ifndef TOOLS_CC
   TOOLS_CC = gcc
 endif
 
+ifndef YACC
+  YACC = yacc
+endif
+
 TOOLS_OPTIMIZE = -g -Wall -fno-strict-aliasing
 TOOLS_CFLAGS += $(TOOLS_OPTIMIZE) \
                 -DTEMPDIR=\"$(TEMPDIR)\" -DSYSTEM=\"\" \
@@ -1490,6 +1454,12 @@ TOOLS_LDFLAGS =
 ifeq ($(GENERATE_DEPENDENCIES),1)
   TOOLS_CFLAGS += -MMD
 endif
+
+define DO_YACC
+$(echo_cmd) "YACC $<"
+$(Q)$(YACC) $<
+$(Q)mv -f y.tab.c $@
+endef
 
 define DO_TOOLS_CC
 $(echo_cmd) "TOOLS_CC $<"
@@ -1511,6 +1481,12 @@ Q3ASM       = $(B)/tools/q3asm$(TOOLS_BINEXT)
 LBURGOBJ= \
   $(B)/tools/lburg/lburg.o \
   $(B)/tools/lburg/gram.o
+
+# override GNU Make built-in rule for converting gram.y to gram.c
+%.c: %.y
+ifeq ($(USE_YACC),1)
+	$(DO_YACC)
+endif
 
 $(B)/tools/lburg/%.o: $(LBURGDIR)/%.c
 	$(DO_TOOLS_CC)
@@ -1760,6 +1736,7 @@ Q3R2OBJ = \
   $(B)/rend2/tr_bsp.o \
   $(B)/rend2/tr_cmds.o \
   $(B)/rend2/tr_curve.o \
+  $(B)/rend2/tr_dsa.o \
   $(B)/rend2/tr_extramath.o \
   $(B)/rend2/tr_extensions.o \
   $(B)/rend2/tr_fbo.o \
@@ -1772,6 +1749,7 @@ Q3R2OBJ = \
   $(B)/rend2/tr_image_pcx.o \
   $(B)/rend2/tr_image_png.o \
   $(B)/rend2/tr_image_tga.o \
+  $(B)/rend2/tr_image_dds.o \
   $(B)/rend2/tr_init.o \
   $(B)/rend2/tr_light.o \
   $(B)/rend2/tr_main.o \
@@ -1938,6 +1916,7 @@ ifneq ($(USE_INTERNAL_FREETYPE),0)
     $(B)/renderer/ftbdf.o \
     $(B)/renderer/ftbitmap.o \
     $(B)/renderer/ftcid.o \
+    $(B)/renderer/ftfntfmt.o \
     $(B)/renderer/ftfstype.o \
     $(B)/renderer/ftgasp.o \
     $(B)/renderer/ftglyph.o \
@@ -1951,7 +1930,6 @@ ifneq ($(USE_INTERNAL_FREETYPE),0)
     $(B)/renderer/ftsynth.o \
     $(B)/renderer/fttype1.o \
     $(B)/renderer/ftwinfnt.o \
-    $(B)/renderer/ftxf86.o \
     $(B)/renderer/truetype.o \
     $(B)/renderer/type1.o \
     $(B)/renderer/cff.o \
@@ -2224,7 +2202,7 @@ endif
 ifneq ($(USE_RENDERER_DLOPEN),0)
 $(B)/$(CLIENTBIN)$(FULLBINEXT): $(Q3OBJ) $(LIBSDLMAIN)
 	$(echo_cmd) "LD $@"
-	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) \
+	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
 		-o $@ $(Q3OBJ) \
 		$(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS)
 
@@ -2240,13 +2218,13 @@ $(B)/renderer_coop_rend2_$(SHLIBNAME): $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(F
 else
 $(B)/$(CLIENTBIN)$(FULLBINEXT): $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) $(FTOBJ) $(LIBSDLMAIN)
 	$(echo_cmd) "LD $@"
-	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) \
+	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
 		-o $@ $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) $(FTOBJ) \
 		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
 
 $(B)/$(CLIENTBIN)_rend2$(FULLBINEXT): $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ) $(LIBSDLMAIN)
 	$(echo_cmd) "LD $@"
-	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) \
+	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
 		-o $@ $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ) \
 		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
 endif
@@ -2396,7 +2374,7 @@ endif
 
 $(B)/$(SERVERBIN)$(FULLBINEXT): $(Q3DOBJ)
 	$(echo_cmd) "LD $@"
-	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(Q3DOBJ) $(LIBS)
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) -o $@ $(Q3DOBJ) $(LIBS)
 
 
 

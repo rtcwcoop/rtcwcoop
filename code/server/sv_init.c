@@ -453,9 +453,7 @@ void SV_SetExpectedHunkUsage( char *mapname ) {
 SV_ClearServer
 ================
 */
-static cvar_t *sv_levelTimeReset;
-
-static void SV_ClearServer(void) {
+static void SV_ClearServer( void ) {
 	int i;
 
 	for ( i = 0 ; i < MAX_CONFIGSTRINGS ; i++ ) {
@@ -464,13 +462,7 @@ static void SV_ClearServer(void) {
 		}
 	}
 
-	if ( !sv_levelTimeReset->integer ) {
-		i = sv.time; 
-		Com_Memset( &sv, 0, sizeof( sv ) );
-		sv.time = i;
-	} else {
-		Com_Memset( &sv, 0, sizeof( sv ) );
-	}
+	Com_Memset ( &sv, 0, sizeof( sv ) );
 }
 
 /*
@@ -671,20 +663,9 @@ void SV_SpawnServer( char *server, qboolean killBots ) {
 	// make sure we are not paused
 	Cvar_Set( "cl_paused", "0" );
 
-#if !defined( DO_LIGHT_DEDICATED )
 	// get a new checksum feed and restart the file system
 	sv.checksumFeed = ( ((int) rand() << 16) ^ rand() ) ^ Com_Milliseconds();
 
-	// DO_LIGHT_DEDICATED
-	// only comment out when you need a new pure checksum string and it's associated random feed
-	//Com_DPrintf("SV_SpawnServer checksum feed: %p\n", sv.checksumFeed);
-
-#else // DO_LIGHT_DEDICATED implementation below
-	// we are not able to randomize the checksum feed since the feed is used as key for pure_checksum computations
-	// files.c 1776 : pack->pure_checksum = Com_BlockChecksumKey( fs_headerLongs, 4 * fs_numHeaderLongs, LittleLong(fs_checksumFeed) );
-	// we request a fake randomized feed, files.c knows the answer
-	sv.checksumFeed = FS_RandChecksumFeed();
-#endif
 	FS_Restart( sv.checksumFeed );
 
 	// Load map config if present
@@ -1021,9 +1002,9 @@ void SV_Init (void)
 
 	sv_banFile = Cvar_Get("sv_banFile", "serverbans.dat", CVAR_ARCHIVE);
 
-	sv_levelTimeReset = Cvar_Get( "sv_levelTimeReset", "0", CVAR_ARCHIVE );
-
 	sv_onlyVisibleClients = Cvar_Get( "sv_onlyVisibleClients", "0", 0 );       // DHM - Nerve
+
+	sv_forceNameUniq = Cvar_Get( "sv_forceNameUniq", "0", CVAR_ARCHIVE );
 
 	sv_showAverageBPS = Cvar_Get( "sv_showAverageBPS", "0", 0 );           // NERVE - SMF - net debugging
 

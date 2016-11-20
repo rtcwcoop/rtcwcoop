@@ -2697,7 +2697,7 @@ static void PM_Weapon( void ) {
 #ifdef GAMEDLL
 	if ( g_reloading.integer )
 #endif
-	gameReloading = qtrue;
+		gameReloading = qtrue;
 	else {
 		gameReloading = qfalse;
 	}
@@ -2798,8 +2798,7 @@ static void PM_Weapon( void ) {
 			}
 			return;
 		}
-	} else
-	{
+	} else {
 		pm->ps->pm_flags &= ~PMF_USE_ITEM_HELD;
 	}
 

@@ -43,6 +43,9 @@ qboolean stdinIsATTY;
 
 // Used to determine where to store user-specific files
 static char homePath[ MAX_OSPATH ] = { 0 };
+#ifdef USE_XDG
+static const char DEFAULT_XDG_DATA_HOME[] = {'.', 'l', 'o', 'c', 'a', 'l', PATH_SEP, 's', 'h', 'a', 'r', 'e', '\0'};
+#endif
 
 #ifndef STANDALONE
 // Used to store the Steam RTCW installation path
@@ -56,14 +59,18 @@ Sys_DefaultHomePath
 */
 char *Sys_DefaultHomePath(void)
 {
-	char *p;
+	char *p1;
+#ifdef USE_XDG
+	char *p2;
+#endif
 
 	if( !*homePath && com_homepath != NULL )
 	{
-		if( ( p = getenv( "HOME" ) ) != NULL )
+#ifdef __APPLE__
+		if( ( p1 = getenv( "HOME" ) ) != NULL )
 		{
-			Com_sprintf(homePath, sizeof(homePath), "%s%c", p, PATH_SEP);
-#ifdef MACOS_X
+			Com_sprintf(homePath, sizeof(homePath), "%s%c", p1, PATH_SEP);
+
 			Q_strcat(homePath, sizeof(homePath),
 				"Documents/");
 
@@ -71,13 +78,38 @@ char *Sys_DefaultHomePath(void)
 				Q_strcat(homePath, sizeof(homePath), com_homepath->string);
 			else
 				Q_strcat(homePath, sizeof(homePath), HOMEPATH_NAME_MACOSX);
+		}
 #else
+#ifdef USE_XDG
+		if( ( p1 = getenv( "XDG_DATA_HOME" ) ) != NULL )
+		{
+			Com_sprintf(homePath, sizeof(homePath), "%s%c", p1, PATH_SEP);
+
+		}
+		else if( ( p2 = getenv( "HOME" ) ) != NULL)
+		{
+			Com_sprintf(homePath, sizeof(homePath), "%s%c%s%c", p2, PATH_SEP, DEFAULT_XDG_DATA_HOME, PATH_SEP);
+		}
+
+		if (p1 || p2)
+		{
 			if(com_homepath->string[0])
 				Q_strcat(homePath, sizeof(homePath), com_homepath->string);
 			else
 				Q_strcat(homePath, sizeof(homePath), HOMEPATH_NAME_UNIX);
-#endif
 		}
+#else
+		if( ( p1 = getenv( "HOME" ) ) != NULL )
+		{
+			Com_sprintf(homePath, sizeof(homePath), "%s%c", p1, PATH_SEP);
+
+			if(com_homepath->string[0])
+				Q_strcat(homePath, sizeof(homePath), com_homepath->string);
+			else
+				Q_strcat(homePath, sizeof(homePath), HOMEPATH_NAME_UNIX);
+		}
+#endif // USE_XDG
+#endif // __APPLE__
 	}
 
 	return homePath;
@@ -97,7 +129,7 @@ char *Sys_SteamPath( void )
 
 	if( ( p = getenv( "HOME" ) ) != NULL )
 	{
-#ifdef MACOS_X
+#ifdef __APPLE__
 		char *steamPathEnd = "/Library/Application Support/Steam/SteamApps/common/" STEAMPATH_NAME;
 #else
 		char *steamPathEnd = "/.steam/steam/SteamApps/common/" STEAMPATH_NAME;
@@ -581,7 +613,7 @@ void Sys_ErrorDialog( const char *error )
 	close( f );
 }
 
-#ifndef MACOS_X
+#ifndef __APPLE__
 static char execBuffer[ 1024 ];
 static char *execBufferPointer;
 static char *execArgv[ 16 ];
@@ -1051,7 +1083,10 @@ void Sys_OpenURL( const char *url, qboolean doexit ) {
 	// build the command line
 	Com_sprintf( cmdline, MAX_CMD, "%s '%s' &", fn, url );
 
-	Sys_StartProcess( cmdline, qfalse );
-
+	if ( doexit ) {
+		Sys_StartProcess( cmdline, qtrue );
+	} else {
+		Sys_StartProcess( cmdline, qfalse );
+	}
 }
 

@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "server.h"
 
-#ifdef MACOS_X
+#ifdef __APPLE__
 #include <stdarg.h>
 #endif
 
@@ -76,6 +76,9 @@ cvar_t  *sv_floodProtect;
 cvar_t	*sv_lanForceRate; // dedicated 1 (LAN) server forces local client rates to 99999 (bug #491)
 cvar_t  *sv_allowAnonymous;
 cvar_t  *sv_onlyVisibleClients; // DHM - Nerve
+
+cvar_t  *sv_forceNameUniq;
+
 cvar_t  *sv_friendlyFire;       // NERVE - SMF
 cvar_t  *sv_maxlives;           // NERVE - SMF
 cvar_t  *sv_tourney;            // NERVE - SMF
@@ -102,8 +105,6 @@ cvar_t *awh_active;
 cvar_t *awh_bbox_horz;
 cvar_t *awh_bbox_vert;
 #endif
-
-void SVC_GameCompleteStatus( netadr_t from );       // NERVE - SMF
 
 
 /*
@@ -251,9 +252,10 @@ but not on every player enter or exit.
 void SV_MasterHeartbeat(const char *message)
 {
 	static netadr_t	adr[MAX_MASTER_SERVERS][2]; // [2] for v4 and v6 address for the same address string.
-	int i;
+	int			i;
 	int			res;
 	int			netenabled;
+	static qboolean		firstRes = qtrue;
 
 	netenabled = Cvar_VariableIntegerValue("net_enabled");
 
@@ -264,7 +266,7 @@ void SV_MasterHeartbeat(const char *message)
 
 	// "dedicated 1" is for lan play, "dedicated 2" is for inet public play
 	if (!com_dedicated || com_dedicated->integer != 2 || !(netenabled & (NET_ENABLEV4 | NET_ENABLEV6)))
-		return;     // only dedicated servers send heartbeats
+		return;		// only dedicated servers send heartbeats
 
 	// if not time yet, don't send anything
 	if ( svs.time < svs.nextHeartbeatTime ) 
@@ -279,49 +281,66 @@ void SV_MasterHeartbeat(const char *message)
 		}
 
 		// see if we haven't already resolved the name
-		// resolving usually causes hitches on win95, so only
-		// do it when needed
+		// if server did not resolve on first attempt, do not attempt another dns lookup
+		// if server did resolve on first attempt, attempt resolution on subsequent heartbeats
 		if(sv_master[i]->modified || (adr[i][0].type == NA_BAD && adr[i][1].type == NA_BAD))
 		{
 			sv_master[i]->modified = qfalse;
 
 			if(netenabled & NET_ENABLEV4)
 			{
-				Com_Printf("Resolving %s (IPv4)\n", sv_master[i]->string);
-				res = NET_StringToAdr(sv_master[i]->string, &adr[i][0], NA_IP);
+				if(firstRes || adr[i][0].type != NA_BAD) {
+					Com_Printf("Resolving %s (IPv4)\n", sv_master[i]->string);
+					res = NET_StringToAdr(sv_master[i]->string, &adr[i][0], NA_IP);
 
-				if(res == 2)
-				{
-					// if no port was specified, use the default master port
-					adr[i][0].port = BigShort(PORT_MASTER);
-				}
+					if(res == 2)
+					{
+						// if no port was specified, use the default master port
+						adr[i][0].port = BigShort(PORT_MASTER);
+					}
 				
-				if(res)
-					Com_Printf( "%s resolved to %s\n", sv_master[i]->string, NET_AdrToStringwPort(adr[i][0]));
-				else
-					Com_Printf( "%s has no IPv4 address.\n", sv_master[i]->string);
+					if(res) {
+						Com_Printf( "%s resolved to %s\n", sv_master[i]->string, NET_AdrToStringwPort(adr[i][0]));
+
+						if(adr[i][0].type != NA_BAD) {
+							Com_Printf ("Sending heartbeat to %s (IPv4)\n", sv_master[i]->string );
+							NET_OutOfBandPrint( NS_SERVER, adr[i][0], "heartbeat %s\n", message);
+						}
+						sv_master[i]->modified = qtrue;
+					} else {
+						Com_Printf( "%s has no IPv4 address.\n", sv_master[i]->string);
+					}
+				}	
 			}
 			
 			if(netenabled & NET_ENABLEV6)
 			{
-				Com_Printf("Resolving %s (IPv6)\n", sv_master[i]->string);
-				res = NET_StringToAdr(sv_master[i]->string, &adr[i][1], NA_IP6);
+				if(firstRes || adr[i][1].type != NA_BAD) {
+					Com_Printf("Resolving %s (IPv6)\n", sv_master[i]->string);
+					res = NET_StringToAdr(sv_master[i]->string, &adr[i][1], NA_IP6);
 
-				if(res == 2)
-				{
-					// if no port was specified, use the default master port
-					adr[i][1].port = BigShort(PORT_MASTER);
-				}
+					if(res == 2)
+					{
+						// if no port was specified, use the default master port
+						adr[i][1].port = BigShort(PORT_MASTER);
+					}
 				
-				if(res)
-					Com_Printf( "%s resolved to %s\n", sv_master[i]->string, NET_AdrToStringwPort(adr[i][1]));
-				else
-					Com_Printf( "%s has no IPv6 address.\n", sv_master[i]->string);
+					if(res) {
+						Com_Printf( "%s resolved to %s\n", sv_master[i]->string, NET_AdrToStringwPort(adr[i][1]));
+						if(adr[i][1].type != NA_BAD) {
+							Com_Printf ("Sending heartbeat to %s (IPv6)\n", sv_master[i]->string );
+							NET_OutOfBandPrint( NS_SERVER, adr[i][1], "heartbeat %s\n", message);
+						}
+						sv_master[i]->modified = qtrue;
+					} else {
+						Com_Printf( "%s has no IPv6 address.\n", sv_master[i]->string);
+					}
+				}
 			}
 
 			if(adr[i][0].type == NA_BAD && adr[i][1].type == NA_BAD)
 			{
-				// if the address failed to resolve, clear it
+				// if the address failed to resolve in both ipv4 or ipv6, clear it
 				// so we don't take repeated dns hits
 				Com_Printf( "Couldn't resolve address: %s\n", sv_master[i]->string );
 				Cvar_Set( sv_master[i]->name, "" );
@@ -329,105 +348,9 @@ void SV_MasterHeartbeat(const char *message)
 				continue;
 			}
 		}
-
-
-		Com_Printf( "Sending heartbeat to %s\n", sv_master[i]->string );
-		// this command should be changed if the server info / status format
-		// ever incompatably changes
-
-		if(adr[i][0].type != NA_BAD)
-			NET_OutOfBandPrint( NS_SERVER, adr[i][0], "heartbeat %s\n", message);
-		if(adr[i][1].type != NA_BAD)
-			NET_OutOfBandPrint( NS_SERVER, adr[i][1], "heartbeat %s\n", message);
 	}
-}
 
-/*
-=================
-SV_MasterGameCompleteStatus
-
-NERVE - SMF - Sends gameCompleteStatus messages to all master servers
-=================
-*/
-void SV_MasterGameCompleteStatus() {
-	static netadr_t	adr[MAX_MASTER_SERVERS][2]; // [2] for v4 and v6 address for the same address string.
-	int i;
-	int			res;
-	int			netenabled;
-
-	netenabled = Cvar_VariableIntegerValue("net_enabled");
-
-	// "dedicated 1" is for lan play, "dedicated 2" is for inet public play
-	if (!com_dedicated || com_dedicated->integer != 2 || !(netenabled & (NET_ENABLEV4 | NET_ENABLEV6)))
-		return;     // only dedicated servers send master game status
-
-	// send to group masters
-	for ( i = 0 ; i < MAX_MASTER_SERVERS ; i++ ) {
-		if ( !sv_master[i]->string[0] ) {
-			continue;
-		}
-
-		// see if we haven't already resolved the name
-		// resolving usually causes hitches on win95, so only
-		// do it when needed
-		if(sv_master[i]->modified || (adr[i][0].type == NA_BAD && adr[i][1].type == NA_BAD))
-		{
-			sv_master[i]->modified = qfalse;
-
-			if(netenabled & NET_ENABLEV4)
-			{
-				Com_Printf("Resolving %s (IPv4)\n", sv_master[i]->string);
-				res = NET_StringToAdr(sv_master[i]->string, &adr[i][0], NA_IP);
-
-				if(res == 2)
-				{
-					// if no port was specified, use the default master port
-					adr[i][0].port = BigShort(PORT_MASTER);
-				}
-				
-				if(res)
-					Com_Printf( "%s resolved to %s\n", sv_master[i]->string, NET_AdrToStringwPort(adr[i][0]));
-				else
-					Com_Printf( "%s has no IPv4 address.\n", sv_master[i]->string);
-			}
-			
-			if(netenabled & NET_ENABLEV6)
-			{
-				Com_Printf("Resolving %s (IPv6)\n", sv_master[i]->string);
-				res = NET_StringToAdr(sv_master[i]->string, &adr[i][1], NA_IP6);
-
-				if(res == 2)
-				{
-					// if no port was specified, use the default master port
-					adr[i][1].port = BigShort(PORT_MASTER);
-				}
-				
-				if(res)
-					Com_Printf( "%s resolved to %s\n", sv_master[i]->string, NET_AdrToStringwPort(adr[i][1]));
-				else
-					Com_Printf( "%s has no IPv6 address.\n", sv_master[i]->string);
-			}
-
-			if(adr[i][0].type == NA_BAD && adr[i][1].type == NA_BAD)
-			{
-				// if the address failed to resolve, clear it
-				// so we don't take repeated dns hits
-				Com_Printf( "Couldn't resolve address: %s\n", sv_master[i]->string );
-				Cvar_Set( sv_master[i]->name, "" );
-				sv_master[i]->modified = qfalse;
-				continue;
-			}
-		}
-
-		Com_Printf( "Sending gameCompleteStatus to %s\n", sv_master[i]->string );
-		// this command should be changed if the server info / status format
-		// ever incompatably changes
-
-		if(adr[i][0].type != NA_BAD)
-			SVC_GameCompleteStatus( adr[i][0] );
-		if(adr[i][1].type != NA_BAD)
-			SVC_GameCompleteStatus( adr[i][1] );
-	}
+	firstRes = qfalse;
 }
 
 /*
@@ -443,8 +366,8 @@ void SV_MasterShutdown( void ) {
 	SV_MasterHeartbeat(FLATLINE_FOR_MASTER);
 
 	// send it again to minimize chance of drops
-	svs.nextHeartbeatTime = -9999;
-	SV_MasterHeartbeat(FLATLINE_FOR_MASTER);
+//	svs.nextHeartbeatTime = -9999;
+//	SV_MasterHeartbeat(FLATLINE_FOR_MASTER);
 
 	// when the master tries to poll the server, it won't respond, so
 	// it will be removed from the list
@@ -720,74 +643,6 @@ static void SVC_Status( netadr_t from ) {
 	}
 
 	NET_OutOfBandPrint( NS_SERVER, from, "statusResponse\n%s\n%s", infostring, status );
-}
-
-/*
-=================
-SVC_GameCompleteStatus
-
-NERVE - SMF - Send serverinfo cvars, etc to master servers when
-game complete. Useful for tracking global player stats.
-=================
-*/
-void SVC_GameCompleteStatus( netadr_t from ) {
-	char player[1024];
-	char status[MAX_MSGLEN];
-	int i;
-	client_t    *cl;
-	playerState_t   *ps;
-	int statusLength;
-	int playerLength;
-	char infostring[MAX_INFO_STRING];
-
-	// ignore if we are in single player
-	if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER || Cvar_VariableValue("ui_singlePlayerActive")) {
-		return;
-	}
-
-	// Prevent using getstatus as an amplifier
-	if ( SVC_RateLimitAddress( from, 10, 1000 ) ) {
-		Com_DPrintf( "SVC_Status: rate limit from %s exceeded, dropping request\n",
-			NET_AdrToString( from ) );
-		return;
-	}
-
-	// Allow getstatus to be DoSed relatively easily, but prevent
-	// excess outbound bandwidth usage when being flooded inbound
-	if ( SVC_RateLimit( &outboundLeakyBucket, 10, 100 ) ) {
-		Com_DPrintf( "SVC_Status: rate limit exceeded, dropping request\n" );
- 		return;
- 	}
-
-	// A maximum challenge length of 128 should be more than plenty.
-	if(strlen(Cmd_Argv(1)) > 128)
-		return;
-
-	strcpy( infostring, Cvar_InfoString( CVAR_SERVERINFO ) );
-
-	// echo back the parameter to status. so master servers can use it as a challenge
-	// to prevent timed spoofed reply packets that add ghost servers
-	Info_SetValueForKey( infostring, "challenge", Cmd_Argv( 1 ) );
-
-	status[0] = 0;
-	statusLength = 0;
-
-	for ( i = 0 ; i < sv_maxcoopclients->integer ; i++ ) {
-		cl = &svs.clients[i];
-		if ( cl->state >= CS_CONNECTED ) {
-			ps = SV_GameClientNum( i );
-			Com_sprintf( player, sizeof( player ), "%i %i \"%s\"\n",
-						 ps->persistant[PERS_SCORE], cl->ping, cl->name );
-			playerLength = strlen( player );
-			if ( statusLength + playerLength >= sizeof( status ) ) {
-				break;      // can't hold any more
-			}
-			strcpy( status + statusLength, player );
-			statusLength += playerLength;
-		}
-	}
-
-	NET_OutOfBandPrint( NS_SERVER, from, "gameCompleteStatus\n%s\n%s", infostring, status );
 }
 
 /*
@@ -1106,8 +961,10 @@ static void SV_ConnectionlessPacket( netadr_t from, msg_t *msg ) {
 	} else if ( !Q_stricmp( c,"connect" ) ) {
 		SV_DirectConnect( from );
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
 	} else if ( !Q_stricmp( c,"ipAuthorize" ) ) {
 		SV_AuthorizeIpPacket( from );
+#endif
 #endif
 	} else if ( !Q_stricmp( c, "rcon" ) ) {
 		SVC_RemoteCommand( from, msg );

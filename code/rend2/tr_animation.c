@@ -44,7 +44,7 @@ frame.
 //#define DBG_PROFILE_BONES
 
 //-----------------------------------------------------------------------------
-// Static Vars, ugly but easiest (and fastest) means of seperating RB_SurfaceAnim
+// Static Vars, ugly but easiest (and fastest) means of separating RB_SurfaceAnim
 // and R_CalcBones
 
 static float frontlerp, backlerp;
@@ -68,7 +68,7 @@ static short           *sh, *sh2;
 static float           *pf;
 static vec3_t angles, tangles, torsoParentOffset, torsoAxis[3], tmpAxis[3];
 static float           *tempVert;
-static uint32_t         *tempNormal;
+static int16_t         *tempNormal;
 static vec3_t vec, v2, dir;
 static float diff, a1, a2;
 static int render_count;
@@ -1177,8 +1177,8 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 	numVerts = surface->numVerts;
 	v = ( mdsVertex_t * )( (byte *)surface + surface->ofsVerts );
 	tempVert = ( float * )( tess.xyz + baseVertex );
-	tempNormal = ( uint32_t * )( tess.normal + baseVertex );
-	for ( j = 0; j < render_count; j++, tempVert += 4, tempNormal++ ) {
+	tempNormal = ( int16_t * )( tess.normal + baseVertex );
+	for ( j = 0; j < render_count; j++, tempVert += 4, tempNormal += 4 ) {
 		mdsWeight_t *w;
 		vec3_t newNormal;
 
@@ -1189,9 +1189,10 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 			bone = &bones[w->boneIndex];
 			LocalAddScaledMatrixTransformVectorTranslate( w->offset, w->boneWeight, bone->matrix, bone->translation, tempVert );
 		}
+
 		LocalMatrixTransformVector( v->normal, bones[v->weights[0].boneIndex].matrix, newNormal );
 		
-		R_VaoPackNormal((byte *)tempNormal, newNormal);
+		R_VaoPackNormal(tempNormal, newNormal);
 
 		tess.texCoords[baseVertex + j][0][0] = v->texCoords[0];
 		tess.texCoords[baseVertex + j][0][1] = v->texCoords[1];
@@ -1208,7 +1209,7 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 			for ( i = 0; i < surface->numBoneReferences; i++, boneRefs++ ) {
 				bonePtr = &bones[*boneRefs];
 
-				GL_Bind( tr.whiteImage );
+				GL_BindToTMU(tr.whiteImage, TB_COLORMAP);
 				qglLineWidth( 1 );
 				qglBegin( GL_LINES );
 				for ( j = 0; j < 3; j++ ) {
@@ -1240,9 +1241,9 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 
 			// show mesh edges
 			tempVert = ( float * )( tess.xyz + baseVertex );
-			tempNormal = ( uint32_t * )( tess.normal + baseVertex );
+			tempNormal = ( int16_t * )( tess.normal + baseVertex );
 
-			GL_Bind( tr.whiteImage );
+			GL_BindToTMU(tr.whiteImage, TB_COLORMAP);
 			qglLineWidth( 1 );
 			qglBegin( GL_LINES );
 			qglColor3f( .0,.0,.8 );
@@ -1741,7 +1742,7 @@ void RB_MDRSurfaceAnim( mdrSurface_t *surface )
 		tess.xyz[baseVertex + j][1] = tempVert[1];
 		tess.xyz[baseVertex + j][2] = tempVert[2];
 
-		R_VaoPackNormal((byte *)&tess.normal[baseVertex + j], tempNormal);
+		R_VaoPackNormal(tess.normal[baseVertex + j], tempNormal);
 
 		tess.texCoords[baseVertex + j][0][0] = v->texCoords[0];
 		tess.texCoords[baseVertex + j][0][1] = v->texCoords[1];

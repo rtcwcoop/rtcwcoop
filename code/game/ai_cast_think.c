@@ -1217,7 +1217,7 @@ void AICast_PredictMovement( cast_state_t *cs, int numframes, float frametime, a
 				//VectorCopy( thisHitVec, startHitVec );
 				VectorCopy( pm.ps->origin, lastOrg );
 			}
-			// if we didnt reach the marker, then check for something that blocked us
+			// if we didn't reach the marker, then check for something that blocked us
 			for ( i = 0; i < pm.numtouch; i++ ) {
 				if ( pm.touchents[i] == pm.ps->groundEntityNum ) {
 					continue;
@@ -1256,9 +1256,9 @@ done:
 	// hack, if we are above ground, chances are it's because we only did one frame, and gravity isn't applied until
 	// after the frame, so try and drop us down some
 	if ( pm.ps->groundEntityNum == ENTITYNUM_NONE ) {
-		VectorCopy( move->endpos, end );
+		VectorCopy( pm.ps->origin, end );
 		end[2] -= 32;
-		trap_Trace( &tr, move->endpos, pm.mins, pm.maxs, end, pm.ps->clientNum, pm.tracemask );
+		trap_Trace( &tr, pm.ps->origin, pm.mins, pm.maxs, end, pm.ps->clientNum, pm.tracemask );
 		if ( !tr.startsolid && !tr.allsolid && tr.fraction < 1 ) {
 			VectorCopy( tr.endpos, pm.ps->origin );
 			pm.ps->groundEntityNum = tr.entityNum;

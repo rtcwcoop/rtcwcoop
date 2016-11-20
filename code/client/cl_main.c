@@ -1467,6 +1467,7 @@ void CL_Disconnect( qboolean showMainMenu ) {
 		for (i = 0; i < MAX_CLIENTS; i++) {
 			opus_decoder_destroy(clc.opusDecoder[i]);
 		}
+		clc.voipCodecInitialized = qfalse;
 	}
 	Cmd_RemoveCommand ("voip");
 #endif
@@ -1639,6 +1640,7 @@ in anyway.
 ===================
 */
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
 void CL_RequestAuthorization( void ) {
 	char nums[64];
 	int i, j, l;
@@ -1682,6 +1684,7 @@ void CL_RequestAuthorization( void ) {
 
 	NET_OutOfBandPrint(NS_CLIENT, cls.authorizeServer, "getKeyAuthorize %i %s", fs->integer, nums );
 }
+#endif
 #endif
 
 /*
@@ -2285,7 +2288,7 @@ void CL_NextDownload( void ) {
 	qboolean useCURL = qfalse;
 
 	// A download has finished, check whether this matches a referenced checksum
-	if(*clc.downloadName)
+	if( *clc.downloadName && !autoupdateStarted )
 	{
 		char *zippath = FS_BuildOSPath(Cvar_VariableString("fs_homepath"), clc.downloadName, "");
 		zippath[strlen(zippath)-1] = '\0';
@@ -2471,10 +2474,11 @@ void CL_CheckForResend( void ) {
 	case CA_CONNECTING:
 		// requesting a challenge .. IPv6 users always get in as authorize server supports no ipv6.
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
 //		if (!com_standalone->integer && clc.serverAddress.type == NA_IP && !Sys_IsLANAddress( clc.serverAddress ) )
 //			CL_RequestAuthorization();
 #endif
-
+#endif
 		// The challenge request shall be followed by a client challenge so no malicious server can hijack this connection.
 		// Add the gamename so the server knows we're running the correct game or can reject the client
 		// with a meaningful message
@@ -4091,13 +4095,13 @@ void CL_Init( void ) {
 	j_yaw =          Cvar_Get ("j_yaw",          "-0.022", CVAR_ARCHIVE);
 	j_forward =      Cvar_Get ("j_forward",      "-0.25", CVAR_ARCHIVE);
 	j_side =         Cvar_Get ("j_side",         "0.25", CVAR_ARCHIVE);
-	j_up =           Cvar_Get ("j_up",           "1", CVAR_ARCHIVE);
+	j_up =           Cvar_Get ("j_up",           "0", CVAR_ARCHIVE);
 
 	j_pitch_axis =   Cvar_Get ("j_pitch_axis",   "3", CVAR_ARCHIVE);
-	j_yaw_axis =     Cvar_Get ("j_yaw_axis",     "4", CVAR_ARCHIVE);
+	j_yaw_axis =     Cvar_Get ("j_yaw_axis",     "2", CVAR_ARCHIVE);
 	j_forward_axis = Cvar_Get ("j_forward_axis", "1", CVAR_ARCHIVE);
 	j_side_axis =    Cvar_Get ("j_side_axis",    "0", CVAR_ARCHIVE);
-	j_up_axis =      Cvar_Get ("j_up_axis",      "2", CVAR_ARCHIVE);
+	j_up_axis =      Cvar_Get ("j_up_axis",      "4", CVAR_ARCHIVE);
 
 	Cvar_CheckRange(j_pitch_axis, 0, MAX_JOYSTICK_AXIS-1, qtrue);
 	Cvar_CheckRange(j_yaw_axis, 0, MAX_JOYSTICK_AXIS-1, qtrue);

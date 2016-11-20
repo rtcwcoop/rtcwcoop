@@ -1016,16 +1016,31 @@ Workaround for ri.Printf's 1024 characters buffer limit.
 */
 void R_PrintLongString(const char *string) {
 	char buffer[1024];
-	const char *p;
-	int size = strlen(string);
+	const char *p = string;
+	int remainingLength = strlen(string);
 
-	p = string;
-	while(size > 0)
+	while (remainingLength > 0)
 	{
-		Q_strncpyz(buffer, p, sizeof (buffer) );
+		// Take as much characters as possible from the string without splitting words between buffers
+		// This avoids the client console splitting a word up when one half fits on the current line,
+		// but the second half would have to be written on a new line
+		int charsToTake = sizeof(buffer) - 1;
+		if (remainingLength > charsToTake) {
+			while (p[charsToTake - 1] > ' ' && p[charsToTake] > ' ') {
+				charsToTake--;
+				if (charsToTake == 0) {
+					charsToTake = sizeof(buffer) - 1;
+					break;
+				}
+			}
+		} else if (remainingLength < charsToTake) {
+			charsToTake = remainingLength;
+		}
+
+		Q_strncpyz( buffer, p, charsToTake + 1 );
 		ri.Printf( PRINT_ALL, "%s", buffer );
-		p += 1023;
-		size -= 1023;
+		remainingLength -= charsToTake;
+		p += charsToTake;
 	}
 }
 
@@ -1201,10 +1216,11 @@ void R_Register( void ) {
 	r_ignorehwgamma = ri.Cvar_Get( "r_ignorehwgamma", "0", CVAR_ARCHIVE | CVAR_LATCH );
 #ifdef USE_OPENGLES
 	r_mode = ri.Cvar_Get( "r_mode", "-2", CVAR_ARCHIVE | CVAR_LATCH );
+	r_fullscreen = ri.Cvar_Get( "r_fullscreen", "1", CVAR_ARCHIVE | CVAR_LATCH );
 #else
 	r_mode = ri.Cvar_Get( "r_mode", "4", CVAR_ARCHIVE | CVAR_LATCH );
-#endif
 	r_fullscreen = ri.Cvar_Get( "r_fullscreen", "0", CVAR_ARCHIVE | CVAR_LATCH );
+#endif
 	r_noborder = ri.Cvar_Get("r_noborder", "0", CVAR_ARCHIVE | CVAR_LATCH );
 	r_customwidth = ri.Cvar_Get( "r_customwidth", "1600", CVAR_ARCHIVE | CVAR_LATCH );
 	r_customheight = ri.Cvar_Get( "r_customheight", "1024", CVAR_ARCHIVE | CVAR_LATCH );

@@ -1483,7 +1483,7 @@ void Script_NotebookShowpage( itemDef_t *item, char **args ) {
 						continue;
 					}
 
-					if ( pages & ( 1 << ( newpage - 1 ) ) ) {
+					if ( pages & ( 1 << ( abs( newpage - 1 ) ) ) ) {
 						dec++;
 //						if(dec == inc)
 //							break;
@@ -1501,7 +1501,7 @@ void Script_NotebookShowpage( itemDef_t *item, char **args ) {
 						newpage = newpage + NOTEBOOK_MAX_PAGES;
 					}
 
-					if ( pages & ( 1 << ( newpage - 1 ) ) ) {
+					if ( pages & ( 1 << ( abs( newpage - 1 ) ) ) ) {
 						break;
 					}
 				}
@@ -2361,10 +2361,17 @@ qboolean Item_ListBox_HandleKey( itemDef_t *item, int key, qboolean down, qboole
 }
 
 qboolean Item_YesNo_HandleKey( itemDef_t *item, int key ) {
-
-	if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && item->window.flags & WINDOW_HASFOCUS && item->cvar ) {
-		if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
-			DC->setCVar( item->cvar, va( "%i", !DC->getCVarValue( item->cvar ) ) );
+	if (item->cvar) {
+		qboolean action = qfalse;
+		if (key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3) {
+			if (Rect_ContainsPoint(&item->window.rect, DC->cursorx, DC->cursory) && item->window.flags & WINDOW_HASFOCUS) {
+				action = qtrue;
+			}
+		} else if (UI_SelectForKey(key) != 0) {
+			action = qtrue;
+		}
+		if (action) {
+			DC->setCVar(item->cvar, va("%i", !DC->getCVarValue(item->cvar)));
 			return qtrue;
 		}
 	}
@@ -2436,11 +2443,21 @@ const char *Item_Multi_Setting( itemDef_t *item ) {
 qboolean Item_Multi_HandleKey( itemDef_t *item, int key ) {
 	multiDef_t *multiPtr = (multiDef_t*)item->typeData;
 	if ( multiPtr ) {
-		if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && item->window.flags & WINDOW_HASFOCUS && item->cvar ) {
-			if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
-				int current = Item_Multi_FindCvarByValue( item ) + 1;
+		if (item->cvar) {
+			int select = 0;
+			if (key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3) {
+				if (Rect_ContainsPoint(&item->window.rect, DC->cursorx, DC->cursory) && item->window.flags & WINDOW_HASFOCUS) {
+					select = (key == K_MOUSE2) ? -1 : 1;
+				}
+			} else {
+				select = UI_SelectForKey(key);
+			}
+			if (select != 0) {
+				int current = Item_Multi_FindCvarByValue(item) + select;
 				int max = Item_Multi_CountSettings( item );
-				if ( current < 0 || current >= max ) {
+				if ( current < 0 ) {
+					current = max-1;
+				} else if ( current >= max ) {
 					current = 0;
 				}
 				if ( multiPtr->strDef ) {
@@ -2774,10 +2791,10 @@ qboolean Item_Slider_HandleKey( itemDef_t *item, int key, qboolean down ) {
 	float x, value, width, work;
 
 	//DC->Print("slider handle key\n");
-	if ( item->window.flags & WINDOW_HASFOCUS && item->cvar && Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) ) {
-		if ( key == K_MOUSE1 || key == K_ENTER || key == K_MOUSE2 || key == K_MOUSE3 ) {
+	if (item->cvar) {
+		if (key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3) {
 			editFieldDef_t *editDef = item->typeData;
-			if ( editDef ) {
+			if (editDef && Rect_ContainsPoint(&item->window.rect, DC->cursorx, DC->cursory) && item->window.flags & WINDOW_HASFOCUS) {
 				rectDef_t testRect;
 				width = SLIDER_WIDTH;
 				if ( item->text ) {
@@ -2801,6 +2818,23 @@ qboolean Item_Slider_HandleKey( itemDef_t *item, int key, qboolean down ) {
 					// value = (((float)(DC->cursorx - x)/ SLIDER_WIDTH) * (editDef->maxVal - editDef->minVal));
 					value += editDef->minVal;
 					DC->setCVar( item->cvar, va( "%f", value ) );
+					return qtrue;
+				}
+			}
+		} else {
+			int select = UI_SelectForKey(key);
+			if (select != 0) {
+				editFieldDef_t *editDef = item->typeData;
+				if (editDef) {
+					// 20 is number of steps
+					value = DC->getCVarValue(item->cvar) + (((editDef->maxVal - editDef->minVal)/20) * select);
+
+					if (value < editDef->minVal)
+						value = editDef->minVal;
+					else if (value > editDef->maxVal)
+						value = editDef->maxVal;
+
+					DC->setCVar(item->cvar, va("%f", value));
 					return qtrue;
 				}
 			}
@@ -3045,6 +3079,32 @@ static rectDef_t *Item_CorrectedTextRect( itemDef_t *item ) {
 	return &rect;
 }
 
+// menu item key horizontal action: -1 = previous value, 1 = next value, 0 = no change
+int UI_SelectForKey(int key)
+{
+	switch (key) {
+		case K_MOUSE1:
+		case K_MOUSE3:
+		case K_ENTER:
+		case K_KP_ENTER:
+		case K_RIGHTARROW:
+		case K_KP_RIGHTARROW:
+		case K_JOY1:
+		case K_JOY2:
+		case K_JOY3:
+		case K_JOY4:
+			return 1; // next
+
+		case K_MOUSE2:
+		case K_LEFTARROW:
+		case K_KP_LEFTARROW:
+			return -1; // previous
+	}
+
+	// no change
+	return 0;
+}
+
 void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 	int i;
 	itemDef_t *item = NULL;
@@ -3125,7 +3185,7 @@ void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 		}
 		break;
 
-#ifdef MACOS_X
+#ifdef __APPLE__
 	case K_ALT:
 #endif
 	case K_F12:
@@ -3197,7 +3257,6 @@ void Menu_HandleKey( menuDef_t *menu, int key, qboolean down ) {
 	case K_AUX14:
 	case K_AUX15:
 	case K_AUX16:
-		break;
 	case K_KP_ENTER:
 	case K_ENTER:
 	case K_MOUSE3:
@@ -3979,15 +4038,18 @@ qboolean Item_Bind_HandleKey( itemDef_t *item, int key, qboolean down ) {
 	int id;
 	int i;
 
-	if ( Rect_ContainsPoint( &item->window.rect, DC->cursorx, DC->cursory ) && !g_waitingForKey ) {
-		if ( down && ( key == K_MOUSE1 || key == K_ENTER ) ) {
+	if (!g_waitingForKey)
+	{
+		if (down && ((key == K_MOUSE1 && Rect_ContainsPoint(&item->window.rect, DC->cursorx, DC->cursory))
+				|| key == K_ENTER || key == K_KP_ENTER || key == K_JOY1 || key == K_JOY2 || key == K_JOY3 || key == K_JOY4)) {
 			g_waitingForKey = qtrue;
 			g_bindItem = item;
 		}
 		return qtrue;
-	} else
+	}
+	else
 	{
-		if ( !g_waitingForKey || g_bindItem == NULL ) {
+		if (g_bindItem == NULL) {
 			return qtrue;
 		}
 

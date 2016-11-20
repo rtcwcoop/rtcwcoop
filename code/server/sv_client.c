@@ -153,6 +153,7 @@ void SV_GetChallenge(netadr_t from)
 	challenge->time = svs.time;
 
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
 	// Drop the authorize stuff if this client is coming in via v6 as the auth server does not support ipv6.
 	// Drop also for addresses coming in on local LAN and for stand-alone games independent from id's assets.
 	if(challenge->adr.type == NA_IP && !com_standalone->integer && !Sys_IsLANAddress(from) && !(Cvar_VariableValue( "g_gametype" ) <= GT_COOP))
@@ -204,6 +205,7 @@ void SV_GetChallenge(netadr_t from)
 		}
 	}
 #endif
+#endif
 
 	challenge->pingTime = svs.time;
 	if ( sv_onlyVisibleClients->integer ) {
@@ -216,6 +218,7 @@ void SV_GetChallenge(netadr_t from)
 }
 
 #ifndef STANDALONE
+#ifdef USE_AUTHORIZE_SERVER
 /*
 ====================
 SV_AuthorizeIpPacket
@@ -295,6 +298,7 @@ void SV_AuthorizeIpPacket( netadr_t from ) {
 	Com_Memset( challengeptr, 0, sizeof(*challengeptr) );
 }
 #endif
+#endif
 
 /*
 ==================
@@ -354,6 +358,7 @@ void SV_DirectConnect( netadr_t from ) {
 	intptr_t		denied;
 	int count, cnt = 0;
 	char		*ip;
+	char		*guid;
 #ifdef LEGACY_PROTOCOL
 	qboolean	compat = qfalse;
 #endif
@@ -368,6 +373,16 @@ void SV_DirectConnect( netadr_t from ) {
 	}
 
 	Q_strncpyz( userinfo, Cmd_Argv( 1 ), sizeof( userinfo ) );
+
+	// Check for GUID
+	guid = Info_ValueForKey( userinfo, "cl_guid"  );
+
+	if ( !sv_allowAnonymous->integer && !Sys_IsLANAddress( from ) ) {
+		if ( !Q_stricmp( guid, "NO_GUID" ) ) {
+			NET_OutOfBandPrint(NS_SERVER, from, "print\nEmpty CD-Key or GUID not permitted on server.\n");
+			return;
+		}
+	}
 
 	// DHM - Nerve :: Update Server allows any protocol to connect
 #ifndef UPDATE_SERVER
@@ -994,6 +1009,7 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg)
 		return 0; // Nothing being downloaded
 	}
 
+#ifndef UPDATE_SERVER
 	// CVE-2006-2082
 	// validate the download against the list of pak files
 	if ( !FS_VerifyPak( cl->downloadName ) ) {
@@ -1001,6 +1017,7 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg)
 		SV_DropClient( cl, "illegal download request" );
 		return 0;
 	}
+#endif
 
 	if(!cl->download)
 	{
@@ -1009,7 +1026,7 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg)
 		// Chop off filename extension.
 		Com_sprintf(pakbuf, sizeof(pakbuf), "%s", cl->downloadName);
 		pakptr = strrchr(pakbuf, '.');
-		
+
 		if(pakptr)
 		{
 			*pakptr = '\0';
@@ -1040,8 +1057,6 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg)
 			}
 		}
 
-		cl->download = 0;
-
 		// DHM - Nerve :: Update server only allows files that are in versionmap.cfg to download
 #ifdef UPDATE_SERVER
 		for ( i = 0; i < numVersions; i++ ) {
@@ -1065,15 +1080,20 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg)
 			*cl->downloadName = 0;
 
 			SV_DropClient( cl, "Invalid download from update server" );
-			return;
+			return 0;
 		}
 #endif
 		// DHM - Nerve
 
+		cl->download = 0;
+
 		// We open the file here
 		if ( !(sv_allowDownload->integer & DLF_ENABLE) ||
 			(sv_allowDownload->integer & DLF_NO_UDP) ||
-			idPack || unreferenced ||
+			idPack ||
+#ifndef UPDATE_SERVER
+			unreferenced ||
+#endif
 			( cl->downloadSize = FS_SV_FOpenFileRead( cl->downloadName, &cl->download ) ) < 0 ) {
 
 			// cannot auto-download file
@@ -1474,11 +1494,27 @@ into a more C friendly form.
 void SV_UserinfoChanged( client_t *cl ) {
 	char    *val;
 	char	*ip;
+	char	*guid;
+	char	*name;
+	char	gname[MAX_QPATH];
 	int i;
 	int	len;
 
 	// name for C code
-	Q_strncpyz( cl->name, Info_ValueForKey( cl->userinfo, "name" ), sizeof( cl->name ) );
+	name = Info_ValueForKey( cl->userinfo, "name" );
+	guid = Info_ValueForKey( cl->userinfo, "cl_guid" );
+
+	if ( sv_forceNameUniq->integer == 1 ) {
+		if ( !Q_stricmp( name, "" ) || !Q_stricmp( name, "WolfPlayer" ) || !Q_stricmp( name, "UnnamedPlayer" ) ) {
+			Com_sprintf( gname, sizeof( gname ), "%s %s", name, guid + 24 );
+			Info_SetValueForKey( cl->userinfo, "name", gname );
+		}
+	} else if ( sv_forceNameUniq->integer == 2 ) {
+		Com_sprintf( gname, sizeof( gname ), "%s %s", name, guid + 24 );
+		Info_SetValueForKey( cl->userinfo, "name", gname );
+	}
+
+	Q_strncpyz( cl->name, name, sizeof( cl->name ) );
 
 	// rate command
 
@@ -2028,9 +2064,13 @@ void SV_ExecuteClientMessage( client_t *cl, msg_t *msg ) {
 	// I don't like this hack though, it must have been working fine at some point, suspecting the fix is somewhere else
 	if ( serverId != sv.serverId && !*cl->downloadName && !strstr( cl->lastClientCommandString, "nextdl" ) ) {
 		if ( serverId >= sv.restartedServerId && serverId < sv.serverId ) { // TTimo - use a comparison here to catch multiple map_restart
-			// they just haven't caught the map_restart yet
-			Com_DPrintf( "%s : ignoring pre map_restart / outdated client message\n", cl->name );
-			return;
+			if ( strstr( cl->lastClientCommandString, "donedl" ) ) {
+				SV_DoneDownload_f( cl );
+			} else {	
+				// they just haven't caught the map_restart yet
+				Com_DPrintf( "%s : ignoring pre map_restart / outdated client message\n", cl->name );
+				return;
+			}
 		}
 		// if we can tell that the client has dropped the last
 		// gamestate we sent them, resend it

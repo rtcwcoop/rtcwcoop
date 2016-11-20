@@ -70,7 +70,7 @@ extern void Parse3DMatrix ( char * * buf_p , int z , int y , int x , float * m )
 extern void Parse2DMatrix ( char * * buf_p , int y , int x , float * m ) ;
 extern void Parse1DMatrix ( char * * buf_p , int x , float * m ) ;
 extern void SkipRestOfLine ( char * * data ) ;
-extern void SkipBracedSection ( char * * program ) ;
+extern qboolean SkipBracedSection ( char * * program , int depth ) ;
 extern void COM_MatchToken ( char * * buf_p , char * match ) ;
 extern char * COM_Parse2 ( char * * data_p ) ;
 extern char * COM_ParseExt ( char * * data_p , qboolean allowLineBreaks ) ;

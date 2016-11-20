@@ -1252,12 +1252,12 @@ static void CG_DrawUpperRight(stereoFrame_t stereoFrame) {
 		y = CG_DrawFPS( y );
 	}
 	if ( cg_drawTimer.integer ) {
-		CG_DrawTimer( y );
+		y = CG_DrawTimer( y );
 	}
 // (SA) disabling drawattacker for the time being
 	if ( cg_oldWolfUI.integer ) {
 		if ( cg_drawAttacker.integer ) {
-			y = CG_DrawAttacker( y );
+			CG_DrawAttacker( y );
 		}
 	}
 //----(SA)	end
@@ -2116,11 +2116,17 @@ static void CG_DrawWeapReticle( void ) {
 			}
 		}
 
+		if ( cg_drawCrosshairReticle.integer ) {
+			CG_FillRect( 80, 239, 480, 1, color );	// horiz
+			CG_FillRect( 319, 0, 1, 480, color );   // vert
+		}
+
 		// hairs
 		CG_FillRect( 84, 239, 177, 2, color );   // left
 		CG_FillRect( 320, 242, 1, 58, color );   // center top
 		CG_FillRect( 319, 300, 2, 178, color );  // center bot
 		CG_FillRect( 380, 239, 177, 2, color );  // right
+
 	} else if ( weap == WP_SNOOPERSCOPE ) {
 		// sides
 		if ( cg_fixedAspect.integer ) {
@@ -2312,6 +2318,11 @@ static void CG_DrawBinocReticle( void ) {
 		}
 	}
 
+	if ( cg_drawCrosshairBinoc.integer ) {
+		CG_FillRect( 0, 239, 640, 1, color );	// horiz
+		CG_FillRect( 320, 0, 1, 480, color );   // vert
+	}
+
 
 	CG_FillRect( 146, 239, 348, 1, color );
 
@@ -2338,7 +2349,7 @@ static void CG_DrawCrosshair( void ) {
 	float f;
 	float x, y;
 	int weapnum;                // DHM - Nerve
-	vec4_t hcolor = {1, 1, 1, 0};
+	vec4_t hcolor = {1, 1, 1, 1};
 	qboolean friendInSights = qfalse;
 
 	if ( cg.renderingThirdPerson ) {
@@ -2494,7 +2505,7 @@ static void CG_DrawCrosshair3D( void ) {
 	qhandle_t hShader;
 	float f;
 	int weapnum;                // DHM - Nerve
-	vec4_t hcolor = {1, 1, 1, 0};
+	vec4_t hcolor = {1, 1, 1, 1};
 	qboolean friendInSights = qfalse;
 
 	trace_t trace;
@@ -2648,19 +2659,10 @@ static void CG_DrawCrosshair3D( void ) {
 	ent.radius = w / 640 * xmax * trace.fraction * maxdist / zProj;
 	ent.customShader = hShader;
 
-	// set color based on health
-	if ( cg_crosshairHealth.integer ) {
-		CG_ColorForHealth( hcolor );
-		ent.shaderRGBA[0]=(byte)(hcolor[0]*255.f);
-		ent.shaderRGBA[1]=(byte)(hcolor[1]*255.f);
-		ent.shaderRGBA[2]=(byte)(hcolor[2]*255.f);
-		ent.shaderRGBA[3]=(byte)(hcolor[3]*255.f);
-	} else {
-		ent.shaderRGBA[0]=255;
-		ent.shaderRGBA[1]=255;
-		ent.shaderRGBA[2]=255;
-		ent.shaderRGBA[3]=255;
-	}
+	ent.shaderRGBA[0]=255;
+	ent.shaderRGBA[1]=255;
+	ent.shaderRGBA[2]=255;
+	ent.shaderRGBA[3]=(byte)(hcolor[3]*255.f);
 
 	trap_R_AddRefEntityToScene(&ent);
 }
