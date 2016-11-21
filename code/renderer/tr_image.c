@@ -863,7 +863,7 @@ static void Upload32(   unsigned *data,
 	scan = ( (byte *)data );
 	samples = 3;
 
-	if( r_greyscale->integer == 1 )
+	if(r_greyscale->integer)
 	{
 		for ( i = 0; i < c; i++ )
 		{
@@ -873,7 +873,7 @@ static void Upload32(   unsigned *data,
 			scan[i*4 + 2] = luma;
 		}
 	}
-	else if( r_greyscale->value && r_greyscale->integer < 1 )
+	else if(r_greyscale->value)
 	{
 		for ( i = 0; i < c; i++ )
 		{
@@ -886,7 +886,7 @@ static void Upload32(   unsigned *data,
 
 	if(lightMap)
 	{
-		if(r_greyscale->integer == 1)
+		if(r_greyscale->integer)
 			internalFormat = GL_LUMINANCE;
 		else
 			internalFormat = GL_RGB;
@@ -913,7 +913,7 @@ static void Upload32(   unsigned *data,
 		if ( samples == 3 )
 		{
 
-			if(r_greyscale->integer == 1)
+			if(r_greyscale->integer)
 			{
 #ifndef USE_OPENGLES
 				if(r_texturebits->integer == 16)
@@ -957,7 +957,7 @@ static void Upload32(   unsigned *data,
 		else if ( samples == 4 )
 		{
 
-			if(r_greyscale->integer == 1)
+			if(r_greyscale->integer)
 			{
 #ifndef USE_OPENGLES
 				if(r_texturebits->integer == 16)

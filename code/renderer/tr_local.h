@@ -1248,6 +1248,8 @@ extern	cvar_t	*r_anaglyphMode;
 
 extern	cvar_t	*r_greyscale;
 
+extern	cvar_t	*r_fancyfx;
+
 extern cvar_t  *r_ignoreGLErrors;
 
 extern cvar_t  *r_overBrightBits;

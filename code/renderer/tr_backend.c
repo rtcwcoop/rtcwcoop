@@ -1763,7 +1763,7 @@ const void  *RB_RenderToTexture( const void *data ) {
 	qglTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE );
 #endif
 
-	if ( r_greyscale->integer == 2 ) {
+	if ( r_fancyfx->integer ) {
 		qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_LUMINANCE, cmd->x, cmd->y, cmd->w, cmd->h, 0 );
 	} else {
 		qglCopyTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, cmd->x, cmd->y, cmd->w, cmd->h, 0 );

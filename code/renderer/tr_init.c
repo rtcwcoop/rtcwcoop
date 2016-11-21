@@ -72,6 +72,8 @@ cvar_t	*r_anaglyphMode;
 
 cvar_t	*r_greyscale;
 
+cvar_t	*r_fancyfx;
+
 cvar_t  *r_ignorehwgamma;
 cvar_t  *r_measureOverdraw;
 
@@ -1233,7 +1235,9 @@ void R_Register( void ) {
 	r_ignoreFastPath = ri.Cvar_Get( "r_ignoreFastPath", "1", CVAR_ARCHIVE | CVAR_LATCH );
 
 	r_greyscale = ri.Cvar_Get("r_greyscale", "0", CVAR_ARCHIVE | CVAR_LATCH);
-	ri.Cvar_CheckRange(r_greyscale, 0, 2, qfalse);
+	ri.Cvar_CheckRange(r_greyscale, 0, 1, qfalse);
+
+	r_fancyfx = ri.Cvar_Get( "cg_fancyfx", "0", 0 );
 
 	//
 	// temporary latched variables that can only change over a restart

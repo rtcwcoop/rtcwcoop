@@ -2007,6 +2007,8 @@ extern  cvar_t  *r_ignoreDstAlpha;
 
 extern	cvar_t	*r_greyscale;
 
+extern	cvar_t	*r_fancyfx;
+
 extern cvar_t  *r_ignoreGLErrors;
 
 extern cvar_t  *r_overBrightBits;

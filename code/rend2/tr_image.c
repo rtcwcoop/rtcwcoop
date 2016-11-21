@@ -1778,7 +1778,7 @@ static GLenum RawImage_GetFormat(const byte *data, int numPixels, GLenum picForm
 	}
 	else if(lightMap)
 	{
-		if(r_greyscale->integer == 1)
+		if(r_greyscale->integer)
 			internalFormat = GL_LUMINANCE;
 		else
 			internalFormat = GL_RGBA;
@@ -1793,7 +1793,7 @@ static GLenum RawImage_GetFormat(const byte *data, int numPixels, GLenum picForm
 		// select proper internal format
 		if ( samples == 3 )
 		{
-			if(r_greyscale->integer == 1)
+			if(r_greyscale->integer)
 			{
 				if(r_texturebits->integer == 16)
 					internalFormat = GL_LUMINANCE8;
@@ -1832,7 +1832,7 @@ static GLenum RawImage_GetFormat(const byte *data, int numPixels, GLenum picForm
 		}
 		else if ( samples == 4 )
 		{
-			if(r_greyscale->integer == 1)
+			if(r_greyscale->integer)
 			{
 				if(r_texturebits->integer == 16)
 					internalFormat = GL_LUMINANCE8_ALPHA8;
@@ -2111,7 +2111,7 @@ static void Upload32(byte *data, int x, int y, int width, int height, GLenum pic
 
 		if (type == IMGTYPE_COLORALPHA)
 		{
-			if( r_greyscale->integer )
+			if(r_greyscale->integer)
 			{
 				for ( i = 0; i < c; i++ )
 				{
@@ -2121,7 +2121,7 @@ static void Upload32(byte *data, int x, int y, int width, int height, GLenum pic
 					scan[i*4 + 2] = luma;
 				}
 			}
-			else if( r_greyscale->value )
+			else if(r_greyscale->value)
 			{
 				for ( i = 0; i < c; i++ )
 				{

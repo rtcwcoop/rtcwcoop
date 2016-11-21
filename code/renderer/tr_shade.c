@@ -533,14 +533,14 @@ static void ProjectDlightTexture_altivec( void ) {
 		radius = dl->radius;
 		scale = 1.0f / radius;
 
-		if(r_greyscale->integer == 1)
+		if(r_greyscale->integer)
 		{
 			float luminance;
 			
 			luminance = LUMA(dl->color[0], dl->color[1], dl->color[2]) * 255.0f;
 			floatColor[0] = floatColor[1] = floatColor[2] = luminance;
 		}
-		else if(r_greyscale->value && r_greyscale->integer < 1 )
+		else if(r_greyscale->value)
 		{
 			float luminance;
 			
@@ -724,14 +724,14 @@ static void ProjectDlightTexture_scalar( void ) {
 		radius = dl->radius;
 		scale = 1.0f / radius;
 
-		if(r_greyscale->integer == 1 )
+		if(r_greyscale->integer)
 		{
 			float luminance;
 
 			luminance = LUMA(dl->color[0], dl->color[1], dl->color[2]) * 255.0f;
 			floatColor[0] = floatColor[1] = floatColor[2] = luminance;
 		}
-		else if(r_greyscale->value && r_greyscale->integer < 1 )
+		else if(r_greyscale->value)
 		{
 			float luminance;
 			
@@ -1177,7 +1177,7 @@ static void ComputeColors( shaderStage_t *pStage ) {
 	}
 
 	// if in greyscale rendering mode turn all color values into greyscale.
-	if(r_greyscale->integer == 1)
+	if(r_greyscale->integer)
 	{
 		int scale;
 		for(i = 0; i < tess.numVertexes; i++)
@@ -1186,7 +1186,7 @@ static void ComputeColors( shaderStage_t *pStage ) {
 			tess.svars.colors[i][0] = tess.svars.colors[i][1] = tess.svars.colors[i][2] = scale;
 		}
 	}
-	else if(r_greyscale->value && r_greyscale->integer < 1 )
+	else if(r_greyscale->value)
 	{
 		float scale;
 		
