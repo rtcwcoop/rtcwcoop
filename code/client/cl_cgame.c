@@ -324,7 +324,7 @@ rescan:
 		if ( argc >= 2 ) {
 			Com_Error( ERR_SERVERDISCONNECT, "Server disconnected - %s", Cmd_Argv( 1 ) );
 		} else {
-			Com_Error( ERR_SERVERDISCONNECT,"Server disconnected\n" );
+			Com_Error( ERR_SERVERDISCONNECT,"Server disconnected" );
 		}
 	}
 
@@ -642,10 +642,10 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 		return 0;
 	case CG_UPDATESCREEN:
 		// this is used during lengthy level loading, so pump message loop
-//		Com_EventLoop();	// FIXME: if a server restarts here, BAD THINGS HAPPEN!
-// We can't call Com_EventLoop here, a restart will crash and this _does_ happen
-// if there is a map change while we are downloading at pk3.
-// ZOID
+		// Com_EventLoop();	// FIXME: if a server restarts here, BAD THINGS HAPPEN!
+		// We can't call Com_EventLoop here, a restart will crash and this _does_ happen
+		// if there is a map change while we are downloading a pk3.
+		// ZOID
 		SCR_UpdateScreen();
 		return 0;
 	case CG_CM_LOADMAP:
@@ -933,6 +933,7 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 
 	case CG_LOADCAMERA:
 		return loadCamera( args[1], VMA( 2 ) );
+
 	case CG_STARTCAMERA:
 		if ( args[1] == 0 ) {  // CAM_PRIMARY
 			cl.cameraMode = qtrue;  //----(SA)	added
@@ -951,6 +952,7 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 
 	case CG_GETCAMERAINFO:
 		return getCameraInfo( args[1], args[2], VMA( 3 ), VMA( 4 ), VMA( 5 ) );
+
 	case CG_GET_ENTITY_TOKEN:
 		return re.GetEntityToken( VMA( 1 ), args[2] );
 
@@ -1009,7 +1011,6 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 		return VM_Alloc( args[1] );
 
 	default:
-		assert(0);
 		Com_Error( ERR_DROP, "Bad cgame system trap: %ld", (long int) args[0] );
 	}
 	return 0;
@@ -1297,6 +1298,7 @@ void CL_FirstSnapshot( void ) {
 		Cbuf_AddText( cl_activeAction->string );
 		Cvar_Set( "activeAction", "" );
 	}
+
 #ifdef USE_MUMBLE
 	if ((cl_useMumble->integer) && !mumble_islinked()) {
 		int ret = mumble_link(CLIENT_WINDOW_TITLE);

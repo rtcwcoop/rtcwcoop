@@ -322,9 +322,9 @@ UIDIR=$(MOUNT_DIR)/ui
 JPDIR=$(MOUNT_DIR)/jpeg-8c
 OGGDIR=$(MOUNT_DIR)/libogg-1.3.2
 VORBISDIR=$(MOUNT_DIR)/libvorbis-1.3.5
-OPUSDIR=$(MOUNT_DIR)/opus-1.1.2
-OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.7
-ZDIR=$(MOUNT_DIR)/zlib-1.2.8
+OPUSDIR=$(MOUNT_DIR)/opus-1.1.4
+OPUSFILEDIR=$(MOUNT_DIR)/opusfile-0.8
+ZDIR=$(MOUNT_DIR)/zlib-1.2.11
 FTDIR=$(MOUNT_DIR)/freetype-2.6.4
 SPLDIR=$(MOUNT_DIR)/splines
 Q3ASMDIR=$(MOUNT_DIR)/tools/asm
@@ -439,11 +439,11 @@ ifneq (,$(findstring "$(PLATFORM)", "linux" "gnu_kfreebsd" "kfreebsd-gnu" "gnu")
     ifeq ($(CROSS_COMPILING),1)
       ifeq ($(ARCH),x86)
       SDL_LIBS = $(LIBSDIR)/linux32/libSDL2main.a \
-                 $(LIBSDIR)/linux32/libSDL2-2.0.so.0.4.0
+                 $(LIBSDIR)/linux32/libSDL2-2.0.so.0.4.1
       endif
       ifeq ($(ARCH),x86_64)
       SDL_LIBS = $(LIBSDIR)/linux64/libSDL2main.a \
-                 $(LIBSDIR)/linux64/libSDL2-2.0.so.0.4.0
+                 $(LIBSDIR)/linux64/libSDL2-2.0.so.0.4.1
       endif
     endif
   endif
@@ -644,10 +644,12 @@ ifdef MINGW
       CXX=g++
     endif
 
-    ifndef WINDRES
-      WINDRES=windres
-    endif
   endif
+
+  # using generic windres if specific one is not present
+  ifndef WINDRES
+    WINDRES=windres
+   endif
 
   ifeq ($(CC),)
     $(error Cannot find a suitable cross compiler for $(PLATFORM))
@@ -713,9 +715,9 @@ ifdef MINGW
       ifeq ($(USE_LOCAL_HEADERS),1)
         CLIENT_CFLAGS += -DCURL_STATICLIB
         ifeq ($(ARCH),x86_64)
-          CLIENT_LIBS += $(LIBSDIR)/win64/libcurl.a
+          CLIENT_LIBS += $(LIBSDIR)/win64/libcurl.a -lcrypt32
         else
-          CLIENT_LIBS += $(LIBSDIR)/win32/libcurl.a
+          CLIENT_LIBS += $(LIBSDIR)/win32/libcurl.a -lcrypt32
         endif
       else
         CLIENT_LIBS += $(CURL_LIBS)
@@ -2108,11 +2110,11 @@ Q3OBJ += \
   $(B)/client/opus/schur_FLP.o \
   $(B)/client/opus/sort_FLP.o \
   \
-  $(B)/client/http.o \
   $(B)/client/info.o \
   $(B)/client/internal.o \
   $(B)/client/opusfile.o \
-  $(B)/client/stream.o
+  $(B)/client/stream.o \
+  $(B)/client/http.o
 ifdef MINGW
 Q3OBJ += \
   $(B)/client/wincerts.o
@@ -2204,7 +2206,7 @@ $(B)/$(CLIENTBIN)$(FULLBINEXT): $(Q3OBJ) $(LIBSDLMAIN)
 	$(echo_cmd) "LD $@"
 	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
 		-o $@ $(Q3OBJ) \
-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS)
+		$(THREAD_LIBS) $(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS)
 
 $(B)/renderer_coop_opengl1_$(SHLIBNAME): $(Q3ROBJ) $(JPGOBJ) $(FTOBJ)
 	$(echo_cmd) "LD $@"
@@ -2220,13 +2222,13 @@ $(B)/$(CLIENTBIN)$(FULLBINEXT): $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) $(FTOBJ) $(LIBSDLMA
 	$(echo_cmd) "LD $@"
 	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
 		-o $@ $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) $(FTOBJ) \
-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
+		$(THREAD_LIBS) $(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
 
 $(B)/$(CLIENTBIN)_rend2$(FULLBINEXT): $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ) $(LIBSDLMAIN)
 	$(echo_cmd) "LD $@"
 	$(Q)$(CXX) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
 		-o $@ $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(FTOBJ) \
-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
+		$(THREAD_LIBS) $(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
 endif
 
 ifneq ($(strip $(LIBSDLMAIN)),)
@@ -2735,9 +2737,9 @@ $(B)/ded/%.o: $(NDIR)/%.c
 
 # Extra dependencies to ensure the git version is incorporated
 ifeq ($(USE_GIT),1)
-  $(B)/client/cl_console.o : .git/index
-  $(B)/client/common.o : .git/index
-  $(B)/ded/common.o : .git/index
+  $(B)/client/cl_console.o : .git
+  $(B)/client/common.o : .git
+  $(B)/ded/common.o : .git
 endif
 
 

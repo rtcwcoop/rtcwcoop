@@ -479,11 +479,11 @@ gamestate, and possibly during gameplay.
 ==================
 */
 void CL_SystemInfoChanged( void ) {
-	char            *systemInfo;
-	const char      *s, *t;
-	char key[BIG_INFO_KEY];
-	char value[BIG_INFO_VALUE];
-	qboolean gameSet;
+	char	*systemInfo;
+	const char	*s, *t;
+	char	key[BIG_INFO_KEY];
+	char	value[BIG_INFO_VALUE];
+	qboolean	gameSet;
 
 	systemInfo = cl.gameState.stringData + cl.gameState.stringOffsets[ CS_SYSTEMINFO ];
 	// NOTE TTimo:
@@ -531,12 +531,12 @@ void CL_SystemInfoChanged( void ) {
 	s = systemInfo;
 	while ( s ) {
 		int cvar_flags;
-		
+
 		Info_NextPair( &s, key, value );
 		if ( !key[0] ) {
 			break;
 		}
-		
+
 		// ehw!
 		if (!Q_stricmp(key, "fs_game"))
 		{
@@ -717,8 +717,7 @@ void CL_ParseDownload( msg_t *msg ) {
 	// read the data
 	block = MSG_ReadShort( msg );
 
-	if(!block && !clc.downloadBlock)
- 	{
+	if( !block && !clc.downloadBlock ) {
 		// block zero is special, contains file size
 		clc.downloadSize = MSG_ReadLong( msg );
 
@@ -731,16 +730,14 @@ void CL_ParseDownload( msg_t *msg ) {
 	}
 
 	size = MSG_ReadShort( msg );
-	if (size < 0 || size > sizeof(data))
-	{
-		Com_Error(ERR_DROP, "CL_ParseDownload: Invalid size %d for download chunk", size);
+	if ( size < 0 || size > sizeof( data ) ) {
+		Com_Error( ERR_DROP, "CL_ParseDownload: Invalid size %d for download chunk", size );
 		return;
 	}
-	
-	MSG_ReadData(msg, data, size);
 
-	if((clc.downloadBlock & 0xFFFF) != block)
-	{
+	MSG_ReadData( msg, data, size );
+
+	if( ( clc.downloadBlock & 0xFFFF ) != block ) {
 		Com_DPrintf( "CL_ParseDownload: Expected block %d, got %d\n", (clc.downloadBlock & 0xFFFF), block);
 		return;
 	}
@@ -944,10 +941,10 @@ void CL_ParseVoip ( msg_t *msg, qboolean ignoreData ) {
 	#if 0
 	static FILE *encio = NULL;
 	if (encio == NULL) encio = fopen("voip-incoming-encoded.bin", "wb");
-	if (encio != NULL) { fwrite(encoded, len, 1, encio); fflush(encio); }
+	if (encio != NULL) { fwrite(encoded, packetsize, 1, encio); fflush(encio); }
 	static FILE *decio = NULL;
 	if (decio == NULL) decio = fopen("voip-incoming-decoded.bin", "wb");
-	if (decio != NULL) { fwrite(decoded+written, clc.speexFrameSize*2, 1, decio); fflush(decio); }
+	if (decio != NULL) { fwrite(decoded+written, numSamples*2, 1, decio); fflush(decio); }
 	#endif
 
 	written += numSamples;

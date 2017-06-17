@@ -122,7 +122,7 @@ static int uitogamecode[] = {4,6,2,3,1,5,7};
 
 
 // NERVE - SMF - enabled for multiplayer
-static void UI_StartServerRefresh( qboolean full );
+static void UI_StartServerRefresh( qboolean full, qboolean force );
 static void UI_StopServerRefresh( void );
 static void UI_DoServerRefresh( void );
 static void UI_FeederSelection( float feederID, int index );
@@ -963,12 +963,13 @@ void UI_Report( void ) {
 
 }
 
+void QDECL Com_DPrintf( const char *fmt, ... ) __attribute__ ( ( format ( printf, 1, 2 ) ) );
 qboolean UI_ParseMenu( const char *menuFile ) {
 	int handle;
 	pc_token_t token;
 
 	if ( DC->getCVarValue( "developer" ) ) {
-		Com_Printf( "Parsing menu file:%s\n", menuFile );
+		Com_DPrintf( "Parsing menu file:%s\n", menuFile );
 	}
 
 	handle = trap_PC_LoadSource( menuFile );
@@ -1136,7 +1137,7 @@ void UI_LoadMenus( const char *menuFile, qboolean reset ) {
 	}
 
 	if ( DC->getCVarValue( "developer" ) ) {
-		Com_Printf( "UI menu load time = %d milli seconds\n", trap_Milliseconds() - start );
+		Com_DPrintf( "UI menu load time = %d milli seconds\n", trap_Milliseconds() - start );
 	}
 
 	trap_PC_FreeSource( handle );
@@ -3249,9 +3250,7 @@ static qboolean UI_NetSource_HandleKey(int flags, float *special, int key) {
 		}
 
 		UI_BuildServerDisplayList(qtrue);
-		if (!(ui_netSource.integer >= UIAS_GLOBAL1 && ui_netSource.integer <= UIAS_GLOBAL5)) {
-			UI_StartServerRefresh(qtrue);
-		}
+		UI_StartServerRefresh(qtrue, qfalse);
 		trap_Cvar_SetValue( "ui_netSource", ui_netSource.integer );
 		return qtrue;
 	}
@@ -3490,6 +3489,9 @@ void UI_ServersSort( int column, qboolean force ) {
 
 	uiInfo.serverStatus.sortKey = column;
 	qsort( &uiInfo.serverStatus.displayServers[0], uiInfo.serverStatus.numDisplayServers, sizeof( int ), UI_ServersQsortCompare );
+
+	// update displayed levelshot
+	UI_FeederSelection( FEEDER_SERVERS, uiInfo.serverStatus.currentServer );
 }
 
 
@@ -4379,8 +4381,7 @@ static void UI_Update( const char *name ) {
 		}
 	} else if ( Q_stricmp( name, "ui_glCustom" ) == 0 ) {
 		switch ( val ) {
-		case 0: // high quality
-			trap_Cvar_SetValue( "r_fullScreen", 1 );
+		case 0:     // high quality
 			trap_Cvar_SetValue( "r_subdivisions", 4 );
 			trap_Cvar_SetValue( "r_vertexlight", 0 );
 			trap_Cvar_SetValue( "r_lodbias", 0 );
@@ -4388,64 +4389,96 @@ static void UI_Update( const char *name ) {
 			trap_Cvar_SetValue( "r_depthbits", 24 );
 			trap_Cvar_SetValue( "r_picmip", 0 );
 			trap_Cvar_SetValue( "r_picmip2", 0 );
-			trap_Cvar_SetValue( "r_mode", 4 );
 			trap_Cvar_SetValue( "r_texturebits", 32 );
 			trap_Cvar_SetValue( "r_fastSky", 0 );
+			trap_Cvar_SetValue( "r_dynamiclight", 1 );
 			trap_Cvar_SetValue( "r_inGameVideo", 1 );
 			trap_Cvar_SetValue( "cg_shadows", 1 );
-			trap_Cvar_SetValue( "cg_brassTime", 60000 );
+			trap_Cvar_SetValue( "cg_brassTime", 2500 );
 			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
+			trap_Cvar_SetValue( "r_ext_compressed_textures", 0 );
+			trap_Cvar_SetValue( "r_overBrightBits", 0 );
+			trap_Cvar_Set( "cl_renderer", "rend2" );
+			trap_Cvar_SetValue( "r_hdr", 1 );
+			trap_Cvar_SetValue( "r_postProcess", 1 );
+			trap_Cvar_SetValue( "r_toneMap", 1 );
+			trap_Cvar_SetValue( "r_autoExposure", 1 );
+			trap_Cvar_SetValue( "r_normalMapping", 1 );
+			trap_Cvar_SetValue( "r_specularMapping", 1 );
+			trap_Cvar_SetValue( "r_deluxeMapping", 1 );
+			trap_Cvar_SetValue( "r_forceSun", 1 );
+			trap_Cvar_SetValue( "r_drawSunRays", 1 );
+			trap_Cvar_SetValue( "r_sunShadows", 1 );
+			trap_Cvar_SetValue( "r_shadowFilter", 1 );
+#ifdef USE_BLOOM
+			trap_Cvar_SetValue( "r_bloom", 1 );
+#endif
 			break;
-		case 1: // normal
-			trap_Cvar_SetValue( "r_fullScreen", 1 );
-			trap_Cvar_SetValue( "r_subdivisions", 12 );
-			trap_Cvar_SetValue( "r_vertexlight", 0 );
-			trap_Cvar_SetValue( "r_lodbias", 0 );
-			trap_Cvar_SetValue( "r_colorbits", 0 );
-			trap_Cvar_SetValue( "r_depthbits", 24 );
-			trap_Cvar_SetValue( "r_picmip", 0 );
-			trap_Cvar_SetValue( "r_picmip2", 0 );
-			trap_Cvar_SetValue( "r_mode", 3 );
-			trap_Cvar_SetValue( "r_texturebits", 0 );
-			trap_Cvar_SetValue( "r_fastSky", 0 );
-			trap_Cvar_SetValue( "r_inGameVideo", 1 );
-			trap_Cvar_SetValue( "cg_brassTime", 60000 );
-			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" ); //----(SA)	modified so wolf never sets trilinear automatically
-			trap_Cvar_SetValue( "cg_shadows", 0 );
-			break;
-		case 2: // fast
-			trap_Cvar_SetValue( "r_fullScreen", 1 );
-			trap_Cvar_SetValue( "r_subdivisions", 8 );
+		case 1:     // normal
+			trap_Cvar_SetValue( "r_subdivisions", 4 );
 			trap_Cvar_SetValue( "r_vertexlight", 0 );
 			trap_Cvar_SetValue( "r_lodbias", 0 );
 			trap_Cvar_SetValue( "r_colorbits", 0 );
 			trap_Cvar_SetValue( "r_depthbits", 0 );
 			trap_Cvar_SetValue( "r_picmip", 0 );
-			trap_Cvar_SetValue( "r_picmip2", 0 );
-			trap_Cvar_SetValue( "r_mode", 3 );
+			trap_Cvar_SetValue( "r_picmip2", 1 );
+			trap_Cvar_SetValue( "r_texturebits", 0 );
+			trap_Cvar_SetValue( "r_fastSky", 0 );
+			trap_Cvar_SetValue( "r_dynamiclight", 1 );
+			trap_Cvar_SetValue( "r_inGameVideo", 1 );
+			trap_Cvar_SetValue( "cg_shadows", 1 );
+			trap_Cvar_SetValue( "cg_brassTime", 2500 );
+			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
+			trap_Cvar_SetValue( "r_ext_compressed_textures", 0 );
+			trap_Cvar_SetValue( "r_overBrightBits", 0 );
+			trap_Cvar_Set( "cl_renderer", "opengl1" );
+#ifdef USE_BLOOM
+			trap_Cvar_SetValue( "r_bloom", 1 );
+#endif
+			break;
+		case 2:     // fast
+			trap_Cvar_SetValue( "r_subdivisions", 12 );
+			trap_Cvar_SetValue( "r_vertexlight", 0 );
+			trap_Cvar_SetValue( "r_lodbias", 1 );
+			trap_Cvar_SetValue( "r_colorbits", 0 );
+			trap_Cvar_SetValue( "r_depthbits", 0 );
+			trap_Cvar_SetValue( "r_picmip", 1 );
+			trap_Cvar_SetValue( "r_picmip2", 2 );
 			trap_Cvar_SetValue( "r_texturebits", 0 );
 			trap_Cvar_SetValue( "cg_shadows", 0 );
-			trap_Cvar_SetValue( "r_fastSky", 0 );
+			trap_Cvar_SetValue( "r_fastSky", 1 );
+			trap_Cvar_SetValue( "r_dynamiclight", 0 );
 			trap_Cvar_SetValue( "r_inGameVideo", 0 );
-			trap_Cvar_SetValue( "cg_brassTime", 60000 );
+			trap_Cvar_SetValue( "cg_brassTime", 0 );
 			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
+			trap_Cvar_SetValue( "r_ext_compressed_textures", 1 );
+			trap_Cvar_SetValue( "r_overBrightBits", 0 );
+			trap_Cvar_Set( "cl_renderer", "opengl1" );
+#ifdef USE_BLOOM
+			trap_Cvar_SetValue( "r_bloom", 0 );
+#endif
 			break;
-		case 3: // fastest
-			trap_Cvar_SetValue( "r_fullScreen", 1 );
+		case 3:     // fastest
 			trap_Cvar_SetValue( "r_subdivisions", 20 );
-			trap_Cvar_SetValue( "r_vertexlight", 0 );
-			trap_Cvar_SetValue( "r_lodbias", 0 );
-			trap_Cvar_SetValue( "r_colorbits", 16 );
-			trap_Cvar_SetValue( "r_depthbits", 16 );
-			trap_Cvar_SetValue( "r_mode", 3 );
-			trap_Cvar_SetValue( "r_picmip", 0 );
-			trap_Cvar_SetValue( "r_picmip2", 0 );
-			trap_Cvar_SetValue( "r_texturebits", 16 );
+			trap_Cvar_SetValue( "r_vertexlight", 1 );
+			trap_Cvar_SetValue( "r_lodbias", 2 );
+			trap_Cvar_SetValue( "r_colorbits", 0 );
+			trap_Cvar_SetValue( "r_depthbits", 0 );
+			trap_Cvar_SetValue( "r_picmip", 2 );
+			trap_Cvar_SetValue( "r_picmip2", 3 );
+			trap_Cvar_SetValue( "r_texturebits", 0 );
 			trap_Cvar_SetValue( "cg_shadows", 0 );
-			trap_Cvar_SetValue( "cg_brassTime", 60000 );
-			trap_Cvar_SetValue( "r_fastSky", 0 );
+			trap_Cvar_SetValue( "cg_brassTime", 0 );
+			trap_Cvar_SetValue( "r_fastSky", 1 );
+			trap_Cvar_SetValue( "r_dynamiclight", 0 );
 			trap_Cvar_SetValue( "r_inGameVideo", 0 );
 			trap_Cvar_Set( "r_texturemode", "GL_LINEAR_MIPMAP_LINEAR" );
+			trap_Cvar_SetValue( "r_ext_compressed_textures", 1 );
+			trap_Cvar_SetValue( "r_overBrightBits", 0 );
+			trap_Cvar_Set( "cl_renderer", "opengl1" );
+#ifdef USE_BLOOM
+			trap_Cvar_SetValue( "r_bloom", 0 );
+#endif
 			break;
 
 		case 999:   // 999 is reserved for having set default values ("recommended")
@@ -4590,7 +4623,8 @@ static void UI_RunMenuScript( char **args ) {
 			trap_Cvar_Set( "cdkey2", "" );
 			trap_Cvar_Set( "cdkey3", "" );
 			trap_Cvar_Set( "cdkey4", "" );
-			if ( strlen( buff ) == CDKEY_LEN ) {
+			trap_Cvar_Set( "cdkeychecksum", "" );
+			if ( buff[0] != 32 && strlen( buff ) == CDKEY_LEN ) {
 				Q_strncpyz( out, buff, 5 );
 				trap_Cvar_Set( "cdkey1", out );
 				Q_strncpyz( out, buff + 4, 5 );
@@ -4646,10 +4680,10 @@ static void UI_RunMenuScript( char **args ) {
 		} else if ( Q_stricmp( name, "resetScores" ) == 0 ) {
 			UI_ClearScores();
 		} else if ( Q_stricmp( name, "RefreshServers" ) == 0 ) {
-			UI_StartServerRefresh( qtrue );
+			UI_StartServerRefresh( qtrue, qtrue );
 			UI_BuildServerDisplayList( qtrue );
 		} else if ( Q_stricmp( name, "RefreshFilter" ) == 0 ) {
-			UI_StartServerRefresh( qfalse );
+			UI_StartServerRefresh( qfalse, qtrue );
 			UI_BuildServerDisplayList( qtrue );
 		} else if ( Q_stricmp( name, "RunSPDemo" ) == 0 ) {
 			if ( uiInfo.demoAvailable ) {
@@ -4771,9 +4805,8 @@ static void UI_RunMenuScript( char **args ) {
 			uiInfo.nextServerStatusRefresh = 0;
 			uiInfo.nextFindPlayerRefresh = 0;
 		} else if ( Q_stricmp( name, "UpdateFilter" ) == 0 ) {
-			if ( ui_netSource.integer == UIAS_LOCAL ) {
-				UI_StartServerRefresh( qtrue );
-			}
+			// UpdateFilter is called when server broser menu is opened and when a favorite server is deleted.
+			UI_StartServerRefresh(qtrue, qfalse);
 			UI_BuildServerDisplayList( qtrue );
 			UI_FeederSelection( FEEDER_SERVERS, 0 );
 		} else if ( Q_stricmp( name, "ServerStatus" ) == 0 ) {
@@ -5138,6 +5171,11 @@ static void UI_InsertServerIntoDisplayList( int num, int position ) {
 		uiInfo.serverStatus.displayServers[i] = uiInfo.serverStatus.displayServers[i - 1];
 	}
 	uiInfo.serverStatus.displayServers[position] = num;
+
+	// update displayed levelshot
+	if ( position == uiInfo.serverStatus.currentServer ) {
+		UI_FeederSelection( FEEDER_SERVERS, uiInfo.serverStatus.currentServer );
+	}
 }
 
 /*
@@ -5266,15 +5304,22 @@ static void UI_BuildServerDisplayList( int force ) {
 		// get the ping for this server
 		ping = trap_LAN_GetServerPing(lanSource, i);
 		if (ping > 0 || ui_netSource.integer == UIAS_FAVORITES) {
+			// Remove favorite servers so they do not appear multiple times
+			// or appear when the cached server info was not filtered out
+			// but the new server info is filtered out.
+			if (ui_netSource.integer == UIAS_FAVORITES) {
+				UI_RemoveServerFromDisplayList(i);
+			}
 
 			trap_LAN_GetServerInfo(lanSource, i, info, MAX_STRING_CHARS);
 
 			clients = atoi( Info_ValueForKey( info, "clients" ) );
-			uiInfo.serverStatus.numPlayersOnServers += clients;
 
 			if ( ui_browserShowEmpty.integer == 0 ) {
 				if ( clients == 0 ) {
-					trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+					if (ping > 0) {
+						trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+					}
 					continue;
 				}
 			}
@@ -5282,25 +5327,12 @@ static void UI_BuildServerDisplayList( int force ) {
 			if ( ui_browserShowFull.integer == 0 ) {
 				maxClients = atoi( Info_ValueForKey( info, "sv_maxclients" ) );
 				if ( clients == maxClients ) {
-					trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+					if (ping > 0) {
+						trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+					}
 					continue;
 				}
 			}
-
-/*
-            // NERVE - SMF - friendly fire parsing
-            if ( ui_browserShowFriendlyFire.integer ) {
-                friendlyFire = atoi( Info_ValueForKey( info, "friendlyFire" ) );
-
-                if ( friendlyFire && ui_browserShowFriendlyFire.integer == 2 ) {
-                    trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
-                    continue;
-                } else if ( !friendlyFire && ui_browserShowFriendlyFire.integer == 1 )   {
-                    trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
-                    continue;
-                }
-            }
-*/
 
 			// NERVE - SMF - maxlives parsing
 			if ( ui_browserShowMaxlives.integer == 0 ) {
@@ -5311,67 +5343,31 @@ static void UI_BuildServerDisplayList( int force ) {
 				}
 			}
 
-/*
-            // NERVE - SMF - tourney parsing
-            if ( ui_browserShowTourney.integer == 0 ) {
-                tourney = atoi( Info_ValueForKey( info, "tourney" ) );
-                if ( tourney ) {
-                    trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
-                    continue;
-                }
-            }
-*/
-/*
-            // DHM - Nerve - PunkBuster parsing
-            if ( ui_browserShowPunkBuster.integer ) {
-                punkbuster = atoi( Info_ValueForKey( info, "punkbuster" ) );
-
-                if ( punkbuster && ui_browserShowPunkBuster.integer == 2 ) {
-                    trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
-                    continue;
-                } else if ( !punkbuster && ui_browserShowPunkBuster.integer == 1 )   {
-                    trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
-                    continue;
-                }
-            }
-*/
-/*
-            if ( ui_browserShowAntilag.integer ) {
-                antilag = atoi( Info_ValueForKey( info, "g_antilag" ) );
-
-                if ( antilag && ui_browserShowAntilag.integer == 2 ) {
-                    trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
-                    continue;
-                } else if ( !antilag && ui_browserShowAntilag.integer == 1 )   {
-                    trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
-                    continue;
-                }
-            }
-*/
-
 			if ( uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum != -1 ) {
 				game = atoi( Info_ValueForKey( info, "gametype" ) );
 				if ( game != uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum ) {
-					trap_LAN_MarkServerVisible( ui_netSource.integer, i, qfalse );
+					if (ping > 0) {
+						trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+					}
 					continue;
 				}
 			}
 
 			if ( ui_serverFilterType.integer > 0 ) {
 				if ( Q_stricmp( Info_ValueForKey( info, "game" ), serverFilters[ui_serverFilterType.integer].basedir ) != 0 ) {
-					trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+					if (ping > 0) {
+						trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+					}
 					continue;
 				}
 			}
-			// make sure we never add a favorite server twice
-			if ( ui_netSource.integer == UIAS_FAVORITES ) {
-				UI_RemoveServerFromDisplayList( i );
-			}
+
 			// insert the server into the list
 			UI_BinaryServerInsertion( i );
 			// done with this server
 			if ( ping > 0 ) {
 				trap_LAN_MarkServerVisible(lanSource, i, qfalse);
+				uiInfo.serverStatus.numPlayersOnServers += clients;
 				numinvisible++;
 			}
 		}
@@ -5381,8 +5377,8 @@ static void UI_BuildServerDisplayList( int force ) {
 
 	// if there were no servers visible for ping updates
 	if ( !visible ) {
-		//		UI_StopServerRefresh();
-		//		uiInfo.serverStatus.nextDisplayRefresh = 0;
+//		UI_StopServerRefresh();
+//		uiInfo.serverStatus.nextDisplayRefresh = 0;
 	}
 }
 
@@ -5449,11 +5445,21 @@ static int UI_GetServerStatusInfo( const char *serverAddress, serverStatusInfo_t
 	char *p, *score, *ping, *name;
 	int i, len;
 
+	if (info) {
+		memset(info, 0, sizeof(*info));
+	}
+
+	// ignore initial unset addresses
+	if (serverAddress && *serverAddress == '\0') {
+		return qfalse;
+	}
+
+	// reset server status request for this address
 	if ( !info ) {
 		trap_LAN_ServerStatus( serverAddress, NULL, 0 );
 		return qfalse;
 	}
-	memset( info, 0, sizeof( *info ) );
+
 	if ( trap_LAN_ServerStatus( serverAddress, info->text, sizeof( info->text ) ) ) {
 		Q_strncpyz( info->address, serverAddress, sizeof( info->address ) );
 		p = info->text;
@@ -6840,6 +6846,7 @@ void _UI_Init( qboolean inGameLoad ) {
 	uiInfo.uiDC.executeText = &trap_Cmd_ExecuteText;
 	uiInfo.uiDC.Error = &Com_Error;
 	uiInfo.uiDC.Print = &Com_Printf;
+	uiInfo.uiDC.DPrint = &Com_DPrintf;
 	uiInfo.uiDC.Pause = &UI_Pause;
 	uiInfo.uiDC.ownerDrawWidth = &UI_OwnerDrawWidth;
 	uiInfo.uiDC.registerSound = &trap_S_RegisterSound;
@@ -7627,7 +7634,7 @@ cvarTable_t cvarTable[] = {
 	{ &ui_cdkeychecked, "ui_cdkeychecked", "0", CVAR_ROM },
 	{ &ui_selectedPlayer, "cg_selectedPlayer", "0", CVAR_ARCHIVE},
 	{ &ui_selectedPlayerName, "cg_selectedPlayerName", "", CVAR_ARCHIVE},
-	{ &ui_netSource, "ui_netSource", "0", CVAR_ARCHIVE },
+	{ &ui_netSource, "ui_netSource", "1", CVAR_ARCHIVE },
 #ifdef WOLF_SP_DEMO
 	{ &ui_menuFiles, "ui_menuFiles", "ui/demomenus.txt", CVAR_ARCHIVE },
 #else
@@ -7780,11 +7787,20 @@ static void UI_DoServerRefresh( void ) {
 UI_StartServerRefresh
 =================
 */
-static void UI_StartServerRefresh( qboolean full ) {
+static void UI_StartServerRefresh( qboolean full, qboolean force ) {
 	char    *ptr;
 	int		lanSource;
-
 	qtime_t q;
+
+	// This function is called with force=qfalse when server browser menu opens or net source changes.
+	// Automatically update local and favorite servers.
+	// Only auto update master server list if there is no server info cache.
+	if ( !force && ( ui_netSource.integer >= UIAS_GLOBAL1 && ui_netSource.integer <= UIAS_GLOBAL5 ) ) {
+		if ( trap_LAN_GetServerCount( UI_SourceForLAN() ) > 0 ) {
+			return; // have cached list
+		}
+	}
+
 	trap_RealTime( &q );
 	trap_Cvar_Set( va( "ui_lastServerRefresh_%i", ui_netSource.integer ), va( "%s-%i, %i at %02i:%02i", MonthAbbrev[q.tm_mon],q.tm_mday, 1900 + q.tm_year,q.tm_hour,q.tm_min ) );
 
@@ -7815,9 +7831,9 @@ static void UI_StartServerRefresh( qboolean full ) {
 	if( ui_netSource.integer >= UIAS_GLOBAL1 && ui_netSource.integer <= UIAS_GLOBAL5 ) {
 		ptr = UI_Cvar_VariableString( "debug_protocol" );
 		if ( strlen( ptr ) ) {
-			trap_Cmd_ExecuteText( EXEC_NOW, va( "globalservers %d %s full empty\n", ui_netSource.integer-1, ptr));
+			trap_Cmd_ExecuteText( EXEC_NOW, va( "globalservers %d %s full empty\n", ui_netSource.integer - UIAS_GLOBAL1, ptr ) );
 		} else {
-			trap_Cmd_ExecuteText( EXEC_NOW, va( "globalservers %d %d full empty\n", ui_netSource.integer-1, (int)trap_Cvar_VariableValue( "protocol" ) ) );
+			trap_Cmd_ExecuteText( EXEC_NOW, va( "globalservers %d %d full empty\n", ui_netSource.integer - UIAS_GLOBAL1, (int)trap_Cvar_VariableValue( "protocol" ) ) );
 		}
 	}
 }

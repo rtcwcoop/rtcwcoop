@@ -389,6 +389,7 @@ LAN_CompareServers
 static int LAN_CompareServers( int source, int sortKey, int sortDir, int s1, int s2 ) {
 	int res;
 	serverInfo_t *server1, *server2;
+	int clients1, clients2;
 
 	server1 = LAN_GetServerPtr( source, s1 );
 	server2 = LAN_GetServerPtr( source, s2 );
@@ -401,14 +402,22 @@ static int LAN_CompareServers( int source, int sortKey, int sortDir, int s1, int
 	case SORT_HOST:
 		res = Q_stricmp( server1->hostName, server2->hostName );
 		break;
-
 	case SORT_MAP:
 		res = Q_stricmp( server1->mapName, server2->mapName );
 		break;
 	case SORT_CLIENTS:
-		if ( server1->clients < server2->clients ) {
+		// sub sort by max clients
+		if ( server1->clients == server2->clients ) {
+			clients1 = server1->maxClients;
+			clients2 = server2->maxClients;
+		} else {
+			clients1 = server1->clients;
+			clients2 = server2->clients;
+		}
+
+		if ( clients1 < clients2 ) {
 			res = -1;
-		} else if ( server1->clients > server2->clients )     {
+		} else if ( clients1 > clients2 ) {
 			res = 1;
 		} else {
 			res = 0;
@@ -666,16 +675,15 @@ static void CLUI_SetCDKey( char *buf ) {
 	if ( UI_usesUniqueCDKey() && fs && fs->string[0] != 0 ) {
 		memcpy( &cl_cdkey[16], buf, 16 );
 		cl_cdkey[32] = 0;
-		// set the flag so the fle will be written at the next opportunity
+		// set the flag so the file will be written at the next opportunity
 		cvar_modifiedFlags |= CVAR_ARCHIVE;
 	} else {
 		memcpy( cl_cdkey, buf, 16 );
-		// set the flag so the fle will be written at the next opportunity
+		// set the flag so the file will be written at the next opportunity
 		cvar_modifiedFlags |= CVAR_ARCHIVE;
 	}
 }
 #endif
-
 
 /*
 ====================
@@ -1028,7 +1036,7 @@ intptr_t CL_UISystemCalls( intptr_t *args ) {
 		return args[1];
 
 	case UI_MEMCPY:
-		Com_Memset( VMA(1), args[2], args[3] );
+		Com_Memcpy( VMA(1), VMA(2), args[3] );
 		return args[1];
 
 	case UI_STRNCPY:

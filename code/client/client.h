@@ -43,8 +43,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #ifdef USE_VOIP
 #ifdef USE_LOCAL_HEADERS
-  #include "../opus-1.1.2/include/opus.h"
-  #include "../opusfile-0.7/include/opusfile.h"
+  #include "../opus-1.1.4/include/opus.h"
+  #include "../opusfile-0.8/include/opusfile.h"
 #else
   #include <opus/opus.h>
   #include <opus/opusfile.h>
@@ -57,8 +57,8 @@ If you have questions concerning this license or the applicable additional terms
  
 #define	RETRANSMIT_TIMEOUT	3000	// time between connection packet retransmits
 
-#define LIMBOCHAT_WIDTH     140     // NERVE - SMF
-#define LIMBOCHAT_HEIGHT    7       // NERVE - SMF
+#define LIMBOCHAT_WIDTH		140     // NERVE - SMF
+#define LIMBOCHAT_HEIGHT	7       // NERVE - SMF
 
 // snapshots are a view of the server at a given time
 typedef struct {
@@ -380,7 +380,7 @@ typedef struct {
 	serverInfo_t globalServers[MAX_GLOBAL_SERVERS];
 	// additional global servers
 	int numGlobalServerAddresses;
-	netadr_t		globalServerAddresses[MAX_GLOBAL_SERVERS];
+	netadr_t globalServerAddresses[MAX_GLOBAL_SERVERS];
 
 	int numfavoriteservers;
 	serverInfo_t favoriteServers[MAX_OTHER_SERVERS];
@@ -404,7 +404,6 @@ typedef struct {
 	qhandle_t whiteShader;
 	qhandle_t consoleShader;
 	qhandle_t consoleShader2;   //----(SA)	added
-
 } clientStatic_t;
 
 extern clientStatic_t cls;
@@ -535,6 +534,7 @@ extern cvar_t  *cl_waitForFire;
 // NERVE - SMF - localization
 extern cvar_t  *cl_language;
 // -NERVE - SMF
+
 //=================================================
 
 //
@@ -632,7 +632,6 @@ typedef enum {
 	KB_WBUTTONS7,
 	KB_MLOOK,
 	KB_KICK,
-
 	NUM_BUTTONS
 } kbuttons_t;
 
@@ -782,7 +781,6 @@ int Key_GetCatcher( void );
 void Key_SetCatcher( int catcher );
 void LAN_LoadCachedServers( void );
 void LAN_SaveServersToCache( void );
-
 
 //
 // cl_net_chan.c

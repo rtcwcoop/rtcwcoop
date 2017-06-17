@@ -127,8 +127,7 @@ void CG_DrawExitStats( void ) {
 
 	color2[3] = color[3];
 
-
-// parse it
+	// parse it
 	str = CG_ConfigString( CS_MISSIONSTATS );
 
 	if ( !str || !str[0] ) {
@@ -166,7 +165,6 @@ void CG_DrawExitStats( void ) {
 	// title
 	color2[0] = color2[1] = color2[2] = 1;
 	color2[3] = color[3];
-	//CG_Text_Paint(280, 120, 2, 0.25f, color2, va("%s", CG_TranslateString("end_title")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 	//----(SA)	scale change per MK
 
 #ifdef LOCALISATION
@@ -333,7 +331,7 @@ void CG_DrawInformation( void ) {
 	if ( cgs.gametype == GT_SINGLE_PLAYER ) {
 		trap_UI_Popup( "briefing" );
 
-		trap_UpdateScreen();
+		//trap_UpdateScreen();
 		callCount--;
 		return;
 	}

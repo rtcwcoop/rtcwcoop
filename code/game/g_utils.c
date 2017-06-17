@@ -442,11 +442,11 @@ gentity_t *G_Spawn( void ) {
 			G_InitGentity( e );
 			return e;
 		}
-		if ( i != ENTITYNUM_MAX_NORMAL ) { // was MAX_GENTITIES, but that could never be the case
+		if ( level.num_entities < ENTITYNUM_MAX_NORMAL ) { // was MAX_GENTITIES, but that could never be the case
 			break;
 		}
 	}
-	if ( i == ENTITYNUM_MAX_NORMAL ) {
+	if ( level.num_entities == ENTITYNUM_MAX_NORMAL ) {
 		for ( i = 0; i < MAX_GENTITIES; i++ ) {
 			G_Printf( "%4i: eType: %i class: %s\n", i, g_entities[i].s.eType, g_entities[i].classname );
 		}
@@ -472,6 +472,11 @@ G_EntitiesFree
 qboolean G_EntitiesFree( void ) {
 	int i;
 	gentity_t   *e;
+
+	if ( level.num_entities < ENTITYNUM_MAX_NORMAL ) {
+		// can open a new slot if needed
+		return qtrue;
+	}
 
 	e = &g_entities[MAX_CLIENTS];
 	for ( i = MAX_CLIENTS; i < level.num_entities; i++, e++ ) {

@@ -526,9 +526,9 @@ void Com_StartupVariable( const char *match ) {
 		if(!match || !strcmp(s, match))
 		{
 			if(Cvar_Flags(s) == CVAR_NONEXISTENT)
-				Cvar_Get(s, Cmd_Argv(2), CVAR_USER_CREATED);
+				Cvar_Get(s, Cmd_ArgsFrom(2), CVAR_USER_CREATED);
 			else
-				Cvar_Set2(s, Cmd_Argv(2), qfalse);
+				Cvar_Set2(s, Cmd_ArgsFrom(2), qfalse);
 		}
 	}
 }
@@ -557,7 +557,7 @@ qboolean Com_AddStartupCommands( void ) {
 		}
 
 		// set commands already added with Com_StartupVariable
-		if ( !Q_stricmpn( com_consoleLines[i], "set", 3 ) ) {
+		if ( !Q_stricmpn( com_consoleLines[i], "set ", 4 ) ) {
 			continue;
 		}
 
@@ -2231,7 +2231,7 @@ static void Com_DetectSSE(void)
 #endif
 		Q_VMftol = qvmftolsse;
 
-		Com_Printf("Have SSE support\n");
+		Com_Printf("SSE instruction set enabled\n");
 #if !idx64
 	}
 	else
@@ -2240,7 +2240,7 @@ static void Com_DetectSSE(void)
 		Q_VMftol = qvmftolx87;
 		Q_SnapVector = qsnapvectorx87;
 
-		Com_Printf("No SSE support on this machine\n");
+		Com_Printf("SSE instruction set not available\n");
 	}
 #endif
 }
@@ -2618,6 +2618,13 @@ void Com_WriteConfig_f( void ) {
 
 	Q_strncpyz( filename, Cmd_Argv( 1 ), sizeof( filename ) );
 	COM_DefaultExtension( filename, sizeof( filename ), ".cfg" );
+
+	if (!COM_CompareExtension(filename, ".cfg"))
+	{
+		Com_Printf("Com_WriteConfig_f: Only the \".cfg\" extension is supported by this command!\n");
+		return;
+	}
+
 	Com_Printf( "Writing %s.\n", filename );
 	Com_WriteConfigToFile( filename );
 }

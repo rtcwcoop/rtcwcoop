@@ -189,7 +189,7 @@ qboolean AICast_ScriptAction_GotoMarker( cast_state_t *cs, char *params ) {
 	}
 
 	// find the ai_marker with the given "targetname"
-	// TTimo: gcc: suggest () around assignment used as truth value
+
 	while ( ( ent = G_Find( ent, FOFS( classname ), "ai_marker" ) ) )
 	{
 		if ( ent->targetname && !Q_strcasecmp( ent->targetname, token ) ) {
@@ -542,9 +542,9 @@ qboolean AICast_ScriptAction_Wait( cast_state_t *cs, char *params ) {
 	}
 
 	// default to no moverange
-	//if (moverange == -999) {
-	//	moverange = 200;
-	//}
+//	if ( moverange == -999 ) {
+//		moverange = 200;
+//	}
 
 	if ( moverange != 0 ) {       // default to 200 if no range given
 		if ( moverange > 0 ) {
@@ -554,7 +554,7 @@ qboolean AICast_ScriptAction_Wait( cast_state_t *cs, char *params ) {
 					&&  ( cs->enemyNum >= 0 ) ) {
 
 				// if we can attack them, or they can't attack us, stay here
-				// TTimo: gcc: warning: suggest parentheses around && within ||
+
 				if (    AICast_CheckAttack( cs, cs->enemyNum, qfalse )
 						||  (   !AICast_EntityVisible( AICast_GetCastState( cs->enemyNum ), cs->entityNum, qfalse )
 								&&  !AICast_CheckAttack( AICast_GetCastState( cs->enemyNum ), cs->entityNum, qfalse ) ) ) {
@@ -1094,12 +1094,10 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 		}
 
 	} else {
-
 		if ( g_cheats.integer ) {
 			G_Printf( "--SCRIPTER WARNING-- AI Scripting: setammo: unknown ammo \"%s\"", params );
 		}
 		return qfalse;  // (SA) temp as scripts transition to new names
-
 	}
 
 	return qtrue;
@@ -1170,7 +1168,6 @@ qboolean AICast_ScriptAction_SetClip( cast_state_t *cs, char *params ) {
 	} else {
 //		G_Printf( "--SCRIPTER WARNING-- AI Scripting: setclip: unknown weapon \"%s\"", params );
 		return qfalse;  // (SA) temp as scripts transition to new names
-//		G_Error( "AI Scripting: setclip: unknown weapon \"%s\"", params );
 	}
 
 	return qtrue;
@@ -1296,14 +1293,8 @@ qboolean AICast_ScriptAction_SelectWeapon( cast_state_t *cs, char *params ) {
 		g_entities[cs->entityNum].client->ps.weaponstate = WEAPON_READY;
 
 		if ( !cs->aiCharacter ) {  // only do this for player
-			//vmCvar_t cvar;
-			//
 			g_entities[cs->entityNum].client->ps.weaponTime = 750;  // (SA) HACK: FIXME: TODO: delay to catch initial weapon reload
-			// tell it which weapon to use after spawning in
-			//trap_Cvar_Register( &cvar, "cg_loadWeaponSelect", "0", CVAR_ROM );
-			//trap_Cvar_Set( "cg_loadWeaponSelect", va("%i", g_entities[cs->entityNum].client->ps.weapon ) );
 		}
-
 	} else {
 //		G_Printf( "--SCRIPTER WARNING-- AI Scripting: selectweapon: unknown weapon \"%s\"", params );
 //		return qfalse;	// (SA) temp as scripts transition to new names
@@ -1511,7 +1502,6 @@ qboolean AICast_ScriptAction_TakeWeapon( cast_state_t *cs, char *params ) {
 		cs->weaponNum = WP_NONE;
 
 	} else {
-
 
 		for ( i = 1; bg_itemlist[i].classname; i++ )
 		{
@@ -1808,7 +1798,7 @@ qboolean AICast_ScriptAction_SaveGame( cast_state_t *cs, char *params ) {
 //----(SA)	check for parameter
 	saveName = COM_ParseExt( &pString, qfalse );
 	if ( !saveName[0] ) {
-		G_SaveGame( NULL ); // save the default "current" savegame
+		G_SaveGame( NULL );	// save the default "current" savegame
 	} else {
 		G_SaveGame( saveName );
 	}
@@ -3163,6 +3153,7 @@ qboolean AICast_ScriptAction_Zoom( cast_state_t *cs, char *params ) {
 
 }
 
+//----(SA)	added
 /*
 ===================
 AICast_ScriptAction_StartCam
@@ -3217,8 +3208,6 @@ qboolean AICast_ScriptAction_StartCamBlack( cast_state_t *cs, char *params ) {
 #endif
 }
 
-
-//----(SA)	added
 qboolean AICast_ScriptAction_StopCamBlack( cast_state_t *cs, char *params ) {
 #ifdef INGAME_CUTSCENES
 	trap_SendServerCommand( cs->entityNum, "stopCamblack" );
@@ -3236,10 +3225,7 @@ qboolean AICast_ScriptAction_StopCam( cast_state_t *cs, char *params ) {
 	return qtrue;
 #endif
 }
-//----(SA)	end
 
-
-//----(SA)	added
 qboolean AICast_ScriptAction_Cigarette( cast_state_t *cs, char *params ) {
 	char    *pString, *token;
 
@@ -3387,10 +3373,6 @@ qboolean AICast_ScriptAction_Cvar( cast_state_t *cs, char *params ) {
 	trap_Cvar_Set( cvarName, token );
 	return qtrue;
 }
-
-
-
-//----(SA)	added some music interface
 
 /*
 ==================

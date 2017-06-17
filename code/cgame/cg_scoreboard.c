@@ -326,14 +326,10 @@ Draw the normal in-game scoreboard
 =================
 */
 qboolean CG_DrawScoreboard( void ) {
-	int x = 0, y = 0, w;     // TTimo init
+	int x = 0, y = 0, w;
 	float fade;
 	float   *fadeColor;
 	char    *s;
-
-	if ( cg_fixedAspect.integer ) {
-		CG_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
-	}
 
 	// don't draw anything if the menu or console is up
 	if ( cg_paused.integer ) {
@@ -354,6 +350,10 @@ qboolean CG_DrawScoreboard( void ) {
 	// don't draw scoreboard during death while warmup up
 	if ( cg.warmup && !cg.showScores && cg.predictedPlayerState.pm_type != PM_INTERMISSION ) {
 		return qfalse;
+	}
+
+	if ( cg_fixedAspect.integer ) {
+		CG_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
 	}
 
 	if ( cg.showScores || cg.predictedPlayerState.pm_type == PM_DEAD ||

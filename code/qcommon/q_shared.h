@@ -66,6 +66,7 @@ If you have questions concerning this license or the applicable additional terms
   #define HOMEPATH_NAME_WIN		"RTCWCoop"
   #define STEAMPATH_NAME		"Return To Castle Wolfenstein"
   #define STEAMPATH_APPID		"9010"
+  #define GOGPATH_ID			"1441704976"
   #define HOMEPATH_NAME_MACOSX		"rtcwcoop"
   #define GAMENAME_FOR_MASTER		"wolfcoop"
 //  #define LEGACY_PROTOCOL
@@ -1040,8 +1041,7 @@ SAVE
 	15 - (SA) moved time info above the main game reading
 	16 - (SA) added fog
 	17 - (SA) rats, changed fog.
-  18 - TTimo targetdeath fix
-	   show_bug.cgi?id=434
+	18 - TTimo targetdeath fix
 
 ==============================================================
 */

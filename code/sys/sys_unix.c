@@ -50,6 +50,9 @@ static const char DEFAULT_XDG_DATA_HOME[] = {'.', 'l', 'o', 'c', 'a', 'l', PATH_
 #ifndef STANDALONE
 // Used to store the Steam RTCW installation path
 static char steamPath[ MAX_OSPATH ] = { 0 };
+
+// Used to store the GOG RTCW installation path
+static char gogPath[ MAX_OSPATH ] = { 0 };
 #endif
 
 /*
@@ -139,6 +142,17 @@ char *Sys_SteamPath( void )
 #endif
 
 	return steamPath;
+}
+
+/*
+================
+Sys_GogPath
+================
+*/
+char *Sys_GogPath( void )
+{
+	// GOG also doesn't let you install RTCW on Mac/Linux
+	return gogPath;
 }
 #endif
 
@@ -955,17 +969,62 @@ void Sys_Chmod( char *file, int mode ) {
 }
 
 /*
+=================
+Sys_DllExtension
+
+Check if filename should be allowed to be loaded as a DLL.
+=================
+*/
+qboolean Sys_DllExtension( const char *name ) {
+	const char *p;
+	char c = 0;
+
+	if ( COM_CompareExtension( name, DLL_EXT ) ) {
+		return qtrue;
+	}
+
+	// Check for format of filename.so.1.2.3
+	p = strstr( name, DLL_EXT "." );
+
+	if ( p ) {
+		p += strlen( DLL_EXT );
+
+		// Check if .so is only followed for periods and numbers.
+		while ( *p ) {
+			c = *p;
+
+			if ( !isdigit( c ) && c != '.' ) {
+				return qfalse;
+			}
+
+			p++;
+		}
+
+		// Don't allow filename to end in a period. file.so., file.so.0., etc
+		if ( c != '.' ) {
+			return qtrue;
+		}
+	}
+
+	return qfalse;
+}
+
+/*
+==============
+Sys_GetDLLName
+==============
+*/
+char* Sys_GetDLLName( const char *name ) {
+	return va("%s.coop." ARCH_STRING DLL_EXT, name);
+}
+
+/*
 ==============
 Sys_GetHighQualityCPU
 ==============
 */
 int Sys_GetHighQualityCPU() {
 	return 1;
-}
-
-// TTimo - Wolf MP specific, adding .coop. to shared objects
-char* Sys_GetDLLName( const char *name ) {
-	return va("%s.coop." ARCH_STRING DLL_EXT, name);
 }
 
 #define MAX_CMD 1024

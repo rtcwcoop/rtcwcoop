@@ -747,7 +747,6 @@ int     FS_Delete( char *filename );    // only works inside the 'save' director
 
 int     FS_Write( const void *buffer, int len, fileHandle_t f );
 
-int	FS_Read2( void *buffer, int len, fileHandle_t f );
 int     FS_Read( void *buffer, int len, fileHandle_t f );
 // properly handles partial reads and reads from other dlls
 
@@ -1172,6 +1171,8 @@ void	* QDECL Sys_LoadGameDll( const char *name, intptr_t (QDECL **entryPoint)(in
 void    Sys_UnloadDll( void *dllHandle );
 void	Sys_Chmod( char *file, int mode );
 
+qboolean Sys_DllExtension( const char *name );
+
 char    *Sys_GetCurrentUser( void );
 
 void	QDECL Sys_Error( const char *error, ...) __attribute__ ((noreturn, format (printf, 1, 2)));
@@ -1210,6 +1211,7 @@ char    *Sys_DefaultInstallPath( void );
 
 #ifndef STANDALONE
 char    *Sys_SteamPath(void);
+char	*Sys_GogPath(void);
 #endif
 
 #ifdef __APPLE__

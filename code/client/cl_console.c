@@ -33,7 +33,6 @@ If you have questions concerning this license or the applicable additional terms
 
 int g_console_field_width = 78;
 
-
 #define COLNSOLE_COLOR  COLOR_WHITE //COLOR_BLACK
 
 #define NUM_CON_TIMES 4
@@ -109,7 +108,6 @@ Con_MessageMode_f
 void Con_MessageMode_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qfalse;
-//	chat_limbo = qfalse;		// NERVE - SMF
 #ifdef USE_IRC
 	chat_irc = qfalse;
 #endif
@@ -127,7 +125,6 @@ Con_MessageMode2_f
 void Con_MessageMode2_f( void ) {
 	chat_playerNum = -1;
 	chat_team = qtrue;
-//	chat_limbo = qfalse;		// NERVE - SMF
 #ifdef USE_IRC
 	chat_irc = qfalse;
 #endif
@@ -148,7 +145,6 @@ void Con_MessageMode3_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
-//	chat_limbo = qfalse;		// NERVE - SMF
 #ifdef USE_IRC
 	chat_irc = qfalse;
 #endif
@@ -169,7 +165,6 @@ void Con_MessageMode4_f( void ) {
 		return;
 	}
 	chat_team = qfalse;
-//	chat_limbo = qfalse;		// NERVE - SMF
 #ifdef USE_IRC
 	chat_irc = qfalse;
 #endif
@@ -228,7 +223,6 @@ void Con_Clear_f( void ) {
 	Con_Bottom();       // go to end
 }
 
-
 /*
 ================
 Con_Dump_f
@@ -251,6 +245,12 @@ void Con_Dump_f( void ) {
 
 	Q_strncpyz( filename, Cmd_Argv( 1 ), sizeof( filename ) );
 	COM_DefaultExtension( filename, sizeof( filename ), ".txt" );
+
+	if (!COM_CompareExtension(filename, ".txt"))
+	{
+		Com_Printf("Con_Dump_f: Only the \".txt\" extension is supported by this command!\n");
+		return;
+	}
 
 	f = FS_FOpenFileWrite( filename );
 	if ( !f ) {
@@ -333,7 +333,7 @@ If the line width has changed, reformat the buffer.
 */
 void Con_CheckResize( void ) {
 	int i, j, width, oldwidth, oldtotallines, numlines, numchars;
-	short tbuf[CON_TEXTSIZE];
+	short	tbuf[CON_TEXTSIZE];
 
 	width = ( SCREEN_WIDTH / SMALLCHAR_WIDTH ) - 2;
 
@@ -491,7 +491,7 @@ If no console is visible, the text will appear at the top of the game window
 ================
 */
 void CL_ConsolePrint( char *txt ) {
-	int		y, l;
+	int	y, l;
 	unsigned char	c;
 	unsigned short	color;
 	qboolean skipnotify = qfalse;       // NERVE - SMF
@@ -560,9 +560,7 @@ void CL_ConsolePrint( char *txt ) {
 		}
 	}
 
-
 	// mark time for transparent overlay
-
 	if ( con.current >= 0 ) {
 		// NERVE - SMF
 		if ( skipnotify ) {
@@ -708,8 +706,7 @@ void Con_DrawNotify( void ) {
 #endif
 		}
 
-		Field_BigDraw( &chatField, skip * BIGCHAR_WIDTH, v,
-			SCREEN_WIDTH - ( skip + 1 ) * BIGCHAR_WIDTH, qtrue, qtrue );
+		Field_BigDraw( &chatField, skip * BIGCHAR_WIDTH, v, SCREEN_WIDTH - ( skip + 1 ) * BIGCHAR_WIDTH, qtrue, qtrue );
 
 	}
 
@@ -729,7 +726,6 @@ void Con_DrawSolidConsole( float frac ) {
 	short           *text;
 	int row;
 	int lines;
-//	qhandle_t		conShader;
 	int currentColor;
 	vec4_t color;
 
@@ -753,7 +749,7 @@ void Con_DrawSolidConsole( float frac ) {
 	} else {
 		SCR_DrawPic( 0, 0, SCREEN_WIDTH, y, cls.consoleShader );
 
-		if ( frac >= 0.5f ) {  // only draw when the console is down all the way (for now)
+		if ( frac >= 0.5f ) {
 			color[0] = color[1] = color[2] = frac * 2.0f;
 			color[3] = 1.0f;
 			re.SetColor( color );
@@ -777,10 +773,7 @@ void Con_DrawSolidConsole( float frac ) {
 	i = strlen( Q3_VERSION );
 
 	for ( x = 0 ; x < i ; x++ ) {
-
-		SCR_DrawSmallChar( cls.glconfig.vidWidth - ( i - x + 1 ) * SMALLCHAR_WIDTH,
-			lines - SMALLCHAR_HEIGHT, Q3_VERSION[x] );
-
+		SCR_DrawSmallChar( cls.glconfig.vidWidth - ( i - x + 1 ) * SMALLCHAR_WIDTH, lines - SMALLCHAR_HEIGHT, Q3_VERSION[x] );
 	}
 
 

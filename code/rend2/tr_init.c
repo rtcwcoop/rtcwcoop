@@ -124,8 +124,6 @@ cvar_t  *r_ati_truform_pointmode;   // linear/cubic
 cvar_t  *r_ati_fsaa_samples;        //DAJ valids are 1, 2, 4
 //----(SA)	end
 
-cvar_t  *r_ext_draw_range_elements;
-cvar_t  *r_ext_multi_draw_arrays;
 cvar_t  *r_ext_framebuffer_object;
 cvar_t  *r_ext_texture_float;
 cvar_t  *r_ext_framebuffer_multisample;
@@ -422,21 +420,39 @@ typedef struct vidmode_s
 	float pixelAspect;              // pixel width / height
 } vidmode_t;
 
+// Note: Also add these modes to ui/ui_shared.c
 vidmode_t r_vidModes[] =
 {
-	{ "Mode  0: 320x240",        320,    240,    1 },
-	{ "Mode  1: 400x300",        400,    300,    1 },
-	{ "Mode  2: 512x384",        512,    384,    1 },
-	{ "Mode  3: 640x480",        640,    480,    1 },
-	{ "Mode  4: 800x600",        800,    600,    1 },
-	{ "Mode  5: 960x720",        960,    720,    1 },
-	{ "Mode  6: 1024x768",       1024,   768,    1 },
-	{ "Mode  7: 1152x864",       1152,   864,    1 },
-	{ "Mode  8: 1280x1024",      1280,   1024,   1 },
-	{ "Mode  9: 1600x1200",      1600,   1200,   1 },
-	{ "Mode 10: 2048x1536",      2048,   1536,   1 },
-	{ "Mode 11: 856x480 (wide)",856, 480,    1 },
-	{ "Mode 12: 1920x1200 (wide)",1920,  1200,   1 }     //----(SA)	added
+	{ "Mode  0:   320x240   (4:3)",     320,     240,    1 },
+	{ "Mode  1:   400x300   (4:3)",     400,     300,    1 },
+	{ "Mode  2:   512x384   (4:3)",     512,     384,    1 },
+	{ "Mode  3:   640x480   (4:3)",     640,     480,    1 },
+	{ "Mode  4:   800x600   (4:3)",     800,     600,    1 },
+	{ "Mode  5:   960x720   (4:3)",     960,     720,    1 },
+	{ "Mode  6:  1024x768   (4:3)",    1024,     768,    1 },
+	{ "Mode  7:  1152x864   (4:3)",    1152,     864,    1 },
+	{ "Mode  8: 1280x1024   (5:4)",    1280,    1024,    1 },
+	{ "Mode  9: 1600x1200   (4:3)",    1600,    1200,    1 },
+	{ "Mode 10: 2048x1536   (4:3)",    2048,    1536,    1 },
+	{ "Mode 11:   856x480  (16:9)",     856,     480,    1 },
+	{ "Mode 12:   640x360  (16:9)",     640,     360,    1 },
+	{ "Mode 13:   640x400 (16:10)",     640,     400,    1 },
+	{ "Mode 14:   800x450  (16:9)",     800,     450,    1 },
+	{ "Mode 15:   800x500 (16:10)",     800,     500,    1 },
+	{ "Mode 16:  1024x640 (16:10)",    1024,     640,    1 },
+	{ "Mode 17:  1024x576  (16:9)",    1024,     576,    1 },
+	{ "Mode 18:  1280x720  (16:9)",    1280,     720,    1 },
+	{ "Mode 19:  1280x768 (16:10)",    1280,     768,    1 },
+	{ "Mode 20:  1280x800 (16:10)",    1280,     800,    1 },
+	{ "Mode 21:  1280x960   (4:3)",    1280,     960,    1 },
+	{ "Mode 22:  1440x900 (16:10)",    1440,     900,    1 },
+	{ "Mode 23:  1600x900  (16:9)",    1600,     900,    1 },
+	{ "Mode 24: 1600x1000 (16:10)",    1600,    1000,    1 },
+	{ "Mode 25: 1680x1050 (16:10)",    1680,    1050,    1 },
+	{ "Mode 26: 1920x1080  (16:9)",    1920,    1080,    1 },
+	{ "Mode 27: 1920x1200 (16:10)",    1920,    1200,    1 },
+	{ "Mode 28: 1920x1440   (4:3)",    1920,    1440,    1 },
+	{ "Mode 29: 2560x1600 (16:10)",    2560,    1600,    1 }
 };
 static int	s_numVidModes = ARRAY_LEN( r_vidModes );
 
@@ -1027,7 +1043,9 @@ void GL_SetDefaultState( void ) {
 	qglColor4f( 1,1,1,1 );
 
 	GL_BindNullTextures();
-	GL_BindNullFramebuffers();
+
+	if (glRefConfig.framebufferObject)
+		GL_BindNullFramebuffers();
 
 	qglEnable( GL_TEXTURE_2D );
 	GL_TextureMode( r_textureMode->string );
@@ -1073,9 +1091,11 @@ void GL_SetDefaultState( void ) {
 	// ATI pn_triangles
 	if ( qglPNTrianglesiATI ) {
 		int maxtess;
+
 		// get max supported tesselation
 		qglGetIntegerv( GL_MAX_PN_TRIANGLES_TESSELATION_LEVEL_ATI, (GLint*)&maxtess );
 		glConfig.ATIMaxTruformTess = maxtess;
+
 		// cap if necessary
 		if ( r_ati_truform_tess->value > maxtess ) {
 			ri.Cvar_Set( "r_ati_truform_tess", va( "%d", maxtess ) );
@@ -1085,6 +1105,7 @@ void GL_SetDefaultState( void ) {
 		qglPNTrianglesiATI( GL_PN_TRIANGLES_TESSELATION_LEVEL_ATI, r_ati_truform_tess->value );
 	}
 
+#if 0
 	if ( glConfig.anisotropicAvailable ) {
 		float maxAnisotropy;
 
@@ -1092,8 +1113,9 @@ void GL_SetDefaultState( void ) {
 		glConfig.maxAnisotropy = maxAnisotropy;
 
 		// set when rendering
-//	   qglTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, glConfig.maxAnisotropy);
+		//qglTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, glConfig.maxAnisotropy);
 	}
+#endif
 //----(SA)	end
 }
 
@@ -1279,7 +1301,7 @@ void R_Register( void ) {
 	// latched and archived variables
 	//
 	r_allowExtensions = ri.Cvar_Get( "r_allowExtensions", "1", CVAR_ARCHIVE | CVAR_LATCH );
-	r_ext_compressed_textures = ri.Cvar_Get( "r_ext_compressed_textures", "1", CVAR_ARCHIVE | CVAR_LATCH );   // (SA) ew, a spelling change I missed from the missionpack
+	r_ext_compressed_textures = ri.Cvar_Get( "r_ext_compressed_textures", "0", CVAR_ARCHIVE | CVAR_LATCH );   // (SA) ew, a spelling change I missed from the missionpack
 	r_ext_multitexture = ri.Cvar_Get( "r_ext_multitexture", "1", CVAR_ARCHIVE | CVAR_LATCH );
 	r_ext_compiled_vertex_array = ri.Cvar_Get( "r_ext_compiled_vertex_array", "1", CVAR_ARCHIVE | CVAR_LATCH );
 	r_glIgnoreWicked3D = ri.Cvar_Get( "r_glIgnoreWicked3D", "0", CVAR_ARCHIVE | CVAR_LATCH );
@@ -1299,8 +1321,6 @@ void R_Register( void ) {
 
 	r_ext_texture_env_add = ri.Cvar_Get( "r_ext_texture_env_add", "1", CVAR_ARCHIVE | CVAR_LATCH );
 
-	r_ext_draw_range_elements = ri.Cvar_Get( "r_ext_draw_range_elements", "1", CVAR_ARCHIVE | CVAR_LATCH);
-	r_ext_multi_draw_arrays = ri.Cvar_Get( "r_ext_multi_draw_arrays", "1", CVAR_ARCHIVE | CVAR_LATCH);
 	r_ext_framebuffer_object = ri.Cvar_Get( "r_ext_framebuffer_object", "1", CVAR_ARCHIVE | CVAR_LATCH);
 	r_ext_texture_float = ri.Cvar_Get( "r_ext_texture_float", "1", CVAR_ARCHIVE | CVAR_LATCH);
 	r_ext_framebuffer_multisample = ri.Cvar_Get( "r_ext_framebuffer_multisample", "0", CVAR_ARCHIVE | CVAR_LATCH);
@@ -1805,10 +1825,6 @@ refexport_t *GetRefAPI( int apiVersion, refimport_t *rimp ) {
 	re.RemapShader      = R_RemapShader;
 	re.GetEntityToken   = R_GetEntityToken;
 	re.TakeVideoFrame = RE_TakeVideoFrame;
-
-#ifdef BLAH // MrE __USEA3D
-	re.A3D_RenderGeometry = RE_A3D_RenderGeometry;
-#endif
 
 	// RF
 	re.ZombieFXAddNewHit = RB_ZombieFXAddNewHit;
