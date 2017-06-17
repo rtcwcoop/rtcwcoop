@@ -618,3 +618,4 @@ GL_APICALL void         GL_APIENTRY glViewport (GLint x, GLint y, GLsizei width,
 #endif
 
 #endif /* __gl2_h_ */
+

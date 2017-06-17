@@ -200,7 +200,7 @@ extern "C" {
 #define SDL_HINT_VIDEO_X11_NET_WM_PING      "SDL_VIDEO_X11_NET_WM_PING"
 
 /**
- *  \brief  A variable controlling whether the window frame and title bar are interactive when the cursor is hidden
+ *  \brief  A variable controlling whether the window frame and title bar are interactive when the cursor is hidden 
  *
  *  This variable can be set to the following values:
  *    "0"       - The window frame is not interactive when the cursor is hidden (no move, resize, etc)
@@ -211,7 +211,7 @@ extern "C" {
 #define SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN    "SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN"
 
 /**
- *  \brief  A variable controlling whether the windows message loop is processed by SDL
+ *  \brief  A variable controlling whether the windows message loop is processed by SDL 
  *
  *  This variable can be set to the following values:
  *    "0"       - The window message loop is not run
@@ -597,7 +597,7 @@ extern "C" {
  * By default this hint is not set and the APK expansion files are not searched.
  */
 #define SDL_HINT_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION "SDL_ANDROID_APK_EXPANSION_MAIN_FILE_VERSION"
-
+ 
 /**
  * \brief Android APK expansion patch file version. Should be a string number like "1", "2" etc.
  *
@@ -615,9 +615,9 @@ extern "C" {
  *
  * The variable can be set to the following values:
  *   "0"       - SDL_TEXTEDITING events are sent, and it is the application's
- *               responsibility to render the text from these events and
+ *               responsibility to render the text from these events and 
  *               differentiate it somehow from committed text. (default)
- *   "1"       - If supported by the IME then SDL_TEXTEDITING events are not sent,
+ *   "1"       - If supported by the IME then SDL_TEXTEDITING events are not sent, 
  *               and text that is being composed will be rendered in its own UI.
  */
 #define SDL_HINT_IME_INTERNAL_EDITING "SDL_IME_INTERNAL_EDITING"

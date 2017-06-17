@@ -30,3 +30,4 @@ print "shrink factor    = " + repr( shrink )
 print "shrink factor 2  = " + repr( int( shrink * (2**32) ) )
 print "expansion factor = " + repr( 1/shrink )
 print ""
+
