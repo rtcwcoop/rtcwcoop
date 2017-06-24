@@ -1032,16 +1032,12 @@ static float CG_DrawCoopOverlay( float y ) {
 #if 1
 	// max location name width
 	lwidth = 0;
-	if ( cg_drawTeamOverlay.integer > 1 ) {
-		for ( i = 0; i < numSortedTeamPlayers; i++ ) {
-			ci = cgs.clientinfo + sortedTeamPlayers[i];
-			if ( ci->infoValid &&
-				 ci->team == cg.snap->ps.persistant[PERS_TEAM] &&
-				 CG_ConfigString( CS_LOCATIONS + ci->location ) ) {
-				len = CG_DrawStrlen( CG_ConfigString( CS_LOCATIONS + ci->location ) );
-				if ( len > lwidth ) {
-					lwidth = len;
-				}
+	for ( i = 0; i < numSortedTeamPlayers; i++ ) {
+		ci = cgs.clientinfo + sortedTeamPlayers[i];
+		if ( ci->infoValid && ci->team == cg.snap->ps.persistant[PERS_TEAM] && CG_ConfigString( CS_LOCATIONS + ci->location ) ) {
+			len = CG_DrawStrlen( CG_ConfigString( CS_LOCATIONS + ci->location ) );
+			if ( len > lwidth ) {
+				lwidth = len;
 			}
 		}
 	}
@@ -1063,12 +1059,8 @@ static float CG_DrawCoopOverlay( float y ) {
 		lwidth = TEAM_OVERLAY_MAXLOCATION_WIDTH;
 	}
 
-	if ( cg_drawTeamOverlay.integer > 1 ) {
-		w = ( pwidth + lwidth + 3 + 7 ) * TINYCHAR_WIDTH;         // JPW NERVE was +4+7
-	} else {
-		w = ( pwidth + lwidth + 8 ) * TINYCHAR_WIDTH;         // JPW NERVE was +4+7
+	w = ( pwidth + lwidth + 7 + 7 ) * TINYCHAR_WIDTH;         // JPW NERVE was +4+7
 
-	}
 	x = 640 - w - 1;     // JPW was -32
 	h = plyrs * TINYCHAR_HEIGHT;
 
@@ -1179,17 +1171,13 @@ static float CG_DrawCoopOverlay( float y ) {
 								  TEAM_OVERLAY_MAXLOCATION_WIDTH );
 			}
 
-			Com_sprintf( st, sizeof( st ), "%3i", ci->health );             // JPW NERVE pulled class stuff since it's at top now
+			Com_sprintf( st, sizeof( st ), "%3i/%i", ci->health, ci->armor );             // JPW NERVE pulled class stuff since it's at top now
 
-			if ( cg_drawTeamOverlay.integer > 1 ) {
-				xx = x + TINYCHAR_WIDTH * 6 + TINYCHAR_WIDTH * pwidth + TINYCHAR_WIDTH * lwidth;
-			} else {
-				xx = x + TINYCHAR_WIDTH * 4 + TINYCHAR_WIDTH * pwidth + TINYCHAR_WIDTH * lwidth;
-			}
+			xx = x + TINYCHAR_WIDTH * 6 + TINYCHAR_WIDTH * pwidth + TINYCHAR_WIDTH * lwidth;
 
 			CG_DrawStringExt( xx, y,
 							  st, pcolor, qfalse, qfalse,
-							  TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 3 );
+							  TINYCHAR_WIDTH, TINYCHAR_HEIGHT, 7 );
 
 			y += TINYCHAR_HEIGHT;
 		}
