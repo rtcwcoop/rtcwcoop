@@ -516,7 +516,7 @@ qboolean canUse( gentity_t *ent, qboolean isCmd ) {
 		parse = permission;
 		while ( 1 ) {
 			token = COM_Parse( &parse );
-			if ( !token || !token[0] ) {
+			if ( !token[0] ) {
 				break;
 			}
 

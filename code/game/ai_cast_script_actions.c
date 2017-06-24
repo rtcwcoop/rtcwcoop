@@ -787,7 +787,7 @@ qboolean AICast_ScriptAction_PlayAnim( cast_state_t *cs, char *params ) {
 
 		// read the name
 		token = COM_ParseExt( &pString, qfalse );
-		if ( !token || !token[0] ) {
+		if ( !token[0] ) {
 			G_Error( "AI Scripting: syntax error\n\nplayanim <animation> <legs/torso/both>\n" );
 		}
 		Q_strncpyz( tokens[0], token, sizeof( tokens[0] ) );
@@ -795,7 +795,7 @@ qboolean AICast_ScriptAction_PlayAnim( cast_state_t *cs, char *params ) {
 
 		// read the body part
 		token = COM_ParseExt( &pString, qfalse );
-		if ( !token || !token[0] ) {
+		if ( !token[0] ) {
 			G_Error( "AI Scripting: syntax error\n\nplayanim <animation> <legs/torso/both>\n" );
 		}
 		Q_strncpyz( tokens[1], token, sizeof( tokens[1] ) );
@@ -927,7 +927,7 @@ qboolean AICast_ScriptAction_PlayAnim( cast_state_t *cs, char *params ) {
 
 		for ( i = 0; i < 3; i++ ) {
 			token = COM_ParseExt( &pString, qfalse );
-			if ( !token || !token[0] ) {
+			if ( !token[0] ) {
 				//G_Error("AI Scripting: syntax error\n\nplayanim <animation> <pausetime> [legs/torso/both]\n");
 				G_Printf( "AI Scripting: syntax error\n\nplayanim <animation> <pausetime> <legs/torso/both>\n" );
 				return qtrue;
@@ -1095,7 +1095,7 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 
 	} else {
 		if ( g_cheats.integer ) {
-			G_Printf( "--SCRIPTER WARNING-- AI Scripting: setammo: unknown ammo \"%s\"", params );
+			G_Printf( "--SCRIPTER WARNING-- AI Scripting: setammo: unknown ammo \"%s\"\n", params );
 		}
 		return qfalse;  // (SA) temp as scripts transition to new names
 	}
@@ -1166,7 +1166,7 @@ qboolean AICast_ScriptAction_SetClip( cast_state_t *cs, char *params ) {
 		}
 
 	} else {
-//		G_Printf( "--SCRIPTER WARNING-- AI Scripting: setclip: unknown weapon \"%s\"", params );
+//		G_Printf( "--SCRIPTER WARNING-- AI Scripting: setclip: unknown weapon \"%s\"\n", params );
 		return qfalse;  // (SA) temp as scripts transition to new names
 	}
 
@@ -1296,7 +1296,7 @@ qboolean AICast_ScriptAction_SelectWeapon( cast_state_t *cs, char *params ) {
 			g_entities[cs->entityNum].client->ps.weaponTime = 750;  // (SA) HACK: FIXME: TODO: delay to catch initial weapon reload
 		}
 	} else {
-//		G_Printf( "--SCRIPTER WARNING-- AI Scripting: selectweapon: unknown weapon \"%s\"", params );
+//		G_Printf( "--SCRIPTER WARNING-- AI Scripting: selectweapon: unknown weapon \"%s\"\n", params );
 //		return qfalse;	// (SA) temp as scripts transition to new names
 		G_Error( "AI Scripting: selectweapon: unknown weapon \"%s\"", params );
 	}

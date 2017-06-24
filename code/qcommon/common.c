@@ -107,6 +107,9 @@ cvar_t	*com_legacyprotocol;
 cvar_t	*com_basegame;
 cvar_t  *com_homepath;
 cvar_t	*com_busyWait;
+#ifndef DEDICATED
+cvar_t  *con_autochat;
+#endif
 
 #if idx64
 	int (*Q_VMftol)(void);
@@ -2418,6 +2421,10 @@ void Com_Init( char *commandLine ) {
 #endif
 		Cvar_Get("protocol", com_protocol->string, CVAR_ROM);
 
+#ifndef DEDICATED
+	con_autochat = Cvar_Get("con_autochat", "1", CVAR_ARCHIVE);
+#endif
+
 	com_hunkused = Cvar_Get( "com_hunkused", "0", 0 );
 
 	Sys_Init();
@@ -3126,8 +3133,8 @@ void Field_CompleteCommand( char *cmd,
 		completionString = Cmd_Argv( completionArgument - 1 );
 
 #ifndef DEDICATED
-	// Unconditionally add a '\' to the start of the buffer
-	if( completionField->buffer[ 0 ] &&
+	// add a '\' to the start of the buffer if it might be sent as chat otherwise
+	if( con_autochat->integer && completionField->buffer[ 0 ] &&
 			completionField->buffer[ 0 ] != '\\' )
 	{
 		if( completionField->buffer[ 0 ] != '/' )

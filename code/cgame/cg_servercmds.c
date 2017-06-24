@@ -343,7 +343,7 @@ void coop_ParseFog( const char *info ) {
 	token = COM_Parse( (char **)&info );    ne = atof( token );
 	token = COM_Parse( (char **)&info );
 
-	if ( !token || !token[0] ) {
+	if ( !token[0] ) {
 		// set to  'no fog'
 		// 'FOG_MAP' is not registered, so it will always make fog go away
 		trap_R_SetFog( FOG_CMD_SWITCHFOG, FOG_MAP, (int)ne, 0, 0, 0, 0 );
@@ -382,7 +382,7 @@ static void CG_ParseFog( void ) {
 	token = COM_Parse( (char **)&info );    ne = atof( token );
 	token = COM_Parse( (char **)&info );
 
-	if ( !token || !token[0] ) {
+	if ( !token[0] ) {
 		// set to  'no fog'
 		// 'FOG_MAP' is not registered, so it will always make fog go away
 		trap_R_SetFog( FOG_CMD_SWITCHFOG, FOG_MAP, (int)ne, 0, 0, 0, 0 );
@@ -817,7 +817,7 @@ int CG_ParseVoiceChats( const char *filename, voiceChatList_t *voiceChatList, in
 		voiceChats[i].id[0] = 0;
 	}
 	token = COM_ParseExt( p, qtrue );
-	if ( !token || token[0] == 0 ) {
+	if ( !token[0] ) {
 		return qtrue;
 	}
 	if ( !Q_stricmp( token, "female" ) ) {
@@ -834,7 +834,7 @@ int CG_ParseVoiceChats( const char *filename, voiceChatList_t *voiceChatList, in
 	voiceChatList->numVoiceChats = 0;
 	while ( 1 ) {
 		token = COM_ParseExt( p, qtrue );
-		if ( !token || token[0] == 0 ) {
+		if ( !token[0] ) {
 			return qtrue;
 		}
 		Com_sprintf( voiceChats[voiceChatList->numVoiceChats].id, sizeof( voiceChats[voiceChatList->numVoiceChats].id ), "%s", token );
@@ -847,7 +847,7 @@ int CG_ParseVoiceChats( const char *filename, voiceChatList_t *voiceChatList, in
 		current = voiceChats[voiceChatList->numVoiceChats].numSounds;
 		while ( 1 ) {
 			token = COM_ParseExt( p, qtrue );
-			if ( !token || token[0] == 0 ) {
+			if ( !token[0] ) {
 				return qtrue;
 			}
 			if ( !Q_stricmp( token, "}" ) ) {
@@ -855,14 +855,14 @@ int CG_ParseVoiceChats( const char *filename, voiceChatList_t *voiceChatList, in
 			}
 			voiceChats[voiceChatList->numVoiceChats].sounds[current] = trap_S_RegisterSound( token /*, compress */ );
 			token = COM_ParseExt( p, qtrue );
-			if ( !token || token[0] == 0 ) {
+			if ( !token[0] ) {
 				return qtrue;
 			}
 			Com_sprintf( voiceChats[voiceChatList->numVoiceChats].chats[current], MAX_CHATSIZE, "%s", token );
 
 			// DHM - Nerve :: Specify sprite shader to show above player's head
 			token = COM_ParseExt( p, qfalse );
-			if ( !Q_stricmp( token, "}" ) || !token || token[0] == 0 ) {
+			if ( !token[0] || !Q_stricmp( token, "}" ) ) {
 				voiceChats[voiceChatList->numVoiceChats].sprite[current] = trap_R_RegisterShader( "sprites/voiceChat" );
 				COM_RestoreParseSession( p );
 			} else {
@@ -934,7 +934,7 @@ int CG_HeadModelVoiceChats( char *filename ) {
 	p = &ptr;
 
 	token = COM_ParseExt( p, qtrue );
-	if ( !token || token[0] == 0 ) {
+	if ( !token[0] ) {
 		return -1;
 	}
 

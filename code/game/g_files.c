@@ -206,7 +206,7 @@ qboolean bypassing( char *password ) {
 		while ( 1 )
 		{
 			token = COM_Parse( &text );
-			if ( !token || !token[0] ) {
+			if ( !token[0] ) {
 				break;
 			}
 

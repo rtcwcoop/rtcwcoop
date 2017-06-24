@@ -835,7 +835,7 @@ CG_ParseWeaponConfig
 	read information for weapon animations (first/length/fps)
 ======================
 */
-static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi ) {
+static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi, int weaponNum ) {
 	char        *text_p, *prev;
 	int len;
 	int i;
@@ -867,12 +867,12 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi ) {
 	while ( 1 ) {
 		prev = text_p;  // so we can unget
 		token = COM_Parse( &text_p );
-		if ( !token ) {                     // get the variable
+		if ( !token[0] ) {                     // get the variable
 			break;
 		}
 		if ( !Q_stricmp( token, "whatever_variable" ) ) {
 			token = COM_Parse( &text_p );   // get the value
-			if ( !token ) {
+			if ( !token[0] ) {
 				break;
 			}
 			continue;
@@ -895,19 +895,25 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi ) {
 	for ( i = 0 ; i < MAX_WP_ANIMATIONS  ; i++ ) {
 
 		token = COM_Parse( &text_p );   // first frame
-		if ( !token ) {
+		if ( !token[0] ) {
+			// don't show warning for weapon cfg without altswitch that does not require it.
+			if ( i == WEAP_ALTSWITCHFROM && weapAlts[weaponNum] == WP_NONE ) {
+				for ( ; i < MAX_WP_ANIMATIONS  ; i++ ) {
+					Com_Memcpy( &wi->weapAnimations[i], &wi->weapAnimations[WEAP_IDLE1], sizeof( wi->weapAnimations[0] ) );
+				}
+			}
 			break;
 		}
 		wi->weapAnimations[i].firstFrame = atoi( token );
 
 		token = COM_Parse( &text_p );   // length
-		if ( !token ) {
+		if ( !token[0] ) {
 			break;
 		}
 		wi->weapAnimations[i].numFrames = atoi( token );
 
 		token = COM_Parse( &text_p );   // fps
-		if ( !token ) {
+		if ( !token[0] ) {
 			break;
 		}
 		fps = atof( token );
@@ -919,7 +925,7 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi ) {
 		wi->weapAnimations[i].initialLerp = 1000 / fps;
 
 		token = COM_Parse( &text_p );   // looping frames
-		if ( !token ) {
+		if ( !token[0] ) {
 			break;
 		}
 		wi->weapAnimations[i].loopFrames = atoi( token );
@@ -936,13 +942,13 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi ) {
 
 		if ( newfmt ) {
 			token = COM_Parse( &text_p );   // barrel anim bits
-			if ( !token ) {
+			if ( !token[0] ) {
 				break;
 			}
 			wi->weapAnimations[i].moveSpeed = atoi( token );
 
 			token = COM_Parse( &text_p );   // animated weapon
-			if ( !token ) {
+			if ( !token[0] ) {
 				break;
 			}
 			if ( atoi( token ) ) {
@@ -950,7 +956,7 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi ) {
 
 			}
 			token = COM_Parse( &text_p );   // barrel hide bits (so objects can be flagged to not be drawn during all sequences (a reloading hand that comes in from off screen for that one animation for example)
-			if ( !token ) {
+			if ( !token[0] ) {
 				break;
 			}
 			wi->weapAnimations[i].moveSpeed |= ( ( atoi( token ) ) << 8 ); // use 2nd byte for draw bits
@@ -959,7 +965,7 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi ) {
 	}
 
 	if ( i != MAX_WP_ANIMATIONS ) {
-		CG_Printf( "Error parsing weapon animation file: %s", filename );
+		CG_Printf( "Error parsing weapon animation file: %s\n", filename );
 		return qfalse;
 	}
 
@@ -1038,7 +1044,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 		//	ie. every weapon and it's associated effects/parts/sounds etc. are loaded for every level.
 		// This was turned off when we started (the "only load what the level calls for" thing) because when
 		// DM does a "give all" and fires, he doesn't want to wait for everything to load.  So perhaps a "cacheallweaps" or something.
-//		CG_Printf( "Couldn't register weapon model %i (unable to load view model)", weaponNum );
+//		CG_Printf( "Couldn't register weapon model %i (unable to load view model)\n", weaponNum );
 // RF, I need to be able to run the game, I dont have the silencer weapon (19)
 #ifndef _DEBUG
 //		CG_Error( "Couldn't register weapon model %i (unable to load view model)", weaponNum );
@@ -1051,7 +1057,7 @@ void CG_RegisterWeapon( int weaponNum ) {
 //----(SA)	modified.  use first person model for finding weapon config name, not third
 	if ( item->world_model[W_FP_MODEL] ) {
 		COM_StripFilename( item->world_model[W_FP_MODEL], path );
-		if ( !CG_ParseWeaponConfig( va( "%sweapon.cfg", path ), weaponInfo ) ) {
+		if ( !CG_ParseWeaponConfig( va( "%sweapon.cfg", path ), weaponInfo, weaponNum ) ) {
 			CG_Error( "Couldn't register weapon %i (%s) (failed to parse weapon.cfg)", weaponNum, path );
 		}
 	}
