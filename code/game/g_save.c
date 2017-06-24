@@ -1793,6 +1793,11 @@ qboolean G_SavePersistant( char *nextmap, int clientNum, int persid ) {
 		clientNum = 0;
 	}
 
+	if ( g_entities[clientNum].r.svFlags & SVF_CASTAI ) {
+		G_DPrintf( "G_SavePersistant: %d: Skipping cast AI client\n", clientNum );
+		return qfalse;
+	}
+
 	G_DPrintf( "G_SavePersistant: %d\n", clientNum );
 
 	// open the file
@@ -1857,6 +1862,11 @@ void G_LoadPersistant( int clientNum ) {
 	// dont error out, the less we crash the server, the better
 	if ( clientNum < 0 || clientNum >= MAX_COOP_CLIENTS ) {
 		clientNum = 0;
+	}
+
+	if ( g_entities[clientNum].r.svFlags & SVF_CASTAI ) {
+		G_DPrintf( "G_LoadPersistant: %d: Skipping cast AI client\n", clientNum );
+		return;
 	}
 
 	filename = va( "save\\current%d.psw", clientNum );
