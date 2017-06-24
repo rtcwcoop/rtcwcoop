@@ -621,7 +621,7 @@ void CG_DrawHoldableSelect( void ) {
 	}
 
 	x = 320 - count * 20;
-	y = 370;
+	y = 264;
 
 
 	for ( i = 1 ; i <= HI_BOOK3 ; i++ ) {
