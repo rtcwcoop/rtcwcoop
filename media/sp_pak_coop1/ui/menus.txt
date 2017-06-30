@@ -45,6 +45,8 @@
 	loadMenu { "ui/vid_restart.menu" }
 	loadMenu { "ui/snd_restart.menu" }
 	loadMenu { "ui/rec_restart.menu" }
+	loadMenu { "ui/in_vid_restart.menu" }
+	loadMenu { "ui/in_snd_restart.menu" }
 	loadMenu { "ui/error.menu" }
 	loadMenu { "ui/quitcredit.menu" }
 	loadMenu { "ui/resetscore.menu" }

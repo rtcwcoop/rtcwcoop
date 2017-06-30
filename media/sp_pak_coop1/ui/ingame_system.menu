@@ -69,24 +69,24 @@ itemDef {
 		mouseExit { setitemcolor ctr_graphics backcolor .37 .1 .1 1 }
 		}
 
-	itemDef {
-		name graphics
-		text "Set Recommended"
-		type 1	
-		textscale .25
-		group grpsystem
-		style WINDOW_STYLE_FILLED
-		textalign ITEM_ALIGN_CENTER
-		rect 82 25 290 12
-		textalign 1
-		textalignx 145
-		textaligny 12
-		forecolor 1 1 1 1
-		backcolor 1 1 1 .07 
-		visible 1
-		action { play "sound/misc/kcaction.wav" ; 
-			open in_rec_restart_popmenu ; hide graphics ; hide graphicsapply}
-		}
+//	itemDef {
+//		name graphics
+//		text "Set Recommended"
+//		type 1	
+//		textscale .25
+//		group grpsystem
+//		style WINDOW_STYLE_FILLED
+//		textalign ITEM_ALIGN_CENTER
+//		rect 82 25 290 12
+//		textalign 1
+//		textalignx 145
+//		textaligny 12
+//		forecolor 1 1 1 1
+//		backcolor 1 1 1 .07 
+//		visible 1
+//		action { play "sound/misc/kcaction.wav" ; 
+//			open in_rec_restart_popmenu ; hide graphics ; hide graphicsapply}
+//		}
 
 	itemDef {
 		name graphics

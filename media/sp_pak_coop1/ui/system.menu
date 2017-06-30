@@ -90,25 +90,25 @@ itemDef {
 	}
 
 
-itemDef {
-	name graphics
-	text "Set Recommended"
-	type 1	
-	textscale .24
-	group grpsystem
+//itemDef {
+//	name graphics
+//	text "Set Recommended"
+//	type 1	
+//	textscale .24
+//	group grpsystem
 //	background "ui/assets/button_back.tga"
-	style WINDOW_STYLE_FILLED
-	rect 82 25 290 12
-	textalign 1
-	textalignx 145
-	textaligny 12
-	forecolor 1 1 1 1
-	backcolor 1 1 1 .07 
-	visible 1
-	textalign ITEM_ALIGN_CENTER
-	action { play "sound/misc/kcaction.wav" ; 
-		open rec_restart_popmenu ; hide graphics ; hide graphicsapply }	
-	}
+//	style WINDOW_STYLE_FILLED
+//	rect 82 25 290 12
+//	textalign 1
+//	textalignx 145
+//	textaligny 12
+//	forecolor 1 1 1 1
+//	backcolor 1 1 1 .07 
+//	visible 1
+//	textalign ITEM_ALIGN_CENTER
+//	action { play "sound/misc/kcaction.wav" ; 
+//		open rec_restart_popmenu ; hide graphics ; hide graphicsapply }	
+//	}
 
 
 itemDef {
