@@ -1038,7 +1038,7 @@ void cmd_kill( gentity_t *ent ) {
 		return;
 	}
 
-	if ( !g_entities[clientid].client->ps.stats[STAT_HEALTH] > 0 ) {
+	if ( g_entities[clientid].client->ps.stats[STAT_HEALTH] <= 0 ) {
 		trap_SendServerCommand( ent - g_entities, va( "print \"Player is already dead^1!\n\"" ) );
 		return;
 	}

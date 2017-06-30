@@ -1845,6 +1845,9 @@ void Cmd_CallVote_f( gentity_t *ent ) {
 	int i;
 	char arg1[MAX_STRING_TOKENS];
 	char arg2[MAX_STRING_TOKENS];
+#ifdef _ADMINS
+	char cleanName[64];
+#endif
 	int mask = 0;
 
 	// Ignored players..
