@@ -10,7 +10,7 @@ menuDef {
 	name "system_menu"
 	visible 0
 	fullscreen 0
-	rect 100 125 443 340
+	rect 100 110 443 340
 	focusColor 1 .75 0 1
 	style 1
 	border 1
@@ -72,24 +72,6 @@ itemDef {
 		decoration
 	}
 
-itemDef {
-	name ctr_graphics
-	text "SYSTEM"
- 	type 1
-	textfont UI_FONT_NORMAL
-	style 0	
-	textstyle 6
-	rect 222.5 -12 64 14 
-	textalign ITEM_ALIGN_CENTER
-	textscale .22		
-	textalignx 2
-	textaligny 12
-	forecolor .9 .9 .9 .8
-	visible 1 
-	decoration
-	}
-
-
 //itemDef {
 //	name graphics
 //	text "Set Recommended"
@@ -118,7 +100,7 @@ itemDef {
 	text "Renderer:"
 	cvar "cl_renderer"
 	cvarStrList { "OpenGL1 (Old)", "opengl1", "Rend2 (New)", "rend2"  }
-	rect 82 40 290 12
+	rect 82 27 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -142,7 +124,7 @@ itemDef {
 	cvarTest		"ui_glCustom"
 	hideCvar		{ "999" }	// 999 is 'recommended'
 
-	rect 82 55 290 12
+	rect 82 42 290 12
    	textalign ITEM_ALIGN_RIGHT
    	textalignx 142 
    	textaligny 10
@@ -165,7 +147,7 @@ itemDef {
 		cvarTest		"ui_glCustom"
 		showCvar		{ "999" }	// 999 is 'recommended'
 
-		rect 82 55 290 12
+		rect 82 42 290 12
 		textalign ITEM_ALIGN_CENTER
 		textalignx 162 
 		textaligny 10
@@ -188,7 +170,7 @@ itemDef {
 		text "GL Extensions:"
 		cvar "r_allowExtensions"
 		cvarFloatList		{ "No" 0 "Yes" 1 }
-		rect 82 70 290 12
+		rect 82 57 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -208,7 +190,7 @@ itemDef {
 		cvar "r_mode"
 		cvarFloatList {  "640*480" 3 "800*600" 4 "960*720" 5 "1024*768" 6 "1152*864" 7 "1280*1024" 8 "1600*1200" 9 "2048*1536" 10 "856*480 Wide Screen" 11 }
 //		"320*240" 0 "400*300" 1 "512*384" 2
-		rect 82 85 290 12
+		rect 82 72 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -227,7 +209,7 @@ itemDef {
 		text "Color Depth:"
 		cvar "r_colorbits"
 		cvarFloatList { "Desktop Default" 0 "16-bit" 16 "32-bit" 32 }
-		rect 82 100 290 12
+		rect 82 87 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -246,7 +228,7 @@ itemDef {
 		text "Fullscreen:"
 		cvar "r_fullscreen"
 		cvarFloatList		{ "No" 0 "Yes" 1 }
-		rect 82 115 290 12
+		rect 82 102 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -265,7 +247,7 @@ itemDef {
 		text "Lighting:"
 		cvar "r_vertexlight"
 		cvarFloatList { "Light Map (high)" 0 "Vertex (low)" 1  }
-		rect 82 130 290 12
+		rect 82 117 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -284,7 +266,7 @@ itemDef {
 		text "Geometric Detail:"
 		cvar "r_lodbias"
 		cvarFloatList { "High" 0 "Medium" 1 "Low" 2 }
-		rect 82 145 290 12
+		rect 82 132 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -303,7 +285,7 @@ itemDef {
 		text "Character Textures:"
 		cvar "r_picmip2"
 		cvarFloatList { "Low" 3 "Normal" 2 "High" 1 "Extra" 0 }
-		rect 82 160 290 12
+		rect 82 147 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -322,7 +304,7 @@ itemDef {
 		text "General Textures:"
 		cvar "r_picmip"
 		cvarFloatList { "Low" 2 "Normal" 1 "High" 0 }
-		rect 82 175 290 12
+		rect 82 162 290 12
 	     	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -347,7 +329,7 @@ itemDef {
 		text "Texture Filter:"
 		cvar "r_texturemode"
 		cvarStrList { "Bilinear", "GL_LINEAR_MIPMAP_NEAREST", "Trilinear", "GL_LINEAR_MIPMAP_LINEAR"  }
-		rect 82 190 290 12
+		rect 82 177 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -366,7 +348,7 @@ itemDef {
 		text "Compress Textures:"
 		cvar "r_ext_compressed_textures"
 		cvarFloatList		{ "No" 0 "Yes" 1 }
-		rect 82 205 290 12
+		rect 82 192 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -384,7 +366,7 @@ itemDef {
 		text "Texture Quality:"
 		cvar "r_texturebits"
 		cvarFloatList { "Default" 0 "16 bit" 16 "32 bit" 32 }
-		rect 82 220 290 12
+		rect 82 207 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -396,14 +378,13 @@ itemDef {
 		action { uiScript glCustom }
     		}
 
-
 	itemDef {
   		name graphics
 		group grpSystem
       	type ITEM_TYPE_SLIDER
 		text "Brightness:"
 		cvarfloat "r_gamma" 1 0.5 3
- 		rect 82 235 290 12
+ 		rect 82 222 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142 
       	textaligny 10
@@ -413,7 +394,7 @@ itemDef {
       	forecolor 1 1 1 1
 
 		cvarTest "r_ignorehwgamma"
-		showcvar { "1" }
+//		showcvar { "1" }
 
       	visible 0 
 		action { uiScript glCustom }
@@ -426,7 +407,7 @@ itemDef {
 		text "Light Blooms:"
 		cvar "r_bloom"
 		cvarFloatList { "No" 0 "Yes" 1 }
-		rect 82 235 290 12
+		rect 82 237 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -451,7 +432,7 @@ itemDef {
 // would be nice to be able to do an extension check from the menu
 //		extensionTest "GL_NV_fog_distance"
 
-		rect 82 250 290 12
+		rect 82 252 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -478,7 +459,7 @@ itemDef {
 // would be nice to be able to do an extension check from the menu
 //		extensionTest "GL_ATIX_pn_triangles"
 
-		rect 82 265 290 12
+		rect 82 267 290 12
       	textalign ITEM_ALIGN_RIGHT
       	textalignx 142
       	textaligny 10
@@ -507,6 +488,7 @@ itemDef {
 		textscale .25
 		style WINDOW_STYLE_FILLED
 		group grpsystem
+
 		rect 181 280 100 20
 		textalign 1
 		textalignx 50
@@ -522,47 +504,6 @@ open vid_restart_popmenu ; hide graphics ; hide graphicsapply }
       	mouseExit { setitemcolor graphicsapply backcolor .1 .1 .1 .1 }
 
 		}
-
-
-
-
-
-
-
-
-
-	itemDef {
-      	name graphics
-		group grpSystem
-		style WINDOW_STYLE_SHADER
-		background "ui/assets/framebutton.tga"
- 		rect 181 357 100 26
-      	visible 1 
-		decoration  	  
-    		}
-
-	itemDef {
-      	name graphics
-		group grpSystem
-		style WINDOW_STYLE_SHADER
-		background "ui/assets/leftbutton.tga"
-   	   	rect 169 357 13 26
-   	   	visible 1 
-		decoration  	  
-   	 	}
-
-	itemDef {
-	      	name graphics
-		group grpSystem
-		style WINDOW_STYLE_SHADER
-		background "ui/assets/rightbutton.tga"
-      		rect 280 357 13 26
-     	 	visible 1 
-		decoration  	  
-    		}
-
-	
-    		
 
 
 itemDef {

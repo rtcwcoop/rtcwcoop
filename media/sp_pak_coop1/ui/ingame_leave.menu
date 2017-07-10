@@ -1,4 +1,4 @@
-#include "ui/menudef.h"
+#include "ui_mp/menudef.h"
 
 
 {
@@ -9,12 +9,14 @@
     	visible 1
     	fullScreen 0
 	outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
-	rect 100 125 443 340
+	rect 215 125 230 172
 	focusColor 1 .75 0 1
-	style 1
-	border 1
-	onOpen { show grpMenu ; hide grpConfirm }
 
+		style 1
+		border 1
+	onOpen { show grpMenu ; setCvar cg_draw2D "0"; hide grpConfirm }
+	onEsc { setCvar cg_draw2D "1" }
+	onClose { setCvar cg_draw2D "1" }
 
 
 
@@ -22,76 +24,95 @@ itemDef
 	{
 	name window
 	group ingamebox
-	rect 0 2 443 300	
+	rect 0 2 230 172	
 	style WINDOW_STYLE_FILLED
 	border 1
 	bordercolor .5 .5 .5 .5
 	forecolor 1 1 1 1
-	backcolor 0 0 0 .5
+	backcolor 0 0 0 .25
 	visible 1
 	decoration
 	}
 
 
-itemDef 
+	itemDef 
 	{
-	name window2
-	group grpControlbutton
-	rect 2 4 439 20	
-	style WINDOW_STYLE_FILLED
-	border 1
-	bordercolor .1 .1 .1 .2
-	forecolor 1 1 1 1
-	backcolor .3 0.5 0.2 .5
-	visible 1
-	decoration
+		name window2
+		group grpControlbutton
+		rect 2 4 226 20	
+		style WINDOW_STYLE_FILLED
+		border 1
+		bordercolor .1 .1 .1 .2
+		forecolor 1 1 1 1
+		backcolor .3 0.5 0.2 .25
+		visible 1
+		decoration
 	}
 
 itemDef {
 	name leave
 	text "Exit Menu"
 	type 1
-	textscale .23
+	textfont	UI_FONT_NORMAL
+	textscale .25
 	group grpControlbutton
-	rect 168 10 100 12
+	rect 66 10 100 12
 	textalign 1
 	textalignx 50
 	textaligny 10
 	forecolor 1 1 1 1
-	backcolor .1 .1 .1 0
+	backcolor .1 .1 .1 0 
 	visible 1
 }
 
 itemDef {
-	 name leave
-	 text "Main Menu"
-	 group grpMenu
-	 rect 78 45 290 12
-	 textalign ITEM_ALIGN_RIGHT
-	 textalignx 176
-	 textaligny 10
-	 textscale .23		
-	 style WINDOW_STYLE_FILLED
-	 backcolor 1 1 1 .02  
-	 forecolor 1 1 1 1
-	 visible 0
-       action { hide grpMenu ; show leaveConfirm }
+     	name leave
+     	text "MAIN MENU"
+	group grpMenu
+	rect 60 67 120 20
+	textalign 1
+	style WINDOW_STYLE_FILLED
+	backcolor .3 0.5 0.2 .25
+	textalignx 58
+	textaligny 14
+	textfont	UI_FONT_NORMAL
+	textscale .25
+
+	forecolor 1 1 1 1
+	visible 0
+      	action { hide grpMenu ; show leaveConfirm }
     	}
 
-
+// itemDef {
+//      	name leave
+//      	text "Restart"
+//	group grpMenu
+//		rect 99 75 256 12
+//		textalign ITEM_ALIGN_RIGHT
+//		textalignx 152
+//		textaligny 10
+//		textfont	UI_FONT_NORMAL
+//	textscale .25
+//
+//		forecolor 1 1 1 1
+//		visible 0
+//	action { hide grpMenu ; show restartConfirm }
+//    	}
 
  itemDef {
       	name leave
-		group grpMenu
-		type 1
-      	text "Quit"
-		rect 76 75 290 12
-		textalign ITEM_ALIGN_RIGHT
-		textalignx 156
-		textaligny 10
-		textscale .23
-		style WINDOW_STYLE_FILLED
-		backcolor 1 1 1 .02 	
+	group grpMenu
+	type 1
+	style WINDOW_STYLE_FILLED
+	backcolor .3 0.5 0.2 .25
+      	text "QUIT"
+		rect 60 97 120 20
+		textalign 1
+		textalignx 58
+		textaligny 14
+		textfont	UI_FONT_NORMAL
+	textscale .25
+	
 		forecolor 1 1 1 1
 		visible 0
       	action { hide grpMenu ; show quitConfirm }
@@ -105,44 +126,46 @@ itemDef {
      	name leaveConfirm
      	text "Exit to"
 	group grpConfirm
-      style 2	
-     	rect 155 60 128 20
+      	style 2	
+     	rect 50 55 128 20
 	textstyle 6   
      	textalign 1	
      	textalignx 65
     	textaligny 18        
-	textscale .23
+	textfont	UI_FONT_NORMAL
+	textscale .25
 	decoration
-      forecolor 1 1 1 1
-      visible 1 
+      	forecolor 1 1 1 1
+      	visible 1 
     	}
 itemDef {
      	name leaveConfirm
      	text "Main Menu?"
 	group grpConfirm
-      style 2	
-     	rect 155 80 128 20
+      	style 2	
+     	rect 50 75 128 20
 	textstyle 6   
      	textalign 1	
      	textalignx 65
     	textaligny 18        
-	textscale .23
+	textfont	UI_FONT_NORMAL
+	textscale .25
 	decoration
-      forecolor 1 1 1 1
-      visible 1 
+      	forecolor 1 1 1 1
+      	visible 1 
     	}
 
 
 itemDef {
 	name leaveConfirm
-	text "Yes"
+	text "YES"
 	group grpConfirm
 	type 1
-	
-	textscale .23
-
-	background "ui/assets/button_back.tga"
-	rect 175 110 40 20
+	textfont	UI_FONT_NORMAL
+	textscale .25
+	backcolor .3 0.5 0.2 .25
+	style	WINDOW_STYLE_FILLED	
+	rect 70 105 40 20
 	textstyle 6
 	textalign 1
 	textalignx 20
@@ -150,18 +173,19 @@ itemDef {
 	visible 1
 	action { uiScript leave }
 	mouseEnter { setitemcolor ok backcolor .1 .37 .1 1 }
-      mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
+      	mouseExit { setitemcolor ok backcolor .37 .1 .1 1 }
 	}
 
 itemDef {
 	name leaveConfirm
-	text "No"
+	text "NO"
 	group grpConfirm
 	type 1
-	
-	textscale .23
-	background "ui/assets/button_back.tga"
-	rect 222 110 40 20
+	textfont	UI_FONT_NORMAL
+	textscale .25
+	style	WINDOW_STYLE_FILLED
+	backcolor .3 0.5 0.2 .25
+	rect 117 105 40 20
 	textstyle 6
 	textalign 1
 	textalignx 20
@@ -178,27 +202,29 @@ itemDef {
      	text "Want to"
 	group grpConfirm
       	style 2	
-     	rect 155 60 128 20
+     	rect 50 55 128 20
 	textstyle 6   
      	textalign 1	
      	textalignx 64
     	textaligny 18        
-	textscale .23
+	textfont	UI_FONT_NORMAL
+	textscale .25
 	decoration
       	forecolor 1 1 1 1
       	visible 1 
     	}
 itemDef {
      	name restartConfirm
-     	text "Restart the map?"
+     	text "Restart Map?"
 	group grpConfirm
-      style 2	
-   	rect 155 80 128 20
+      	style 2	
+    	rect 50 75 128 20
 	textstyle 6  
      	textalign 1	
      	textalignx 64
     	textaligny 18        
-	textscale .23
+	textfont	UI_FONT_NORMAL
+	textscale .25
 	decoration
       	forecolor 1 1 1 1
       	visible 1 
@@ -208,13 +234,14 @@ itemDef {
 
 itemDef {
 	name restartConfirm
-	text "Yes"
+	text "YES"
 	group grpConfirm
 	type 1
-	
-	textscale .23
-	background "ui/assets/button_back.tga"
-	rect 175 110 40 20
+	textfont	UI_FONT_NORMAL
+	textscale .25
+	backcolor .3 0.5 0.2 .25
+	style WINDOW_STYLE_FILLED
+	rect 70 105 40 20
 	textstyle 6
 	textalign 1
 	textalignx 20
@@ -228,13 +255,14 @@ itemDef {
 
 itemDef {
 	name restartConfirm
-	text "No"
+	text "NO"
 	group grpConfirm
 	type 1
-	
-	textscale .23
-	background "ui/assets/button_back.tga"
-	rect 222 110 40 20
+	textfont	UI_FONT_NORMAL
+	textscale .25
+	backcolor .3 0.5 0.2 .25
+	style WINDOW_STYLE_FILLED
+	rect 117 105 40 20
 	textstyle 6
 	textalign 1
 	textalignx 20
@@ -250,12 +278,13 @@ itemDef {
      	text "Want to"
 	group grpConfirm
       	style 2	
-     	rect 155 60 128 20
+     	rect 50 55 128 20
 	textstyle 6  
      	textalign 1	
      	textalignx 64
     	textaligny 18        
-	textscale .23
+	textfont	UI_FONT_NORMAL
+	textscale .25
       	forecolor 1 1 1 1
 	decoration
       	visible 1 
@@ -264,13 +293,14 @@ itemDef {
      	name quitConfirm
      	text "Quit Game?"
 	group grpConfirm
-      style 2	
-     	rect 155 80 128 20
+      	style 2	
+     	rect 50 75 128 20
 	textstyle 6   
      	textalign 1	
      	textalignx 64
     	textaligny 18        
-	textscale .23
+	textfont	UI_FONT_NORMAL
+	textscale .25
       	forecolor 1 1 1 1
 	decoration
       	visible 1 
@@ -279,13 +309,14 @@ itemDef {
 
 itemDef {
 	name quitConfirm
-	text "Yes"
+	text "YES"
 	group grpConfirm
 	type 1
-	
-	textscale .23
-	background "ui/assets/button_back.tga"
-	rect 175 110 40 20
+	textfont	UI_FONT_NORMAL
+	textscale .25
+	backcolor .3 0.5 0.2 .25
+	style WINDOW_STYLE_FILLED
+	rect 70 105 40 20
 	textstyle 6
 	textalign 1
 	textalignx 20
@@ -298,11 +329,14 @@ itemDef {
 
 itemDef {
 	name quitConfirm
-	text "No"
+	text "NO"
 	group grpConfirm
 	type 1
-	textscale .23
-	rect 222 110 40 20
+	textfont	UI_FONT_NORMAL
+	textscale .25
+	backcolor .3 0.5 0.2 .25
+	style WINDOW_STYLE_FILLED
+	rect 117 105 40 20
 	textstyle 6
 	textalign 1
 	textalignx 20

@@ -10,11 +10,6 @@
 
 	loadMenu { "ui/multi.menu" }
 	loadMenu { "ui/create.menu" }
-	loadMenu { "ui/ingame.menu" }
-	loadMenu { "ui/ingame_callvote.menu" }
-	loadMenu { "ui/ingame_quick.menu" }
-	loadMenu { "ui/ingame_join.menu" }
-	loadMenu { "ui/ingame_serverinfo.menu" }	// Bugfix by TitaN655
 	loadMenu { "ui/serverinfo.menu" }
 
 // OPTIONS menu
@@ -30,6 +25,13 @@
 
 // INGAME menus
 
+	loadMenu { "ui/ingame.menu" }
+	loadMenu { "ui/ingame_callvote.menu" }
+	loadMenu { "ui/ingame_quick.menu" }
+	loadMenu { "ui/ingame_join.menu" }
+	loadMenu { "ui/ingame_leave.menu" }
+	loadMenu { "ui/ingame_serverinfo.menu" }	// Bugfix by TitaN655
+	loadMenu { "ui/ingame_system.menu" }
         loadMenu { "ui_mp/wm_quickmessage.menu" }
         loadMenu { "ui_mp/wm_quickmessageAlt.menu" }
 	loadMenu { "ui/clipboard.menu" }		// Bugfix by TitaN655
