@@ -882,7 +882,6 @@ void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle
 				}
 				UI_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
 			} else {
-				UI_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
 				DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
 				DC->setColor( NULL );
 			}
