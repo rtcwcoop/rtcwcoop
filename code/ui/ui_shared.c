@@ -874,6 +874,7 @@ void Window_Paint( Window *w, float fadeAmount, float fadeClamp, float fadeCycle
 			DC->setColor( w->backColor );
 			if ( ui_fixedAspect.integer == 2 ) {
 				if ( DC->glconfig.vidWidth * 480 > DC->glconfig.vidHeight * 640 ) {
+					// HACK ... stretch fadebox when using widescreen
 					if ( !Q_stricmpn( w->name, "fadebox", 7 ) ) {
 						UI_SetScreenPlacement(PLACE_STRETCH, PLACE_STRETCH);
 						DC->drawHandlePic( fillRect.x, fillRect.y, fillRect.w, fillRect.h, w->background );
