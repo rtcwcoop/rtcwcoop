@@ -73,7 +73,7 @@
 			textscale .42
 			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_ARMOR_VALUE
-			addColorRange 0 999 1 1 1 1
+			addColorRange 0 999 .63 .59 .57 1
 		}
 
 	// ARMOR TEXT
@@ -107,7 +107,7 @@
 			textscale .42
 			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_HEALTH
-			addColorRange 51 999 1 1 1 1
+			addColorRange 51 999 .63 .59 .57 1
 			addColorRange 26 50 .63 .47 .25 1
 			addColorRange 0 25 1 0 0 1
 		}
