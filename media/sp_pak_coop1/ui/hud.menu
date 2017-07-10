@@ -71,13 +71,9 @@
 			textalign ITEM_ALIGN_CENTER
 			decoration
 			textscale .42
-			//forecolor .63 .47 .25 .5	// orange
+			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_ARMOR_VALUE
-			addColorRange 76 100 .63 .47 .25 1
-			addColorRange 51 75 .63 .47 .25 .75
-			addColorRange 26 50 .63 .47 .25 .5
-			addColorRange 1 25 .63 .47 .25 .25
-			addColorRange 0 0 .63 .47 .25 0
+			addColorRange 0 999 1 1 1 1
 		}
 
 	// ARMOR TEXT
@@ -109,10 +105,11 @@
 			textalign ITEM_ALIGN_CENTER
 			decoration
 			textscale .42
-			forecolor 1 1 1 1
+			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_HEALTH
-			addColorRange 10 999 .63 .47 .25 1	// orange
-			addColorRange -999 10 1 0 0 1	// hurting
+			addColorRange 51 999 1 1 1 1
+			addColorRange 26 50 .63 .47 .25 1
+			addColorRange 0 25 1 0 0 1
 		}
 		
 	// HEALTH TEXT
@@ -172,9 +169,9 @@
 			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
 			decoration
 			textscale .42
-			forecolor .63 .47 .25 1	// orange
+			forecolor .63 .59 .57 1	// grey
 			ownerdraw CG_PLAYER_LIVES
-			addColorRange 1 999 .63 .47 .25 1	// orange
+			addColorRange 1 999 .63 .59 .57 1 // grey
 			addColorRange 0 0 1 0 0 1			// red
 			
 			cvarTest		"cg_maxlives"
@@ -347,7 +344,7 @@
 			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
 			decoration
 			textscale .42
-			forecolor .63 .59 .57 1
+			forecolor .63 .59 .57 1	// grey
 			addColorRangerel 0.0	0.1		1 0 0 1		// alert!
 			addColorRangerel 0.1	0.4		1 1 0 1		// warning!
 		}
@@ -365,7 +362,7 @@
 			ownerdraw CG_PLAYER_AMMOCLIP_VALUE
 			ownerdrawflag CG_SHOW_NOT_V_BINOC
 			textscale .42
-			forecolor .63 .59 .57 1
+			forecolor .63 .59 .57 1	// grey
 			addColorRangerel 0.0	0.1		1 0 0  1		// alert!
 			addColorRangerel 0.1	0.4		1 1 0 1			// warning!
 		}
