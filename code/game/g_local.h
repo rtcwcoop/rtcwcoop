@@ -1217,8 +1217,6 @@ extern vmCvar_t g_reinforce;
 extern vmCvar_t g_freeze;
 extern vmCvar_t g_gamestate;
 
-extern vmCvar_t g_skipcutscenes;
-
 // Rafael gameskill
 extern vmCvar_t g_gameskill;
 extern vmCvar_t g_teleporttime;
