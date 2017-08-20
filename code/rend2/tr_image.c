@@ -2198,7 +2198,7 @@ image_t *R_CreateImageExt2( const char *name, byte *pic, int width, int height, 
 	}
 
 	image = tr.images[tr.numImages] = ri.Hunk_Alloc( sizeof( image_t ), h_low );
-	image->texnum = 1024 + tr.numImages;
+	qglGenTextures(1, &image->texnum);
 	tr.numImages++;
 
 	image->type = type;
@@ -2855,13 +2855,13 @@ void R_CreateBuiltinImages( void ) {
 			tr.screenScratchImage = R_CreateImage("screenScratch", NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, rgbFormat);
 
 		if (r_shadowBlur->integer || r_ssao->integer)
-			tr.hdrDepthImage = R_CreateImage("*hdrDepth", NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_INTENSITY32F_ARB);
+			tr.hdrDepthImage = R_CreateImage("*hdrDepth", NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_R32F);
 
 		if (r_drawSunRays->integer)
 			tr.sunRaysImage = R_CreateImage("*sunRays", NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, rgbFormat);
 
-		tr.renderDepthImage  = R_CreateImage("*renderdepth",  NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_DEPTH_COMPONENT24_ARB);
-		tr.textureDepthImage = R_CreateImage("*texturedepth", NULL, PSHADOW_MAP_SIZE, PSHADOW_MAP_SIZE, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_DEPTH_COMPONENT24_ARB);
+		tr.renderDepthImage  = R_CreateImage("*renderdepth",  NULL, width, height, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_DEPTH_COMPONENT24);
+		tr.textureDepthImage = R_CreateImage("*texturedepth", NULL, PSHADOW_MAP_SIZE, PSHADOW_MAP_SIZE, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_DEPTH_COMPONENT24);
 
 		{
 			void *p;
@@ -2891,19 +2891,18 @@ void R_CreateBuiltinImages( void ) {
 			tr.screenSsaoImage = R_CreateImage("*screenSsao", NULL, width / 2, height / 2, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_RGBA8);
 		}
 
-		if (r_shadows->integer == 4)
+		for( x = 0; x < MAX_DRAWN_PSHADOWS; x++)
 		{
-			for( x = 0; x < MAX_DRAWN_PSHADOWS; x++)
-			{
-				tr.pshadowMaps[x] = R_CreateImage(va("*shadowmap%i", x), NULL, PSHADOW_MAP_SIZE, PSHADOW_MAP_SIZE, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_RGBA8);
-			}
+			tr.pshadowMaps[x] = R_CreateImage(va("*shadowmap%i", x), NULL, PSHADOW_MAP_SIZE, PSHADOW_MAP_SIZE, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_DEPTH_COMPONENT24);
+			//qglTextureParameterfEXT(tr.pshadowMaps[x]->texnum, GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+			//qglTextureParameterfEXT(tr.pshadowMaps[x]->texnum, GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 		}
 
 		if (r_sunlightMode->integer)
 		{
 			for ( x = 0; x < 4; x++)
 			{
-				tr.sunShadowDepthImage[x] = R_CreateImage(va("*sunshadowdepth%i", x), NULL, r_shadowMapSize->integer, r_shadowMapSize->integer, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_DEPTH_COMPONENT24_ARB);
+				tr.sunShadowDepthImage[x] = R_CreateImage(va("*sunshadowdepth%i", x), NULL, r_shadowMapSize->integer, r_shadowMapSize->integer, IMGTYPE_COLORALPHA, IMGFLAG_NO_COMPRESSION | IMGFLAG_CLAMPTOEDGE, GL_DEPTH_COMPONENT24);
 
 				qglTextureParameterfEXT(tr.sunShadowDepthImage[x]->texnum, GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 				qglTextureParameterfEXT(tr.sunShadowDepthImage[x]->texnum, GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
@@ -3228,6 +3227,7 @@ RE_RegisterSkin
 ===============
 */
 qhandle_t RE_RegisterSkin( const char *name ) {
+	skinSurface_t parseSurfaces[MAX_SKIN_SURFACES];
 	qhandle_t hSkin;
 	skin_t      *skin;
 	skinSurface_t   *surf;
@@ -3239,6 +3239,7 @@ qhandle_t RE_RegisterSkin( const char *name ) {
 	char		*text_p;
 	char        *token;
 	char surfName[MAX_QPATH];
+	int			totalSurfaces;
 
 	if ( !name || !name[0] ) {
 		ri.Printf( PRINT_DEVELOPER, "Empty name passed to RE_RegisterSkin\n" );
@@ -3284,8 +3285,8 @@ qhandle_t RE_RegisterSkin( const char *name ) {
 		skin->numSurfaces   = 0;
 		skin->numModels     = 0;    //----(SA) added
 		skin->numSurfaces = 1;
-		skin->surfaces[0] = ri.Hunk_Alloc( sizeof( *skin->surfaces[0] ), h_low );
-		skin->surfaces[0]->shader = R_FindShader( name, LIGHTMAP_NONE, qtrue );
+		skin->surfaces = ri.Hunk_Alloc( sizeof( skinSurface_t ), h_low );
+		skin->surfaces[0].shader = R_FindShader( name, LIGHTMAP_NONE, qtrue );
 		return hSkin;
 	}
 
@@ -3304,6 +3305,7 @@ qhandle_t RE_RegisterSkin( const char *name ) {
 
 //----(SA)	end
 
+	totalSurfaces = 0;
 	text_p = text.c;
 	while ( text_p && *text_p ) {
 		// get surface name
@@ -3355,22 +3357,24 @@ qhandle_t RE_RegisterSkin( const char *name ) {
 		// parse the shader name
 		token = CommaParse( &text_p );
 
-		if ( skin->numSurfaces >= MD3_MAX_SURFACES ) {
-			ri.Printf( PRINT_WARNING, "WARNING: Ignoring surfaces in '%s', the max is %d surfaces!\n", name, MD3_MAX_SURFACES );
-			break;
+		if ( skin->numSurfaces < MAX_SKIN_SURFACES ) {
+			surf = &parseSurfaces[skin->numSurfaces];
+			Q_strncpyz( surf->name, surfName, sizeof( surf->name ) );
+			surf->shader = R_FindShader( token, LIGHTMAP_NONE, qtrue );
+			skin->numSurfaces++;
 		}
 
-		surf = skin->surfaces[ skin->numSurfaces ] = ri.Hunk_Alloc( sizeof( *skin->surfaces[0] ), h_low );
-		Q_strncpyz( surf->name, surfName, sizeof( surf->name ) );
-		surf->shader = R_FindShader( token, LIGHTMAP_NONE, qtrue );
-		skin->numSurfaces++;
+		totalSurfaces++;
 	}
 
 	ri.FS_FreeFile( text.v );
 
+	if ( totalSurfaces > MAX_SKIN_SURFACES ) {
+		ri.Printf( PRINT_WARNING, "WARNING: Ignoring excess surfaces (found %d, max is %d) in skin '%s'!\n",
+					totalSurfaces, MAX_SKIN_SURFACES, name );
+	}
 
 	// never let a skin have 0 shaders
-
 	//----(SA)	allow this for the (current) special case of the loper's upper body
 	//			(it's upper body has no surfaces, only tags)
 	if ( skin->numSurfaces == 0 ) {
@@ -3378,6 +3382,10 @@ qhandle_t RE_RegisterSkin( const char *name ) {
 			return 0;       // use default skin
 		}
 	}
+
+	// copy surfaces to skin
+	skin->surfaces = ri.Hunk_Alloc( skin->numSurfaces * sizeof( skinSurface_t ), h_low );
+	memcpy( skin->surfaces, parseSurfaces, skin->numSurfaces * sizeof( skinSurface_t ) );
 
 	return hSkin;
 }
@@ -3397,8 +3405,8 @@ void    R_InitSkins( void ) {
 	skin = tr.skins[0] = ri.Hunk_Alloc( sizeof( skin_t ), h_low );
 	Q_strncpyz( skin->name, "<default skin>", sizeof( skin->name )  );
 	skin->numSurfaces = 1;
-	skin->surfaces[0] = ri.Hunk_Alloc( sizeof( *skin->surfaces[0] ), h_low );
-	skin->surfaces[0]->shader = tr.defaultShader;
+	skin->surfaces = ri.Hunk_Alloc( sizeof( skinSurface_t ), h_low );
+	skin->surfaces[0].shader = tr.defaultShader;
 }
 
 /*
@@ -3427,10 +3435,10 @@ void    R_SkinList_f( void ) {
 	for ( i = 0 ; i < tr.numSkins ; i++ ) {
 		skin = tr.skins[i];
 
-		ri.Printf( PRINT_ALL, "%3i:%s\n", i, skin->name );
+		ri.Printf( PRINT_ALL, "%3i:%s (%d surfaces)\n", i, skin->name, skin->numSurfaces );
 		for ( j = 0 ; j < skin->numSurfaces ; j++ ) {
 			ri.Printf( PRINT_ALL, "       %s = %s\n",
-					   skin->surfaces[j]->name, skin->surfaces[j]->shader->name );
+				skin->surfaces[j].name, skin->surfaces[j].shader->name );
 		}
 	}
 	ri.Printf( PRINT_ALL, "------------------\n" );

@@ -1513,7 +1513,7 @@ static void CG_ServerCommand( void ) {
 	if ( !strcmp( cmd, "chat" ) ) {
 		const char *s;
 
-		if ( cg_teamChatsOnly.integer ) {
+		if ( cgs.gametype == GT_COOP_BATTLE && cg_teamChatsOnly.integer ) {
 			return;
 		}
 

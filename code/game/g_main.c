@@ -147,6 +147,8 @@ vmCvar_t g_footstepAudibleRange;
 vmCvar_t g_playerStart;         // set when the player enters the game
 vmCvar_t g_spawnpoints;
 
+vmCvar_t g_localTeamPref;
+
 // et sdk antilag
 vmCvar_t g_antilag;
 
@@ -232,6 +234,9 @@ cvarTable_t gameCvarTable[] = {
 
 	{ &g_friendlyFire, "g_friendlyFire", "1", CVAR_ARCHIVE, 0, qtrue  },
 
+	{ &g_teamAutoJoin, "g_teamAutoJoin", "0", CVAR_ARCHIVE  },
+	{ &g_teamForceBalance, "g_teamForceBalance", "0", CVAR_ARCHIVE  },                            // NERVE - SMF - merge from team arena
+
 	{ &g_warmup, "g_warmup", "20", CVAR_ARCHIVE, 0, qtrue  },
 	{ &g_doWarmup, "g_doWarmup", "0", CVAR_ARCHIVE, 0, qtrue  },
 
@@ -297,6 +302,8 @@ cvarTable_t gameCvarTable[] = {
 
 	{&g_scriptName, "g_scriptName", "", CVAR_ROM, 0, qfalse},
 	{&ai_scriptName, "ai_scriptName", "", CVAR_ROM, 0, qfalse},
+
+	{ &g_localTeamPref, "g_localTeamPref", "", 0, 0, qfalse },
 
 #ifdef _ADMINS
 	{ &a1_pass, "a1_pass", "none", CVAR_ARCHIVE, 0, qfalse },

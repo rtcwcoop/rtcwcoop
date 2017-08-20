@@ -2768,11 +2768,6 @@ void BotDeathmatchAI( bot_state_t *bs, float thinktime ) {
 		trap_GetUserinfo( bs->client, userinfo, sizeof( userinfo ) );
 		Info_SetValueForKey( userinfo, "sex", gender );
 		trap_SetUserinfo( bs->client, userinfo );
-		//set the team
-		/*if ( g_gametype.integer != GT_TOURNAMENT ) {
-			Com_sprintf( buf, sizeof( buf ), "team %s", bs->settings.team );
-			trap_EA_Command( bs->client, buf );
-		}*/
 		//set the chat gender
 		if ( gender[0] == 'm' ) {
 			trap_BotSetChatGender( bs->cs, CHAT_GENDERMALE );

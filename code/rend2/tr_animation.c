@@ -387,8 +387,8 @@ void R_AddAnimSurfaces( trRefEntity_t *ent ) {
 			shader = tr.defaultShader;
 			for ( j = 0 ; j < skin->numSurfaces ; j++ ) {
 				// the names have both been lowercased
-				if ( !strcmp( skin->surfaces[j]->name, surface->name ) ) {
-					shader = skin->surfaces[j]->shader;
+				if ( !strcmp( skin->surfaces[j].name, surface->name ) ) {
+					shader = skin->surfaces[j].shader;
 					break;
 				}
 			}
@@ -1597,9 +1597,9 @@ void R_MDRAddAnimSurfaces( trRefEntity_t *ent ) {
 			
 			for(j = 0; j < skin->numSurfaces; j++)
 			{
-				if (!strcmp(skin->surfaces[j]->name, surface->name))
+				if (!strcmp(skin->surfaces[j].name, surface->name))
 				{
-					shader = skin->surfaces[j]->shader;
+					shader = skin->surfaces[j].shader;
 					break;
 				}
 			}
@@ -1630,7 +1630,7 @@ void R_MDRAddAnimSurfaces( trRefEntity_t *ent ) {
 			R_AddDrawSurf( (void *)surface, tr.projectionShadowShader, 0, qfalse, qfalse, 0 );
 		}
 
-		if (!personalModel)
+		if ( !personalModel )
 			R_AddDrawSurf( (void *)surface, shader, fogNum, qfalse, qfalse, cubemapIndex );
 
 		surface = (mdrSurface_t *)( (byte *)surface + surface->ofsEnd );

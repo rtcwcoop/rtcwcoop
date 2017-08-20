@@ -768,6 +768,15 @@ void Cmd_Give_f( gentity_t *ent ) {
 	}
 }
 
+static void SanitizeChatText( char *text ) {
+	int i;
+
+	for ( i = 0; text[i]; i++ ) {
+		if ( text[i] == '\n' || text[i] == '\r' ) {
+			text[i] = ' ';
+		}
+	}
+}
 
 /*
 ==================
@@ -1008,31 +1017,12 @@ void Cmd_Kill_f( gentity_t *ent ) {
 	player_die( ent, ent, ent, 100000, MOD_SUICIDE );
 }
 
-team_t TeamCount( int ignoreClientNum, int team ) {
-	int i;
-	int count = 0;
-
-	for ( i = 0 ; i < level.maxclients ; i++ ) {
-		if ( i == ignoreClientNum ) {
-			continue;
-		}
-		if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
-			continue;
-		}
-		if ( level.clients[i].sess.sessionTeam == team ) {
-			count++;
-		}
-	}
-
-	return count;
-}
-
 /*
 =================
 SetTeam
 =================
 */
-void SetTeam( gentity_t *ent, char *s, qboolean force ) {
+void SetTeam( gentity_t *ent, const char *s, qboolean force ) {
 	int team, oldTeam;
 	gclient_t           *client;
 	int clientNum;
@@ -1070,6 +1060,40 @@ void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 	} else if ( !Q_stricmp( s, "spectator" ) || !Q_stricmp( s, "s" ) ) {
 		team = TEAM_SPECTATOR;
 		specState = SPECTATOR_FREE;
+	} else if ( g_gametype.integer == GT_COOP_BATTLE ) {
+		// if running a team game, assign player to one of the teams
+		specState = SPECTATOR_NOT;
+		if ( !Q_stricmp( s, "red" ) || !Q_stricmp( s, "r" ) ) {
+			team = TEAM_RED;
+		} else if ( !Q_stricmp( s, "blue" ) || !Q_stricmp( s, "b" ) ) {
+			team = TEAM_BLUE;
+		} else {
+			// pick the team with the least number of players
+			team = PickTeam( clientNum );
+		}
+
+		// NERVE - SMF - merge from team arena
+		if ( g_teamForceBalance.integer && !client->pers.localClient && !( ent->r.svFlags & SVF_BOT ) ) {
+			int counts[TEAM_NUM_TEAMS];
+
+			counts[TEAM_BLUE] = TeamCount( clientNum, TEAM_BLUE );
+			counts[TEAM_RED] = TeamCount( clientNum, TEAM_RED );
+
+			// We allow a spread of one
+			if ( team == TEAM_RED && counts[TEAM_RED] - counts[TEAM_BLUE] >= 1 ) {
+				trap_SendServerCommand( clientNum,
+										"cp \"The Axis has too many players.\n\"" );
+				return; // ignore the request
+			}
+			if ( team == TEAM_BLUE && counts[TEAM_BLUE] - counts[TEAM_RED] >= 1 ) {
+				trap_SendServerCommand( clientNum,
+										"cp \"The Allies have too many players.\n\"" );
+				return; // ignore the request
+			}
+
+			// It's ok, the team we are switching to has less or same number of players
+		}
+		// -NERVE - SMF
 #if 0
 	} else if ( g_gametype.integer != GT_COOP_BATTLE ) {
 		int counts[TEAM_NUM_TEAMS];
@@ -1180,6 +1204,11 @@ void SetTeam( gentity_t *ent, char *s, qboolean force ) {
 
 	// get and distribute relevent paramters
 	ClientUserinfoChanged( clientNum );
+
+	// client hasn't spawned yet, they sent an early team command, teampref userinfo, or g_teamAutoJoin is enabled
+	if ( client->pers.connected != CON_CONNECTED ) {
+		return;
+	}
 
 	ClientBegin( clientNum );
 }
@@ -1597,6 +1626,8 @@ static void Cmd_Say_f( gentity_t *ent, int mode, qboolean arg0 ) {
 		p = ConcatArgs( 1 );
 	}
 
+	SanitizeChatText( p );
+
 	G_Say( ent, NULL, mode, p );
 }
 
@@ -1634,6 +1665,8 @@ static void Cmd_Tell_f( gentity_t *ent ) {
 	}
 
 	p = ConcatArgs( 2 );
+
+	SanitizeChatText( p );
 
 	G_LogPrintf( "tell: %s to %s: %s\n", ent->client->pers.netname, target->client->pers.netname, p );
 	G_Say( ent, target, SAY_TELL, p );

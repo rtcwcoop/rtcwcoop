@@ -663,6 +663,33 @@ void ClientRespawn( gentity_t *ent ) {
 	ent->client->lastGroundTime = level.time;
 }
 
+// NERVE - SMF - merge from team arena
+/*
+================
+TeamCount
+
+Returns number of players on a team
+================
+*/
+int TeamCount( int ignoreClientNum, team_t team ) {
+	int i;
+	int count = 0;
+
+	for ( i = 0 ; i < level.maxclients ; i++ ) {
+		if ( i == ignoreClientNum ) {
+			continue;
+		}
+		if ( level.clients[i].pers.connected == CON_DISCONNECTED ) {
+			continue;
+		}
+		if ( level.clients[i].sess.sessionTeam == team ) {
+			count++;
+		}
+	}
+
+	return count;
+}
+// -NERVE - SMF
 
 /*
 ================
@@ -1331,23 +1358,10 @@ void ClientUserinfoChanged( int clientNum ) {
 		trap_DropClient(clientNum, "Invalid userinfo");
 	}
 
-	// check for local client
-	s = Info_ValueForKey( userinfo, "ip" );
-	if ( s && !strcmp( s, "localhost" ) ) {
-		client->pers.localClient = qtrue;
-	}
-
 	// delete the stats
 	if ( g_gametype.integer <= GT_COOP ) {
 		Coop_DeleteStats( clientNum );
 	}
-
-#ifdef _ADMINS 
-	// save IP FIXME IPV6
-	if ( s && ( s[0] != 0 ) ) {
-		SaveIP( client, s );
-	}
-#endif
 
 	// check the item prediction
 	s = Info_ValueForKey( userinfo, "cg_predictItems" );
@@ -1627,11 +1641,18 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 
 	client->pers.connected = CON_CONNECTING;
 
-	// read or initialize the session data
-	if ( firstTime || level.newSession ) {
-		G_InitSessionData( client, userinfo );
+	// check for local client
+	value = Info_ValueForKey( userinfo, "ip" );
+	if ( !strcmp( value, "localhost" ) ) {
+		client->pers.localClient = qtrue;
 	}
-	G_ReadSessionData( client );
+
+#ifdef _ADMINS 
+	// save IP FIXME IPV6
+	if ( value && ( value[0] != 0 ) ) {
+		SaveIP( client, value );
+	}
+#endif
 
 	if ( isBot ) {
 		ent->r.svFlags |= SVF_BOT;
@@ -1640,6 +1661,12 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 			return "BotConnectfailed";
 		}
 	}
+
+	// read or initialize the session data
+	if ( firstTime || level.newSession ) {
+		G_InitSessionData( client, userinfo );
+	}
+	G_ReadSessionData( client );
 
 	// get and distribute relevent paramters
 	//G_LogPrintf( "ClientConnect: %i\n", clientNum );

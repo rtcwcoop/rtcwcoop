@@ -99,8 +99,7 @@ typedef enum
 	IMGFLAG_NO_COMPRESSION = 0x0010,
 	IMGFLAG_NOLIGHTSCALE   = 0x0020,
 	IMGFLAG_CLAMPTOEDGE    = 0x0040,
-	IMGFLAG_SRGB           = 0x0080,
-	IMGFLAG_GENNORMALMAP   = 0x0100,
+	IMGFLAG_GENNORMALMAP   = 0x0080,
 } imgFlags_t;
 
 typedef struct image_s {
@@ -522,36 +521,13 @@ typedef struct shader_s {
 
 	void ( *optimalStageIteratorFunc )( void );
 
-	float clampTime;                                    // time this shader is clamped to
-	float timeOffset;                                   // current time offset for this shader
+	double clampTime;                                    // time this shader is clamped to
+	double timeOffset;                                   // current time offset for this shader
 
 	struct shader_s *remappedShader;                    // current shader this one is remapped too
 
 	struct shader_s *next;
 } shader_t;
-
-static ID_INLINE qboolean ShaderRequiresCPUDeforms(const shader_t * shader)
-{
-	if(shader->numDeforms)
-	{
-		const deformStage_t *ds = &shader->deforms[0];
-
-		if (shader->numDeforms > 1)
-			return qtrue;
-
-		switch (ds->deformation)
-		{
-			case DEFORM_WAVE:
-			case DEFORM_BULGE:
-				return qfalse;
-
-			default:
-				return qtrue;
-		}
-	}
-
-	return qfalse;
-}
 
 typedef struct cubemap_s {
 	char name[MAX_QPATH];
@@ -785,6 +761,8 @@ typedef enum
 
 	UNIFORM_CUBEMAPINFO,
 
+	UNIFORM_ALPHATEST,
+
 	UNIFORM_FIRERISEDIR,
 	UNIFORM_ZFADELOWEST,
 	UNIFORM_ZFADEHIGHEST,
@@ -826,7 +804,7 @@ typedef struct {
 	byte areamask[MAX_MAP_AREA_BYTES];
 	qboolean areamaskModified;      // qtrue if areamask changed since last scene
 
-	float floatTime;                // tr.refdef.time / 1000.0
+	double floatTime;                // tr.refdef.time / 1000.0
 
 	float		blurFactor;
 
@@ -864,6 +842,12 @@ typedef struct {
 
 //=================================================================================
 
+// max surfaces per-skin
+// This is an arbitry limit. Vanilla Q3 only supported 32 surfaces in skins but failed to
+// enforce the maximum limit when reading skin files. It was possile to use more than 32
+// surfaces which accessed out of bounds memory past end of skin->surfaces hunk block.
+#define MAX_SKIN_SURFACES	256
+
 // skins allow models to be retextured without modifying the model file
 typedef struct {
 	char name[MAX_QPATH];
@@ -874,17 +858,17 @@ typedef struct {
 #define MAX_PART_MODELS 5
 
 typedef struct {
-	char type[MAX_QPATH];           // md3_lower, md3_lbelt, md3_rbelt, etc.
-	char model[MAX_QPATH];          // lower.md3, belt1.md3, etc.
+	char type[MAX_QPATH];		// md3_lower, md3_lbelt, md3_rbelt, etc.
+	char model[MAX_QPATH];		// lower.md3, belt1.md3, etc.
 } skinModel_t;
 
 typedef struct skin_s {
-	char name[MAX_QPATH];               // game path, including extension
+	char name[MAX_QPATH];		// game path, including extension
 	int numSurfaces;
 	int numModels;
-	skinSurface_t   *surfaces[MD3_MAX_SURFACES];
+	skinSurface_t	*surfaces;	// dynamically allocated array of surfaces
 	skinModel_t     *models[MAX_PART_MODELS];
-	vec3_t scale;       //----(SA)	added
+	vec3_t scale;			//----(SA)	added
 } skin_t;
 //----(SA) end
 
@@ -1922,9 +1906,6 @@ extern cvar_t  *r_skipBackEnd;
 extern	cvar_t	*r_stereoEnabled;
 extern	cvar_t	*r_anaglyphMode;
 
-extern  cvar_t  *r_mergeMultidraws;
-extern  cvar_t  *r_mergeLeafSurfaces;
-
 extern  cvar_t  *r_externalGLSL;
 
 extern  cvar_t  *r_hdr;
@@ -2012,8 +1993,34 @@ extern cvar_t   *r_wolffog;
 extern cvar_t  *r_highQualityVideo;
 //====================================================================
 
-float R_NoiseGet4f( float x, float y, float z, float t );
+float R_NoiseGet4f( float x, float y, float z, double t );
 void  R_NoiseInit( void );
+
+static ID_INLINE qboolean ShaderRequiresCPUDeforms(const shader_t * shader)
+{
+	if(shader->numDeforms)
+	{
+		const deformStage_t *ds = &shader->deforms[0];
+
+		if (shader->numDeforms > 1)
+			return qtrue;
+
+		switch (ds->deformation)
+		{
+			case DEFORM_WAVE:
+			case DEFORM_BULGE:
+				// need CPU deforms at high level-times to avoid floating point percision loss
+				return ( backEnd.refdef.floatTime != (float)backEnd.refdef.floatTime );
+
+			default:
+				return qtrue;
+		}
+	}
+
+	return qfalse;
+}
+
+//====================================================================
 
 void R_SwapBuffers( int );
 
@@ -2186,7 +2193,7 @@ IMPLEMENTATION SPECIFIC FUNCTIONS
 ====================================================================
 */
 
-void	GLimp_Init( void );
+void	GLimp_Init( qboolean );
 void	GLimp_Shutdown( void );
 void	GLimp_EndFrame( void );
 
@@ -2235,7 +2242,7 @@ typedef struct shaderCommands_s
 	//color4ub_t	constantColor255[SHADER_MAX_VERTEXES] QALIGN(16);
 
 	shader_t    *shader;
-	float shaderTime;
+	double shaderTime;
 	int fogNum;
 	int         cubemapIndex;
 
