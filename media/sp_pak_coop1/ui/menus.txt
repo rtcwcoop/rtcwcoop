@@ -30,6 +30,7 @@
 	loadMenu { "ui/ingame_quick.menu" }
 	loadMenu { "ui/ingame_join.menu" }
 	loadMenu { "ui_mp/ingame_leave.menu" }
+	loadMenu { "ui/ingame_options.menu" }
 	loadMenu { "ui/ingame_serverinfo.menu" }	// Bugfix by TitaN655
 	loadMenu { "ui/ingame_system.menu" }
         loadMenu { "ui_mp/wm_quickmessage.menu" }

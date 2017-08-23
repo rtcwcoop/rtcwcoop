@@ -143,11 +143,30 @@ itemDef {
 // end
 
 	itemDef {
+    		name performance
+    		group grpOptions
+    		type ITEM_TYPE_MULTI
+    		text "Aspect Correction:"
+    		cvar "cg_fixedAspect"
+    		cvarFloatList	{ "Off" 0 "On (4:3 HUD)" 1 "On (Wide HUD)" 2 }
+    		rect 82 115 290 12
+          	textalign ITEM_ALIGN_RIGHT
+          	textalignx 142
+          	textaligny 10
+    		textscale .23
+    		style WINDOW_STYLE_FILLED
+    		backcolor 1 1 1 .07        
+          	forecolor 1 1 1 1
+          	visible 0
+		action { exec "vid_restart" }
+	}
+
+	itemDef {
 		name performance
 		group grpOptions
 		text "Crosshair:"
  		type 1	
-		rect 197 120 60 12
+		rect 197 130 60 12
 		textalign ITEM_ALIGN_CENTER
 		textscale .23		
 		textalignx 30
@@ -160,7 +179,7 @@ itemDef {
 	itemDef {
 		name performance				
 		group grpOptions
-		rect 201 135 50 50
+		rect 201 145 50 50
 		ownerdraw UI_CROSSHAIR
 		textalign ITEM_ALIGN_RIGHT
 		textalignx 0 
