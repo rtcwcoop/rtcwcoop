@@ -234,7 +234,7 @@ static const unsigned int sp_sppak_checksums[] = {
 };
 
 static const unsigned int binpak_checksums[] = {
-	3339940617u,	// bin.pk3 (1.0.1)
+	4066983521u,	// bin.pk3 (1.0.2)
 };
 #endif
 
