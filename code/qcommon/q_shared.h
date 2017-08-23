@@ -77,7 +77,7 @@ If you have questions concerning this license or the applicable additional terms
 #define FLATLINE_FOR_MASTER		"WolfFlatlineCoop-1"
 
 #ifndef PRODUCT_VERSION
-  #define PRODUCT_VERSION "1.0.2"
+  #define PRODUCT_VERSION "1.0.3"
 #endif
 
 #ifndef PRODUCT_DATE
@@ -86,10 +86,10 @@ If you have questions concerning this license or the applicable additional terms
 
 #define Q3_VERSION PRODUCT_NAME " " PRODUCT_VERSION
 
-#define RTCWCOOP_VERSION_NUMBER "1.0.2"
+#define RTCWCOOP_VERSION_NUMBER "1.0.3"
 #define RTCWCOOP_VERSION_DIGIT_1 1
 #define RTCWCOOP_VERSION_DIGIT_2 0
-#define RTCWCOOP_VERSION_DIGIT_3 2
+#define RTCWCOOP_VERSION_DIGIT_3 3
 
 #define MAX_COOP_CLIENTS 8
 

@@ -126,7 +126,7 @@ endif
 export CROSS_COMPILING
 
 ifndef VERSION
-VERSION=1.0.2
+VERSION=1.0.3
 endif
 
 ifndef CLIENTBIN
@@ -359,6 +359,16 @@ ifneq ($(BUILD_CLIENT),0)
       SDL_CFLAGS ?= $(shell sdl2-config --cflags)
       SDL_LIBS ?= $(shell sdl2-config --libs)
     endif
+  endif
+endif
+
+# Add git version info
+USE_GIT=
+ifeq ($(wildcard .git),.git)
+  GIT_REV=$(shell git show -s --pretty=format:%h-%ad --date=short)
+  ifneq ($(GIT_REV),)
+    VERSION:=$(VERSION)_GIT_$(GIT_REV)
+    USE_GIT=1
   endif
 endif
 
@@ -2728,6 +2738,13 @@ $(B)/ded/%.o: $(SYSDIR)/%.rc
 
 $(B)/ded/%.o: $(NDIR)/%.c
 	$(DO_DED_CC)
+
+# Extra dependencies to ensure the git version is incorporated
+ifeq ($(USE_GIT),1)
+  $(B)/client/cl_console.o : .git
+  $(B)/client/common.o : .git
+  $(B)/ded/common.o : .git
+endif
 
 
 #############################################################################
