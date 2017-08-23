@@ -274,11 +274,11 @@ USE_BLOOM=1
 endif
 
 ifndef USE_ADMIN
-USE_ADMIN=0
+USE_ADMIN=1
 endif
 
 ifndef USE_MONEY
-USE_MONEY=0
+USE_MONEY=1
 endif
 
 ifndef USE_LOCALISATION
