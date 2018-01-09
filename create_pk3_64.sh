@@ -18,7 +18,7 @@ zip -r $PAKFILE ./ -x "*.svn*"
         #cp $PAKFILE ~/Documents/rtcwcoop/coopmain/
 #fi
 if [ "`uname`" = "Linux" ]; then
-        cp $PAKFILE ~/.wolf/coopmain
+        cp $PAKFILE ~/.wolf/coopmain/
 fi
 
 
