@@ -25,18 +25,18 @@
 
 // INGAME menus
 
-	loadMenu { "ui/ingame.menu" }
+//	loadMenu { "ui/ingame.menu" }
 	loadMenu { "ui/ingame_callvote.menu" }
 	loadMenu { "ui/ingame_quick.menu" }
 	loadMenu { "ui/ingame_join.menu" }
 	loadMenu { "ui_mp/ingame_leave.menu" }
-	loadMenu { "ui/ingame_options.menu" }
+//	loadMenu { "ui/ingame_options.menu" }
 	loadMenu { "ui/ingame_serverinfo.menu" }	// Bugfix by TitaN655
-	loadMenu { "ui/ingame_system.menu" }
+//	loadMenu { "ui/ingame_system.menu" }
         loadMenu { "ui_mp/wm_quickmessage.menu" }
         loadMenu { "ui_mp/wm_quickmessageAlt.menu" }
-	loadMenu { "ui/clipboard.menu" }		// Bugfix by TitaN655
-        loadMenu { "ui/notebook.menu" }
+//	loadMenu { "ui/clipboard.menu" }		// Bugfix by TitaN655
+//	loadMenu { "ui/notebook.menu" }
         loadMenu { "ui/wm_quickbuy.menu" }
         loadMenu { "ui/wm_quickbuyAlt.menu" }
 
@@ -48,14 +48,11 @@
 	loadMenu { "ui/vid_restart.menu" }
 	loadMenu { "ui/snd_restart.menu" }
 	loadMenu { "ui/rec_restart.menu" }
-	loadMenu { "ui/in_vid_restart.menu" }
-	loadMenu { "ui/in_snd_restart.menu" }
+//	loadMenu { "ui/in_vid_restart.menu" }
+//	loadMenu { "ui/in_snd_restart.menu" }
 	loadMenu { "ui/error.menu" }
 	loadMenu { "ui/quitcredit.menu" }
 	loadMenu { "ui/resetscore.menu" }
 	loadMenu { "ui/buy_pop.menu" }
 	loadMenu { "ui/briefing.menu" }		//----(SA)	added
-
-
-
 }
