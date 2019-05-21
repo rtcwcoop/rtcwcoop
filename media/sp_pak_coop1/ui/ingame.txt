@@ -1,0 +1,36 @@
+// menu defs
+// 
+{	
+ 	loadMenu { "ui/ingame.menu" }
+//	loadMenu { "ui/ingame_about.menu" }
+	loadMenu { "ui/ingame_controls.menu" }
+	loadMenu { "ui/ingame_options.menu" }
+	loadMenu { "ui/ingame_system.menu" }
+//	loadMenu { "ui/ingame_leave.menu" }
+	loadMenu { "ui/ingame_player.menu" }
+
+	loadMenu { "ui/ingame_load.menu" }
+	loadMenu { "ui/ingame_save.menu" }
+
+	loadMenu { "ui/in_vid_restart.menu" }
+	loadMenu { "ui/in_snd_restart.menu" }
+	loadMenu { "ui/in_rec_restart.menu" }
+
+	loadMenu { "ui/notebook.menu" }
+	loadMenu { "ui/clipboard.menu" }
+	loadMenu { "ui/bookz.menu" }
+	loadMenu { "ui/bookv.menu" }
+	loadMenu { "ui/bookp.menu" }
+	loadMenu { "ui/pregame.menu" }
+	loadMenu { "ui/test.menu" }
+
+	loadMenu { "ui/ingame_help.menu" }
+
+	// NERVE - SMF
+//	loadMenu { "ui/wm_pickteam.menu" }
+//	loadMenu { "ui/wm_pickplayer.menu" }
+//	loadMenu { "ui/wm_pickweapon.menu" }
+//	loadMenu { "ui/wm_quickmessage.menu" }
+//	loadMenu { "ui/wm_limbo.menu" }
+	// -NERVE - SMF
+}
