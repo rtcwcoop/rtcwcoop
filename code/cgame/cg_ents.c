@@ -1340,6 +1340,22 @@ static animation_t grabberAnims[] = {
 	{"", 66, 1,  0,  1000 / 15,    1000 / 15 }   // (starting position)
 };
 
+// DHM - Nerve :: capture and hold flag
+
+static animation_t multi_flagpoleAnims[] = {
+	{"", 0,      1,      0,      1000 / 15,    1000 / 15 },  // (no flags, idle)
+	{"", 0,      15,     0,      1000 / 15,    1000 / 15 },  // (axis flag rising)
+	{"", 490,    15,     0,      1000 / 15,    1000 / 15 },  // (american flag rising)
+	{"", 20,     211,    211,    1000 / 15,    1000 / 15 },  // (axis flag raised)
+	{"", 255,    211,    211,    1000 / 15,    1000 / 15 },  // (american flag raised)
+	{"", 235,    15,     0,      1000 / 15,    1000 / 15 },  // (axis switching to american)
+	{"", 470,    15,     0,      1000 / 15,    1000 / 15 },  // (american switching to axis)
+	{"", 510,    15,     0,      1000 / 15,    1000 / 15 },  // (axis flag falling)
+	{"", 530,    15,     0,      1000 / 15,    1000 / 15 }   // (american flag falling)
+};
+
+// dhm - end
+
 extern void CG_RunLerpFrame( clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, float speedScale );
 
 /////
@@ -1357,8 +1373,22 @@ static void CG_SetAnim( centity_t *cent, lerpFrame_t *lf, int newSequence ) {
 	// transition animation
 	lf->animationNumber = newSequence;
 	lf->animation       = &lf->cgAnim[newSequence];
-	lf->animationTime   = lf->frameTime + lf->animation->initialLerp;
 
+	// DHM - Nerve :: teamNum specifies which set of animations to use (only 1 exists right now)
+	if ( cgs.gametype <= GT_COOP ) {
+		switch ( cent->currentState.teamNum ) {
+
+		case 1:
+			lf->animation = &multi_flagpoleAnims[ cent->currentState.frame ];
+			break;
+		default:
+			// Keep what was set above
+			break;
+		}
+	}
+	// dhm - end
+
+	lf->animationTime   = lf->frameTime + lf->animation->initialLerp;
 }
 
 //----(SA)	added
