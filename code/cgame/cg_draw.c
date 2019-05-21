@@ -977,14 +977,6 @@ int maxCharsBeforeOverlay;
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  20
 
 static float CG_DrawCoopOverlay( float y ) {
-	if ( !cg_drawTeamOverlay.integer ) {
-		return y;
-	}
-	
-	if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
-		return y;
-	}
-
 	int x, w, h, xx;
 	int i, len;
 	const char *p;
@@ -999,6 +991,14 @@ static float CG_DrawCoopOverlay( float y ) {
 	vec4_t deathcolor, damagecolor;          // JPW NERVE
 	float       *pcolor;
 	// -NERVE - SMF
+
+	if ( !cg_drawTeamOverlay.integer ) {
+		return y;
+	}
+	
+	if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
+		return y;
+	}
 
 	deathcolor[0] = 1;
 	deathcolor[1] = 0;
