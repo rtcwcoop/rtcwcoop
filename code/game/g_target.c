@@ -939,7 +939,13 @@ void target_script_trigger_use( gentity_t *ent, gentity_t *other, gentity_t *act
 	if ( ent->aiName ) {
 		// fairly certain it's activator always, but not 100% sure
 		if ( !ScriptEventForPlayer( activator, "trigger", ent->target ) ) {
-			ScriptEventForPlayer( other, "trigger", ent->target );
+			if ( !ScriptEventForPlayer( other, "trigger", ent->target ) ) {
+				gentity_t *player = AICast_FindEntityForName( "player" );
+
+				if ( player && !ScriptEventForPlayer( player, "trigger", ent->target ) ) {
+					G_Script_ScriptEvent( ent, "trigger", ent->target );
+				}
+			}
 		}
 	}
 
