@@ -446,9 +446,6 @@ void SV_DirectConnect( netadr_t from ) {
 			{
 				if(challenge == svs.challenges[i].challenge)
 					break;
-
-				NET_OutOfBandPrint( NS_SERVER, from, "print\nBad challenge.\n" );
-				return;
 			}
 		}
 		if (i == MAX_CHALLENGES)
