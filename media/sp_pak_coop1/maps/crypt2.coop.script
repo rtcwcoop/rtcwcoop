@@ -300,6 +300,7 @@ hsaw1
 {
 	spawn
 	{
+		accum 1 set 0
 		wait 1000
 		faceangles 0 0 -90 1
 		faceangles 0 90 -90 1
@@ -308,6 +309,8 @@ hsaw1
 
 	trigger go
 	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
 		trigger hsaw3 forward
 		wait 5
 		trigger hsaw3 backward
@@ -323,6 +326,8 @@ hsaw1
 		gotomarker hsaw1spot2 450 wait
 		gotomarker hsaw1spot1 600 wait
 		trigger razor1 stop
+		wait 250
+		accum 1 set 0
 	}
 }
 
@@ -330,6 +335,7 @@ hsaw2
 {
 	spawn
 	{
+		accum 1 set 0
 		wait 1000
 		faceangles 0 0 -90 1
 		faceangles 0 -90 -90 1
@@ -338,6 +344,8 @@ hsaw2
 
 	trigger go
 	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
 		trigger razor2 rotateloop
 		wait 250
 		playsound sound/scenaric/crypt2/saw_trap1.wav
@@ -351,6 +359,8 @@ hsaw2
 		gotomarker hsaw2spot4 600 wait
 		alertentity hurt1
 		trigger razor2 stop
+		wait 250
+		accum 1 set 0
 	}
 }
 
