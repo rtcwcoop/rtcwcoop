@@ -1298,7 +1298,7 @@ void CL_ClearMemory(qboolean shutdownRef)
 	CL_ShutdownAll(shutdownRef);
 
 	// if not running a server clear the whole hunk
-	if ( !com_sv_running->integer ) {
+	if ( !com_sv_running || !com_sv_running->integer ) {
 		// clear the whole hunk
 		Hunk_Clear();
 		// clear collision map data
@@ -1595,7 +1595,7 @@ void CL_RequestMotd( void ) {
 				BigShort( cls.updateServer.port ) );
 
 	info[0] = 0;
-	Com_sprintf( cls.updateChallenge, sizeof( cls.updateChallenge ), "%i", rand() );
+	Com_sprintf( cls.updateChallenge, sizeof( cls.updateChallenge ), "%i", (int)( ( ( (unsigned int)rand() << 16 ) ^ (unsigned int)rand() ) ^ Com_Milliseconds() ) );
 
 	Info_SetValueForKey( info, "challenge", cls.updateChallenge );
 	Info_SetValueForKey( info, "renderer", cls.glconfig.renderer_string );
@@ -1831,7 +1831,7 @@ void CL_Connect_f( void ) {
 		clc.state = CA_CONNECTING;
 		
 		// Set a client challenge number that ideally is mirrored back by the server.
-		clc.challenge = ((rand() << 16) ^ rand()) ^ Com_Milliseconds();
+		clc.challenge = ( ( (unsigned int)rand() << 16 ) ^ (unsigned int)rand() ) ^ Com_Milliseconds();
 	}
 
 	// show_bug.cgi?id=507
@@ -3458,8 +3458,10 @@ static __attribute__ ((format (printf, 2, 3))) void QDECL CL_RefPrintf( int prin
 		Com_Printf( "%s", msg );
 	} else if ( print_level == PRINT_WARNING ) {
 		Com_Printf( S_COLOR_YELLOW "%s", msg );		// yellow
+	} else if ( print_level == PRINT_ERROR ) {
+		Com_Printf (S_COLOR_RED "%s", msg);		// red
 	} else if ( print_level == PRINT_DEVELOPER ) {
-		Com_DPrintf( S_COLOR_RED "%s", msg );		// red
+		Com_DPrintf( S_COLOR_RED "%s", msg );		// red - developer only
 	}
 }
 
@@ -5350,8 +5352,7 @@ qboolean CL_CDKeyValidate( const char *key, const char *checksum ) {
 		}
 	}
 
-
-	sprintf( chs, "%02x", sum );
+	Com_sprintf( chs, sizeof( chs ), "%02x", sum );
 
 	if ( checksum && !Q_stricmp( chs, checksum ) ) {
 		return qtrue;

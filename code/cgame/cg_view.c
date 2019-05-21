@@ -80,6 +80,7 @@ can then be moved around
 void CG_TestModel_f( void ) {
 	vec3_t angles;
 
+	cg.testGun = qfalse;
 	memset( &cg.testModelEntity, 0, sizeof( cg.testModelEntity ) );
 	if ( trap_Argc() < 2 ) {
 		return;
@@ -105,7 +106,6 @@ void CG_TestModel_f( void ) {
 	angles[ROLL] = 0;
 
 	AnglesToAxis( angles, cg.testModelEntity.axis );
-	cg.testGun = qfalse;
 }
 
 /*
@@ -117,6 +117,11 @@ Replaces the current view weapon with the given model
 */
 void CG_TestGun_f( void ) {
 	CG_TestModel_f();
+
+	if ( !cg.testModelEntity.hModel ) {
+		return;
+	}
+
 	cg.testGun = qtrue;
 	cg.testModelEntity.renderfx = RF_MINLIGHT | RF_DEPTHHACK | RF_FIRST_PERSON;
 }
@@ -806,7 +811,7 @@ static int CG_CalcFov( void ) {
 		cg.fov = fov_x = 90;
 	} else {
 		// user selectable
-		if ( ( cgs.dmflags & DF_FIXED_FOV ) || cg_fixedAspect.integer ) {
+		if ( ( cgs.dmflags & DF_FIXED_FOV ) || ( cg_fixedAspect.integer && cg_fixedAspectFOV.integer ) ) {
 			// dmflag to prevent wide fov for all clients
 			fov_x = 90;
 		} else {
@@ -1321,7 +1326,7 @@ void CG_DrawSkyBoxPortal( void ) {
 			fov_x = 90;
 		} else {
 			// user selectable
-			if ( ( cgs.dmflags & DF_FIXED_FOV ) || cg_fixedAspect.integer ) {
+			if ( ( cgs.dmflags & DF_FIXED_FOV ) || ( cg_fixedAspect.integer && cg_fixedAspectFOV.integer ) ) {
 				// dmflag to prevent wide fov for all clients
 				fov_x = 90;
 			} else {

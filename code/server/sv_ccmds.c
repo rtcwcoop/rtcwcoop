@@ -410,11 +410,11 @@ static void SV_MapRestart_f( void ) {
 		return;
 	}
 
-	if ( Cmd_Argc() > 1 ) {
-		delay = atoi( Cmd_Argv( 1 ) );
+	if ( sv_gametype->integer == GT_SINGLE_PLAYER ) { // (SA) no pause by default in sp
+		delay = 0;
 	} else {
-		if ( sv_gametype->integer == GT_SINGLE_PLAYER ) { // (SA) no pause by default in sp
-			delay = 0;
+		if ( Cmd_Argc() > 1 ) {
+			delay = atoi( Cmd_Argv( 1 ) );
 		} else {
 			delay = 5;
 		}

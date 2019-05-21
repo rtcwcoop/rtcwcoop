@@ -1333,11 +1333,11 @@ static void CG_DrawTeamInfo( void ) {
 				alphapercent = 0.f;
 			}
 
-			if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_RED ) {
+			if ( cgs.clientinfo[cg.clientNum].team == TEAM_RED ) {
 				hcolor[0] = 1;
 				hcolor[1] = 0;
 				hcolor[2] = 0;
-			} else if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_BLUE ) {
+			} else if ( cgs.clientinfo[cg.clientNum].team == TEAM_BLUE ) {
 				hcolor[0] = 0;
 				hcolor[1] = 0;
 				hcolor[2] = 1;
@@ -3978,6 +3978,10 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 			CG_DrawReward();
 		}
 	}
+
+//	if ( cgs.gametype >= GT_TEAM ) {
+//		CG_DrawTeamInfo();
+//	}
 
 	CG_DrawVote();
 
