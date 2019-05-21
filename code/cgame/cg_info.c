@@ -336,6 +336,9 @@ void CG_DrawInformation( void ) {
 		return;
 	}
 
+	// show the server motd
+	CG_DrawMotd();
+
 	// show the percent complete bar
 	if ( expectedHunk >= 0 ) {
 		percentDone = (float)( cg_hunkUsed.integer + cg_soundAdjust.integer ) / (float)( expectedHunk );
