@@ -3078,7 +3078,7 @@ void G_RunFrame( int levelTime ) {
 
 		if ( i < MAX_CLIENTS ) {
 			if ( newSpawns && !( ent->r.svFlags & SVF_CASTAI ) && !( ent->client->ps.eFlags & EF_DEAD ) && !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
-				if ( !( ent->client->cameraPortal ) ) {
+				if ( !( ent->client->cameraPortal ) && ent->client->sess.sessionTeam == TEAM_BLUE ) {
 					gentity_t *groundEnt = &g_entities[ent->client->ps.groundEntityNum];
 					// don't save a spawnpoint if the player is not on the ground
 					// or on a mover
