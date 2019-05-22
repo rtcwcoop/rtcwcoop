@@ -267,8 +267,6 @@ MAX_PN_TRIANGLES_TESSELATION_LEVEL_ATI	GetIntegerv Z+		1											-
 ** to the user.
 */
 static void InitOpenGL( void ) {
-	char renderer_buffer[1024];
-
 	//
 	// initialize OS specific portions of the renderer
 	//
@@ -283,10 +281,7 @@ static void InitOpenGL( void ) {
 	if ( glConfig.vidWidth == 0 ) {
 		GLint temp;
 
-		GLimp_Init( qfalse );
-
-		strcpy( renderer_buffer, glConfig.renderer_string );
-		Q_strlwr( renderer_buffer );
+		GLimp_Init( qtrue );
 
 		// OpenGL driver constants
 		qglGetIntegerv( GL_MAX_TEXTURE_SIZE, &temp );
@@ -644,7 +639,7 @@ void R_ScreenshotFilename( int lastNumber, char *fileName ) {
 	int a,b,c,d;
 
 	if ( lastNumber < 0 || lastNumber > 9999 ) {
-		Com_sprintf( fileName, MAX_OSPATH, "screenshots/shot9999.tga" );
+		Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-9999.tga", tr.world->baseName );
 		return;
 	}
 
@@ -656,8 +651,8 @@ void R_ScreenshotFilename( int lastNumber, char *fileName ) {
 	lastNumber -= c * 10;
 	d = lastNumber;
 
-	Com_sprintf( fileName, MAX_OSPATH, "screenshots/shot%i%i%i%i.tga"
-				 , a, b, c, d );
+	Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-%i%i%i%i.tga"
+				, tr.world->baseName, a, b, c, d );
 }
 
 /* 
@@ -669,7 +664,7 @@ void R_ScreenshotFilenameJPEG( int lastNumber, char *fileName ) {
 	int a,b,c,d;
 
 	if ( lastNumber < 0 || lastNumber > 9999 ) {
-		Com_sprintf( fileName, MAX_OSPATH, "screenshots/shot9999.jpg" );
+		Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-9999.jpg", tr.world->baseName );
 		return;
 	}
 
@@ -681,8 +676,8 @@ void R_ScreenshotFilenameJPEG( int lastNumber, char *fileName ) {
 	lastNumber -= c * 10;
 	d = lastNumber;
 
-	Com_sprintf( fileName, MAX_OSPATH, "screenshots/shot%i%i%i%i.jpg"
-				 , a, b, c, d );
+	Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-%i%i%i%i.jpg"
+				, tr.world->baseName, a, b, c, d );
 }
 
 /*
@@ -986,8 +981,8 @@ void GL_SetDefaultState( void ) {
 	glState.glStateBits = GLS_DEPTHTEST_DISABLE | GLS_DEPTHMASK_TRUE;
 
 #ifdef USE_OPENGLES
-	glPixelStorei(GL_PACK_ALIGNMENT, 1);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	qglPixelStorei(GL_PACK_ALIGNMENT, 1);
+	qglPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 #else
 	qglPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 #endif
@@ -1089,7 +1084,23 @@ void GfxInfo_f( void ) {
 	ri.Printf( PRINT_ALL, "GL_RENDERER: %s\n", glConfig.renderer_string );
 	ri.Printf( PRINT_ALL, "GL_VERSION: %s\n", glConfig.version_string );
 	ri.Printf( PRINT_ALL, "GL_EXTENSIONS: " );
-	R_PrintLongString( glConfig.extensions_string );
+#ifndef USE_OPENGLES
+	if ( qglGetStringi )
+	{
+		GLint numExtensions;
+		int i;
+
+		qglGetIntegerv( GL_NUM_EXTENSIONS, &numExtensions );
+		for ( i = 0; i < numExtensions; i++ )
+		{
+			ri.Printf( PRINT_ALL, "%s ", qglGetStringi( GL_EXTENSIONS, i ) );
+		}
+	}
+	else
+#endif
+	{
+		R_PrintLongString( glConfig.extensions_string );
+	}
 	ri.Printf( PRINT_ALL, "\n" );
 	ri.Printf( PRINT_ALL, "GL_MAX_TEXTURE_SIZE: %d\n", glConfig.maxTextureSize );
 	ri.Printf( PRINT_ALL, "GL_MAX_TEXTURE_UNITS_ARB: %d\n", glConfig.numTextureUnits );
@@ -1539,6 +1550,10 @@ void RE_Shutdown( qboolean destroyWindow ) {
 		GLimp_Shutdown();
 
 		Com_Memset( &glConfig, 0, sizeof( glConfig ) );
+		textureFilterAnisotropic = qfalse;
+		maxAnisotropy = 0;
+		displayAspect = 0.0f;
+
 		Com_Memset( &glState, 0, sizeof( glState ) );
 	}
 

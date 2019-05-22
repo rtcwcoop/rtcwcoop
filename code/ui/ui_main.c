@@ -3278,10 +3278,10 @@ static qboolean UI_BotName_HandleKey( int flags, float *special, int key ) {
 
 		value += select;
 
-		if ( value >= UI_GetNumBots() + 2 ) {
+		if ( value >= UI_GetNumBots() ) {
 			value = 0;
 		} else if ( value < 0 ) {
-			value = UI_GetNumBots() + 2 - 1;
+			value = UI_GetNumBots() - 1;
 		}
 		uiInfo.botIndex = value;
 		return qtrue;
@@ -4360,6 +4360,7 @@ static void UI_Update( const char *name ) {
 			break;
 		case 32:
 			trap_Cvar_SetValue( "r_depthbits", 24 );
+			trap_Cvar_SetValue( "r_stencilbits", 8 );
 			break;
 		}
 	} else if ( Q_stricmp( name, "r_lodbias" ) == 0 ) {
@@ -4382,6 +4383,7 @@ static void UI_Update( const char *name ) {
 			trap_Cvar_SetValue( "r_lodbias", 0 );
 			trap_Cvar_SetValue( "r_colorbits", 32 );
 			trap_Cvar_SetValue( "r_depthbits", 24 );
+			trap_Cvar_SetValue( "r_stencilbits", 8 );
 			trap_Cvar_SetValue( "r_picmip", 0 );
 			trap_Cvar_SetValue( "r_picmip2", 0 );
 			trap_Cvar_SetValue( "r_texturebits", 32 );
@@ -4415,6 +4417,7 @@ static void UI_Update( const char *name ) {
 			trap_Cvar_SetValue( "r_lodbias", 0 );
 			trap_Cvar_SetValue( "r_colorbits", 0 );
 			trap_Cvar_SetValue( "r_depthbits", 0 );
+			trap_Cvar_SetValue( "r_stencilbits", 0 );
 			trap_Cvar_SetValue( "r_picmip", 0 );
 			trap_Cvar_SetValue( "r_picmip2", 1 );
 			trap_Cvar_SetValue( "r_texturebits", 0 );
@@ -4437,6 +4440,7 @@ static void UI_Update( const char *name ) {
 			trap_Cvar_SetValue( "r_lodbias", 1 );
 			trap_Cvar_SetValue( "r_colorbits", 0 );
 			trap_Cvar_SetValue( "r_depthbits", 0 );
+			trap_Cvar_SetValue( "r_stencilbits", 0 );
 			trap_Cvar_SetValue( "r_picmip", 1 );
 			trap_Cvar_SetValue( "r_picmip2", 2 );
 			trap_Cvar_SetValue( "r_texturebits", 0 );
@@ -4459,6 +4463,7 @@ static void UI_Update( const char *name ) {
 			trap_Cvar_SetValue( "r_lodbias", 2 );
 			trap_Cvar_SetValue( "r_colorbits", 0 );
 			trap_Cvar_SetValue( "r_depthbits", 0 );
+			trap_Cvar_SetValue( "r_stencilbits", 0 );
 			trap_Cvar_SetValue( "r_picmip", 2 );
 			trap_Cvar_SetValue( "r_picmip2", 3 );
 			trap_Cvar_SetValue( "r_texturebits", 0 );
@@ -4644,7 +4649,7 @@ static void UI_RunMenuScript( char **args ) {
 				trap_Cvar_Set( "ui_cdkeyvalid", "CD Key does not appear to be valid." );
 			}
 		} else if ( Q_stricmp( name, "loadArenas" ) == 0 ) {
-			UI_LoadArenas();
+			UI_LoadArenasIntoMapList();
 			UI_MapCountByGameType( qfalse );
 			Menu_SetFeederSelection( NULL, FEEDER_ALLMAPS, 0, "createserver" );
 		} else if ( Q_stricmp( name, "saveControls" ) == 0 ) {
@@ -6873,6 +6878,7 @@ void _UI_Init( qboolean inGameLoad ) {
 //	UI_ParseTeamInfo("teaminfo.txt");
 //	UI_LoadTeams();
 	UI_ParseGameInfo( "coopgameinfo.txt" );
+//	UI_LoadArenas();
 
 	menuSet = UI_Cvar_VariableString( "ui_menuFiles" );
 	if ( menuSet == NULL || menuSet[0] == '\0' ) {
@@ -7609,6 +7615,7 @@ cvarTable_t cvarTable[] = {
 	{ &ui_emptyswitch, "cg_emptyswitch", "0", CVAR_ARCHIVE }, //----(SA)	added
 
 	{ &ui_fixedAspect, "cg_fixedAspect", "0", CVAR_ARCHIVE | CVAR_LATCH },
+	{ &ui_fixedAspectFOV, "cg_fixedAspectFOV", "1", CVAR_ARCHIVE },
 
 	{ &ui_server1, "server1", "", CVAR_ARCHIVE },
 	{ &ui_server2, "server2", "", CVAR_ARCHIVE },

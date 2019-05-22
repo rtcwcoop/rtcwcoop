@@ -992,6 +992,14 @@ static float CG_DrawCoopOverlay( float y ) {
 	float       *pcolor;
 	// -NERVE - SMF
 
+	if ( !cg_drawTeamOverlay.integer ) {
+		return y;
+	}
+	
+	if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) {
+		return y;
+	}
+
 	deathcolor[0] = 1;
 	deathcolor[1] = 0;
 	deathcolor[2] = 0;
@@ -1001,10 +1009,6 @@ static float CG_DrawCoopOverlay( float y ) {
 	damagecolor[2] = 0;
 	damagecolor[3] = cg_hudAlpha.value;
 	maxCharsBeforeOverlay = 80;
-
-	if ( !cg_drawTeamOverlay.integer ) {
-		return y;
-	}
 
 	plyrs = 0;
 
@@ -1091,20 +1095,45 @@ static float CG_DrawCoopOverlay( float y ) {
 			//val = cg_entities[ ci->clientNum ].currentState.teamNum;
 			val = ci->curWeapon;
 
-			if ( val == WP_KNIFE ) {
-				classType[0] = 'K';                 // knife
-			} else if ( val == WP_LUGER || val == WP_COLT || val == WP_AKIMBO || val == WP_SILENCER ) {
-				classType[0] = 'P';                 // pistol
-			} else if ( val == WP_THOMPSON || val == WP_MP40 || val == WP_STEN ) {
-				classType[0] = 'S';                 // smg
-			} else if ( val == WP_GRENADE_LAUNCHER || val == WP_GRENADE_PINEAPPLE || val == WP_DYNAMITE ) {
-				classType[0] = 'E';                 // explosive
-			} else if ( val == WP_MAUSER || val == WP_GARAND || val == WP_SNIPERRIFLE || val == WP_SNOOPERSCOPE || val == WP_FG42SCOPE || val == WP_FG42 || val == WP_SNIPER ) {
-				classType[0] = 'R';                 // rifle
-			} else if ( val == WP_PANZERFAUST || val == WP_VENOM || val == WP_FLAMETHROWER || val == WP_TESLA ) {
-				classType[0] = 'H';                 // heavy weapon
-			} else {
-				classType[0] = 'X';                 // ERROR !
+			switch ( val )
+			{
+			case WP_KNIFE:
+				classType[0] = 'K';	// knife
+				break;
+			case WP_LUGER:
+			case WP_COLT:
+			case WP_AKIMBO:
+			case WP_SILENCER:
+				classType[0] = 'P';	// pistol
+				break;
+			case WP_THOMPSON:
+			case WP_MP40:
+			case WP_STEN:
+				classType[0] = 'S';	// smg
+				break;
+			case WP_GRENADE_LAUNCHER:
+			case WP_GRENADE_PINEAPPLE:
+			case WP_DYNAMITE:
+				classType[0] = 'E';	// explosive
+				break;
+			case WP_MAUSER:
+			case WP_GARAND:
+			case WP_SNIPERRIFLE:
+			case WP_SNOOPERSCOPE:
+			case WP_FG42SCOPE:
+			case WP_FG42:
+			case WP_SNIPER:
+				classType[0] = 'R';	// rifle
+				break;
+			case WP_PANZERFAUST:
+			case WP_VENOM:
+			case WP_FLAMETHROWER:
+			case WP_TESLA:
+				classType[0] = 'H';	// heavy weapon
+				break;
+			default:
+				classType[0] = 'X';	// ERROR !
+				break;
 			}
 
 			Com_sprintf( st, sizeof( st ), "%s", classType );
@@ -1304,11 +1333,11 @@ static void CG_DrawTeamInfo( void ) {
 				alphapercent = 0.f;
 			}
 
-			if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_RED ) {
+			if ( cgs.clientinfo[cg.clientNum].team == TEAM_RED ) {
 				hcolor[0] = 1;
 				hcolor[1] = 0;
 				hcolor[2] = 0;
-			} else if ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_BLUE ) {
+			} else if ( cgs.clientinfo[cg.clientNum].team == TEAM_BLUE ) {
 				hcolor[0] = 0;
 				hcolor[1] = 0;
 				hcolor[2] = 1;
@@ -3949,6 +3978,10 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 			CG_DrawReward();
 		}
 	}
+
+//	if ( cgs.gametype >= GT_TEAM ) {
+//		CG_DrawTeamInfo();
+//	}
 
 	CG_DrawVote();
 

@@ -49,7 +49,7 @@ frame.
 
 static float frontlerp, backlerp;
 static float torsoFrontlerp, torsoBacklerp;
-static int             *triangles, *boneRefs;
+static int             *triangles;
 static glIndex_t *pIndexes;
 static int indexes;
 static int baseIndex, baseVertex, oldIndexes;
@@ -1051,7 +1051,7 @@ RB_SurfaceAnim
 ==============
 */
 void RB_SurfaceAnim( mdsSurface_t *surface ) {
-	int i, j, k;
+	int j, k;
 	refEntity_t *refent;
 	int             *boneList;
 	mdsHeader_t     *header;
@@ -1202,10 +1202,11 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 
 	DBG_SHOWTIME
 
+#if 0 // FIXME: implement this
 	if ( r_bonesDebug->integer ) {
 		if ( r_bonesDebug->integer < 3 ) {
 			// DEBUG: show the bones as a stick figure with axis at each bone
-			boneRefs = ( int * )( (byte *)surface + surface->ofsBoneReferences );
+			int i, *boneRefs = ( int * )( (byte *)surface + surface->ofsBoneReferences );
 			for ( i = 0; i < surface->numBoneReferences; i++, boneRefs++ ) {
 				bonePtr = &bones[*boneRefs];
 
@@ -1277,6 +1278,7 @@ void RB_SurfaceAnim( mdsSurface_t *surface ) {
 			}
 		}
 	}
+#endif
 
 	if ( r_bonesDebug->integer > 1 ) {
 		// dont draw the actual surface

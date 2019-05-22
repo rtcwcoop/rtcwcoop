@@ -76,6 +76,7 @@ extern vmCvar_t ui_emptyswitch;
 // END JOSEPH
 
 extern vmCvar_t ui_fixedAspect;
+extern vmCvar_t ui_fixedAspectFOV;
 
 extern vmCvar_t ui_server1;
 extern vmCvar_t ui_server2;
@@ -384,6 +385,7 @@ int             UI_AdjustTimeByGame( int time );
 void            UI_ShowPostGame( qboolean newHigh );
 void            UI_ClearScores( void );
 void            UI_LoadArenas( void );
+void		UI_LoadArenasIntoMapList( void );
 
 //
 // ui_menu.c

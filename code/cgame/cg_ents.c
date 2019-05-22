@@ -1340,6 +1340,22 @@ static animation_t grabberAnims[] = {
 	{"", 66, 1,  0,  1000 / 15,    1000 / 15 }   // (starting position)
 };
 
+// DHM - Nerve :: capture and hold flag
+
+static animation_t multi_flagpoleAnims[] = {
+	{"", 0,      1,      0,      1000 / 15,    1000 / 15 },  // (no flags, idle)
+	{"", 0,      15,     0,      1000 / 15,    1000 / 15 },  // (axis flag rising)
+	{"", 490,    15,     0,      1000 / 15,    1000 / 15 },  // (american flag rising)
+	{"", 20,     211,    211,    1000 / 15,    1000 / 15 },  // (axis flag raised)
+	{"", 255,    211,    211,    1000 / 15,    1000 / 15 },  // (american flag raised)
+	{"", 235,    15,     0,      1000 / 15,    1000 / 15 },  // (axis switching to american)
+	{"", 470,    15,     0,      1000 / 15,    1000 / 15 },  // (american switching to axis)
+	{"", 510,    15,     0,      1000 / 15,    1000 / 15 },  // (axis flag falling)
+	{"", 530,    15,     0,      1000 / 15,    1000 / 15 }   // (american flag falling)
+};
+
+// dhm - end
+
 extern void CG_RunLerpFrame( clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, float speedScale );
 
 /////
@@ -1357,8 +1373,22 @@ static void CG_SetAnim( centity_t *cent, lerpFrame_t *lf, int newSequence ) {
 	// transition animation
 	lf->animationNumber = newSequence;
 	lf->animation       = &lf->cgAnim[newSequence];
-	lf->animationTime   = lf->frameTime + lf->animation->initialLerp;
 
+	// DHM - Nerve :: teamNum specifies which set of animations to use (only 1 exists right now)
+	if ( cgs.gametype <= GT_COOP ) {
+		switch ( cent->currentState.teamNum ) {
+
+		case 1:
+			lf->animation = &multi_flagpoleAnims[ cent->currentState.frame ];
+			break;
+		default:
+			// Keep what was set above
+			break;
+		}
+	}
+	// dhm - end
+
+	lf->animationTime   = lf->frameTime + lf->animation->initialLerp;
 }
 
 //----(SA)	added
@@ -2120,6 +2150,43 @@ void CG_ProcessRumble( centity_t *cent ) {
 }
 
 /*
+================
+CG_CreateRotationMatrix
+================
+*/
+void CG_CreateRotationMatrix(vec3_t angles, vec3_t matrix[3]) {
+	AngleVectors(angles, matrix[0], matrix[1], matrix[2]);
+	VectorInverse(matrix[1]);
+}
+
+/*
+================
+CG_TransposeMatrix
+================
+*/
+void CG_TransposeMatrix(vec3_t matrix[3], vec3_t transpose[3]) {
+	int i, j;
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 3; j++) {
+			transpose[i][j] = matrix[j][i];
+		}
+	}
+}
+
+/*
+================
+CG_RotatePoint
+================
+*/
+void CG_RotatePoint(vec3_t point, vec3_t matrix[3]) {
+	vec3_t tvec;
+	VectorCopy(point, tvec);
+	point[0] = DotProduct(matrix[0], tvec);
+	point[1] = DotProduct(matrix[1], tvec);
+	point[2] = DotProduct(matrix[2], tvec);
+}
+
+/*
 =========================
 CG_AdjustPositionForMover
 
@@ -2130,6 +2197,8 @@ void CG_AdjustPositionForMover(const vec3_t in, int moverNum, int fromTime, int 
 	centity_t   *cent;
 	vec3_t oldOrigin, origin, deltaOrigin;
 	vec3_t oldAngles, angles, deltaAngles;
+	vec3_t	matrix[3], transpose[3];
+	vec3_t	org, org2, move2;
 
 	if ( outDeltaAngles ) {
 		VectorClear( outDeltaAngles );
@@ -2158,13 +2227,21 @@ void CG_AdjustPositionForMover(const vec3_t in, int moverNum, int fromTime, int 
 	VectorSubtract( origin, oldOrigin, deltaOrigin );
 	VectorSubtract( angles, oldAngles, deltaAngles );
 
+	// origin change when on a rotating object
+	CG_CreateRotationMatrix( deltaAngles, transpose );
+	CG_TransposeMatrix( transpose, matrix );
+	VectorSubtract( in, oldOrigin, org );
+	VectorCopy( org, org2 );
+	CG_RotatePoint( org2, matrix );
+	VectorSubtract( org2, org, move2 );
+	VectorAdd( deltaOrigin, move2, deltaOrigin );
+
 	VectorAdd( in, deltaOrigin, out );
 	if ( outDeltaAngles ) {
 		VectorCopy( deltaAngles, outDeltaAngles );
 	}
 
 	VectorAdd( angles_in, deltaAngles, angles_out );
-	// FIXME: origin change when on a rotating object
 }
 
 

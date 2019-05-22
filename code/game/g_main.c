@@ -2489,6 +2489,12 @@ void CheckExitRules( void ) {
 		return;
 	}
 
+	if ( g_timelimit.integer < 0 || g_timelimit.integer > INT_MAX / 60000 ) {
+		G_Printf( "timelimit %i is out of range, defaulting to 0\n", g_timelimit.integer );
+		trap_Cvar_Set( "timelimit", "0" );
+		trap_Cvar_Update( &g_timelimit );
+	}
+
 	if ( g_timelimit.integer && !level.warmupTime && g_gametype.integer == GT_COOP_SPEEDRUN ) {
 		if ( level.time - level.startTime >= g_timelimit.integer * 60000 ) {
 			// check for sudden death
@@ -2515,6 +2521,12 @@ void CheckExitRules( void ) {
 			LogExit( "No more lives." );
 			return;
 		}
+	}
+
+	if ( g_fraglimit.integer < 0 ) {
+		G_Printf( "fraglimit %i is out of range, defaulting to 0\n", g_fraglimit.integer );
+		trap_Cvar_Set( "fraglimit", "0" );
+		trap_Cvar_Update( &g_fraglimit );
 	}
 
 	// no fraglimit in coop and single player
@@ -3078,7 +3090,7 @@ void G_RunFrame( int levelTime ) {
 
 		if ( i < MAX_CLIENTS ) {
 			if ( newSpawns && !( ent->r.svFlags & SVF_CASTAI ) && !( ent->client->ps.eFlags & EF_DEAD ) && !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
-				if ( !( ent->client->cameraPortal ) ) {
+				if ( !( ent->client->cameraPortal ) && ent->client->sess.sessionTeam == TEAM_BLUE ) {
 					gentity_t *groundEnt = &g_entities[ent->client->ps.groundEntityNum];
 					// don't save a spawnpoint if the player is not on the ground
 					// or on a mover
