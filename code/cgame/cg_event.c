@@ -144,6 +144,36 @@ static void CG_Obituary( entityState_t *ent ) {
 		case MOD_MACHINEGUN:
 			message = "was riddled by machinegun fire";
 			break;
+		case MOD_FALLING:
+			message = "fell to his death";
+			break;
+		case MOD_CRUSH:
+			message = "was crushed";
+			break;
+		case MOD_WATER:
+			message = "drowned";
+			break;
+		case MOD_SLIME:
+			message = "died by toxic materials";
+			break;
+		case MOD_TRIGGER_HURT:
+			message = "was killed";
+			break;
+		case MOD_GRENADE_SPLASH:
+		case MOD_EXPLOSIVE:
+			message = "died in explosion";
+			break;
+		case MOD_LAVA:
+			message = "burned in lava";
+			break;
+#ifdef _ADMINS
+		case MOD_SLAP:
+			message = "was slapped to death by Admin";
+			break;
+		case MOD_ADMKILL:
+			message = "was killed by Admin";
+			break;
+#endif
 		default:
 			message = "died";
 			break;
@@ -178,27 +208,8 @@ static void CG_Obituary( entityState_t *ent ) {
 			}
 			return;
 		} else {
-			message2 = "";
 			// check for single client messages
 			switch ( mod ) {
-			case MOD_SUICIDE:
-				message = "committed suicide";
-				break;
-			case MOD_FALLING:
-				message = "fell to his death";
-				break;
-			case MOD_CRUSH:
-				message = "was crushed";
-				break;
-			case MOD_WATER:
-				message = "drowned";
-				break;
-			case MOD_SLIME:
-				message = "died by toxic materials";
-				break;
-			case MOD_TRIGGER_HURT:
-				message = "was killed";
-				break;
 			case MOD_THROWKNIFE:
 				message = "was impaled by";
 				message2 = "'s throwing knife";
@@ -256,6 +267,7 @@ static void CG_Obituary( entityState_t *ent ) {
 				message2 = "'s dynamite";
 				break;
 			// jpw
+			case MOD_PANZERFAUST:
 			case MOD_ROCKET_LAUNCHER:
 			case MOD_ROCKET_SPLASH:
 				message = "was blasted by";
@@ -308,16 +320,14 @@ static void CG_Obituary( entityState_t *ent ) {
 				message = "ate";
 				message2 = "'s rocket";
 				break;
-#ifdef _ADMINS
-			case MOD_SLAP:
-				message = "was slapped to death by Admin";
+			case MOD_FG42:
+			case MOD_FG42SCOPE:
+				message = "was killed by";
+				message2 = "'s FG42";
 				break;
-			case MOD_ADMKILL:
-				message = "was killed by Admin";
-				break;
-#endif
 			default:
 				message = "was killed by";
+				message2 = "";
 				break;
 			}
 
@@ -349,6 +359,9 @@ static void CG_Obituary( entityState_t *ent ) {
 				break;
 			case MOD_EXPLOSIVE:
 				message = "died in his own explosion";
+				break;
+			case MOD_SUICIDE:
+				message = "committed suicide";
 				break;
 			default:
 				message = "killed himself";
