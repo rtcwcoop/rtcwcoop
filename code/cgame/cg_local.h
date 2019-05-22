@@ -1906,6 +1906,7 @@ void CG_SetScreenPlacement(screenPlacement_e hpos, screenPlacement_e vpos);
 void CG_AdjustFrom640( float *x, float *y, float *w, float *h );
 void CG_FillRect( float x, float y, float width, float height, const float *color );
 void CG_HorizontalPercentBar( float x, float y, float width, float height, float percent );
+void CG_DrawMotd( void );
 void CG_DrawPic( float x, float y, float width, float height, qhandle_t hShader );
 void CG_FilledBar( float x, float y, float w, float h, const float *startColorIn, float *endColor, const float *bgColor, float frac, int flags );
 // JOSEPH 10-26-99

@@ -335,6 +335,9 @@ void CG_DrawInformation( void ) {
 		callCount--;
 		return;
 	}
+	
+	// show the server motd
+	CG_DrawMotd();
 
 	// show the percent complete bar
 	if ( expectedHunk >= 0 ) {

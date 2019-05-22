@@ -265,6 +265,33 @@ void CG_HorizontalPercentBar( float x, float y, float width, float height, float
 	CG_FilledBar( x, y, width, height, color, NULL, bgcolor, percent, BAR_BG | BAR_NOHUDALPHA );
 }
 
+/*
+=================
+CG_DrawMotd
+=================
+*/
+void CG_DrawMotd() {
+	const char *s;
+	vec4_t color = { 0.5f, 0.5f, 0.5f, 0.3f };
+	int len;
+
+	s = CG_ConfigString( CS_MOTD );
+	if ( s[0] ) {
+		if ( s[0] == '*' ) {
+			s++;
+		}
+
+		CG_FillRect( 0, 462, 640, 14, color );
+		len = CG_DrawStrlen( s );
+
+		if ( len > 40 ) {
+			len = 40;
+		}
+
+		len *= SMALLCHAR_WIDTH;
+		CG_DrawStringExt( 320 - ( len / 2 ), 459, s, colorWhite, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 40 );
+	}
+}
 
 /*
 ================
