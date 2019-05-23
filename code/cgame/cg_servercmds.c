@@ -1318,6 +1318,12 @@ static void CG_MapRestart( void ) {
 	}
 
 	trap_Cvar_Set( "cg_thirdPerson", "0" );
+
+	if ( !cgs.localServer ) {
+		for ( i = 1; i <= 8; i++ ) {
+			trap_Cvar_Set( va( "g_objective%i", i ), "0" );
+		}
+	}
 }
 
 /*
@@ -1723,6 +1729,27 @@ static void CG_ServerCommand( void ) {
 		//CG_FileTouchForBuild(CG_Argv(1));
 		trap_FS_FOpenFile( CG_Argv( 1 ), &f, FS_READ );
 		trap_FS_FCloseFile( f );
+		return;
+	}
+
+	if ( !strcmp( cmd, "objective" ) ) {
+		if ( cgs.localServer ) {
+			return;
+		}
+		
+		if ( trap_Argc() < 3 ) {
+			return;
+		}
+		
+		int lvl = atoi( CG_Argv( 1 ) );
+		const char *val = CG_Argv( 2 );
+		
+		trap_Cvar_Set( va( "g_objective%i", lvl ), val );
+		
+		if ( atoi( val ) ) {
+			CG_Printf( "Objective %i completed.\n", lvl );
+		}
+		
 		return;
 	}
 

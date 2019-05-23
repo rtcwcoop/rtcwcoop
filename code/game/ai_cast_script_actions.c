@@ -2391,6 +2391,8 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 	// set it to make sure
 	trap_Cvar_Set( va( "g_objective%i", lvl ), "1" );
 
+	trap_SendServerCommand( -1, va( "objective %i 1\n", lvl ) );
+
 	token = COM_ParseExt( &pString, qfalse );
 	if ( token[0] ) {
 		if ( Q_strcasecmp( token,"nodisplay" ) ) {   // unknown command

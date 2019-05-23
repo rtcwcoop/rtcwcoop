@@ -1701,6 +1701,7 @@ void ClientBegin( int clientNum ) {
 	gclient_t   *client;
 	int flags;
 	int spawn_count;                // DHM - Nerve
+	int i;
 
 	ent = g_entities + clientNum;
 
@@ -1786,6 +1787,16 @@ void ClientBegin( int clientNum ) {
 		if ( !( ent->r.svFlags & SVF_CASTAI ) && !( client->pers.localClient ) ) {
 			// done.
 			trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
+
+			if ( !client->pers.localClient ) {
+				for ( i = 1; i <= 8; i++ ) {	
+					if ( trap_Cvar_VariableIntegerValue( va( "g_objective%i", i ) ) != 1 ) {
+						continue;
+					}
+
+					trap_SendServerCommand( ent->s.clientNum, va( "objective %i 1\n", i) );
+				}
+			}
 		}
 	}
 
