@@ -708,7 +708,7 @@ void R_ScreenshotFilename( int lastNumber, char *fileName ) {
 	int a,b,c,d;
 
 	if ( lastNumber < 0 || lastNumber > 9999 ) {
-		Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-9999.tga", tr.world->baseName );
+		Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-9999.tga", tr.world ? tr.world->baseName : "menushot" );
 		return;
 	}
 
@@ -721,7 +721,7 @@ void R_ScreenshotFilename( int lastNumber, char *fileName ) {
 	d = lastNumber;
 
 	Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-%i%i%i%i.tga"
-				, tr.world->baseName, a, b, c, d );
+				, tr.world ? tr.world->baseName : "menushot", a, b, c, d );
 }
 
 /* 
@@ -733,7 +733,7 @@ void R_ScreenshotFilenameJPEG( int lastNumber, char *fileName ) {
 	int a,b,c,d;
 
 	if ( lastNumber < 0 || lastNumber > 9999 ) {
-		Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-9999.jpg", tr.world->baseName );
+		Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-9999.jpg", tr.world ? tr.world->baseName : "menushot" );
 		return;
 	}
 
@@ -746,7 +746,7 @@ void R_ScreenshotFilenameJPEG( int lastNumber, char *fileName ) {
 	d = lastNumber;
 
 	Com_sprintf( fileName, MAX_OSPATH, "screenshots/%s-%i%i%i%i.jpg"
-				, tr.world->baseName, a, b, c, d );
+				, tr.world ? tr.world->baseName : "menushot", a, b, c, d );
 }
 
 /*
