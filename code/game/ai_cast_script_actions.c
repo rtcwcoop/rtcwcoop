@@ -2387,7 +2387,7 @@ qboolean AICast_ScriptAction_ObjectiveMet( cast_state_t *cs, char *params ) {
 	}
 
 	//set g_objective<n> cvar
-	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );
+	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM | CVAR_SYSTEMINFO );
 	// set it to make sure
 	trap_Cvar_Set( va( "g_objective%i", lvl ), "1" );
 

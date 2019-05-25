@@ -886,7 +886,7 @@ qboolean G_ScriptAction_ObjectiveMet( gentity_t *ent, char *params ) {
 	level.missionObjectives |= ( 1 << ( lvl - 1 ) );      // make this bitwise
 
 	//set g_objective<n> cvar
-	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM );
+	trap_Cvar_Register( &cvar, va( "g_objective%i", lvl ), "1", CVAR_ROM | CVAR_SYSTEMINFO );
 	// set it to make sure
 	trap_Cvar_Set( va( "g_objective%i", lvl ), "1" );
 

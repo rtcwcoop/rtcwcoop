@@ -524,7 +524,11 @@ void CG_RegisterCvars( void ) {
 	trap_Cvar_Register( NULL, "model", DEFAULT_MODEL, CVAR_USERINFO | CVAR_ARCHIVE );
 	trap_Cvar_Register( NULL, "head", DEFAULT_HEAD, CVAR_USERINFO | CVAR_ARCHIVE );
 
-
+	if ( !cgs.localServer ) {
+		for ( i = 1; i <= 8; i++ ) {
+			trap_Cvar_Register( NULL, va( "g_objective%i", i ), "0", CVAR_ROM | CVAR_SYSTEMINFO );
+		}
+	}
 }
 
 /*
