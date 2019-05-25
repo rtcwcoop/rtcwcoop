@@ -322,7 +322,7 @@ static void CG_Obituary( entityState_t *ent ) {
 			}
 
 			// Did someone kill a teammate?
-			if ( tcent->currentState.teamNum == acent->currentState.teamNum ) {
+			if ( acent->currentState.aiChar == AICHAR_NONE && tcent->currentState.teamNum == cg.snap->ps.teamNum && tcent->currentState.teamNum == acent->currentState.teamNum ) {
 				message = "^1WAS KILLED BY TEAMMATE^7";
 				message2 = "";
 			}
