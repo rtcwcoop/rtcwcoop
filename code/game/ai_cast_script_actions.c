@@ -2266,19 +2266,19 @@ qboolean AICast_ScriptAction_MissionFailed( cast_state_t *cs, char *params ) {
 	}
 #ifdef LOCALISATION
 	if ( mof == 1 ) {
-		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Civilian" );
+		trap_SendServerCommand( -1, "cp \"Mission Failed\nYou Killed a Civilian\"" );
 	} else if ( mof == 2 ) {
-		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed a Kreisau Agent" );
+		trap_SendServerCommand( -1, "cp \"Mission Failed\nYou Killed a Kreisau Agent\"" );
 	} else if ( mof == 3 ) {
-		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Kessler" );
+		trap_SendServerCommand( -1, "cp \"Mission Failed\nYou Killed Kessler\"" );
 	} else if ( mof == 4 ) {
-		trap_SendServerCommand( -1, "cp Mission Failed\nYou Killed Karl" );
+		trap_SendServerCommand( -1, "cp \"Mission Failed\nYou Killed Karl\"" );
 	} else if ( mof == 5 ) {
-		trap_SendServerCommand( -1, "cp Mission Failed\nYou Have Been Detected" );
+		trap_SendServerCommand( -1, "cp \"Mission Failed\nYou Have Been Detected\"" );
 	} else if ( mof == 6 ) {
-		trap_SendServerCommand( -1, "cp Mission Failed\nRocket Launched" );
+		trap_SendServerCommand( -1, "cp \"Mission Failed\nRocket Launched\"" );
 	} else if ( mof == 7 ) {
-		trap_SendServerCommand( -1, "cp Mission Failed\nThe Scientist Has Been Killed" );
+		trap_SendServerCommand( -1, "cp \"Mission Failed\nThe Scientist Has Been Killed\"" );
 	}
 #else
 	trap_SendServerCommand( -1, va( "cp missionfail%d", mof ) );
@@ -2707,7 +2707,7 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 		for ( i = 0; i < level.numObjectives; i++ ) {
 			if ( !( level.missionObjectives & ( 1 << i ) ) ) {
 #ifdef LOCALISATION
-				trap_SendServerCommand( -1, "cp Objectives not complete" );
+				trap_SendServerCommand( -1, "cp \"Objectives not complete\"" );
 #else
 				trap_SendServerCommand( -1, "cp objectivesnotcomplete" );
 #endif
@@ -2769,7 +2769,7 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 			if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
 				if ( !( player->missionObjectives & ( 1 << i ) ) ) {
 #ifdef LOCALISATION
-					trap_SendServerCommand( -1, "cp Objectives not complete" );
+					trap_SendServerCommand( -1, "cp \"Objectives not complete\"" );
 #else
 					trap_SendServerCommand( -1, "cp objectivesnotcomplete" );
 #endif
@@ -2778,7 +2778,7 @@ qboolean AICast_ScriptAction_ChangeLevel( cast_state_t *cs, char *params ) {
 			} else {
 				if ( !( level.missionObjectives & ( 1 << i ) ) ) {
 #ifdef LOCALISATION
-					trap_SendServerCommand( -1, "cp Objectives not complete" );
+					trap_SendServerCommand( -1, "cp \"Objectives not complete\"" );
 #else
 					trap_SendServerCommand( -1, "cp objectivesnotcomplete" );
 #endif
