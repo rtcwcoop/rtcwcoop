@@ -1396,6 +1396,12 @@ void AIChar_spawn( gentity_t *ent ) {
 	if ( !strcmp( ent->classname, "ai_warzombie" ) ) {
 		name = "warzombie";
 	}
+	if ( !strcmp( ent->classname, "ai_venom" ) ) {
+		name = "venom";
+	}
+	if ( !strcmp( ent->classname, "ai_loper" ) ) {
+		name = "loper";
+	}
 	if ( !strcmp( ent->classname, "ai_boss_helga" ) ) {
 		name = "helga";
 	}
@@ -1405,7 +1411,7 @@ void AIChar_spawn( gentity_t *ent ) {
 	if ( !strcmp( ent->classname, "ai_eliteguard" ) ) {
 		name = "eliteguard";
 	}
-	if ( !strcmp( ent->classname, "ai_stimsoldier dual" ) ) {
+	if ( !strcmp( ent->classname, "ai_stimsoldier_dual" ) ) {
 		name = "dual stimsoldier";
 	}
 	if ( !strcmp( ent->classname, "ai_stimsoldier_rocket" ) ) {
@@ -1416,6 +1422,9 @@ void AIChar_spawn( gentity_t *ent ) {
 	}
 	if ( !strcmp( ent->classname, "ai_supersoldier" ) ) {
 		name = "super soldier";
+	}
+	if ( !strcmp( ent->classname, "ai_protosoldier" ) ) {
+		name = "protosoldier";
 	}
 	if ( !strcmp( ent->classname, "ai_frogman" ) ) {
 		name = "frogman";
