@@ -1310,8 +1310,13 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 			attacker = &g_entities[inflictor->r.ownerNum];
 		}
 
-		if ( mod == MOD_TELEFRAG || mod == MOD_WATER || mod == MOD_FALLING || mod == MOD_SLIME || mod == MOD_LAVA || mod == MOD_TRIGGER_HURT ) { // no matter what g_friendlyfire is set to, telefrags should always work, else you get stuck in a player
-			targ->health = targ->health - take;
+		// no matter what g_friendlyfire is set to, telefrags should always work, else you get stuck in a player
+		if ( mod == MOD_TELEFRAG || mod == MOD_WATER || mod == MOD_FALLING || mod == MOD_SLIME || mod == MOD_LAVA || mod == MOD_TRIGGER_HURT
+#ifdef _ADMINS
+				|| mod == MOD_SLAP || mod == MOD_ADMKILL
+#endif
+				|| mod == MOD_CRUSH ) {
+			targ->health -= take;
 		} else if ( !targ->client ) {
 			targ->health = targ->health - take;
 			// from human to bot
