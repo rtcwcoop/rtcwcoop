@@ -1647,13 +1647,6 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 		client->pers.localClient = qtrue;
 	}
 
-#ifdef _ADMINS 
-	// save IP FIXME IPV6
-	if ( value && ( value[0] != 0 ) ) {
-		SaveIP( client, value );
-	}
-#endif
-
 	if ( isBot ) {
 		ent->r.svFlags |= SVF_BOT;
 		ent->inuse = qtrue;
@@ -1667,6 +1660,13 @@ char *ClientConnect( int clientNum, qboolean firstTime, qboolean isBot ) {
 		G_InitSessionData( client, userinfo );
 	}
 	G_ReadSessionData( client );
+
+#ifdef _ADMINS 
+	// save IP FIXME IPV6
+	if ( value && ( value[0] != 0 ) ) {
+		SaveIP( client, value );
+	}
+#endif
 
 	// get and distribute relevent paramters
 	//G_LogPrintf( "ClientConnect: %i\n", clientNum );
