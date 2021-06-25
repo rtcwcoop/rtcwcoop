@@ -176,6 +176,8 @@ void _UI_MouseEvent( int dx, int dy );
 void _UI_Refresh( int realtime );
 qboolean _UI_IsFullscreen( void );
 
+char *ui_levelname;
+
 Q_EXPORT intptr_t vmMain( intptr_t command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4, intptr_t arg5, intptr_t arg6, intptr_t arg7, intptr_t arg8, intptr_t arg9, intptr_t arg10, intptr_t arg11  ) {
 	switch ( command ) {
 	case UI_GETAPIVERSION:
@@ -1007,7 +1009,6 @@ qboolean UI_ParseMenu( const char *menuFile ) {
 
 qboolean Load_Menu( int handle ) {
 	pc_token_t token;
-	char levelname[64];
 	int cl_language;        // NERVE - SMF
 
 	if ( !trap_PC_ReadToken( handle, &token ) ) {
@@ -1066,22 +1067,30 @@ qboolean Load_Menu( int handle ) {
 		// if token.string == ui/clipboard.menu or ui/notebook.menu
 		// we should first try to load ui/mapname_clipboard.menu or ui/mapname_notebook.menu
 		// so custom map makers don't have to fuckup the stock maps clipboards
-		DC->getCVarString( "mapname", levelname, sizeof( levelname ) );
+
+		if ( !ui_levelname ) {
+			char info[MAX_INFO_STRING];
+			trap_GetConfigString( CS_SERVERINFO, info, MAX_INFO_STRING );
+			ui_levelname = Info_ValueForKey( info, "mapname" );
+			
+			Com_DPrintf( "Load_Menu() ui_levelname %s\n", ui_levelname );
+		}
+		
 		if ( !strcmp( token.string, "ui/clipboard.menu" ) ) {
 			int handle;
-			handle = trap_PC_LoadSource( va( "ui/%s_clipboard.menu", levelname ) );
+			handle = trap_PC_LoadSource( va( "ui/%s_clipboard.menu", ui_levelname ) );
 			if ( !handle ) {
 				UI_ParseMenu( token.string );
 			} else {
-				UI_ParseMenu( va( "ui/%s_clipboard.menu", levelname ) );
+				UI_ParseMenu( va( "ui/%s_clipboard.menu", ui_levelname ) );
 			}
 		} else if ( !strcmp( token.string, "ui/notebook.menu" ) ) {
 			int handle;
-			handle = trap_PC_LoadSource( va( "ui/%s_notebook.menu", levelname ) );
+			handle = trap_PC_LoadSource( va( "ui/%s_notebook.menu", ui_levelname ) );
 			if ( !handle ) {
 				UI_ParseMenu( token.string );
 			} else {
-				UI_ParseMenu( va( "ui/%s_notebook.menu", levelname ) );
+				UI_ParseMenu( va( "ui/%s_notebook.menu", ui_levelname ) );
 			}
 		} else {
 			UI_ParseMenu( token.string );
@@ -6874,6 +6883,10 @@ void _UI_Init( qboolean inGameLoad ) {
 	uiInfo.teamCount = 0;
 	uiInfo.characterCount = 0;
 	uiInfo.aliasCount = 0;
+
+	char info[MAX_INFO_STRING];
+	trap_GetConfigString( CS_SERVERINFO, info, MAX_INFO_STRING );
+	ui_levelname = Info_ValueForKey( info, "mapname" );
 
 //	UI_ParseTeamInfo("teaminfo.txt");
 //	UI_LoadTeams();
