@@ -1192,6 +1192,32 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	}
 	take = damage;
 
+	// don't take armor from friendly players when we try hurt them
+	if ( !( dflags & DAMAGE_NO_PROTECTION ) && g_friendlyFire.integer == 0 ) {
+	
+		if ( inflictor && inflictor->r.ownerNum < MAX_CLIENTS ) {
+			gentity_t *owner = &g_entities[inflictor->r.ownerNum];
+			
+			if ( owner->client && targ->client && !( owner->r.svFlags & SVF_CASTAI ) && !( targ->r.svFlags & SVF_CASTAI ) && owner->client->sess.sessionTeam == targ->client->sess.sessionTeam ) {
+				take = 0;
+
+				if ( mod == MOD_FLAMETHROWER && targ->s.onFireEnd > level.time ) {
+					targ->s.onFireEnd = level.time;
+				}
+			} else if ( owner->client && targ->client && !( owner->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
+				if ( owner->client->sess.sessionTeam == TEAM_BLUE && ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) && ( targ->aiCharacter == AICHAR_PARTISAN || targ->aiCharacter == AICHAR_CIVILIAN ) ) {
+					take = 0;
+
+					if ( mod == MOD_FLAMETHROWER && targ->s.onFireEnd > level.time ) {
+						targ->s.onFireEnd = level.time;
+					}
+				}
+			}
+		} else if ( attacker->client && targ->client && attacker != targ && !( attacker->r.svFlags & SVF_CASTAI ) && !( targ->r.svFlags & SVF_CASTAI ) && attacker->client->sess.sessionTeam == targ->client->sess.sessionTeam ) {
+			take = 0;
+		}
+	}
+
 	// save some from armor
 	asave = CheckArmor( targ, take, dflags );
 	take -= asave;
@@ -1322,14 +1348,21 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 			// from human to bot
 		} else if ( !( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
 			if ( attacker->client && targ->client ) {
+				if ( g_gametype.integer <= GT_COOP ) {
+					if ( targ->aiCharacter == AICHAR_PARTISAN || targ->aiCharacter == AICHAR_CIVILIAN ) {
+						if ( attacker->client->sess.sessionTeam == TEAM_BLUE && ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) {
+							return;
+						}
+					}
+				}
+			
 				// (from axis team to a nazi or monster (=teamdamage)
 				// or
 				// from allies team to an allies or a neutral (=teamdamage))
 				// AND friendly fire is on
-				if ( ( ( attacker->client->sess.sessionTeam == TEAM_RED && ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ||
-					( attacker->client->sess.sessionTeam == TEAM_BLUE && ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ) &&
-					g_friendlyFire.integer )
-					{
+				if ( g_friendlyFire.integer ) { 
+					if ( ( attacker->client->sess.sessionTeam == TEAM_BLUE && ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ||
+						( attacker->client->sess.sessionTeam == TEAM_RED && ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) ) {
 						if ( g_friendlyFire.integer == 1 ) {
 							targ->health = targ->health - take;
 						} else if ( g_friendlyFire.integer >= 2 ) { // hurt the attacker if he hits a teammate
@@ -1345,20 +1378,50 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 							}
 						}
 					}
-
-				// from axis team to a an allies or a neutral
-				// or
-				// from allies team to a nazi or monster
-				if ( ( attacker->client->sess.sessionTeam == TEAM_BLUE && ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER ) ) ||
-					( attacker->client->sess.sessionTeam == TEAM_RED && ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) )
-				{
-					targ->health = targ->health - take;
+				} else {
+					// from axis team to a an allies or a neutral
+					// or
+					// from allies team to a nazi or monster
+					// Fix for end map, added AITEAM_ENDMAPBOSS to possible hurt
+					if ( ( attacker->client->sess.sessionTeam == TEAM_BLUE && ( targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER || targ->aiTeam == AITEAM_ENDMAPBOSS ) ) ||
+						( attacker->client->sess.sessionTeam == TEAM_RED && ( targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL ) ) )
+					{
+						targ->health = targ->health - take;
+					}
 				}
+			} else if ( !attacker->client && targ->client ) { // explosive barrels
+				targ->health = targ->health - take;
 			}
-		} else {
+		} else if ( ( attacker->r.svFlags & SVF_CASTAI ) && ( targ->r.svFlags & SVF_CASTAI ) ) {
+			if ( attacker->aiTeam != targ->aiTeam ) {
+				targ->health = targ->health - take;
+			}
+		}
+		else {
 			if ( g_friendlyFire.integer == 0 ) {
-				if ( attacker->client && targ->client &&
-					 attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) {
+				if ( attacker->client && targ->client ) {
+					if ( attacker->client->sess.sessionTeam != targ->client->sess.sessionTeam ) { // AI to player
+						if ( !( targ->r.svFlags & SVF_CASTAI ) && ( attacker->aiCharacter == AICHAR_PARTISAN || attacker->aiCharacter == AICHAR_CIVILIAN ) ) {
+							if ( targ->client->sess.sessionTeam == TEAM_BLUE && ( attacker->aiTeam == AITEAM_ALLIES || attacker->aiTeam == AITEAM_NEUTRAL ) ) {
+								return;
+							}
+						}
+
+						targ->health = targ->health - take;
+					} else {
+						if ( !( attacker->r.svFlags & SVF_CASTAI ) ) {
+							if ( attacker == targ ) { // hurt self
+								attacker->health = attacker->health - take;
+							} else {
+								if ( dflags & DAMAGE_NO_PROTECTION ) {
+									targ->health = targ->health - take;
+								}
+
+								return;
+							}
+						}
+					}
+				} else if ( !attacker->client && targ->client && !( attacker->r.svFlags & SVF_CASTAI ) ) { // explosive barrels
 					targ->health = targ->health - take;
 				}
 			} else if ( g_friendlyFire.integer == 1 ) {
