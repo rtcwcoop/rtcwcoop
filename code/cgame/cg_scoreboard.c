@@ -52,6 +52,7 @@ void CG_DrawCoopScoreboard( void ) {
 	const char *s;
 	int msec, mins, seconds, tens;     // JPW NERVE
 	qboolean maxlives = qfalse;
+	char *class;
 
 		#define MAX_STATS_VARS  64
 
@@ -189,6 +190,20 @@ void CG_DrawCoopScoreboard( void ) {
 			}
 #endif
 
+			switch ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] ) {
+				case PC_SOLDIER:
+					class = "S";
+					break;
+				case PC_MEDIC:
+					class = "M";
+					break;
+				case PC_ENGINEER:
+					class = "E";
+					break;
+				case PC_LT:
+					class = "L";
+					break;
+			}
 
 			place++;
 			if ( ci->team == TEAM_SPECTATOR ) {
@@ -198,9 +213,9 @@ void CG_DrawCoopScoreboard( void ) {
 				CG_DrawStringExt( 175, 154 + ( 28 * i ) + 1, va( "[SPECTATOR] %s", ci->name ), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
 #endif
 			} else if ( ci->team == TEAM_RED ) {
-				CG_DrawStringExt( 175, 154 + ( 28 * i ) + 1, va( "^1%i^7. %s", place, ci->name ), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+				CG_DrawStringExt( 175, 154 + ( 28 * i ) + 1, va( "^1%i^7. %s (%s)", place, ci->name, class ), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
 			} else {
-				CG_DrawStringExt( 175, 154 + ( 28 * i ) + 1, va( "%i. %s", place, ci->name ), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
+				CG_DrawStringExt( 175, 154 + ( 28 * i ) + 1, va( "%i. %s (%s)", place, ci->name, class ), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 20 ) ;
 			}
 
 #ifdef MONEY

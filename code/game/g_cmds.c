@@ -1271,6 +1271,56 @@ void StopFollowing( gentity_t *ent ) {
 
 /*
 =================
+Cmd_Class_f
+=================
+*/
+void Cmd_Class_f( gentity_t *ent ) {
+	int oldClass;
+	char s[MAX_TOKEN_CHARS];
+	gclient_t           *client;
+
+	if ( g_gametype.integer != GT_COOP_CLASSES ) {
+		G_Printf("Playerclass can only be set in the CLASSES gametype\n");
+		return;
+	}
+	if ( trap_Argc() < 2 ) {
+		oldClass = ent->client->sess.playerType;
+		switch ( oldClass ) {
+			case PC_SOLDIER:
+				trap_SendServerCommand( ent - g_entities, "print \"Soldier\n\"" );
+				break;
+			case PC_ENGINEER:
+				trap_SendServerCommand( ent - g_entities, "print \"Engineer\n\"" );
+				break;
+			case PC_MEDIC:
+				trap_SendServerCommand( ent - g_entities, "print \"Medic\n\"" );
+				break;
+			case PC_LT:
+				trap_SendServerCommand( ent - g_entities, "print \"Lieutenant\n\"" );
+				break;
+		}
+		return;
+	}
+	trap_Argv( 1, s, sizeof( s ) );
+
+	client = ent->client;
+
+	if ( !Q_stricmp( s, "soldier" ) || !Q_stricmp( s, "0" )) {
+		client->sess.playerType = PC_SOLDIER;
+	}
+	if ( !Q_stricmp( s, "medic" ) || !Q_stricmp( s, "1" )) {
+		client->sess.playerType = PC_MEDIC;
+	}
+	if ( !Q_stricmp( s, "engineer" ) || !Q_stricmp( s, "2" )) {
+		client->sess.playerType = PC_ENGINEER;
+	}
+	if ( !Q_stricmp( s, "lieutenant" ) || !Q_stricmp( s, "3" )) {
+		client->sess.playerType = PC_LT;
+	}
+}
+
+/*
+=================
 Cmd_Team_f
 =================
 */
@@ -1846,6 +1896,7 @@ void Cmd_Where_f( gentity_t *ent ) {
 static const char *gameNames[] = {
 	"Battle",
 	"Speedrun",
+	"Classes",
 	"Cooperative",
 	"Single Player"
 };
@@ -3622,6 +3673,8 @@ void ClientCommand( int clientNum ) {
 		Cmd_FollowCycle_f( ent, 1 );
 	} else if ( Q_stricmp( cmd, "followprev" ) == 0 )  {
 		Cmd_FollowCycle_f( ent, -1 );
+	} else if ( Q_stricmp( cmd, "class" ) == 0 )  {
+		Cmd_Class_f( ent );
 	} else if ( Q_stricmp( cmd, "team" ) == 0 )  {
 		Cmd_Team_f( ent );
 	} else if ( Q_stricmp( cmd, "where" ) == 0 )  {

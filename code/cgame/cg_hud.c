@@ -926,6 +926,8 @@ static const char *CG_GameTypeString( void ) {
 		return "Cooperative";
 	} else if ( cgs.gametype == GT_COOP_SPEEDRUN ) {
 		return "Speedrun";
+	} else if ( cgs.gametype == GT_COOP_CLASSES ) {
+		return "Classes";
 	} else if ( cgs.gametype == GT_COOP_BATTLE ) {
 		return "Battle";
 	} else {
