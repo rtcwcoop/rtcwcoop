@@ -98,6 +98,9 @@ float Com_GetFlamethrowerRange( void );
 #define DEFAULT_COOP_MODEL_AXIS       "multi_axis"
 #define DEFAULT_HEAD        "default"    // technically the default head skin.  this means "head_default.skin" for the head
 
+#define MULTIPLAYER_ALLIEDMODEL "multi"
+#define MULTIPLAYER_AXISMODEL   "multi_axis"
+
 // RF, on fire effects
 #define FIRE_FLASH_TIME         2000
 #define FIRE_FLASH_FADEIN_TIME  1000

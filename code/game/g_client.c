@@ -758,12 +758,32 @@ Forces a client's skin (for Wolfenstein teamplay)
 ===========
 */
 
-#define MULTIPLAYER_MODEL   "multi"
 #define COOP_MODEL   "multi"
 #define COOP_MODEL_AXIS   "multi_axis"
 
 void SetCoopSkin( gclient_t *client, char *model, int number ) {
- 
+
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		switch ( client->sess.playerType ) {
+			case PC_SOLDIER:
+				Q_strcat( model, MAX_QPATH, "bluesoldier1" );
+				break;
+			case PC_MEDIC:
+				Q_strcat( model, MAX_QPATH, "bluemedic1" );
+				break;
+			case PC_ENGINEER:
+				Q_strcat( model, MAX_QPATH, "blueengineer1" );
+				break;
+			case PC_LT:
+				Q_strcat( model, MAX_QPATH, "bluelieutenant1" );
+				break;
+			default:
+				Q_strcat( model, MAX_QPATH, "bluesoldier1" );
+				break;
+		}
+		return;
+	}
+
 	switch ( number ) {
 	case 0:
 		Q_strcat( model, MAX_QPATH, "bj" );
@@ -784,7 +804,6 @@ void SetCoopSkin( gclient_t *client, char *model, int number ) {
 }
 
 void SetWolfSkin( gclient_t *client, char *model ) {
-
 	switch ( client->sess.sessionTeam ) {
 	case TEAM_RED:
 		Q_strcat( model, MAX_QPATH, "red" );
@@ -1457,10 +1476,7 @@ void ClientUserinfoChanged( int clientNum ) {
 		SetCoopSkin( client, model, skinno );
 
 		Q_strncpyz( head, "", MAX_QPATH );
-		// scoreboard leader gets bj his skin !
-		//if (clientNum == level.clients[ level.sortedClients[0] ].ps.clientNum)
-		//SetCoopSkin( client, head, 0  );
-		//else
+
 		SetCoopSkin( client, head, skinno );
 	}
 
@@ -2129,6 +2145,11 @@ void ClientSpawn( gentity_t *ent ) {
 	}
 
 	client->pers.initialSpawn = qtrue;
+
+	// fretn
+	// check if class has changed and call this function
+	// sess.latchPlayerType, etc
+	ClientUserinfoChanged( index );
 
 	// Note to Ryan:
 	// had to add this because key word giveweapon to player is causing a fatal crash
