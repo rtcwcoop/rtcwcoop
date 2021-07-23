@@ -352,6 +352,10 @@ qboolean CG_DrawScoreboard( void ) {
 		return qfalse;
 	}
 
+	if ( cgs.gametype == GT_COOP_CLASSES && cg.snap->ps.stats[STAT_HEALTH] == 0 ) {
+		return qfalse;
+	}
+
 	// still need to see 'mission failed' message in SP
 	if ( cgs.gametype == GT_SINGLE_PLAYER && cg.predictedPlayerState.pm_type == PM_DEAD ) {
 		return qfalse;

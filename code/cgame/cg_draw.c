@@ -3137,6 +3137,62 @@ static void CG_ActivateLimboMenu( void ) {
 */
 // -NERVE - SMF
 
+/*
+=================
+CG_DrawLimboMessage
+=================
+*/
+
+#define INFOTEXT_STARTX 42
+
+static void CG_DrawLimboMessage( void ) {
+        float color[4] = { 1, 1, 1, 1 };
+        const char *str;
+        playerState_t *ps;
+        //int w;
+
+        if ( cgs.gametype != GT_COOP_CLASSES ) {
+                return;
+        }
+
+        ps = &cg.snap->ps;
+
+        if ( ps->stats[STAT_HEALTH] > 0 ) {
+                return;
+        }
+
+        if ( cg.snap->ps.pm_flags & PMF_LIMBO || cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) {
+                return;
+        }
+
+        color[3] *= cg_hudAlpha.value;
+
+        //if ( cg_descriptiveText.integer ) {
+                str = CG_TranslateString( "You are wounded and waiting for a medic." );
+                CG_DrawSmallStringColor( INFOTEXT_STARTX, 68, str, color );
+
+                str = CG_TranslateString( "Press JUMP to go into reinforcement queue." );
+                CG_DrawSmallStringColor( INFOTEXT_STARTX, 86, str, color );
+        //}
+
+        // JPW NERVE
+        if ( cg.snap->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
+                str = CG_TranslateString( "No more reinforcements this round." );
+        } else if ( cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_RED ) {
+                str = va( CG_TranslateString( "Reinforcements deploy in %d seconds." ),
+                                  (int)( 1 + (float)( cg_limbotime.integer - ( cg.time % cg_limbotime.integer ) ) * 0.001f ) );
+        } else {
+                str = va( CG_TranslateString( "Reinforcements deploy in %d seconds." ),
+                                  (int)( 1 + (float)( cg_limbotime.integer - ( cg.time % cg_limbotime.integer ) ) * 0.001f ) );
+        }
+
+        CG_DrawSmallStringColor( INFOTEXT_STARTX, 104, str, color );
+        // jpw
+
+        trap_R_SetColor( NULL );
+}
+// -NERVE - SMF
+
 #define INFOTEXT_STARTX 42
 
 /*
@@ -4004,6 +4060,8 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 		CG_DrawCenterString();
 
 		CG_DrawObjectiveInfo();     // NERVE - SMF
+
+		CG_DrawLimboMessage();
 	}
 
 	// announcer

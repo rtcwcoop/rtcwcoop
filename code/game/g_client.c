@@ -654,7 +654,7 @@ void ClientRespawn( gentity_t *ent ) {
 	}
 
 	// DHM - Nerve :: Already handled in 'limbo()'
-	if ( g_gametype.integer != GT_COOP_SPEEDRUN ) {
+	if ( g_gametype.integer != GT_COOP_SPEEDRUN && g_spawnpoints.integer != 2 ) {
 		CopyToBodyQue( ent );
 	}
 

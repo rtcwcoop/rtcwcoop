@@ -751,6 +751,61 @@ void SendPendingPredictableEvents( playerState_t *ps ) {
 	*/
 }
 
+void WolfFindMedic( gentity_t *self ) {
+        int i, medic = -1;
+        gclient_t   *cl;
+        vec3_t start, end, temp;
+        trace_t tr;
+        float bestdist = 1024, dist;
+
+        self->client->ps.viewlocked_entNum = 0;
+        self->client->ps.viewlocked = 0;
+        self->client->ps.stats[STAT_DEAD_YAW] = 999;
+
+        VectorCopy( self->s.pos.trBase, start );
+        start[2] += self->client->ps.viewheight;
+
+        for ( i = 0; i < level.numPlayingClients; i++ ) {
+                cl = &level.clients[ level.sortedClients[i] ];
+
+                if ( cl->ps.clientNum == self->client->ps.clientNum ) {
+                        continue;
+                }
+                if ( cl->sess.sessionTeam != self->client->sess.sessionTeam ) {
+                        continue;
+                }
+                if ( cl->ps.stats[ STAT_HEALTH ] <= 0 ) {
+                        continue;
+                }
+                if ( cl->ps.stats[ STAT_PLAYER_CLASS ] != PC_MEDIC ) {
+                        continue;
+                }
+
+                VectorCopy( g_entities[level.sortedClients[i]].s.pos.trBase, end );
+                end[2] += cl->ps.viewheight;
+
+                trap_Trace( &tr, start, NULL, NULL, end, self->s.number, CONTENTS_SOLID );
+                if ( tr.fraction < 0.95 ) {
+                        continue;
+                }
+
+                VectorSubtract( end, start, end );
+                dist = VectorNormalize( end );
+
+                if ( dist < bestdist ) {
+                        medic = cl->ps.clientNum;
+                        vectoangles( end, temp );
+                        self->client->ps.stats[STAT_DEAD_YAW] = temp[YAW];
+                        bestdist = dist;
+                }
+        }
+
+        if ( medic >= 0 ) {
+                self->client->ps.viewlocked_entNum = medic;
+                self->client->ps.viewlocked = 7;
+        }
+}
+
 void limbo( gentity_t *ent, qboolean makeCorpse );
 void reinforce( gentity_t *ent ); // JPW NERVE
 
@@ -1414,19 +1469,43 @@ void ClientThink_real( gentity_t *ent ) {
 
 		// check for respawning
 		if ( client->ps.stats[STAT_HEALTH] <= 0 ) {
+			if ( g_gametype.integer == GT_COOP_CLASSES ) {
+				WolfFindMedic( ent );
+			}
+
 			// wait for the attack button to be pressed
 			if ( level.time > client->respawnTime ) {
+				if ( ( g_gametype.integer == GT_COOP_CLASSES ) &&
+					( g_forcerespawn.integer > 0 ) &&
+					( ( level.time - client->respawnTime ) > g_forcerespawn.integer * 1000 )  &&
+					( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) {
+						limbo( ent, qtrue );
+					return;
+				}
+
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
-				if ( ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0 ) {
-					limbo( ent, qtrue );
-				} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
-					ClientRespawn( ent );
-				}
-				// pressing attack or use is the normal respawn method
-				else if ( ( ucmd->buttons & ( BUTTON_ATTACK | BUTTON_USE_HOLDABLE ) ) &&
-						  ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE
-					ClientRespawn( ent );
+				if ( g_gametype.integer != GT_COOP_CLASSES) {
+					if ( ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0 ) {
+						limbo( ent, qtrue );
+					} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+						ClientRespawn( ent );
+					}
+					// pressing attack or use is the normal respawn method
+					else if ( ( ucmd->buttons & ( BUTTON_ATTACK | BUTTON_USE_HOLDABLE ) ) &&
+							( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) && g_gametype.integer != GT_COOP_CLASSES ) { // JPW NERVE
+						ClientRespawn( ent );
+					}
+				} else {
+					if ( ( ucmd->upmove > 0 ) &&
+							( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE
+						limbo( ent, qtrue );
+					}
+					// dhm - Nerve :: end
+					// NERVE - SMF - we want to immediately go to limbo mode if gibbed
+					else if ( client->ps.stats[STAT_HEALTH] <= GIB_HEALTH && !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
+						limbo( ent, qfalse );
+					}
 				}
 			}
 			return;
