@@ -300,6 +300,10 @@ typedef struct {
 	qboolean gauntletHit;           // true if a gauntlet attack would actually hit something
 
 	// results (out)
+        int ltChargeTime;
+        int soldierChargeTime;
+        int engineerChargeTime;
+        int medicChargeTime;
 	int numtouch;
 	int touchents[MAXTOUCH];
 
@@ -596,6 +600,7 @@ typedef enum {
 	WP_GAUNTLET,            // 26
 	WP_MEDIC_SYRINGE,	// 27
 	WP_ARTY,		// 28
+	WP_MEDKIT,		// 29
 
 	WP_SNIPER,              // 27
 	WP_GRENADE_SMOKE,       // 28	// smoke grenade for LT multiplayer

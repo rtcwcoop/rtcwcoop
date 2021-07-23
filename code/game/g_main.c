@@ -66,6 +66,10 @@ vmCvar_t g_voiceChatsAllowed;
 vmCvar_t g_airespawn;
 vmCvar_t g_sharedlives;
 vmCvar_t g_limbotime;
+vmCvar_t g_medicChargeTime;
+vmCvar_t g_engineerChargeTime;
+vmCvar_t g_LTChargeTime;
+vmCvar_t g_soldierChargeTime;
 vmCvar_t g_reinforce;
 vmCvar_t g_freeze;
 vmCvar_t g_gamestate;
@@ -221,6 +225,10 @@ cvarTable_t gameCvarTable[] = {
 	{ &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
 	{ &g_limbotime, "g_limbotime", "10000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_medicChargeTime, "g_medicChargeTime", "45000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_engineerChargeTime, "g_engineerChargeTime", "30000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_LTChargeTime, "g_LTChargeTime", "40000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_soldierChargeTime, "g_soldierChargeTime", "20000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_reinforce, "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_freeze, "g_freeze", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
 

@@ -2919,6 +2919,49 @@ static void PM_Weapon( void ) {
 		return;
 	}
 
+#if defined ( CGAMEDLL )
+	if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+	if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+	{
+        //if ( pm->gametype == GT_COOP_CLASSES ) {
+/*
+                if ( pm->ps->weapon == WP_PANZERFAUST ) {
+                        if ( pm->ps->stats[ STAT_PLAYER_CLASS ] == PC_LT ) {
+                                pfausttimeout = pm->ltChargeTime;
+                        } else {
+                                pfausttimeout = pm->soldierChargeTime;
+                        }
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < pfausttimeout ) {
+                                return;
+                        }
+                }
+                if ( pm->ps->weapon == WP_DYNAMITE ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < pm->engineerChargeTime ) {
+                                return;
+                        }
+                }
+*/
+                if ( pm->ps->weapon == WP_MEDKIT ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->medicChargeTime * 0.25f ) ) {
+                                return;
+                        }
+                }
+/*
+                if ( pm->ps->weapon == WP_AMMO ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.25f ) ) {
+                                return;
+                        }
+                }
+                if ( pm->ps->weapon == WP_SMOKE_GRENADE ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.5f ) ) {
+                                return;
+                        }
+                }
+*/
+        }
+
 	// check for fire
 	if ( !( pm->cmd.buttons & ( BUTTON_ATTACK | WBUTTON_ATTACK2 ) ) && !delayedFire ) { // if not on fire button and there's not a delayed shot this frame...
 		pm->ps->weaponTime  = 0;
@@ -2980,6 +3023,7 @@ static void PM_Weapon( void ) {
 	case WP_STEN:
 	case WP_VENOM:
 	case WP_FG42:
+	case WP_MEDKIT:
 	case WP_FG42SCOPE:
 		if ( !weaponstateFiring ) {
 			if ( pm->ps->aiChar && pm->ps->weapon == WP_VENOM ) {
@@ -3159,6 +3203,7 @@ static void PM_Weapon( void ) {
 	case WP_MP40:
 	case WP_THOMPSON:
 	case WP_STEN:
+	case WP_MEDKIT:
 		PM_ContinueWeaponAnim( weapattackanim );
 		break;
 	
@@ -3281,6 +3326,9 @@ static void PM_Weapon( void ) {
 		addTime = 50;
 		break;
 	// jpw
+        case WP_MEDKIT:
+                addTime = 1000;
+                break;
         case WP_ARTY:
         case WP_MEDIC_SYRINGE:
                 addTime = ammoTable[pm->ps->weapon].nextShotTime;

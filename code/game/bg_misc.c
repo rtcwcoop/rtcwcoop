@@ -67,7 +67,7 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 	// bank
 	{0,                     0,                      0           },  //	0 (empty)
 
-	{WP_KNIFE,              0,                      0           },  //	1
+	{WP_KNIFE,              0,			0           },  //	1
 	{WP_LUGER,              WP_COLT,                0           },  //	2	// WP_AKIMBO
 	{WP_MP40,               WP_THOMPSON,            WP_STEN     },  //	3
 	{WP_MAUSER,             WP_GARAND,              0           },  //	4
@@ -77,7 +77,8 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 	{WP_VENOM,              0,                      0           },  //	8
 	{WP_FLAMETHROWER,       0,                      0           },  //	9
 	{WP_TESLA,              0,                      0           },  //	10
-	{WP_MEDIC_SYRINGE,      0,                      0           }   //	11 // PLIERS and SMOKEGRENADE
+	{WP_MEDIC_SYRINGE,      0,                      0           },  //	11 // PLIERS and SMOKEGRENADE
+	{WP_MEDKIT,		0,                      0           }   //	12 // AMMO
 };
 
 extern int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK];
@@ -135,7 +136,8 @@ ammotable_t ammoTable[] = {
 	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK3 25
 	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_GAUNTLET 26
 	{   3,              1,      1,      1500,   50,             1000,   0,      0,      MOD_SYRINGE             },  //      WP_MEDIC_SYRINGE 27
-	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_ARTY,               }   //      WP_ARTY 28
+	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_ARTY,               },  //      WP_ARTY 28
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       }   //      WP_MEDKIT 29
 };
 
 
@@ -603,6 +605,29 @@ model="models/powerups/health/health_m.md3"
 		"",
 		{25,25,15,15}
 	},
+
+/*QUAKED item_health (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/powerups/health/health_m.md3"
+*/
+        {
+                "item_health_classes",
+                "sound/multiplayer/health_pickup.wav", // JPW NERVE also not single-binary friendly FIXME
+                {   "models/multiplayer/medpack/medpack_pickup.md3", // JPW NERVE was   "models/powerups/health/health_m.md3",
+                        0,                                              // FIXME this isn't single/multiplayer friendly if we go back to 1 codebase
+                        0, 0,  0 },
+                "icons/iconh_med",
+                NULL,   // ammo icon
+                "Med Health Classes",
+                25,
+                IT_HEALTH,
+                0,
+                0,
+                0,
+                "",
+                "",
+                {50,25,20,15}
+        },
 
 /*QUAKED item_health_large (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
 -------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
@@ -1468,6 +1493,31 @@ weapon_medic_heal
 	},
 // dhm
 */
+
+// DHM - Nerve
+/*
+weapon_medic_heal
+*/
+        {
+                "weapon_medic_heal",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/medpack/medpack.md3",
+                        "models/multiplayer/medpack/v_medpack.md3",
+                        0, 0, 0 },
+
+                "icons/iconw_medheal_1", // icon
+                "icons/ammo2",           // ammo icon
+                "medicheal",         // pickup
+                50,
+                IT_WEAPON,
+                WP_MEDKIT,
+                WP_MEDKIT,
+                WP_MEDKIT,
+                "",                      // precache
+                "sound/multiplayer/allies/a-medic3.wav sound/multiplayer/axis/g-medic3.wav sound/multiplayer/allies/a-medic2.wav sound/multiplayer/axis/g-medic2.wav sound/multiplayer/axis/g-medic1.wav sound/multiplayer/allies/a-medic1.wav",                     // sounds
+                {0,0,0,0}
+        },
+// dhm
 /*
 weapon_dynamite
 */
@@ -1896,7 +1946,7 @@ weapon_arty (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
                 WP_ARTY,
                 "",                      // precache
                 "sound/multiplayer/allies/a-firing.wav sound/multiplayer/axis/g-firing.wav sound/multiplayer/allies/a-art_abort.wav sound/multiplayer/axis/g-art_abort.wav", // sounds
-                {0,0,0,0,0}
+                {0,0,0,0}
         },
 
 /* JPW NERVE
@@ -1919,7 +1969,7 @@ weapon_smoketrail -- only used as a special effects emitter for smoke trails (ar
                 WP_SMOKETRAIL,
                 "",                      // precache
                 "sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav",             // sounds
-                {0,0,0,0,0}
+                {0,0,0,0}
         },
         /*
 weapon_medic_syringe (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
@@ -1943,7 +1993,7 @@ weapon_medic_syringe (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
                 WP_MEDIC_SYRINGE,
                 "",                      // precache
                 "sound/multiplayer/vo_revive.wav",   // sounds
-                {0,0,0,0,0}
+                {0,0,0,0}
         },
 
 
@@ -3945,7 +3995,7 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 
 			if ( pc == PC_LT /*&& weapon == WP_AMMO*/) {
 			}
-			if ( pc == PC_MEDIC && weapon == WP_MEDIC_HEAL ) {
+			if ( pc == PC_MEDIC /*&& weapon == WP_MEDIC_HEAL*/ ) {
 				return qtrue;
 			}
 			if ( pc == PC_ENGINEER && weapon == WP_DYNAMITE ) {

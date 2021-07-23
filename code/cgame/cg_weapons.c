@@ -1339,6 +1339,9 @@ void CG_RegisterWeapon( int weaponNum ) {
                 break;
         case WP_ARTY:           // JPW NERVE
                 break;
+        case WP_MEDKIT:
+                weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/multiplayer/bag_toss.wav" );
+                break;
 // DHM - Nerve - temp effects
 	case WP_CLASS_SPECIAL:
 	case WP_MEDIC_HEAL:
@@ -1457,6 +1460,7 @@ void CG_RegisterItemVisuals( int itemNum ) {
 	if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) {
 		if ( cg_gameType.integer == GT_COOP_CLASSES ) {
 			CG_RegisterWeapon( WP_SMOKETRAIL );
+			CG_RegisterWeapon( WP_MEDKIT );
 		}
 		maxWeapBanks = MAX_WEAP_BANKS;
 		maxWeapsInBank = MAX_WEAPS_IN_BANK;
@@ -4566,6 +4570,9 @@ void CG_FireWeapon( centity_t *cent ) {
 		fireEchosound = &weap->flashEchoSound[0];
 	}
 
+        if ( ent->weapon == WP_MEDKIT ) {
+                firesound = &cg_weapons[ WP_MEDKIT ].flashSound[0];
+        }
 
 	// play a sound
 	for ( c = 0 ; c < 4 ; c++ ) {

@@ -1165,6 +1165,15 @@ void ClientThink_real( gentity_t *ent ) {
 
 	VectorCopy( client->ps.origin, client->oldOrigin );
 
+        // NERVE - SMF
+        pm.ltChargeTime = g_LTChargeTime.integer;
+        pm.soldierChargeTime = g_soldierChargeTime.integer;
+        pm.engineerChargeTime = g_engineerChargeTime.integer;
+        pm.medicChargeTime = g_medicChargeTime.integer;
+        // -NERVE - SMF
+
+        Pmove( &pm );
+
 	// perform a pmove
 	monsterslick = Pmove( &pm );
 

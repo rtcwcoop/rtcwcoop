@@ -193,6 +193,12 @@ void CG_ParseServerinfo( void ) {
 	// ui needs this to render the levelshot of this map in the loading screen
 	trap_Cvar_Set( "mapname", Info_ValueForKey( info, "mapname" ) );
 
+        trap_Cvar_Set( "g_medicChargeTime",Info_ValueForKey( info,"g_medicChargeTime" ) );
+        trap_Cvar_Set( "g_engineerChargeTime",Info_ValueForKey( info,"g_engineerChargeTime" ) );
+        trap_Cvar_Set( "g_soldierChargeTime",Info_ValueForKey( info,"g_soldierChargeTime" ) );
+        trap_Cvar_Set( "g_LTChargeTime",Info_ValueForKey( info,"g_LTChargeTime" ) );
+        trap_Cvar_Set( "g_redlimbotime",Info_ValueForKey( info,"g_redlimbotime" ) );
+
 	cg_limbotime.integer = atoi( Info_ValueForKey( info,"g_limbotime" ) );
 
 	trap_Cvar_Set( "cg_maxspawnpoints", Info_ValueForKey( info, "g_maxspawnpoints" ) );

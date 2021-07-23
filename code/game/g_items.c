@@ -497,6 +497,10 @@ int Pickup_Health( gentity_t *ent, gentity_t *other ) {
 		return RESPAWN_PARTIAL_DONE;
 	}
 
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		return RESPAWN_HEALTH;
+	}
+
 	return RESPAWN_SP;
 }
 
@@ -1041,6 +1045,7 @@ void ClearRegisteredItems( void ) {
 //			but for now, re-register the MP40 automatically
 //	RegisterItem( BG_FindItemForWeapon( WP_MP40 ) );
 	RegisterItem( BG_FindItem( "Med Health" ) );           // NERVE - SMF - this is so med packs properly display
+	RegisterItem( BG_FindItem( "Med Health Classes" ) );           // NERVE - SMF - this is so med packs properly display
 }
 
 /*
