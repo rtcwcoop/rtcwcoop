@@ -1461,6 +1461,12 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 		//trap_Cvar_Set("g_warmup", "20");
 	}
 
+	// only flagpole spawning in classes gametype
+	// this also enables limbo
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		trap_Cvar_Set( "g_spawnpoints", "2" );
+	}
+
 	if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {
 		char mapname[MAX_QPATH];
 		char maptimelimit[MAX_QPATH];
