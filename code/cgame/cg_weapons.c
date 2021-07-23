@@ -1329,7 +1329,15 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->trailRadius         = 256;
 		break;
 // jpw
+        case WP_SMOKETRAIL:     // JPW NERVE -- for smoke bits from artillery spotter round, plus other effects maybe
+                weaponInfo->missileTrailFunc    = CG_PyroSmokeTrail;
+                weaponInfo->missileDlight       = 200;
+                weaponInfo->wiTrailTime         = 4000;
+                weaponInfo->trailRadius         = 256;
+                break;
         case WP_MEDIC_SYRINGE: // JPW NERVE
+                break;
+        case WP_ARTY:           // JPW NERVE
                 break;
 // DHM - Nerve - temp effects
 	case WP_CLASS_SPECIAL:
@@ -1447,6 +1455,9 @@ void CG_RegisterItemVisuals( int itemNum ) {
 
 	// JPW NERVE had to put this somewhere, this seems OK
 	if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) {
+		if ( cg_gameType.integer == GT_COOP_CLASSES ) {
+			CG_RegisterWeapon( WP_SMOKETRAIL );
+		}
 		maxWeapBanks = MAX_WEAP_BANKS;
 		maxWeapsInBank = MAX_WEAPS_IN_BANK;
 	}

@@ -83,7 +83,10 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 		// Lieutenant gets binoculars, ammo pack, artillery (smoke grenade + binocs), and a grenade
 		// only lieutenant can pickup binoculars
                 if ( pc == PC_LT ) {
-			// TODO: ammo pack and artillery
+			// TODO: ammo pack
+                        COM_BitSet( client->ps.weapons, WP_ARTY );
+                        client->ps.ammo[BG_FindAmmoForWeapon( WP_ARTY )] = 0;
+                        client->ps.ammoclip[BG_FindClipForWeapon( WP_ARTY )] = 1;
 
                         client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 

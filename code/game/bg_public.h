@@ -594,7 +594,8 @@ typedef enum {
 	WP_MONSTER_ATTACK3,     // 25	// generic monster attack, slot 2
 
 	WP_GAUNTLET,            // 26
-	WP_MEDIC_SYRINGE,
+	WP_MEDIC_SYRINGE,	// 27
+	WP_ARTY,		// 28
 
 	WP_SNIPER,              // 27
 	WP_GRENADE_SMOKE,       // 28	// smoke grenade for LT multiplayer
@@ -602,6 +603,7 @@ typedef enum {
 	WP_MORTAR,              // 30
 
 	VERYBIGEXPLOSION,       // 31	// explosion effect for airplanes
+	WP_SMOKETRAIL,		// fretn: might move this to a different position
 
 	WP_NUM_WEAPONS          // 32   NOTE: this cannot be larger than 64 for AI/player weapons!
 
@@ -1170,6 +1172,7 @@ typedef enum {
 	MOD_SNOOPERSCOPE,
 	MOD_SILENCER,   //----(SA)
 	MOD_AKIMBO,     //----(SA)
+	MOD_ARTY,
 	MOD_BAR,    //----(SA)
 	MOD_FG42,
 	MOD_FG42SCOPE,

@@ -134,7 +134,8 @@ ammotable_t ammoTable[] = {
 	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK2 24
 	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK3 25
 	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_GAUNTLET 26
-	{   3,              1,      1,      1500,   50,             1000,   0,      0,      MOD_SYRINGE             }   //      WP_MEDIC_SYRINGE 27
+	{   3,              1,      1,      1500,   50,             1000,   0,      0,      MOD_SYRINGE             },  //      WP_MEDIC_SYRINGE 27
+	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_ARTY,               }   //      WP_ARTY 28
 };
 
 
@@ -1872,6 +1873,54 @@ weapon_mortar (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 		{0,0,0,0}
 	},
 
+
+/*
+weapon_arty (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+        {
+                "weapon_arty",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/syringe/syringe.md3",
+                        "models/multiplayer/syringe/v_syringe.md3",
+                        0,
+                        0,
+                        ""},
+
+                "icons/iconw_syringe_1", // icon
+                "icons/ammo2",           // ammo icon
+                "Artillery",             // pickup
+                50, // this should never be picked up
+                IT_WEAPON,
+                WP_ARTY,
+                WP_ARTY,
+                WP_ARTY,
+                "",                      // precache
+                "sound/multiplayer/allies/a-firing.wav sound/multiplayer/axis/g-firing.wav sound/multiplayer/allies/a-art_abort.wav sound/multiplayer/axis/g-art_abort.wav", // sounds
+                {0,0,0,0,0}
+        },
+
+/* JPW NERVE
+weapon_smoketrail -- only used as a special effects emitter for smoke trails (artillery spotter etc)
+*/
+        {
+                "weapon_smoketrail",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/smokegrenade/smokegrenade.md3",
+                        "models/multiplayer/smokegrenade/v_smokegrenade.md3",
+                        0, 0, 0},
+
+                "icons/iconw_smokegrenade_1",    // icon
+                "icons/ammo2",   // ammo icon
+                "smokeTrail",                // pickup
+                50,
+                IT_WEAPON,
+                WP_SMOKETRAIL,
+                WP_SMOKETRAIL,
+                WP_SMOKETRAIL,
+                "",                      // precache
+                "sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav",             // sounds
+                {0,0,0,0,0}
+        },
         /*
 weapon_medic_syringe (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 */

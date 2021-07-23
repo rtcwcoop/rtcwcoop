@@ -2938,6 +2938,13 @@ static void PM_Weapon( void ) {
 
 	// player is zooming - no fire
 	if ( pm->ps->eFlags & EF_ZOOMING ) {
+#ifdef GAMEDLL
+                //if ( pm->gametype == GT_COOP_CLASSES ) {
+                if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                        pm->ps->weaponTime += 500;
+                        PM_AddEvent( EV_FIRE_WEAPON );
+                }
+#endif
 		return;
 	}
 
@@ -3274,6 +3281,7 @@ static void PM_Weapon( void ) {
 		addTime = 50;
 		break;
 	// jpw
+        case WP_ARTY:
         case WP_MEDIC_SYRINGE:
                 addTime = ammoTable[pm->ps->weapon].nextShotTime;
                 break;
