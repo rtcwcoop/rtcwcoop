@@ -1017,3 +1017,32 @@ void SP_coop_spawnpoint_trigger( gentity_t *ent ) {
 
 	trap_LinkEntity( ent );
 }
+
+int Pickup_Weapon_For_Class( gentity_t *ent, gentity_t *other ) {
+        int pc = other->client->ps.stats[STAT_PLAYER_CLASS];
+	int weapon = ent->item->giTag;
+
+	COM_BitSet( other->client->ps.weapons, weapon );
+
+	if ( pc == PC_SOLDIER ) {
+		// snooper/garand
+		if ( weapon == WP_SNOOPERSCOPE ) {
+			COM_BitSet( other->client->ps.weapons, WP_GARAND );
+		} else if ( weapon == WP_GARAND ) {
+			COM_BitSet( other->client->ps.weapons, WP_SNOOPERSCOPE );
+		}
+		// fg42/scope
+		else if ( weapon == WP_FG42SCOPE ) {
+			COM_BitSet( other->client->ps.weapons, WP_FG42 );
+		} else if ( weapon == WP_FG42 ) {
+			COM_BitSet( other->client->ps.weapons, WP_FG42SCOPE );
+		} else if ( weapon == WP_SNIPERRIFLE ) {
+			COM_BitSet( other->client->ps.weapons, WP_MAUSER );
+		}
+
+	}
+
+	// other classes are handled in: BG_CanItemBeGrabbed
+
+        return g_weaponRespawn.integer;
+}

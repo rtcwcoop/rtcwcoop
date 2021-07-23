@@ -475,7 +475,26 @@ void ClientTimerActions( gentity_t *ent, int msec ) {
 
 		// regenerate
 // JPW NERVE, split these completely
-		if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+		if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                        if ( client->ps.powerups[PW_REGEN] ) {
+                                if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] ) {
+                                        ent->health += 3;
+                                        if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.1 ) {
+                                                ent->health = client->ps.stats[STAT_MAX_HEALTH] * 1.1;
+                                        }
+                                } else if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] * 1.12 ) {
+                                        ent->health += 2;
+                                        if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.12 ) {
+                                                ent->health = client->ps.stats[STAT_MAX_HEALTH] * 1.12;
+                                        }
+                                }
+                        } else {
+                                // count down health when over max
+                                if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] ) {
+                                        ent->health--;
+                                }
+                        }
+		} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 			if ( client->ps.powerups[PW_REGEN] ) {
 				if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] ) {
 					ent->health += 15;

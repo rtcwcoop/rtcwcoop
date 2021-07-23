@@ -3877,6 +3877,63 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 	switch ( item->giType ) {
 
 	case IT_WEAPON:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			int weapon = item->giTag;
+
+			if ( pc == PC_LT /*&& weapon == WP_AMMO*/) {
+			}
+			if ( pc == PC_MEDIC && weapon == WP_MEDIC_HEAL ) {
+				return qtrue;
+			}
+			if ( pc == PC_ENGINEER && weapon == WP_DYNAMITE ) {
+				return qtrue;
+			}
+			if ( pc == PC_LT || pc == PC_MEDIC || pc == PC_ENGINEER) {
+				switch (weapon) {
+                                case WP_KNIFE:
+                                case WP_LUGER:
+                                case WP_COLT:
+                                case WP_MP40:
+                                case WP_THOMPSON:
+                                case WP_GRENADE_PINEAPPLE:
+                                case WP_GRENADE_LAUNCHER:
+					return qtrue;
+				}
+			} else {
+				switch (weapon) {
+                                case WP_KNIFE:
+                                case WP_LUGER:
+                                case WP_MP40:
+                                case WP_MAUSER:
+                                case WP_FG42:
+                                case WP_GRENADE_LAUNCHER:
+                                case WP_PANZERFAUST:
+                                case WP_VENOM:
+                                case WP_FLAMETHROWER:
+                                case WP_TESLA:
+                                case WP_COLT:
+                                case WP_THOMPSON:
+                                case WP_GARAND:
+                                case WP_GRENADE_PINEAPPLE:
+                                case WP_SNIPERRIFLE:
+                                case WP_SNOOPERSCOPE:
+                                case WP_FG42SCOPE:
+                                case WP_STEN:
+                                case WP_SILENCER:
+                                case WP_AKIMBO:
+                                case WP_SNIPER:
+					return qtrue;
+				}
+			}
+
+			return qfalse;
+		}
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
@@ -3896,6 +3953,19 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_AMMO:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			if ( pc == PC_LT ) {
+				return qtrue;
+			}
+
+			return qfalse;
+		}
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
@@ -3915,6 +3985,19 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_ARMOR:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			if ( pc == PC_MEDIC ) {
+				return qtrue;
+			}
+
+			return qfalse;
+		}
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
@@ -3927,6 +4010,19 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_HEALTH:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			if ( pc == PC_MEDIC ) {
+				return qtrue;
+			}
+
+			return qfalse;
+		}
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;

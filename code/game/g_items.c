@@ -332,7 +332,6 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 		return RESPAWN_SP;
 	}
 #endif
-
 	if ( ent->count ) {
 		quantity = ent->count;
 	} else {
@@ -356,7 +355,6 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 }
 
 //======================================================================
-
 
 int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	int quantity = 0;
@@ -414,7 +412,17 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	alreadyHave = COM_BitCheck( other->client->ps.weapons, weapon );
 
 	// add the weapon
-	COM_BitSet( other->client->ps.weapons, weapon );
+	// fretn: if classes, we need to check if this class can pick this up or not
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		// soldier can pickup all guns
+		// LT medic and engineer can only pickup guns they have (so no special guns)
+		// picking up a gun doesn't give you ammo
+		// Medic can pickup medkits -> this recharges the bar faster
+		// Engineer can pickup dynamites
+		return Pickup_Weapon_For_Class(ent, other);
+	} else {
+		COM_BitSet( other->client->ps.weapons, weapon );
+	}
 
 	// Throw knives
 	if ( g_throwKnives.integer ) {
