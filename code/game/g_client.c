@@ -658,7 +658,7 @@ void ClientRespawn( gentity_t *ent ) {
 		CopyToBodyQue( ent );
 	}
 
-	ClientSpawn( ent );
+	ClientSpawn( ent, qfalse );
 
 	ent->client->lastGroundTime = level.time;
 }
@@ -1761,7 +1761,7 @@ void ClientBegin( int clientNum ) {
 	ent->r.svFlags |= SVF_CAPSULE;
 
 	// locate ent at a spawn point
-	ClientSpawn( ent );
+	ClientSpawn( ent, qfalse );
 
 	// maxlives
 	if ( g_maxlives.integer > 0 ) {
@@ -1832,7 +1832,7 @@ after the first ClientBegin, and after each respawn
 Initializes all non-persistant parts of playerState
 ============
 */
-void ClientSpawn( gentity_t *ent ) {
+void ClientSpawn( gentity_t *ent, qboolean revived ) {
 	int index;
 	vec3_t spawn_origin, spawn_angles;
 	gclient_t   *client;
@@ -1862,103 +1862,109 @@ void ClientSpawn( gentity_t *ent ) {
 	// ranging doesn't count this client
 
 	// Ridah
-	if ( ent->r.svFlags & SVF_CASTAI ) {
-		spawnPoint = ent;
-		VectorCopy( ent->s.origin, spawn_origin );
-		spawn_origin[2] += 9;   // spawns seem to be sunk into ground?
-		VectorCopy( ent->s.angles, spawn_angles );
+        if ( revived ) {
+                spawnPoint = ent;
+                VectorCopy( ent->s.origin, spawn_origin );
+                spawn_origin[2] += 9;   // spawns seem to be sunk into ground?
+                VectorCopy( ent->s.angles, spawn_angles );
 	} else {
-		// force team
-		if ( client->sess.sessionTeam == TEAM_FREE ) {
-			client->sess.sessionTeam = TEAM_BLUE;
-		}
-
-		// force this player to AICHAR_NONE (for G_IsClientAI)
-		ent->aiCharacter = AICHAR_NONE;
-
-		if ( !ent->client->pers.initialSpawn ) {
-			ent->aiName = "player";  // needed for script AI
-			if ( client->sess.sessionTeam == TEAM_RED ) {
-				ent->aiTeam = AITEAM_NAZI;                        // member of axis
-			} else if ( client->sess.sessionTeam == TEAM_BLUE ) {
-				ent->aiTeam = AITEAM_ALLIES;                        // member of allies
-			}
-			ent->client->ps.teamNum = ent->aiTeam;
-			AICast_ScriptParse( AICast_GetCastState( ent->s.number ) );
-		}
-
-		if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
-			spawnPoint = SelectSpectatorSpawnPoint(
-				spawn_origin, spawn_angles );
+		if ( ent->r.svFlags & SVF_CASTAI ) {
+			spawnPoint = ent;
+			VectorCopy( ent->s.origin, spawn_origin );
+			spawn_origin[2] += 9;   // spawns seem to be sunk into ground?
+			VectorCopy( ent->s.angles, spawn_angles );
 		} else {
-			do {
-				// the first spawn should be at a good looking spot
-				if ( !client->pers.initialSpawn && client->pers.localClient ) {
-					// moved this down
-					//client->pers.initialSpawn = qtrue;
-					if ( client->sess.sessionTeam == TEAM_RED ) {
-						if ( g_gametype.integer != GT_COOP_BATTLE ) {
-							spawnPoint = SelectRandomAntiCoopSpawnPoint( ent, spawn_origin, spawn_angles );
-							if ( !spawnPoint ) { // we need spawnpoints for the axis
-								spawnPoint = SelectSpawnPoint(
-									client->ps.origin,
-									spawn_origin, spawn_angles );
+			// force team
+			if ( client->sess.sessionTeam == TEAM_FREE ) {
+				client->sess.sessionTeam = TEAM_BLUE;
+			}
+
+			// force this player to AICHAR_NONE (for G_IsClientAI)
+			ent->aiCharacter = AICHAR_NONE;
+
+			if ( !ent->client->pers.initialSpawn ) {
+				ent->aiName = "player";  // needed for script AI
+				if ( client->sess.sessionTeam == TEAM_RED ) {
+					ent->aiTeam = AITEAM_NAZI;                        // member of axis
+				} else if ( client->sess.sessionTeam == TEAM_BLUE ) {
+					ent->aiTeam = AITEAM_ALLIES;                        // member of allies
+				}
+				ent->client->ps.teamNum = ent->aiTeam;
+				AICast_ScriptParse( AICast_GetCastState( ent->s.number ) );
+			}
+
+			if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
+				spawnPoint = SelectSpectatorSpawnPoint(
+					spawn_origin, spawn_angles );
+			} else {
+				do {
+					// the first spawn should be at a good looking spot
+					if ( !client->pers.initialSpawn && client->pers.localClient ) {
+						// moved this down
+						//client->pers.initialSpawn = qtrue;
+						if ( client->sess.sessionTeam == TEAM_RED ) {
+							if ( g_gametype.integer != GT_COOP_BATTLE ) {
+								spawnPoint = SelectRandomAntiCoopSpawnPoint( ent, spawn_origin, spawn_angles );
+								if ( !spawnPoint ) { // we need spawnpoints for the axis
+									spawnPoint = SelectSpawnPoint(
+										client->ps.origin,
+										spawn_origin, spawn_angles );
+								}
 							}
-						}
-					} else {
-						if ( g_gametype.integer <= GT_COOP ) {
-							spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
-							if ( !spawnPoint ) {
-								G_Printf( "No coop spawnpoints found\n" );
+						} else {
+							if ( g_gametype.integer <= GT_COOP ) {
+								spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
+								if ( !spawnPoint ) {
+									G_Printf( "No coop spawnpoints found\n" );
+									spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles, qfalse );
+								}
+							} else {
 								spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles, qfalse );
 							}
-						} else {
-							spawnPoint = SelectInitialSpawnPoint( spawn_origin, spawn_angles, qfalse );
 						}
-					}
 
-					ent->client->hasCoopSpawn = qfalse;
-				} else {
-					// note: on a dedicated server when the first player arrives and he's axis
-					// no bots are alive, so no spawnpoint (bot) can be found
-					if ( client->sess.sessionTeam == TEAM_RED && g_gametype.integer != GT_COOP_BATTLE ) {
-						spawnPoint = SelectRandomAntiCoopSpawnPoint( ent, spawn_origin, spawn_angles );
-						if ( !spawnPoint ) { // we need spawnpoints for the axis
-							spawnPoint = SelectSpawnPoint( client->ps.origin, spawn_origin, spawn_angles );
-						}
+						ent->client->hasCoopSpawn = qfalse;
 					} else {
-						if ( g_gametype.integer <= GT_COOP && ent->client->hasCoopSpawn ) {
-							// TODO: select random spot from friends
-							VectorCopy( client->coopSpawnPointOrigin, spawn_origin );
-							VectorCopy( client->coopSpawnPointAngles, spawn_angles );
-							spawnPoint = ent;
-
-							// don't spawn near existing origin if possible
-						} else {
-							spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
-							if ( !spawnPoint ) {
+						// note: on a dedicated server when the first player arrives and he's axis
+						// no bots are alive, so no spawnpoint (bot) can be found
+						if ( client->sess.sessionTeam == TEAM_RED && g_gametype.integer != GT_COOP_BATTLE ) {
+							spawnPoint = SelectRandomAntiCoopSpawnPoint( ent, spawn_origin, spawn_angles );
+							if ( !spawnPoint ) { // we need spawnpoints for the axis
 								spawnPoint = SelectSpawnPoint( client->ps.origin, spawn_origin, spawn_angles );
+							}
+						} else {
+							if ( g_gametype.integer <= GT_COOP && ent->client->hasCoopSpawn ) {
+								// TODO: select random spot from friends
+								VectorCopy( client->coopSpawnPointOrigin, spawn_origin );
+								VectorCopy( client->coopSpawnPointAngles, spawn_angles );
+								spawnPoint = ent;
+
+								// don't spawn near existing origin if possible
+							} else {
+								spawnPoint = SelectRandomCoopSpawnPoint( spawn_origin, spawn_angles );
+								if ( !spawnPoint ) {
+									spawnPoint = SelectSpawnPoint( client->ps.origin, spawn_origin, spawn_angles );
+								}
 							}
 						}
 					}
-				}
 
-				// Tim needs to prevent bots from spawning at the initial point
-				// on q3dm0...
-				if ( ( spawnPoint->flags & FL_NO_BOTS ) && ( ent->r.svFlags & SVF_BOT ) ) {
-					continue;   // try again
-				}
-				// just to be symetric, we have a nohumans option...
-				if ( ( spawnPoint->flags & FL_NO_HUMANS ) && !( ent->r.svFlags & SVF_BOT ) ) {
-					continue;   // try again
-				}
+					// Tim needs to prevent bots from spawning at the initial point
+					// on q3dm0...
+					if ( ( spawnPoint->flags & FL_NO_BOTS ) && ( ent->r.svFlags & SVF_BOT ) ) {
+						continue;   // try again
+					}
+					// just to be symetric, we have a nohumans option...
+					if ( ( spawnPoint->flags & FL_NO_HUMANS ) && !( ent->r.svFlags & SVF_BOT ) ) {
+						continue;   // try again
+					}
 
-				break;
+					break;
 
-			} while ( 1 );
+				} while ( 1 );
+			}
+			// Ridah
 		}
-		
-		// Ridah
 	}
 	// done.
 
@@ -2066,6 +2072,11 @@ void ClientSpawn( gentity_t *ent ) {
 		ent->clipmask = MASK_PLAYERSOLID;
 	}
 
+        // DHM - Nerve :: Init to -1 on first spawn;
+        if ( !revived ) {
+                ent->props_frame_state = -1;
+        }
+
 	ent->die = player_die;
 	ent->waterlevel = 0;
 	ent->watertype = 0;
@@ -2149,7 +2160,9 @@ void ClientSpawn( gentity_t *ent ) {
 	// fretn
 	// check if class has changed and call this function
 	// sess.latchPlayerType, etc
-	ClientUserinfoChanged( index );
+	if ( !revived ) {
+		ClientUserinfoChanged( index );
+	}
 
 	// Note to Ryan:
 	// had to add this because key word giveweapon to player is causing a fatal crash
@@ -2183,6 +2196,12 @@ void ClientSpawn( gentity_t *ent ) {
 
 	// health will count down towards max_health
 //	ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] * 1.25;
+
+	if ( g_fastres.integer == 1 && revived ) {
+		client->ps.powerups[PW_INVULNERABLE] = level.time + g_fastResMsec.integer;
+	} else {
+		client->ps.powerups[PW_INVULNERABLE] = level.time + 3000;
+	}
 
 // JPW NERVE ***NOTE*** the following line is order-dependent and must *FOLLOW* SetWolfSpawnWeapons() in multiplayer
 // SetWolfSpawnWeapons() now adds medic team bonus and stores in ps.stats[STAT_MAX_HEALTH].
@@ -2218,9 +2237,10 @@ void ClientSpawn( gentity_t *ent ) {
 //			client->ps.weaponstate = WEAPON_READY;
 
 			// fire the targets of the spawn point
-			if ( g_gametype.integer < GT_SINGLE_PLAYER ) {
+			if ( g_gametype.integer < GT_SINGLE_PLAYER  && !revived) {
 				G_UseTargets( spawnPoint, ent );
 			}
+
 			// select the highest weapon number available, after any spawn given items have fired
 //			client->ps.weapon = 1;
 //			for (i = WP_NUM_WEAPONS - 1 ; i > 0 ; i--) {

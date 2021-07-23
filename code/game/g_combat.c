@@ -535,6 +535,11 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		self->client->ps.torsoAnim =
 			( ( self->client->ps.torsoAnim & ANIM_TOGGLEBIT ) ^ ANIM_TOGGLEBIT ) | anim;
 
+		if ( g_gametype.integer == GT_COOP_CLASSES ) {
+			// DHM - Play death animation, and set pm_time to delay 'fallen' animation
+			self->client->ps.pm_time = BG_AnimScriptEvent( &self->client->ps, ANIM_ET_DEATH, qfalse, qtrue );
+		}
+
 		G_AddEvent( self, EV_DEATH1 + 1, killer );
 
 		// the body can still be gibbed

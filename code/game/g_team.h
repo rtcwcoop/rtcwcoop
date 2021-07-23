@@ -50,6 +50,8 @@ If you have questions concerning this license or the applicable additional terms
 #define CTF_GRAPPLE_SPEED                   750 // speed of grapple in flight
 #define CTF_GRAPPLE_PULL_SPEED              750 // speed player is pulled at
 
+#define MEDIC_BONUS        2       // medic resurrect teammate
+
 // Prototypes
 
 int OtherTeam( int team );

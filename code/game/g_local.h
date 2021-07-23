@@ -1034,7 +1034,7 @@ gentity_t *SelectSpawnPoint( vec3_t avoidPoint, vec3_t origin, vec3_t angles );
 void ClientRespawn(gentity_t *ent);
 void BeginIntermission( void );
 void InitBodyQue( void );
-void ClientSpawn( gentity_t *ent );
+void ClientSpawn( gentity_t *ent, qboolean revived );
 void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod );
 void AddScore( gentity_t *ent, int score );
 void CalculateRanks( void );
@@ -1208,6 +1208,8 @@ extern vmCvar_t g_skipcutscenes;
 #endif
 extern vmCvar_t g_maxspawnpoints;
 extern vmCvar_t g_maxlives;
+extern vmCvar_t g_fastres;                  // Xian - Fast medic res'ing
+extern vmCvar_t g_fastResMsec;
 extern vmCvar_t g_enforcemaxlives;
 extern vmCvar_t g_voiceChatsAllowed;
 extern vmCvar_t g_airespawn;

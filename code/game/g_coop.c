@@ -143,7 +143,9 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
                 }
 
                 if ( pc == PC_MEDIC ) {
-			// todo: syringe and medkit
+			// todo: medkit
+                        COM_BitSet( client->ps.weapons, WP_MEDIC_SYRINGE );
+                        client->ps.ammoclip[BG_FindClipForWeapon( WP_MEDIC_SYRINGE )] = 10;
 
                         switch ( client->sess.sessionTeam ) { // was playerItem
 				case TEAM_BLUE:

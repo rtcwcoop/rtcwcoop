@@ -964,7 +964,7 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi, in
 
 	}
 
-	if ( i != MAX_WP_ANIMATIONS ) {
+	if ( i != MAX_WP_ANIMATIONS  && cg_gameType.integer != GT_COOP_CLASSES) {
 		CG_Printf( "Error parsing weapon animation file: %s\n", filename );
 		return qfalse;
 	}
@@ -1058,7 +1058,9 @@ void CG_RegisterWeapon( int weaponNum ) {
 	if ( item->world_model[W_FP_MODEL] ) {
 		COM_StripFilename( item->world_model[W_FP_MODEL], path );
 		if ( !CG_ParseWeaponConfig( va( "%sweapon.cfg", path ), weaponInfo, weaponNum ) ) {
-			CG_Error( "Couldn't register weapon %i (%s) (failed to parse weapon.cfg)", weaponNum, path );
+			if ( cg_gameType.integer != GT_COOP_CLASSES ) {
+				CG_Error( "Couldn't register weapon %i (%s) (failed to parse weapon.cfg)", weaponNum, path );
+			}
 		}
 	}
 //----(SA)	end
@@ -1327,6 +1329,8 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->trailRadius         = 256;
 		break;
 // jpw
+        case WP_MEDIC_SYRINGE: // JPW NERVE
+                break;
 // DHM - Nerve - temp effects
 	case WP_CLASS_SPECIAL:
 	case WP_MEDIC_HEAL:

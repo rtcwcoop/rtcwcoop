@@ -193,7 +193,7 @@ void Weapon_Medic( gentity_t *ent ) {
 					healamt = traceEnt->client->medicHealAmt;
 					headshot = traceEnt->client->ps.eFlags & EF_HEADSHOT;
 
-					ClientSpawn( traceEnt );
+					ClientSpawn( traceEnt, qtrue );
 					if ( healamt > 80 ) {
 						healamt = 80;
 					}
@@ -449,6 +449,118 @@ void Weapon_Class_Special( gentity_t *ent ) {
 		*/
 		break;
 	}
+}
+// jpw
+
+/*
+======================
+  Weapon_Syringe
+        shoot the syringe, do the old lazarus bit
+======================
+*/
+void Weapon_Syringe( gentity_t *ent ) {
+        vec3_t end,org;
+        trace_t tr;
+        int healamt, headshot, oldweapon,oldweaponstate,oldclasstime = 0;
+        qboolean usedSyringe = qfalse;          // DHM - Nerve
+        int ammo[MAX_WEAPONS];              // JPW NERVE total amount of ammo
+        int ammoclip[MAX_WEAPONS];          // JPW NERVE ammo in clip
+        int weapons[MAX_WEAPONS / ( sizeof( int ) * 8 )];   // JPW NERVE 64 bits for weapons held
+        gentity_t   *traceEnt, *te;
+
+        AngleVectors( ent->client->ps.viewangles, forward, right, up );
+        CalcMuzzlePointForActivate( ent, forward, right, up, muzzleTrace );
+        VectorMA( muzzleTrace, 48, forward, end );           // CH_ACTIVATE_DIST
+        //VectorMA (muzzleTrace, -16, forward, muzzleTrace);    // DHM - Back up the start point in case medic is
+        // right on top of intended revivee.
+        trap_Trace( &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT );
+
+        if ( tr.startsolid ) {
+                VectorMA( muzzleTrace, 8, forward, end );            // CH_ACTIVATE_DIST
+                trap_Trace( &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT );
+        }
+
+        if ( tr.fraction < 1.0 ) {
+                traceEnt = &g_entities[ tr.entityNum ];
+                if ( traceEnt->client != NULL ) {
+
+                        if ( ( traceEnt->client->ps.pm_type == PM_DEAD ) && ( traceEnt->client->sess.sessionTeam == ent->client->sess.sessionTeam ) ) {
+
+                                // heal the dude
+                                // copy some stuff out that we'll wanna restore
+                                VectorCopy( traceEnt->client->ps.origin, org );
+                                headshot = traceEnt->client->ps.eFlags & EF_HEADSHOT;
+                                healamt = traceEnt->client->ps.stats[STAT_MAX_HEALTH] * 0.5;
+                                oldweapon = traceEnt->client->ps.weapon;
+                                oldweaponstate = traceEnt->client->ps.weaponstate;
+
+                                // keep class special weapon time to keep them from exploiting revives
+                                oldclasstime = traceEnt->client->ps.classWeaponTime;
+
+                                memcpy( ammo,traceEnt->client->ps.ammo,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( ammoclip,traceEnt->client->ps.ammoclip,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( weapons,traceEnt->client->ps.weapons,sizeof( int ) * ( MAX_WEAPONS / ( sizeof( int ) * 8 ) ) );
+
+                                ClientSpawn( traceEnt, qtrue );
+
+                                memcpy( traceEnt->client->ps.ammo,ammo,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( traceEnt->client->ps.ammoclip,ammoclip,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( traceEnt->client->ps.weapons,weapons,sizeof( int ) * ( MAX_WEAPONS / ( sizeof( int ) * 8 ) ) );
+
+                                if ( headshot ) {
+                                        traceEnt->client->ps.eFlags |= EF_HEADSHOT;
+                                }
+                                traceEnt->client->ps.weapon = oldweapon;
+                                traceEnt->client->ps.weaponstate = oldweaponstate;
+
+                                traceEnt->client->ps.classWeaponTime = oldclasstime;
+
+                                traceEnt->health = healamt;
+                                VectorCopy( org,traceEnt->s.origin );
+                                VectorCopy( org,traceEnt->r.currentOrigin );
+                                VectorCopy( org,traceEnt->client->ps.origin );
+
+                                trap_Trace( &tr, traceEnt->client->ps.origin, traceEnt->client->ps.mins, traceEnt->client->ps.maxs, traceEnt->client->ps.origin, traceEnt->s.number, MASK_PLAYERSOLID );
+                                if ( tr.allsolid ) {
+                                        traceEnt->client->ps.pm_flags |= PMF_DUCKED;
+                                }
+
+                                traceEnt->s.effect3Time = level.time;
+                                traceEnt->r.contents = CONTENTS_CORPSE;
+                                trap_LinkEntity( ent );
+
+                                // DHM - Nerve :: Let the person being revived know about it
+                                trap_SendServerCommand( traceEnt - g_entities, va( "cp \"You have been revived by [lof]%s!\n\"", ent->client->pers.netname ) );
+                                traceEnt->props_frame_state = ent->s.number;
+
+                                // DHM - Nerve :: Mark that the medicine was indeed dispensed
+                                usedSyringe = qtrue;
+
+                                // sound
+                                te = G_TempEntity( traceEnt->r.currentOrigin, EV_GENERAL_SOUND );
+                                te->s.eventParm = G_SoundIndex( "sound/multiplayer/vo_revive.wav" );
+
+                                // DHM - Nerve :: Play revive animation
+
+                                // Xian -- This was gay and I always hated it.
+                                if ( g_fastres.integer > 0 ) {
+                                        BG_AnimScriptEvent( &traceEnt->client->ps, ANIM_ET_JUMP, qfalse, qtrue );
+                                } else {
+                                        BG_AnimScriptEvent( &traceEnt->client->ps, ANIM_ET_REVIVE, qfalse, qtrue );
+                                        traceEnt->client->ps.pm_flags |= PMF_TIME_LOCKPLAYER;
+                                        traceEnt->client->ps.pm_time = 2100;
+                                }
+
+
+                                AddScore( ent, MEDIC_BONUS ); // JPW NERVE props to the medic for the swift and dexterous bit o healitude
+                        }
+                }
+        }
+
+        // DHM - Nerve :: If the medicine wasn't used, give back the ammo
+        if ( !usedSyringe ) {
+                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_MEDIC_SYRINGE )] += 1;
+        }
 }
 // jpw
 
@@ -2010,6 +2122,9 @@ void FireWeapon( gentity_t *ent ) {
 
 	case WP_MORTAR:
 		break;
+	case WP_MEDIC_SYRINGE:
+                Weapon_Syringe( ent );
+                break;
 
 	default:
 		break;

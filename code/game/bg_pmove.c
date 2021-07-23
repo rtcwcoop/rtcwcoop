@@ -1633,6 +1633,10 @@ static void PM_Footsteps( void ) {
 	int animResult = -1;
 
 	if ( pm->ps->eFlags & EF_DEAD ) {
+                // DHM - Nerve :: before going to limbo, play a wounded/fallen animation
+                if ( !pm->ps->pm_time && !( pm->ps->pm_flags & PMF_LIMBO ) ) {
+                        BG_AnimScriptAnimation( pm->ps, pm->ps->aiState, ANIM_MT_FALLEN, qtrue );
+                }
 		return;
 	}
 
@@ -3270,6 +3274,9 @@ static void PM_Weapon( void ) {
 		addTime = 50;
 		break;
 	// jpw
+        case WP_MEDIC_SYRINGE:
+                addTime = ammoTable[pm->ps->weapon].nextShotTime;
+                break;
 
 	case WP_MONSTER_ATTACK1:
 		addTime = 1000;
@@ -3517,13 +3524,23 @@ void PM_UpdateViewAngles( playerState_t *ps, usercmd_t *cmd, void( trace ) ( tra
 		return;
 	}
 
-	if ( ps->pm_type == PM_INTERMISSION ) {
-		return;     // no view changes at all
-	}
+        // Added support for PMF_TIME_LOCKPLAYER
+        if ( ps->pm_type == PM_INTERMISSION || ps->pm_flags & PMF_TIME_LOCKPLAYER ) {
+                return;     // no view changes at all
+        }
 
-	if ( ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0 ) {
-		return;     // no view changes at all
-	}
+        if ( ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0 ) {
+
+                // DHM - Nerve :: Allow players to look around while 'wounded' or lock to a medic if nearby
+                temp = cmd->angles[1] + ps->delta_angles[1];
+                if ( ps->stats[STAT_DEAD_YAW] == 999 ) {
+                        ps->stats[STAT_DEAD_YAW] = SHORT2ANGLE( temp );
+                }
+                return;     // no view changes at all
+        }
+	//if ( ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0 ) {
+	//	return;     // no view changes at all
+	//}
 
 	// circularly clamp the angles with deltas
 	for ( i = 0 ; i < 3 ; i++ ) {
@@ -3979,7 +3996,7 @@ void PmoveSingle( pmove_t *pmove ) {
 		pm->ps->pm_flags &= ~PMF_BACKWARDS_RUN;
 	}
 
-	if ( pm->ps->pm_type >= PM_DEAD || pm->ps->pm_flags & PMF_LIMBO ) {         // DHM - Nerve
+	if ( pm->ps->pm_type >= PM_DEAD || pm->ps->pm_flags & ( PMF_LIMBO | PMF_TIME_LOCKPLAYER ) ) {
 		pm->cmd.forwardmove = 0;
 		pm->cmd.rightmove = 0;
 		pm->cmd.upmove = 0;

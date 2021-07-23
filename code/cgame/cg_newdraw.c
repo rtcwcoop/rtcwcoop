@@ -606,6 +606,7 @@ static void CG_DrawPlayerAmmoValue( rectDef_t *rect, int font, float scale, vec4
 		special = qtrue;
 		break;
 
+	case WP_MEDIC_SYRINGE:
 	case WP_GRENADE_LAUNCHER:
 	case WP_GRENADE_PINEAPPLE:
 	case WP_DYNAMITE:

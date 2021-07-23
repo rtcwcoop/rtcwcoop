@@ -282,8 +282,9 @@ typedef enum {
 #define PMF_SCOREBOARD      8192    // spectate as a scoreboard
 #define PMF_LIMBO           16384   // JPW NERVE limbo state, pm_time is time until reinforce
 #define PMF_TIME_LOAD       32768   // hold for this time after a load game, and prevent large thinks
+#define PMF_TIME_LOCKPLAYER 65536   // DHM - Nerve :: Lock all movement and view changes
 
-#define PMF_ALL_TIMES   ( PMF_TIME_WATERJUMP | PMF_TIME_LAND | PMF_TIME_KNOCKBACK | PMF_TIME_LOAD )
+#define PMF_ALL_TIMES   ( PMF_TIME_WATERJUMP | PMF_TIME_LAND | PMF_TIME_KNOCKBACK | PMF_TIME_LOAD | PMF_TIME_LOCKPLAYER)
 
 #define MAXTOUCH    32
 typedef struct {
@@ -593,6 +594,7 @@ typedef enum {
 	WP_MONSTER_ATTACK3,     // 25	// generic monster attack, slot 2
 
 	WP_GAUNTLET,            // 26
+	WP_MEDIC_SYRINGE,
 
 	WP_SNIPER,              // 27
 	WP_GRENADE_SMOKE,       // 28	// smoke grenade for LT multiplayer
@@ -1189,6 +1191,7 @@ typedef enum {
 	MOD_DYNAMITE,
 	MOD_DYNAMITE_SPLASH,
 	MOD_AIRSTRIKE, // JPW NERVE
+	MOD_SYRINGE,
 	MOD_WATER,
 	MOD_SLIME,
 	MOD_LAVA,
@@ -1564,6 +1567,7 @@ typedef enum
 	ANIM_MT_TURNLEFT,
 	ANIM_MT_CLIMBUP,
 	ANIM_MT_CLIMBDOWN,
+	ANIM_MT_FALLEN,		// dead, before limbo
 
 	NUM_ANIM_MOVETYPES
 } scriptAnimMoveTypes_t;

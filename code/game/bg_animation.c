@@ -94,6 +94,7 @@ static animStringItem_t animMoveTypesStr[] =
 	{"TURNLEFT", -1},
 	{"CLIMBUP", -1},
 	{"CLIMBDOWN", -1},
+	{"FALLEN", -1},
 
 	{NULL, -1},
 };
@@ -1686,8 +1687,8 @@ int BG_AnimScriptAnimation( playerState_t *ps, aistateEnum_t estate, scriptAnimM
 	animScriptItem_t    *scriptItem = NULL;
 	animScriptCommand_t *scriptCommand = NULL;
 
-
-	if ( ps->eFlags & EF_DEAD ) {
+	//Allow fallen movetype while dead
+	if ( ps->eFlags & EF_DEAD && movetype != ANIM_MT_FALLEN) {
 		return -1;
 	}
 

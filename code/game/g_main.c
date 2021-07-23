@@ -59,6 +59,8 @@ vmCvar_t g_skipcutscenes;
 #endif
 vmCvar_t g_maxspawnpoints;
 vmCvar_t g_maxlives;
+vmCvar_t g_fastres;
+vmCvar_t g_fastResMsec;
 vmCvar_t g_enforcemaxlives;
 vmCvar_t g_voiceChatsAllowed;
 vmCvar_t g_airespawn;
@@ -211,6 +213,8 @@ cvarTable_t gameCvarTable[] = {
 #endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
+        { &g_fastres, "g_fastres", "0", CVAR_ARCHIVE, 0, qtrue},                                  // Xian - Fast Medic Resing
+        { &g_fastResMsec, "g_fastResMsec", "1000", CVAR_ARCHIVE, 0, qtrue},                                   // Xian - Fast Medic Resing
 	{ &g_enforcemaxlives, "g_enforcemaxlives", "1", CVAR_ARCHIVE, 0, qtrue},
 	{ &g_voiceChatsAllowed, "g_voiceChatsAllowed", "4", CVAR_ARCHIVE, 0, qfalse},
 	{ &g_airespawn, "g_airespawn", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
