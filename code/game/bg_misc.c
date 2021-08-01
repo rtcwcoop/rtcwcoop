@@ -67,18 +67,16 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 	// bank
 	{0,                     0,                      0           },  //	0 (empty)
 
-	{WP_KNIFE,              0,			0           },  //	1
+	{WP_KNIFE,              WP_MEDIC_SYRINGE,	WP_MEDKIT   },  //	1
 	{WP_LUGER,              WP_COLT,                0           },  //	2	// WP_AKIMBO
 	{WP_MP40,               WP_THOMPSON,            WP_STEN     },  //	3
-	{WP_MAUSER,             WP_GARAND,              0           },  //	4
-	{WP_FG42,               0,                      0           },  //	5
+	{WP_MAUSER,             WP_GARAND,              0           },  //	4	// add WP_PLIERS
+	{WP_FG42,               0,                      0           },  //	5	// add WP_AMMO and WP_SMOKEGRENADE
 	{WP_GRENADE_LAUNCHER,   WP_GRENADE_PINEAPPLE,   WP_DYNAMITE },  //	6
 	{WP_PANZERFAUST,        0,                      0           },  //	7
 	{WP_VENOM,              0,                      0           },  //	8
 	{WP_FLAMETHROWER,       0,                      0           },  //	9
-	{WP_TESLA,              0,                      0           },  //	10
-	{WP_MEDIC_SYRINGE,      0,                      0           },  //	11 // PLIERS and SMOKEGRENADE
-	{WP_MEDKIT,		0,                      0           }   //	12 // AMMO
+	{WP_TESLA,              0,                      0           }   //	10
 };
 
 extern int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK];
