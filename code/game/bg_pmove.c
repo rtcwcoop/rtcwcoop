@@ -2688,6 +2688,7 @@ static void PM_Weapon( void ) {
 	int weapattackanim;
 	qboolean akimboFire;
 	qboolean gameReloading;
+	int pfausttimeout;
 
 	// don't allow attack until all buttons are up
 	if ( pm->ps->pm_flags & PMF_RESPAWNED ) {
@@ -2925,8 +2926,6 @@ static void PM_Weapon( void ) {
 	if ( g_gametype.integer == GT_COOP_CLASSES )
 #endif
 	{
-        //if ( pm->gametype == GT_COOP_CLASSES ) {
-/*
                 if ( pm->ps->weapon == WP_PANZERFAUST ) {
                         if ( pm->ps->stats[ STAT_PLAYER_CLASS ] == PC_LT ) {
                                 pfausttimeout = pm->ltChargeTime;
@@ -2937,17 +2936,19 @@ static void PM_Weapon( void ) {
                                 return;
                         }
                 }
+
                 if ( pm->ps->weapon == WP_DYNAMITE ) {
                         if ( pm->cmd.serverTime - pm->ps->classWeaponTime < pm->engineerChargeTime ) {
                                 return;
                         }
                 }
-*/
+
                 if ( pm->ps->weapon == WP_MEDKIT ) {
                         if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->medicChargeTime * 0.25f ) ) {
                                 return;
                         }
                 }
+//Com_Printf("TODO: WP_AMMO and WP_SMOKE_GRENADE\n");
 /*
                 if ( pm->ps->weapon == WP_AMMO ) {
                         if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.25f ) ) {
@@ -2982,7 +2983,6 @@ static void PM_Weapon( void ) {
 	// player is zooming - no fire
 	if ( pm->ps->eFlags & EF_ZOOMING ) {
 #ifdef GAMEDLL
-                //if ( pm->gametype == GT_COOP_CLASSES ) {
                 if ( g_gametype.integer == GT_COOP_CLASSES ) {
                         pm->ps->weaponTime += 500;
                         PM_AddEvent( EV_FIRE_WEAPON );

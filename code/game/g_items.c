@@ -419,6 +419,7 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 		// picking up a gun doesn't give you ammo
 		// Medic can pickup medkits -> this recharges the bar faster
 		// Engineer can pickup dynamites
+		// also see bg_misc.c: BG_CanItemBeGrabbed
 		return Pickup_Weapon_For_Class(ent, other);
 	} else {
 		COM_BitSet( other->client->ps.weapons, weapon );
@@ -462,6 +463,22 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 int Pickup_Health( gentity_t *ent, gentity_t *other ) {
 	int max;
 	int quantity = 0;
+
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+
+		// not a medpack dropped by a medic:
+		if ( Q_stricmp( ent->classname, "item_health_classes" ) != 0 ) {
+			// regular medkit (food, med kits hanging on the wall, etc), take classweapontime
+			// but only for medics, other classes cannot use this in current gametype
+			if ( other->client->sess.playerType == PC_MEDIC ) {
+				other->client->ps.classWeaponTime -= g_medicChargeTime.integer * 0.25;
+			}
+			return RESPAWN_SP;
+		}
+
+		// medpacks dropped by a medic are handled below
+
+	}
 
 	// small and mega healths will go over the max
 	if ( ent->item->quantity != 5 && ent->item->quantity != 100  ) {

@@ -1029,6 +1029,8 @@ void SP_coop_spawnpoint_trigger( gentity_t *ent ) {
 int Pickup_Weapon_For_Class( gentity_t *ent, gentity_t *other ) {
         int pc = other->client->ps.stats[STAT_PLAYER_CLASS];
 	int weapon = ent->item->giTag;
+	// in bg_misc.c : BG_CanItemBeGrabbed it is already
+	// decided if we are allowed to pickup this weapon
 
 	COM_BitSet( other->client->ps.weapons, weapon );
 
@@ -1051,6 +1053,8 @@ int Pickup_Weapon_For_Class( gentity_t *ent, gentity_t *other ) {
 	}
 
 	// other classes are handled in: BG_CanItemBeGrabbed
+	// health and ammo pickups change weaponchargetime, this is not handled here
+	// but in Pickup_Health and Pickup_Ammo in g_items.c
 
         return g_weaponRespawn.integer;
 }

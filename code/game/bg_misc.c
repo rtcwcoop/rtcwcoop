@@ -3993,11 +3993,10 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 			int pc = ps->stats[STAT_PLAYER_CLASS];
 			int weapon = item->giTag;
 
-			if ( pc == PC_LT /*&& weapon == WP_AMMO*/) {
-			}
-			if ( pc == PC_MEDIC /*&& weapon == WP_MEDIC_HEAL*/ ) {
+			if ( weapon == WP_MEDKIT /*|| weapon == WP_AMMO */) {
 				return qtrue;
 			}
+
 			if ( pc == PC_ENGINEER && weapon == WP_DYNAMITE ) {
 				return qtrue;
 			}
@@ -4124,10 +4123,17 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 #endif
 		{
 			int pc = ps->stats[STAT_PLAYER_CLASS];
+			// medics can grab all medpacks
 			if ( pc == PC_MEDIC ) {
 				return qtrue;
+			} else {
+				// non medics can only grab the medpacks thrown by a medic
+				if ( Q_stricmp( item->classname, "item_health_classes" ) == 0 ) {
+					return qtrue;
+				}
 			}
 
+			// all other health items cannot be picked up in the classes gametype
 			return qfalse;
 		}
 		// axis players can only pickup dropped items
