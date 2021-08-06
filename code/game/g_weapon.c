@@ -49,6 +49,7 @@ void Bullet_Fire( gentity_t *ent, float spread, int damage );
 void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start, vec3_t end, float spread, int damage, int recursion );
 
 void Weapon_Medic( gentity_t *ent );
+void Weapon_MagicAmmo( gentity_t *ent );
 
 void weapon_callAirStrike( gentity_t *ent );
 void G_ExplodeMissile( gentity_t *ent );
@@ -2167,6 +2168,61 @@ void CalcMuzzlePoints( gentity_t *ent, int weapon ) {
 	CalcMuzzlePoint( ent, weapon, forward, right, up, muzzleEffect );
 }
 
+/*
+==================
+Weapon_MagicAmmo
+==================
+*/
+void Weapon_MagicAmmo( gentity_t *ent ) {
+        gitem_t *item;
+        gentity_t *ent2;
+        vec3_t velocity, org, offset;
+        vec3_t angles,mins,maxs;
+        trace_t tr;
+
+        // TTimo unused
+//      int                     mod = MOD_KNIFE;
+
+
+        if ( level.time - ent->client->ps.classWeaponTime >= g_LTChargeTime.integer * 0.25f ) {
+                if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
+                        ent->client->ps.classWeaponTime = level.time - g_LTChargeTime.integer;
+                }
+                ent->client->ps.classWeaponTime += g_LTChargeTime.integer * 0.25;
+//                      ent->client->ps.classWeaponTime = level.time;
+//                      if (ent->client->ps.classWeaponTime > level.time)
+//                              ent->client->ps.classWeaponTime = level.time;
+                item = BG_FindItem( "Ammo Pack" );
+                VectorCopy( ent->client->ps.viewangles, angles );
+
+                // clamp pitch
+                if ( angles[PITCH] < -30 ) {
+                        angles[PITCH] = -30;
+                } else if ( angles[PITCH] > 30 ) {
+                        angles[PITCH] = 30;
+                }
+
+                AngleVectors( angles, velocity, NULL, NULL );
+                VectorScale( velocity, 64, offset );
+                offset[2] += ent->client->ps.viewheight / 2;
+                VectorScale( velocity, 75, velocity );
+                velocity[2] += 50 + crandom() * 25;
+
+                VectorAdd( ent->client->ps.origin,offset,org );
+
+                VectorSet( mins, -ITEM_RADIUS, -ITEM_RADIUS, 0 );
+                VectorSet( maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS );
+
+                trap_Trace( &tr, ent->client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
+                VectorCopy( tr.endpos, org );
+
+                ent2 = LaunchItem( item, org, velocity, ent->s.number );
+                ent2->think = MagicSink;
+                ent2->timestamp = level.time + 31200;
+                ent2->parent = ent;
+        }
+}
+
 void Weapon_Medic( gentity_t *ent ) {
         gitem_t *item;
         gentity_t *ent2;
@@ -2442,6 +2498,9 @@ void FireWeapon( gentity_t *ent ) {
 		break;
         case WP_MEDKIT:
                 Weapon_Medic( ent );
+                break;
+        case WP_AMMO:
+                Weapon_MagicAmmo( ent );
                 break;
 	case WP_MEDIC_SYRINGE:
                 Weapon_Syringe( ent );

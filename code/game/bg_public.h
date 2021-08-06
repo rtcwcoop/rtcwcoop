@@ -601,6 +601,7 @@ typedef enum {
 	WP_MEDIC_SYRINGE,	// 27
 	WP_ARTY,		// 28
 	WP_MEDKIT,		// 29
+	WP_AMMO,		// 30
 
 	WP_SNIPER,              // 27
 	WP_GRENADE_SMOKE,       // 28	// smoke grenade for LT multiplayer
@@ -1201,6 +1202,7 @@ typedef enum {
 	MOD_DYNAMITE_SPLASH,
 	MOD_AIRSTRIKE, // JPW NERVE
 	MOD_SYRINGE,
+	MOD_AMMO,
 	MOD_WATER,
 	MOD_SLIME,
 	MOD_LAVA,

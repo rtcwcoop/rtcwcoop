@@ -90,8 +90,7 @@ int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES] = {
  {WP_GRENADE_LAUNCHER, WP_GRENADE_PINEAPPLE, 0,		      0,         0,         0,       0,		     0,        0,		0},
  //{WP_MEDIC_SYRINGE,    WP_PLIERS,            WP_SMOKE_GRENADE,0,         0,         0,       0,		     0,        0,		0},
  {WP_MEDIC_SYRINGE,    0,		     0,		      0,         0,         0,       0,		     0,        0,		0},
- //{WP_DYNAMITE,         WP_MEDKIT,            WP_AMMO,	      0,         0,         0,       0,		     0,        0,		0}
- {WP_DYNAMITE,         WP_MEDKIT,            0,		      0,         0,         0,       0,		     0,        0,		0}
+ {WP_DYNAMITE,         WP_MEDKIT,            WP_AMMO,	      0,         0,         0,       0,		     0,        0,		0}
 };
 
 extern int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES];
@@ -150,7 +149,8 @@ ammotable_t ammoTable[] = {
 	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_GAUNTLET 26
 	{   3,              1,      1,      1500,   50,             1000,   0,      0,      MOD_SYRINGE             },  //      WP_MEDIC_SYRINGE 27
 	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_ARTY,               },  //      WP_ARTY 28
-	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       }   //      WP_MEDKIT 29
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //      WP_MEDKIT 29
+	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_AMMO,               }   //      WP_AMMO 30
 };
 
 
@@ -1528,6 +1528,31 @@ weapon_medic_heal
                 WP_MEDKIT,
                 "",                      // precache
                 "sound/multiplayer/allies/a-medic3.wav sound/multiplayer/axis/g-medic3.wav sound/multiplayer/allies/a-medic2.wav sound/multiplayer/axis/g-medic2.wav sound/multiplayer/axis/g-medic1.wav sound/multiplayer/allies/a-medic1.wav",                     // sounds
+                {0,0,0,0}
+        },
+
+/*
+weapon_magicammo (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+        {
+                "weapon_magicammo",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/ammopack/ammopack.md3",
+                        "models/multiplayer/ammopack/v_ammopack.md3",
+                        "models/multiplayer/ammopack/ammopack_pickup.md3",
+                        0,
+                        ""},
+
+                "icons/iconw_ammopack_1",    // icon
+                "icons/ammo2",           // ammo icon
+                "Ammo Pack",             // pickup
+                50, // this should never be picked up
+                IT_WEAPON,
+                WP_AMMO,
+                WP_AMMO,
+                WP_AMMO,
+                "",                      // precache
+                "sound/multiplayer/allies/a-aborting.wav sound/multiplayer/axis/g-aborting.wav sound/multiplayer/allies/a-affirmative_omw.wav sound/multiplayer/axis/g-affirmative_omw.wav",                     // sounds
                 {0,0,0,0}
         },
 // dhm
@@ -4006,7 +4031,7 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 			int pc = ps->stats[STAT_PLAYER_CLASS];
 			int weapon = item->giTag;
 
-			if ( weapon == WP_MEDKIT /*|| weapon == WP_AMMO */) {
+			if ( weapon == WP_MEDKIT || weapon == WP_AMMO) { // fretn: can these be picked up ???
 				return qtrue;
 			}
 
@@ -4081,10 +4106,16 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 			int pc = ps->stats[STAT_PLAYER_CLASS];
 			if ( pc == PC_LT ) {
 				return qtrue;
-			}
+                        } else {
+                                // non lt's can only grab the ammopacks thrown by a LT
+                                if ( Q_stricmp( item->classname, "weapon_magicammo" ) == 0 ) {
+                                        return qtrue;
+                                }
+                        }
 
-			return qfalse;
-		}
+                        // all other health items cannot be picked up in the classes gametype
+                        return qfalse;
+                }
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;

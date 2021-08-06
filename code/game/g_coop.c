@@ -83,10 +83,13 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 		// Lieutenant gets binoculars, ammo pack, artillery (smoke grenade + binocs), and a grenade
 		// only lieutenant can pickup binoculars
                 if ( pc == PC_LT ) {
-			// TODO: ammo pack
                         COM_BitSet( client->ps.weapons, WP_ARTY );
                         client->ps.ammo[BG_FindAmmoForWeapon( WP_ARTY )] = 0;
                         client->ps.ammoclip[BG_FindClipForWeapon( WP_ARTY )] = 1;
+
+                        COM_BitSet( client->ps.weapons, WP_AMMO );
+                        client->ps.ammo[BG_FindAmmoForWeapon( WP_AMMO )] = 0;
+                        client->ps.ammoclip[BG_FindClipForWeapon( WP_AMMO )] = 1;
 
                         client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 
@@ -1032,6 +1035,8 @@ int Pickup_Weapon_For_Class( gentity_t *ent, gentity_t *other ) {
 	// in bg_misc.c : BG_CanItemBeGrabbed it is already
 	// decided if we are allowed to pickup this weapon
 
+	// Give the weapon
+	// but no ammo, the LT needs to give us some
 	COM_BitSet( other->client->ps.weapons, weapon );
 
 	if ( pc == PC_SOLDIER ) {

@@ -2949,12 +2949,12 @@ static void PM_Weapon( void ) {
                         }
                 }
 //Com_Printf("TODO: WP_AMMO and WP_SMOKE_GRENADE\n");
-/*
                 if ( pm->ps->weapon == WP_AMMO ) {
                         if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.25f ) ) {
                                 return;
                         }
                 }
+/*
                 if ( pm->ps->weapon == WP_SMOKE_GRENADE ) {
                         if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.5f ) ) {
                                 return;
@@ -3326,6 +3326,9 @@ static void PM_Weapon( void ) {
 		addTime = 50;
 		break;
 	// jpw
+        case WP_AMMO:
+                addTime = ammoTable[pm->ps->weapon].nextShotTime;
+                break;
         case WP_MEDKIT:
                 addTime = 1000;
                 break;

@@ -1339,6 +1339,7 @@ void CG_RegisterWeapon( int weaponNum ) {
                 break;
         case WP_ARTY:           // JPW NERVE
                 break;
+        case WP_AMMO:
         case WP_MEDKIT:
                 weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/multiplayer/bag_toss.wav" );
                 break;
