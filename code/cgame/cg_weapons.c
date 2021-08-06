@@ -1461,9 +1461,12 @@ void CG_RegisterItemVisuals( int itemNum ) {
 		if ( cg_gameType.integer == GT_COOP_CLASSES ) {
 			CG_RegisterWeapon( WP_SMOKETRAIL );
 			CG_RegisterWeapon( WP_MEDKIT );
+			maxWeapBanks = MAX_WEAP_BANKS_CLASSES;
+			maxWeapsInBank = MAX_WEAPS_IN_BANK_CLASSES;
+		} else {
+			maxWeapBanks = MAX_WEAP_BANKS;
+			maxWeapsInBank = MAX_WEAPS_IN_BANK;
 		}
-		maxWeapBanks = MAX_WEAP_BANKS;
-		maxWeapsInBank = MAX_WEAPS_IN_BANK;
 	}
 }
 
@@ -3073,7 +3076,11 @@ void CG_DrawWeaponSelect( void ) {
 		qboolean wideweap; // is the icon one of the double width ones
 
 		// primary fire
-		drawweap = weapBanks[curweapbank][i];
+		if (cg_gameType.integer == GT_COOP_CLASSES) {
+			drawweap = weapBanksClasses[curweapbank][i];
+		} else {
+			drawweap = weapBanks[curweapbank][i];
+		}
 
 		realweap = drawweap;        // DHM - Nerve
 
@@ -3143,12 +3150,20 @@ void CG_DrawWeaponSelect( void ) {
 			x = WP_DRAW_X - WP_ICON_SEC_X - 4;
 		}
 
-		drawweap = getAltWeapon( weapBanks[curweapbank][i] );
+                if (cg_gameType.integer == GT_COOP_CLASSES) {
+			drawweap = getAltWeapon( weapBanksClasses[curweapbank][i] );
+			// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
+			if ( drawweap == weapBanksClasses[curweapbank][i] ) {
+				drawweap = 0;
+			}
+                } else {
+			drawweap = getAltWeapon( weapBanks[curweapbank][i] );
+			// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
+			if ( drawweap == weapBanks[curweapbank][i] ) {
+				drawweap = 0;
+			}
+                }
 
-		// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
-		if ( drawweap == weapBanks[curweapbank][i] ) {
-			drawweap = 0;
-		}
 
 		realweap = drawweap;        // DHM - Nerve
 
@@ -3278,20 +3293,36 @@ int CG_WeaponIndex( int weapnum, int *bank, int *cycle ) {
 
 			// end of cycle, go to next bank
 			if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
-				if ( !weapBanks[bnk][cyc] ) {
-					break;
+				if (cg_gameType.integer == GT_COOP_CLASSES) {
+					if ( !weapBanksClasses[bnk][cyc] ) {
+						break;
+					}
+					// found the current weapon
+					if ( weapBanksClasses[bnk][cyc] == weapnum ) {
+						if ( bank ) {
+							*bank = bnk;
+						}
+						if ( cycle ) {
+							*cycle = cyc;
+						}
+						return 1;
+					}
+				} else {
+					if ( !weapBanks[bnk][cyc] ) {
+						break;
+					}
+					// found the current weapon
+					if ( weapBanks[bnk][cyc] == weapnum ) {
+						if ( bank ) {
+							*bank = bnk;
+						}
+						if ( cycle ) {
+							*cycle = cyc;
+						}
+						return 1;
+					}
 				}
 
-				// found the current weapon
-				if ( weapBanks[bnk][cyc] == weapnum ) {
-					if ( bank ) {
-						*bank = bnk;
-					}
-					if ( cycle ) {
-						*cycle = cyc;
-					}
-					return 1;
-				}
 			}
 		}
 	}
@@ -3317,10 +3348,18 @@ static int getNextWeapInBank( int bank, int cycle ) {
 
 	cycle = cycle % maxWeapsInBank;
 
-	if ( weapBanks[bank][cycle] ) {        // return next weapon in bank if there is one
-		return weapBanks[bank][cycle];
-	} else {                                // return first in bank
-		return weapBanks[bank][0];
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		if ( weapBanksClasses[bank][cycle] ) {        // return next weapon in bank if there is one
+			return weapBanksClasses[bank][cycle];
+		} else {                                // return first in bank
+			return weapBanksClasses[bank][0];
+		}
+	} else {
+		if ( weapBanks[bank][cycle] ) {        // return next weapon in bank if there is one
+			return weapBanks[bank][cycle];
+		} else {                                // return first in bank
+			return weapBanks[bank][0];
+		}
 	}
 }
 
@@ -3349,15 +3388,27 @@ static int getPrevWeapInBank( int bank, int cycle ) {
 		cycle = maxWeapsInBank - 1;
 	}
 
-	while ( !weapBanks[bank][cycle] )
-	{
-		cycle--;
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		while ( !weapBanksClasses[bank][cycle] )
+		{
+			cycle--;
 
-		if ( cycle < 0 ) {
-			cycle = maxWeapsInBank - 1;
+			if ( cycle < 0 ) {
+				cycle = maxWeapsInBank - 1;
+			}
 		}
+		return weapBanksClasses[bank][cycle];
+	} else {
+		while ( !weapBanks[bank][cycle] )
+		{
+			cycle--;
+
+			if ( cycle < 0 ) {
+				cycle = maxWeapsInBank - 1;
+			}
+		}
+		return weapBanks[bank][cycle];
 	}
-	return weapBanks[bank][cycle];
 }
 
 
@@ -3385,12 +3436,20 @@ static int getNextBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 	bank++;
 
 	bank = bank % maxWeapBanks;
-
-	if ( sameBankPosition && weapBanks[bank][cycle] ) {
-		return weapBanks[bank][cycle];
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		if ( sameBankPosition && weapBanksClasses[bank][cycle] ) {
+			return weapBanksClasses[bank][cycle];
+		} else {
+			return weapBanksClasses[bank][0];
+		}
 	} else {
-		return weapBanks[bank][0];
+		if ( sameBankPosition && weapBanks[bank][cycle] ) {
+			return weapBanks[bank][cycle];
+		} else {
+			return weapBanks[bank][0];
+		}
 	}
+
 }
 
 /*
@@ -3411,19 +3470,36 @@ static int getPrevBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 	}
 	bank = bank % maxWeapBanks;
 
-	if ( sameBankPosition && weapBanks[bank][cycle] ) {
-		return weapBanks[bank][cycle];
-	} else
-	{       // find highest weap in bank
-		for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
-			if ( weapBanks[bank][i] ) {
-				return weapBanks[bank][i];
-			}
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		if ( sameBankPosition && weapBanksClasses[bank][cycle] ) {
+			return weapBanksClasses[bank][cycle];
+		} else
+		{       // find highest weap in bank
+			for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
+				if ( weapBanksClasses[bank][i] ) {
+					return weapBanksClasses[bank][i];
+				}
 
+			}
+			// if it gets to here, no valid weaps in this bank, go down another bank
+			return getPrevBankWeap( bank, cycle, sameBankPosition );
 		}
-		// if it gets to here, no valid weaps in this bank, go down another bank
-		return getPrevBankWeap( bank, cycle, sameBankPosition );
+	} else {
+		if ( sameBankPosition && weapBanks[bank][cycle] ) {
+			return weapBanks[bank][cycle];
+		} else
+		{       // find highest weap in bank
+			for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
+				if ( weapBanks[bank][i] ) {
+					return weapBanks[bank][i];
+				}
+
+			}
+			// if it gets to here, no valid weaps in this bank, go down another bank
+			return getPrevBankWeap( bank, cycle, sameBankPosition );
+		}
 	}
+
 }
 
 /*
@@ -3684,20 +3760,36 @@ void CG_AltWeapon_f( void ) {
 			if ( cg.snap->ps.eFlags & EF_MELEE_ACTIVE ) {   // if you're holding a chair, you can't screw on the silencer
 				return;
 			}
-			weapBanks[2][0] = WP_SILENCER;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][0] = WP_SILENCER;
+			} else {
+				weapBanks[2][0] = WP_SILENCER;
+			}
 			break;
 		case WP_SILENCER:
 			if ( cg.snap->ps.eFlags & EF_MELEE_ACTIVE ) {   // if you're holding a chair, you can't remove the silencer
 				return;
 			}
-			weapBanks[2][0] = WP_LUGER;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][0] = WP_LUGER;
+			} else {
+				weapBanks[2][0] = WP_LUGER;
+			}
 			break;
 
 		case WP_AKIMBO:
-			weapBanks[2][1] = WP_COLT;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][1] = WP_COLT;
+			} else {
+				weapBanks[2][1] = WP_COLT;
+			}
 			break;
 		case WP_COLT:
-			weapBanks[2][1] = WP_AKIMBO;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][1] = WP_AKIMBO;
+			} else {
+				weapBanks[2][1] = WP_AKIMBO;
+			}
 			break;
 		}
 
@@ -4125,7 +4217,11 @@ void CG_WeaponBank_f( void ) {
 
 	if ( !cg.lastWeapSelInBank[bank] ) {
 		if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
-			num = weapBanks[bank][0];
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				num = weapBanksClasses[bank][0];
+			} else {
+				num = weapBanks[bank][0];
+			}
 		}
 		cycle -= 1;   // cycle up to first weap
 	} else {

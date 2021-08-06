@@ -989,8 +989,12 @@ void ClientThink_real( gentity_t *ent ) {
 						return;
 					}
 				}
-				if ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) {
-					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
+				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) || ( client->ps.stats[STAT_PLAYER_CLASS] == PC_LT ) ) {
+					int maxWeapsInBank = MAX_WEAPS_IN_BANK;
+					if (g_gametype.integer == GT_COOP_CLASSES) {
+						maxWeapsInBank = MAX_WEAPS_IN_BANK_CLASSES;
+					}
+					for ( i = 0; i < maxWeapsInBank; i++ ) {
 						// drop the current weapon
 						weapon = client->ps.weapon;
 
@@ -1028,7 +1032,7 @@ void ClientThink_real( gentity_t *ent ) {
 							// Clear out empty weapon, change to next best weapon
 							G_AddEvent( ent, EV_NOAMMO, 0 );
 
-							i = MAX_WEAPS_IN_BANK;
+							i = maxWeapsInBank;
 							// show_bug.cgi?id=568
 							if ( client->ps.weapon == weapon ) {
 								client->ps.weapon = 0;

@@ -67,7 +67,7 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 	// bank
 	{0,                     0,                      0           },  //	0 (empty)
 
-	{WP_KNIFE,              WP_MEDIC_SYRINGE,	WP_MEDKIT   },  //	1
+	{WP_KNIFE,              0,			0	    },  //	1
 	{WP_LUGER,              WP_COLT,                0           },  //	2	// WP_AKIMBO
 	{WP_MP40,               WP_THOMPSON,            WP_STEN     },  //	3
 	{WP_MAUSER,             WP_GARAND,              0           },  //	4	// add WP_PLIERS
@@ -80,6 +80,21 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 };
 
 extern int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK];
+
+int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES] = {
+// emtpy bank '0'
+ {0,                   0,                    0,		      0,         0,         0,       0,		     0,        0,		0},
+ {WP_KNIFE,            0,                    0,		      0,         0,         0,       0,		     0,        0,		0},
+ {WP_LUGER,            WP_COLT,              0,		      0,         0,         0,       0,		     0,        0,	        0},
+ {WP_MP40,             WP_THOMPSON,          WP_STEN,	      WP_MAUSER, WP_GARAND, WP_FG42, WP_PANZERFAUST, WP_VENOM, WP_FLAMETHROWER,	WP_TESLA},
+ {WP_GRENADE_LAUNCHER, WP_GRENADE_PINEAPPLE, 0,		      0,         0,         0,       0,		     0,        0,		0},
+ //{WP_MEDIC_SYRINGE,    WP_PLIERS,            WP_SMOKE_GRENADE,0,         0,         0,       0,		     0,        0,		0},
+ {WP_MEDIC_SYRINGE,    0,		     0,		      0,         0,         0,       0,		     0,        0,		0},
+ //{WP_DYNAMITE,         WP_MEDKIT,            WP_AMMO,	      0,         0,         0,       0,		     0,        0,		0}
+ {WP_DYNAMITE,         WP_MEDKIT,            0,		      0,         0,         0,       0,		     0,        0,		0}
+};
+
+extern int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES];
 
 // [0] = maxammo		-	max player ammo carrying capacity.
 // [1] = uses			-	how many 'rounds' it takes/costs to fire one cycle.
