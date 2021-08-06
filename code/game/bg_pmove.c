@@ -2948,19 +2948,18 @@ static void PM_Weapon( void ) {
                                 return;
                         }
                 }
-//Com_Printf("TODO: WP_AMMO and WP_SMOKE_GRENADE\n");
+
                 if ( pm->ps->weapon == WP_AMMO ) {
                         if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.25f ) ) {
                                 return;
                         }
                 }
-/*
+
                 if ( pm->ps->weapon == WP_SMOKE_GRENADE ) {
                         if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.5f ) ) {
                                 return;
                         }
                 }
-*/
         }
 
 	// check for fire
@@ -3023,8 +3022,9 @@ static void PM_Weapon( void ) {
 	case WP_STEN:
 	case WP_VENOM:
 	case WP_FG42:
-	case WP_MEDKIT:
 	case WP_FG42SCOPE:
+	case WP_MEDKIT:
+	case WP_SMOKE_GRENADE:
 		if ( !weaponstateFiring ) {
 			if ( pm->ps->aiChar && pm->ps->weapon == WP_VENOM ) {
 				// AI get fast spin-up
@@ -3203,10 +3203,10 @@ static void PM_Weapon( void ) {
 	case WP_MP40:
 	case WP_THOMPSON:
 	case WP_STEN:
+	case WP_SMOKE_GRENADE:
 	case WP_MEDKIT:
 		PM_ContinueWeaponAnim( weapattackanim );
 		break;
-	
 	default:
 		PM_StartWeaponAnim( weapattackanim );
 	break;
@@ -3221,6 +3221,17 @@ static void PM_Weapon( void ) {
 			PM_AddEvent( EV_FIRE_WEAPON );
 		}
 	} else {
+		// in classes, pfaust fires once then switches to pistol since it's useless for a while
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			if ( ( pm->ps->weapon == WP_PANZERFAUST ) || ( pm->ps->weapon == WP_SMOKE_GRENADE ) || ( pm->ps->weapon == WP_DYNAMITE ) ) {
+				PM_AddEvent( EV_NOAMMO );
+			}
+		}
 		if ( PM_WeaponClipEmpty( pm->ps->weapon ) ) {
 			PM_AddEvent( EV_FIRE_WEAPON_LASTSHOT );
 		} else {
@@ -3330,6 +3341,9 @@ static void PM_Weapon( void ) {
                 addTime = ammoTable[pm->ps->weapon].nextShotTime;
                 break;
         case WP_MEDKIT:
+                addTime = 1000;
+                break;
+        case WP_SMOKE_GRENADE:
                 addTime = 1000;
                 break;
         case WP_ARTY:

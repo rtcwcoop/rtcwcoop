@@ -288,7 +288,7 @@ static void CG_DrawPlayerWeaponIcon( rectDef_t *rect, qboolean drawHighlighted, 
 			realweap = WP_MEDIC_HEAL;
 			break;
 		case PC_LT:
-			realweap = WP_GRENADE_SMOKE;
+			realweap = WP_SMOKE_GRENADE;
 			break;
 		default:
 			break;
@@ -600,6 +600,7 @@ static void CG_DrawPlayerAmmoValue( rectDef_t *rect, int font, float scale, vec4
 	switch ( weap ) {      // some weapons don't draw ammo count text
 	case WP_KNIFE:
 	case WP_CLASS_SPECIAL:              // DHM - Nerve
+	case WP_SMOKE_GRENADE:
 		return;
 
 	case WP_AKIMBO:

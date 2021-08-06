@@ -91,6 +91,10 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
                         client->ps.ammo[BG_FindAmmoForWeapon( WP_AMMO )] = 0;
                         client->ps.ammoclip[BG_FindClipForWeapon( WP_AMMO )] = 1;
 
+			COM_BitSet( client->ps.weapons, WP_SMOKE_GRENADE );
+                        client->ps.ammoclip[BG_FindClipForWeapon( WP_SMOKE_GRENADE )] = 1;
+                        client->ps.ammo[WP_SMOKE_GRENADE] = 1;
+
                         client->ps.stats[STAT_KEYS] |= ( 1 << INV_BINOCS );
 
 			switch ( client->sess.sessionTeam ) {

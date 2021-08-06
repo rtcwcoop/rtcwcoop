@@ -602,16 +602,17 @@ typedef enum {
 	WP_ARTY,		// 28
 	WP_MEDKIT,		// 29
 	WP_AMMO,		// 30
+	WP_SMOKE_GRENADE,	// 31
 
-	WP_SNIPER,              // 27
-	WP_GRENADE_SMOKE,       // 28	// smoke grenade for LT multiplayer
-	WP_MEDIC_HEAL,          // 29	// DHM - Nerve :: Medic special weapon
-	WP_MORTAR,              // 30
+	WP_SNIPER,              //
+	WP_GRENADE_SMOKE,       //
+	WP_MEDIC_HEAL,          //
+	WP_MORTAR,              //
 
-	VERYBIGEXPLOSION,       // 31	// explosion effect for airplanes
+	VERYBIGEXPLOSION,       //
 	WP_SMOKETRAIL,		// fretn: might move this to a different position
 
-	WP_NUM_WEAPONS          // 32   NOTE: this cannot be larger than 64 for AI/player weapons!
+	WP_NUM_WEAPONS          // NOTE: this cannot be larger than 64 for AI/player weapons!
 
 } weapon_t;
 

@@ -1329,6 +1329,14 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->trailRadius         = 256;
 		break;
 // jpw
+        case WP_SMOKE_GRENADE:
+                weaponInfo->missileModel = trap_R_RegisterModel( "models/multiplayer/smokegrenade/smokegrenade.md3" );
+                weaponInfo->missileTrailFunc    = CG_PyroSmokeTrail;
+                weaponInfo->flashEchoSound[0]   = trap_S_RegisterSound( "sound/multiplayer/artillery_exp01.wav" );   // use same as mp40
+                weaponInfo->missileDlight       = 200;
+                weaponInfo->wiTrailTime         = 4000;
+                weaponInfo->trailRadius         = 256;
+                break;
         case WP_SMOKETRAIL:     // JPW NERVE -- for smoke bits from artillery spotter round, plus other effects maybe
                 weaponInfo->missileTrailFunc    = CG_PyroSmokeTrail;
                 weaponInfo->missileDlight       = 200;
@@ -1462,6 +1470,7 @@ void CG_RegisterItemVisuals( int itemNum ) {
 		if ( cg_gameType.integer == GT_COOP_CLASSES ) {
 			CG_RegisterWeapon( WP_SMOKETRAIL );
 			CG_RegisterWeapon( WP_MEDKIT );
+			CG_RegisterWeapon( WP_SMOKE_GRENADE );
 			maxWeapBanks = MAX_WEAP_BANKS_CLASSES;
 			maxWeapsInBank = MAX_WEAPS_IN_BANK_CLASSES;
 		} else {
@@ -4632,7 +4641,8 @@ void CG_FireWeapon( centity_t *cent ) {
 	} else if (   ent->weapon == WP_GRENADE_LAUNCHER ||
 				  ent->weapon == WP_GRENADE_PINEAPPLE ||
 				  ent->weapon == WP_DYNAMITE ||
-				  ent->weapon == WP_GRENADE_SMOKE ) { // JPW NERVE
+				  ent->weapon == WP_GRENADE_SMOKE ||
+				  ent->weapon == WP_SMOKE_GRENADE ) { // JPW NERVE
 		if ( ent->weapon == WP_GRENADE_SMOKE ) {
 			CG_Printf( "smoke grenade!\n" );
 		}
@@ -5262,6 +5272,7 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 		}
 		break;
 
+	case WP_SMOKE_GRENADE:
 	case WP_GRENADE_SMOKE: // JPW NERVE
 	case WP_GRENADE_LAUNCHER:
 	case WP_GRENADE_PINEAPPLE:

@@ -89,7 +89,7 @@ int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES] = {
  {WP_MP40,             WP_THOMPSON,          WP_STEN,	      WP_MAUSER, WP_GARAND, WP_FG42, WP_PANZERFAUST, WP_VENOM, WP_FLAMETHROWER,	WP_TESLA},
  {WP_GRENADE_LAUNCHER, WP_GRENADE_PINEAPPLE, 0,		      0,         0,         0,       0,		     0,        0,		0},
  //{WP_MEDIC_SYRINGE,    WP_PLIERS,            WP_SMOKE_GRENADE,0,         0,         0,       0,		     0,        0,		0},
- {WP_MEDIC_SYRINGE,    0,		     0,		      0,         0,         0,       0,		     0,        0,		0},
+ {WP_MEDIC_SYRINGE,    0,		     WP_SMOKE_GRENADE,0,         0,         0,       0,		     0,        0,		0},
  {WP_DYNAMITE,         WP_MEDKIT,            WP_AMMO,	      0,         0,         0,       0,		     0,        0,		0}
 };
 
@@ -150,7 +150,8 @@ ammotable_t ammoTable[] = {
 	{   3,              1,      1,      1500,   50,             1000,   0,      0,      MOD_SYRINGE             },  //      WP_MEDIC_SYRINGE 27
 	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_ARTY,               },  //      WP_ARTY 28
 	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //      WP_MEDKIT 29
-	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_AMMO,               }   //      WP_AMMO 30
+	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_AMMO,               },  //      WP_AMMO 30
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       }   //	WP_SMOKE_GRENADE 31
 };
 
 
@@ -1986,6 +1987,30 @@ weapon_arty (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
                 "sound/multiplayer/allies/a-firing.wav sound/multiplayer/axis/g-firing.wav sound/multiplayer/allies/a-art_abort.wav sound/multiplayer/axis/g-art_abort.wav", // sounds
                 {0,0,0,0}
         },
+
+/* JPW NERVE
+weapon_grenadesmoke
+*/
+        {
+                "weapon_grenadesmoke",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/smokegrenade/smokegrenade.md3",
+                        "models/multiplayer/smokegrenade/v_smokegrenade.md3",
+                        0, 0, 0},
+
+                "icons/iconw_smokegrenade_1",    // icon
+                "icons/ammo2",   // ammo icon
+                "smokeGrenade",              // pickup
+                50,
+                IT_WEAPON,
+                WP_SMOKE_GRENADE,
+                WP_SMOKE_GRENADE,
+                WP_SMOKE_GRENADE,
+                "",                      // precache
+                "sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav",             // sounds
+                {0,0,0,0}
+        },
+// jpw
 
 /* JPW NERVE
 weapon_smoketrail -- only used as a special effects emitter for smoke trails (artillery spotter etc)

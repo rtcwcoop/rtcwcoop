@@ -615,6 +615,7 @@ int G_GetWeaponDamage( int weapon ) {
 		case WP_KNIFE: return 5;
 		case WP_GRENADE_LAUNCHER: return 100;
 		case WP_GRENADE_PINEAPPLE: return 80;
+		case WP_SMOKE_GRENADE: return 80;
 		case WP_DYNAMITE: return 400;
 		case WP_PANZERFAUST: return 200;            // (SA) was 100
 		case WP_MORTAR: return 100;
@@ -1138,6 +1139,8 @@ gentity_t *weapon_grenadelauncher_fire_coop( gentity_t *ent, int grenType ) {
 		upangle *= 900;
 	} else if ( grenType == WP_GRENADE_SMOKE ) {
 		upangle *= 900;
+	} else if ( grenType == WP_SMOKE_GRENADE ) {
+		upangle *= 900;
 	} else {     // WP_DYNAMITE
 		upangle *= 400;
 	}
@@ -1174,7 +1177,7 @@ gentity_t *weapon_grenadelauncher_fire_coop( gentity_t *ent, int grenType ) {
 	m->splashDamage *= s_quadFactor;
 
 	// JPW NERVE
-	if ( grenType == WP_GRENADE_SMOKE ) {
+	if ( grenType == WP_GRENADE_SMOKE || grenType == WP_SMOKE_GRENADE) {
 
 		if ( ent->client->sess.sessionTeam == TEAM_RED ) {         // store team so we can generate red or blue smoke
 			m->s.otherEntityNum2 = 1;
@@ -1206,7 +1209,7 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 	vec3_t tosspos;
 	qboolean underhand = 0;
 
-	if ( ( ent->s.apos.trBase[0] > 0 ) && ( grenType != WP_GRENADE_SMOKE ) ) { // JPW NERVE -- smoke grenades always overhand
+	if ( ( ent->s.apos.trBase[0] > 0 ) && ( grenType != WP_GRENADE_SMOKE && grenType != WP_SMOKE_GRENADE) ) { // JPW NERVE -- smoke grenades always overhand
 		underhand = qtrue;
 	}
 
@@ -1239,6 +1242,8 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 		}
 	} else if ( grenType == WP_GRENADE_SMOKE )   { // smoke grenades *really* get chucked
 		upangle *= 800;
+	} else if ( grenType == WP_SMOKE_GRENADE )   { // smoke grenades *really* get chucked
+		upangle *= 900;
 	} else {      // WP_DYNAMITE
 		upangle *= 400;     //										0.0 / 100.0
 
@@ -1294,7 +1299,7 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 	}
 
 // JPW NERVE
-	if ( grenType == WP_GRENADE_SMOKE ) {
+	if ( grenType == WP_GRENADE_SMOKE || grenType == WP_SMOKE_GRENADE) {
 		if ( ent->client->sess.sessionTeam == TEAM_RED ) { // store team so we can generate red or blue smoke
 			m->s.otherEntityNum2 = 1;
 		} else {
@@ -1305,7 +1310,7 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 
 		te = G_TempEntity( m->s.pos.trBase, EV_GLOBAL_SOUND );
 		te->s.eventParm = G_SoundIndex( "sound/scenaric/forest/me109_flight.wav" );
-//		te->r.svFlags |= SVF_BROADCAST | SVF_USE_CURRENT_ORIGIN;
+		te->r.svFlags |= SVF_BROADCAST | SVF_USE_CURRENT_ORIGIN;
 	}
 // jpw
 
@@ -2504,6 +2509,15 @@ void FireWeapon( gentity_t *ent ) {
                 break;
 	case WP_MEDIC_SYRINGE:
                 Weapon_Syringe( ent );
+        case WP_SMOKE_GRENADE:
+                if ( level.time - ent->client->ps.classWeaponTime >= g_LTChargeTime.integer * 0.5f ) {
+                        if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
+                                ent->client->ps.classWeaponTime = level.time - g_LTChargeTime.integer;
+                        }
+                        ent->client->ps.classWeaponTime = level.time; //+= g_LTChargeTime.integer*0.5f; FIXME later
+                        weapon_grenadelauncher_fire( ent,WP_SMOKE_GRENADE );
+                }
+                break;
         case WP_ARTY:
                 G_Printf( "calling artilery\n" );
                 break;
