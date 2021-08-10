@@ -1376,41 +1376,66 @@ static void CG_DrawCompass( void ) {
 	CG_DrawRotatedPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass2.tga" ), angle );
 	CG_DrawPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass.tga" ) );
 
-	// draw voice chats
-	for ( i = 0; i < MAX_CLIENTS; i++ ) {
-		centity_t *cent = &cg_entities[i];
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		// draw voice chats
+		for ( i = 0; i < MAX_CLIENTS; i++ ) {
+			centity_t *cent = &cg_entities[i];
 
-		if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.teamNum != cg.snap->ps.teamNum ) {
-			continue;
+			if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cg.snap->ps.persistant[PERS_TEAM] != cgs.clientinfo[i].team ) {
+				continue;
+			}
+
+			// also draw revive icons if cent is dead and player is a medic
+			if ( cent->voiceChatSpriteTime < cg.time ) {
+				continue;
+			}
+
+			if ( cgs.clientinfo[i].health <= 0 ) {
+				// reset
+				cent->voiceChatSpriteTime = cg.time;
+				continue;
+			}
+
+			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, cent->voiceChatSprite );
 		}
 
+		// draw revive medic icons
+		if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_MEDIC ) {
+			if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
+				snap = cg.nextSnap;
+			} else {
+				snap = cg.snap;
+			}
 
-		CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+			for ( i = 0; i < snap->numEntities; i++ ) {
+				entityState_t *ent = &snap->entities[i];
+
+				if ( ent->eType != ET_PLAYER ) {
+					continue;
+				}
+
+				if ( ( ent->eFlags & EF_DEAD ) && ent->number == ent->clientNum ) {
+					if ( !cgs.clientinfo[ent->clientNum].infoValid || cg.snap->ps.persistant[PERS_TEAM] != cgs.clientinfo[ent->clientNum].team ) {
+						continue;
+					}
+
+					CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, ent->pos.trBase, cgs.media.medicReviveShader );
+				}
+			}
+		}
+	} else {
+		// draw voice chats
+		for ( i = 0; i < MAX_CLIENTS; i++ ) {
+			centity_t *cent = &cg_entities[i];
+
+			if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.teamNum != cg.snap->ps.teamNum ) {
+				continue;
+			}
+
+
+			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+		}
 	}
-        // draw revive medic icons
-        if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_MEDIC ) {
-                if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
-                        snap = cg.nextSnap;
-                } else {
-                        snap = cg.snap;
-                }
-
-                for ( i = 0; i < snap->numEntities; i++ ) {
-                        entityState_t *ent = &snap->entities[i];
-
-                        if ( ent->eType != ET_PLAYER ) {
-                                continue;
-                        }
-
-                        if ( ( ent->eFlags & EF_DEAD ) && ent->number == ent->clientNum ) {
-                                if ( !cgs.clientinfo[ent->clientNum].infoValid || cg.snap->ps.persistant[PERS_TEAM] != cgs.clientinfo[ent->clientNum].team ) {
-                                        continue;
-                                }
-
-                                CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, ent->pos.trBase, cgs.media.medicReviveShader );
-                        }
-                }
-        }
 }
 // -NERVE - SMF
 
