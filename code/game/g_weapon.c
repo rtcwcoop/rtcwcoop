@@ -2509,6 +2509,7 @@ void FireWeapon( gentity_t *ent ) {
                 break;
 	case WP_MEDIC_SYRINGE:
                 Weapon_Syringe( ent );
+		break;
         case WP_SMOKE_GRENADE:
                 if ( level.time - ent->client->ps.classWeaponTime >= g_LTChargeTime.integer * 0.5f ) {
                         if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
