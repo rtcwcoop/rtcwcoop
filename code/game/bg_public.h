@@ -1355,6 +1355,7 @@ typedef enum {
 	ET_TELEPORT_TRIGGER,
 	ET_INVISIBLE,
 	ET_GRAPPLE,             // grapple hooked on wall
+	ET_EXPLOSIVE_INDICATOR,
 
 	//---- (SA) Wolf
 	ET_EXPLOSIVE,           // brush that will break into smaller bits when damaged

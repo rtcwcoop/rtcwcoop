@@ -986,6 +986,7 @@ When allies capture, it will call "allied_capture".
 When axis capture, it will call "axis_capture".
 
 */
+
 void SP_coop_spawnpoint_trigger( gentity_t *ent ) {
 	char *capture_sound;
 

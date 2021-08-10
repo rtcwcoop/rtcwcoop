@@ -1398,6 +1398,30 @@ static void CG_DrawCompass( void ) {
 
 			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, cent->voiceChatSprite );
 		}
+		// draw explosives if an engineer
+		if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_ENGINEER ) {
+			if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
+				snap = cg.nextSnap;
+			} else {
+				snap = cg.snap;
+			}
+
+			for ( i = 0; i < snap->numEntities; i++ ) {
+				centity_t *cent = &cg_entities[ snap->entities[ i ].number ];
+
+				if ( cent->currentState.eType != ET_EXPLOSIVE_INDICATOR ) {
+					continue;
+				}
+
+				if ( cent->currentState.teamNum == 1 && cg.snap->ps.persistant[PERS_TEAM] == TEAM_RED ) {
+					continue;
+				} else if ( cent->currentState.teamNum == 2 && cg.snap->ps.persistant[PERS_TEAM] == TEAM_BLUE ) {
+					continue;
+				}
+
+				CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+			}
+		}
 
 		// draw revive medic icons
 		if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_MEDIC ) {
