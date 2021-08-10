@@ -337,6 +337,7 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 			COM_BitSet( other->client->ps.weapons, WP_DYNAMITE );
 			other->client->ps.ammo[BG_FindAmmoForWeapon( WP_DYNAMITE )] = 0;
 			other->client->ps.ammoclip[BG_FindClipForWeapon( WP_DYNAMITE )] = 1;
+			return RESPAWN_AMMO;
 		}
 
                 // not a ammopack dropped by a lieutentant:
@@ -390,7 +391,7 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	}
 #endif
 
-	if ( ent->item->giTag == WP_AMMO ) {
+	if ( ent->item->giTag == WP_AMMO && g_gametype.integer == GT_COOP_CLASSES) {
                 // everybody likes grenades -- abuse weapon var as grenade type and i as max # grenades class can carry
                 switch ( other->client->ps.stats[STAT_PLAYER_CLASS] ) {
                 case PC_LT: // redundant but added for completeness/flexibility
@@ -409,7 +410,7 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
                 }
 
 		if ( other->client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE )] < i ) {
-			other->client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE)]++;
+			other->client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE )]++;
 		}
 		COM_BitSet( other->client->ps.weapons, WP_GRENADE_PINEAPPLE);
 
