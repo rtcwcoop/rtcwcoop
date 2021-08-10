@@ -958,6 +958,3 @@ void SP_trigger_objective_info( gentity_t *ent ) {
 	InitTrigger( ent );
 	trap_LinkEntity( ent );
 }
-
-
-// dhm - end

@@ -1098,6 +1098,7 @@ typedef struct {
 	qhandle_t lightningShader;
 
 	qhandle_t voiceChatShader;
+	qhandle_t medicReviveShader;
 	qhandle_t friendShader;
 
 	qhandle_t frozenShader;

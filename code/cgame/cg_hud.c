@@ -1346,6 +1346,7 @@ NERVE - SMF
 static void CG_DrawCompass( void ) {
 	float basex = 290, basey = 420;
 	float basew = 60, baseh = 60;
+	snapshot_t  *snap;
 	vec4_t hcolor;
 	float angle;
 	int i;
@@ -1386,6 +1387,30 @@ static void CG_DrawCompass( void ) {
 
 		CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
 	}
+        // draw revive medic icons
+        if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_MEDIC ) {
+                if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
+                        snap = cg.nextSnap;
+                } else {
+                        snap = cg.snap;
+                }
+
+                for ( i = 0; i < snap->numEntities; i++ ) {
+                        entityState_t *ent = &snap->entities[i];
+
+                        if ( ent->eType != ET_PLAYER ) {
+                                continue;
+                        }
+
+                        if ( ( ent->eFlags & EF_DEAD ) && ent->number == ent->clientNum ) {
+                                if ( !cgs.clientinfo[ent->clientNum].infoValid || cg.snap->ps.persistant[PERS_TEAM] != cgs.clientinfo[ent->clientNum].team ) {
+                                        continue;
+                                }
+
+                                CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, ent->pos.trBase, cgs.media.medicReviveShader );
+                        }
+                }
+        }
 }
 // -NERVE - SMF
 

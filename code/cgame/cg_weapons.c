@@ -585,6 +585,28 @@ void CG_RocketTrail( centity_t *ent, const weaponInfo_t *wi ) {
 // done.
 }
 
+
+// JPW NERVE
+/*
+==========================
+CG_DynamiteTrail
+==========================
+*/
+static void CG_DynamiteTrail( centity_t *ent, const weaponInfo_t *wi ) {
+        vec3_t origin;
+        float mult;
+
+        BG_EvaluateTrajectory( &ent->currentState.pos, cg.time, origin );
+
+        if ( ent->currentState.teamNum < 4 ) {
+                mult = 0.004f * ( cg.time - ent->currentState.effect1Time ) / 30000.0f;
+                trap_R_AddLightToScene( origin, 200 + 300 * fabs( sin( ( cg.time - ent->currentState.effect1Time ) * mult ) ),1.0,0,0, REF_FORCE_DLIGHT );
+        } else {
+                mult = 1 - ( ( cg.time - ent->trailTime ) / 15500.0f );
+                trap_R_AddLightToScene( origin, 10 + 300 * mult, 1.f, 1.f, 0, REF_FORCE_DLIGHT );
+        }
+}
+
 // Ridah
 /*
 ==========================
@@ -1380,6 +1402,11 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->missileModel = trap_R_RegisterModel( "models/ammo/dynamite.md3" );
 //		weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/weapons/grenade/grenlf1a.wav" );
 //		weaponInfo->reloadSound = trap_S_RegisterSound( "sound/weapons/grenade/grenlf_reload.wav" );
+                if ( cgs.gametype == GT_COOP_CLASSES ) {
+                        weaponInfo->spindownSound = trap_S_RegisterSound( "sound/multiplayer/dynamite_01.wav" );
+                        weaponInfo->missileTrailFunc = CG_DynamiteTrail; // JPW NERVE
+		}
+
 		cgs.media.grenadeExplosionShader = trap_R_RegisterShader( "grenadeExplosion" );
 		break;
 

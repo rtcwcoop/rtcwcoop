@@ -1353,6 +1353,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.frozenShader = trap_R_RegisterShader( "sprites/voiceMedic" );
 	cgs.media.balloonShader = trap_R_RegisterShader( "sprites/balloon3" );
 	cgs.media.voiceChatShader = trap_R_RegisterShader( "sprites/voiceChat" );
+	cgs.media.medicReviveShader = trap_R_RegisterShader( "sprites/medic_revive" );
 
 	for ( i = 0; i < MAX_AISTATES; i++ ) {
 		cgs.media.aiStateShaders[i] = trap_R_RegisterShader( va( "sprites/aistate%i", i + 1 ) );

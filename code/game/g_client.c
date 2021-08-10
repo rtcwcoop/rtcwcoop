@@ -2197,11 +2197,15 @@ void ClientSpawn( gentity_t *ent, qboolean revived ) {
 	// health will count down towards max_health
 //	ent->health = client->ps.stats[STAT_HEALTH] = client->ps.stats[STAT_MAX_HEALTH] * 1.25;
 
-	if ( g_fastres.integer == 1 && revived ) {
-		client->ps.powerups[PW_INVULNERABLE] = level.time + g_fastResMsec.integer;
-	} else {
-		client->ps.powerups[PW_INVULNERABLE] = level.time + 3000;
+
+	if ( !( ent->r.svFlags & SVF_CASTAI ) ) {
+		if ( g_fastres.integer == 1 && revived ) {
+			client->ps.powerups[PW_INVULNERABLE] = level.time + g_fastResMsec.integer;
+		} else {
+			client->ps.powerups[PW_INVULNERABLE] = level.time + 3000;
+		}
 	}
+
 
 // JPW NERVE ***NOTE*** the following line is order-dependent and must *FOLLOW* SetWolfSpawnWeapons() in multiplayer
 // SetWolfSpawnWeapons() now adds medic team bonus and stores in ps.stats[STAT_MAX_HEALTH].
