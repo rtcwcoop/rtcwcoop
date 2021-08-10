@@ -333,6 +333,11 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 	}
 #endif
         if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                if ( Q_stricmp( ent->classname, "ammo_dynamite" ) == 0  && other->client->sess.playerType == PC_ENGINEER ) {
+			COM_BitSet( other->client->ps.weapons, WP_DYNAMITE );
+			other->client->ps.ammo[BG_FindAmmoForWeapon( WP_DYNAMITE )] = 0;
+			other->client->ps.ammoclip[BG_FindClipForWeapon( WP_DYNAMITE )] = 1;
+		}
 
                 // not a ammopack dropped by a lieutentant:
                 if ( Q_stricmp( ent->classname, "weapon_magicammo" ) != 0 ) {

@@ -687,6 +687,22 @@ Finds the spawn function for the entity and calls it,
 returning qfalse if not found
 ===============
 */
+
+// NERVE - SMF - spawn an explosive indicator
+void _explosive_indicator_think( gentity_t *ent ) {
+        gentity_t *parent;
+
+        parent = &g_entities[ent->r.ownerNum];
+
+        if ( !parent->inuse || Q_stricmp( "ammo_dynamite", parent->classname ) ) {
+                ent->think = G_FreeEntity;
+                ent->nextthink = level.time + FRAMETIME;
+                return;
+        }
+
+        ent->nextthink = level.time + FRAMETIME;
+}
+
 qboolean G_CallSpawn( gentity_t *ent ) {
 	spawn_t *s;
 	gitem_t *item;
@@ -694,6 +710,34 @@ qboolean G_CallSpawn( gentity_t *ent ) {
 	if ( !ent->classname ) {
 		G_Printf( "G_CallSpawn: NULL classname\n" );
 		return qfalse;
+	}
+
+	if ( Q_stricmp(ent->classname, "ammo_dynamite") == 0) {
+	        if ( g_gametype.integer == GT_COOP_CLASSES ) {
+			gentity_t *e;
+			e = G_Spawn();
+
+			e->r.svFlags = SVF_BROADCAST;
+			e->classname = "dynamite_indicator";
+			e->s.eType = ET_EXPLOSIVE_INDICATOR;
+			e->s.pos.trType = TR_STATIONARY;
+
+			e->r.ownerNum = ent->s.number;
+			e->think = _explosive_indicator_think;
+			e->nextthink = level.time + FRAMETIME;
+
+			if ( ent->spawnflags & AXIS_OBJECTIVE ) {
+				e->s.teamNum = 1;
+			} else if ( ent->spawnflags & ALLIED_OBJECTIVE ) {
+				e->s.teamNum = 2;
+			}
+
+			VectorCopy( ent->s.origin, e->s.pos.trBase );
+
+			SnapVector( e->s.pos.trBase );
+
+			trap_LinkEntity( e );
+		}
 	}
 
 	// check item spawn functions

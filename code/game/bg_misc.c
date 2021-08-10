@@ -4138,6 +4138,10 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
                                 }
                         }
 
+			if ( pc == PC_ENGINEER && Q_stricmp( item->classname, "ammo_dynamite" ) == 0) {
+				return qtrue;
+			}
+
                         // all other health items cannot be picked up in the classes gametype
                         return qfalse;
                 }
