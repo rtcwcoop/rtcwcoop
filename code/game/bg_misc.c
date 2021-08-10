@@ -89,7 +89,7 @@ int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES] = {
  {WP_MP40,             WP_THOMPSON,          WP_STEN,	      WP_MAUSER, WP_GARAND, WP_FG42, WP_PANZERFAUST, WP_VENOM, WP_FLAMETHROWER,	WP_TESLA},
  {WP_GRENADE_LAUNCHER, WP_GRENADE_PINEAPPLE, 0,		      0,         0,         0,       0,		     0,        0,		0},
  //{WP_MEDIC_SYRINGE,    WP_PLIERS,            WP_SMOKE_GRENADE,0,         0,         0,       0,		     0,        0,		0},
- {WP_MEDIC_SYRINGE,    0,		     WP_SMOKE_GRENADE,0,         0,         0,       0,		     0,        0,		0},
+ {WP_MEDIC_SYRINGE,    WP_SMOKE_GRENADE,     0,               0,         0,         0,	     0,              0,	       0,               0},
  {WP_DYNAMITE,         WP_MEDKIT,            WP_AMMO,	      0,         0,         0,       0,		     0,        0,		0}
 };
 

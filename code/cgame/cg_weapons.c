@@ -3329,37 +3329,34 @@ int CG_WeaponIndex( int weapnum, int *bank, int *cycle ) {
 		for ( cyc = 0; cyc < maxWeapsInBank; cyc++ ) {
 
 			// end of cycle, go to next bank
-			if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
-				if (cg_gameType.integer == GT_COOP_CLASSES) {
-					if ( !weapBanksClasses[bnk][cyc] ) {
-						break;
-					}
-					// found the current weapon
-					if ( weapBanksClasses[bnk][cyc] == weapnum ) {
-						if ( bank ) {
-							*bank = bnk;
-						}
-						if ( cycle ) {
-							*cycle = cyc;
-						}
-						return 1;
-					}
-				} else {
-					if ( !weapBanks[bnk][cyc] ) {
-						break;
-					}
-					// found the current weapon
-					if ( weapBanks[bnk][cyc] == weapnum ) {
-						if ( bank ) {
-							*bank = bnk;
-						}
-						if ( cycle ) {
-							*cycle = cyc;
-						}
-						return 1;
-					}
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				if ( !weapBanksClasses[bnk][cyc] ) {
+					break;
 				}
-
+				// found the current weapon
+				if ( weapBanksClasses[bnk][cyc] == weapnum ) {
+					if ( bank ) {
+						*bank = bnk;
+					}
+					if ( cycle ) {
+						*cycle = cyc;
+					}
+					return 1;
+				}
+			} else {
+				if ( !weapBanks[bnk][cyc] ) {
+					break;
+				}
+				// found the current weapon
+				if ( weapBanks[bnk][cyc] == weapnum ) {
+					if ( bank ) {
+						*bank = bnk;
+					}
+					if ( cycle ) {
+						*cycle = cyc;
+					}
+					return 1;
+				}
 			}
 		}
 	}
