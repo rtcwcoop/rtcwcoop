@@ -2059,6 +2059,33 @@ weapon_medic_syringe (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
                 {0,0,0,0}
         },
 
+/*
+weapon_binoculars (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+        {
+                "weapon_binoculars",
+                "sound/misc/w_pkup.wav",
+                {   "",
+                        "",
+                        "",
+                        0,
+                        ""},
+
+                "",  // icon
+                "",          // ammo icon
+                "Binoculars",                // pickup
+                50, // this should never be picked up
+                IT_WEAPON,
+                WP_BINOCULARS,
+                WP_BINOCULARS,
+                WP_BINOCULARS,
+                "",                      // precache
+                "",                      // sounds
+                {0,0,0,0}
+        },
+
+// jpw
+
 
 // JPW NERVE -- class-specific multiplayer weapon, can't be picked up, dropped, or placed in map
 /*

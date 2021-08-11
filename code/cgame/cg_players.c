@@ -4546,7 +4546,11 @@ void CG_AnimPlayerConditions( centity_t *cent ) {
 	es = &cent->currentState;
 
 	// WEAPON
-	BG_UpdateConditionValue( es->clientNum, ANIM_COND_WEAPON, es->weapon, qtrue );
+        if ( es->eFlags & EF_ZOOMING ) {
+                BG_UpdateConditionValue( es->clientNum, ANIM_COND_WEAPON, WP_BINOCULARS, qtrue );
+        } else {
+                BG_UpdateConditionValue( es->clientNum, ANIM_COND_WEAPON, es->weapon, qtrue );
+        }
 
 	// MOUNTED
 	if ( es->eFlags & EF_MG42_ACTIVE ) {
