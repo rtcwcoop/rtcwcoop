@@ -1136,6 +1136,22 @@ static float CG_DrawCoopOverlay( float y ) {
 				break;
 			}
 
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				// determine class type
+				val = cg_entities[ ci->clientNum ].currentState.teamNum;
+				if ( val == 0 ) {
+					classType[0] = 'S';
+				} else if ( val == 1 ) {
+					classType[0] = 'M';
+				} else if ( val == 2 ) {
+					classType[0] = 'E';
+				} else if ( val == 3 ) {
+					classType[0] = 'L';
+				} else {
+					classType[0] = 'S';
+				}
+			}
+
 			Com_sprintf( st, sizeof( st ), "%s", classType );
 
 			xx = x + TINYCHAR_WIDTH;
