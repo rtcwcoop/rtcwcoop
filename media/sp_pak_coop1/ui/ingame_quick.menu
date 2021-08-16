@@ -8,7 +8,7 @@ menuDef {
 	visible 0
 	fullScreen 0
 	outOfBoundsClick			// this closes the window if it gets a click out of the rectangle
-	rect 208 110 220 290
+	rect 208 110 220 356
 	focusColor 1 .75 0 1
 	disableColor .5 .5 .5 1
 
@@ -16,7 +16,7 @@ menuDef {
 
 	itemDef {
 		name quick
-		rect 0 0 220 290	
+		rect 0 0 220 356
 		style WINDOW_STYLE_FILLED
 		border 1
 		bordercolor .5 .5 .5 .5
@@ -326,6 +326,90 @@ menuDef {
 			forecolor               1 1 1 1 
 			visible                 1   
 			action                  { exec "cmd team free" ; uiScript closeingame }    
+			}  
+
+		itemDef {
+			name                    soldier
+			text                    "Soldier"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					3 297 105 20
+			textalign               ITEM_ALIGN_CENTER
+			textalignx              54              // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			cvarTest        		"g_gametype"
+			showcvar        		{ "2" }
+			action                  { exec "cmd class soldier" ; uiScript closeingame }    
+			}  
+
+		itemDef {
+			name                    engineer
+			text                    "Engineer"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					3 327 105 20
+			textalign               ITEM_ALIGN_CENTER
+			textalignx              54              // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			cvarTest        		"g_gametype"
+			showcvar        		{ "2" }
+			action                  { exec "cmd class engineer" ; uiScript closeingame }    
+			}  
+
+		itemDef {
+			name                    medic
+			text                    "Medic"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					111 297 105 20
+			textalign               ITEM_ALIGN_CENTER
+			textalignx              54              // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			cvarTest        		"g_gametype"
+			showcvar        		{ "2" }
+			action                  { exec "cmd class medic" ; uiScript closeingame }    
+			}  
+
+		itemDef {
+			name                    lieutenant
+			text                    "Lieuteant"
+			type                    ITEM_TYPE_BUTTON
+			textscale               .25 
+			style                   WINDOW_STYLE_FILLED    
+			border                  1   
+			bordercolor             .5 .5 .5 .5
+			rect					111 327 105 20
+			textalign               ITEM_ALIGN_CENTER
+			textalignx              54              // center
+			textaligny              14  
+			textfont                UI_FONT_NORMAL
+			backcolor               .3 .5 .2 .3
+			forecolor               1 1 1 1 
+			visible                 1   
+			cvarTest        		"g_gametype"
+			showcvar        		{ "2" }
+			action                  { exec "cmd class lieutenant" ; uiScript closeingame }    
 			}  
 
 		itemDef {

@@ -489,6 +489,9 @@ typedef struct {
 	int playerItem;                 // DHM - Nerve :: for GT_WOLF
 	int playerSkin;                 // DHM - Nerve :: for GT_WOLF
 
+	int latchPlayerType;
+
+
 	// stats for the scoreboard
 	int prop_damage;
 	int airtime;

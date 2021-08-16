@@ -1306,16 +1306,20 @@ void Cmd_Class_f( gentity_t *ent ) {
 	client = ent->client;
 
 	if ( !Q_stricmp( s, "soldier" ) || !Q_stricmp( s, "0" )) {
-		client->sess.playerType = PC_SOLDIER;
+		client->sess.latchPlayerType = PC_SOLDIER;
+		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as a Soldier\n\"" );
 	}
 	if ( !Q_stricmp( s, "medic" ) || !Q_stricmp( s, "1" )) {
-		client->sess.playerType = PC_MEDIC;
+		client->sess.latchPlayerType = PC_MEDIC;
+		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as a Medic\n\"" );
 	}
 	if ( !Q_stricmp( s, "engineer" ) || !Q_stricmp( s, "2" )) {
-		client->sess.playerType = PC_ENGINEER;
+		client->sess.latchPlayerType = PC_ENGINEER;
+		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as an Engineer\n\"" );
 	}
 	if ( !Q_stricmp( s, "lieutenant" ) || !Q_stricmp( s, "3" )) {
-		client->sess.playerType = PC_LT;
+		client->sess.latchPlayerType = PC_LT;
+		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as a Lieutenant\n\"" );
 	}
 }
 

@@ -2148,6 +2148,25 @@ void ClientSpawn( gentity_t *ent, qboolean revived ) {
 	// dhm - end
 */
 
+	client->pers.initialSpawn = qtrue;
+
+	// fretn
+	// check if class has changed and call this function
+	// sess.latchPlayerType, etc
+	if ( !revived ) {
+		qboolean update = qfalse;
+
+		if ( client->sess.playerType != client->sess.latchPlayerType ) {
+			update = qtrue;
+		}
+
+		client->sess.playerType = client->sess.latchPlayerType;
+
+		if ( update ) {
+			ClientUserinfoChanged( index );
+		}
+	}
+
 	// give the player some basic stuff
 	if ( g_gametype.integer <= GT_COOP ) {
 		if ( !Q_stricmp( ent->classname, "player" ) ) {
@@ -2155,14 +2174,6 @@ void ClientSpawn( gentity_t *ent, qboolean revived ) {
 		}
 	}
 
-	client->pers.initialSpawn = qtrue;
-
-	// fretn
-	// check if class has changed and call this function
-	// sess.latchPlayerType, etc
-	if ( !revived ) {
-		ClientUserinfoChanged( index );
-	}
 
 	// Note to Ryan:
 	// had to add this because key word giveweapon to player is causing a fatal crash
