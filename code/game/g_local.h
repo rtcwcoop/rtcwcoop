@@ -839,6 +839,7 @@ void        G_SpawnEntitiesFromString( void );
 char *G_NewString( const char *string );
 // Ridah
 qboolean G_CallSpawn( gentity_t *ent );
+void G_SpawnCompassIndicator( gentity_t *ent );
 // done.
 
 //

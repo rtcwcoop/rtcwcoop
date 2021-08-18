@@ -3734,6 +3734,131 @@ void CG_ObjectivePrint( const char *str, int charWidth, int team ) {
 	}
 }
 
+static void CG_DrawClassesObjectiveInfo( void ) {
+        char    *start;
+        int l;
+        int x, y, w;
+        int x1, y1, x2, y2;
+        float   *color;
+        vec4_t backColor;
+        backColor[0] = 0.2f;
+        backColor[1] = 0.2f;
+        backColor[2] = 0.2f;
+        backColor[2] = cg_hudAlpha.value;
+
+        if ( !cg.oidPrintTime ) {
+                return;
+        }
+
+        color = CG_FadeColor( cg.oidPrintTime, 1000 * 5 );
+        if ( !color ) {
+                cg.oidPrintTime = 0;
+                return;
+        }
+
+        if ( cg_fixedAspect.integer ) {
+                CG_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+        }
+
+        trap_R_SetColor( color );
+
+        start = cg.oidPrint;
+
+// JPW NERVE
+        //      y = cg.oidPrintY - cg.oidPrintLines * BIGCHAR_HEIGHT / 2;
+        y = 415 - cg.oidPrintLines * BIGCHAR_HEIGHT / 2;
+
+        x1 = 319;
+        y1 = y - 2;
+        x2 = 321;
+// jpw
+
+        // first just find the bounding rect
+        while ( 1 ) {
+                char linebuffer[1024];
+
+                for ( l = 0; l < CP_LINEWIDTH; l++ ) {
+                        if ( !start[l] || start[l] == '\n' ) {
+                                break;
+                        }
+                        linebuffer[l] = start[l];
+                }
+                linebuffer[l] = 0;
+
+                w = cg.oidPrintCharWidth * CG_DrawStrlen( linebuffer ) + 10;
+// JPW NERVE
+                if ( 320 - w / 2 < x1 ) {
+                        x1 = 320 - w / 2;
+                        x2 = 320 + w / 2;
+                }
+// jpw
+
+                y += cg.oidPrintCharWidth * 1.5;
+
+                while ( *start && ( *start != '\n' ) ) {
+                        start++;
+                }
+                if ( !*start ) {
+                        break;
+                }
+                start++;
+        }
+
+        x2 = x2 + 4;
+        y2 = y - cg.oidPrintCharWidth * 1.5 + 4;
+
+        VectorCopy( color, backColor );
+        backColor[3] = 0.5 * color[3];
+        trap_R_SetColor( backColor );
+
+        CG_DrawPic( x1, y1, x2 - x1, y2 - y1, cgs.media.teamStatusBar );
+
+        VectorSet( backColor, 0, 0, 0 );
+        CG_DrawRect( x1, y1, x2 - x1, y2 - y1, 1, backColor );
+
+        trap_R_SetColor( color );
+
+        // do the actual drawing
+        start = cg.oidPrint;
+//      y = cg.oidPrintY - cg.oidPrintLines * BIGCHAR_HEIGHT / 2;
+        y = 415 - cg.oidPrintLines * BIGCHAR_HEIGHT / 2; // JPW NERVE
+
+
+        while ( 1 ) {
+                char linebuffer[1024];
+
+                for ( l = 0; l < CP_LINEWIDTH; l++ ) {
+                        if ( !start[l] || start[l] == '\n' ) {
+                                break;
+                        }
+                        linebuffer[l] = start[l];
+                }
+                linebuffer[l] = 0;
+
+                w = cg.oidPrintCharWidth * CG_DrawStrlen( linebuffer );
+                if ( x1 + w > x2 ) {
+                        x2 = x1 + w;
+                }
+
+                x = 320 - w / 2; // JPW NERVE
+
+                CG_DrawStringExt( x, y, linebuffer, color, qfalse, qtrue,
+                                                  cg.oidPrintCharWidth, (int)( cg.oidPrintCharWidth * 1.5 ), 0 );
+
+                y += cg.oidPrintCharWidth * 1.5;
+
+                while ( *start && ( *start != '\n' ) ) {
+                        start++;
+                }
+                if ( !*start ) {
+                        break;
+                }
+                start++;
+        }
+
+        trap_R_SetColor( NULL );
+}
+
 static void CG_DrawObjectiveInfo( void ) {
 	char    *start;
 	int l;
@@ -4075,7 +4200,11 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 
 		CG_DrawCenterString();
 
-		CG_DrawObjectiveInfo();     // NERVE - SMF
+		if (cg_gameType.integer == GT_COOP_CLASSES) {
+			CG_DrawClassesObjectiveInfo();
+		} else {
+			CG_DrawObjectiveInfo();     // NERVE - SMF
+		}
 
 		CG_DrawLimboMessage();
 	}

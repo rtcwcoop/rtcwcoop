@@ -1398,6 +1398,24 @@ static void CG_DrawCompass( void ) {
 
 			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, cent->voiceChatSprite );
 		}
+
+		// draw spawnpoints
+		if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
+			snap = cg.nextSnap;
+		} else {
+			snap = cg.snap;
+		}
+
+		for ( i = 0; i < snap->numEntities; i++ ) {
+			centity_t *cent = &cg_entities[ snap->entities[ i ].number ];
+
+			if ( cent->currentState.eType != ET_SPAWNPOINT_INDICATOR) {
+				continue;
+			}
+
+			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/icon_shield.tga" ) );
+		}
+
 		// draw explosives if an engineer
 		if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_ENGINEER ) {
 			if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {

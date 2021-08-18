@@ -679,6 +679,64 @@ spawn_t spawns[] = {
 	{NULL, 0}
 };
 
+void G_CompassIndicator_think( gentity_t *ent ) {
+        gentity_t *parent;
+
+        parent = &g_entities[ent->r.ownerNum];
+
+        if ( !parent->inuse || (Q_stricmp( "ammo_dynamite", parent->classname ) && Q_stricmp( "coop_spawnpoint_trigger", parent->classname) && Q_stricmp("trigger_objective_info", parent->classname))) {
+                ent->think = G_FreeEntity;
+                ent->nextthink = level.time + FRAMETIME;
+                return;
+        }
+
+        ent->nextthink = level.time + FRAMETIME;
+}
+
+void G_SpawnCompassIndicator( gentity_t *ent ) {
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                if ( Q_stricmp(ent->classname, "coop_spawnpoint_trigger") == 0 || Q_stricmp(ent->classname, "ammo_dynamite") == 0 || Q_stricmp(ent->classname, "trigger_objective_info") == 0) {
+                        gentity_t *e;
+                        e = G_Spawn();
+
+                        e->r.svFlags = SVF_BROADCAST;
+			if ( Q_stricmp(ent->classname, "coop_spawnpoint_trigger") == 0) {
+				e->classname = "spawnpoint_indicator";
+				e->s.eType = ET_SPAWNPOINT_INDICATOR;
+			} else if ( Q_stricmp(ent->classname, "ammo_dynamite") == 0) {
+				e->classname = "dynamite_indicator";
+				e->s.eType = ET_EXPLOSIVE_INDICATOR;
+
+				if ( ent->spawnflags & AXIS_OBJECTIVE ) {
+					e->s.teamNum = 1;
+				} else if ( ent->spawnflags & ALLIED_OBJECTIVE ) {
+					e->s.teamNum = 2;
+				}
+			} else if ( Q_stricmp(ent->classname, "trigger_objective_info") == 0) {
+				e->classname = "explosive_indicator";
+				e->s.eType = ET_EXPLOSIVE_INDICATOR;
+
+				if ( ent->spawnflags & AXIS_OBJECTIVE ) {
+					e->s.teamNum = 1;
+				} else if ( ent->spawnflags & ALLIED_OBJECTIVE ) {
+					e->s.teamNum = 2;
+				}
+			}
+                        e->s.pos.trType = TR_STATIONARY;
+
+                        e->r.ownerNum = ent->s.number;
+                        e->think = G_CompassIndicator_think;
+                        e->nextthink = level.time + FRAMETIME;
+
+                        VectorCopy( ent->s.origin, e->s.pos.trBase );
+
+                        SnapVector( e->s.pos.trBase );
+
+                        trap_LinkEntity( e );
+		}
+        }
+}
+
 /*
 ===============
 G_CallSpawn
@@ -687,21 +745,6 @@ Finds the spawn function for the entity and calls it,
 returning qfalse if not found
 ===============
 */
-
-// NERVE - SMF - spawn an explosive indicator
-void _explosive_indicator_think( gentity_t *ent ) {
-        gentity_t *parent;
-
-        parent = &g_entities[ent->r.ownerNum];
-
-        if ( !parent->inuse || Q_stricmp( "ammo_dynamite", parent->classname ) ) {
-                ent->think = G_FreeEntity;
-                ent->nextthink = level.time + FRAMETIME;
-                return;
-        }
-
-        ent->nextthink = level.time + FRAMETIME;
-}
 
 qboolean G_CallSpawn( gentity_t *ent ) {
 	spawn_t *s;
@@ -712,32 +755,8 @@ qboolean G_CallSpawn( gentity_t *ent ) {
 		return qfalse;
 	}
 
-	if ( Q_stricmp(ent->classname, "ammo_dynamite") == 0) {
-	        if ( g_gametype.integer == GT_COOP_CLASSES ) {
-			gentity_t *e;
-			e = G_Spawn();
-
-			e->r.svFlags = SVF_BROADCAST;
-			e->classname = "dynamite_indicator";
-			e->s.eType = ET_EXPLOSIVE_INDICATOR;
-			e->s.pos.trType = TR_STATIONARY;
-
-			e->r.ownerNum = ent->s.number;
-			e->think = _explosive_indicator_think;
-			e->nextthink = level.time + FRAMETIME;
-
-			if ( ent->spawnflags & AXIS_OBJECTIVE ) {
-				e->s.teamNum = 1;
-			} else if ( ent->spawnflags & ALLIED_OBJECTIVE ) {
-				e->s.teamNum = 2;
-			}
-
-			VectorCopy( ent->s.origin, e->s.pos.trBase );
-
-			SnapVector( e->s.pos.trBase );
-
-			trap_LinkEntity( e );
-		}
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		G_SpawnCompassIndicator(ent);
 	}
 
 	// check item spawn functions
@@ -901,6 +920,7 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 		}
 	}
 
+
 	// move editor origin to pos
 	VectorCopy( ent->s.origin, ent->s.pos.trBase );
 	VectorCopy( ent->s.origin, ent->r.currentOrigin );
@@ -909,6 +929,37 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 	if ( !G_CallSpawn( ent ) ) {
 		ADJUST_AREAPORTAL();
 		G_FreeEntity( ent );
+	}
+
+	// map hacks
+	{
+		char mapname[1024];
+
+		trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+		if ( g_gametype.integer == GT_COOP_CLASSES ) {
+			if ( Q_stricmp( mapname, "escape1" ) == 0 ) {
+
+				// we want the floor only be breakable by an engineers dynamite
+				// this is a list of all the floor modelnames that are breakable
+				// this can probably be optimised, otoh it's only once at load time that
+				// this code is running
+				char *destructable_floor[] = { "*6", "*7", "*8", "*9","*10","*11","*12","*13","*16","*17","*32","*33","*68","*70","*81","*137","*147"};
+
+				for (int i = 0; i < sizeof(destructable_floor)/sizeof(destructable_floor[0]); i++) {
+					if (!Q_stricmp(ent->model, destructable_floor[i])) {
+						ent->health = 0;
+						ent->spawnflags |= 32; // EXPLO
+						ent->spawnflags |= 64; // DYNAMITE ONLY
+					}
+				}
+			} else if ( Q_stricmp( mapname, "tram" ) == 0 ) {
+				if (!Q_stricmp(ent->model, "*83")) { // hatch in the lower tram engine room
+					ent->health = 0;
+					ent->spawnflags |= 32; // EXPLO
+					ent->spawnflags |= 64; // DYNAMITE ONLY
+				}
+			}
+		}
 	}
 }
 

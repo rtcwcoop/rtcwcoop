@@ -1129,7 +1129,9 @@ void SetTeam( gentity_t *ent, const char *s, qboolean force ) {
 #endif
 	} else {
 		// force them to spectators if there aren't any spots free
-		team = TEAM_FREE;
+		// was TEAM_FREE but this messes up the join button in the ingame quickmenu
+		// the player could skip limbotime through this button
+		team = TEAM_BLUE;
 	}
 
 	if ( g_maxGameClients.integer > 0 && level.numNonSpectatorClients >= g_maxGameClients.integer ) {

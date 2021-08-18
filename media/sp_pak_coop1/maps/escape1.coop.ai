@@ -2393,10 +2393,12 @@ nazi17
 		nosight 2000
 		attrib aim_accuracy 0.8
 		wait 1000 1
+#if g_gametype != 2
 		fireattarget board1 800
 		wait 50 1
 		fireattarget board4 800
 		fireattarget board6 800
+#endif
 		attrib aim_accuracy 0.2
 		sight
 		gotomarker zone3p4
@@ -2476,11 +2478,13 @@ nazi18
 		nosight 2000
 		attrib aim_accuracy 0.8
 		wait 1000 1
+#if g_gametype != 2
 		fireattarget board2 800
 		fireattarget board3 800
 		wait 50 1
 		fireattarget board5 800
 		fireattarget board7 800
+#endif
 		attrib aim_accuracy 0.2
 		sight
 		gotomarker zone3p3

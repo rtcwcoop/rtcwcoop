@@ -1356,6 +1356,7 @@ typedef enum {
 	ET_TELEPORT_TRIGGER,
 	ET_INVISIBLE,
 	ET_GRAPPLE,             // grapple hooked on wall
+	ET_SPAWNPOINT_INDICATOR,
 	ET_EXPLOSIVE_INDICATOR,
 
 	//---- (SA) Wolf

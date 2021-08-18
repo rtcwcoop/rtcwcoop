@@ -921,23 +921,6 @@ You specify which objective it is with a number in "count"
   "count"		The objective number
   "track"		If this is specified, it will override the default message
 */
-#define AXIS_OBJECTIVE      1
-#define ALLIED_OBJECTIVE    2
-
-// NERVE - SMF - spawn an explosive indicator
-void explosive_indicator_think( gentity_t *ent ) {
-        gentity_t *parent;
-
-        parent = &g_entities[ent->r.ownerNum];
-
-        if ( !parent->inuse || Q_stricmp( "trigger_objective_info", parent->classname ) ) {
-                ent->think = G_FreeEntity;
-                ent->nextthink = level.time + FRAMETIME;
-                return;
-        }
-
-        ent->nextthink = level.time + FRAMETIME;
-}
 
 void Touch_objective_info( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 
@@ -968,34 +951,14 @@ void Touch_objective_info( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 }
 
 void SP_trigger_objective_info( gentity_t *ent ) {
+
 	ent->touch  = Touch_objective_info;
 
 	InitTrigger( ent );
+	//ent->r.svFlags &= ~SVF_NOCLIENT; // show the model for debugging purposes
 	trap_LinkEntity( ent );
 
-	if ( ( ent->spawnflags & AXIS_OBJECTIVE ) || ( ent->spawnflags & ALLIED_OBJECTIVE ) ) {
-		gentity_t *e;
-		e = G_Spawn();
-
-		e->r.svFlags = SVF_BROADCAST;
-		e->classname = "explosive_indicator";
-		e->s.eType = ET_EXPLOSIVE_INDICATOR;
-		e->s.pos.trType = TR_STATIONARY;
-
-		e->r.ownerNum = ent->s.number;
-		e->think = explosive_indicator_think;
-		e->nextthink = level.time + FRAMETIME;
-
-		if ( ent->spawnflags & AXIS_OBJECTIVE ) {
-			e->s.teamNum = 1;
-		} else if ( ent->spawnflags & ALLIED_OBJECTIVE ) {
-			e->s.teamNum = 2;
-		}
-
-		VectorCopy( ent->s.origin, e->s.pos.trBase );
-
-		SnapVector( e->s.pos.trBase );
-
-		trap_LinkEntity( e );
+	if ( (( ent->spawnflags & AXIS_OBJECTIVE ) || ( ent->spawnflags & ALLIED_OBJECTIVE )) && g_gametype.integer == GT_COOP_CLASSES ) {
+		G_SpawnCompassIndicator(ent);
 	}
 }

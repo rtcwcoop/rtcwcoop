@@ -3,6 +3,36 @@
 "scriptname" "game_manager"
 }
 
+// -3075 -299 -295
+// fretn
+// the objective_info needs a model but it is not shown
+// because by default brush models where used, I had to
+// hack around to get it working
+#if g_gametype == 2
+{
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+//"model" "models/mapobjects/vehicles/lander.md3"
+"origin" "-3062 -216 -295"
+"spawnflags" "1"
+"classname" "trigger_objective_info"
+"track" "the hatch"
+"score" "10"
+"target" "hatchtarget"
+}
+
+{
+"health" "100"
+"scriptname" "destroy_hatch"
+"origin" "-3075 -299 -295"
+"classname" "func_explosive"
+"spawnflags" "68"
+"targetname" "hatchtarget"
+"mass" "400"
+"type" "none"
+"dmg" "0"
+}
+#endif
+
 //The model key provides us the original brushwork
 //that turns invisible (clips). The model2 key provides 
 //us the visual model I created - Sage
