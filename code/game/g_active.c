@@ -302,12 +302,6 @@ void    G_TouchTriggers( gentity_t *ent ) {
 		return;
 	}
 
-/*
-// hack for trigger_objective_info not being a brushmodel and so its touch target is very small
-if (!Q_stricmp(ent->classname, "trigger_objective_info") && ent->model[0] != '*') {
-	range -> bigger and different trap_ENtitiies in box call
-}
-*/
 	VectorSubtract( ent->client->ps.origin, range, mins );
 	VectorAdd( ent->client->ps.origin, range, maxs );
 

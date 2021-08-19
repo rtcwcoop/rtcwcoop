@@ -33,6 +33,47 @@
 }
 #endif
 
+//dynamite
+#if g_gametype == 2
+{
+{
+"classname" "ammo_dynamite"
+#if g_random == 1
+"origin" "3888 1968 1312"
+#endif
+#if g_random == 2
+"origin" "3053 -155 807"
+#endif
+#if g_random == 3
+"origin" "2546 164 968"
+#endif
+#if g_random == 4
+"origin" "-63 254 546"
+#endif
+#if g_random == 5
+"origin" "-187 2 192"
+#endif
+#if g_random == 6
+"origin" "-2667 207 -221"
+#endif
+#if g_random == 7
+"origin" "-3245 -128 -575"
+#endif
+#if g_random == 8
+"origin" "-3241 82 -575"
+#endif
+#if g_random == 9
+"origin" "3362 1837 1312"
+#endif
+#if g_random == 10
+"origin" "2932 -348 1096"
+#endif
+"angle" "90"
+"spawnflags" "8"
+"wait" "3"
+}
+#endif
+
 //The model key provides us the original brushwork
 //that turns invisible (clips). The model2 key provides 
 //us the visual model I created - Sage
