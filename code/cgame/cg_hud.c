@@ -1252,7 +1252,7 @@ static void CG_DrawWeapRecharge( rectDef_t *rect, vec4_t color, int align ) {
                 weap = cg.snap->ps.weapon;
 
                 if ( !( cg.snap->ps.eFlags & EF_ZOOMING ) ) {
-                        if ( weap != WP_PANZERFAUST && weap != WP_DYNAMITE && weap != WP_MEDKIT /*&& weap != WP_SMOKE_GRENADE && weap != WP_PLIERS && weap != WP_AMMO*/ ) {
+                        if ( weap != WP_PANZERFAUST && weap != WP_DYNAMITE && weap != WP_MEDKIT && weap != WP_SMOKE_GRENADE /*&& weap != WP_PLIERS*/ && weap != WP_AMMO ) {
                                 fade = qtrue;
                         }
                 }
