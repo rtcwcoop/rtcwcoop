@@ -762,6 +762,42 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 					hintDist    = CH_BREAKABLE_DIST;
 					hintType    = HINT_BREAKABLE;
 					hintVal     = checkEnt->health;     // also send health to client for visualization
+                                        if ( g_gametype.integer == GT_COOP_CLASSES && ( checkEnt->spawnflags & 64 ) ) {
+// JPW NERVE only show hint for players who can blow it up
+                                                vec3_t mins,maxs,range = { 40, 40, 52 };
+                                                int i,num;
+                                                //int defendingTeam=0; // TTimo unused
+                                                int touch[MAX_GENTITIES];
+                                                gentity_t *hit = NULL;
+
+                                                VectorSubtract( ent->client->ps.origin, range, mins );
+                                                VectorAdd( ent->client->ps.origin, range, maxs );
+                                                num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+                                                for ( i = 0 ; i < num ; i++ ) {
+                                                        hit = &g_entities[touch[i]];
+                                                        if ( !( hit->r.contents & CONTENTS_TRIGGER ) ) {
+                                                                continue;
+                                                        }
+                                                        if ( !strcmp( hit->classname,"trigger_objective_info" ) ) {
+                                                                if ( !( hit->spawnflags & ( AXIS_OBJECTIVE | ALLIED_OBJECTIVE ) ) ) {
+                                                                        continue;
+                                                                }
+// we're in a trigger_objective_info field with at least one owner, so use this one and bail
+                                                                break;
+                                                        }
+                                                }
+                                                if ( ( hit ) &&
+                                                         ( ( ( ent->client->sess.sessionTeam == TEAM_RED ) && ( hit->spawnflags & ALLIED_OBJECTIVE ) ) ||
+                                                           ( ( ent->client->sess.sessionTeam == TEAM_BLUE ) && ( hit->spawnflags & AXIS_OBJECTIVE ) ) )
+                                                         ) {
+                                                        hintDist = CH_BREAKABLE_DIST * 2;
+                                                        hintType = HINT_BREAKABLE_DYNAMITE;
+                                                } else {
+                                                        hintDist = 0;
+                                                        hintType = ps->serverCursorHint     = HINT_FORCENONE;
+                                                }
+// jpw
+                                        }
 				}
 			} else if ( checkEnt->s.eType == ET_ALARMBOX )      {
 				if ( checkEnt->health > 0 ) {

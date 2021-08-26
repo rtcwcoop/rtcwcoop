@@ -1252,6 +1252,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.hintShaders[HINT_DOOR_ROTATING_LOCKED] = trap_R_RegisterShader( "gfx/2d/doorRotateLockHint" );
 	cgs.media.hintShaders[HINT_MG42]                = trap_R_RegisterShader( "gfx/2d/mg42Hint" );
 	cgs.media.hintShaders[HINT_BREAKABLE]           = trap_R_RegisterShader( "gfx/2d/breakableHint" );
+	cgs.media.hintShaders[HINT_BREAKABLE_DYNAMITE]  = trap_R_RegisterShader( "gfx/2d/dynamiteHint");
 	cgs.media.hintShaders[HINT_CHAIR]               = trap_R_RegisterShader( "gfx/2d/chairHint" );
 	cgs.media.hintShaders[HINT_ALARM]               = trap_R_RegisterShader( "gfx/2d/alarmHint" );
 	cgs.media.hintShaders[HINT_HEALTH]              = trap_R_RegisterShader( "gfx/2d/healthHint" );

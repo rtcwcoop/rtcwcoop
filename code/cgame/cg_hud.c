@@ -277,7 +277,7 @@ static void CG_DrawCursorhint( rectDef_t *rect ) {
 	//        icon = cgs.media.hintShaders[HINT_KNIFE];
 	//        break;
 	case HINT_BREAKABLE_DYNAMITE:
-		icon = cgs.media.hintShaders[HINT_BREAKABLE];
+		icon = cgs.media.hintShaders[HINT_BREAKABLE_DYNAMITE];
 		break;
 	case HINT_CHAIR:
 		// only show 'pickupable' if you're not armed, or are armed with a single handed weapon

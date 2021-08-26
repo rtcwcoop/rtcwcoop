@@ -963,7 +963,7 @@ void SP_trigger_objective_info( gentity_t *ent ) {
 	// as trigger_objective_info entities
 	// so we need to make their range bigger or the 'you are near objective'
 	// only shows up when you are near the origin of the ent
-	if ( self->model[0] != '*' ) {
+	if ( ent->model[0] != '*' ) {
 		static vec3_t range = { 200, 200, 260 };
 		VectorSubtract( ent->r.currentOrigin, range, ent->r.absmin );
 		VectorAdd( ent->r.currentOrigin, range, ent->r.absmax );
