@@ -958,6 +958,13 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 					ent->spawnflags |= 32; // EXPLO
 					ent->spawnflags |= 64; // DYNAMITE ONLY
 				}
+			} else if ( Q_stricmp( mapname, "village1" ) == 0 ) {
+				// crypt entrance can only be destroyed by an engineers dynamite
+				if (!Q_stricmp(ent->model, "*19") || !Q_stricmp(ent->model, "*3")) {
+					ent->health = 0;
+					ent->spawnflags |= 32; // EXPLO
+					ent->spawnflags |= 64; // DYNAMITE ONLY
+				}
 			}
 		}
 	}

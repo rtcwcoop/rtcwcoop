@@ -336,7 +336,13 @@ void    G_TouchTriggers( gentity_t *ent ) {
 			}
 		} else {
 			// MrE: always use capsule for player
-			if ( !trap_EntityContactCapsule( mins, maxs, hit ) ) {
+			// fretn: but not for "trigger_objective_info" (hack)
+			// objective_info triggers are normally brushmodels
+			// we hacked this to make it possible to add regular models
+			// as trigger_objective_info entities
+			// so we need to make their range bigger or the 'you are near objective'
+			// only shows up when you are near the origin of the ent
+			if ( !trap_EntityContactCapsule( mins, maxs, hit ) && Q_stricmp(hit->classname, "trigger_objective_info")) {
 				continue;
 			}
 		}

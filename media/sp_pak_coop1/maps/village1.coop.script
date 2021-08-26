@@ -15,6 +15,13 @@ game_manager
 
 		trigger player map_start	//Prevents late players affecting the game
 	}
+
+#if g_gametype == 2
+    trigger crypt_objective // an engineer has destroyed the crypt entrance (coop classes only)
+    {
+
+    }
+#endif
 	
 	trigger checkexit
 	{
@@ -44,6 +51,20 @@ game_manager
 		trigger kessler opened //Don't play open anim...
 	}
 }
+
+#if g_gametype == 2
+destroy_crypt // crypt entrance
+{
+        spawn
+        {
+        }
+
+        death
+        {
+        trigger game_manager crypt_objective
+        }
+}
+#endif
 
 sign1
 {

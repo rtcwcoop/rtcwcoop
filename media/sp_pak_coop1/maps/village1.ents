@@ -3,6 +3,35 @@
 "scriptname" "game_manager"
 }
 
+// fretn
+// the objective_info needs a model but it is not shown
+// because by default brush models where used, I had to
+// hack around to get it working
+#if g_gametype == 2
+{
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+//"model" "models/mapobjects/vehicles/lander.md3"
+"origin" "-383 4359 -27"
+"spawnflags" "1"
+"classname" "trigger_objective_info"
+"track" "the Crypt"
+"score" "10"
+"target" "crypttarget"
+}
+
+{
+"health" "100"
+"scriptname" "destroy_crypt"
+"origin" "-382 4435 -28"
+"classname" "func_explosive"
+"spawnflags" "68"
+"targetname" "crypttarget"
+"mass" "400"
+"type" "none"
+"dmg" "0"
+}
+#endif
+
 // AXIS SPAWNPOINTS (flags: 0 = disabled; 1 enabled; 2 = allied and disabled; 3 = allied and enabled; 4 = axis and disabled; 5 = axis and enabled; 6 = axis and allied and disabled; 7 = axis and allied and enabled)
 {
 "classname" "coop_spawnpoint"
