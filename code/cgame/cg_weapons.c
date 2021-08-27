@@ -4976,6 +4976,8 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, in
 	vec3_t sprOrg;
 	vec3_t sprVel;
 	int i,j;
+	vec3_t tmpv,tmpv2;
+	trace_t trace;
 
 //----(SA)	added
 	float shakeAmt;
@@ -5324,6 +5326,7 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 		VectorScale( dir, 100, sprVel );
 
 		// RF, testing new explosion animation
+		if ( cg_gameType.integer != GT_COOP_CLASSES ) {
 		CG_ParticleExplosion( "expblue", sprOrg, sprVel, 700, 20, 160 );
 		//CG_ParticleExplosion( "twiltb", sprOrg, sprVel, 600, 9, 100 );
 		//CG_ParticleExplosion( 3, sprOrg, sprVel, 900, 9, 250 );
@@ -5340,6 +5343,39 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 					  1400,     // duration
 					  // 15 + rand()%5 );	// count
 					  7 + rand() % 2 ); // count
+		} else {
+                        if ( trap_CM_PointContents( origin, 0 ) & CONTENTS_WATER ) {
+                                VectorCopy( origin,tmpv );
+                                tmpv[2] += 10000;
+
+                                trap_CM_BoxTrace( &trace, tmpv,origin, NULL, NULL, 0, MASK_WATER );
+                                CG_WaterRipple( cgs.media.wakeMarkShaderAnim, trace.endpos, dir, 150, 1000 );
+
+                                CG_AddDirtBulletParticles( trace.endpos, dir,
+                                                                                   400, // speed
+                                                                                   900, // duration
+                                                                                   15, // count
+                                                                                   0.5, 256,128, 0.125, "water_splash" );
+                        } else {
+                                VectorCopy( origin,tmpv );
+                                tmpv[2] += 20;
+                                VectorCopy( origin,tmpv2 );
+                                tmpv2[2] -= 20;
+                                trap_CM_BoxTrace( &trace,tmpv,tmpv2,NULL,NULL,0,MASK_SHOT );
+                                if ( trace.surfaceFlags & SURF_GRASS || trace.surfaceFlags & SURF_GRAVEL ) {
+                                        CG_AddDirtBulletParticles( origin, dir,
+                                                                                           400, // speed
+                                                                                           2000, // duration
+                                                                                           10, // count
+                                                                                           0.5, 200,75, 0.25, "dirt_splash" ); // 128,64
+                                }
+                                CG_ParticleExplosion( "explode1", sprOrg, sprVel, 700, 60, 240 );
+                                CG_AddDebris( origin, dir,
+                                                          280,
+                                                          1400,
+                                                          7 + rand() % 2 );
+                        }
+		}
 
 		break;
 	case VERYBIGEXPLOSION:
