@@ -453,9 +453,11 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	self->s.powerups = 0;
 // JPW NERVE -- only corpse in SP; in MP, need CONTENTS_BODY so medic can operate
-	if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+	if ( g_gametype.integer <= GT_SINGLE_PLAYER && g_gametype.integer != GT_COOP_CLASSES ) {
 		self->r.contents = CONTENTS_CORPSE;
 		self->s.weapon = WP_NONE;
+        } else {
+                self->client->limboDropWeapon = self->s.weapon; // store this so it can be dropped in limbo
 	}
 // jpw
 	self->s.angles[0] = 0;
@@ -470,7 +472,11 @@ void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 
 	// don't allow respawn until the death anim is done
 	// g_forcerespawn may force spawning at some later time
-	self->client->respawnTime = level.time + 1700;
+	if ( g_gametype.integer != GT_COOP_CLASSES) {
+		self->client->respawnTime = level.time + 1700;
+	} else {
+		self->client->respawnTime = level.time + 800;
+	}
 
 	// remove powerups
 	memset( self->client->ps.powerups, 0, sizeof( self->client->ps.powerups ) );

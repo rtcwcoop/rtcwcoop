@@ -1035,6 +1035,11 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 	int i;
 	gentity_t   *ent = &g_entities[cs->entityNum];
 
+	// in classes gametype nobody receives free ammo
+	if ( g_gametype.integer == GT_COOP_CLASSES && !( ent->r.svFlags & SVF_CASTAI )) {
+		return qtrue;
+	}
+
 #ifdef MONEY
 	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) ) {
 		return qtrue;
@@ -1115,9 +1120,13 @@ qboolean AICast_ScriptAction_SetClip( cast_state_t *cs, char *params ) {
 	char *pString, *token;
 	int weapon;
 	int i;
-
-#ifdef MONEY
 	gentity_t   *ent = &g_entities[cs->entityNum];
+
+	// in classes gametype nobody receives free ammo
+	if ( g_gametype.integer == GT_COOP_CLASSES && !( ent->r.svFlags & SVF_CASTAI )) {
+		return qtrue;
+	}
+#ifdef MONEY
 
 	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) ) {
 		return qtrue;
@@ -1315,12 +1324,15 @@ AICast_ScriptAction_GiveArmor
 ==============
 */
 qboolean AICast_ScriptAction_SetArmor( cast_state_t *cs, char *params ) {
-#ifdef MONEY
 	gentity_t   *ent = &g_entities[cs->entityNum];
-#endif
 
 	if ( !params || !params[0] ) {
 		G_Error( "AI Scripting: setarmor requires an armor value" );
+	}
+
+	// in classes gametype nobody receives free armor
+        if ( g_gametype.integer == GT_COOP_CLASSES && !( ent->r.svFlags & SVF_CASTAI )) {
+		return qtrue;
 	}
 
 #ifdef MONEY
@@ -1397,17 +1409,22 @@ qboolean AICast_ScriptAction_GiveWeapon( cast_state_t *cs, char *params ) {
 	gentity_t   *ent = &g_entities[cs->entityNum];
 
 #ifdef MONEY
-	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) )
+	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) ) {
 		return qtrue;
+	}
 #endif
 
 	// existing players don't receive
 	// the weapons and ammo from the ai scripts on a mapchange
 	// on a mapchange we give everyone at least one point, so we can identify new players
-	if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE )
-	{
-		if ( ent->inuse && !( ent->r.svFlags & SVF_CASTAI ) && ent->client->ps.persistant[PERS_SCORE] != 0 )
+	if ( g_gametype.integer <= GT_COOP && g_gametype.integer != GT_COOP_BATTLE && g_gametype.integer != GT_COOP_CLASSES) {
+		if ( ent->inuse && !( ent->r.svFlags & SVF_CASTAI ) && ent->client->ps.persistant[PERS_SCORE] != 0 ) {
 			return qtrue;
+		}
+	}
+
+	if ( g_gametype.integer == GT_COOP_CLASSES && ent->client->ps.stats[STAT_PLAYER_CLASS] != PC_SOLDIER && !( ent->r.svFlags & SVF_CASTAI )) {
+		return qtrue;
 	}
 
 	weapon = WP_NONE;
@@ -1655,9 +1672,13 @@ AICast_ScriptAction_GiveInventory
 qboolean AICast_ScriptAction_GiveInventory( cast_state_t *cs, char *params ) {
 	int i;
 	gitem_t     *item = 0;
-
-#ifdef MONEY
 	gentity_t   *ent = &g_entities[cs->entityNum];
+
+	// in classes gametype nobody receives free inventory
+	if ( g_gametype.integer == GT_COOP_CLASSES && !( ent->r.svFlags & SVF_CASTAI )) {
+		return qtrue;
+	}
+#ifdef MONEY
 
 	if ( g_gametype.integer == GT_COOP_BATTLE && !( ent->r.svFlags & SVF_CASTAI ) ) {
 		return qtrue;

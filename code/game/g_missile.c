@@ -679,8 +679,7 @@ void G_RunMissile( gentity_t *ent ) {
 	BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
 
 	if ( g_gametype.integer == GT_COOP_CLASSES ) {
-		if ( ( ent->clipmask & CONTENTS_BODY ) && ( ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_ARTY
-													|| ent->s.weapon == WP_GRENADE_LAUNCHER || ent->s.weapon == WP_GRENADE_PINEAPPLE ) ) {
+		if ( ( ent->clipmask & CONTENTS_BODY ) && ( ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_ARTY || ent->s.weapon == WP_GRENADE_LAUNCHER || ent->s.weapon == WP_GRENADE_PINEAPPLE ) ) {
 
 			if ( !ent->s.pos.trDelta[0] && !ent->s.pos.trDelta[1] && !ent->s.pos.trDelta[2] ) {
 				ent->clipmask &= ~CONTENTS_BODY;
