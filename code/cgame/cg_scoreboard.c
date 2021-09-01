@@ -352,7 +352,7 @@ qboolean CG_DrawScoreboard( void ) {
 		return qfalse;
 	}
 
-	if ( cgs.gametype == GT_COOP_CLASSES && cg.snap->ps.stats[STAT_HEALTH] == 0 ) {
+	if ( cgs.gametype == GT_COOP_CLASSES && cg.snap->ps.stats[STAT_HEALTH] <= 0 ) {
 		return qfalse;
 	}
 
