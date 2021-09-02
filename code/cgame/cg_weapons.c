@@ -4706,38 +4706,40 @@ void CG_FireWeapon( centity_t *cent ) {
         }
 
 	// play a sound
-	for ( c = 0 ; c < 4 ; c++ ) {
-		if ( !firesound[c] ) {
-			break;
+	if ( !( cent->currentState.eFlags & EF_ZOOMING ) && cg_gameType.integer == GT_COOP_CLASSES ) { // JPW NERVE -- don't play sounds or eject brass if zoomed in
+		for ( c = 0 ; c < 4 ; c++ ) {
+			if ( !firesound[c] ) {
+				break;
+			}
 		}
-	}
-	if ( c > 0 ) {
-		c = rand() % c;
-		if ( firesound[c] ) {
-			trap_S_StartSound( NULL, ent->number, CHAN_WEAPON, firesound[c] );
+		if ( c > 0 ) {
+			c = rand() % c;
+			if ( firesound[c] ) {
+				trap_S_StartSound( NULL, ent->number, CHAN_WEAPON, firesound[c] );
 
-			if ( fireEchosound && fireEchosound[c] ) { // check for echo
-				centity_t   *cent;
-				vec3_t porg, gorg, norm;    // player/gun origin
-				float gdist;
+				if ( fireEchosound && fireEchosound[c] ) { // check for echo
+					centity_t   *cent;
+					vec3_t porg, gorg, norm;    // player/gun origin
+					float gdist;
 
-				cent = &cg_entities[ent->number];
-				VectorCopy( cent->currentState.pos.trBase, gorg );
-				VectorCopy( cg.refdef.vieworg, porg );
-				VectorSubtract( gorg, porg, norm );
-				gdist = VectorNormalize( norm );
-				if ( gdist > 512 && gdist < 4096 ) {   // temp dist.  TODO: use numbers that are weapon specific
-					// use gorg as the new sound origin
-					VectorMA( cg.refdef.vieworg, 64, norm, gorg );    // sound-on-a-stick
-					trap_S_StartSound( gorg, ent->number, CHAN_WEAPON, fireEchosound[c] );
+					cent = &cg_entities[ent->number];
+					VectorCopy( cent->currentState.pos.trBase, gorg );
+					VectorCopy( cg.refdef.vieworg, porg );
+					VectorSubtract( gorg, porg, norm );
+					gdist = VectorNormalize( norm );
+					if ( gdist > 512 && gdist < 4096 ) {   // temp dist.  TODO: use numbers that are weapon specific
+						// use gorg as the new sound origin
+						VectorMA( cg.refdef.vieworg, 64, norm, gorg );    // sound-on-a-stick
+						trap_S_StartSound( gorg, ent->number, CHAN_WEAPON, fireEchosound[c] );
+					}
 				}
 			}
 		}
-	}
 
-	// do brass ejection
-	if ( weap->ejectBrassFunc && cg_brassTime.integer > 0 ) {
-		weap->ejectBrassFunc( cent );
+		// do brass ejection
+		if ( weap->ejectBrassFunc && cg_brassTime.integer > 0 ) {
+			weap->ejectBrassFunc( cent );
+		}
 	}
 }
 
@@ -5887,6 +5889,12 @@ void CG_Bullet( vec3_t end, int sourceEntityNum, vec3_t normal, qboolean flesh, 
 	vec3_t dir;
 	vec3_t start, trend, tmp;      // JPW
 	static int lastBloodSpat;
+
+// JPW NERVE -- don't ever shoot if we're binoced in
+        if ( cg_entities[sourceEntityNum].currentState.eFlags & EF_ZOOMING && cg_gameType.integer == GT_COOP_CLASSES ) {
+                return;
+        }
+// jpw
 
 	// if the shooter is currently valid, calc a source point and possibly
 	// do trail effects

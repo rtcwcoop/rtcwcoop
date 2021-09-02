@@ -3993,12 +3993,38 @@ void PmoveSingle( pmove_t *pmove ) {
 
 	if ( !(pm->ps->pm_flags & PMF_RESPAWNED) && pm->ps->pm_type != PM_INTERMISSION && pm->ps->pm_type != PM_NOCLIP ) {
 		// check if zooming
-		if ( !( pm->cmd.wbuttons & WBUTTON_ZOOM ) ) {
-			if ( pm->cmd.buttons & BUTTON_ATTACK ) {
-				// check for ammo
-				if ( PM_WeaponAmmoAvailable( pm->ps->weapon ) ) {
-					// all clear, fire!
-					pm->ps->eFlags |= EF_FIRING;
+#ifdef GAMEDLL
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+#ifdef CGAMEDLL
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#endif
+		{
+			// check for ammo
+			if ( PM_WeaponAmmoAvailable( pm->ps->weapon ) ) {
+				// check if zooming
+				// DHM - Nerve :: Let's use the same flag we just checked above, Ok?
+				if ( !( pm->ps->eFlags & EF_ZOOMING ) ) {
+					if ( !pm->ps->leanf ) {
+						if ( pm->ps->weaponstate == WEAPON_READY || pm->ps->weaponstate == WEAPON_FIRING ) {
+
+							// all clear, fire!
+							if ( pm->cmd.buttons & BUTTON_ATTACK && !( pm->cmd.buttons & BUTTON_TALK ) ) {
+								pm->ps->eFlags |= EF_FIRING;
+							}
+						}
+					}
+				}
+			}
+
+		} else {
+			if ( !( pm->cmd.wbuttons & WBUTTON_ZOOM ) ) {
+				if ( pm->cmd.buttons & BUTTON_ATTACK ) {
+					// check for ammo
+					if ( PM_WeaponAmmoAvailable( pm->ps->weapon ) ) {
+						// all clear, fire!
+						pm->ps->eFlags |= EF_FIRING;
+					}
 				}
 			}
 		}
