@@ -229,6 +229,10 @@ vmCvar_t cg_wolfparticles;
 vmCvar_t cg_gameType;
 vmCvar_t cg_entityEditCounter;
 vmCvar_t cg_limbotime;
+vmCvar_t cg_medicChargeTime;
+vmCvar_t cg_engineerChargeTime;
+vmCvar_t cg_LTChargeTime;
+vmCvar_t cg_soldierChargeTime;
 vmCvar_t cg_obituaries;
 vmCvar_t cg_drawcompass;
 vmCvar_t cg_fancyfx; // all new visual fx can be enabled/disabled with this cvar, it will be off by default so older machines dont just crash
@@ -455,6 +459,10 @@ cvarTable_t cvarTable[] = {
 	{ &cg_fancyfx, "cg_fancyfx", "0", CVAR_ARCHIVE },
 	{ &cg_entityEditCounter, "cg_entityEditCounter", "0", CVAR_ARCHIVE | CVAR_ROM },
 	{ &cg_limbotime, "", "30000", 0 },
+        { &cg_medicChargeTime,  "g_medicChargeTime", "10000", 0 }, // communicated by systeminfo
+        { &cg_LTChargeTime, "g_LTChargeTime", "30000", 0 }, // communicated by systeminfo
+        { &cg_engineerChargeTime,   "g_engineerChargeTime", "30000", 0 }, // communicated by systeminfo
+        { &cg_soldierChargeTime,    "g_soldierChargeTime", "20000", 0 }, // communicated by systeminfo
 
 	{ &cg_norender, "cg_norender", "1", 0 },  // only used during single player, to suppress rendering until the server is ready
 
@@ -1244,6 +1252,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.hintShaders[HINT_DOOR_ROTATING_LOCKED] = trap_R_RegisterShader( "gfx/2d/doorRotateLockHint" );
 	cgs.media.hintShaders[HINT_MG42]                = trap_R_RegisterShader( "gfx/2d/mg42Hint" );
 	cgs.media.hintShaders[HINT_BREAKABLE]           = trap_R_RegisterShader( "gfx/2d/breakableHint" );
+	cgs.media.hintShaders[HINT_BREAKABLE_DYNAMITE]  = trap_R_RegisterShader( "gfx/2d/dynamiteHint");
 	cgs.media.hintShaders[HINT_CHAIR]               = trap_R_RegisterShader( "gfx/2d/chairHint" );
 	cgs.media.hintShaders[HINT_ALARM]               = trap_R_RegisterShader( "gfx/2d/alarmHint" );
 	cgs.media.hintShaders[HINT_HEALTH]              = trap_R_RegisterShader( "gfx/2d/healthHint" );
@@ -1345,6 +1354,7 @@ static void CG_RegisterGraphics( void ) {
 	cgs.media.frozenShader = trap_R_RegisterShader( "sprites/voiceMedic" );
 	cgs.media.balloonShader = trap_R_RegisterShader( "sprites/balloon3" );
 	cgs.media.voiceChatShader = trap_R_RegisterShader( "sprites/voiceChat" );
+	cgs.media.medicReviveShader = trap_R_RegisterShader( "sprites/medic_revive" );
 
 	for ( i = 0; i < MAX_AISTATES; i++ ) {
 		cgs.media.aiStateShaders[i] = trap_R_RegisterShader( va( "sprites/aistate%i", i + 1 ) );

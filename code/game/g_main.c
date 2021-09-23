@@ -59,11 +59,17 @@ vmCvar_t g_skipcutscenes;
 #endif
 vmCvar_t g_maxspawnpoints;
 vmCvar_t g_maxlives;
+vmCvar_t g_fastres;
+vmCvar_t g_fastResMsec;
 vmCvar_t g_enforcemaxlives;
 vmCvar_t g_voiceChatsAllowed;
 vmCvar_t g_airespawn;
 vmCvar_t g_sharedlives;
 vmCvar_t g_limbotime;
+vmCvar_t g_medicChargeTime;
+vmCvar_t g_engineerChargeTime;
+vmCvar_t g_LTChargeTime;
+vmCvar_t g_soldierChargeTime;
 vmCvar_t g_reinforce;
 vmCvar_t g_freeze;
 vmCvar_t g_gamestate;
@@ -211,12 +217,18 @@ cvarTable_t gameCvarTable[] = {
 #endif
 	{ &g_maxspawnpoints, "g_maxspawnpoints", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_maxlives, "g_maxlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
+        { &g_fastres, "g_fastres", "0", CVAR_ARCHIVE, 0, qtrue},                                  // Xian - Fast Medic Resing
+        { &g_fastResMsec, "g_fastResMsec", "1000", CVAR_ARCHIVE, 0, qtrue},                                   // Xian - Fast Medic Resing
 	{ &g_enforcemaxlives, "g_enforcemaxlives", "1", CVAR_ARCHIVE, 0, qtrue},
 	{ &g_voiceChatsAllowed, "g_voiceChatsAllowed", "4", CVAR_ARCHIVE, 0, qfalse},
 	{ &g_airespawn, "g_airespawn", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qfalse},
 	{ &g_sharedlives, "g_sharedlives", "0", CVAR_ARCHIVE | CVAR_LATCH | CVAR_SERVERINFO, 0, qtrue},
 	{ &g_playerStart, "g_playerStart", "0", CVAR_ROM, 0, qfalse  },
 	{ &g_limbotime, "g_limbotime", "10000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_medicChargeTime, "g_medicChargeTime", "45000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_engineerChargeTime, "g_engineerChargeTime", "30000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_LTChargeTime, "g_LTChargeTime", "40000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
+        { &g_soldierChargeTime, "g_soldierChargeTime", "20000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_reinforce, "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_freeze, "g_freeze", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
 
@@ -750,6 +762,42 @@ void G_CheckForCursorHints( gentity_t *ent ) {
 					hintDist    = CH_BREAKABLE_DIST;
 					hintType    = HINT_BREAKABLE;
 					hintVal     = checkEnt->health;     // also send health to client for visualization
+                                        if ( g_gametype.integer == GT_COOP_CLASSES && ( checkEnt->spawnflags & 64 ) ) {
+// JPW NERVE only show hint for players who can blow it up
+                                                vec3_t mins,maxs,range = { 40, 40, 52 };
+                                                int i,num;
+                                                //int defendingTeam=0; // TTimo unused
+                                                int touch[MAX_GENTITIES];
+                                                gentity_t *hit = NULL;
+
+                                                VectorSubtract( ent->client->ps.origin, range, mins );
+                                                VectorAdd( ent->client->ps.origin, range, maxs );
+                                                num = trap_EntitiesInBox( mins, maxs, touch, MAX_GENTITIES );
+                                                for ( i = 0 ; i < num ; i++ ) {
+                                                        hit = &g_entities[touch[i]];
+                                                        if ( !( hit->r.contents & CONTENTS_TRIGGER ) ) {
+                                                                continue;
+                                                        }
+                                                        if ( !strcmp( hit->classname,"trigger_objective_info" ) ) {
+                                                                if ( !( hit->spawnflags & ( AXIS_OBJECTIVE | ALLIED_OBJECTIVE ) ) ) {
+                                                                        continue;
+                                                                }
+// we're in a trigger_objective_info field with at least one owner, so use this one and bail
+                                                                break;
+                                                        }
+                                                }
+                                                if ( ( hit ) &&
+                                                         ( ( ( ent->client->sess.sessionTeam == TEAM_RED ) && ( hit->spawnflags & ALLIED_OBJECTIVE ) ) ||
+                                                           ( ( ent->client->sess.sessionTeam == TEAM_BLUE ) && ( hit->spawnflags & AXIS_OBJECTIVE ) ) )
+                                                         ) {
+                                                        hintDist = CH_BREAKABLE_DIST * 2;
+                                                        hintType = HINT_BREAKABLE_DYNAMITE;
+                                                } else {
+                                                        hintDist = 0;
+                                                        hintType = ps->serverCursorHint     = HINT_FORCENONE;
+                                                }
+// jpw
+                                        }
 				}
 			} else if ( checkEnt->s.eType == ET_ALARMBOX )      {
 				if ( checkEnt->health > 0 ) {
@@ -1459,6 +1507,12 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	} else {
 		//trap_Cvar_Set("g_warmup", "0");
 		//trap_Cvar_Set("g_warmup", "20");
+	}
+
+	// only flagpole spawning in classes gametype
+	// this also enables limbo
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		trap_Cvar_Set( "g_spawnpoints", "2" );
 	}
 
 	if ( g_gametype.integer == GT_COOP_SPEEDRUN ) {

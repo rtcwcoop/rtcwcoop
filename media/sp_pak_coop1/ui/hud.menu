@@ -27,6 +27,30 @@
 
 	}
 
+// WEAPON CHARGE BAR  //
+
+    menuDef {
+        name "weaponcharge"
+        fullScreen MENU_FALSE
+        visible MENU_TRUE
+        style WINDOW_STYLE_EMPTY
+        //border 0
+        //bordersize 0
+        //bordercolor .34 .35 .24 1
+        rect 10 320 10 70
+
+        itemDef {
+            name "weapcharbar"
+            decoration
+            visible MENU_TRUE
+            rect 0 0 8 68
+            ownerdraw CG_PLAYER_WEAPON_RECHARGE
+            addColorRangerel 0.00 0.25  1 0.1 0.1 0.5   // 0-25%
+            addColorRangerel 0.25 0.50  .63 .47 .25 0.5 // 25%-50%
+            addColorRangerel 0.50 1.00  0.1 1 0.1 0.5   // 25-100%
+        }
+    }
+
 
 // STAMINA BAR	//
 

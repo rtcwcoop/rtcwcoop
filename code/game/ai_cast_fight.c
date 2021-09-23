@@ -1831,9 +1831,13 @@ float AICast_GetWeaponSoundRange( int weapon ) {
 	case    WP_GAUNTLET:
 	case    WP_STEN:
 	case    WP_SILENCER:
+	case	WP_MEDIC_SYRINGE:
+	case	WP_AMMO:
+	case	WP_MEDKIT:
 		return 64;
 	case    WP_GRENADE_LAUNCHER:
 	case    WP_GRENADE_PINEAPPLE:
+	case    WP_SMOKE_GRENADE:
 		return 1500;
 	case    WP_GARAND:
 	case    WP_SNOOPERSCOPE:

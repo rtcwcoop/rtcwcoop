@@ -22,7 +22,7 @@ set weapons rifles = mauser rifle AND sniper scope AND snooper rifle
 set weapons throwables = dynamite weapon AND pineapple AND grenade
 
 set weapons one_handed_weapons = SP5 Pistol AND luger AND colt
-set weapons two_handed_weapons = mp40 AND thompson AND sten AND mauser rifle AND sniper scope AND snooper rifle AND flamethrower AND panzerfaust AND venom AND tesla gun AND fg42 paratroop rifle AND fg42 scope
+set weapons two_handed_weapons = mp40 AND thompson AND sten AND mauser rifle AND sniper scope AND snooper rifle AND flamethrower AND panzerfaust AND venom AND tesla gun AND fg42 paratroop rifle AND fg42 scope AND Binoculars AND medicheal AND Ammo Pack
 
 
 // movetypes
@@ -103,6 +103,26 @@ STATE COMBAT
 		{
 			both stand_knife
 		}
+        weapons Binoculars
+        {
+            both stand_binoculars
+        }
+        weapons smokeGrenade
+        {
+            both stand_grenade
+        }
+        weapons syringe
+        {
+            both stand_knife
+        }
+        weapons Ammo Pack
+        {
+            both stand_medpack
+        }
+        weapons medicheal
+        {
+            both stand_medpack
+        }
 		weapons throwables
 		{
 			both stand_grenade
@@ -159,6 +179,22 @@ STATE COMBAT
 		{	
 			legs alert_crchidle_1h torso relaxed_idle_no
 		}
+        weapons smokeGrenade
+        {
+            legs alert_crchidle_1h torso stand_grenade
+        }
+        weapons syringe
+        {
+            legs alert_crchidle_1h torso stand_knife
+        }
+        weapons Ammo Pack
+        {
+            legs alert_crchidle_1h torso stand_medpack
+        }
+        weapons medicheal
+        {
+            legs alert_crchidle_1h torso stand_medpack
+        }
 		weapons knife
 		{
 			legs alert_crchidle_1h torso stand_knife
@@ -202,6 +238,22 @@ STATE COMBAT
 		{
 			both relaxed_walk_1h_1
 		}
+        weapons smokeGrenade
+        {
+            both relaxed_walk_1h_1
+        }
+        weapons syringe
+        {
+            both relaxed_walk_1h_1
+        }
+        weapons Ammo Pack
+        {
+            legs relaxed_walk_1h_1 torso stand_medpack
+        }
+        weapons medicheal
+        {
+            legs relaxed_walk_1h_1 torso stand_medpack
+        }
 		weapons throwables
 		{
 			both relaxed_walk_1h_1
@@ -245,6 +297,22 @@ STATE COMBAT
 		{
 			legs alert_bk_1h torso stand_pistolb
 		}
+        weapons smokeGrenade
+        {
+            both alert_bk_1h
+        }
+        weapons syringe
+        {
+            both alert_bk_1h
+        }
+        weapons Ammo Pack
+        {
+            legs alert_bk_1h torso stand_medpack
+        }
+        weapons medicheal
+        {
+            legs alert_bk_1h torso stand_medpack
+        }
 		weapons throwables
 		{
 			both alert_bk_1h
@@ -284,6 +352,22 @@ STATE COMBAT
 		{
 			both alert_crch_1h
 		}
+        weapons smokeGrenade
+        {
+            both alert_crch_1h
+        }
+        weapons syringe
+        {
+            both alert_crch_1h
+        }
+        weapons Ammo Pack
+        {
+            legs alert_crch_2h torso stand_medpack
+        }
+        weapons medicheal
+        {
+            legs alert_crch_2h torso stand_medpack
+        }
 		weapons throwables
 		{
 			both alert_crch_1h
@@ -324,6 +408,22 @@ STATE COMBAT
 		{
 			both alert_crbk_1h
 		}
+        weapons smokeGrenade
+        {
+            both alert_crbk_1h
+        }
+        weapons syringe
+        {
+            both alert_crbk_1h
+        }
+        weapons Ammo Pack
+        {
+            legs alert_crbk_2h torso stand_medpack
+        }
+        weapons medicheal
+        {
+            legs alert_crbk_2h torso stand_medpack
+        }
 		weapons throwables
 		{
 			both alert_crbk_1h
@@ -359,6 +459,22 @@ STATE COMBAT
 		{
 			both alert_run_no
 		}
+        weapons smokeGrenade
+        {
+            both alert_run_no
+        }
+        weapons syringe
+        {
+            both alert_run_1h
+        }
+        weapons Ammo Pack
+        {
+            both run_medpack
+        }
+        weapons medicheal
+        {
+            both run_medpack
+        }
 		weapons throwables
 		{
 			both alert_run_no
@@ -402,6 +518,22 @@ STATE COMBAT
 		{
 			legs alert_bk_1h torso stand_pistolb
 		}
+        weapons smokeGrenade
+        {
+            both alert_bk_1h
+        }
+        weapons syringe
+        {
+            legs alert_bk_1h
+        }
+        weapons Ammo Pack
+        {
+            legs alert_bk_2h torso stand_medpack
+        }
+        weapons medicheal
+        {
+            legs alert_bk_2h torso stand_medpack
+        }
 		weapons knife
 		{
 			both alert_bk_1h
@@ -445,6 +577,22 @@ STATE COMBAT
 		{
 			legs alert_run_1h torso stand_pistolb
 		}
+        weapons smokeGrenade
+        {
+            both alert_run_no
+        }
+        weapons syringe
+        {
+            both alert_run_1h
+        }
+        weapons Ammo Pack
+        {
+            both run_medpack
+        }
+        weapons medicheal
+        {
+            both run_medpack
+        }
 		weapons throwables
 		{
 			both alert_run_no
@@ -484,6 +632,22 @@ STATE COMBAT
 		{
 			legs alert_run_1h torso stand_pistolb
 		}
+        weapons smokeGrenade
+        {
+            both alert_run_no
+        }
+        weapons syringe
+        {
+            both alert_run_1h
+        }
+        weapons Ammo Pack
+        {
+            both run_medpack
+        }
+        weapons medicheal
+        {
+            both run_medpack
+        }
 		weapons throwables
 		{
 			both alert_run_no
@@ -565,39 +729,39 @@ STATE COMBAT
 			both climb_down
 		}
 	}
-	turnright
-	{
+    turnright
+    {
 //JB 06/12/01
-//		weapons machineguns, movetype idlecr
-//		{
-//			legs turn_crch_machinegun_R
-//		}
-//		weapons machineguns, movetype idle
-//		{
-//			legs turn_machinegun_R
-//		}
-		
-	}
-	turnleft
-	{
+//      weapons machineguns, movetype idlecr
+//      {
+//          legs turn_crch_machinegun_R
+//      }
+        weapons machineguns, movetype idle
+        {
+            legs turn_machinegun_R
+        }
+
+    }
+    turnleft
+    {
 //JB 06/12/01
-//		weapons machineguns, movetype idlecr
-//		{
-//			legs turn_crch_machinegun_L
-//		}
-//		weapons machineguns, movetype idle
-//		{
-//			legs turn_machinegun_R
-//		}
-	}
+//      weapons machineguns, movetype idlecr
+//      {
+//          legs turn_crch_machinegun_L
+//      }
+        weapons machineguns, movetype idle
+        {
+            legs turn_machinegun_R
+        }
+    }
 // DHM - 07/30/01  (even clients play #1, odd clients play #2)
-//	fallen
-//	{
-//		default
-//		{
-//			both wounded_idle_1
-//		}
-//	}
+    fallen
+    {
+        default
+        {
+            both wounded_idle_1
+        }
+    }
 }
 
 //==========================================================================
@@ -634,7 +798,46 @@ fireweapon
 	{
 		torso firing_mg42
 	}
-
+// smokeGrenade
+    weapons smokeGrenade, movetype idle
+    {
+        torso firing_grenadeB
+    }
+    weapons smokeGrenade, movetype run AND walk AND straferight AND strafeleft AND backstep AND turnleft AND turnright AND idlecr
+    {
+        torso firing_grenadeB
+    }
+// AMMOPACK
+    weapons Ammo Pack
+    {
+        torso firing_grenadeB
+    }
+// MEDICHEAL
+    weapons medicheal
+    {
+        torso firing_grenadeB
+    }
+// SYRINGE
+    weapons syringe, movetype walk AND turnleft AND turnright AND idlecr AND idle
+    {
+        torso firing_syringe
+    }
+    weapons syringe, movetype crouching
+    {
+        torso firing_syringe
+    }
+    weapons syringe, movetype run AND swim
+    {
+        torso firing_syringe
+    }
+    weapons syringe, movetype backstep AND swimbk
+    {
+        torso firing_syringe
+    }
+    weapons syringe
+    {
+		torso firing_syringe
+    }
 
 // PANZERFAUST 
 //jb-nerve added 7/24/01
@@ -763,6 +966,22 @@ fireweapon
 
 raiseweapon
 {
+    weapons smokeGrenade
+    {
+        torso raise_grenade
+    }
+    weapons syringe
+    {
+        torso raise_knife
+    }
+    weapons Ammo Pack
+    {
+        torso raise_medpack
+    }
+    weapons medicheal
+    {
+        torso raise_medpack
+    }
 	weapons panzerfaust
 	{
 		torso raise_rifle
@@ -799,6 +1018,22 @@ raiseweapon
 
 reload
 {
+	weapons smokeGrenade
+    {
+        torso raise_grenade
+    }
+    weapons syringe
+    {
+        torso raise_knife
+    }
+    weapons Ammo Pack
+    {
+        torso raise_medpack
+    }
+    weapons medicheal
+    {
+        torso raise_medpack
+    }
 	weapons panzerfaust
 	{
 		torso reload_rifle

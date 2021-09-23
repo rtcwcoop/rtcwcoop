@@ -1633,6 +1633,10 @@ static void PM_Footsteps( void ) {
 	int animResult = -1;
 
 	if ( pm->ps->eFlags & EF_DEAD ) {
+                // DHM - Nerve :: before going to limbo, play a wounded/fallen animation
+                if ( !pm->ps->pm_time && !( pm->ps->pm_flags & PMF_LIMBO ) ) {
+                        BG_AnimScriptAnimation( pm->ps, pm->ps->aiState, ANIM_MT_FALLEN, qtrue );
+                }
 		return;
 	}
 
@@ -2684,6 +2688,7 @@ static void PM_Weapon( void ) {
 	int weapattackanim;
 	qboolean akimboFire;
 	qboolean gameReloading;
+	int pfausttimeout;
 
 	// don't allow attack until all buttons are up
 	if ( pm->ps->pm_flags & PMF_RESPAWNED ) {
@@ -2915,6 +2920,48 @@ static void PM_Weapon( void ) {
 		return;
 	}
 
+#if defined ( CGAMEDLL )
+	if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+	if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+	{
+                if ( pm->ps->weapon == WP_PANZERFAUST ) {
+                        if ( pm->ps->stats[ STAT_PLAYER_CLASS ] == PC_LT ) {
+                                pfausttimeout = pm->ltChargeTime;
+                        } else {
+                                pfausttimeout = pm->soldierChargeTime;
+                        }
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < pfausttimeout ) {
+                                return;
+                        }
+                }
+
+                if ( pm->ps->weapon == WP_DYNAMITE ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < pm->engineerChargeTime ) {
+                                return;
+                        }
+                }
+
+                if ( pm->ps->weapon == WP_MEDKIT ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->medicChargeTime * 0.25f ) ) {
+                                return;
+                        }
+                }
+
+                if ( pm->ps->weapon == WP_AMMO ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.25f ) ) {
+                                return;
+                        }
+                }
+
+                if ( pm->ps->weapon == WP_SMOKE_GRENADE ) {
+                        if ( pm->cmd.serverTime - pm->ps->classWeaponTime < ( pm->ltChargeTime * 0.5f ) ) {
+                                return;
+                        }
+                }
+        }
+
 	// check for fire
 	if ( !( pm->cmd.buttons & ( BUTTON_ATTACK | WBUTTON_ATTACK2 ) ) && !delayedFire ) { // if not on fire button and there's not a delayed shot this frame...
 		pm->ps->weaponTime  = 0;
@@ -2934,6 +2981,12 @@ static void PM_Weapon( void ) {
 
 	// player is zooming - no fire
 	if ( pm->ps->eFlags & EF_ZOOMING ) {
+#ifdef GAMEDLL
+                if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                        pm->ps->weaponTime += 500;
+                        PM_AddEvent( EV_FIRE_WEAPON );
+                }
+#endif
 		return;
 	}
 
@@ -2970,6 +3023,8 @@ static void PM_Weapon( void ) {
 	case WP_VENOM:
 	case WP_FG42:
 	case WP_FG42SCOPE:
+	case WP_MEDKIT:
+	case WP_SMOKE_GRENADE:
 		if ( !weaponstateFiring ) {
 			if ( pm->ps->aiChar && pm->ps->weapon == WP_VENOM ) {
 				// AI get fast spin-up
@@ -3148,9 +3203,10 @@ static void PM_Weapon( void ) {
 	case WP_MP40:
 	case WP_THOMPSON:
 	case WP_STEN:
+	case WP_SMOKE_GRENADE:
+	case WP_MEDKIT:
 		PM_ContinueWeaponAnim( weapattackanim );
 		break;
-	
 	default:
 		PM_StartWeaponAnim( weapattackanim );
 	break;
@@ -3165,6 +3221,17 @@ static void PM_Weapon( void ) {
 			PM_AddEvent( EV_FIRE_WEAPON );
 		}
 	} else {
+		// in classes, pfaust fires once then switches to pistol since it's useless for a while
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			if ( ( pm->ps->weapon == WP_PANZERFAUST ) || ( pm->ps->weapon == WP_SMOKE_GRENADE ) || ( pm->ps->weapon == WP_DYNAMITE ) ) {
+				PM_AddEvent( EV_NOAMMO );
+			}
+		}
 		if ( PM_WeaponClipEmpty( pm->ps->weapon ) ) {
 			PM_AddEvent( EV_FIRE_WEAPON_LASTSHOT );
 		} else {
@@ -3270,6 +3337,19 @@ static void PM_Weapon( void ) {
 		addTime = 50;
 		break;
 	// jpw
+        case WP_AMMO:
+                addTime = ammoTable[pm->ps->weapon].nextShotTime;
+                break;
+        case WP_MEDKIT:
+                addTime = 1000;
+                break;
+        case WP_SMOKE_GRENADE:
+                addTime = 1000;
+                break;
+        case WP_ARTY:
+        case WP_MEDIC_SYRINGE:
+                addTime = ammoTable[pm->ps->weapon].nextShotTime;
+                break;
 
 	case WP_MONSTER_ATTACK1:
 		addTime = 1000;
@@ -3517,13 +3597,23 @@ void PM_UpdateViewAngles( playerState_t *ps, usercmd_t *cmd, void( trace ) ( tra
 		return;
 	}
 
-	if ( ps->pm_type == PM_INTERMISSION ) {
-		return;     // no view changes at all
-	}
+        // Added support for PMF_TIME_LOCKPLAYER
+        if ( ps->pm_type == PM_INTERMISSION || ps->pm_flags & PMF_TIME_LOCKPLAYER ) {
+                return;     // no view changes at all
+        }
 
-	if ( ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0 ) {
-		return;     // no view changes at all
-	}
+        if ( ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0 ) {
+
+                // DHM - Nerve :: Allow players to look around while 'wounded' or lock to a medic if nearby
+                temp = cmd->angles[1] + ps->delta_angles[1];
+                if ( ps->stats[STAT_DEAD_YAW] == 999 ) {
+                        ps->stats[STAT_DEAD_YAW] = SHORT2ANGLE( temp );
+                }
+                return;     // no view changes at all
+        }
+	//if ( ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0 ) {
+	//	return;     // no view changes at all
+	//}
 
 	// circularly clamp the angles with deltas
 	for ( i = 0 ; i < 3 ; i++ ) {
@@ -3903,12 +3993,38 @@ void PmoveSingle( pmove_t *pmove ) {
 
 	if ( !(pm->ps->pm_flags & PMF_RESPAWNED) && pm->ps->pm_type != PM_INTERMISSION && pm->ps->pm_type != PM_NOCLIP ) {
 		// check if zooming
-		if ( !( pm->cmd.wbuttons & WBUTTON_ZOOM ) ) {
-			if ( pm->cmd.buttons & BUTTON_ATTACK ) {
-				// check for ammo
-				if ( PM_WeaponAmmoAvailable( pm->ps->weapon ) ) {
-					// all clear, fire!
-					pm->ps->eFlags |= EF_FIRING;
+#ifdef GAMEDLL
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+#ifdef CGAMEDLL
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#endif
+		{
+			// check for ammo
+			if ( PM_WeaponAmmoAvailable( pm->ps->weapon ) ) {
+				// check if zooming
+				// DHM - Nerve :: Let's use the same flag we just checked above, Ok?
+				if ( !( pm->ps->eFlags & EF_ZOOMING ) ) {
+					if ( !pm->ps->leanf ) {
+						if ( pm->ps->weaponstate == WEAPON_READY || pm->ps->weaponstate == WEAPON_FIRING ) {
+
+							// all clear, fire!
+							if ( pm->cmd.buttons & BUTTON_ATTACK && !( pm->cmd.buttons & BUTTON_TALK ) ) {
+								pm->ps->eFlags |= EF_FIRING;
+							}
+						}
+					}
+				}
+			}
+
+		} else {
+			if ( !( pm->cmd.wbuttons & WBUTTON_ZOOM ) ) {
+				if ( pm->cmd.buttons & BUTTON_ATTACK ) {
+					// check for ammo
+					if ( PM_WeaponAmmoAvailable( pm->ps->weapon ) ) {
+						// all clear, fire!
+						pm->ps->eFlags |= EF_FIRING;
+					}
 				}
 			}
 		}
@@ -3979,7 +4095,7 @@ void PmoveSingle( pmove_t *pmove ) {
 		pm->ps->pm_flags &= ~PMF_BACKWARDS_RUN;
 	}
 
-	if ( pm->ps->pm_type >= PM_DEAD || pm->ps->pm_flags & PMF_LIMBO ) {         // DHM - Nerve
+	if ( pm->ps->pm_type >= PM_DEAD || pm->ps->pm_flags & ( PMF_LIMBO | PMF_TIME_LOCKPLAYER ) ) {
 		pm->cmd.forwardmove = 0;
 		pm->cmd.rightmove = 0;
 		pm->cmd.upmove = 0;

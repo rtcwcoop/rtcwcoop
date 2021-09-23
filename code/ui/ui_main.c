@@ -92,6 +92,7 @@ static const int numServerFilters = ARRAY_LEN( serverFilters );
 static const char *coopGameTypes[] = {
 	"Battle",
 	"Speedrun",
+	"Classes",
 	"Cooperative"
 };
 static int const numCoopGameTypes = ARRAY_LEN( coopGameTypes );

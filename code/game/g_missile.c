@@ -576,10 +576,10 @@ void G_ExplodeMissile( gentity_t *ent ) {
 				}
 			}
 		}
-	
+
 		// give big weapons the shakey shakey
 		if ( ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_PANZERFAUST || ent->s.weapon == WP_GRENADE_LAUNCHER ||
-			ent->s.weapon == WP_GRENADE_PINEAPPLE || ent->s.weapon == WP_MORTAR ) {
+			ent->s.weapon == WP_GRENADE_PINEAPPLE || ent->s.weapon == WP_MORTAR || ent->s.weapon == WP_ARTY ) {
 			Ground_Shaker( ent->r.currentOrigin, ent->splashDamage * 4 );
 		}
 		return;
@@ -677,6 +677,15 @@ void G_RunMissile( gentity_t *ent ) {
 
 	// get current position
 	BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
+
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		if ( ( ent->clipmask & CONTENTS_BODY ) && ( ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_ARTY || ent->s.weapon == WP_GRENADE_LAUNCHER || ent->s.weapon == WP_GRENADE_PINEAPPLE ) ) {
+
+			if ( !ent->s.pos.trDelta[0] && !ent->s.pos.trDelta[1] && !ent->s.pos.trDelta[2] ) {
+				ent->clipmask &= ~CONTENTS_BODY;
+			}
+		}
+	}
 
 //----(SA)	added direction to pass for mark determination
 	VectorSubtract( origin, ent->r.currentOrigin, dir );
@@ -1334,6 +1343,10 @@ gentity_t *fire_grenade( gentity_t *self, vec3_t start, vec3_t dir, int grenadeW
 			bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
 		}
 		break;
+        case WP_SMOKE_GRENADE:
+                bolt->classname             = "grenade";
+                bolt->s.eFlags              = EF_BOUNCE_HALF | EF_BOUNCE;
+                break;
 // JPW NERVE
 	case WP_GRENADE_SMOKE:
 		bolt->classname             = "grenade";

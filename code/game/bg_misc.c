@@ -67,11 +67,11 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 	// bank
 	{0,                     0,                      0           },  //	0 (empty)
 
-	{WP_KNIFE,              0,                      0           },  //	1
+	{WP_KNIFE,              0,			0	    },  //	1
 	{WP_LUGER,              WP_COLT,                0           },  //	2	// WP_AKIMBO
 	{WP_MP40,               WP_THOMPSON,            WP_STEN     },  //	3
-	{WP_MAUSER,             WP_GARAND,              0           },  //	4
-	{WP_FG42,               0,                      0           },  //	5
+	{WP_MAUSER,             WP_GARAND,              0           },  //	4	// add WP_PLIERS
+	{WP_FG42,               0,                      0           },  //	5	// add WP_AMMO and WP_SMOKEGRENADE
 	{WP_GRENADE_LAUNCHER,   WP_GRENADE_PINEAPPLE,   WP_DYNAMITE },  //	6
 	{WP_PANZERFAUST,        0,                      0           },  //	7
 	{WP_VENOM,              0,                      0           },  //	8
@@ -80,6 +80,20 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 };
 
 extern int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK];
+
+int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES] = {
+// emtpy bank '0'
+ {0,                   0,                    0,		      0,         0,         0,       0,		     0,        0,		0},
+ {WP_KNIFE,            0,                    0,		      0,         0,         0,       0,		     0,        0,		0},
+ {WP_LUGER,            WP_COLT,              0,		      0,         0,         0,       0,		     0,        0,	        0},
+ {WP_MP40,             WP_THOMPSON,          WP_STEN,	      WP_MAUSER, WP_GARAND, WP_FG42, WP_PANZERFAUST, WP_VENOM, WP_FLAMETHROWER,	WP_TESLA},
+ {WP_GRENADE_LAUNCHER, WP_GRENADE_PINEAPPLE, 0,		      0,         0,         0,       0,		     0,        0,		0},
+ //{WP_MEDIC_SYRINGE,    WP_PLIERS,            WP_SMOKE_GRENADE,0,         0,         0,       0,		     0,        0,		0},
+ {WP_MEDIC_SYRINGE,    WP_SMOKE_GRENADE,     0,               0,         0,         0,	     0,              0,	       0,               0},
+ {WP_DYNAMITE,         WP_MEDKIT,            WP_AMMO,	      0,         0,         0,       0,		     0,        0,		0}
+};
+
+extern int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES];
 
 // [0] = maxammo		-	max player ammo carrying capacity.
 // [1] = uses			-	how many 'rounds' it takes/costs to fire one cycle.
@@ -103,55 +117,41 @@ extern int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK];
 //
 
 ammotable_t ammoTable[] = {
-	//	MAX				USES	MAX		RELOAD	FIRE			NEXT	HEAT,	COOL,	MOD,	...
-	//	AMMO			AMT.	CLIP	TIME	DELAY			SHOT
-	{   0,              0,      0,      0,      50,             0,      0,      0,      0                       },  //	WP_NONE					// 0
-
-	{   999,            0,      999,    0,      50,             200,    0,      0,      MOD_KNIFE               },  //	WP_KNIFE				// 1
-
-	{   MAX_AMMO_9MM,   1,      8,      1500,   DELAY_PISTOL,   400,    0,      0,      MOD_LUGER               },  //	WP_LUGER				// 2	// NOTE: also 32 round 'snail' magazine
-	{   MAX_AMMO_9MM,   1,      32,     2600,   DELAY_LOW,      100,    0,      0,      MOD_MP40                },  //	WP_MP40					// 3
-	{   MAX_AMMO_MAUSER,1,      10,     2500,   DELAY_HIGH,     1200,   0,      0,      MOD_MAUSER              },  //	WP_MAUSER				// 4	// NOTE: authentic clips are 5/10/25 rounds
-	{   MAX_AMMO_FG42,  1,      20,     2000,   DELAY_LOW,      200,    0,      0,      MOD_FG42                },  //	WP_FG42					// 5
-	{   15,             1,      15,     1000,   DELAY_THROW,    1600,   0,      0,      MOD_GRENADE_LAUNCHER    },  //	WP_GRENADE_LAUNCHER		// 6
-	{   5,              1,      1,      1000,   DELAY_SHOULDER, 2000,   0,      0,      MOD_PANZERFAUST         },  //	WP_PANZERFAUST			// 7
-//	{	MAX_AMMO_VENOM,	1,		500,	3000,	750,			30,		5000,	200,	MOD_VENOM				},	//	WP_VENOM				// -
-	{   MAX_AMMO_VENOM, 1,      500,    3000,   750,            45,     5000,   200,    MOD_VENOM               },  //	WP_VENOM				// 8	// JPW NOTE: changed next_shot 50->45 to genlock firing to every server frame (fire rate shouldn't be framerate dependent now)
-	{   150,            1,      150,    1000,   DELAY_LOW,      50,     0,      0,      MOD_FLAMETHROWER        },  //	WP_FLAMETHROWER			// 9
-	{   300,            1,      300,    1000,   DELAY_LOW,      0,      0,      0,      MOD_TESLA               },  //	WP_TESLA				// 10
-//	{	50,				1,		50,		1000,	DELAY_LOW,		1200,	0,		0,		MOD_SPEARGUN			},	//	WP_SPEARGUN				// 11
-
-//	{	999,			0,		999,	0,		50,				200,	0,		0,		MOD_KNIFE2				},	//	WP_KNIFE2				// 12
-	{   MAX_AMMO_45,    1,      8,      1500,   DELAY_PISTOL,   400,    0,      0,      MOD_COLT                },  //	WP_COLT					// 13
-	{   MAX_AMMO_45,    1,      30,     2400,   DELAY_LOW,      120,    0,      0,      MOD_THOMPSON            },  //	WP_THOMPSON				// 14	// NOTE: also 50 round drum magazine
-	{   MAX_AMMO_GARAND,1,      5,      2500,   DELAY_HIGH,     1200,   0,      0,      MOD_GARAND              },  //	WP_GARAND				// 15	// NOTE: always 5 round clips
-//	{	MAX_AMMO_BAR,	1,		20,		2000,	DELAY_LOW,		200,	0,		0,		MOD_BAR					},	//	WP_BAR					// 16
-	{   15,             1,      15,     1000,   DELAY_THROW,    1600,   0,      0,      MOD_GRENADE_PINEAPPLE   },  //	WP_GRENADE_PINEAPPLE	// 17
-//	{	5,				1,		5,		1000,	DELAY_SHOULDER,	1200,	0,		0,		MOD_ROCKET_LAUNCHER		},	//	WP_ROCKET_LAUNCHER		// 18
-
-	{   MAX_AMMO_MAUSER,1,      10,     3000,   0,              1700,   0,      0,      MOD_SNIPERRIFLE         },  //	WP_SNIPER_GER			// 19
-	{   MAX_AMMO_GARAND,1,      5,      3000,   0,              1200,   0,      0,      MOD_SNOOPERSCOPE        },  //	WP_SNIPER_AM			// 20
-//	{	MAX_AMMO_VENOM,	10,		300,	3000,	1200,			1200,	0,		0,		MOD_VENOM_FULL			},	//	WP_VENOM_FULL			// -
-//	{	MAX_AMMO_VENOM,	10,		300,	3000,	1000,			1000,	0,		0,		MOD_VENOM_FULL			},	//	WP_VENOM_FULL			// 21
-//	{	20,				1,		20,		1000,	DELAY_LOW,		1200,	0,		0,		MOD_SPEARGUN_CO2		},	//	WP_SPEARGUN_CO2			// 22
-
-	{   MAX_AMMO_FG42,  1,      20,     2000,   DELAY_LOW,      200,    0,      0,      MOD_FG42SCOPE           },  //	WP_FG42SCOPE			// 23
-//	{	MAX_AMMO_BAR,	1,		20,		2000,	DELAY_LOW,		90,		0,		0,		MOD_BAR					},	//	WP_BAR2					// 24
-	{   MAX_AMMO_9MM,   1,      32,     3100,   DELAY_LOW,      110,    700,    300,    MOD_STEN                },  //	WP_STEN					// 25
-	{   MAX_AMMO_9MM,   1,      8,      1500,   DELAY_PISTOL,   400,    0,      0,      MOD_SILENCER            },  //	WP_SILENCER				// 26
-	{   MAX_AMMO_45,    1,      8,      2700,   DELAY_PISTOL,   200,    0,      0,      MOD_AKIMBO              },  //	WP_AKIMBO				// 27
-
-	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_CLASS_SPECIAL		// 28	//	class_special
-//	{	100,			1,		100,	1000,	DELAY_PISTOL,	900,	0,		0,		MOD_CROSS				},	//	WP_CROSS				// 29
-	{   10,             1,      10,     1000,   DELAY_THROW,    1600,   0,      0,      MOD_DYNAMITE            },  //	WP_DYNAMITE				// 30
-//	{	10,				1,		10,		1000,	DELAY_THROW,	1600,	0,		0,		MOD_DYNAMITE			},	//	WP_DYNAMITE2			// 31
-
+	//  MAX             USES    MAX	    RELOAD  FIRE            NEXT    HEAT,   COOL,   MOD,	...
+	//  AMMO            AMT.    CLIP    TIME    DELAY	    SHOT
+	{   0,              0,      0,      0,      50,             0,      0,      0,      0                       },  //	WP_NONE	0
+	{   999,            0,      999,    0,      50,             200,    0,      0,      MOD_KNIFE               },  //	WP_KNIFE 1
+	{   MAX_AMMO_9MM,   1,      8,      1500,   DELAY_PISTOL,   400,    0,      0,      MOD_LUGER               },  //	WP_LUGER e
+	{   MAX_AMMO_9MM,   1,      32,     2600,   DELAY_LOW,      100,    0,      0,      MOD_MP40                },  //	WP_MP40	3
+	{   MAX_AMMO_MAUSER,1,      10,     2500,   DELAY_HIGH,     1200,   0,      0,      MOD_MAUSER              },  //	WP_MAUSER s
+	{   MAX_AMMO_FG42,  1,      20,     2000,   DELAY_LOW,      200,    0,      0,      MOD_FG42                },  //	WP_FG42	5
+	{   15,             1,      15,     1000,   DELAY_THROW,    1600,   0,      0,      MOD_GRENADE_LAUNCHER    },  //	WP_GRENADE_LAUNCHER 6
+	{   5,              1,      1,      1000,   DELAY_SHOULDER, 2000,   0,      0,      MOD_PANZERFAUST         },  //	WP_PANZERFAUST 7
+	{   MAX_AMMO_VENOM, 1,      500,    3000,   750,            45,     5000,   200,    MOD_VENOM               },  //	WP_VENOM 8
+	{   150,            1,      150,    1000,   DELAY_LOW,      50,     0,      0,      MOD_FLAMETHROWER        },  //	WP_FLAMETHROWER	9
+	{   300,            1,      300,    1000,   DELAY_LOW,      0,      0,      0,      MOD_TESLA               },  //	WP_TESLA 10
+	{   MAX_AMMO_45,    1,      8,      1500,   DELAY_PISTOL,   400,    0,      0,      MOD_COLT                },  //	WP_COLT	11
+	{   MAX_AMMO_45,    1,      30,     2400,   DELAY_LOW,      120,    0,      0,      MOD_THOMPSON            },  //	WP_THOMPSON 12
+	{   MAX_AMMO_GARAND,1,      5,      2500,   DELAY_HIGH,     1200,   0,      0,      MOD_GARAND              },  //	WP_GARAND 13
+	{   15,             1,      15,     1000,   DELAY_THROW,    1600,   0,      0,      MOD_GRENADE_PINEAPPLE   },  //	WP_GRENADE_PINEAPPLE 14
+	{   MAX_AMMO_MAUSER,1,      10,     3000,   0,              1700,   0,      0,      MOD_SNIPERRIFLE         },  //	WP_SNIPER_GER 15
+	{   MAX_AMMO_GARAND,1,      5,      3000,   0,              1200,   0,      0,      MOD_SNOOPERSCOPE        },  //	WP_SNIPER_AM 16
+	{   MAX_AMMO_FG42,  1,      20,     2000,   DELAY_LOW,      200,    0,      0,      MOD_FG42SCOPE           },  //	WP_FG42SCOPE 17
+	{   MAX_AMMO_9MM,   1,      32,     3100,   DELAY_LOW,      110,    700,    300,    MOD_STEN                },  //	WP_STEN	18
+	{   MAX_AMMO_9MM,   1,      8,      1500,   DELAY_PISTOL,   400,    0,      0,      MOD_SILENCER            },  //	WP_SILENCER 19
+	{   MAX_AMMO_45,    1,      8,      2700,   DELAY_PISTOL,   200,    0,      0,      MOD_AKIMBO              },  //	WP_AKIMBO 20
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_CLASS_SPECIAL 21
+	{   10,             1,      10,     1000,   DELAY_THROW,    1600,   0,      0,      MOD_DYNAMITE            },  //	WP_DYNAMITE 22
 // stubs for some "not-real" weapons (so they always return "yes, you have enough ammo for that gauntlet", etc.)
-//	{	5,				1,		5,		1000,	DELAY_SHOULDER,	1200,	0,		0,		0 /*mod_prox*/			},	//	WP_PROX					// 32
-	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK1		// 33
-	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK2		// 34
-	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK3		// 35
-	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       }   //	WP_GAUNTLET				// 36
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK1 23
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK2 24
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_MONSTER_ATTACK3 25
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //	WP_GAUNTLET 26
+	{   3,              1,      1,      1500,   50,             1000,   0,      0,      MOD_SYRINGE             },  //      WP_MEDIC_SYRINGE 27
+	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_ARTY,               },  //      WP_ARTY 28
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       },  //      WP_MEDKIT 29
+	{   1,              0,      1,      3000,   50,             1000,   0,      0,      MOD_AMMO,               },  //      WP_AMMO 30
+	{   999,            0,      999,    0,      50,             0,      0,      0,      0                       }   //	WP_SMOKE_GRENADE 31
 };
 
 
@@ -186,7 +186,7 @@ int weapAlts[] = {
 	WP_LUGER,           // 26 WP_SILENCER	//----(SA)	was sp5
 	WP_COLT,            // 27 WP_AKIMBO		//----(SA)	new
 	WP_NONE,            // 28 WP_CLASS_SPECIAL
-//	WP_NONE,			// 29 WP_CROSS
+	WP_NONE,	    // 29 WP_SYRINGE
 	WP_NONE             // 30 WP_DYNAMITE	//----(SA)	modified (not in rotation yet)
 //	WP_DYNAMITE			// 31 WP_DYNAMITE2	//----(SA)	new
 };
@@ -619,6 +619,29 @@ model="models/powerups/health/health_m.md3"
 		"",
 		{25,25,15,15}
 	},
+
+/*QUAKED item_health (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+-------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
+model="models/powerups/health/health_m.md3"
+*/
+        {
+                "item_health_classes",
+                "sound/multiplayer/health_pickup.wav", // JPW NERVE also not single-binary friendly FIXME
+                {   "models/multiplayer/medpack/medpack_pickup.md3", // JPW NERVE was   "models/powerups/health/health_m.md3",
+                        0,                                              // FIXME this isn't single/multiplayer friendly if we go back to 1 codebase
+                        0, 0,  0 },
+                "icons/iconh_med",
+                NULL,   // ammo icon
+                "Med Health Classes",
+                25,
+                IT_HEALTH,
+                0,
+                0,
+                0,
+                "",
+                "",
+                {50,25,20,15}
+        },
 
 /*QUAKED item_health_large (.3 .3 1) (-16 -16 -16) (16 16 16) SUSPENDED SPIN - RESPAWN
 -------- MODEL FOR RADIANT ONLY - DO NOT SET THIS AS A KEY --------
@@ -1484,6 +1507,56 @@ weapon_medic_heal
 	},
 // dhm
 */
+
+// DHM - Nerve
+/*
+weapon_medic_heal
+*/
+        {
+                "weapon_medic_heal",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/medpack/medpack.md3",
+                        "models/multiplayer/medpack/v_medpack.md3",
+                        0, 0, 0 },
+
+                "icons/iconw_medheal_1", // icon
+                "icons/ammo2",           // ammo icon
+                "medicheal",         // pickup
+                50,
+                IT_WEAPON,
+                WP_MEDKIT,
+                WP_MEDKIT,
+                WP_MEDKIT,
+                "",                      // precache
+                "sound/multiplayer/allies/a-medic3.wav sound/multiplayer/axis/g-medic3.wav sound/multiplayer/allies/a-medic2.wav sound/multiplayer/axis/g-medic2.wav sound/multiplayer/axis/g-medic1.wav sound/multiplayer/allies/a-medic1.wav",                     // sounds
+                {0,0,0,0}
+        },
+
+/*
+weapon_magicammo (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+        {
+                "weapon_magicammo",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/ammopack/ammopack.md3",
+                        "models/multiplayer/ammopack/v_ammopack.md3",
+                        "models/multiplayer/ammopack/ammopack_pickup.md3",
+                        0,
+                        ""},
+
+                "icons/iconw_ammopack_1",    // icon
+                "icons/ammo2",           // ammo icon
+                "Ammo Pack",             // pickup
+                50, // this should never be picked up
+                IT_WEAPON,
+                WP_AMMO,
+                WP_AMMO,
+                WP_AMMO,
+                "",                      // precache
+                "sound/multiplayer/allies/a-aborting.wav sound/multiplayer/axis/g-aborting.wav sound/multiplayer/allies/a-affirmative_omw.wav sound/multiplayer/axis/g-affirmative_omw.wav",                     // sounds
+                {0,0,0,0}
+        },
+// dhm
 /*
 weapon_dynamite
 */
@@ -1888,6 +1961,130 @@ weapon_mortar (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
 		"sound/weapons/mortar/mortarf1.wav",             // sounds
 		{0,0,0,0}
 	},
+
+
+/*
+weapon_arty (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+        {
+                "weapon_arty",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/syringe/syringe.md3",
+                        "models/multiplayer/syringe/v_syringe.md3",
+                        0,
+                        0,
+                        ""},
+
+                "icons/iconw_syringe_1", // icon
+                "icons/ammo2",           // ammo icon
+                "Artillery",             // pickup
+                50, // this should never be picked up
+                IT_WEAPON,
+                WP_ARTY,
+                WP_ARTY,
+                WP_ARTY,
+                "",                      // precache
+                "sound/multiplayer/allies/a-firing.wav sound/multiplayer/axis/g-firing.wav sound/multiplayer/allies/a-art_abort.wav sound/multiplayer/axis/g-art_abort.wav", // sounds
+                {0,0,0,0}
+        },
+
+/* JPW NERVE
+weapon_grenadesmoke
+*/
+        {
+                "weapon_grenadesmoke",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/smokegrenade/smokegrenade.md3",
+                        "models/multiplayer/smokegrenade/v_smokegrenade.md3",
+                        0, 0, 0},
+
+                "icons/iconw_smokegrenade_1",    // icon
+                "icons/ammo2",   // ammo icon
+                "smokeGrenade",              // pickup
+                50,
+                IT_WEAPON,
+                WP_SMOKE_GRENADE,
+                WP_SMOKE_GRENADE,
+                WP_SMOKE_GRENADE,
+                "",                      // precache
+                "sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav",             // sounds
+                {0,0,0,0}
+        },
+// jpw
+
+/* JPW NERVE
+weapon_smoketrail -- only used as a special effects emitter for smoke trails (artillery spotter etc)
+*/
+        {
+                "weapon_smoketrail",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/smokegrenade/smokegrenade.md3",
+                        "models/multiplayer/smokegrenade/v_smokegrenade.md3",
+                        0, 0, 0},
+
+                "icons/iconw_smokegrenade_1",    // icon
+                "icons/ammo2",   // ammo icon
+                "smokeTrail",                // pickup
+                50,
+                IT_WEAPON,
+                WP_SMOKETRAIL,
+                WP_SMOKETRAIL,
+                WP_SMOKETRAIL,
+                "",                      // precache
+                "sound/weapons/grenade/hgrenb1a.wav sound/weapons/grenade/hgrenb2a.wav",             // sounds
+                {0,0,0,0}
+        },
+        /*
+weapon_medic_syringe (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+        {
+                "weapon_medic_syringe",
+                "sound/misc/w_pkup.wav",
+                {   "models/multiplayer/syringe/syringe.md3",
+                        "models/multiplayer/syringe/v_syringe.md3",
+                        0,
+                        "models/multiplayer/syringe/v_syringe_axis.md3",
+                        ""},
+
+                "icons/iconw_syringe_1", // icon
+                "icons/ammo2",           // ammo icon
+                "Syringe",               // pickup
+                50, // this should never be picked up
+                IT_WEAPON,
+                WP_MEDIC_SYRINGE,
+                WP_MEDIC_SYRINGE,
+                WP_MEDIC_SYRINGE,
+                "",                      // precache
+                "sound/multiplayer/vo_revive.wav",   // sounds
+                {0,0,0,0}
+        },
+
+/*
+weapon_binoculars (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+        {
+                "weapon_binoculars",
+                "sound/misc/w_pkup.wav",
+                {   "",
+                        "",
+                        "",
+                        0,
+                        ""},
+
+                "",  // icon
+                "",          // ammo icon
+                "Binoculars",                // pickup
+                50, // this should never be picked up
+                IT_WEAPON,
+                WP_BINOCULARS,
+                WP_BINOCULARS,
+                WP_BINOCULARS,
+                "",                      // precache
+                "",                      // sounds
+                {0,0,0,0}
+        },
+
+// jpw
 
 
 // JPW NERVE -- class-specific multiplayer weapon, can't be picked up, dropped, or placed in map
@@ -3877,6 +4074,62 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 	switch ( item->giType ) {
 
 	case IT_WEAPON:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			int weapon = item->giTag;
+
+			if ( weapon == WP_MEDKIT || weapon == WP_AMMO) { // fretn: can these be picked up ???
+				return qtrue;
+			}
+
+			if ( pc == PC_ENGINEER && weapon == WP_DYNAMITE ) {
+				return qtrue;
+			}
+			if ( pc == PC_LT || pc == PC_MEDIC || pc == PC_ENGINEER) {
+				switch (weapon) {
+                                case WP_KNIFE:
+                                case WP_LUGER:
+                                case WP_COLT:
+                                case WP_MP40:
+                                case WP_THOMPSON:
+                                case WP_GRENADE_PINEAPPLE:
+                                case WP_GRENADE_LAUNCHER:
+					return qtrue;
+				}
+			} else {
+				switch (weapon) {
+                                case WP_KNIFE:
+                                case WP_LUGER:
+                                case WP_MP40:
+                                case WP_MAUSER:
+                                case WP_FG42:
+                                case WP_GRENADE_LAUNCHER:
+                                case WP_PANZERFAUST:
+                                case WP_VENOM:
+                                case WP_FLAMETHROWER:
+                                case WP_TESLA:
+                                case WP_COLT:
+                                case WP_THOMPSON:
+                                case WP_GARAND:
+                                case WP_GRENADE_PINEAPPLE:
+                                case WP_SNIPERRIFLE:
+                                case WP_SNOOPERSCOPE:
+                                case WP_FG42SCOPE:
+                                case WP_STEN:
+                                case WP_SILENCER:
+                                case WP_AKIMBO:
+                                case WP_SNIPER:
+					return qtrue;
+				}
+			}
+
+			return qfalse;
+		}
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
@@ -3896,6 +4149,29 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_AMMO:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			if ( pc == PC_LT ) {
+				return qtrue;
+                        } else {
+                                // non lt's can only grab the ammopacks thrown by a LT
+                                if ( Q_stricmp( item->classname, "weapon_magicammo" ) == 0 ) {
+                                        return qtrue;
+                                }
+                        }
+
+			if ( pc == PC_ENGINEER && Q_stricmp( item->classname, "ammo_dynamite" ) == 0) {
+				return qtrue;
+			}
+
+                        // all other health items cannot be picked up in the classes gametype
+                        return qfalse;
+                }
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
@@ -3915,6 +4191,19 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_ARMOR:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			if ( pc == PC_MEDIC ) {
+				return qtrue;
+			}
+
+			return qfalse;
+		}
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;
@@ -3927,6 +4216,26 @@ qboolean    BG_CanItemBeGrabbed( const entityState_t *ent, const playerState_t *
 		return qtrue;
 
 	case IT_HEALTH:
+#if defined ( CGAMEDLL )
+		if ( cg_gameType.integer == GT_COOP_CLASSES )
+#elif defined ( GAMEDLL )
+		if ( g_gametype.integer == GT_COOP_CLASSES )
+#endif
+		{
+			int pc = ps->stats[STAT_PLAYER_CLASS];
+			// medics can grab all medpacks
+			if ( pc == PC_MEDIC ) {
+				return qtrue;
+			} else {
+				// non medics can only grab the medpacks thrown by a medic
+				if ( Q_stricmp( item->classname, "item_health_classes" ) == 0 ) {
+					return qtrue;
+				}
+			}
+
+			// all other health items cannot be picked up in the classes gametype
+			return qfalse;
+		}
 		// axis players can only pickup dropped items
 		if ( ps->persistant[PERS_TEAM] == TEAM_RED && !( item->spawnflags & FL_DROPPED ) ) {
 			return qfalse;

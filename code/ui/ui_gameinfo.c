@@ -205,6 +205,9 @@ void UI_LoadArenasIntoMapList( void ) {
 			if ( strstr( type, "coop_battle" ) ) {
 				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_BATTLE );
 			}
+			if ( strstr( type, "coop_classes" ) ) {
+				uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_COOP_CLASSES );
+			}
 		} else {
 			uiInfo.mapList[uiInfo.mapCount].typeBits |= ( 1 << GT_SINGLE_PLAYER );
 		}

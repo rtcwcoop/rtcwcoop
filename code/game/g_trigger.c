@@ -921,8 +921,6 @@ You specify which objective it is with a number in "count"
   "count"		The objective number
   "track"		If this is specified, it will override the default message
 */
-#define AXIS_OBJECTIVE      1
-#define ALLIED_OBJECTIVE    2
 
 void Touch_objective_info( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 
@@ -953,11 +951,25 @@ void Touch_objective_info( gentity_t *ent, gentity_t *other, trace_t *trace ) {
 }
 
 void SP_trigger_objective_info( gentity_t *ent ) {
+
 	ent->touch  = Touch_objective_info;
 
 	InitTrigger( ent );
+	//ent->r.svFlags &= ~SVF_NOCLIENT; // show the model for debugging purposes
 	trap_LinkEntity( ent );
+
+	// objective_info triggers are normally brushmodels
+	// we hacked this to make it possible to add regular models
+	// as trigger_objective_info entities
+	// so we need to make their range bigger or the 'you are near objective'
+	// only shows up when you are near the origin of the ent
+	if ( ent->model[0] != '*' ) {
+		static vec3_t range = { 200, 200, 260 };
+		VectorSubtract( ent->r.currentOrigin, range, ent->r.absmin );
+		VectorAdd( ent->r.currentOrigin, range, ent->r.absmax );
+	}
+
+	if ( (( ent->spawnflags & AXIS_OBJECTIVE ) || ( ent->spawnflags & ALLIED_OBJECTIVE )) && g_gametype.integer == GT_COOP_CLASSES ) {
+		G_SpawnCompassIndicator(ent);
+	}
 }
-
-
-// dhm - end

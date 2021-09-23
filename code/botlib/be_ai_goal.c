@@ -90,6 +90,7 @@ typedef struct campspot_s
 typedef enum {
 	GT_COOP_BATTLE,     // 1vs1
 	GT_COOP_SPEEDRUN,
+	GT_COOP_CLASSES, // play coop with the MP classes
 	// other coop variations should come before this one, because we will
 	// use g_gametype.integer <= GT_COOP
 	GT_COOP,

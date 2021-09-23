@@ -1007,6 +1007,9 @@ void SV_Init (void)
 	Cvar_Get( "gamestate", "-1", CVAR_WOLFINFO | CVAR_ROM );
 #endif
 
+	Cvar_Get( "g_fastres", "0", CVAR_ARCHIVE );
+	Cvar_Get( "g_fastResMsec", "1000", CVAR_ARCHIVE );
+
 	// ATVI Tracker Wolfenstein Misc #273
 	Cvar_Get( "g_voteFlags", "255", CVAR_ARCHIVE | CVAR_SERVERINFO );
 

@@ -1136,6 +1136,22 @@ static float CG_DrawCoopOverlay( float y ) {
 				break;
 			}
 
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				// determine class type
+				val = cg_entities[ ci->clientNum ].currentState.teamNum;
+				if ( val == 0 ) {
+					classType[0] = 'S';
+				} else if ( val == 1 ) {
+					classType[0] = 'M';
+				} else if ( val == 2 ) {
+					classType[0] = 'E';
+				} else if ( val == 3 ) {
+					classType[0] = 'L';
+				} else {
+					classType[0] = 'S';
+				}
+			}
+
 			Com_sprintf( st, sizeof( st ), "%s", classType );
 
 			xx = x + TINYCHAR_WIDTH;
@@ -3137,6 +3153,62 @@ static void CG_ActivateLimboMenu( void ) {
 */
 // -NERVE - SMF
 
+/*
+=================
+CG_DrawLimboMessage
+=================
+*/
+
+#define INFOTEXT_STARTX 42
+
+static void CG_DrawLimboMessage( void ) {
+        float color[4] = { 1, 1, 1, 1 };
+        const char *str;
+        playerState_t *ps;
+        //int w;
+
+        if ( cgs.gametype != GT_COOP_CLASSES ) {
+                return;
+        }
+
+        ps = &cg.snap->ps;
+
+        if ( ps->stats[STAT_HEALTH] > 0 ) {
+                return;
+        }
+
+        if ( cg.snap->ps.pm_flags & PMF_LIMBO || cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR ) {
+                return;
+        }
+
+        color[3] *= cg_hudAlpha.value;
+
+        //if ( cg_descriptiveText.integer ) {
+                str = CG_TranslateString( "You are wounded and waiting for a medic." );
+                CG_DrawSmallStringColor( INFOTEXT_STARTX, 68, str, color );
+
+                str = CG_TranslateString( "Press JUMP to go into reinforcement queue." );
+                CG_DrawSmallStringColor( INFOTEXT_STARTX, 86, str, color );
+        //}
+
+        // JPW NERVE
+        if ( cg.snap->ps.persistant[PERS_RESPAWNS_LEFT] == 0 ) {
+                str = CG_TranslateString( "No more reinforcements this round." );
+        } else if ( cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_RED ) {
+                str = va( CG_TranslateString( "Reinforcements deploy in %d seconds." ),
+                                  (int)( 1 + (float)( cg_limbotime.integer - ( cg.time % cg_limbotime.integer ) ) * 0.001f ) );
+        } else {
+                str = va( CG_TranslateString( "Reinforcements deploy in %d seconds." ),
+                                  (int)( 1 + (float)( cg_limbotime.integer - ( cg.time % cg_limbotime.integer ) ) * 0.001f ) );
+        }
+
+        CG_DrawSmallStringColor( INFOTEXT_STARTX, 104, str, color );
+        // jpw
+
+        trap_R_SetColor( NULL );
+}
+// -NERVE - SMF
+
 #define INFOTEXT_STARTX 42
 
 /*
@@ -3662,6 +3734,131 @@ void CG_ObjectivePrint( const char *str, int charWidth, int team ) {
 	}
 }
 
+static void CG_DrawClassesObjectiveInfo( void ) {
+        char    *start;
+        int l;
+        int x, y, w;
+        int x1, y1, x2, y2;
+        float   *color;
+        vec4_t backColor;
+        backColor[0] = 0.2f;
+        backColor[1] = 0.2f;
+        backColor[2] = 0.2f;
+        backColor[2] = cg_hudAlpha.value;
+
+        if ( !cg.oidPrintTime ) {
+                return;
+        }
+
+        color = CG_FadeColor( cg.oidPrintTime, 1000 * 5 );
+        if ( !color ) {
+                cg.oidPrintTime = 0;
+                return;
+        }
+
+        if ( cg_fixedAspect.integer ) {
+                CG_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
+        }
+
+        trap_R_SetColor( color );
+
+        start = cg.oidPrint;
+
+// JPW NERVE
+        //      y = cg.oidPrintY - cg.oidPrintLines * BIGCHAR_HEIGHT / 2;
+        y = 415 - cg.oidPrintLines * BIGCHAR_HEIGHT / 2;
+
+        x1 = 319;
+        y1 = y - 2;
+        x2 = 321;
+// jpw
+
+        // first just find the bounding rect
+        while ( 1 ) {
+                char linebuffer[1024];
+
+                for ( l = 0; l < CP_LINEWIDTH; l++ ) {
+                        if ( !start[l] || start[l] == '\n' ) {
+                                break;
+                        }
+                        linebuffer[l] = start[l];
+                }
+                linebuffer[l] = 0;
+
+                w = cg.oidPrintCharWidth * CG_DrawStrlen( linebuffer ) + 10;
+// JPW NERVE
+                if ( 320 - w / 2 < x1 ) {
+                        x1 = 320 - w / 2;
+                        x2 = 320 + w / 2;
+                }
+// jpw
+
+                y += cg.oidPrintCharWidth * 1.5;
+
+                while ( *start && ( *start != '\n' ) ) {
+                        start++;
+                }
+                if ( !*start ) {
+                        break;
+                }
+                start++;
+        }
+
+        x2 = x2 + 4;
+        y2 = y - cg.oidPrintCharWidth * 1.5 + 4;
+
+        VectorCopy( color, backColor );
+        backColor[3] = 0.5 * color[3];
+        trap_R_SetColor( backColor );
+
+        CG_DrawPic( x1, y1, x2 - x1, y2 - y1, cgs.media.teamStatusBar );
+
+        VectorSet( backColor, 0, 0, 0 );
+        CG_DrawRect( x1, y1, x2 - x1, y2 - y1, 1, backColor );
+
+        trap_R_SetColor( color );
+
+        // do the actual drawing
+        start = cg.oidPrint;
+//      y = cg.oidPrintY - cg.oidPrintLines * BIGCHAR_HEIGHT / 2;
+        y = 415 - cg.oidPrintLines * BIGCHAR_HEIGHT / 2; // JPW NERVE
+
+
+        while ( 1 ) {
+                char linebuffer[1024];
+
+                for ( l = 0; l < CP_LINEWIDTH; l++ ) {
+                        if ( !start[l] || start[l] == '\n' ) {
+                                break;
+                        }
+                        linebuffer[l] = start[l];
+                }
+                linebuffer[l] = 0;
+
+                w = cg.oidPrintCharWidth * CG_DrawStrlen( linebuffer );
+                if ( x1 + w > x2 ) {
+                        x2 = x1 + w;
+                }
+
+                x = 320 - w / 2; // JPW NERVE
+
+                CG_DrawStringExt( x, y, linebuffer, color, qfalse, qtrue,
+                                                  cg.oidPrintCharWidth, (int)( cg.oidPrintCharWidth * 1.5 ), 0 );
+
+                y += cg.oidPrintCharWidth * 1.5;
+
+                while ( *start && ( *start != '\n' ) ) {
+                        start++;
+                }
+                if ( !*start ) {
+                        break;
+                }
+                start++;
+        }
+
+        trap_R_SetColor( NULL );
+}
+
 static void CG_DrawObjectiveInfo( void ) {
 	char    *start;
 	int l;
@@ -4003,7 +4200,13 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 
 		CG_DrawCenterString();
 
-		CG_DrawObjectiveInfo();     // NERVE - SMF
+		if (cg_gameType.integer == GT_COOP_CLASSES) {
+			CG_DrawClassesObjectiveInfo();
+		} else {
+			CG_DrawObjectiveInfo();     // NERVE - SMF
+		}
+
+		CG_DrawLimboMessage();
 	}
 
 	// announcer

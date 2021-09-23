@@ -336,7 +336,13 @@ void    G_TouchTriggers( gentity_t *ent ) {
 			}
 		} else {
 			// MrE: always use capsule for player
-			if ( !trap_EntityContactCapsule( mins, maxs, hit ) ) {
+			// fretn: but not for "trigger_objective_info" (hack)
+			// objective_info triggers are normally brushmodels
+			// we hacked this to make it possible to add regular models
+			// as trigger_objective_info entities
+			// so we need to make their range bigger or the 'you are near objective'
+			// only shows up when you are near the origin of the ent
+			if ( !trap_EntityContactCapsule( mins, maxs, hit ) && Q_stricmp(hit->classname, "trigger_objective_info")) {
 				continue;
 			}
 		}
@@ -475,7 +481,26 @@ void ClientTimerActions( gentity_t *ent, int msec ) {
 
 		// regenerate
 // JPW NERVE, split these completely
-		if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+		if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                        if ( client->ps.powerups[PW_REGEN] ) {
+                                if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] ) {
+                                        ent->health += 3;
+                                        if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.1 ) {
+                                                ent->health = client->ps.stats[STAT_MAX_HEALTH] * 1.1;
+                                        }
+                                } else if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] * 1.12 ) {
+                                        ent->health += 2;
+                                        if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] * 1.12 ) {
+                                                ent->health = client->ps.stats[STAT_MAX_HEALTH] * 1.12;
+                                        }
+                                }
+                        } else {
+                                // count down health when over max
+                                if ( ent->health > client->ps.stats[STAT_MAX_HEALTH] ) {
+                                        ent->health--;
+                                }
+                        }
+		} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
 			if ( client->ps.powerups[PW_REGEN] ) {
 				if ( ent->health < client->ps.stats[STAT_MAX_HEALTH] ) {
 					ent->health += 15;
@@ -732,6 +757,61 @@ void SendPendingPredictableEvents( playerState_t *ps ) {
 	*/
 }
 
+void WolfFindMedic( gentity_t *self ) {
+        int i, medic = -1;
+        gclient_t   *cl;
+        vec3_t start, end, temp;
+        trace_t tr;
+        float bestdist = 1024, dist;
+
+        self->client->ps.viewlocked_entNum = 0;
+        self->client->ps.viewlocked = 0;
+        self->client->ps.stats[STAT_DEAD_YAW] = 999;
+
+        VectorCopy( self->s.pos.trBase, start );
+        start[2] += self->client->ps.viewheight;
+
+        for ( i = 0; i < level.numPlayingClients; i++ ) {
+                cl = &level.clients[ level.sortedClients[i] ];
+
+                if ( cl->ps.clientNum == self->client->ps.clientNum ) {
+                        continue;
+                }
+                if ( cl->sess.sessionTeam != self->client->sess.sessionTeam ) {
+                        continue;
+                }
+                if ( cl->ps.stats[ STAT_HEALTH ] <= 0 ) {
+                        continue;
+                }
+                if ( cl->ps.stats[ STAT_PLAYER_CLASS ] != PC_MEDIC ) {
+                        continue;
+                }
+
+                VectorCopy( g_entities[level.sortedClients[i]].s.pos.trBase, end );
+                end[2] += cl->ps.viewheight;
+
+                trap_Trace( &tr, start, NULL, NULL, end, self->s.number, CONTENTS_SOLID );
+                if ( tr.fraction < 0.95 ) {
+                        continue;
+                }
+
+                VectorSubtract( end, start, end );
+                dist = VectorNormalize( end );
+
+                if ( dist < bestdist ) {
+                        medic = cl->ps.clientNum;
+                        vectoangles( end, temp );
+                        self->client->ps.stats[STAT_DEAD_YAW] = temp[YAW];
+                        bestdist = dist;
+                }
+        }
+
+        if ( medic >= 0 ) {
+                self->client->ps.viewlocked_entNum = medic;
+                self->client->ps.viewlocked = 7;
+        }
+}
+
 void limbo( gentity_t *ent, qboolean makeCorpse );
 void reinforce( gentity_t *ent ); // JPW NERVE
 
@@ -915,8 +995,12 @@ void ClientThink_real( gentity_t *ent ) {
 						return;
 					}
 				}
-				if ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) {
-					for ( i = 0; i < MAX_WEAPS_IN_BANK; i++ ) {
+				if ( ( client->ps.stats[STAT_PLAYER_CLASS] == PC_SOLDIER ) || ( client->ps.stats[STAT_PLAYER_CLASS] == PC_LT ) ) {
+					int maxWeapsInBank = MAX_WEAPS_IN_BANK;
+					if (g_gametype.integer == GT_COOP_CLASSES) {
+						maxWeapsInBank = MAX_WEAPS_IN_BANK_CLASSES;
+					}
+					for ( i = 0; i < maxWeapsInBank; i++ ) {
 						// drop the current weapon
 						weapon = client->ps.weapon;
 
@@ -954,7 +1038,7 @@ void ClientThink_real( gentity_t *ent ) {
 							// Clear out empty weapon, change to next best weapon
 							G_AddEvent( ent, EV_NOAMMO, 0 );
 
-							i = MAX_WEAPS_IN_BANK;
+							i = maxWeapsInBank;
 							// show_bug.cgi?id=568
 							if ( client->ps.weapon == weapon ) {
 								client->ps.weapon = 0;
@@ -1090,6 +1174,15 @@ void ClientThink_real( gentity_t *ent ) {
 //		pm.noFootsteps = qtrue;
 
 	VectorCopy( client->ps.origin, client->oldOrigin );
+
+        // NERVE - SMF
+        pm.ltChargeTime = g_LTChargeTime.integer;
+        pm.soldierChargeTime = g_soldierChargeTime.integer;
+        pm.engineerChargeTime = g_engineerChargeTime.integer;
+        pm.medicChargeTime = g_medicChargeTime.integer;
+        // -NERVE - SMF
+
+        Pmove( &pm );
 
 	// perform a pmove
 	monsterslick = Pmove( &pm );
@@ -1395,19 +1488,43 @@ void ClientThink_real( gentity_t *ent ) {
 
 		// check for respawning
 		if ( client->ps.stats[STAT_HEALTH] <= 0 ) {
+			if ( g_gametype.integer == GT_COOP_CLASSES ) {
+				WolfFindMedic( ent );
+			}
+
 			// wait for the attack button to be pressed
 			if ( level.time > client->respawnTime ) {
+				if ( ( g_gametype.integer == GT_COOP_CLASSES ) &&
+					( g_forcerespawn.integer > 0 ) &&
+					( ( level.time - client->respawnTime ) > g_forcerespawn.integer * 1000 )  &&
+					( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) {
+						limbo( ent, qtrue );
+					return;
+				}
+
 				// DHM - Nerve :: Single player game respawns immediately as before,
 				//				  but in multiplayer, require button press before respawn
-				if ( ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0 ) {
-					limbo( ent, qtrue );
-				} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
-					ClientRespawn( ent );
-				}
-				// pressing attack or use is the normal respawn method
-				else if ( ( ucmd->buttons & ( BUTTON_ATTACK | BUTTON_USE_HOLDABLE ) ) &&
-						  ( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE
-					ClientRespawn( ent );
+				if ( g_gametype.integer != GT_COOP_CLASSES) {
+					if ( ( g_gametype.integer == GT_COOP_SPEEDRUN || g_spawnpoints.integer == 2 ) && g_limbotime.integer > 0 ) {
+						limbo( ent, qtrue );
+					} else if ( g_gametype.integer <= GT_SINGLE_PLAYER ) {
+						ClientRespawn( ent );
+					}
+					// pressing attack or use is the normal respawn method
+					else if ( ( ucmd->buttons & ( BUTTON_ATTACK | BUTTON_USE_HOLDABLE ) ) &&
+							( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) && g_gametype.integer != GT_COOP_CLASSES ) { // JPW NERVE
+						ClientRespawn( ent );
+					}
+				} else {
+					if ( ( ucmd->upmove > 0 ) &&
+							( !( ent->client->ps.pm_flags & PMF_LIMBO ) ) ) { // JPW NERVE
+						limbo( ent, qtrue );
+					}
+					// dhm - Nerve :: end
+					// NERVE - SMF - we want to immediately go to limbo mode if gibbed
+					else if ( client->ps.stats[STAT_HEALTH] <= GIB_HEALTH && !( ent->client->ps.pm_flags & PMF_LIMBO ) ) {
+						limbo( ent, qfalse );
+					}
 				}
 			}
 			return;

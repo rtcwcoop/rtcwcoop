@@ -244,6 +244,7 @@ If you have questions concerning this license or the applicable additional terms
 #define CG_PLAYER_LIVES         83
 #define CG_PLAYER_COMPASS           84
 #define CG_PLAYER_SPAWNPOINTS       85
+#define CG_PLAYER_WEAPON_RECHARGE   86
 
 #define UI_OWNERDRAW_BASE           200
 #define UI_HANDICAP                 200

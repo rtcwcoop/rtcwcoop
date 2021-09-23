@@ -1353,8 +1353,8 @@ typedef enum
 #define MAX_WEAP_BANKS      12
 #define MAX_WEAPS_IN_BANK   3
 // JPW NERVE
-#define MAX_WEAPS_IN_BANK_MP    8
-#define MAX_WEAP_BANKS_MP   7
+#define MAX_WEAP_BANKS_CLASSES   8
+#define MAX_WEAPS_IN_BANK_CLASSES    10
 // jpw
 #define MAX_WEAP_ALTS       WP_DYNAMITE
 
