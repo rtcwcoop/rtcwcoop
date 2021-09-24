@@ -515,13 +515,13 @@ ifeq ($(PLATFORM),darwin)
     OPTIMIZEVM += -march=prescott -mfpmath=sse
     # x86 vm will crash without -mstackrealign since MMX instructions will be
     # used no matter what and they corrupt the frame pointer in VM calls
-    BASE_CFLAGS += -arch i386 -mstackrealign -mmacosx-version-min=10.6 \
-      -DMAC_OS_X_VERSION_MIN_REQUIRED=1060
+    BASE_CFLAGS += -arch i386 -mstackrealign -mmacosx-version-min=10.14 \
+      -DMAC_OS_X_VERSION_MIN_REQUIRED=1140
   endif
   ifeq ($(ARCH),x86_64)
     OPTIMIZEVM += -mfpmath=sse
-    BASE_CFLAGS += -arch x86_64 -mmacosx-version-min=10.6 \
-      -DMAC_OS_X_VERSION_MIN_REQUIRED=1060
+    BASE_CFLAGS += -arch x86_64 -mmacosx-version-min=10.12 \
+      -DMAC_OS_X_VERSION_MIN_REQUIRED=1120
   endif
 
   # When compiling on OSX for OSX, we're not cross compiling as far as the
@@ -1151,11 +1151,11 @@ ifeq ($(USE_FREETYPE),1)
 endif
 
 ifeq ("$(CC)", $(findstring "$(CC)", "clang" "clang++"))
-  BASE_CFLAGS += -Qunused-arguments
+  #BASE_CFLAGS += -Qunused-arguments
 endif
 
 ifeq ("$(CXX)", $(findstring "$(CXX)", "clang" "clang++"))
-  BASE_CFLAGS += -Qunused-arguments
+  #BASE_CFLAGS += -Qunused-arguments
 endif
 
 ifdef DEFAULT_BASEDIR

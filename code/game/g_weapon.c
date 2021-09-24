@@ -48,6 +48,12 @@ void weapon_zombiespit( gentity_t *ent );
 void Bullet_Fire( gentity_t *ent, float spread, int damage );
 void Bullet_Fire_Extended( gentity_t *source, gentity_t *attacker, vec3_t start, vec3_t end, float spread, int damage, int recursion );
 
+void Weapon_Medic( gentity_t *ent );
+void Weapon_MagicAmmo( gentity_t *ent );
+
+void weapon_callAirStrike( gentity_t *ent );
+void G_ExplodeMissile( gentity_t *ent );
+
 int G_GetWeaponDamage( int weapon ); // JPW
 
 #define NUM_NAILSHOTS 10
@@ -150,6 +156,21 @@ void Weapon_Knife( gentity_t *ent ) {
 	G_Damage( traceEnt, ent, ent, vec3_origin, tr.endpos, ( damage + rand() % 5 ) * s_quadFactor, 0, mod );
 }
 
+void MagicSink( gentity_t *self ) {
+
+        self->clipmask = 0;
+        self->r.contents = 0;
+
+        if ( self->timestamp < level.time ) {
+                self->think = G_FreeEntity;
+                self->nextthink = level.time + FRAMETIME;
+                return;
+        }
+
+        self->s.pos.trBase[2] -= 0.5f;
+        self->nextthink = level.time + 50;
+}
+
 // JPW NERVE
 /*
 ======================
@@ -158,6 +179,7 @@ void Weapon_Knife( gentity_t *ent ) {
 ======================
 */
 // JPW NERVE
+#if 0
 void Weapon_Medic( gentity_t *ent ) {
 	//gitem_t *item;
 	//gentity_t *ent2;
@@ -193,7 +215,7 @@ void Weapon_Medic( gentity_t *ent ) {
 					healamt = traceEnt->client->medicHealAmt;
 					headshot = traceEnt->client->ps.eFlags & EF_HEADSHOT;
 
-					ClientSpawn( traceEnt );
+					ClientSpawn( traceEnt, qtrue );
 					if ( healamt > 80 ) {
 						healamt = 80;
 					}
@@ -230,6 +252,7 @@ void Weapon_Medic( gentity_t *ent ) {
 		*/
 	}
 }
+#endif
 // jpw
 
 // DHM - Nerve
@@ -312,120 +335,6 @@ void Weapon_Engineer( gentity_t *ent ) {
 	}
 }
 
-
-// JPW NERVE -- launch airstrike as line of bombs mostly-perpendicular to line of grenade travel
-// (close air support should *always* drop parallel to friendly lines, tho accidents do happen)
-void G_ExplodeMissile( gentity_t *ent );
-#define NUMBOMBS 10
-#define BOMBSPREAD 150
-extern void G_SayTo( gentity_t *ent, gentity_t *other, int mode, int color, const char *name, const char *message );
-void weapon_callAirStrike( gentity_t *ent ) {
-	int i;
-	vec3_t bombaxis, lookaxis, pos, bomboffset, fallaxis;
-	gentity_t *bomb;
-	trace_t tr;
-	float traceheight, bottomtraceheight;
-
-	VectorCopy( ent->s.pos.trBase,bomboffset );
-	bomboffset[2] += 4096;
-
-	// turn off smoke grenade
-	ent->think = G_ExplodeMissile;
-	ent->nextthink = level.time + 1000 + NUMBOMBS * 100 + crandom() * 50; // 3000 offset is for aircraft flyby
-
-	trap_Trace( &tr, ent->s.pos.trBase, NULL, NULL, bomboffset, ent->s.number, MASK_SHOT );
-	if ( ( tr.fraction < 1.0 ) && ( !( tr.surfaceFlags & SURF_SKY ) ) ) {
-		G_SayTo( ent->parent, ent->parent, 2, COLOR_YELLOW, "Pilot: ", "Can't see target, aborting bomb run" );
-		return;
-	}
-
-	VectorCopy( tr.endpos, bomboffset );
-	traceheight = bomboffset[2];
-	bottomtraceheight = traceheight - 8192;
-
-	VectorSubtract( ent->s.pos.trBase,ent->parent->client->ps.origin,lookaxis );
-	lookaxis[2] = 0;
-	VectorNormalize( lookaxis );
-	pos[0] = 0;
-	pos[1] = 0;
-	pos[2] = crandom(); // generate either up or down vector,
-	VectorNormalize( pos ); // which adds randomness to pass direction below
-	RotatePointAroundVector( bombaxis,pos,lookaxis,90 + crandom() * 30 ); // munge the axis line a bit so it's not totally perpendicular
-	VectorNormalize( bombaxis );
-
-	VectorCopy( bombaxis,pos );
-	VectorScale( pos,(float)( -0.5f * BOMBSPREAD * NUMBOMBS ),pos );
-	VectorAdd( ent->s.pos.trBase, pos, pos ); // first bomb position
-	VectorScale( bombaxis,BOMBSPREAD,bombaxis ); // bomb drop direction offset
-
-// add an aircraft (looks suspiciously like a rocket right now) (but doesn't work)
-/*
-	bomb = G_Spawn();
-	bomb->nextthink = level.time + 26000;
-	bomb->think = G_ExplodeMissile;
-	bomb->s.eType		= ET_MISSILE;
-	bomb->r.svFlags		= SVF_USE_CURRENT_ORIGIN | SVF_BROADCAST;
-	bomb->s.weapon		= WP_GRENADE_LAUNCHER; // might wanna change this
-	bomb->r.ownerNum	= ent->s.number;
-	bomb->parent		= ent->parent;
-	bomb->damage		= 400; // maybe should un-hard-code these?
-	bomb->splashDamage  = 400;
-	bomb->classname		= "fighterbomber";
-	bomb->splashRadius			= 400;
-	bomb->methodOfDeath			= MOD_DYNAMITE; // FIXME add MOD for air strike
-	bomb->splashMethodOfDeath	= MOD_DYNAMITE_SPLASH;
-	bomb->clipmask = MASK_MISSILESHOT;
-	bomb->s.pos.trType = TR_STATIONARY; // TR_LINEAR;
-	bomb->s.pos.trTime = level.time;
-	VectorCopy(ent->s.pos.trBase, bomb->s.pos.trBase);
-	bomb->s.pos.trBase[2] += 200;
-	bomb->s.modelindex = G_ModelIndex( "models/mapobjects/vehicles/m109.md3" );
-*/
-	for ( i = 0; i < NUMBOMBS; i++ ) {
-		bomb = G_Spawn();
-		bomb->nextthink = level.time + i * 100 + crandom() * 50 + 1000; // 1000 for aircraft flyby, other term for tumble stagger
-		bomb->think = G_ExplodeMissile;
-		bomb->s.eType       = ET_MISSILE;
-		bomb->r.svFlags     = SVF_USE_CURRENT_ORIGIN | SVF_BROADCAST;
-		bomb->s.weapon      = WP_GRENADE_LAUNCHER; // might wanna change this
-		bomb->r.ownerNum    = ent->s.number;
-		bomb->parent        = ent->parent;
-		bomb->damage        = 400; // maybe should un-hard-code these?
-		bomb->splashDamage  = 400;
-		bomb->classname             = "air strike";
-		bomb->splashRadius          = 400;
-		bomb->methodOfDeath         = MOD_AIRSTRIKE;
-		bomb->splashMethodOfDeath   = MOD_AIRSTRIKE;
-		bomb->clipmask = MASK_MISSILESHOT;
-		bomb->s.pos.trType = TR_STATIONARY; // was TR_GRAVITY,  might wanna go back to this and drop from height
-		bomb->s.pos.trTime = level.time;        // move a bit on the very first frame
-		bomboffset[0] = crandom() * 0.5 * BOMBSPREAD;
-		bomboffset[1] = crandom() * 0.5 * BOMBSPREAD;
-		bomboffset[2] = 0;
-		VectorAdd( pos,bomboffset,bomb->s.pos.trBase );
-
-		VectorCopy( bomb->s.pos.trBase,bomboffset ); // make sure bombs fall "on top of" nonuniform scenery
-		bomboffset[2] = traceheight;
-
-		VectorCopy( bomboffset, fallaxis );
-		fallaxis[2] = bottomtraceheight;
-
-		trap_Trace( &tr, bomboffset, NULL, NULL, fallaxis, ent->s.number, MASK_SHOT );
-		if ( tr.fraction != 1.0 ) {
-			VectorCopy( tr.endpos,bomb->s.pos.trBase );
-		}
-
-		bomb->s.pos.trDelta[0] = 0; // might need to change this
-		bomb->s.pos.trDelta[1] = 0;
-		bomb->s.pos.trDelta[2] = 0;
-		SnapVector( bomb->s.pos.trDelta );          // save net bandwidth
-		VectorCopy( bomb->s.pos.trBase, bomb->r.currentOrigin );
-
-		// move pos for next bomb
-		VectorAdd( pos,bombaxis,pos );
-	}
-}
-
 void Weapon_Class_Special( gentity_t *ent ) {
 
 	switch ( ent->client->ps.stats[STAT_PLAYER_CLASS] ) {
@@ -449,6 +358,118 @@ void Weapon_Class_Special( gentity_t *ent ) {
 		*/
 		break;
 	}
+}
+// jpw
+
+/*
+======================
+  Weapon_Syringe
+        shoot the syringe, do the old lazarus bit
+======================
+*/
+void Weapon_Syringe( gentity_t *ent ) {
+        vec3_t end,org;
+        trace_t tr;
+        int healamt, headshot, oldweapon,oldweaponstate,oldclasstime = 0;
+        qboolean usedSyringe = qfalse;          // DHM - Nerve
+        int ammo[MAX_WEAPONS];              // JPW NERVE total amount of ammo
+        int ammoclip[MAX_WEAPONS];          // JPW NERVE ammo in clip
+        int weapons[MAX_WEAPONS / ( sizeof( int ) * 8 )];   // JPW NERVE 64 bits for weapons held
+        gentity_t   *traceEnt, *te;
+
+        AngleVectors( ent->client->ps.viewangles, forward, right, up );
+        CalcMuzzlePointForActivate( ent, forward, right, up, muzzleTrace );
+        VectorMA( muzzleTrace, 48, forward, end );           // CH_ACTIVATE_DIST
+        //VectorMA (muzzleTrace, -16, forward, muzzleTrace);    // DHM - Back up the start point in case medic is
+        // right on top of intended revivee.
+        trap_Trace( &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT );
+
+        if ( tr.startsolid ) {
+                VectorMA( muzzleTrace, 8, forward, end );            // CH_ACTIVATE_DIST
+                trap_Trace( &tr, muzzleTrace, NULL, NULL, end, ent->s.number, MASK_SHOT );
+        }
+
+        if ( tr.fraction < 1.0 ) {
+                traceEnt = &g_entities[ tr.entityNum ];
+                if ( traceEnt->client != NULL ) {
+
+                        if ( ( traceEnt->client->ps.pm_type == PM_DEAD ) && ( traceEnt->client->sess.sessionTeam == ent->client->sess.sessionTeam ) ) {
+
+                                // heal the dude
+                                // copy some stuff out that we'll wanna restore
+                                VectorCopy( traceEnt->client->ps.origin, org );
+                                headshot = traceEnt->client->ps.eFlags & EF_HEADSHOT;
+                                healamt = traceEnt->client->ps.stats[STAT_MAX_HEALTH] * 0.5;
+                                oldweapon = traceEnt->client->ps.weapon;
+                                oldweaponstate = traceEnt->client->ps.weaponstate;
+
+                                // keep class special weapon time to keep them from exploiting revives
+                                oldclasstime = traceEnt->client->ps.classWeaponTime;
+
+                                memcpy( ammo,traceEnt->client->ps.ammo,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( ammoclip,traceEnt->client->ps.ammoclip,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( weapons,traceEnt->client->ps.weapons,sizeof( int ) * ( MAX_WEAPONS / ( sizeof( int ) * 8 ) ) );
+
+                                ClientSpawn( traceEnt, qtrue );
+
+                                memcpy( traceEnt->client->ps.ammo,ammo,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( traceEnt->client->ps.ammoclip,ammoclip,sizeof( int ) * MAX_WEAPONS );
+                                memcpy( traceEnt->client->ps.weapons,weapons,sizeof( int ) * ( MAX_WEAPONS / ( sizeof( int ) * 8 ) ) );
+
+                                if ( headshot ) {
+                                        traceEnt->client->ps.eFlags |= EF_HEADSHOT;
+                                }
+                                traceEnt->client->ps.weapon = oldweapon;
+                                traceEnt->client->ps.weaponstate = oldweaponstate;
+
+                                traceEnt->client->ps.classWeaponTime = oldclasstime;
+
+                                traceEnt->health = healamt;
+                                VectorCopy( org,traceEnt->s.origin );
+                                VectorCopy( org,traceEnt->r.currentOrigin );
+                                VectorCopy( org,traceEnt->client->ps.origin );
+
+                                trap_Trace( &tr, traceEnt->client->ps.origin, traceEnt->client->ps.mins, traceEnt->client->ps.maxs, traceEnt->client->ps.origin, traceEnt->s.number, MASK_PLAYERSOLID );
+                                if ( tr.allsolid ) {
+                                        traceEnt->client->ps.pm_flags |= PMF_DUCKED;
+                                }
+
+                                traceEnt->s.effect3Time = level.time;
+                                traceEnt->r.contents = CONTENTS_CORPSE;
+                                trap_LinkEntity( ent );
+
+                                // DHM - Nerve :: Let the person being revived know about it
+                                trap_SendServerCommand( traceEnt - g_entities, va( "cp \"You have been revived by [lof]%s!\n\"", ent->client->pers.netname ) );
+                                traceEnt->props_frame_state = ent->s.number;
+
+                                // DHM - Nerve :: Mark that the medicine was indeed dispensed
+                                usedSyringe = qtrue;
+
+                                // sound
+                                te = G_TempEntity( traceEnt->r.currentOrigin, EV_GENERAL_SOUND );
+                                te->s.eventParm = G_SoundIndex( "sound/multiplayer/vo_revive.wav" );
+
+                                // DHM - Nerve :: Play revive animation
+
+                                // Xian -- This was gay and I always hated it.
+                                if ( g_fastres.integer > 0 ) {
+                                        BG_AnimScriptEvent( &traceEnt->client->ps, ANIM_ET_JUMP, qfalse, qtrue );
+                                } else {
+                                        BG_AnimScriptEvent( &traceEnt->client->ps, ANIM_ET_REVIVE, qfalse, qtrue );
+                                        traceEnt->client->ps.pm_flags |= PMF_TIME_LOCKPLAYER;
+                                        traceEnt->client->ps.pm_time = 2100;
+                                }
+
+
+                                AddScore( ent, MEDIC_BONUS ); // JPW NERVE props to the medic for the swift and dexterous bit o healitude
+                        }
+                }
+        }
+
+        // DHM - Nerve :: If the medicine wasn't used, give back the ammo
+        if ( !usedSyringe ) {
+                ent->client->ps.ammoclip[BG_FindClipForWeapon( WP_MEDIC_SYRINGE )] += 1;
+        }
 }
 // jpw
 
@@ -594,6 +615,7 @@ int G_GetWeaponDamage( int weapon ) {
 		case WP_KNIFE: return 5;
 		case WP_GRENADE_LAUNCHER: return 100;
 		case WP_GRENADE_PINEAPPLE: return 80;
+		case WP_SMOKE_GRENADE: return 80;
 		case WP_DYNAMITE: return 400;
 		case WP_PANZERFAUST: return 200;            // (SA) was 100
 		case WP_MORTAR: return 100;
@@ -1117,6 +1139,8 @@ gentity_t *weapon_grenadelauncher_fire_coop( gentity_t *ent, int grenType ) {
 		upangle *= 900;
 	} else if ( grenType == WP_GRENADE_SMOKE ) {
 		upangle *= 900;
+	} else if ( grenType == WP_SMOKE_GRENADE ) {
+		upangle *= 900;
 	} else {     // WP_DYNAMITE
 		upangle *= 400;
 	}
@@ -1153,7 +1177,7 @@ gentity_t *weapon_grenadelauncher_fire_coop( gentity_t *ent, int grenType ) {
 	m->splashDamage *= s_quadFactor;
 
 	// JPW NERVE
-	if ( grenType == WP_GRENADE_SMOKE ) {
+	if ( grenType == WP_GRENADE_SMOKE || grenType == WP_SMOKE_GRENADE) {
 
 		if ( ent->client->sess.sessionTeam == TEAM_RED ) {         // store team so we can generate red or blue smoke
 			m->s.otherEntityNum2 = 1;
@@ -1185,7 +1209,7 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 	vec3_t tosspos;
 	qboolean underhand = 0;
 
-	if ( ( ent->s.apos.trBase[0] > 0 ) && ( grenType != WP_GRENADE_SMOKE ) ) { // JPW NERVE -- smoke grenades always overhand
+	if ( ( ent->s.apos.trBase[0] > 0 ) && ( grenType != WP_GRENADE_SMOKE && grenType != WP_SMOKE_GRENADE) ) { // JPW NERVE -- smoke grenades always overhand
 		underhand = qtrue;
 	}
 
@@ -1218,6 +1242,8 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 		}
 	} else if ( grenType == WP_GRENADE_SMOKE )   { // smoke grenades *really* get chucked
 		upangle *= 800;
+	} else if ( grenType == WP_SMOKE_GRENADE )   { // smoke grenades *really* get chucked
+		upangle *= 900;
 	} else {      // WP_DYNAMITE
 		upangle *= 400;     //										0.0 / 100.0
 
@@ -1273,7 +1299,7 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 	}
 
 // JPW NERVE
-	if ( grenType == WP_GRENADE_SMOKE ) {
+	if ( grenType == WP_GRENADE_SMOKE || grenType == WP_SMOKE_GRENADE) {
 		if ( ent->client->sess.sessionTeam == TEAM_RED ) { // store team so we can generate red or blue smoke
 			m->s.otherEntityNum2 = 1;
 		} else {
@@ -1284,7 +1310,7 @@ gentity_t *weapon_grenadelauncher_fire( gentity_t *ent, int grenType ) {
 
 		te = G_TempEntity( m->s.pos.trBase, EV_GLOBAL_SOUND );
 		te->s.eventParm = G_SoundIndex( "sound/scenaric/forest/me109_flight.wav" );
-//		te->r.svFlags |= SVF_BROADCAST | SVF_USE_CURRENT_ORIGIN;
+		te->r.svFlags |= SVF_BROADCAST | SVF_USE_CURRENT_ORIGIN;
 	}
 // jpw
 
@@ -1647,6 +1673,354 @@ void Weapon_FlamethrowerFire( gentity_t *ent ) {
 	fire_flamechunk( ent, start, forward );
 }
 
+void G_AirStrikeExplode( gentity_t *self ) {
+
+        self->r.svFlags &= ~SVF_NOCLIENT;
+        self->r.svFlags |= SVF_BROADCAST;
+
+        self->think = G_ExplodeMissile;
+        self->nextthink = level.time + 50;
+}
+
+
+#define NUMBOMBS 10
+#define BOMBSPREAD 150
+void weapon_callAirStrike( gentity_t *ent ) {
+	int i;
+	vec3_t bombaxis, lookaxis, pos, bomboffset, fallaxis, temp;
+	gentity_t *bomb,*te;
+	trace_t tr;
+	float traceheight, bottomtraceheight;
+
+	VectorCopy( ent->s.pos.trBase,bomboffset );
+	bomboffset[2] += 4096;
+
+	// cancel the airstrike if FF off and player joined spec
+	if ( !g_friendlyFire.integer && ent->parent->client && ent->parent->client->sess.sessionTeam == TEAM_SPECTATOR ) {
+		ent->splashDamage = 0; // no damage
+		ent->think = G_ExplodeMissile;
+		ent->nextthink = level.time + crandom() * 50;
+		return; // do nothing, don't hurt anyone
+	}
+
+	// turn off smoke grenade
+	ent->think = G_ExplodeMissile;
+	ent->nextthink = level.time + 950 + NUMBOMBS * 100 + crandom() * 50; // 3000 offset is for aircraft flyby
+
+	trap_Trace( &tr, ent->s.pos.trBase, NULL, NULL, bomboffset, ent->s.number, MASK_SHOT );
+	if ( ( tr.fraction < 1.0 ) && ( !( tr.surfaceFlags & SURF_NOIMPACT ) ) ) { //SURF_SKY)) ) { // JPW NERVE changed for trenchtoast foggie prollem
+		G_SayTo( ent->parent, ent->parent, 2, COLOR_YELLOW, "Pilot: ", "Aborting, can't see target.");
+
+		if ( ent->parent->client && ent->parent->client->sess.sessionTeam == TEAM_BLUE ) {
+			te = G_TempEntity( ent->parent->s.pos.trBase, EV_CLIENT_SOUND );
+			te->s.eventParm = G_SoundIndex( "sound/multiplayer/allies/a-aborting.wav" );
+			te->s.teamNum = ent->parent->s.clientNum;
+		} else {
+			te = G_TempEntity( ent->parent->s.pos.trBase, EV_CLIENT_SOUND );
+			te->s.eventParm = G_SoundIndex( "sound/multiplayer/axis/g-aborting.wav" );
+			te->s.teamNum = ent->parent->s.clientNum;
+		}
+
+		return;
+	}
+
+	if ( ent->parent->client && ent->parent->client->sess.sessionTeam == TEAM_BLUE ) {
+		te = G_TempEntity( ent->parent->s.pos.trBase, EV_CLIENT_SOUND );
+		te->s.eventParm = G_SoundIndex( "sound/multiplayer/allies/a-affirmative_omw.wav" );
+		te->s.teamNum = ent->parent->s.clientNum;
+	} else {
+		te = G_TempEntity( ent->parent->s.pos.trBase, EV_CLIENT_SOUND );
+		te->s.eventParm = G_SoundIndex( "sound/multiplayer/axis/g-affirmative_omw.wav" );
+		te->s.teamNum = ent->parent->s.clientNum;
+	}
+
+	VectorCopy( tr.endpos, bomboffset );
+	traceheight = bomboffset[2];
+	bottomtraceheight = traceheight - 8192;
+
+	VectorSubtract( ent->s.pos.trBase,ent->parent->client->ps.origin,lookaxis );
+	lookaxis[2] = 0;
+	VectorNormalize( lookaxis );
+	pos[0] = 0;
+	pos[1] = 0;
+	pos[2] = crandom(); // generate either up or down vector,
+	VectorNormalize( pos ); // which adds randomness to pass direction below
+	RotatePointAroundVector( bombaxis,pos,lookaxis,90 + crandom() * 30 ); // munge the axis line a bit so it's not totally perpendicular
+	VectorNormalize( bombaxis );
+
+	VectorCopy( bombaxis,pos );
+	VectorScale( pos,(float)( -0.5f * BOMBSPREAD * NUMBOMBS ),pos );
+	VectorAdd( ent->s.pos.trBase, pos, pos ); // first bomb position
+	VectorScale( bombaxis,BOMBSPREAD,bombaxis ); // bomb drop direction offset
+
+	for ( i = 0; i < NUMBOMBS; i++ ) {
+		bomb = G_Spawn();
+		bomb->nextthink = level.time + i * 100 + crandom() * 50 + 1000; // 1000 for aircraft flyby, other term for tumble stagger
+		bomb->think = G_AirStrikeExplode;
+		bomb->s.eType       = ET_MISSILE;
+		bomb->r.svFlags     = SVF_USE_CURRENT_ORIGIN | SVF_NOCLIENT;
+		bomb->s.weapon      = WP_ARTY; // might wanna change this
+		bomb->r.ownerNum    = ent->s.number;
+		bomb->parent        = ent->parent;
+		bomb->damage        = 400; // maybe should un-hard-code these?
+		bomb->splashDamage  = 400;
+		bomb->classname             = "air strike";
+		bomb->splashRadius          = 400;
+		bomb->methodOfDeath         = MOD_AIRSTRIKE;
+		bomb->splashMethodOfDeath   = MOD_AIRSTRIKE;
+		bomb->clipmask = MASK_MISSILESHOT;
+		bomb->s.pos.trType = TR_STATIONARY; // was TR_GRAVITY,  might wanna go back to this and drop from height
+		//bomb->s.pos.trTime = level.time;		// move a bit on the very first frame
+		bomboffset[0] = crandom() * 0.5 * BOMBSPREAD;
+		bomboffset[1] = crandom() * 0.5 * BOMBSPREAD;
+		bomboffset[2] = 0;
+		VectorAdd( pos,bomboffset,bomb->s.pos.trBase );
+
+		VectorCopy( bomb->s.pos.trBase,bomboffset ); // make sure bombs fall "on top of" nonuniform scenery
+		bomboffset[2] = traceheight;
+
+		VectorCopy( bomboffset, fallaxis );
+		fallaxis[2] = bottomtraceheight;
+
+		trap_Trace( &tr, bomboffset, NULL, NULL, fallaxis, ent->s.number, MASK_SHOT );
+		if ( tr.fraction != 1.0 ) {
+			VectorCopy( tr.endpos,bomb->s.pos.trBase );
+		}
+
+		VectorClear( bomb->s.pos.trDelta );
+
+		// Snap origin!
+		VectorCopy( bomb->s.pos.trBase, temp );
+		temp[2] += 2.f;
+		SnapVectorTowards( bomb->s.pos.trBase, temp );          // save net bandwidth
+
+		VectorCopy( bomb->s.pos.trBase, bomb->r.currentOrigin );
+
+		// move pos for next bomb
+		VectorAdd( pos,bombaxis,pos );
+	}
+}
+
+// JPW NERVE -- sound effect for spotter round, had to do this as half-second bomb warning
+
+void artilleryThink_real( gentity_t *ent ) {
+	ent->freeAfterEvent = qtrue;
+	trap_LinkEntity( ent );
+	G_AddEvent( ent, EV_GENERAL_SOUND, G_SoundIndex( "sound/multiplayer/artillery_01.wav" ) );
+}
+void artilleryThink( gentity_t *ent ) {
+	ent->think = artilleryThink_real;
+	ent->nextthink = level.time + 100;
+
+	ent->r.svFlags = SVF_USE_CURRENT_ORIGIN | SVF_BROADCAST;
+}
+
+// JPW NERVE -- makes smoke disappear after a bit (just unregisters stuff)
+void artilleryGoAway( gentity_t *ent ) {
+	ent->freeAfterEvent = qtrue;
+	trap_LinkEntity( ent );
+}
+
+// JPW NERVE -- generates some smoke debris
+void artillerySpotterThink( gentity_t *ent ) {
+	gentity_t *bomb;
+	vec3_t tmpdir;
+	int i;
+	ent->think = G_ExplodeMissile;
+	ent->nextthink = level.time + 1;
+	SnapVector( ent->s.pos.trBase );
+
+	for ( i = 0; i < 7; i++ ) {
+		bomb = G_Spawn();
+		bomb->s.eType       = ET_MISSILE;
+		bomb->r.svFlags     = SVF_USE_CURRENT_ORIGIN;
+		bomb->r.ownerNum    = ent->s.number;
+		bomb->parent        = ent;
+		bomb->nextthink = level.time + 1000 + random() * 300;
+		bomb->classname = "WP"; // WP == White Phosphorous, so we can check for bounce noise in grenade bounce routine
+		bomb->damage        = 000; // maybe should un-hard-code these?
+		bomb->splashDamage  = 000;
+		bomb->splashRadius  = 000;
+		bomb->s.weapon  = WP_SMOKETRAIL;
+		bomb->think = artilleryGoAway;
+		bomb->s.eFlags |= EF_BOUNCE;
+		bomb->clipmask = MASK_MISSILESHOT;
+		bomb->s.pos.trType = TR_GRAVITY; // was TR_GRAVITY,  might wanna go back to this and drop from height
+		bomb->s.pos.trTime = level.time;        // move a bit on the very first frame
+		bomb->s.otherEntityNum2 = ent->s.otherEntityNum2;
+		VectorCopy( ent->s.pos.trBase,bomb->s.pos.trBase );
+		tmpdir[0] = crandom();
+		tmpdir[1] = crandom();
+		tmpdir[2] = 1;
+		VectorNormalize( tmpdir );
+		tmpdir[2] = 1; // extra up
+		VectorScale( tmpdir,500 + random() * 500,tmpdir );
+		VectorCopy( tmpdir,bomb->s.pos.trDelta );
+		SnapVector( bomb->s.pos.trDelta );          // save net bandwidth
+		VectorCopy( ent->s.pos.trBase,bomb->s.pos.trBase );
+		VectorCopy( ent->s.pos.trBase,bomb->r.currentOrigin );
+	}
+}
+
+/*
+==================
+Weapon_Artillery
+==================
+*/
+void Weapon_Artillery( gentity_t *ent ) {
+        trace_t trace;
+        int i = 0;
+        vec3_t muzzlePoint,end,bomboffset,pos,fallaxis;
+        float traceheight, bottomtraceheight;
+        gentity_t *bomb,*bomb2,*te;
+
+        if ( ent->client->ps.stats[STAT_PLAYER_CLASS] != PC_LT ) {
+                G_Printf( "not a lieutenant, you can't shoot this!\n" );
+                return;
+        }
+        if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
+
+                AngleVectors( ent->client->ps.viewangles, forward, right, up );
+
+                VectorCopy( ent->r.currentOrigin, muzzlePoint );
+                muzzlePoint[2] += ent->client->ps.viewheight;
+
+                VectorMA( muzzlePoint, 8192, forward, end );
+                trap_Trace( &trace, muzzlePoint, NULL, NULL, end, ent->s.number, MASK_SHOT );
+
+                if ( trace.surfaceFlags & SURF_NOIMPACT ) {
+                        return;
+                }
+
+                VectorCopy( trace.endpos,pos );
+                VectorCopy( pos,bomboffset );
+                bomboffset[2] += 4096;
+
+                trap_Trace( &trace, pos, NULL, NULL, bomboffset, ent->s.number, MASK_SHOT );
+                if ( ( trace.fraction < 1.0 ) && ( !( trace.surfaceFlags & SURF_NOIMPACT ) ) ) { // JPW NERVE was SURF_SKY)) ) {
+                        G_SayTo( ent, ent, 2, COLOR_YELLOW, "Fire Mission: ", "Aborting, can't see target.");
+
+                        if ( ent->client->sess.sessionTeam == TEAM_BLUE ) {
+                                te = G_TempEntity( ent->s.pos.trBase, EV_CLIENT_SOUND );
+                                te->s.eventParm = G_SoundIndex( "sound/multiplayer/allies/a-art_abort.wav" );
+                                te->s.teamNum = ent->s.clientNum;
+                        } else {
+                                te = G_TempEntity( ent->s.pos.trBase, EV_CLIENT_SOUND );
+                                te->s.eventParm = G_SoundIndex( "sound/multiplayer/axis/g-art_abort.wav" );
+                                te->s.teamNum = ent->s.clientNum;
+                        }
+                        return;
+                }
+                G_SayTo( ent, ent, 2, COLOR_YELLOW, "Fire Mission: ", "Firing for effect!");
+
+                if ( ent->client->sess.sessionTeam == TEAM_BLUE ) {
+                        te = G_TempEntity( ent->s.pos.trBase, EV_CLIENT_SOUND );
+                        te->s.eventParm = G_SoundIndex( "sound/multiplayer/allies/a-firing.wav" );
+                        te->s.teamNum = ent->s.clientNum;
+                } else {
+                        te = G_TempEntity( ent->s.pos.trBase, EV_CLIENT_SOUND );
+                        te->s.eventParm = G_SoundIndex( "sound/multiplayer/axis/g-firing.wav" );
+                        te->s.teamNum = ent->s.clientNum;
+                }
+
+                VectorCopy( trace.endpos, bomboffset );
+                traceheight = bomboffset[2];
+                bottomtraceheight = traceheight - 8192;
+
+
+// "spotter" round (i == 0)
+// i == 1->4 is regular explosives
+                for ( i = 0; i < 5; i++ ) {
+                        bomb = G_Spawn();
+                        bomb->think = G_AirStrikeExplode;
+                        bomb->s.eType       = ET_MISSILE;
+                        bomb->r.svFlags     = SVF_USE_CURRENT_ORIGIN | SVF_NOCLIENT;
+                        bomb->s.weapon      = WP_ARTY; // might wanna change this
+                        bomb->r.ownerNum    = ent->s.number;
+                        bomb->parent        = ent;
+/*
+                        if (i == 0) {
+                                bomb->nextthink = level.time + 4500;
+                                bomb->think = artilleryThink;
+                        }
+*/
+                        if ( i == 0 ) {
+                                bomb->nextthink = level.time + 5000;
+                                bomb->r.svFlags     = SVF_USE_CURRENT_ORIGIN | SVF_BROADCAST;
+                                bomb->classname = "props_explosion"; // was "air strike"
+                                bomb->damage        = 0; // maybe should un-hard-code these?
+                                bomb->splashDamage  = 90;
+                                bomb->splashRadius  = 50;
+//              bomb->s.weapon  = WP_SMOKE_GRENADE;
+                                // TTimo ambiguous else
+                                if ( ent->client != NULL ) { // set team color on smoke
+                                        if ( ent->client->sess.sessionTeam == TEAM_RED ) { // store team so we can generate red or blue smoke
+                                                bomb->s.otherEntityNum2 = 1;
+                                        } else {
+                                                bomb->s.otherEntityNum2 = 0;
+                                        }
+                                }
+                                bomb->think = artillerySpotterThink;
+                        } else {
+                                bomb->nextthink = level.time + 8950 + 2000 * i + crandom() * 800;
+                                bomb->classname = "air strike";
+                                bomb->damage        = 0;
+                                bomb->splashDamage  = 400;
+                                bomb->splashRadius  = 400;
+                        }
+                        bomb->methodOfDeath         = MOD_AIRSTRIKE;
+                        bomb->splashMethodOfDeath   = MOD_AIRSTRIKE;
+                        bomb->clipmask = MASK_MISSILESHOT;
+                        bomb->s.pos.trType = TR_STATIONARY; // was TR_GRAVITY,  might wanna go back to this and drop from height
+                        bomb->s.pos.trTime = level.time;        // move a bit on the very first frame
+                        if ( i ) { // spotter round is always dead on (OK, unrealistic but more fun)
+                                bomboffset[0] = crandom() * 250;
+                                bomboffset[1] = crandom() * 250;
+                        } else {
+                                bomboffset[0] = crandom() * 50; // was 0; changed per id request to prevent spotter round assassinations
+                                bomboffset[1] = crandom() * 50; // was 0;
+                        }
+                        bomboffset[2] = 0;
+                        VectorAdd( pos,bomboffset,bomb->s.pos.trBase );
+
+                        VectorCopy( bomb->s.pos.trBase,bomboffset ); // make sure bombs fall "on top of" nonuniform scenery
+                        bomboffset[2] = traceheight;
+
+                        VectorCopy( bomboffset, fallaxis );
+                        fallaxis[2] = bottomtraceheight;
+
+                        trap_Trace( &trace, bomboffset, NULL, NULL, fallaxis, ent->s.number, MASK_SHOT );
+                        if ( trace.fraction != 1.0 ) {
+                                VectorCopy( trace.endpos,bomb->s.pos.trBase );
+                        }
+
+                        bomb->s.pos.trDelta[0] = 0; // might need to change this
+                        bomb->s.pos.trDelta[1] = 0;
+                        bomb->s.pos.trDelta[2] = 0;
+                        SnapVector( bomb->s.pos.trDelta );          // save net bandwidth
+                        VectorCopy( bomb->s.pos.trBase, bomb->r.currentOrigin );
+
+// build arty falling sound effect in front of bomb drop
+                        bomb2 = G_Spawn();
+                        bomb2->think = artilleryThink;
+                        bomb2->s.eType  = ET_MISSILE;
+                        bomb2->r.svFlags    = SVF_USE_CURRENT_ORIGIN | SVF_NOCLIENT;
+                        bomb2->r.ownerNum   = ent->s.number;
+                        bomb2->parent       = ent;
+                        bomb2->damage       = 0;
+                        bomb2->nextthink = bomb->nextthink - 600;
+                        bomb2->classname = "air strike";
+                        bomb2->clipmask = MASK_MISSILESHOT;
+                        bomb2->s.pos.trType = TR_STATIONARY; // was TR_GRAVITY,  might wanna go back to this and drop from height
+                        bomb2->s.pos.trTime = level.time;       // move a bit on the very first frame
+                        VectorCopy( bomb->s.pos.trBase,bomb2->s.pos.trBase );
+                        VectorCopy( bomb->s.pos.trDelta,bomb2->s.pos.trDelta );
+                        VectorCopy( bomb->s.pos.trBase,bomb2->r.currentOrigin );
+                }
+                ent->client->ps.classWeaponTime = level.time;
+        }
+
+}
 //======================================================================
 
 
@@ -1800,6 +2174,111 @@ void CalcMuzzlePoints( gentity_t *ent, int weapon ) {
 }
 
 /*
+==================
+Weapon_MagicAmmo
+==================
+*/
+void Weapon_MagicAmmo( gentity_t *ent ) {
+        gitem_t *item;
+        gentity_t *ent2;
+        vec3_t velocity, org, offset;
+        vec3_t angles,mins,maxs;
+        trace_t tr;
+
+        // TTimo unused
+//      int                     mod = MOD_KNIFE;
+
+
+        if ( level.time - ent->client->ps.classWeaponTime >= g_LTChargeTime.integer * 0.25f ) {
+                if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
+                        ent->client->ps.classWeaponTime = level.time - g_LTChargeTime.integer;
+                }
+                ent->client->ps.classWeaponTime += g_LTChargeTime.integer * 0.25;
+//                      ent->client->ps.classWeaponTime = level.time;
+//                      if (ent->client->ps.classWeaponTime > level.time)
+//                              ent->client->ps.classWeaponTime = level.time;
+                item = BG_FindItem( "Ammo Pack" );
+                VectorCopy( ent->client->ps.viewangles, angles );
+
+                // clamp pitch
+                if ( angles[PITCH] < -30 ) {
+                        angles[PITCH] = -30;
+                } else if ( angles[PITCH] > 30 ) {
+                        angles[PITCH] = 30;
+                }
+
+                AngleVectors( angles, velocity, NULL, NULL );
+                VectorScale( velocity, 64, offset );
+                offset[2] += ent->client->ps.viewheight / 2;
+                VectorScale( velocity, 75, velocity );
+                velocity[2] += 50 + crandom() * 25;
+
+                VectorAdd( ent->client->ps.origin,offset,org );
+
+                VectorSet( mins, -ITEM_RADIUS, -ITEM_RADIUS, 0 );
+                VectorSet( maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS );
+
+                trap_Trace( &tr, ent->client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
+                VectorCopy( tr.endpos, org );
+
+                ent2 = LaunchItem( item, org, velocity, ent->s.number );
+                ent2->think = MagicSink;
+                ent2->timestamp = level.time + 31200;
+                ent2->parent = ent;
+        }
+}
+
+void Weapon_Medic( gentity_t *ent ) {
+        gitem_t *item;
+        gentity_t *ent2;
+        vec3_t velocity, org, offset;
+        vec3_t angles,mins,maxs;
+        trace_t tr;
+
+        // TTimo unused
+//      int                     mod = MOD_KNIFE;
+
+
+        if ( level.time - ent->client->ps.classWeaponTime >= g_medicChargeTime.integer * 0.25f ) {
+                if ( level.time - ent->client->ps.classWeaponTime > g_medicChargeTime.integer ) {
+                        ent->client->ps.classWeaponTime = level.time - g_medicChargeTime.integer;
+                }
+                ent->client->ps.classWeaponTime += g_medicChargeTime.integer * 0.25;
+//                      ent->client->ps.classWeaponTime = level.time;
+//                      if (ent->client->ps.classWeaponTime > level.time)
+//                              ent->client->ps.classWeaponTime = level.time;
+                item = BG_FindItem( "Med Health Classes" );
+                VectorCopy( ent->client->ps.viewangles, angles );
+
+                // clamp pitch
+                if ( angles[PITCH] < -30 ) {
+                        angles[PITCH] = -30;
+                } else if ( angles[PITCH] > 30 ) {
+                        angles[PITCH] = 30;
+                }
+
+                AngleVectors( angles, velocity, NULL, NULL );
+                VectorScale( velocity, 64, offset );
+                offset[2] += ent->client->ps.viewheight / 2;
+                VectorScale( velocity, 75, velocity );
+                velocity[2] += 50 + crandom() * 25;
+
+                VectorAdd( ent->client->ps.origin,offset,org );
+
+                VectorSet( mins, -ITEM_RADIUS, -ITEM_RADIUS, 0 );
+                VectorSet( maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS );
+
+                trap_Trace( &tr, ent->client->ps.origin, mins, maxs, org, ent->s.number, MASK_SOLID );
+                VectorCopy( tr.endpos, org );
+
+                ent2 = LaunchItem( item, org, velocity, ent->s.number );
+                ent2->think = MagicSink;
+                ent2->timestamp = level.time + 31200;
+                ent2->parent = ent; // JPW NERVE so we can score properly later
+        }
+}
+
+/*
 ===============
 FireWeapon
 ===============
@@ -1866,6 +2345,18 @@ void FireWeapon( gentity_t *ent ) {
 	} else {
 		aimSpreadScale = 1.0;
 	}
+
+        if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                if ( ( ent->client->ps.eFlags & EF_ZOOMING ) && ( ent->client->ps.stats[STAT_KEYS] & ( 1 << INV_BINOCS ) ) &&
+                         ( ent->s.weapon != WP_SNIPERRIFLE ) ) {
+
+                        if ( !( ent->client->ps.leanf ) ) {
+                                Weapon_Artillery( ent );
+                        }
+
+                        return;
+                }
+        }
 
 	// fire the specific weapon
 	switch ( ent->s.weapon ) {
@@ -2010,6 +2501,27 @@ void FireWeapon( gentity_t *ent ) {
 
 	case WP_MORTAR:
 		break;
+        case WP_MEDKIT:
+                Weapon_Medic( ent );
+                break;
+        case WP_AMMO:
+                Weapon_MagicAmmo( ent );
+                break;
+	case WP_MEDIC_SYRINGE:
+                Weapon_Syringe( ent );
+		break;
+        case WP_SMOKE_GRENADE:
+                if ( level.time - ent->client->ps.classWeaponTime >= g_LTChargeTime.integer * 0.5f ) {
+                        if ( level.time - ent->client->ps.classWeaponTime > g_LTChargeTime.integer ) {
+                                ent->client->ps.classWeaponTime = level.time - g_LTChargeTime.integer;
+                        }
+                        ent->client->ps.classWeaponTime = level.time; //+= g_LTChargeTime.integer*0.5f; FIXME later
+                        weapon_grenadelauncher_fire( ent,WP_SMOKE_GRENADE );
+                }
+                break;
+        case WP_ARTY:
+                G_Printf( "calling artilery\n" );
+                break;
 
 	default:
 		break;

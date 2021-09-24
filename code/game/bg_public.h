@@ -98,6 +98,9 @@ float Com_GetFlamethrowerRange( void );
 #define DEFAULT_COOP_MODEL_AXIS       "multi_axis"
 #define DEFAULT_HEAD        "default"    // technically the default head skin.  this means "head_default.skin" for the head
 
+#define MULTIPLAYER_ALLIEDMODEL "multi"
+#define MULTIPLAYER_AXISMODEL   "multi_axis"
+
 // RF, on fire effects
 #define FIRE_FLASH_TIME         2000
 #define FIRE_FLASH_FADEIN_TIME  1000
@@ -203,6 +206,7 @@ typedef enum {
 typedef enum {
 	GT_COOP_BATTLE,     // 1vs1
 	GT_COOP_SPEEDRUN,
+	GT_COOP_CLASSES, // play coop with the MP classes
 
 	// other coop variations should come before this one, because we will
 	// use g_gametype.integer <= GT_COOP
@@ -278,8 +282,9 @@ typedef enum {
 #define PMF_SCOREBOARD      8192    // spectate as a scoreboard
 #define PMF_LIMBO           16384   // JPW NERVE limbo state, pm_time is time until reinforce
 #define PMF_TIME_LOAD       32768   // hold for this time after a load game, and prevent large thinks
+#define PMF_TIME_LOCKPLAYER 65536   // DHM - Nerve :: Lock all movement and view changes
 
-#define PMF_ALL_TIMES   ( PMF_TIME_WATERJUMP | PMF_TIME_LAND | PMF_TIME_KNOCKBACK | PMF_TIME_LOAD )
+#define PMF_ALL_TIMES   ( PMF_TIME_WATERJUMP | PMF_TIME_LAND | PMF_TIME_KNOCKBACK | PMF_TIME_LOAD | PMF_TIME_LOCKPLAYER)
 
 #define MAXTOUCH    32
 typedef struct {
@@ -295,6 +300,10 @@ typedef struct {
 	qboolean gauntletHit;           // true if a gauntlet attack would actually hit something
 
 	// results (out)
+        int ltChargeTime;
+        int soldierChargeTime;
+        int engineerChargeTime;
+        int medicChargeTime;
 	int numtouch;
 	int touchents[MAXTOUCH];
 
@@ -589,20 +598,28 @@ typedef enum {
 	WP_MONSTER_ATTACK3,     // 25	// generic monster attack, slot 2
 
 	WP_GAUNTLET,            // 26
+	WP_MEDIC_SYRINGE,	// 27
+	WP_ARTY,		// 28
+	WP_MEDKIT,		// 29
+	WP_AMMO,		// 30
+	WP_SMOKE_GRENADE,	// 31
+	WP_BINOCULARS,		// 32
 
-	WP_SNIPER,              // 27
-	WP_GRENADE_SMOKE,       // 28	// smoke grenade for LT multiplayer
-	WP_MEDIC_HEAL,          // 29	// DHM - Nerve :: Medic special weapon
-	WP_MORTAR,              // 30
+	WP_SNIPER,              //
+	WP_GRENADE_SMOKE,       //
+	WP_MEDIC_HEAL,          //
+	WP_MORTAR,              //
 
-	VERYBIGEXPLOSION,       // 31	// explosion effect for airplanes
+	VERYBIGEXPLOSION,       //
+	WP_SMOKETRAIL,		// fretn: might move this to a different position
 
-	WP_NUM_WEAPONS          // 32   NOTE: this cannot be larger than 64 for AI/player weapons!
+	WP_NUM_WEAPONS          // NOTE: this cannot be larger than 64 for AI/player weapons!
 
 } weapon_t;
 
 // JPW NERVE moved from cg_weapons (now used in g_active) for drop command, actual array in bg_misc.c
 extern int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK];
+extern int weapBanksClasses[MAX_WEAP_BANKS_CLASSES][MAX_WEAPS_IN_BANK_CLASSES];
 // jpw
 
 typedef struct ammotable_s {
@@ -1164,6 +1181,7 @@ typedef enum {
 	MOD_SNOOPERSCOPE,
 	MOD_SILENCER,   //----(SA)
 	MOD_AKIMBO,     //----(SA)
+	MOD_ARTY,
 	MOD_BAR,    //----(SA)
 	MOD_FG42,
 	MOD_FG42SCOPE,
@@ -1185,6 +1203,8 @@ typedef enum {
 	MOD_DYNAMITE,
 	MOD_DYNAMITE_SPLASH,
 	MOD_AIRSTRIKE, // JPW NERVE
+	MOD_SYRINGE,
+	MOD_AMMO,
 	MOD_WATER,
 	MOD_SLIME,
 	MOD_LAVA,
@@ -1336,6 +1356,8 @@ typedef enum {
 	ET_TELEPORT_TRIGGER,
 	ET_INVISIBLE,
 	ET_GRAPPLE,             // grapple hooked on wall
+	ET_SPAWNPOINT_INDICATOR,
+	ET_EXPLOSIVE_INDICATOR,
 
 	//---- (SA) Wolf
 	ET_EXPLOSIVE,           // brush that will break into smaller bits when damaged
@@ -1534,10 +1556,10 @@ typedef enum {
 // New Animation Scripting Defines
 
 #define MAX_ANIMSCRIPT_MODELS               32      // allocated dynamically, so limit is scalable
-#define MAX_ANIMSCRIPT_ITEMS_PER_MODEL      256
+#define MAX_ANIMSCRIPT_ITEMS_PER_MODEL      2048
 #define MAX_MODEL_ANIMATIONS                256     // animations per model
 #define MAX_ANIMSCRIPT_ANIMCOMMANDS         8
-#define MAX_ANIMSCRIPT_ITEMS                32
+#define MAX_ANIMSCRIPT_ITEMS                128
 
 // NOTE: these must all be in sync with string tables in bg_animation.c
 
@@ -1560,6 +1582,7 @@ typedef enum
 	ANIM_MT_TURNLEFT,
 	ANIM_MT_CLIMBUP,
 	ANIM_MT_CLIMBDOWN,
+	ANIM_MT_FALLEN,		// dead, before limbo
 
 	NUM_ANIM_MOVETYPES
 } scriptAnimMoveTypes_t;

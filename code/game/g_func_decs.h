@@ -1210,7 +1210,7 @@ extern qboolean G_IsClient ( gentity_t * entity ) ;
 extern void G_RetrieveMoveSpeedsFromClient ( int entnum , char * text ) ;
 extern void G_LoadAndParseMoveSpeeds ( char * modelname ) ;
 extern void ClientDisconnect ( int clientNum ) ;
-extern void ClientSpawn ( gentity_t * ent ) ;
+extern void ClientSpawn ( gentity_t * ent, qboolean revived ) ;
 extern void ClientBegin ( int clientNum ) ;
 extern char * ClientConnect ( int clientNum , qboolean firstTime , qboolean isBot ) ;
 extern void ClientUserinfoChanged ( int clientNum ) ;

@@ -43,7 +43,12 @@ game_manager
 		accum 0 abort_if_not_bitset 2
 		trigger player exitmap
 	}
-	
+
+    trigger floor_objective
+    {
+
+    }
+
 	trigger objective1
 	{
 		accum 0 abort_if_bitset 1
@@ -205,6 +210,18 @@ game_manager
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_17 #endif
 		#if g_reinforce >= 2 alertentity coop_ai_soldier_18 #endif
 	}
+}
+
+destroy_floor // destroyable floor
+{
+        spawn
+        {
+        }
+
+        death
+        {
+        trigger game_manager floor_objective
+        }
 }
 
 dialog // dialog counter

@@ -332,6 +332,25 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 		return RESPAWN_SP;
 	}
 #endif
+        if ( g_gametype.integer == GT_COOP_CLASSES ) {
+                if ( Q_stricmp( ent->classname, "ammo_dynamite" ) == 0  && other->client->sess.playerType == PC_ENGINEER ) {
+			COM_BitSet( other->client->ps.weapons, WP_DYNAMITE );
+			other->client->ps.ammo[BG_FindAmmoForWeapon( WP_DYNAMITE )] = 0;
+			other->client->ps.ammoclip[BG_FindClipForWeapon( WP_DYNAMITE )] = 1;
+			return RESPAWN_AMMO;
+		}
+
+                // not a ammopack dropped by a lieutentant:
+                if ( Q_stricmp( ent->classname, "weapon_magicammo" ) != 0 ) {
+                        // regular medkit (food, med kits hanging on the wall, etc), take classweapontime
+                        // but only for medics, other classes cannot use this in current gametype
+                        if ( other->client->sess.playerType == PC_LT ) {
+                                other->client->ps.classWeaponTime -= g_LTChargeTime.integer * 0.25;
+                        }
+                        return RESPAWN_SP;
+                }
+
+        }
 
 	if ( ent->count ) {
 		quantity = ent->count;
@@ -357,11 +376,11 @@ int Pickup_Ammo( gentity_t *ent, gentity_t *other ) {
 
 //======================================================================
 
-
 int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	int quantity = 0;
 	qboolean alreadyHave = qfalse;
 	int weapon;
+	int i = 0;
 
 	weapon = ent->item->giTag;
 
@@ -371,6 +390,59 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 		return RESPAWN_SP;
 	}
 #endif
+
+	if ( ent->item->giTag == WP_AMMO && g_gametype.integer == GT_COOP_CLASSES) {
+                // everybody likes grenades -- abuse weapon var as grenade type and i as max # grenades class can carry
+                switch ( other->client->ps.stats[STAT_PLAYER_CLASS] ) {
+                case PC_LT: // redundant but added for completeness/flexibility
+                case PC_MEDIC:
+                        i = 1;
+                        break;
+                case PC_SOLDIER:
+                        i = 4;
+                        break;
+                case PC_ENGINEER:
+                        i = 8;
+                        break;
+                default:
+                        i = 1;
+                        break;
+                }
+
+		if ( other->client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE )] < i ) {
+			other->client->ps.ammoclip[BG_FindClipForWeapon( WP_GRENADE_PINEAPPLE )]++;
+		}
+		COM_BitSet( other->client->ps.weapons, WP_GRENADE_PINEAPPLE);
+
+//              G_Printf("filling magazine for weapon %d colt/luger (%d rounds)\n", weapon, ammoTable[weapon].maxclip);
+                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] += ammoTable[WP_LUGER].maxclip;
+                if ( other->client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] > ammoTable[WP_LUGER].maxclip * 4 ) {
+                        other->client->ps.ammo[BG_FindAmmoForWeapon( WP_LUGER )] = ammoTable[WP_LUGER].maxclip * 4;
+                }
+
+                other->client->ps.ammo[BG_FindAmmoForWeapon( WP_COLT )] += ammoTable[WP_COLT].maxclip;
+                if ( other->client->ps.ammo[BG_FindAmmoForWeapon( WP_COLT )] > ammoTable[WP_COLT].maxclip * 4 ) {
+                        other->client->ps.ammo[BG_FindAmmoForWeapon( WP_COLT )] = ammoTable[WP_COLT].maxclip * 4;
+                }
+
+                // and some two-handed ammo
+                for ( i = 0; i < MAX_WEAPS_IN_BANK_CLASSES; i++ ) {
+                        weapon = weapBanksClasses[3][i];
+                        if ( COM_BitCheck( other->client->ps.weapons, weapon ) ) {
+//                              G_Printf("filling magazine for weapon %d (%d rounds)\n",weapon,ammoTable[weapon].maxclip);
+                                if ( weapon == WP_FLAMETHROWER ) { // FT doesn't use magazines so refill tank
+                                        other->client->ps.ammoclip[BG_FindAmmoForWeapon( WP_FLAMETHROWER )] = ammoTable[weapon].maxclip;
+                                } else {
+                                        other->client->ps.ammo[BG_FindAmmoForWeapon( weapon )] += ammoTable[weapon].maxclip;
+                                        if ( other->client->ps.ammo[BG_FindAmmoForWeapon( weapon )] > ammoTable[weapon].maxclip * 3 ) {
+                                                other->client->ps.ammo[BG_FindAmmoForWeapon( weapon )] = ammoTable[weapon].maxclip * 3;
+                                        }
+                                }
+                                return RESPAWN_SP;
+                        }
+                }
+                return RESPAWN_SP;
+        }
 
 	if ( ent->count < 0 ) {
 		quantity = 0; // None for you, sir!
@@ -414,7 +486,18 @@ int Pickup_Weapon( gentity_t *ent, gentity_t *other ) {
 	alreadyHave = COM_BitCheck( other->client->ps.weapons, weapon );
 
 	// add the weapon
-	COM_BitSet( other->client->ps.weapons, weapon );
+	// fretn: if classes, we need to check if this class can pick this up or not
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		// soldier can pickup all guns
+		// LT medic and engineer can only pickup guns they have (so no special guns)
+		// picking up a gun doesn't give you ammo
+		// Medic can pickup medkits -> this recharges the bar faster
+		// Engineer can pickup dynamites
+		// also see bg_misc.c: BG_CanItemBeGrabbed
+		return Pickup_Weapon_For_Class(ent, other);
+	} else {
+		COM_BitSet( other->client->ps.weapons, weapon );
+	}
 
 	// Throw knives
 	if ( g_throwKnives.integer ) {
@@ -455,6 +538,22 @@ int Pickup_Health( gentity_t *ent, gentity_t *other ) {
 	int max;
 	int quantity = 0;
 
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+
+		// not a medpack dropped by a medic:
+		if ( Q_stricmp( ent->classname, "item_health_classes" ) != 0 ) {
+			// regular medkit (food, med kits hanging on the wall, etc), take classweapontime
+			// but only for medics, other classes cannot use this in current gametype
+			if ( other->client->sess.playerType == PC_MEDIC ) {
+				other->client->ps.classWeaponTime -= g_medicChargeTime.integer * 0.25;
+			}
+			return RESPAWN_SP;
+		}
+
+		// medpacks dropped by a medic are handled below
+
+	}
+
 	// small and mega healths will go over the max
 	if ( ent->item->quantity != 5 && ent->item->quantity != 100  ) {
 		max = other->client->ps.stats[STAT_MAX_HEALTH];
@@ -487,6 +586,10 @@ int Pickup_Health( gentity_t *ent, gentity_t *other ) {
 		return RESPAWN_PARTIAL;
 	} else if ( ent->s.density == 1 ) {    // last stage, leave the plate
 		return RESPAWN_PARTIAL_DONE;
+	}
+
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		return RESPAWN_HEALTH;
 	}
 
 	return RESPAWN_SP;
@@ -1033,6 +1136,7 @@ void ClearRegisteredItems( void ) {
 //			but for now, re-register the MP40 automatically
 //	RegisterItem( BG_FindItemForWeapon( WP_MP40 ) );
 	RegisterItem( BG_FindItem( "Med Health" ) );           // NERVE - SMF - this is so med packs properly display
+	RegisterItem( BG_FindItem( "Med Health Classes" ) );           // NERVE - SMF - this is so med packs properly display
 }
 
 /*

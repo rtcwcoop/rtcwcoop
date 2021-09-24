@@ -2329,6 +2329,8 @@ static void CG_ProcessEntity( centity_t *cent ) {
 	case ET_AI_EFFECT:
 	case ET_LEAKY:  //----(SA)	added
 	case ET_SPIRIT_SPAWNER:
+	case ET_EXPLOSIVE_INDICATOR:
+	case ET_SPAWNPOINT_INDICATOR:
 		break;
 	case ET_RUMBLE:
 		CG_ProcessRumble( cent );

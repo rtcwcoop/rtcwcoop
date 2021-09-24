@@ -81,7 +81,7 @@ void cmd_do_login( gentity_t *ent, qboolean silent ) {
 	trap_Argv( 1, str, sizeof( str ) );
 
 	// Make sure user is not already logged in.
-	if ( !ent->client->sess.admin == ADM_NONE ) {
+	if ( !(ent->client->sess.admin == ADM_NONE) ) {
 		trap_SendServerCommand( ent - g_entities, va( "print \"You are already logged in^1!\n\"" ) );
 		return;
 	}

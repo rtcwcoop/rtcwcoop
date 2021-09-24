@@ -4559,7 +4559,6 @@ void SP_func_explosive( gentity_t *ent ) {
 //----(SA)	end
 
 
-
 	ent->die = func_explosive_explode;
 }
 

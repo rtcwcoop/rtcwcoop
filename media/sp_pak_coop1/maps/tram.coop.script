@@ -28,6 +28,11 @@ game_manager
 	{
 		accum 0 bitset 1
 	}
+
+    trigger hatch_objective
+    {
+
+    }
 	
 	trigger objective2
 	{
@@ -38,6 +43,18 @@ game_manager
 	{
 		accum 0 bitset 3
 	}
+}
+
+destroy_hatch // destroyable floor
+{
+        spawn
+        {
+        }
+
+        death
+        {
+        trigger game_manager hatch_objective
+        }
 }
 
 gear1

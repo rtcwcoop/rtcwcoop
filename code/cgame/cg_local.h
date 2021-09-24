@@ -1098,6 +1098,7 @@ typedef struct {
 	qhandle_t lightningShader;
 
 	qhandle_t voiceChatShader;
+	qhandle_t medicReviveShader;
 	qhandle_t friendShader;
 
 	qhandle_t frozenShader;
@@ -1803,6 +1804,10 @@ extern vmCvar_t cg_obituaries;
 extern vmCvar_t cg_drawcompass;
 extern vmCvar_t cg_fancyfx;
 extern vmCvar_t cg_limbotime;
+extern vmCvar_t cg_medicChargeTime;
+extern vmCvar_t cg_engineerChargeTime;
+extern vmCvar_t cg_LTChargeTime;
+extern vmCvar_t cg_soldierChargeTime;
 
 extern vmCvar_t cg_bloodTime;
 extern vmCvar_t cg_norender;

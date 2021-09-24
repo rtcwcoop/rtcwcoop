@@ -277,7 +277,7 @@ static void CG_DrawCursorhint( rectDef_t *rect ) {
 	//        icon = cgs.media.hintShaders[HINT_KNIFE];
 	//        break;
 	case HINT_BREAKABLE_DYNAMITE:
-		icon = cgs.media.hintShaders[HINT_BREAKABLE];
+		icon = cgs.media.hintShaders[HINT_BREAKABLE_DYNAMITE];
 		break;
 	case HINT_CHAIR:
 		// only show 'pickupable' if you're not armed, or are armed with a single handed weapon
@@ -926,6 +926,8 @@ static const char *CG_GameTypeString( void ) {
 		return "Cooperative";
 	} else if ( cgs.gametype == GT_COOP_SPEEDRUN ) {
 		return "Speedrun";
+	} else if ( cgs.gametype == GT_COOP_CLASSES ) {
+		return "Classes";
 	} else if ( cgs.gametype == GT_COOP_BATTLE ) {
 		return "Battle";
 	} else {
@@ -1230,6 +1232,67 @@ static void CG_DrawFatigue( rectDef_t *rect, vec4_t color, int align ) {
 	}
 }
 
+static void CG_DrawWeapRecharge( rectDef_t *rect, vec4_t color, int align ) {
+        float barFrac;
+        float chargeTime;
+        int weap = 0;
+        int flags = 0;
+        qboolean fade = qfalse;
+        vec4_t bgcolor = {1.0f, 1.0f, 1.0f, 0.25f};
+
+        if ( align != HUD_HORIZONTAL ) {
+                flags |= 4;   // BAR_VERT
+                flags |= 1;   // BAR_LEFT (left, when vertical means grow 'up')
+        }
+        flags |= 16;
+
+        if ( cgs.gametype == GT_COOP_CLASSES ) {
+
+                // DHM - Only draw bar if weapon uses it
+                weap = cg.snap->ps.weapon;
+
+                if ( !( cg.snap->ps.eFlags & EF_ZOOMING ) ) {
+                        if ( weap != WP_PANZERFAUST && weap != WP_DYNAMITE && weap != WP_MEDKIT && weap != WP_SMOKE_GRENADE /*&& weap != WP_PLIERS*/ && weap != WP_AMMO ) {
+                                fade = qtrue;
+                        }
+                }
+
+                if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_ENGINEER ) {
+                        chargeTime = cg_engineerChargeTime.value;
+                } else if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_MEDIC ) {
+                        chargeTime = cg_medicChargeTime.value;
+                } else if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_LT ) {
+                        chargeTime = cg_LTChargeTime.value;
+                } else {
+                        chargeTime = cg_soldierChargeTime.value;
+                }
+
+                barFrac = (float)( cg.time - cg.snap->ps.classWeaponTime ) / chargeTime;
+
+                if ( barFrac > 1.0 ) {
+                        barFrac = 1.0;
+                }
+
+                color[0] = 1.0f;
+                color[1] = color[2] = barFrac;
+                color[3] = 0.25 + barFrac * 0.5;
+
+                if ( fade ) {
+                        bgcolor[3] *= 0.4f;
+                        color[3] *= 0.4;
+                }
+
+                CG_FilledBar( rect->x, rect->y + 6, rect->w, rect->h * 0.84f, color, NULL, bgcolor, barFrac, flags );
+
+                color[1] = color[2] = 1.0f;
+                color[3] = cg_hudAlpha.value;
+                trap_R_SetColor( color );
+//              CG_DrawPic( rect->x, rect->y, rect->w, rect->h, cgs.media.hudSprintBar );
+        }
+// jpw
+}
+// dhm - end
+
 /*
 =================
 CG_DrawCompassIcon
@@ -1283,6 +1346,7 @@ NERVE - SMF
 static void CG_DrawCompass( void ) {
 	float basex = 290, basey = 420;
 	float basew = 60, baseh = 60;
+	snapshot_t  *snap;
 	vec4_t hcolor;
 	float angle;
 	int i;
@@ -1312,16 +1376,107 @@ static void CG_DrawCompass( void ) {
 	CG_DrawRotatedPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass2.tga" ), angle );
 	CG_DrawPic( basex, basey, basew, baseh, trap_R_RegisterShader( "gfx/2d/compass.tga" ) );
 
-	// draw voice chats
-	for ( i = 0; i < MAX_CLIENTS; i++ ) {
-		centity_t *cent = &cg_entities[i];
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		// draw voice chats
+		for ( i = 0; i < MAX_CLIENTS; i++ ) {
+			centity_t *cent = &cg_entities[i];
 
-		if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.teamNum != cg.snap->ps.teamNum ) {
-			continue;
+			if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cg.snap->ps.persistant[PERS_TEAM] != cgs.clientinfo[i].team ) {
+				continue;
+			}
+
+			// also draw revive icons if cent is dead and player is a medic
+			if ( cent->voiceChatSpriteTime < cg.time ) {
+				continue;
+			}
+
+			if ( cgs.clientinfo[i].health <= 0 ) {
+				// reset
+				cent->voiceChatSpriteTime = cg.time;
+				continue;
+			}
+
+			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, cent->voiceChatSprite );
 		}
 
+		// draw spawnpoints
+		if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
+			snap = cg.nextSnap;
+		} else {
+			snap = cg.snap;
+		}
 
-		CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+		for ( i = 0; i < snap->numEntities; i++ ) {
+			centity_t *cent = &cg_entities[ snap->entities[ i ].number ];
+
+			if ( cent->currentState.eType != ET_SPAWNPOINT_INDICATOR) {
+				continue;
+			}
+
+			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/icon_shield.tga" ) );
+		}
+
+		// draw explosives if an engineer
+		if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_ENGINEER ) {
+			if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
+				snap = cg.nextSnap;
+			} else {
+				snap = cg.snap;
+			}
+
+			for ( i = 0; i < snap->numEntities; i++ ) {
+				centity_t *cent = &cg_entities[ snap->entities[ i ].number ];
+
+				if ( cent->currentState.eType != ET_EXPLOSIVE_INDICATOR ) {
+					continue;
+				}
+
+				if ( cent->currentState.teamNum == 1 && cg.snap->ps.persistant[PERS_TEAM] == TEAM_RED ) {
+					continue;
+				} else if ( cent->currentState.teamNum == 2 && cg.snap->ps.persistant[PERS_TEAM] == TEAM_BLUE ) {
+					continue;
+				}
+
+				CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+			}
+		}
+
+		// draw revive medic icons
+		if ( cg.snap->ps.stats[ STAT_PLAYER_CLASS ] == PC_MEDIC ) {
+			if ( cg.nextSnap && !cg.nextFrameTeleport && !cg.thisFrameTeleport ) {
+				snap = cg.nextSnap;
+			} else {
+				snap = cg.snap;
+			}
+
+			for ( i = 0; i < snap->numEntities; i++ ) {
+				entityState_t *ent = &snap->entities[i];
+
+				if ( ent->eType != ET_PLAYER ) {
+					continue;
+				}
+
+				if ( ( ent->eFlags & EF_DEAD ) && ent->number == ent->clientNum ) {
+					if ( !cgs.clientinfo[ent->clientNum].infoValid || cg.snap->ps.persistant[PERS_TEAM] != cgs.clientinfo[ent->clientNum].team ) {
+						continue;
+					}
+
+					CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, ent->pos.trBase, cgs.media.medicReviveShader );
+				}
+			}
+		}
+	} else {
+		// draw voice chats
+		for ( i = 0; i < MAX_CLIENTS; i++ ) {
+			centity_t *cent = &cg_entities[i];
+
+			if ( cg.snap->ps.clientNum == i || !cgs.clientinfo[i].infoValid || cent->currentState.teamNum != cg.snap->ps.teamNum ) {
+				continue;
+			}
+
+
+			CG_DrawCompassIcon( basex, basey, basew, baseh, cg.snap->ps.origin, cent->lerpOrigin, trap_R_RegisterShader( "sprites/destroy.tga" ) );
+		}
 	}
 }
 // -NERVE - SMF
@@ -1388,6 +1543,9 @@ void CG_OwnerDraw( float x, float y, float w, float h, float text_x, float text_
 	case CG_STAMINA:
 		CG_DrawFatigue( &rect, color, align );
 		break;
+        case CG_PLAYER_WEAPON_RECHARGE:
+                CG_DrawWeapRecharge( &rect, color, align );
+                break;
 	case CG_PLAYER_HEAD:
 		CG_DrawPlayerHead( &rect, ownerDrawFlags & CG_SHOW_2DONLY );
 		break;

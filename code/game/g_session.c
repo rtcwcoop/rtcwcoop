@@ -56,7 +56,7 @@ void G_WriteClientSessionData( gclient_t *client ) {
 
 #ifdef _ADMINS
 	// Added Admin sessions and stuff related to it
-	s = va( "%i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
+	s = va( "%i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			client->sess.sessionTeam,
 			client->sess.spectatorNum,
 			client->sess.spectatorState,
@@ -68,6 +68,7 @@ void G_WriteClientSessionData( gclient_t *client ) {
 			client->sess.playerPistol,  // DHM - Nerve
 			client->sess.playerItem,    // DHM - Nerve
 			client->sess.playerSkin,    // DHM - Nerve
+			client->sess.latchPlayerType,    // DHM - Nerve
 			client->sess.admin,	    // Admins
 			client->sess.ip[0],         // IP
 			client->sess.ip[1],         // IP
@@ -77,7 +78,7 @@ void G_WriteClientSessionData( gclient_t *client ) {
 			client->sess.ignored        // Ignored players
 			);
 #else
-	s = va( "%i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
+	s = va( "%i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			client->sess.sessionTeam,
 			client->sess.spectatorNum,
 			client->sess.spectatorState,
@@ -89,6 +90,7 @@ void G_WriteClientSessionData( gclient_t *client ) {
 			client->sess.playerPistol,  // DHM - Nerve
 			client->sess.playerItem,    // DHM - Nerve
 			client->sess.playerSkin,    // DHM - Nerve
+			client->sess.latchPlayerType,    // DHM - Nerve
 			client->sess.ignored        // Ignored players
 			);
 #endif
@@ -114,7 +116,7 @@ void G_ReadSessionData( gclient_t *client ) {
 
 #ifdef _ADMINS
 	// Added Admin sessions and stuff related to it
-	sscanf( s, "%i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
+	sscanf( s, "%i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			(int *)&client->sess.sessionTeam,
 			&client->sess.spectatorNum,
 			(int *)&client->sess.spectatorState,
@@ -126,6 +128,7 @@ void G_ReadSessionData( gclient_t *client ) {
 			&client->sess.playerPistol,     // DHM - Nerve
 			&client->sess.playerItem,       // DHM - Nerve
 			&client->sess.playerSkin,       // DHM - Nerve
+			&client->sess.latchPlayerType,       // DHM - Nerve
 			(int *)&client->sess.admin,	// Admins
 			(int *)&client->sess.ip[0],	// IP
 			(int *)&client->sess.ip[1],	// IP
@@ -135,7 +138,7 @@ void G_ReadSessionData( gclient_t *client ) {
 			&client->sess.ignored		// Ignored players
 			);
 #else
-	sscanf( s, "%i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
+	sscanf( s, "%i %i %i %i %i %i %i %i %i %i %i %i %i",       // DHM - Nerve
 			(int *)&client->sess.sessionTeam,
 			&client->sess.spectatorNum,
 			(int *)&client->sess.spectatorState,
@@ -147,6 +150,7 @@ void G_ReadSessionData( gclient_t *client ) {
 			&client->sess.playerPistol,     // DHM - Nerve
 			&client->sess.playerItem,       // DHM - Nerve
 			&client->sess.playerSkin,       // DHM - Nerve
+			&client->sess.latchPlayerType,       // DHM - Nerve
 			&client->sess.ignored		// Ignored players
 			);
 #endif
@@ -210,6 +214,7 @@ void G_InitSessionData( gclient_t *client, char *userinfo ) {
 	sess->playerPistol = 0;
 	sess->playerItem = 0;
 	sess->playerSkin = 0;
+	sess->latchPlayerType = 0;
 	// dhm - end
 #ifdef _ADMINS
 	sess->admin = ADM_NONE; // admin

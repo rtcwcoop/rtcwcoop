@@ -489,6 +489,9 @@ typedef struct {
 	int playerItem;                 // DHM - Nerve :: for GT_WOLF
 	int playerSkin;                 // DHM - Nerve :: for GT_WOLF
 
+	int latchPlayerType;
+
+
 	// stats for the scoreboard
 	int prop_damage;
 	int airtime;
@@ -836,6 +839,7 @@ void        G_SpawnEntitiesFromString( void );
 char *G_NewString( const char *string );
 // Ridah
 qboolean G_CallSpawn( gentity_t *ent );
+void G_SpawnCompassIndicator( gentity_t *ent );
 // done.
 
 //
@@ -1034,7 +1038,7 @@ gentity_t *SelectSpawnPoint( vec3_t avoidPoint, vec3_t origin, vec3_t angles );
 void ClientRespawn(gentity_t *ent);
 void BeginIntermission( void );
 void InitBodyQue( void );
-void ClientSpawn( gentity_t *ent );
+void ClientSpawn( gentity_t *ent, qboolean revived );
 void player_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod );
 void AddScore( gentity_t *ent, int score );
 void CalculateRanks( void );
@@ -1208,11 +1212,17 @@ extern vmCvar_t g_skipcutscenes;
 #endif
 extern vmCvar_t g_maxspawnpoints;
 extern vmCvar_t g_maxlives;
+extern vmCvar_t g_fastres;                  // Xian - Fast medic res'ing
+extern vmCvar_t g_fastResMsec;
 extern vmCvar_t g_enforcemaxlives;
 extern vmCvar_t g_voiceChatsAllowed;
 extern vmCvar_t g_airespawn;
 extern vmCvar_t g_sharedlives;
 extern vmCvar_t g_limbotime;
+extern vmCvar_t g_medicChargeTime;
+extern vmCvar_t g_engineerChargeTime;
+extern vmCvar_t g_LTChargeTime;
+extern vmCvar_t g_soldierChargeTime;
 extern vmCvar_t g_reinforce;
 extern vmCvar_t g_freeze;
 extern vmCvar_t g_gamestate;

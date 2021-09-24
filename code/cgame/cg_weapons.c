@@ -585,6 +585,28 @@ void CG_RocketTrail( centity_t *ent, const weaponInfo_t *wi ) {
 // done.
 }
 
+
+// JPW NERVE
+/*
+==========================
+CG_DynamiteTrail
+==========================
+*/
+static void CG_DynamiteTrail( centity_t *ent, const weaponInfo_t *wi ) {
+        vec3_t origin;
+        float mult;
+
+        BG_EvaluateTrajectory( &ent->currentState.pos, cg.time, origin );
+
+        if ( ent->currentState.teamNum < 4 ) {
+                mult = 0.004f * ( cg.time - ent->currentState.effect1Time ) / 30000.0f;
+                trap_R_AddLightToScene( origin, 200 + 300 * fabs( sin( ( cg.time - ent->currentState.effect1Time ) * mult ) ),1.0,0,0, REF_FORCE_DLIGHT );
+        } else {
+                mult = 1 - ( ( cg.time - ent->trailTime ) / 15500.0f );
+                trap_R_AddLightToScene( origin, 10 + 300 * mult, 1.f, 1.f, 0, REF_FORCE_DLIGHT );
+        }
+}
+
 // Ridah
 /*
 ==========================
@@ -964,7 +986,7 @@ static qboolean CG_ParseWeaponConfig( const char *filename, weaponInfo_t *wi, in
 
 	}
 
-	if ( i != MAX_WP_ANIMATIONS ) {
+	if ( i != MAX_WP_ANIMATIONS  && cg_gameType.integer != GT_COOP_CLASSES) {
 		CG_Printf( "Error parsing weapon animation file: %s\n", filename );
 		return qfalse;
 	}
@@ -1058,7 +1080,9 @@ void CG_RegisterWeapon( int weaponNum ) {
 	if ( item->world_model[W_FP_MODEL] ) {
 		COM_StripFilename( item->world_model[W_FP_MODEL], path );
 		if ( !CG_ParseWeaponConfig( va( "%sweapon.cfg", path ), weaponInfo, weaponNum ) ) {
-			CG_Error( "Couldn't register weapon %i (%s) (failed to parse weapon.cfg)", weaponNum, path );
+			if ( cg_gameType.integer != GT_COOP_CLASSES ) {
+				CG_Error( "Couldn't register weapon %i (%s) (failed to parse weapon.cfg)", weaponNum, path );
+			}
 		}
 	}
 //----(SA)	end
@@ -1327,6 +1351,28 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->trailRadius         = 256;
 		break;
 // jpw
+        case WP_SMOKE_GRENADE:
+                weaponInfo->missileModel = trap_R_RegisterModel( "models/multiplayer/smokegrenade/smokegrenade.md3" );
+                weaponInfo->missileTrailFunc    = CG_PyroSmokeTrail;
+                weaponInfo->flashEchoSound[0]   = trap_S_RegisterSound( "sound/multiplayer/artillery_exp01.wav" );   // use same as mp40
+                weaponInfo->missileDlight       = 200;
+                weaponInfo->wiTrailTime         = 4000;
+                weaponInfo->trailRadius         = 256;
+                break;
+        case WP_SMOKETRAIL:     // JPW NERVE -- for smoke bits from artillery spotter round, plus other effects maybe
+                weaponInfo->missileTrailFunc    = CG_PyroSmokeTrail;
+                weaponInfo->missileDlight       = 200;
+                weaponInfo->wiTrailTime         = 4000;
+                weaponInfo->trailRadius         = 256;
+                break;
+        case WP_MEDIC_SYRINGE: // JPW NERVE
+                break;
+        case WP_ARTY:           // JPW NERVE
+                break;
+        case WP_AMMO:
+        case WP_MEDKIT:
+                weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/multiplayer/bag_toss.wav" );
+                break;
 // DHM - Nerve - temp effects
 	case WP_CLASS_SPECIAL:
 	case WP_MEDIC_HEAL:
@@ -1356,6 +1402,11 @@ void CG_RegisterWeapon( int weaponNum ) {
 		weaponInfo->missileModel = trap_R_RegisterModel( "models/ammo/dynamite.md3" );
 //		weaponInfo->flashSound[0] = trap_S_RegisterSound( "sound/weapons/grenade/grenlf1a.wav" );
 //		weaponInfo->reloadSound = trap_S_RegisterSound( "sound/weapons/grenade/grenlf_reload.wav" );
+                if ( cgs.gametype == GT_COOP_CLASSES ) {
+                        weaponInfo->spindownSound = trap_S_RegisterSound( "sound/multiplayer/dynamite_01.wav" );
+                        weaponInfo->missileTrailFunc = CG_DynamiteTrail; // JPW NERVE
+		}
+
 		cgs.media.grenadeExplosionShader = trap_R_RegisterShader( "grenadeExplosion" );
 		break;
 
@@ -1443,8 +1494,16 @@ void CG_RegisterItemVisuals( int itemNum ) {
 
 	// JPW NERVE had to put this somewhere, this seems OK
 	if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) {
-		maxWeapBanks = MAX_WEAP_BANKS;
-		maxWeapsInBank = MAX_WEAPS_IN_BANK;
+		if ( cg_gameType.integer == GT_COOP_CLASSES ) {
+			CG_RegisterWeapon( WP_SMOKETRAIL );
+			CG_RegisterWeapon( WP_MEDKIT );
+			CG_RegisterWeapon( WP_SMOKE_GRENADE );
+			maxWeapBanks = MAX_WEAP_BANKS_CLASSES;
+			maxWeapsInBank = MAX_WEAPS_IN_BANK_CLASSES;
+		} else {
+			maxWeapBanks = MAX_WEAP_BANKS;
+			maxWeapsInBank = MAX_WEAPS_IN_BANK;
+		}
 	}
 }
 
@@ -3054,7 +3113,11 @@ void CG_DrawWeaponSelect( void ) {
 		qboolean wideweap; // is the icon one of the double width ones
 
 		// primary fire
-		drawweap = weapBanks[curweapbank][i];
+		if (cg_gameType.integer == GT_COOP_CLASSES) {
+			drawweap = weapBanksClasses[curweapbank][i];
+		} else {
+			drawweap = weapBanks[curweapbank][i];
+		}
 
 		realweap = drawweap;        // DHM - Nerve
 
@@ -3124,12 +3187,20 @@ void CG_DrawWeaponSelect( void ) {
 			x = WP_DRAW_X - WP_ICON_SEC_X - 4;
 		}
 
-		drawweap = getAltWeapon( weapBanks[curweapbank][i] );
+                if (cg_gameType.integer == GT_COOP_CLASSES) {
+			drawweap = getAltWeapon( weapBanksClasses[curweapbank][i] );
+			// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
+			if ( drawweap == weapBanksClasses[curweapbank][i] ) {
+				drawweap = 0;
+			}
+                } else {
+			drawweap = getAltWeapon( weapBanks[curweapbank][i] );
+			// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
+			if ( drawweap == weapBanks[curweapbank][i] ) {
+				drawweap = 0;
+			}
+                }
 
-		// clear drawweap if getaltweap() returns the same weap as passed in. (no secondary available)
-		if ( drawweap == weapBanks[curweapbank][i] ) {
-			drawweap = 0;
-		}
 
 		realweap = drawweap;        // DHM - Nerve
 
@@ -3258,11 +3329,24 @@ int CG_WeaponIndex( int weapnum, int *bank, int *cycle ) {
 		for ( cyc = 0; cyc < maxWeapsInBank; cyc++ ) {
 
 			// end of cycle, go to next bank
-			if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				if ( !weapBanksClasses[bnk][cyc] ) {
+					break;
+				}
+				// found the current weapon
+				if ( weapBanksClasses[bnk][cyc] == weapnum ) {
+					if ( bank ) {
+						*bank = bnk;
+					}
+					if ( cycle ) {
+						*cycle = cyc;
+					}
+					return 1;
+				}
+			} else {
 				if ( !weapBanks[bnk][cyc] ) {
 					break;
 				}
-
 				// found the current weapon
 				if ( weapBanks[bnk][cyc] == weapnum ) {
 					if ( bank ) {
@@ -3298,10 +3382,18 @@ static int getNextWeapInBank( int bank, int cycle ) {
 
 	cycle = cycle % maxWeapsInBank;
 
-	if ( weapBanks[bank][cycle] ) {        // return next weapon in bank if there is one
-		return weapBanks[bank][cycle];
-	} else {                                // return first in bank
-		return weapBanks[bank][0];
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		if ( weapBanksClasses[bank][cycle] ) {        // return next weapon in bank if there is one
+			return weapBanksClasses[bank][cycle];
+		} else {                                // return first in bank
+			return weapBanksClasses[bank][0];
+		}
+	} else {
+		if ( weapBanks[bank][cycle] ) {        // return next weapon in bank if there is one
+			return weapBanks[bank][cycle];
+		} else {                                // return first in bank
+			return weapBanks[bank][0];
+		}
 	}
 }
 
@@ -3330,15 +3422,27 @@ static int getPrevWeapInBank( int bank, int cycle ) {
 		cycle = maxWeapsInBank - 1;
 	}
 
-	while ( !weapBanks[bank][cycle] )
-	{
-		cycle--;
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		while ( !weapBanksClasses[bank][cycle] )
+		{
+			cycle--;
 
-		if ( cycle < 0 ) {
-			cycle = maxWeapsInBank - 1;
+			if ( cycle < 0 ) {
+				cycle = maxWeapsInBank - 1;
+			}
 		}
+		return weapBanksClasses[bank][cycle];
+	} else {
+		while ( !weapBanks[bank][cycle] )
+		{
+			cycle--;
+
+			if ( cycle < 0 ) {
+				cycle = maxWeapsInBank - 1;
+			}
+		}
+		return weapBanks[bank][cycle];
 	}
-	return weapBanks[bank][cycle];
 }
 
 
@@ -3366,12 +3470,20 @@ static int getNextBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 	bank++;
 
 	bank = bank % maxWeapBanks;
-
-	if ( sameBankPosition && weapBanks[bank][cycle] ) {
-		return weapBanks[bank][cycle];
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		if ( sameBankPosition && weapBanksClasses[bank][cycle] ) {
+			return weapBanksClasses[bank][cycle];
+		} else {
+			return weapBanksClasses[bank][0];
+		}
 	} else {
-		return weapBanks[bank][0];
+		if ( sameBankPosition && weapBanks[bank][cycle] ) {
+			return weapBanks[bank][cycle];
+		} else {
+			return weapBanks[bank][0];
+		}
 	}
+
 }
 
 /*
@@ -3392,19 +3504,36 @@ static int getPrevBankWeap( int bank, int cycle, qboolean sameBankPosition ) {
 	}
 	bank = bank % maxWeapBanks;
 
-	if ( sameBankPosition && weapBanks[bank][cycle] ) {
-		return weapBanks[bank][cycle];
-	} else
-	{       // find highest weap in bank
-		for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
-			if ( weapBanks[bank][i] ) {
-				return weapBanks[bank][i];
-			}
+	if (cg_gameType.integer == GT_COOP_CLASSES) {
+		if ( sameBankPosition && weapBanksClasses[bank][cycle] ) {
+			return weapBanksClasses[bank][cycle];
+		} else
+		{       // find highest weap in bank
+			for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
+				if ( weapBanksClasses[bank][i] ) {
+					return weapBanksClasses[bank][i];
+				}
 
+			}
+			// if it gets to here, no valid weaps in this bank, go down another bank
+			return getPrevBankWeap( bank, cycle, sameBankPosition );
 		}
-		// if it gets to here, no valid weaps in this bank, go down another bank
-		return getPrevBankWeap( bank, cycle, sameBankPosition );
+	} else {
+		if ( sameBankPosition && weapBanks[bank][cycle] ) {
+			return weapBanks[bank][cycle];
+		} else
+		{       // find highest weap in bank
+			for ( i = maxWeapsInBank - 1; i >= 0; i-- ) {
+				if ( weapBanks[bank][i] ) {
+					return weapBanks[bank][i];
+				}
+
+			}
+			// if it gets to here, no valid weaps in this bank, go down another bank
+			return getPrevBankWeap( bank, cycle, sameBankPosition );
+		}
 	}
+
 }
 
 /*
@@ -3665,20 +3794,36 @@ void CG_AltWeapon_f( void ) {
 			if ( cg.snap->ps.eFlags & EF_MELEE_ACTIVE ) {   // if you're holding a chair, you can't screw on the silencer
 				return;
 			}
-			weapBanks[2][0] = WP_SILENCER;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][0] = WP_SILENCER;
+			} else {
+				weapBanks[2][0] = WP_SILENCER;
+			}
 			break;
 		case WP_SILENCER:
 			if ( cg.snap->ps.eFlags & EF_MELEE_ACTIVE ) {   // if you're holding a chair, you can't remove the silencer
 				return;
 			}
-			weapBanks[2][0] = WP_LUGER;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][0] = WP_LUGER;
+			} else {
+				weapBanks[2][0] = WP_LUGER;
+			}
 			break;
 
 		case WP_AKIMBO:
-			weapBanks[2][1] = WP_COLT;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][1] = WP_COLT;
+			} else {
+				weapBanks[2][1] = WP_COLT;
+			}
 			break;
 		case WP_COLT:
-			weapBanks[2][1] = WP_AKIMBO;
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				weapBanksClasses[2][1] = WP_AKIMBO;
+			} else {
+				weapBanks[2][1] = WP_AKIMBO;
+			}
 			break;
 		}
 
@@ -4106,7 +4251,11 @@ void CG_WeaponBank_f( void ) {
 
 	if ( !cg.lastWeapSelInBank[bank] ) {
 		if ( cg_gameType.integer <= GT_SINGLE_PLAYER ) { // JPW NERVE
-			num = weapBanks[bank][0];
+			if (cg_gameType.integer == GT_COOP_CLASSES) {
+				num = weapBanksClasses[bank][0];
+			} else {
+				num = weapBanks[bank][0];
+			}
 		}
 		cycle -= 1;   // cycle up to first weap
 	} else {
@@ -4516,7 +4665,8 @@ void CG_FireWeapon( centity_t *cent ) {
 	} else if (   ent->weapon == WP_GRENADE_LAUNCHER ||
 				  ent->weapon == WP_GRENADE_PINEAPPLE ||
 				  ent->weapon == WP_DYNAMITE ||
-				  ent->weapon == WP_GRENADE_SMOKE ) { // JPW NERVE
+				  ent->weapon == WP_GRENADE_SMOKE ||
+				  ent->weapon == WP_SMOKE_GRENADE ) { // JPW NERVE
 		if ( ent->weapon == WP_GRENADE_SMOKE ) {
 			CG_Printf( "smoke grenade!\n" );
 		}
@@ -4551,40 +4701,45 @@ void CG_FireWeapon( centity_t *cent ) {
 		fireEchosound = &weap->flashEchoSound[0];
 	}
 
+        if ( ent->weapon == WP_MEDKIT ) {
+                firesound = &cg_weapons[ WP_MEDKIT ].flashSound[0];
+        }
 
 	// play a sound
-	for ( c = 0 ; c < 4 ; c++ ) {
-		if ( !firesound[c] ) {
-			break;
+	if ( !( cent->currentState.eFlags & EF_ZOOMING ) && cg_gameType.integer == GT_COOP_CLASSES ) { // JPW NERVE -- don't play sounds or eject brass if zoomed in
+		for ( c = 0 ; c < 4 ; c++ ) {
+			if ( !firesound[c] ) {
+				break;
+			}
 		}
-	}
-	if ( c > 0 ) {
-		c = rand() % c;
-		if ( firesound[c] ) {
-			trap_S_StartSound( NULL, ent->number, CHAN_WEAPON, firesound[c] );
+		if ( c > 0 ) {
+			c = rand() % c;
+			if ( firesound[c] ) {
+				trap_S_StartSound( NULL, ent->number, CHAN_WEAPON, firesound[c] );
 
-			if ( fireEchosound && fireEchosound[c] ) { // check for echo
-				centity_t   *cent;
-				vec3_t porg, gorg, norm;    // player/gun origin
-				float gdist;
+				if ( fireEchosound && fireEchosound[c] ) { // check for echo
+					centity_t   *cent;
+					vec3_t porg, gorg, norm;    // player/gun origin
+					float gdist;
 
-				cent = &cg_entities[ent->number];
-				VectorCopy( cent->currentState.pos.trBase, gorg );
-				VectorCopy( cg.refdef.vieworg, porg );
-				VectorSubtract( gorg, porg, norm );
-				gdist = VectorNormalize( norm );
-				if ( gdist > 512 && gdist < 4096 ) {   // temp dist.  TODO: use numbers that are weapon specific
-					// use gorg as the new sound origin
-					VectorMA( cg.refdef.vieworg, 64, norm, gorg );    // sound-on-a-stick
-					trap_S_StartSound( gorg, ent->number, CHAN_WEAPON, fireEchosound[c] );
+					cent = &cg_entities[ent->number];
+					VectorCopy( cent->currentState.pos.trBase, gorg );
+					VectorCopy( cg.refdef.vieworg, porg );
+					VectorSubtract( gorg, porg, norm );
+					gdist = VectorNormalize( norm );
+					if ( gdist > 512 && gdist < 4096 ) {   // temp dist.  TODO: use numbers that are weapon specific
+						// use gorg as the new sound origin
+						VectorMA( cg.refdef.vieworg, 64, norm, gorg );    // sound-on-a-stick
+						trap_S_StartSound( gorg, ent->number, CHAN_WEAPON, fireEchosound[c] );
+					}
 				}
 			}
 		}
-	}
 
-	// do brass ejection
-	if ( weap->ejectBrassFunc && cg_brassTime.integer > 0 ) {
-		weap->ejectBrassFunc( cent );
+		// do brass ejection
+		if ( weap->ejectBrassFunc && cg_brassTime.integer > 0 ) {
+			weap->ejectBrassFunc( cent );
+		}
 	}
 }
 
@@ -4823,6 +4978,8 @@ void CG_MissileHitWall( int weapon, int clientNum, vec3_t origin, vec3_t dir, in
 	vec3_t sprOrg;
 	vec3_t sprVel;
 	int i,j;
+	vec3_t tmpv,tmpv2;
+	trace_t trace;
 
 //----(SA)	added
 	float shakeAmt;
@@ -5143,6 +5300,7 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 		}
 		break;
 
+	case WP_SMOKE_GRENADE:
 	case WP_GRENADE_SMOKE: // JPW NERVE
 	case WP_GRENADE_LAUNCHER:
 	case WP_GRENADE_PINEAPPLE:
@@ -5170,6 +5328,7 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 		VectorScale( dir, 100, sprVel );
 
 		// RF, testing new explosion animation
+		if ( cg_gameType.integer != GT_COOP_CLASSES ) {
 		CG_ParticleExplosion( "expblue", sprOrg, sprVel, 700, 20, 160 );
 		//CG_ParticleExplosion( "twiltb", sprOrg, sprVel, 600, 9, 100 );
 		//CG_ParticleExplosion( 3, sprOrg, sprVel, 900, 9, 250 );
@@ -5186,6 +5345,39 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir)
 					  1400,     // duration
 					  // 15 + rand()%5 );	// count
 					  7 + rand() % 2 ); // count
+		} else {
+                        if ( trap_CM_PointContents( origin, 0 ) & CONTENTS_WATER ) {
+                                VectorCopy( origin,tmpv );
+                                tmpv[2] += 10000;
+
+                                trap_CM_BoxTrace( &trace, tmpv,origin, NULL, NULL, 0, MASK_WATER );
+                                CG_WaterRipple( cgs.media.wakeMarkShaderAnim, trace.endpos, dir, 150, 1000 );
+
+                                CG_AddDirtBulletParticles( trace.endpos, dir,
+                                                                                   400, // speed
+                                                                                   900, // duration
+                                                                                   15, // count
+                                                                                   0.5, 256,128, 0.125, "water_splash" );
+                        } else {
+                                VectorCopy( origin,tmpv );
+                                tmpv[2] += 20;
+                                VectorCopy( origin,tmpv2 );
+                                tmpv2[2] -= 20;
+                                trap_CM_BoxTrace( &trace,tmpv,tmpv2,NULL,NULL,0,MASK_SHOT );
+                                if ( trace.surfaceFlags & SURF_GRASS || trace.surfaceFlags & SURF_GRAVEL ) {
+                                        CG_AddDirtBulletParticles( origin, dir,
+                                                                                           400, // speed
+                                                                                           2000, // duration
+                                                                                           10, // count
+                                                                                           0.5, 200,75, 0.25, "dirt_splash" ); // 128,64
+                                }
+                                CG_ParticleExplosion( "explode1", sprOrg, sprVel, 700, 60, 240 );
+                                CG_AddDebris( origin, dir,
+                                                          280,
+                                                          1400,
+                                                          7 + rand() % 2 );
+                        }
+		}
 
 		break;
 	case VERYBIGEXPLOSION:
@@ -5697,6 +5889,12 @@ void CG_Bullet( vec3_t end, int sourceEntityNum, vec3_t normal, qboolean flesh, 
 	vec3_t dir;
 	vec3_t start, trend, tmp;      // JPW
 	static int lastBloodSpat;
+
+// JPW NERVE -- don't ever shoot if we're binoced in
+        if ( cg_entities[sourceEntityNum].currentState.eFlags & EF_ZOOMING && cg_gameType.integer == GT_COOP_CLASSES ) {
+                return;
+        }
+// jpw
 
 	// if the shooter is currently valid, calc a source point and possibly
 	// do trail effects
