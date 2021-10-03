@@ -876,6 +876,12 @@ static void CG_DrawPlayerScore( rectDef_t *rect, int font, float scale, vec4_t c
 		CG_DrawPic( rect->x, rect->y, rect->w, rect->h, shader );
 		trap_R_SetColor( NULL );
 	} else {
+		if ( value > 999999 ) {
+			value = 999999;
+		} else if ( value < -99999 ) {
+			value = -99999;
+		}
+
 		Com_sprintf( num, sizeof( num ), "%i", value );
 		value = CG_Text_Width( num, font, scale, 0 );
 		CG_Text_Paint( rect->x + ( rect->w - value ) / 2, rect->y + rect->h, font, scale, color, num, 0, 0, textStyle );
