@@ -1724,7 +1724,7 @@ static qboolean SV_ClientCommand( client_t *cl, msg_t *msg ) {
 
 	// NERVE - SMF - some server game-only commands we cannot have flood protect
 	if ( !Q_strncmp( "team", s, 4 ) || !Q_strncmp( "setspawnpt", s, 10 ) || !Q_strncmp( "score", s, 5 )
-			|| ( !Q_strncmp( "cld", s, 3 ) && s[strlen(s) - 1] == ( '0' + CLDMG_TESLA ) ) ) {
+			|| !Q_strncmp( "cld", s, 3 ) ) {
 //		Com_DPrintf( "Skipping flood protection for: %s\n", s );
 		floodprotect = qfalse;
 	}

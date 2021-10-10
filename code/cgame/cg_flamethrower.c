@@ -1478,6 +1478,7 @@ CG_UpdateFlamethrowerSounds
 */
 void CG_UpdateFlamethrowerSounds( void ) {
 	flameChunk_t *f;
+	int i;
 	#define MIN_BLOW_VOLUME     30
 
 	// draw each of the headFlameChunk's
@@ -1510,5 +1511,27 @@ void CG_UpdateFlamethrowerSounds( void ) {
 		}
 
 		f = f->nextHead;
+	}
+
+	// send client damage updates if required
+	i = cg.snap->ps.clientNum;
+	
+	if ( cg_entities[centFlameInfo[i].lastDmgEnemy].currentState.aiChar != AICHAR_ZOMBIE ) { // Just from zombies + props_flamethrower (CG_FlamethrowerProp)
+		return;
+	}
+
+	if ( cg.snap->ps.eFlags & EF_DEAD ) {
+		centFlameInfo[i].lastDmgUpdate = cg.time;
+		return;
+	}
+	
+	if ( centFlameInfo[i].lastDmgCheck > centFlameInfo[i].lastDmgUpdate &&
+		 centFlameInfo[i].lastDmgUpdate < cg.time - 50 ) { // JPW NERVE (cgs.gametype == GT_SINGLE_PLAYER ? 50 : 50)) -- sean changed clientdamage so this isn't a saturation issue any longer
+		if ( ( cg.snap->ps.pm_flags & PMF_LIMBO ) || ( cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR ) ) { // JPW NERVE
+			return; // JPW NERVE don't do flame damage to guys in limbo or spectator, they drop out of the game
+
+		}
+		CG_ClientDamage( i, centFlameInfo[i].lastDmgEnemy, CLDMG_FLAMETHROWER );
+		centFlameInfo[i].lastDmgUpdate = cg.time;
 	}
 }
