@@ -3046,9 +3046,8 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 			}
 		}
 		break;
-#if 0 // Why was this removed again?
 	case CLDMG_FLAMETHROWER:
-		if ( ent->takedamage && !AICast_NoFlameDamage( ent->s.number ) ) {
+		if ( ( enemy->aiCharacter == AICHAR_ZOMBIE || !Q_stricmp( enemy->classname, "props_flamethrower" ) ) && ent->takedamage && !AICast_NoFlameDamage( ent->s.number ) ) {
 			#define FLAME_THRESHOLD 50
 			int damage = 5;
 
@@ -3089,7 +3088,6 @@ void ClientDamage( gentity_t *clent, int entnum, int enemynum, int id ) {
 			}
 		}
 		break;
-#endif
 	}
 }
 // -NERVE - SMF
