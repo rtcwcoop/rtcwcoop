@@ -3194,6 +3194,11 @@ void Cmd_DropAmmo_f( gentity_t *ent ) {
 
 	client = ent->client;
 
+	// no ammo dropping in classes gametype, ask your local LT for ammo
+	if ( g_gametype.integer == GT_COOP_CLASSES ) {
+		trap_SendServerCommand( ent - g_entities, "print \"Classes are enabled, you cannot drop ammo. Talk to your local LT..\n\"" );
+	}
+
 	// no ammo dropping while reloading
 	if ( client->ps.weaponstate == WEAPON_RELOADING ) {
 		return;
