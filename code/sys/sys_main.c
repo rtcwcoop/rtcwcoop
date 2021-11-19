@@ -579,7 +579,11 @@ Used to load a development dll instead of a virtual machine
 =================
 */
 void *Sys_LoadGameDll(const char *name,
+#if defined __aarch64__
+	intptr_t (QDECL **entryPoint)(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t),
+#else
 	intptr_t (QDECL **entryPoint)(intptr_t, ...),
+#endif
 	intptr_t (*systemcalls)(intptr_t, ...))
 {
 	void *libHandle;

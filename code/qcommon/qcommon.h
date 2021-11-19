@@ -1178,8 +1178,13 @@ void Sys_LeaveCriticalSection( void *ptr );
 
 char* Sys_GetDLLName( const char *name );
 // general development dll loading for virtual machine testing
-void	* QDECL Sys_LoadGameDll( const char *name, intptr_t (QDECL **entryPoint)(intptr_t, ...),
+#if defined __aarch64__
+void	* QDECL Sys_LoadGameDll( const char *name, intptr_t (QDECL **entryPoint)(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t),
 				  intptr_t (QDECL *systemcalls)(intptr_t, ...) );
+#else
+void   * QDECL Sys_LoadGameDll( const char *name, intptr_t (QDECL **entryPoint)(intptr_t, ...),
+				  intptr_t (QDECL *systemcalls)(intptr_t, ...) );
+#endif
 void    Sys_UnloadDll( void *dllHandle );
 void	Sys_Chmod( char *file, int mode );
 
