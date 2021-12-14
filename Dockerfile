@@ -2,7 +2,7 @@ FROM alpine:latest as build
 RUN apk add build-base sdl2-dev
 
 WORKDIR /src
-COPY . /src/
+COPY . .
 RUN make
 
 FROM alpine:latest as publish
