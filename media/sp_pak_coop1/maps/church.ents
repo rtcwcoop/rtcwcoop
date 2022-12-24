@@ -19,6 +19,46 @@
 "angle" "-131"
 }
 
+#if g_gametype == 2
+//dynamite
+{
+"classname" "ammo_dynamite"
+#if g_random == 1
+"origin" "616 289 704"
+#endif
+#if g_random == 2
+"origin" "371 180 1112"
+#endif
+#if g_random == 3
+"origin" "1867 105 368"
+#endif
+#if g_random == 4
+"origin" "520 1141 1112"
+#endif
+#if g_random == 5
+"origin" "-426 -205 1112"
+#endif
+#if g_random == 6
+"origin" "735 273 664"
+#endif
+#if g_random == 7
+"origin" "559 -257 608"
+#endif
+#if g_random == 8
+"origin" "667 1265 600"
+#endif
+#if g_random == 9
+"origin" "-710 781 1120"
+#endif
+#if g_random == 10
+"origin" "611 -265 1112"
+#endif
+"angle" "90"
+"spawnflags" "8"
+"wait" "3"
+}
+#endif
+
 // SPAWNPOINTS
 
 {
