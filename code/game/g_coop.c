@@ -152,6 +152,19 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
                         }
                 }
 
+		// map hacks
+                if ( pc == PC_ENGINEER ) {
+			char mapname[1024];
+			trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+
+			if ( Q_stricmp( mapname, "rocket" ) == 0 ) {
+				COM_BitSet( client->ps.weapons, WP_DYNAMITE );
+				client->ps.ammo[BG_FindAmmoForWeapon( WP_DYNAMITE )] = 0;
+				client->ps.ammoclip[BG_FindClipForWeapon( WP_DYNAMITE )] = 1;
+			}
+		}
+		// end map hacks
+
                 if ( pc == PC_MEDIC ) {
                         COM_BitSet( client->ps.weapons, WP_MEDIC_SYRINGE );
                         client->ps.ammoclip[BG_FindClipForWeapon( WP_MEDIC_SYRINGE )] = 10;

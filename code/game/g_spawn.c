@@ -972,9 +972,17 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 					ent->spawnflags |= 32; // EXPLO
 					ent->spawnflags |= 64; // DYNAMITE ONLY
 				}
+			} else if ( Q_stricmp( mapname, "rocket" ) == 0 ) {
+				// exit can only be destroyed by an engineers dynamite
+				if (!Q_stricmp(ent->model, "*68") || !Q_stricmp(ent->model, "*161")) {
+					ent->health = 0;
+					ent->spawnflags |= 32; // EXPLO
+					ent->spawnflags |= 64; // DYNAMITE ONLY
+				}
 			}
 		}
 	}
+	// end map hacks
 }
 
 void G_SpawnExtraGEntityFromSpawnVars( void ) {
@@ -1248,6 +1256,15 @@ void SP_worldspawn( void ) {
 		trap_Cvar_Set( "g_restarted", "0" );
 		level.warmupTime = 0;
 	}
+
+	// map hacks
+	char mapname[1024];
+	trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
+
+	if ( Q_stricmp( mapname, "rocket" ) == 0 ) {
+		ammoTable[WP_DYNAMITE].uses = 0; // regens based on recharge time
+	}
+	// end map hacks
 }
 
 
