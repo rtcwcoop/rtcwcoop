@@ -926,7 +926,7 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 	int asave;
 	int knockback;
 	qboolean attackerpain = qfalse;
-//G_Printf("------------> %s\n", targ->model);
+G_Printf("------------> %s\n", targ->model);
 
 	if ( !targ->takedamage ) {
 		return;

@@ -20,6 +20,31 @@
 }
 
 #if g_gametype == 2
+{
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+//"model" "models/mapobjects/vehicles/lander.md3"
+"origin" "1787 289 664"
+"spawnflags" "1"
+"classname" "trigger_objective_info"
+"track" "the destructable door"
+"score" "10"
+"target" "doortarget"
+}
+
+{
+"health" "100"
+"scriptname" "destroy_door"
+"origin" "1787 289 664"
+"classname" "func_explosive"
+"spawnflags" "100"
+"targetname" "doortarget"
+"mass" "400"
+"type" "none"
+"dmg" "0"
+}
+#endif
+
+#if g_gametype == 2
 //dynamite
 {
 "classname" "ammo_dynamite"

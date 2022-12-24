@@ -6,6 +6,7 @@
 
 // door
 
+#if g_gametype == 2
 // fretn
 // the objective_info needs a model but it is not shown
 // because by default brush models where used, I had to
@@ -73,6 +74,7 @@
 "spawnflags" "8"
 "wait" "3"
 }
+#endif
 
 // AXIS SPAWNPOINTS (flags: 0 = disabled; 1 enabled; 2 = allied and disabled; 3 = allied and enabled; 4 = axis and disabled; 5 = axis and enabled; 6 = axis and allied and disabled; 7 = axis and allied and enabled)
 {

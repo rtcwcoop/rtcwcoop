@@ -947,35 +947,35 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 
 				for (int i = 0; i < sizeof(destructable_floor)/sizeof(destructable_floor[0]); i++) {
 					if (!Q_stricmp(ent->model, destructable_floor[i])) {
-						ent->health = 0;
+						ent->health = 250;
 						ent->spawnflags |= 32; // EXPLO
 						ent->spawnflags |= 64; // DYNAMITE ONLY
 					}
 				}
 			} else if ( Q_stricmp( mapname, "tram" ) == 0 ) {
 				if (!Q_stricmp(ent->model, "*83")) { // hatch in the lower tram engine room
-					ent->health = 0;
+					ent->health = 250;
 					ent->spawnflags |= 32; // EXPLO
 					ent->spawnflags |= 64; // DYNAMITE ONLY
 				}
 			} else if ( Q_stricmp( mapname, "village1" ) == 0 ) {
 				// crypt entrance can only be destroyed by an engineers dynamite
 				if (!Q_stricmp(ent->model, "*19") || !Q_stricmp(ent->model, "*3")) {
-					ent->health = 0;
+					ent->health = 250;
 					ent->spawnflags |= 32; // EXPLO
 					ent->spawnflags |= 64; // DYNAMITE ONLY
 				}
 			} else if ( Q_stricmp( mapname, "church" ) == 0 ) {
 				// exit can only be destroyed by an engineers dynamite
 				if (!Q_stricmp(ent->model, "*25")) {
-					ent->health = 0;
+					ent->health = 250;
 					ent->spawnflags |= 32; // EXPLO
 					ent->spawnflags |= 64; // DYNAMITE ONLY
 				}
 			} else if ( Q_stricmp( mapname, "rocket" ) == 0 ) {
 				// exit can only be destroyed by an engineers dynamite
 				if (!Q_stricmp(ent->model, "*68") || !Q_stricmp(ent->model, "*161")) {
-					ent->health = 0;
+					ent->health = 250;
 					ent->spawnflags |= 32; // EXPLO
 					ent->spawnflags |= 64; // DYNAMITE ONLY
 				}

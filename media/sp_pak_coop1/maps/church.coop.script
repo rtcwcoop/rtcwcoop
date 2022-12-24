@@ -37,6 +37,10 @@ game_manager
 	{
 		accum 0 bitset 2
 	}
+
+	trigger destroy_door
+	{
+	}
 	
 	//trigger objective3
 	//{
@@ -53,6 +57,18 @@ game_manager
 	//	accum 1 set -69
 	//	trigger player got_objective3
 	//}
+}
+
+destroy_door // destroyable door
+{
+        spawn
+        {
+        }
+
+        death
+        {
+        trigger game_manager door_objective
+        }
 }
 
 coffincover1a

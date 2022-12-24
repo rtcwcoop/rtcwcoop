@@ -24,6 +24,11 @@ game_manager
 		accum 0 abort_if_not_bitset 3
 		trigger player exitlevel
 	}
+
+    trigger hatch_objective
+    {
+
+    }
 	
 	trigger objective1
 	{
@@ -46,6 +51,18 @@ game_manager
 
 		alertentity unlockexitdoor
 	}
+}
+
+destroy_hatch // destroyable hatch
+{
+        spawn
+        {
+        }
+
+        death
+        {
+        trigger game_manager hatch_objective
+        }
 }
 
 siren1
