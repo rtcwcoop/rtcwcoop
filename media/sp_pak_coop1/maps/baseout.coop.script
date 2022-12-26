@@ -54,10 +54,26 @@ game_manager
 		#if g_reinforce >= 1 alertentity coop_ai_soldier_36 #endif
 	}
 	
+	trigger radar
+	{
+	}
+
 	trigger objective2
 	{
 		accum 0 bitset 2
 	}
+}
+
+radar //
+{
+        spawn
+        {
+        }
+
+        death
+        {
+        trigger game_manager radar
+        }
 }
 
 counter1

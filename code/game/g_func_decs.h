@@ -1144,7 +1144,7 @@ extern gentity_t * SelectRandomAntiCoopSpawnPoint ( gentity_t * ent , vec3_t ori
 extern void CheckCoopStatus ( void ) ;
 extern gentity_t * Coop_GetLocation ( gentity_t * ent ) ;
 extern void CoopInfoMessage ( gentity_t * ent ) ;
-extern void SetCoopSpawnWeapons ( gclient_t * client ) ;
+extern void SetCoopSpawnWeapons ( gentity_t * ent ) ;
 extern qboolean G_RadiusDamage ( vec3_t origin , gentity_t * attacker , float damage , float radius , gentity_t * ignore , int mod ) ;
 extern qboolean CanDamage ( gentity_t * targ , vec3_t origin ) ;
 extern void G_Damage ( gentity_t * targ , gentity_t * inflictor , gentity_t * attacker , vec3_t dir , vec3_t point , int damage , int dflags , int mod ) ;

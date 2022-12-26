@@ -2170,7 +2170,7 @@ void ClientSpawn( gentity_t *ent, qboolean revived ) {
 	// give the player some basic stuff
 	if ( g_gametype.integer <= GT_COOP ) {
 		if ( !Q_stricmp( ent->classname, "player" ) ) {
-			SetCoopSpawnWeapons( client );
+			SetCoopSpawnWeapons( ent );
 		}
 	}
 

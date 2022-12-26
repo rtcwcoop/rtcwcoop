@@ -36,7 +36,8 @@ If you have questions concerning this license or the applicable additional terms
 
 // set weapons when player spawns in coop
 // in the map dam, the player gets all the weapons, bug !
-void SetCoopSpawnWeapons( gclient_t *client ) {
+void SetCoopSpawnWeapons( gentity_t *ent ) {
+	gclient_t *client = ent->client;
 	int pc = client->sess.playerType;
         int starthealth = 100,i,numMedics = 0;   // JPW NERVE
 
@@ -70,11 +71,20 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 		// All players start with a knife (not OR-ing so that it clears previous weapons)
 		client->ps.weapons[0] = 0;
 		client->ps.weapons[1] = 0;
+
 		COM_BitSet( client->ps.weapons, WP_KNIFE );
 
 		client->ps.ammo[BG_FindAmmoForWeapon( WP_KNIFE )] = 1;
 		client->ps.weapon = WP_KNIFE;
 		client->ps.weaponstate = WEAPON_READY;
+
+		// soldier gets the scripted weapon layout
+		// other classes get the MP weapon layout
+		if ( pc == PC_SOLDIER ) {
+			AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "spawn", "" );
+			return;
+		}
+
 
 		// Engineer gets dynamite
 		// fretn: initial setup: only engineer can pickup a dynamite
@@ -157,6 +167,7 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
 			char mapname[1024];
 			trap_Cvar_VariableStringBuffer( "mapname", mapname, sizeof( mapname ) );
 
+			// in rocket the engineers spawn with a dynamite already
 			if ( Q_stricmp( mapname, "rocket" ) == 0 ) {
 				COM_BitSet( client->ps.weapons, WP_DYNAMITE );
 				client->ps.ammo[BG_FindAmmoForWeapon( WP_DYNAMITE )] = 0;
@@ -189,119 +200,15 @@ void SetCoopSpawnWeapons( gclient_t *client ) {
                         }
                 }
 		// Soldiers and Lieutenants get a 2-handed weapon
-                if ( pc == PC_SOLDIER || pc == PC_LT ) {
+                if ( pc == PC_LT ) {
 
-                        // JPW NERVE -- if LT is selected but illegal weapon, set to team-specific SMG
-                        if ( ( pc == PC_LT ) && ( client->sess.playerWeapon > 5 ) ) {
-                                if ( client->sess.sessionTeam == TEAM_RED ) {
-                                        client->sess.playerWeapon = 3;
-                                } else {
-                                        client->sess.playerWeapon = 4;
-                                }
-                        }
-                        // jpw
-                        switch ( client->sess.playerWeapon ) {
-
-                        case 3:     // WP_MP40
-                                COM_BitSet( client->ps.weapons, WP_MP40 );
-                                client->ps.ammoclip[BG_FindClipForWeapon( WP_MP40 )] += 32;
-                                if ( pc == PC_SOLDIER ) {
-                                        client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 64;
-                                } else {
-                                        client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 32;
-                                }
-                                client->ps.weapon = WP_MP40;
-                                break;
-
-                        case 4:     // WP_THOMPSON
-                                COM_BitSet( client->ps.weapons, WP_THOMPSON );
-                                client->ps.ammoclip[BG_FindClipForWeapon( WP_THOMPSON )] += 30;
-                                if ( pc == PC_SOLDIER ) {
-                                        client->ps.ammo[BG_FindAmmoForWeapon( WP_THOMPSON )] += 60;
-                                } else {
-                                        client->ps.ammo[BG_FindAmmoForWeapon( WP_THOMPSON )] += 30;
-                                }
-                                client->ps.weapon = WP_THOMPSON;
-                                break;
-
-                        case 5:     // WP_STEN
-                                COM_BitSet( client->ps.weapons, WP_STEN );
-                                client->ps.ammoclip[BG_FindClipForWeapon( WP_STEN )] += 32;
-                                if ( pc == PC_SOLDIER ) {
-                                        client->ps.ammo[BG_FindAmmoForWeapon( WP_STEN )] += 64;
-                                } else {
-                                        client->ps.ammo[BG_FindAmmoForWeapon( WP_STEN )] += 32;
-                                }
-                                client->ps.weapon = WP_STEN;
-                                break;
-
-                        case 6:     // WP_MAUSER, WP_SNIPERRIFLE
-                                if ( pc != PC_SOLDIER ) {
-                                        return;
-                                }
-
-                                COM_BitSet( client->ps.weapons, WP_SNIPERRIFLE );
-                                client->ps.ammoclip[BG_FindClipForWeapon( WP_SNIPERRIFLE )] = 10;
-                                client->ps.ammo[BG_FindAmmoForWeapon( WP_SNIPERRIFLE )] = 10;
-                                client->ps.weapon = WP_SNIPERRIFLE;
-
-                                COM_BitSet( client->ps.weapons, WP_MAUSER );
-                                client->ps.ammoclip[BG_FindClipForWeapon( WP_MAUSER )] = 10;
-                                client->ps.ammo[BG_FindAmmoForWeapon( WP_MAUSER )] = 10;
-                                client->ps.weapon = WP_MAUSER;
-                                break;
-
-                        case 8:     // WP_PANZERFAUST
-                                if ( pc != PC_SOLDIER ) {
-                                        return;
-                                }
-
-                                COM_BitSet( client->ps.weapons, WP_PANZERFAUST );
-                                client->ps.ammo[BG_FindAmmoForWeapon( WP_PANZERFAUST )] = 4;
-                                client->ps.weapon = WP_PANZERFAUST;
-                                break;
-
-                        case 9:     // WP_VENOM
-                                if ( pc != PC_SOLDIER ) {
-                                        return;
-                                }
-                                COM_BitSet( client->ps.weapons, WP_VENOM );
-                                client->ps.ammoclip[BG_FindAmmoForWeapon( WP_VENOM )] = 500;
-                                client->ps.weapon = WP_VENOM;
-                                break;
-
-                        case 10:    // WP_FLAMETHROWER
-                                if ( pc != PC_SOLDIER ) {
-                                        return;
-                                }
-
-                                COM_BitSet( client->ps.weapons, WP_FLAMETHROWER );
-                                client->ps.ammoclip[BG_FindAmmoForWeapon( WP_FLAMETHROWER )] = 200;
-                                client->ps.weapon = WP_FLAMETHROWER;
-                                break;
-
-                        default:    // give MP40 if given invalid weapon number
-                                if ( client->sess.sessionTeam == TEAM_RED ) { // JPW NERVE
-                                        COM_BitSet( client->ps.weapons, WP_MP40 );
-                                        client->ps.ammoclip[BG_FindClipForWeapon( WP_MP40 )] += 32;
-                                        if ( pc == PC_SOLDIER ) {
-                                                client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 64;
-                                        } else {
-                                                client->ps.ammo[BG_FindAmmoForWeapon( WP_MP40 )] += 32;
-                                        }
-                                        client->ps.weapon = WP_MP40;
-                                } else { // TEAM_BLUE
-                                        COM_BitSet( client->ps.weapons, WP_THOMPSON );
-                                        client->ps.ammoclip[BG_FindClipForWeapon( WP_THOMPSON )] += 30;
-                                        if ( pc == PC_SOLDIER ) {
-                                                client->ps.ammo[BG_FindAmmoForWeapon( WP_THOMPSON )] += 60;
-                                        } else {
-                                                client->ps.ammo[BG_FindAmmoForWeapon( WP_THOMPSON )] += 30;
-                                        }
-                                        client->ps.weapon = WP_THOMPSON;
-                                }
-                                break;
-                        }
+			COM_BitSet( client->ps.weapons, WP_THOMPSON );
+			client->ps.ammoclip[BG_FindClipForWeapon( WP_THOMPSON )] += 30;
+			if ( pc == PC_SOLDIER ) {
+				client->ps.ammo[BG_FindAmmoForWeapon( WP_THOMPSON )] += 60;
+			} else {
+				client->ps.ammo[BG_FindAmmoForWeapon( WP_THOMPSON )] += 30;
+			}
                 } else { // medic or engineer gets assigned MP40 or Thompson with one magazine ammo
                         if ( client->sess.sessionTeam == TEAM_RED ) { // axis
                                 COM_BitSet( client->ps.weapons, WP_MP40 );

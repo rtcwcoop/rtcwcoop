@@ -4,6 +4,75 @@
 "scriptname" "game_manager"
 }
 
+#if g_gametype == 2
+// fretn
+// the objective_info needs a model but it is not shown
+// because by default brush models where used, I had to
+// hack around to get it working
+{
+"model" "models/multiplayer/flagpole/flagpole_reinforce.md3"
+"origin" "44 2337 460"
+"spawnflags" "1"
+"classname" "trigger_objective_info"
+"track" "the radar"
+"score" "10"
+"target" "radartarget"
+}
+
+// type none makes it invisible, set it to "debug" and a barrel will show up
+{
+"health" "100"
+"scriptname" "radar"
+"origin" "44 2337 460"
+"classname" "func_explosive"
+"spawnflags" "68"
+"targetname" "radartarget"
+"mass" "400"
+"type" "none"
+"dmg" "75"
+}
+
+// the level already contains dynamites
+//#if g_gametype == 2
+////dynamite
+//{
+//"classname" "ammo_dynamite"
+//#if g_random == 1
+//"origin" "-2009 2278 236"
+//#endif
+//#if g_random == 2
+//"origin" "1938 3181 24"
+//#endif
+//#if g_random == 3
+//"origin" "866 877 24"
+//#endif
+//#if g_random == 4
+//"origin" "589 415 24"
+//#endif
+//#if g_random == 5
+//"origin" "466 1514 344"
+//#endif
+//#if g_random == 6
+//"origin" "-18 2578 344"
+//#endif
+//#if g_random == 7
+//"origin" "1212 3021 344"
+//#endif
+//#if g_random == 8
+//"origin" "1153 1687 344"
+//#endif
+//#if g_random == 9
+//"origin" "1805 2117 344"
+//#endif
+//#if g_random == 10
+//"origin" "1298 210 344"
+//#endif
+//"angle" "90"
+//"spawnflags" "8"
+//"wait" "3"
+//}
+//#endif
+
 {
 "classname" "info_notnull"
 "origin" "316 2033 395"

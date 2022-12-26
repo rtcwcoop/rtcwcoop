@@ -1036,7 +1036,7 @@ qboolean AICast_ScriptAction_SetAmmo( cast_state_t *cs, char *params ) {
 	gentity_t   *ent = &g_entities[cs->entityNum];
 
 	// in classes gametype nobody receives free ammo
-	if ( g_gametype.integer == GT_COOP_CLASSES && !( ent->r.svFlags & SVF_CASTAI )) {
+	if ( g_gametype.integer == GT_COOP_CLASSES && ent->client->ps.stats[STAT_PLAYER_CLASS] != PC_SOLDIER && !( ent->r.svFlags & SVF_CASTAI )) {
 		return qtrue;
 	}
 
@@ -1123,7 +1123,7 @@ qboolean AICast_ScriptAction_SetClip( cast_state_t *cs, char *params ) {
 	gentity_t   *ent = &g_entities[cs->entityNum];
 
 	// in classes gametype nobody receives free ammo
-	if ( g_gametype.integer == GT_COOP_CLASSES && !( ent->r.svFlags & SVF_CASTAI )) {
+	if ( g_gametype.integer == GT_COOP_CLASSES && ent->client->ps.stats[STAT_PLAYER_CLASS] != PC_SOLDIER && !( ent->r.svFlags & SVF_CASTAI )) {
 		return qtrue;
 	}
 #ifdef MONEY
