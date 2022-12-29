@@ -1966,7 +1966,7 @@ float AICast_GetAccuracy( int entnum ) {
 	// the more they stay in our sights, the more accurate we get
 	acc = cs->attributes[AIM_ACCURACY];
 
-	if ( g_gametype.integer <= GT_COOP ) {
+	if ( g_gametype.integer <= GT_COOP && g_ignorescriptedaccuracy.integer == qtrue ) {
 		if ( g_gameskill.integer == GSKILL_EASY ) {
 			acc = 0.5;
 		} else if ( g_gameskill.integer == GSKILL_MEDIUM ) {

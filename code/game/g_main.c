@@ -129,6 +129,8 @@ vmCvar_t g_smoothClients;
 vmCvar_t pmove_fixed;
 vmCvar_t pmove_msec;
 
+vmCvar_t g_ignorescriptedaccuracy;
+
 // Rafael
 vmCvar_t g_autoactivate;
 vmCvar_t g_testPain;
@@ -231,6 +233,7 @@ cvarTable_t gameCvarTable[] = {
         { &g_soldierChargeTime, "g_soldierChargeTime", "20000", CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_reinforce, "g_reinforce", "0", CVAR_ARCHIVE | CVAR_SERVERINFO | CVAR_LATCH, 0, qfalse },
 	{ &g_freeze, "g_freeze", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
+	{ &g_ignorescriptedaccuracy, "g_ignorescriptedaccuracy", "1", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
 
 	{ &g_maxclients, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
 	{ &g_maxGameClients, "g_maxGameClients", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, qfalse  },
