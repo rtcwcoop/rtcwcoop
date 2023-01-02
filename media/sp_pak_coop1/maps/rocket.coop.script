@@ -27,7 +27,6 @@ game_manager
 
     trigger hatch_objective
     {
-
     }
 	
 	trigger objective1
