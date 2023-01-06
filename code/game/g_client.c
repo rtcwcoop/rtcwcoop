@@ -1876,7 +1876,11 @@ void ClientSpawn( gentity_t *ent, qboolean revived ) {
 		} else {
 			// force team
 			if ( client->sess.sessionTeam == TEAM_FREE ) {
-				client->sess.sessionTeam = TEAM_BLUE;
+				if ( g_gametype.integer != GT_COOP_CLASSES ) {
+					client->sess.sessionTeam = TEAM_BLUE;
+				} else {
+					client->sess.sessionTeam = TEAM_SPECTATOR;
+				}
 			}
 
 			// force this player to AICHAR_NONE (for G_IsClientAI)

@@ -1282,7 +1282,7 @@ void Cmd_Class_f( gentity_t *ent ) {
 	gclient_t           *client;
 
 	if ( g_gametype.integer != GT_COOP_CLASSES ) {
-		G_Printf("Playerclass can only be set in the CLASSES gametype\n");
+		trap_SendServerCommand( ent - g_entities, "cp \"Playerclass can only be set in the CLASSES gametype\n\"" );
 		return;
 	}
 	if ( trap_Argc() < 2 ) {
@@ -1309,18 +1309,22 @@ void Cmd_Class_f( gentity_t *ent ) {
 
 	if ( !Q_stricmp( s, "soldier" ) || !Q_stricmp( s, "0" )) {
 		client->sess.latchPlayerType = PC_SOLDIER;
+		client->sess.sessionTeam = TEAM_BLUE;
 		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as a Soldier\n\"" );
 	}
 	if ( !Q_stricmp( s, "medic" ) || !Q_stricmp( s, "1" )) {
 		client->sess.latchPlayerType = PC_MEDIC;
+		client->sess.sessionTeam = TEAM_BLUE;
 		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as a Medic\n\"" );
 	}
 	if ( !Q_stricmp( s, "engineer" ) || !Q_stricmp( s, "2" )) {
 		client->sess.latchPlayerType = PC_ENGINEER;
+		client->sess.sessionTeam = TEAM_BLUE;
 		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as an Engineer\n\"" );
 	}
 	if ( !Q_stricmp( s, "lieutenant" ) || !Q_stricmp( s, "3" )) {
 		client->sess.latchPlayerType = PC_LT;
+		client->sess.sessionTeam = TEAM_BLUE;
 		trap_SendServerCommand( ent - g_entities, "cp \"You will spawn as a Lieutenant\n\"" );
 	}
 }
