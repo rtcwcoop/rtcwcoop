@@ -2448,8 +2448,9 @@ void Cmd_StartCamera_f( gentity_t *ent ) {
 
 	if ( g_skipcutscenes.integer && g_gametype.integer != GT_SINGLE_PLAYER ) {
 		AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
+	}
 #else
-		AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
+	AICast_ScriptEvent( AICast_GetCastState( ent->s.number ), "trigger", "cameraInterrupt" );
 #endif
 
 // (SA) trying this in client to avoid 1 frame of player drawing
